@@ -1,6 +1,6 @@
 {
-  "signature": "docs/SUBMODULE_DASHBOARD.md::ℹ️ Advisory — no action required this turn:\nCode-quality warnings introduced/touched this turn: 11 across 1 file(s).\nTop rules: MD060×11\nDetails written to .pi-lens/cache/code-quality-warnings.json\nNo action required unless you are already refactoring these areas.",
+  "signature": "fwber-backend-ts/src/lib/ssrf.ts::Unresolved from this turn — fwber-backend-ts/src/lib/ssrf.ts:\n🔴 STOP — 5 issue(s) must be fixed:\n  L58: without try/catch — throws on invalid input\n  L33: Empty catch block silently swallows errors\n  L37: Empty catch block silently swallows errors\n  L69: Empty catch block silently swallows errors\n  L70: Empty catch block silently swallows errors",
   "sessionId": "019eefaf-b346-7ef3-82cf-bd21fc7724d6",
-  "projectSeqStart": 128,
-  "projectSeqEnd": 129
+  "projectSeqStart": 129,
+  "projectSeqEnd": 130
 }

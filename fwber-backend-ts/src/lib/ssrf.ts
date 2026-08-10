@@ -117,10 +117,4 @@ function isPrivateIp(addr: ipaddr.IPv4 | ipaddr.IPv6): boolean {
     return privateRanges.includes(range);
 }
 
-export function getHardenedFederationAgent(arg?: any) {
-  return undefined;
-}
 
-export function validateFederationUrl(urlString: string): boolean {
-  return isSafeUrl(urlString);
-}
