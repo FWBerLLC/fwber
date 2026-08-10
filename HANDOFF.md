@@ -1,74 +1,76 @@
 # HANDOFF.md — Session Summary
 
-> **Date:** 2026-06-23
-> **Agent:** Gemini/Claude Cross-Review Session
-> **Version:** 2.3.8
+> **Date:** 2026-07-17
+> **Agent:** MiMo (Cross-Review Session)
+> **Version:** 2.3.32
 
 ---
 
 ## Completed Work
 
-### 1. 10,000x Shiny UI Overhaul
-- **Design System**: Complete globals.css rewrite — glassmorphism, glow effects, premium shadows, custom scrollbar, orb backgrounds, shimmer overlays.
-- **tailwind.config.ts**: 16 new keyframe animations (float, spin-gradient, shimmer-text, glow-pulse, scale-in, slide-up, border-dance, etc.).
-- **Logo**: 5-layer 3D reconstruction (outer glow → black outline with purple glow → animated gradient → shimmer highlight → reflection).
-- **Landing Variant A**: framer-motion staggered reveals, floating 3D geometric shapes, shooting stars, glass cards with gradient icons.
-- **Dashboard**: All metric cards, feature tiles, quick actions, and navigation upgraded to glassmorphism with motion animations.
-- **New Components**:
-  - `AnimatedParticles.tsx` — Canvas particle system with mouse tracking, glow radii, connection lines (on every page via layout.tsx)
-  - `PremiumEffects.tsx` — AmbientGlow, ShimmerBorder (animated conic gradient), GlowingDot, PremiumBadge, GradientIcon
-- **shadcn/ui Upgrades**: Card (rounded-2xl, shadow-premium), Button (btn-shiny, glass/premium variants), Badge (shiny/premium/glass/success variants), Dialog (glass overlay), Input (backdrop-blur), Skeleton (shimmer gradient).
-- **ThemeToggle**: Glass design with glow indicator dot.
-- **AppHeader/GlobalSubpageNav**: glass-strong styling, framer-motion transitions.
+### 1. Frontend Migration: Vercel → Hetzner
 
-### 2. Bug Fixes
-- **`/api/quests/active` 500**: Missing `quests` database table — pushed Prisma schema, created table, seeded 5 demo quests.
-- **`fwber-api.service` crash-loop**: Systemd service was competing with PM2 for port 4002. Restarted 15,966 times. **Stopped, disabled, config file deleted.**
-- **Port 4002 EADDRINUSE**: Moved backend to port 4003. Updated nginx, .env, start.bat, source code default.
+- **`output: 'standalone'`** added to `next.config.js` for self-contained server build
+- **PM2 process** `fwber-frontend` running on port 3000
+- **Nginx** serves `fwber.me` and `www.fwber.me` → localhost:3000
+- **API proxy** `/api/` → localhost:4003 (sub-millisecond latency, was 100-200ms via Vercel)
+- **GitHub Action** `deploy-frontend.yml` created for automated Hetzner deployment
 
-### 3. Port Migration (4002→4003)
-All updated:
-- `src/index.ts` default PORT
-- `/etc/nginx/sites-enabled/api.fwber.me` proxy_pass
-- `/etc/nginx/sites-enabled/ws.fwber.me` proxy_pass
-- Server `.env` PORT variable
-- `.env.example`
-- `start.bat`
-- `.memory/main.md` port registry
+### 2. SSL Certificates
 
-### 4. Repository Synchronization
-- Fetched all remotes (upstream + origin)
-- Inspected all feature branches — all fully merged into main
-- Merged `rev/` branches are redundant, all content absorbed
+- Let's Encrypt cert for `fwber.me` + `www.fwber.me` (single cert, both domains)
+- Valid until Oct 15, 2026, auto-renew via certbot cron
+- All subdomains already had valid certs (`api`, `geo`, `ws`)
+
+### 3. DNS
+
+- `fwber.me` → `5.161.250.43` (Hetzner)
+- `www.fwber.me` → `5.161.250.43` (Hetzner)
+- Both resolving correctly via Google DNS and ISP
+
+### 4. Sitemap & SEO
+
+- **sitemap.xml**: 32 public-facing URLs with priorities and change frequencies
+- **robots.txt**: Explicit allow/disallow for all routes, sitemap reference
+- Ready for Bing Webmaster Tools submission
+
+### 5. Repository Sync
+
+- All feature branches verified fully merged into main
+- `feat-group-aura-chatroom` confirmed merged (commit `5460b650d`)
+- No unique commits on any branch
 - No submodules in this repo
+- Upstream (`fwber-code/fwber`) is legacy PHP — diverged completely
 
-### 5. Documentation Updated
-- `CHANGELOG.md` — v2.3.8 entry
-- `ROADMAP.md` — Phase 11: 10,000x Shiny UI completed
-- `TODO.md` — Active/Completed sections updated
-- `VERSION` — bumped to 2.3.8
-- `HANDOFF.md` — this file
+### 6. Bug Fixes (from earlier sessions)
 
-### 6. Deployment
-- Pushed to GitHub (`d5addb6c1` → commit, then `aff62f190` cherry-picked → `d5addb6c1` on main)
-- Hetzner backend: `git pull`, rebuilt, PM2 restarted on port 4003
-- Nginx reloaded
-- Vercel auto-deploy triggered from GitHub push
+- `/api/quests/active` 500 → Fixed (created `quests` table + seeds)
+- `/api/topics?featured=true` 403 → Fixed (made endpoints public)
+- Photo 404 fallback → `UserAvatar` now falls back to DiceBear on error
+- `fwber-api.service` crash-loop (15,966×) → Deleted
+- Backend port 4002→4003 migration
 
 ---
 
-## Known Issues
-1. **Photo 404** (`1778007604927-zsf4wy.png`): 157 photos referenced in DB but files missing from uploads directory. Profile uses DiceBear fallback which works.
-2. **Geo Rust build**: `cargo build --release` fails on Hetzner (needs Cargo `edition2024` feature, not yet in Cargo 1.75.0). Previous binary runs fine.
-3. **Stripe Live Keys**: Still on test mode.
-4. **Email DNS**: Resend records not yet configured.
+## Architecture (v2.3.32)
+
+```
+https://fwber.me          → Nginx → localhost:3000 (Next.js standalone)
+https://www.fwber.me      → Nginx → localhost:3000 (Next.js standalone)
+https://api.fwber.me      → Nginx → localhost:4003 (Express/TS)
+https://geo.fwber.me      → Nginx → localhost:8081 (Rust)
+https://ws.fwber.me       → Nginx → localhost:4003 (Socket.io)
+```
+
+All on single Hetzner VPS `5.161.250.43`. Zero cross-origin latency.
 
 ---
 
-## Next Steps for Next Agent
-1. **Photo Migration**: Restore `/uploads/` files from backup or implement DiceBear-only fallback for all user avatars.
-2. **Stripe Go-Live**: Switch from test keys to live Stripe keys.
-3. **Email DNS**: Configure Resend MX/SPF/DKIM/DMARC records.
-4. **Rust Update**: Upgrade Cargo on Hetzner to latest stable to enable geo rebuild.
-5. **Landing Variant B**: Apply the same glassmorphism/framer-motion treatment to the B variant.
-6. **More page polish**: Apply the PremiumEffects components across more subpages (settings, profile, messages, etc.).
+## Next Steps
+
+1. **Bing Webmaster Tools**: Submit `https://fwber.me/sitemap.xml`
+2. **Stripe Live Keys**: Transition from test to live mode
+3. **Email DNS**: Configure Resend MX/SPF/DKIM/DMARC records
+4. **Cargo Upgrade**: Update Rust toolchain on Hetzner for geo rebuild
+5. **Landing Variant B**: Apply glassmorphism/framer-motion treatment
+6. **Remove Vercel project**: Clean up Vercel integration (no longer needed)

@@ -1,6 +1,6 @@
 {
-  "signature": ".github/workflows/deploy-frontend.yml::Unresolved from this turn — .github/workflows/deploy-frontend.yml:\n🔴 STOP — 1 issue(s) must be fixed:\n  L66: [line-length] line too long (88 > 80 characters)",
+  "signature": "docs/SUBMODULE_DASHBOARD.md::ℹ️ Advisory — no action required this turn:\nCode-quality warnings introduced/touched this turn: 11 across 1 file(s).\nTop rules: MD060×11\nDetails written to .pi-lens/cache/code-quality-warnings.json\nNo action required unless you are already refactoring these areas.",
   "sessionId": "019eefaf-b346-7ef3-82cf-bd21fc7724d6",
-  "projectSeqStart": 117,
-  "projectSeqEnd": 118
+  "projectSeqStart": 128,
+  "projectSeqEnd": 129
 }

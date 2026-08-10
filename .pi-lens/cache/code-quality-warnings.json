@@ -1,15 +1,171 @@
 {
-  "generatedAt": "2026-07-14T03:43:54.121Z",
+  "generatedAt": "2026-08-10T15:32:30.493Z",
   "scope": "turn_delta",
   "sessionId": "019eefaf-b346-7ef3-82cf-bd21fc7724d6",
-  "turnIndex": 44,
-  "projectSeqStart": 123,
-  "projectSeqEnd": 123,
+  "turnIndex": 12,
+  "projectSeqStart": 128,
+  "projectSeqEnd": 129,
   "deltaOnly": true,
-  "files": [],
+  "files": [
+    {
+      "filePath": "C:\\Users\\hyper\\workspace\\fwber\\docs\\SUBMODULE_DASHBOARD.md",
+      "displayPath": "docs/SUBMODULE_DASHBOARD.md",
+      "fileSeq": 2,
+      "warnings": [
+        {
+          "id": "cq:fe34ae9373",
+          "filePath": "C:\\Users\\hyper\\workspace\\fwber\\docs\\SUBMODULE_DASHBOARD.md",
+          "displayPath": "docs/SUBMODULE_DASHBOARD.md",
+          "line": 11,
+          "column": 45,
+          "severity": "warning",
+          "tool": "markdownlint",
+          "rule": "MD060",
+          "message": "[MD060/table-column-style] Table column style [Table pipe is missing space to the left for style \"compact\"]",
+          "category": "style",
+          "origin": "dispatch"
+        },
+        {
+          "id": "cq:518f874f79",
+          "filePath": "C:\\Users\\hyper\\workspace\\fwber\\docs\\SUBMODULE_DASHBOARD.md",
+          "displayPath": "docs/SUBMODULE_DASHBOARD.md",
+          "line": 11,
+          "column": 1,
+          "severity": "warning",
+          "tool": "markdownlint",
+          "rule": "MD060",
+          "message": "[MD060/table-column-style] Table column style [Table pipe is missing space to the right for style \"compact\"]",
+          "category": "style",
+          "origin": "dispatch"
+        },
+        {
+          "id": "cq:d528ae8517",
+          "filePath": "C:\\Users\\hyper\\workspace\\fwber\\docs\\SUBMODULE_DASHBOARD.md",
+          "displayPath": "docs/SUBMODULE_DASHBOARD.md",
+          "line": 21,
+          "column": 41,
+          "severity": "warning",
+          "tool": "markdownlint",
+          "rule": "MD060",
+          "message": "[MD060/table-column-style] Table column style [Table pipe does not align with header for style \"aligned\"]",
+          "category": "style",
+          "origin": "dispatch"
+        },
+        {
+          "id": "cq:f565f34af6",
+          "filePath": "C:\\Users\\hyper\\workspace\\fwber\\docs\\SUBMODULE_DASHBOARD.md",
+          "displayPath": "docs/SUBMODULE_DASHBOARD.md",
+          "line": 22,
+          "column": 43,
+          "severity": "warning",
+          "tool": "markdownlint",
+          "rule": "MD060",
+          "message": "[MD060/table-column-style] Table column style [Table pipe does not align with header for style \"aligned\"]",
+          "category": "style",
+          "origin": "dispatch"
+        },
+        {
+          "id": "cq:362b9f8528",
+          "filePath": "C:\\Users\\hyper\\workspace\\fwber\\docs\\SUBMODULE_DASHBOARD.md",
+          "displayPath": "docs/SUBMODULE_DASHBOARD.md",
+          "line": 23,
+          "column": 37,
+          "severity": "warning",
+          "tool": "markdownlint",
+          "rule": "MD060",
+          "message": "[MD060/table-column-style] Table column style [Table pipe does not align with header for style \"aligned\"]",
+          "category": "style",
+          "origin": "dispatch"
+        },
+        {
+          "id": "cq:025ca2aced",
+          "filePath": "C:\\Users\\hyper\\workspace\\fwber\\docs\\SUBMODULE_DASHBOARD.md",
+          "displayPath": "docs/SUBMODULE_DASHBOARD.md",
+          "line": 28,
+          "column": 47,
+          "severity": "warning",
+          "tool": "markdownlint",
+          "rule": "MD060",
+          "message": "[MD060/table-column-style] Table column style [Table pipe is missing space to the left for style \"compact\"]",
+          "category": "style",
+          "origin": "dispatch"
+        },
+        {
+          "id": "cq:8892e2bc70",
+          "filePath": "C:\\Users\\hyper\\workspace\\fwber\\docs\\SUBMODULE_DASHBOARD.md",
+          "displayPath": "docs/SUBMODULE_DASHBOARD.md",
+          "line": 28,
+          "column": 1,
+          "severity": "warning",
+          "tool": "markdownlint",
+          "rule": "MD060",
+          "message": "[MD060/table-column-style] Table column style [Table pipe is missing space to the right for style \"compact\"]",
+          "category": "style",
+          "origin": "dispatch"
+        },
+        {
+          "id": "cq:86f54a8963",
+          "filePath": "C:\\Users\\hyper\\workspace\\fwber\\docs\\SUBMODULE_DASHBOARD.md",
+          "displayPath": "docs/SUBMODULE_DASHBOARD.md",
+          "line": 37,
+          "column": 25,
+          "severity": "warning",
+          "tool": "markdownlint",
+          "rule": "MD060",
+          "message": "[MD060/table-column-style] Table column style [Table pipe is missing space to the left for style \"compact\"]",
+          "category": "style",
+          "origin": "dispatch"
+        },
+        {
+          "id": "cq:bb71c9a71f",
+          "filePath": "C:\\Users\\hyper\\workspace\\fwber\\docs\\SUBMODULE_DASHBOARD.md",
+          "displayPath": "docs/SUBMODULE_DASHBOARD.md",
+          "line": 37,
+          "column": 1,
+          "severity": "warning",
+          "tool": "markdownlint",
+          "rule": "MD060",
+          "message": "[MD060/table-column-style] Table column style [Table pipe is missing space to the right for style \"compact\"]",
+          "category": "style",
+          "origin": "dispatch"
+        },
+        {
+          "id": "cq:3340c13647",
+          "filePath": "C:\\Users\\hyper\\workspace\\fwber\\docs\\SUBMODULE_DASHBOARD.md",
+          "displayPath": "docs/SUBMODULE_DASHBOARD.md",
+          "line": 47,
+          "column": 31,
+          "severity": "warning",
+          "tool": "markdownlint",
+          "rule": "MD060",
+          "message": "[MD060/table-column-style] Table column style [Table pipe is missing space to the left for style \"compact\"]",
+          "category": "style",
+          "origin": "dispatch"
+        },
+        {
+          "id": "cq:916b1df18e",
+          "filePath": "C:\\Users\\hyper\\workspace\\fwber\\docs\\SUBMODULE_DASHBOARD.md",
+          "displayPath": "docs/SUBMODULE_DASHBOARD.md",
+          "line": 47,
+          "column": 1,
+          "severity": "warning",
+          "tool": "markdownlint",
+          "rule": "MD060",
+          "message": "[MD060/table-column-style] Table column style [Table pipe is missing space to the right for style \"compact\"]",
+          "category": "style",
+          "origin": "dispatch"
+        }
+      ]
+    }
+  ],
   "summary": {
-    "warnings": 0,
-    "files": 0,
-    "topRules": []
+    "warnings": 11,
+    "files": 1,
+    "topRules": [
+      {
+        "rule": "MD060",
+        "count": 11
+      }
+    ]
   }
 }
