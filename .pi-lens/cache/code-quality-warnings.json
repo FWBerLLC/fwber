@@ -1,15 +1,41 @@
 {
-  "generatedAt": "2026-08-10T16:01:18.876Z",
+  "generatedAt": "2026-08-10T18:27:57.897Z",
   "scope": "turn_delta",
   "sessionId": "019eefaf-b346-7ef3-82cf-bd21fc7724d6",
-  "turnIndex": 32,
-  "projectSeqStart": 129,
-  "projectSeqEnd": 130,
+  "turnIndex": 41,
+  "projectSeqStart": 130,
+  "projectSeqEnd": 132,
   "deltaOnly": true,
-  "files": [],
+  "files": [
+    {
+      "filePath": "C:\\Users\\hyper\\workspace\\fwber\\HANDOFF.md",
+      "displayPath": "HANDOFF.md",
+      "fileSeq": 5,
+      "warnings": [
+        {
+          "id": "cq:cb0354bd50",
+          "filePath": "C:\\Users\\hyper\\workspace\\fwber\\HANDOFF.md",
+          "displayPath": "HANDOFF.md",
+          "line": 46,
+          "column": 1,
+          "severity": "warning",
+          "tool": "markdownlint",
+          "rule": "MD040",
+          "message": "[MD040/fenced-code-language] Fenced code blocks should have a language specified [Context: \"```\"]",
+          "category": "other",
+          "origin": "dispatch"
+        }
+      ]
+    }
+  ],
   "summary": {
-    "warnings": 0,
-    "files": 0,
-    "topRules": []
+    "warnings": 1,
+    "files": 1,
+    "topRules": [
+      {
+        "rule": "MD040",
+        "count": 1
+      }
+    ]
   }
 }
