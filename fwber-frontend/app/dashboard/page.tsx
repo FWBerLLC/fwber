@@ -45,6 +45,13 @@ import AppHeader from '@/components/AppHeader'
 import { ActivityFeed } from '@/components/ActivityFeed'
 import { DailyStreakModal } from '@/components/gamification/DailyStreakModal'
 import QuestBoard from '@/components/quests/QuestBoard'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
+import { Info, Globe, ScrollText, BarChart3, Trophy, FileWarning, Plug } from 'lucide-react'
 
 interface DashboardStats {
   total_matches: number
@@ -87,7 +94,8 @@ export default function DashboardPage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+      <TooltipProvider delayDuration={200}>
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
         <AppHeader />
         <DailyStreakModal
           isOpen={isStreakModalOpen}
@@ -766,9 +774,114 @@ export default function DashboardPage() {
                 />
               )}
             </div>
+
+            {/* Community & Governance */}
+            <SectionHeader icon={<Globe className="h-4 w-4" />} title="Community & Governance" />
+            <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
+              <FeatureTile
+                href="/council"
+                title="Council"
+                subtitle="Community governance"
+                icon={<Gavel className="h-5 w-5" />}
+                accent="amber"
+                tooltip="Vote on community proposals and appeals. Shape the rules and culture of the platform."
+              />
+              <FeatureTile
+                href="/federation"
+                title="Federation"
+                subtitle="Cross-server network"
+                icon={<Globe className="h-5 w-5" />}
+                accent="blue"
+                tooltip="Connect with other FWBer instances via ActivityPub. Follow users across the fediverse."
+              />
+              <FeatureTile
+                href="/integrations"
+                title="Integrations"
+                subtitle="Connect your apps"
+                icon={<Plug className="h-5 w-5" />}
+                accent="purple"
+                tooltip="Link external accounts and services. Manage contact imports and third-party connections."
+              />
+              <FeatureTile
+                href="/journal"
+                title="Journal"
+                subtitle="Private reflections"
+                icon={<ScrollText className="h-5 w-5" />}
+                accent="green"
+                tooltip="Write private journal entries. Reflect on dates and experiences. Only you can see these."
+              />
+              <FeatureTile
+                href="/reports"
+                title="My Reports"
+                subtitle="Safety reports"
+                icon={<FileWarning className="h-5 w-5" />}
+                accent="red"
+                tooltip="View the status of safety reports you have submitted. Track resolution outcomes."
+              />
+              <FeatureTile
+                href="/contact"
+                title="Contact Us"
+                subtitle="Get in touch"
+                icon={<MessageSquare className="h-5 w-5" />}
+                accent="slate"
+              />
+            </div>
+
+            {/* Progress & Insights */}
+            <SectionHeader icon={<Trophy className="h-4 w-4" />} title="Progress & Insights" />
+            <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
+              <FeatureTile
+                href="/achievements"
+                title="Achievements"
+                subtitle="Badges & milestones"
+                icon={<Trophy className="h-5 w-5" />}
+                accent="amber"
+                tooltip="Track badges earned through platform activity. See progress toward the next unlock."
+              />
+              <FeatureTile
+                href="/analytics"
+                title="Analytics"
+                subtitle="Your activity insights"
+                icon={<BarChart3 className="h-5 w-5" />}
+                accent="blue"
+                tooltip="View your engagement stats, profile performance, and trend charts over time."
+              />
+              <FeatureTile
+                href="/bounties"
+                title="Bounties"
+                subtitle="Earn by helping"
+                icon={<Rocket className="h-5 w-5" />}
+                accent="purple"
+                tooltip="Complete community bounties to earn tokens. Help others find matches and get rewarded."
+              />
+              <FeatureTile
+                href="/location-settings"
+                title="Location Settings"
+                subtitle="Precision & history"
+                icon={<MapPin className="h-5 w-5" />}
+                accent="green"
+                tooltip="Control location precision, check-in history, and how your position is shared."
+              />
+              <FeatureTile
+                href="/privacy"
+                title="Privacy"
+                subtitle="Visibility controls"
+                icon={<Lock className="h-5 w-5" />}
+                accent="slate"
+                tooltip="Manage who can see your profile, photos, and activity. Control data sharing preferences."
+              />
+              <FeatureTile
+                href="/terms"
+                title="Terms"
+                subtitle="Legal & policies"
+                icon={<ScrollText className="h-5 w-5" />}
+                accent="slate"
+              />
+            </div>
           </div>
         </main>
-      </div>
+        </div>
+      </TooltipProvider>
     </ProtectedRoute>
   )
 }
@@ -871,12 +984,14 @@ function FeatureTile({
   subtitle,
   icon,
   accent,
+  tooltip,
 }: {
   href: string
   title: string
   subtitle: string
   icon: React.ReactNode
   accent: string
+  tooltip?: string
 }) {
   const accents: Record<string, { border: string; bg: string; iconBg: string }> = {
     pink: {
@@ -934,9 +1049,28 @@ function FeatureTile({
         className={`h-full rounded-xl border p-4 transition-all hover:shadow-md ${a.border} ${a.bg}`}
       >
         <div className={`mb-3 inline-flex rounded-lg p-2 ${a.iconBg}`}>{icon}</div>
-        <h4 className="text-sm font-semibold leading-tight text-gray-900 dark:text-white">
-          {title}
-        </h4>
+        <div className="flex items-start justify-between gap-1">
+          <h4 className="text-sm font-semibold leading-tight text-gray-900 dark:text-white">
+            {title}
+          </h4>
+          {tooltip ? (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  type="button"
+                  aria-label={`More info about ${title}`}
+                  className="mt-0.5 shrink-0 text-gray-400 transition-colors hover:text-gray-600 dark:hover:text-gray-300"
+                  onClick={(e) => e.preventDefault()}
+                >
+                  <Info className="h-3.5 w-3.5" />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent side="top" className="max-w-[220px] text-xs">
+                {tooltip}
+              </TooltipContent>
+            </Tooltip>
+          ) : null}
+        </div>
         <p className="mt-1 text-xs leading-relaxed text-gray-500 dark:text-gray-400">{subtitle}</p>
       </div>
     </Link>
