@@ -190,7 +190,7 @@ export class FederationService {
 
         // Handle Reply to local artifact
         if (object.inReplyTo) {
-            const apiDomain = process.env.API_DOMAIN || 'api.fwber.me';
+            const apiDomain = process.env.API_DOMAIN || 'api.fwber.site';
             const artifactPrefix = `https://${apiDomain}/api/proximity/artifacts/`;
             if (object.inReplyTo.startsWith(artifactPrefix)) {
                 const artifactId = object.inReplyTo.split('/').pop() || '';
@@ -248,7 +248,7 @@ export class FederationService {
 
     console.log(`[Federation] ${actorUri} liked ${objectUri} for user ${targetUserId}`);
 
-    if (objectUri.includes('api.fwber.me')) {
+    if (objectUri.includes('api.fwber.site')) {
         const outboxItem = await prisma.federation_outbox.findUnique({
             where: { activity_id: objectUri }
         });
@@ -280,7 +280,7 @@ export class FederationService {
 
     console.log(`[Federation] ${actorUri} announced (boosted) ${objectUri} for user ${targetUserId}`);
 
-    if (objectUri.includes('api.fwber.me')) {
+    if (objectUri.includes('api.fwber.site')) {
         const outboxItem = await prisma.federation_outbox.findUnique({
             where: { activity_id: objectUri }
         });
@@ -308,7 +308,7 @@ export class FederationService {
 
   private async handleFollow(activity: any, targetUserId: bigint) {
     const actorUri = typeof activity.actor === 'string' ? activity.actor : activity.actor.id;
-    const apiDomain = process.env.API_DOMAIN || 'api.fwber.me';
+    const apiDomain = process.env.API_DOMAIN || 'api.fwber.site';
     const targetUri = `https://${apiDomain}/api/federation/actors/${targetUserId}`;
 
     console.log(`[Federation] ${actorUri} wants to follow local user ${targetUserId}`);
@@ -397,7 +397,7 @@ export class FederationService {
 
   private async handleUndoFollow(activity: any, targetUserId: bigint) {
     const actorUri = typeof activity.actor === 'string' ? activity.actor : activity.actor.id;
-    const apiDomain = process.env.API_DOMAIN || 'api.fwber.me';
+    const apiDomain = process.env.API_DOMAIN || 'api.fwber.site';
     const targetUri = `https://${apiDomain}/api/federation/actors/${targetUserId}`;
     try {
         await prisma.federation_follows.deleteMany({
@@ -469,7 +469,7 @@ export class FederationService {
 
   private async handleAccept(activity: any, targetUserId: bigint) {
     const actorUri = typeof activity.actor === 'string' ? activity.actor : activity.actor.id;
-    const apiDomain = process.env.API_DOMAIN || 'api.fwber.me';
+    const apiDomain = process.env.API_DOMAIN || 'api.fwber.site';
     const targetUri = `https://${apiDomain}/api/federation/actors/${targetUserId}`;
     try {
         await prisma.federation_follows.updateMany({
@@ -487,7 +487,7 @@ export class FederationService {
 
     if (!user || !user.private_key) return;
 
-    const apiDomain = process.env.API_DOMAIN || 'api.fwber.me';
+    const apiDomain = process.env.API_DOMAIN || 'api.fwber.site';
     const actorUri = `https://${apiDomain}/api/federation/actors/${userId}`;
     const followers = await prisma.federation_follows.findMany({
         where: { target_uri: actorUri, status: 'accepted' }
@@ -640,7 +640,7 @@ export class FederationService {
    * Broadcasts a profile update to all followers.
    */
   async broadcastProfileUpdate(userId: bigint, profileData: any) {
-    const apiDomain = process.env.API_DOMAIN || 'api.fwber.me';
+    const apiDomain = process.env.API_DOMAIN || 'api.fwber.site';
     const actorUri = `https://${apiDomain}/api/federation/actors/${userId}`;
 
     const updateActivity = {

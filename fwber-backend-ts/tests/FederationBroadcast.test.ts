@@ -74,6 +74,6 @@ describe('FederationService - Broadcasting', () => {
     // Verify signature header exists
     const lastCallHeaders = mockPost.mock.calls[0][2].headers;
     expect(lastCallHeaders).toHaveProperty('Signature');
-    expect(lastCallHeaders.Signature).toContain('keyId="https://api.fwber.me/api/federation/actors/1#main-key"');
+    expect(lastCallHeaders.Signature).toContain('keyId="https://api.fwber.site/api/federation/actors/1#main-key"');
   });
 });

@@ -40,7 +40,7 @@ Before starting production configuration, ensure:
 
 - [x] Phase 3 verification passed (run `.\verify_phase3.ps1`)
 - [ ] Production server provisioned (Linux recommended)
-- [ ] Domain DNS configured (e.g., app.fwber.me, api.fwber.me)
+- [ ] Domain DNS configured (e.g., app.fwber.site, api.fwber.site)
 - [ ] SSL/TLS certificates obtained (Let's Encrypt recommended)
 - [ ] Database server running (MySQL 8.0+ or PostgreSQL 13+)
 - [ ] Redis server running (for caching and rate limiting)
@@ -67,7 +67,7 @@ Edit `.env` and set:
 APP_ENV=production
 APP_DEBUG=false
 APP_KEY=   # Generate with: php artisan key:generate
-APP_URL=https://app.fwber.me
+APP_URL=https://app.fwber.site
 
 # Security
 SESSION_ENCRYPT=true
@@ -75,7 +75,7 @@ SESSION_SECURE_COOKIE=true
 SESSION_SAME_SITE=strict
 
 # CORS - Replace with actual domains
-CORS_ALLOWED_ORIGINS=https://app.fwber.me,https://admin.fwber.me
+CORS_ALLOWED_ORIGINS=https://app.fwber.site,https://admin.fwber.site
 CORS_ALLOWED_METHODS=GET,POST,PUT,DELETE,OPTIONS
 CORS_ALLOWED_HEADERS=Content-Type,Authorization,X-Requested-With
 CORS_SUPPORTS_CREDENTIALS=false
@@ -194,10 +194,10 @@ Create `/etc/nginx/sites-available/fwber`:
 ```nginx
 server {
     listen 443 ssl http2;
-    server_name api.fwber.me;
+    server_name api.fwber.site;
 
-    ssl_certificate /etc/letsencrypt/live/api.fwber.me/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/api.fwber.me/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/api.fwber.site/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/api.fwber.site/privkey.pem;
 
     root /var/www/fwber/fwber-backend/public;
     index index.php;
@@ -231,7 +231,7 @@ server {
 # Redirect HTTP to HTTPS
 server {
     listen 80;
-    server_name api.fwber.me;
+    server_name api.fwber.site;
     return 301 https://$server_name$request_uri;
 }
 ```
@@ -329,7 +329,7 @@ output.elasticsearch:
 
 Configure uptime monitoring (Pingdom, UptimeRobot, etc.) for:
 
-- `https://api.fwber.me/health` - Every 5 minutes
+- `https://api.fwber.site/health` - Every 5 minutes
 - Alert on status != 200 or response time > 2s
 
 **Load Balancer Integration**: See `docs/operations/HEALTH_CHECK_GUIDE.md`
@@ -360,13 +360,13 @@ TOKEN=$(php artisan tinker --execute="echo User::first()->tokens()->create(['nam
 
 # Run k6 baseline
 k6 run \
-  -e BASE_URL=https://api.fwber.me \
+  -e BASE_URL=https://api.fwber.site \
   -e TOKEN=$TOKEN \
   scripts/perf/k6_baseline.js
 
 # Save results
 k6 run \
-  -e BASE_URL=https://api.fwber.me \
+  -e BASE_URL=https://api.fwber.site \
   -e TOKEN=$TOKEN \
   --out json=baseline_$(date +%Y%m%d).json \
   scripts/perf/k6_baseline.js
@@ -389,17 +389,17 @@ Look for:
 
 ```bash
 # Check SSL configuration
-curl -I https://api.fwber.me
+curl -I https://api.fwber.site
 # Expect: HTTP/2 200, Strict-Transport-Security header
 
 # Test with SSL Labs
-# https://www.ssllabs.com/ssltest/analyze.html?d=api.fwber.me
+# https://www.ssllabs.com/ssltest/analyze.html?d=api.fwber.site
 ```
 
 ### 7.2 Security Headers Check
 
 ```bash
-curl -I https://api.fwber.me/health
+curl -I https://api.fwber.site/health
 
 # Expected headers:
 # Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; ...
@@ -415,7 +415,7 @@ curl -I https://api.fwber.me/health
 ```bash
 # Test auth rate limiting (expect 429 after 5 attempts)
 for i in {1..7}; do
-  curl -X POST https://api.fwber.me/api/auth/login \
+  curl -X POST https://api.fwber.site/api/auth/login \
     -H "Content-Type: application/json" \
     -d '{"email":"test@example.com","password":"wrong"}'
   echo ""
@@ -428,7 +428,7 @@ done
 
 ```bash
 # Should reject unauthorized origins
-curl -X OPTIONS https://api.fwber.me/api/profile \
+curl -X OPTIONS https://api.fwber.site/api/profile \
   -H "Origin: https://malicious-site.com" \
   -H "Access-Control-Request-Method: GET" \
   -v
@@ -444,15 +444,15 @@ curl -X OPTIONS https://api.fwber.me/api/profile \
 
 ```bash
 # Liveness
-curl https://api.fwber.me/health/liveness
+curl https://api.fwber.site/health/liveness
 # Expected: {"status":"ok","timestamp":"..."}
 
 # Readiness
-curl https://api.fwber.me/health/readiness
+curl https://api.fwber.site/health/readiness
 # Expected: {"status":"ok","checks":{...}}
 
 # Full health
-curl https://api.fwber.me/health | jq .
+curl https://api.fwber.site/health | jq .
 # Expected: All checks passing
 ```
 
@@ -460,7 +460,7 @@ curl https://api.fwber.me/health | jq .
 
 ```bash
 # Register
-curl -X POST https://api.fwber.me/api/auth/register \
+curl -X POST https://api.fwber.site/api/auth/register \
   -H "Content-Type: application/json" \
   -d '{
     "email": "smoketest@example.com",
@@ -472,13 +472,13 @@ curl -X POST https://api.fwber.me/api/auth/register \
   }'
 
 # Login
-TOKEN=$(curl -X POST https://api.fwber.me/api/auth/login \
+TOKEN=$(curl -X POST https://api.fwber.site/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{"email":"smoketest@example.com","password":"TestPass123!"}' \
   | jq -r '.token')
 
 # Get profile
-curl https://api.fwber.me/api/profile \
+curl https://api.fwber.site/api/profile \
   -H "Authorization: Bearer $TOKEN" \
   | jq .
 ```
@@ -487,17 +487,17 @@ curl https://api.fwber.me/api/profile \
 
 ```bash
 # Dashboard stats
-curl https://api.fwber.me/api/dashboard/stats \
+curl https://api.fwber.site/api/dashboard/stats \
   -H "Authorization: Bearer $TOKEN" \
   | jq .
 
 # Matches
-curl https://api.fwber.me/api/matches \
+curl https://api.fwber.site/api/matches \
   -H "Authorization: Bearer $TOKEN" \
   | jq .
 
 # Messages
-curl https://api.fwber.me/api/messages \
+curl https://api.fwber.site/api/messages \
   -H "Authorization: Bearer $TOKEN" \
   | jq .
 ```

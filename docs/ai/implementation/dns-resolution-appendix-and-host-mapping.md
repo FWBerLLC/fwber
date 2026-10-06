@@ -7,7 +7,7 @@
 After v1.5.0, smoke-check reports could fingerprint the HTTP responder for each endpoint, but they still did not show what each hostname currently resolved to at the DNS layer.
 
 That meant operators still had to run separate DNS commands to answer questions like:
-- what IPs does `geo.fwber.me` resolve to right now?
+- what IPs does `geo.fwber.site` resolve to right now?
 - does the hostname itself already point toward Vercel-style addresses?
 - does the HTTP responder IP line up with the host's resolved IP set?
 
@@ -40,9 +40,9 @@ This keeps the script portable without hard-requiring `dig` or `nslookup` packag
 
 ## Current Live Operational Value
 The live smoke-check run now reveals:
-- `fwber.me` resolves to `216.198.79.1|216.198.79.65`
-- `api.fwber.me` resolves to `75.119.202.57`
-- `geo.fwber.me` resolves to `216.198.79.65|64.29.17.1`
-- `ws.fwber.me` resolves to `69.163.180.228`
+- `fwber.site` resolves to `216.198.79.1|216.198.79.65`
+- `api.fwber.site` resolves to `75.119.202.57`
+- `geo.fwber.site` resolves to `216.198.79.65|64.29.17.1`
+- `ws.fwber.site` resolves to `69.163.180.228`
 
-That strengthens the geo-domain drift picture because the DNS appendix now shows `geo.fwber.me` resolving into addresses associated with the wrong hosting topology instead of a clean Hetzner geo-service target.
+That strengthens the geo-domain drift picture because the DNS appendix now shows `geo.fwber.site` resolving into addresses associated with the wrong hosting topology instead of a clean Hetzner geo-service target.

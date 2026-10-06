@@ -55,16 +55,16 @@ describe('Federation Endpoints', () => {
 
   it('should resolve the user via WebFinger', async () => {
     const res = await request(app)
-      .get(`/.well-known/webfinger?resource=acct:${testUser.name}@fwber.me`);
+      .get(`/.well-known/webfinger?resource=acct:${testUser.name}@fwber.site`);
 
     expect(res.statusCode).toEqual(200);
-    expect(res.body).toHaveProperty('subject', `acct:${testUser.name}@fwber.me`);
+    expect(res.body).toHaveProperty('subject', `acct:${testUser.name}@fwber.site`);
     expect(res.body.links).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           rel: 'self',
           type: 'application/activity+json',
-          href: `https://api.fwber.me/api/federation/actors/${testUser.id}`
+          href: `https://api.fwber.site/api/federation/actors/${testUser.id}`
         })
       ])
     );

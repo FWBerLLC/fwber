@@ -7,7 +7,7 @@ export const contentType = 'image/png';
 
 export default async function Image({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.fwber.me/api';
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.fwber.site/api';
   
   let userName = 'Someone';
   let type = 'roast';
@@ -70,7 +70,7 @@ export default async function Image({ params }: { params: Promise<{ id: string }
            `${userName}'s Vibe Check`}
         </div>
         <div style={{ display: 'flex', fontSize: 24, color: 'rgba(255,255,255,0.8)' }}>
-          See what AI thinks — fwber.me
+          See what AI thinks — fwber.site
         </div>
       </div>
     ),

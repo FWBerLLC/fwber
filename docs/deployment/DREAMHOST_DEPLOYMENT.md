@@ -24,6 +24,6 @@ DreamHost shared/VPS guidance is no longer the best operational fit for the acti
 - systemd-managed workers and websocket services
 - Redis as the primary production cache/session/queue layer
 - stronger process control for Reverb and Rust geo runtime
-- cleaner reverse proxy control for `api.fwber.me`, `ws.fwber.me`, and `geo.fwber.me`
+- cleaner reverse proxy control for `api.fwber.site`, `ws.fwber.site`, and `geo.fwber.site`
 
 The old DreamHost notes may still be useful historically, but should not drive new production decisions.

@@ -116,8 +116,8 @@ router.post('/initiate', authenticate, async (req: any, res) => {
         },
       ],
       mode: 'payment', // Or 'subscription' if using Stripe products/prices
-      success_url: `${process.env.FRONTEND_URL || 'https://www.fwber.me'}/premium?success=true`,
-      cancel_url: `${process.env.FRONTEND_URL || 'https://www.fwber.me'}/premium?canceled=true`,
+      success_url: `${process.env.FRONTEND_URL || 'https://www.fwber.site'}/premium?success=true`,
+      cancel_url: `${process.env.FRONTEND_URL || 'https://www.fwber.site'}/premium?canceled=true`,
       metadata: {
         userId: userId.toString(),
         type: 'premium_upgrade',

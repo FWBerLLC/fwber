@@ -1,10 +1,10 @@
 # Production Email Infrastructure: Resend Configuration
 
-This document outlines the required configuration for moving `fwber.me` to production-grade email delivery via Resend.
+This document outlines the required configuration for moving `fwber.site` to production-grade email delivery via Resend.
 
 ## 1. DNS Configuration (Vercel/Cloudflare)
 
-To ensure high deliverability (preventing Spam folders), the following records must be added to the `fwber.me` DNS zone.
+To ensure high deliverability (preventing Spam folders), the following records must be added to the `fwber.site` DNS zone.
 
 ### SPF (Sender Policy Framework)
 **Type:** TXT
@@ -20,7 +20,7 @@ To ensure high deliverability (preventing Spam folders), the following records m
 ### DMARC (Domain-based Message Authentication, Reporting, and Conformance)
 **Type:** TXT
 **Host:** `_dmarc`
-**Value:** `v=DMARC1; p=quarantine; rua=mailto:admin@fwber.me`
+**Value:** `v=DMARC1; p=quarantine; rua=mailto:admin@fwber.site`
 
 ---
 
@@ -31,12 +31,12 @@ Once DNS is verified, update the production `.env` file on the Hetzner server:
 ```env
 # Email Primary (Resend)
 RESEND_API_KEY=re_123456789...
-MAIL_FROM=notifications@fwber.me
+MAIL_FROM=notifications@fwber.site
 
 # Fallback SMTP (DreamHost)
 MAIL_HOST=smtp.dreamhost.com
 MAIL_PORT=587
-MAIL_USER=notifications@fwber.me
+MAIL_USER=notifications@fwber.site
 MAIL_PASS=********
 ```
 
@@ -50,7 +50,7 @@ The system uses a tiered delivery strategy (`src/lib/email.ts`):
 3. **Console**: Final fallback for development/emergency, logging URLs to stdout.
 
 ## 4. Verification Checklist
-- [ ] Domain `fwber.me` marked as **Verified** in Resend Dashboard.
-- [ ] DNS propagation check (use `dig -t txt fwber.me`).
+- [ ] Domain `fwber.site` marked as **Verified** in Resend Dashboard.
+- [ ] DNS propagation check (use `dig -t txt fwber.site`).
 - [ ] Test verification email sent to a real Gmail/Outlook address.
 - [ ] Check DMARC reports for any alignment issues.

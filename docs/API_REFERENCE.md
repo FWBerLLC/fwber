@@ -10,7 +10,7 @@ When running the backend locally, you can access the interactive Swagger UI at:
 
 ### Production
 In production, the documentation is available at:
-`https://api.fwber.me/api/docs`
+`https://api.fwber.site/api/docs`
 
 ## Generating the Documentation
 

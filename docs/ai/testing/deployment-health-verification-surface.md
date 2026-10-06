@@ -49,8 +49,8 @@ php artisan deploy:verify --json
 ## Expected Production Usage
 After Hetzner provisioning, operators should validate:
 1. `php artisan deploy:verify`
-2. `curl https://api.fwber.me/api/health`
-3. `curl https://api.fwber.me/api/health/readiness`
+2. `curl https://api.fwber.site/api/health`
+3. `curl https://api.fwber.site/api/health/readiness`
 4. Nginx/systemd service status for backend queue, Reverb, and geo-service
 
 ## Risk Notes

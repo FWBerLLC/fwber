@@ -38,7 +38,7 @@ router.post('/', authenticate, async (req: any, res) => {
     res.json({
       id: record.id,
       type: record.type,
-      share_url: `https://www.fwber.me/share/${record.id}`,
+      share_url: `https://www.fwber.site/share/${record.id}`,
       created_at: record.created_at?.toISOString(),
     });
   } catch (err: any) {
@@ -100,7 +100,7 @@ router.get('/mine', authenticate, async (req: any, res) => {
         id: r.id, type: r.type,
         views: r.views, reward_claimed: r.reward_claimed,
         created_at: r.created_at?.toISOString(),
-        share_url: `https://www.fwber.me/share/${r.id}`,
+        share_url: `https://www.fwber.site/share/${r.id}`,
       })),
       total: records.length,
     });
@@ -138,7 +138,7 @@ router.get('/:id', async (req, res) => {
       is_owner: userId ? String(record.user_id) === String(userId) : false,
       reward_claimed: record.reward_claimed,
       user_name: content.user_name || null,
-      share_url: `https://www.fwber.me/share/${record.id}`,
+      share_url: `https://www.fwber.site/share/${record.id}`,
     });
   } catch (err: any) {
     console.error('[viral-content]', err.message);

@@ -7,8 +7,8 @@ set -euo pipefail
 #
 # Usage examples:
 #   ops/hetzner/scripts/smoke-check.sh
-#   FWBER_API_URL="https://api.fwber.me/api" \
-#   FWBER_GEO_URL="https://geo.fwber.me" \
+#   FWBER_API_URL="https://api.fwber.site/api" \
+#   FWBER_GEO_URL="https://geo.fwber.site" \
 #   FWBER_BACKEND_DIR="/var/www/fwber/repo/fwber-backend" \
 #   ops/hetzner/scripts/smoke-check.sh
 #
@@ -32,10 +32,10 @@ set -euo pipefail
 # deployment drift signatures such as stale backend routes or a geo subdomain
 # still pointing at Vercel instead of the Hetzner-hosted geo service.
 
-API_URL="${FWBER_API_URL:-https://api.fwber.me/api}"
-FRONTEND_URL="${FWBER_FRONTEND_URL:-https://fwber.me}"
-WS_URL="${FWBER_WS_URL:-https://ws.fwber.me}"
-GEO_URL="${FWBER_GEO_URL:-https://geo.fwber.me}"
+API_URL="${FWBER_API_URL:-https://api.fwber.site/api}"
+FRONTEND_URL="${FWBER_FRONTEND_URL:-https://fwber.site}"
+WS_URL="${FWBER_WS_URL:-https://ws.fwber.site}"
+GEO_URL="${FWBER_GEO_URL:-https://geo.fwber.site}"
 BACKEND_DIR="${FWBER_BACKEND_DIR:-/var/www/fwber/repo/fwber-backend}"
 USER_BEARER_TOKEN="${FWBER_USER_BEARER_TOKEN:-}"
 MERCHANT_BEARER_TOKEN="${FWBER_MERCHANT_BEARER_TOKEN:-$USER_BEARER_TOKEN}"
@@ -501,9 +501,9 @@ build_diagnostics() {
     && grep -Fq $'fail	API readiness endpoint	Returned HTTP 404' "$case_log_file"; then
     add_diagnostic \
       'critical' \
-      'Backend route drift on api.fwber.me' \
+      'Backend route drift on api.fwber.site' \
       'All public health routes returned 404 even though other backend routes were reachable, which strongly suggests the live backend is serving an older code version or an unexpected route set.' \
-      'Redeploy the backend currently serving api.fwber.me from the latest main branch, then re-run php artisan deploy:verify and the smoke check. Also verify that Nginx is pointing at the intended fwber-backend/public directory and that route/config caches were rebuilt during deploy.'
+      'Redeploy the backend currently serving api.fwber.site from the latest main branch, then re-run php artisan deploy:verify and the smoke check. Also verify that Nginx is pointing at the intended fwber-backend/public directory and that route/config caches were rebuilt during deploy.'
   fi
 
   if grep -Fq $'fail	Geo nearby endpoint	' "$case_log_file" \
@@ -512,7 +512,7 @@ build_diagnostics() {
       'critical' \
       'Geo domain is still pointing at Vercel or a missing Vercel target' \
       'The geo smoke probe hit a Vercel deployment-not-found response instead of a Hetzner-hosted geo microservice response.' \
-      'Update DNS and/or the reverse-proxy target for geo.fwber.me so it points at the Rust geo service on the Hetzner VPS, then confirm the Nginx geo virtual host proxies to 127.0.0.1:8081.'
+      'Update DNS and/or the reverse-proxy target for geo.fwber.site so it points at the Rust geo service on the Hetzner VPS, then confirm the Nginx geo virtual host proxies to 127.0.0.1:8081.'
   fi
 
   if grep -Fq $'warn	Premium authenticated smoke checks	Skipped because FWBER_USER_BEARER_TOKEN is not set.' "$case_log_file" \

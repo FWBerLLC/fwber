@@ -33,7 +33,7 @@ export function VouchLinkCard() {
       // If we already have the code locally, just construct it
       // Alternatively, we could call the API to ensure it's fresh/valid
       // Let's call the API to be safe and consistent with backend logic
-        const apiUrl = typeof window !== 'undefined' ? 'https://api.fwber.me/api' : (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000') + '/api';
+        const apiUrl = typeof window !== 'undefined' ? 'https://api.fwber.site/api' : (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000') + '/api';
         const response = await fetch(`${apiUrl}/vouch/generate-link`, {
             method: 'POST',
             headers: {

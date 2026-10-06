@@ -31,10 +31,10 @@ The generated reports now include:
 - `DNS Resolution Appendix` in Markdown
 
 Confirmed from the current public-domain run:
-- `fwber.me` resolved to `216.198.79.1|216.198.79.65`
-- `api.fwber.me` resolved to `75.119.202.57`
-- `geo.fwber.me` resolved to `216.198.79.65|64.29.17.1`
-- `ws.fwber.me` resolved to `69.163.180.228`
+- `fwber.site` resolved to `216.198.79.1|216.198.79.65`
+- `api.fwber.site` resolved to `75.119.202.57`
+- `geo.fwber.site` resolved to `216.198.79.65|64.29.17.1`
+- `ws.fwber.site` resolved to `69.163.180.228`
 
 ## Why This Matters
 The smoke report can now connect three layers at once:

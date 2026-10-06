@@ -1,6 +1,6 @@
 # Rollback Procedures
 
-Purpose: Safe and repeatable rollback process for fwber.me production deployments.
+Purpose: Safe and repeatable rollback process for fwber.site production deployments.
 
 Last updated: 2025-11-15
 

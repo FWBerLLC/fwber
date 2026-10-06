@@ -32,8 +32,8 @@ router.get('/summary', async (req: any, res) => {
 
     res.json({
       referral_code: user?.referral_code || '',
-      referral_link: user?.referral_code ? `https://fwber.me/register?ref=${user.referral_code}` : '',
-      vouch_link: user?.referral_code ? `https://fwber.me/vouch/${user.referral_code}` : '',
+      referral_link: user?.referral_code ? `https://fwber.site/register?ref=${user.referral_code}` : '',
+      vouch_link: user?.referral_code ? `https://fwber.site/vouch/${user.referral_code}` : '',
       golden_tickets_remaining: user?.golden_tickets_remaining || 0,
       referrals_count: referralCount,
       vouches_count: vouchCount,

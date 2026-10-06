@@ -4,7 +4,7 @@ This file provides guidance to WARP (warp.dev) when working with code in this re
 
 ## Project Overview
 
-fwber.me is a dating/matching application undergoing modernization from legacy PHP (2011) to a modern stack. The project has three layers:
+fwber.site is a dating/matching application undergoing modernization from legacy PHP (2011) to a modern stack. The project has three layers:
 
 1. **Legacy PHP Application** (root directory) - Secure, modernized PHP 8+ with object-oriented architecture
 2. **Laravel Backend** (`fwber-backend/`) - Modern Laravel 12 API in progress

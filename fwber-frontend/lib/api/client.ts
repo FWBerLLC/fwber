@@ -23,7 +23,7 @@ const getBaseUrl = () => {
   
   // On the server (SSR), use the absolute URL.
   const envUrl = process.env.NEXT_PUBLIC_API_URL;
-  const url = envUrl || 'https://api.fwber.me';
+  const url = envUrl || 'https://api.fwber.site';
   
   // Ensure we don't return just '/api' if NEXT_PUBLIC_API_URL is somehow empty on server
   const normalizedUrl = url.replace(/\/$/, '');

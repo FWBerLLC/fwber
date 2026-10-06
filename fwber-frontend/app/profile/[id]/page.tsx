@@ -257,11 +257,11 @@ export default function PublicProfilePage() {
                     <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800">
                         <Globe className="w-3 h-3 text-blue-500" />
                         <span className="text-[10px] font-mono font-bold text-blue-600 dark:text-blue-400 uppercase tracking-tighter">
-                            @{profile.name || 'user'}@api.fwber.me
+                            @{profile.name || 'user'}@api.fwber.site
                         </span>
                         <button
                             onClick={() => {
-                                navigator.clipboard.writeText(`@${profile.name}@api.fwber.me`);
+                                navigator.clipboard.writeText(`@${profile.name}@api.fwber.site`);
                                 showSuccess('Handle Copied', 'Federated handle copied to clipboard');
                             }}
                             className="p-1 hover:bg-blue-100 dark:hover:bg-blue-800 rounded transition-colors"

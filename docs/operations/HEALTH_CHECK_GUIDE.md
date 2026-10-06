@@ -24,7 +24,7 @@
 
 ## Endpoints Overview
 
-fwber.me provides three health check endpoints for different monitoring purposes:
+fwber.site provides three health check endpoints for different monitoring purposes:
 
 | Endpoint | Purpose | Response Codes | Use Case |
 |----------|---------|----------------|----------|

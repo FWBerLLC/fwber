@@ -27,7 +27,7 @@ router.get('/actors/:id', async (req, res) => {
       return res.status(404).json({ error: 'User not found' });
     }
 
-    const apiDomain = process.env.API_DOMAIN || 'api.fwber.me';
+    const apiDomain = process.env.API_DOMAIN || 'api.fwber.site';
     const profile = user.user_profiles?.[0];
 
     res.json({
@@ -96,7 +96,7 @@ router.post('/users/:id/inbox', async (req, res) => {
 // GET /api/federation/users/:userId/outbox — get user outbox (Standard OrderedCollection)
 router.get('/users/:userId/outbox', async (req, res) => {
   try {
-    const apiDomain = process.env.API_DOMAIN || 'api.fwber.me';
+    const apiDomain = process.env.API_DOMAIN || 'api.fwber.site';
     const { userId } = req.params;
     const page = req.query.page === 'true';
 
@@ -186,7 +186,7 @@ router.post('/admin/peers/:id/toggle-block', async (req: AuthRequest, res: Respo
 // GET /api/federation/activity - Unified Activity Center endpoint
 router.get('/activity', authenticate, async (req: AuthRequest, res: Response) => {
     try {
-        const apiDomain = process.env.API_DOMAIN || 'api.fwber.me';
+        const apiDomain = process.env.API_DOMAIN || 'api.fwber.site';
         const localActorUri = `https://${apiDomain}/api/federation/actors/${req.user!.id}`;
 
         const inboxItems = await prisma.federation_inbox.findMany({
@@ -240,7 +240,7 @@ router.get('/activity', authenticate, async (req: AuthRequest, res: Response) =>
 // GET /api/federation/feed/following — get posts only from actors the user follows
 router.get('/feed/following', authenticate, async (req: AuthRequest, res: Response) => {
     try {
-        const apiDomain = process.env.API_DOMAIN || 'api.fwber.me';
+        const apiDomain = process.env.API_DOMAIN || 'api.fwber.site';
         const localActorUri = `https://${apiDomain}/api/federation/actors/${req.user!.id}`;
 
         const following = await prisma.federation_follows.findMany({
@@ -288,7 +288,7 @@ router.get('/feed/following', authenticate, async (req: AuthRequest, res: Respon
 // GET /api/federation/posts — get federation posts from inbox
 router.get('/posts', authenticate, async (req: AuthRequest, res: Response) => {
     try {
-        const apiDomain = process.env.API_DOMAIN || 'api.fwber.me';
+        const apiDomain = process.env.API_DOMAIN || 'api.fwber.site';
         const localActorUri = `https://${apiDomain}/api/federation/actors/${req.user!.id}`;
 
         const inboxItems = await prisma.federation_inbox.findMany({
@@ -332,7 +332,7 @@ router.get('/posts', authenticate, async (req: AuthRequest, res: Response) => {
 // GET /api/federation/following - Get external actors user is following
 router.get('/following', authenticate, async (req: AuthRequest, res: Response) => {
     try {
-        const apiDomain = process.env.API_DOMAIN || 'api.fwber.me';
+        const apiDomain = process.env.API_DOMAIN || 'api.fwber.site';
         const following = await prisma.federation_follows.findMany({
             where: { actor_uri: `https://${apiDomain}/api/federation/actors/${req.user!.id}` }
         });
@@ -366,7 +366,7 @@ router.post('/posts/:id/unlike', authenticate, async (req: AuthRequest, res: Res
 
         if (!user?.private_key) return res.status(400).json({ error: 'User has no signing keys' });
 
-        const apiDomain = process.env.API_DOMAIN || 'api.fwber.me';
+        const apiDomain = process.env.API_DOMAIN || 'api.fwber.site';
         const localActorUri = `https://${apiDomain}/api/federation/actors/${req.user!.id}`;
 
         const undoLikeActivity = {
@@ -406,7 +406,7 @@ router.post('/unfollow', authenticate, async (req: AuthRequest, res: Response) =
 
         if (!user?.private_key) return res.status(400).json({ error: 'User has no signing keys' });
 
-        const apiDomain = process.env.API_DOMAIN || 'api.fwber.me';
+        const apiDomain = process.env.API_DOMAIN || 'api.fwber.site';
         const localActorUri = `https://${apiDomain}/api/federation/actors/${req.user!.id}`;
 
         const undoActivity = {
@@ -451,7 +451,7 @@ router.post('/posts/:id/unboost', authenticate, async (req: AuthRequest, res: Re
 
         if (!user?.private_key) return res.status(400).json({ error: 'User has no signing keys' });
 
-        const apiDomain = process.env.API_DOMAIN || 'api.fwber.me';
+        const apiDomain = process.env.API_DOMAIN || 'api.fwber.site';
         const localActorUri = `https://${apiDomain}/api/federation/actors/${req.user!.id}`;
 
         const undoAnnounceActivity = {
@@ -481,7 +481,7 @@ router.post('/posts/:id/unboost', authenticate, async (req: AuthRequest, res: Re
 // GET /api/federation/followers - Get external actors following user
 router.get('/followers', authenticate, async (req: AuthRequest, res: Response) => {
     try {
-        const apiDomain = process.env.API_DOMAIN || 'api.fwber.me';
+        const apiDomain = process.env.API_DOMAIN || 'api.fwber.site';
         const followers = await prisma.federation_follows.findMany({
             where: { target_uri: `https://${apiDomain}/api/federation/actors/${req.user!.id}`, status: 'accepted' }
         });
@@ -512,7 +512,7 @@ router.post('/follow', authenticate, async (req: AuthRequest, res: Response) => 
 
         if (!user?.private_key) return res.status(400).json({ error: 'User has no signing keys' });
 
-        const apiDomain = process.env.API_DOMAIN || 'api.fwber.me';
+        const apiDomain = process.env.API_DOMAIN || 'api.fwber.site';
         const localActorUri = `https://${apiDomain}/api/federation/actors/${req.user!.id}`;
 
         const followActivity = {
@@ -610,7 +610,7 @@ router.get('/search', authenticate, async (req: AuthRequest, res: Response) => {
             take: 5
         });
 
-        const apiDomain = process.env.API_DOMAIN || 'api.fwber.me';
+        const apiDomain = process.env.API_DOMAIN || 'api.fwber.site';
         const actors = localUsers.map(u => ({
             id: `https://${apiDomain}/api/federation/actors/${u.id}`,
             preferredUsername: u.name,
@@ -641,7 +641,7 @@ router.post('/posts/:id/like', authenticate, async (req: AuthRequest, res: Respo
 
         if (!user?.private_key) return res.status(400).json({ error: 'User has no signing keys' });
 
-        const apiDomain = process.env.API_DOMAIN || 'api.fwber.me';
+        const apiDomain = process.env.API_DOMAIN || 'api.fwber.site';
         const localActorUri = `https://${apiDomain}/api/federation/actors/${req.user!.id}`;
 
         const likeActivity = {
@@ -680,7 +680,7 @@ router.post('/posts/:id/reply', authenticate, async (req: AuthRequest, res: Resp
 
         if (!user?.private_key) return res.status(400).json({ error: 'User has no signing keys' });
 
-        const apiDomain = process.env.API_DOMAIN || 'api.fwber.me';
+        const apiDomain = process.env.API_DOMAIN || 'api.fwber.site';
         const localActorUri = `https://${apiDomain}/api/federation/actors/${req.user!.id}`;
 
         const noteId = `https://${apiDomain}/api/federation/notes/reply-${Date.now()}`;
@@ -727,7 +727,7 @@ router.post('/posts/:id/boost', authenticate, async (req: AuthRequest, res: Resp
 
         if (!user?.private_key) return res.status(400).json({ error: 'User has no signing keys' });
 
-        const apiDomain = process.env.API_DOMAIN || 'api.fwber.me';
+        const apiDomain = process.env.API_DOMAIN || 'api.fwber.site';
         const localActorUri = `https://${apiDomain}/api/federation/actors/${req.user!.id}`;
 
         const announceActivity = {

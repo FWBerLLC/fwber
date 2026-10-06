@@ -7,10 +7,10 @@ To achieve ultra-low latency for `fwber` users globally, we leverage Cloudflare'
 
 ## 1. Cloudflare Page Rules
 
-The following page rules should be configured in the Cloudflare Dashboard for `fwber.me`.
+The following page rules should be configured in the Cloudflare Dashboard for `fwber.site`.
 
 ### Rule 1: Static Assets Performance
-*   **Match:** `fwber.me/_next/static/*`
+*   **Match:** `fwber.site/_next/static/*`
 *   **Settings:**
     *   **Cache Level:** Cache Everything
     *   **Edge Cache TTL:** 1 Month
@@ -18,7 +18,7 @@ The following page rules should be configured in the Cloudflare Dashboard for `f
     *   **Origin Cache Control:** On
 
 ### Rule 2: Image Optimization Edge
-*   **Match:** `fwber.me/images/*` or `api.fwber.me/storage/photos/*`
+*   **Match:** `fwber.site/images/*` or `api.fwber.site/storage/photos/*`
 *   **Settings:**
     *   **Cache Level:** Cache Everything
     *   **Edge Cache TTL:** 7 Days
@@ -26,7 +26,7 @@ The following page rules should be configured in the Cloudflare Dashboard for `f
     *   **Image Resizing:** On (Cloudflare Pro+)
 
 ### Rule 3: API Security & Bypass
-*   **Match:** `api.fwber.me/*`
+*   **Match:** `api.fwber.site/*`
 *   **Settings:**
     *   **Cache Level:** Bypass (Ensure real-time match data is never stale)
     *   **Security Level:** High

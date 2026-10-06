@@ -29,7 +29,7 @@ bash ops/hetzner/scripts/smoke-check.sh
 The generated JSON report now includes a `snapshots` array, and the Markdown report now includes an `Endpoint Fingerprints` section.
 
 Confirmed from the current public-domain run:
-- frontend fingerprint: `Vercel`, redirecting to `https://www.fwber.me/`
+- frontend fingerprint: `Vercel`, redirecting to `https://www.fwber.site/`
 - API health fingerprint: `Apache`, remote IP `75.119.202.57`, body indicates route missing
 - geo fingerprint: `Vercel`, remote IP `64.29.17.1`, body indicates deployment-not-found
 

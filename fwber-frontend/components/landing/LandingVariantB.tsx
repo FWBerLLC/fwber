@@ -410,7 +410,7 @@ export default function LandingVariantB() {
                   open-source and auditable by anyone. Your secrets stay on your device, not our
                   servers.{' '}
                   <a
-                    href="https://github.com/robertpelloni/fwber"
+                    href="https://github.com/FWBerLLC/fwber"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-600 hover:underline"

@@ -24,7 +24,7 @@ STRIPE_WEBHOOK_SECRET="whsec_YOUR_PRODUCTION_WEBHOOK_SECRET"
 To automatically credit users with tokens after successful payments, you must register a webhook.
 1. In Stripe, go to **Developers -> Webhooks**.
 2. Click "Add endpoint".
-3. Endpoint URL: `https://api.fwber.me/api/payments/webhook`
+3. Endpoint URL: `https://api.fwber.site/api/payments/webhook`
 4. Events to listen to: `checkout.session.completed`
 5. Reveal the "Signing secret" (`whsec_...`) and place it in your `.env` as `STRIPE_WEBHOOK_SECRET`.
 

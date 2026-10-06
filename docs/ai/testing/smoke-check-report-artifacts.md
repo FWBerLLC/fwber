@@ -46,7 +46,7 @@ Failures:
 - `/api/health` → `404`
 - `/api/health/liveness` → `404`
 - `/api/health/readiness` → `404`
-- `geo.fwber.me/nearby` → `404` with Vercel deployment-not-found message
+- `geo.fwber.site/nearby` → `404` with Vercel deployment-not-found message
 
 Warnings:
 - local artisan check skipped intentionally

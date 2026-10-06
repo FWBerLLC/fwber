@@ -1,24 +1,46 @@
 # Changelog
 
+## [2.3.33] - 2026-09-30
+
+### Changed
+
+- **Domain Migration**: All references updated from `fwber.me` to `fwber.site` across the entire codebase.
+  - Nginx configs renamed (`fwber.site.conf`, `api.fwber.site.conf`, `geo.fwber.site.conf`, `ws.fwber.site.conf`)
+  - SSL cert paths updated to `/etc/letsencrypt/live/fwber.site/`
+  - Frontend env examples, `vercel.json`, `next.config.js` CSP/image domains
+  - Backend federation handles, email templates, API defaults
+  - Mobile app target domain, service workers, PWA manifest
+  - All documentation, deployment scripts, smoke tests, ops runbooks
+- **Repository Migration**: All references updated from `robertpelloni/fwber` / `yourusername/fwber` to `FWBerLLC/fwber` (new GitHub organization).
+  - Landing page GitHub links (`LandingVariantA.tsx`, `LandingVariantB.tsx`)
+  - Deployment scripts (`tools/deployment/deploy-production.sh`)
+  - Documentation (`docs/deployment/DEPLOYMENT_GUIDE.md`, `docs/SUBMODULE_DASHBOARD.md`, `SUBMODULE_INVENTORY.md`, `docs/UNIVERSAL_LLM_INSTRUCTIONS.md`)
+- **Remote Tracking**: Git origin retargeted to `https://github.com/FWBerLLC/fwber.git`.
+- **Gitignore Policy Fix**: Removed `.jules/`, `.memory/`, and `*.txt` from `.gitignore` so memory, sessions, and documentation stay tracked per project policy.
+
+### Fixed
+
+- **Working Tree Recovery**: Restored full working tree (5246 files) after accidental mass staging of deletions. No content lost — recovered from HEAD `e333e48`.
+
 ## [2.3.32] - 2026-07-17
 
 ### Added
 
 - **Frontend on Hetzner**: Migrated frontend from Vercel to Hetzner VPS — `output: 'standalone'` Next.js build, PM2 on port 3000, Nginx proxy.
-- **SSL for fwber.me**: Let's Encrypt certificate covering both `fwber.me` and `www.fwber.me`.
+- **SSL for fwber.site**: Let's Encrypt certificate covering both `fwber.site` and `www.fwber.site`.
 - **Sitemap for Bing**: Expanded to 32 public-facing URLs with proper priorities and change frequencies.
 - **GitHub Actions**: New `deploy-frontend.yml` workflow for Hetzner frontend deployment.
 - **Group Aura Chatroom**: Feature branch `feat-group-aura-chatroom` fully merged into main.
 
 ### Changed
 
-- **DNS**: `fwber.me` and `www.fwber.me` now point to Hetzner VPS `5.161.250.43`.
+- **DNS**: `fwber.site` and `www.fwber.site` now point to Hetzner VPS `5.161.250.43`.
 - **Architecture**: All services now on single Hetzner VPS — zero cross-origin API latency.
 - **robots.txt**: Explicit allow/disallow for every public and private route.
 
 ### Fixed
 
-- **SSL Certificate Name Mismatch**: Combined cert for `fwber.me` + `www.fwber.me`.
+- **SSL Certificate Name Mismatch**: Combined cert for `fwber.site` + `www.fwber.site`.
 
 ## [2.3.10] - 2026-06-30
 
@@ -191,7 +213,7 @@
 ### Added
 
 - **Outbound Undo Interactions**: Implemented support for retracting social actions (Unlike/Unboost) via ActivityPub `Undo` activities.
-- **Social Profile Badges**: Public profiles now prominently display the user's federated handle (e.g. @<user@api.fwber.me>) if federation is enabled.
+- **Social Profile Badges**: Public profiles now prominently display the user's federated handle (e.g. @<user@api.fwber.site>) if federation is enabled.
 - **ActivityPub Compliance**: Updated the user outbox endpoint to follow standard `OrderedCollection` pagination for better interoperability with external servers.
 
 ## [2.2.7] - 2026-06-10
@@ -483,7 +505,7 @@ All notable changes to this project will be documented in this file.
 
 - **Vercel Frontend Live**: Successfully deployed the Next.js 16.1 frontend to Vercel with automated build pipelines.
 - **DreamHost Backend Hardened**: Optimized the Laravel 12 API for production, resolving critical boot errors and configuration conflicts.
-- **Unified Domain Strategy**: Implemented API proxying via `next.config.js` to eliminate CORS friction and consolidate the user experience under `www.fwber.me`.
+- **Unified Domain Strategy**: Implemented API proxying via `next.config.js` to eliminate CORS friction and consolidate the user experience under `www.fwber.site`.
 - **Infrastructure Verified**:
   - **AWS S3**: Production media storage operational.
   - **AWS Rekognition**: Automated AI content moderation live.

@@ -1,6 +1,6 @@
 # Performance Benchmarks
 
-Purpose: Establish baseline performance targets and a repeatable process to measure and improve fwber.me API latency and throughput.
+Purpose: Establish baseline performance targets and a repeatable process to measure and improve fwber.site API latency and throughput.
 
 Last updated: 2025-11-15
 

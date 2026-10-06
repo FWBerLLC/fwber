@@ -14,14 +14,14 @@ This replaces the older DreamHost-centered production recommendation.
 
 ## 1. Recommended Production Topology
 
-### Frontend (`fwber.me`)
+### Frontend (`fwber.site`)
 Deploy `fwber-frontend` to **Vercel**.
 
 ### Hetzner VPS
 Host the following on a single production VPS initially:
-- `api.fwber.me` → Laravel backend
-- `ws.fwber.me` → Laravel Reverb websocket server
-- `geo.fwber.me` → Rust `fwber-geo` microservice
+- `api.fwber.site` → Laravel backend
+- `ws.fwber.site` → Laravel Reverb websocket server
+- `geo.fwber.site` → Rust `fwber-geo` microservice
 - MySQL
 - Redis
 - queue workers
@@ -38,11 +38,11 @@ Host the following on a single production VPS initially:
 
 Point domains as follows:
 
-- `fwber.me` → Vercel
-- `www.fwber.me` → Vercel
-- `api.fwber.me` → Hetzner VPS public IP
-- `ws.fwber.me` → Hetzner VPS public IP
-- `geo.fwber.me` → Hetzner VPS public IP
+- `fwber.site` → Vercel
+- `www.fwber.site` → Vercel
+- `api.fwber.site` → Hetzner VPS public IP
+- `ws.fwber.site` → Hetzner VPS public IP
+- `geo.fwber.site` → Hetzner VPS public IP
 
 ---
 
@@ -55,9 +55,9 @@ Point domains as follows:
 
 ### Required Environment Variables
 ```env
-NEXT_PUBLIC_APP_URL=https://fwber.me
-NEXT_PUBLIC_API_URL=https://api.fwber.me
-NEXT_PUBLIC_REVERB_HOST=ws.fwber.me
+NEXT_PUBLIC_APP_URL=https://fwber.site
+NEXT_PUBLIC_API_URL=https://api.fwber.site
+NEXT_PUBLIC_REVERB_HOST=ws.fwber.site
 NEXT_PUBLIC_REVERB_SCHEME=https
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_...
 NEXT_PUBLIC_FRONTEND_VERSION=<current frontend version>
@@ -104,10 +104,10 @@ Use a production-oriented shape like:
 ```env
 APP_ENV=production
 APP_DEBUG=false
-APP_URL=https://api.fwber.me
-FRONTEND_URL=https://fwber.me
-SESSION_DOMAIN=.fwber.me
-SANCTUM_STATEFUL_DOMAINS=fwber.me,www.fwber.me
+APP_URL=https://api.fwber.site
+FRONTEND_URL=https://fwber.site
+SESSION_DOMAIN=.fwber.site
+SANCTUM_STATEFUL_DOMAINS=fwber.site,www.fwber.site
 
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
@@ -126,12 +126,12 @@ BROADCAST_CONNECTION=reverb
 REVERB_APP_ID=fwber
 REVERB_APP_KEY=CHANGE_ME
 REVERB_APP_SECRET=CHANGE_ME
-REVERB_HOST=ws.fwber.me
+REVERB_HOST=ws.fwber.site
 REVERB_PORT=443
 REVERB_SCHEME=https
 
 GEO_SCREENER_ENABLED=true
-GEO_SCREENER_URL=https://geo.fwber.me
+GEO_SCREENER_URL=https://geo.fwber.site
 
 PAYMENT_DRIVER=stripe
 STRIPE_KEY=sk_live_...
@@ -261,15 +261,15 @@ Use cron or a persistent scheduler process:
 
 ## 8. Nginx Proxy Layout
 
-### `api.fwber.me`
+### `api.fwber.site`
 - Serve Laravel `public/`
 - Pass PHP to `php8.4-fpm`
 
-### `ws.fwber.me`
+### `ws.fwber.site`
 - Reverse proxy to Reverb on `127.0.0.1:8080`
 - Ensure websocket upgrade headers are passed through
 
-### `geo.fwber.me`
+### `geo.fwber.site`
 - Reverse proxy to Rust geo service on `127.0.0.1:8081`
 
 The detailed Hetzner/Vercel production blueprint lives in:
@@ -301,13 +301,13 @@ Automation support now exists in:
 
 1. [ ] Frontend Vercel deploy is green
 2. [ ] `php artisan deploy:verify` returns healthy or only expected non-critical degradations
-3. [ ] `https://api.fwber.me/api/health` reports expected version and service state
-4. [ ] `https://api.fwber.me/api/auth/login` returns expected validation/auth behavior
+3. [ ] `https://api.fwber.site/api/health` reports expected version and service state
+4. [ ] `https://api.fwber.site/api/auth/login` returns expected validation/auth behavior
 5. [ ] `/roast` works against the live API
 6. [ ] `/premium` upgrade initiation works
 7. [ ] `/merchant/register` and `/merchant/dashboard` work
-8. [ ] `wss://ws.fwber.me` accepts websocket traffic
-9. [ ] `https://geo.fwber.me` responds successfully
+8. [ ] `wss://ws.fwber.site` accepts websocket traffic
+9. [ ] `https://geo.fwber.site` responds successfully
 10. [ ] queue workers are processing jobs
 11. [ ] scheduler is firing recurring tasks
 12. [ ] migrations complete without duplicate-index or missing-column drift failures
@@ -320,7 +320,7 @@ Run this checklist before enabling live billing:
 
 1. [ ] Confirm frontend Vercel env contains `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`
 2. [ ] Confirm backend `.env` contains `PAYMENT_DRIVER=stripe`, `STRIPE_SECRET`, and `STRIPE_WEBHOOK_SECRET`
-3. [ ] Register the production Stripe webhook endpoint: `https://api.fwber.me/api/stripe/webhook`
+3. [ ] Register the production Stripe webhook endpoint: `https://api.fwber.site/api/stripe/webhook`
 4. [ ] Subscribe to premium and commerce relevant events:
    - `payment_intent.succeeded`
    - `customer.subscription.created`
@@ -357,6 +357,6 @@ The platform supports a dedicated staging environment for pre-production validat
    ```
 
 **Staging Validation**:
-1. Check staging health: `https://api-staging.fwber.me/api/health`
+1. Check staging health: `https://api-staging.fwber.site/api/health`
 2. Run automated regression: `cd fwber-backend-ts && npm run test`
 3. Verify matching engine UI at `/settings/matching` on the staging frontend.

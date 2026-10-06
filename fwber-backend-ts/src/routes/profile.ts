@@ -780,7 +780,7 @@ router.post("/delete", authenticate, async (req: any, res) => {
 			where: { id: userId },
 			data: {
 				name: "Deleted User",
-				email: "deleted_" + userId + "@fwber.me",
+				email: "deleted_" + userId + "@fwber.site",
 				password: await bcrypt.hash(crypto.randomBytes(32).toString("hex"), 10),
 			},
 		});

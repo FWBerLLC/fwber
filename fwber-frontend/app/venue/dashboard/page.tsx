@@ -15,7 +15,7 @@ export default function VenueDashboard() {
       return
     }
 
-    const apiUrl = typeof window !== 'undefined' ? '/api' : (process.env.NEXT_PUBLIC_API_URL || 'https://api.fwber.me/api');
+    const apiUrl = typeof window !== 'undefined' ? '/api' : (process.env.NEXT_PUBLIC_API_URL || 'https://api.fwber.site/api');
     
     fetch(`${apiUrl}/venue/me`, {
       headers: {

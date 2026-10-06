@@ -17,7 +17,7 @@ fwber is a privacy-first, proximity-based social platform. It replaces swipe-bas
 
 | Component | Location | Status |
 |-----------|----------|--------|
-| **Frontend** | Vercel (fwber.me) | ✅ Deployed |
+| **Frontend** | Vercel (fwber.site) | ✅ Deployed |
 | **Backend (Express/TS)** | Hetzner VPS `5.161.250.43` port `:4002` | ✅ PM2 online v2.1.5 |
 | **Geo Service (Rust)** | Hetzner VPS port `:8081` | ✅ systemd active |
 | **Database** | MySQL on Hetzner | ✅ Connected |
@@ -32,7 +32,7 @@ fwber is a privacy-first, proximity-based social platform. It replaces swipe-bas
 - **PHP:** 8.4.19 (legacy, not used)
 - **PM2:** Process 0 — `fwber-backend-ts`, pid tracked automatically
 - **Uploads directory:** Exists but empty (157 photos in DB reference missing files)
-- **Other sites on same server:** bobsgame.com, robertpelloni.com, hypernexus.site, tormentnexus.site, aimoneymachine, sales.fwber.me — none disturbed by fwber deploys
+- **Other sites on same server:** bobsgame.com, robertpelloni.com, hypernexus.site, tormentnexus.site, aimoneymachine, sales.fwber.site — none disturbed by fwber deploys
 - Port 4000 is occupied by `freellm` (unrelated process)
 
 ### Port Registry
@@ -63,7 +63,7 @@ fwber is a privacy-first, proximity-based social platform. It replaces swipe-bas
 ## Key Decisions Made
 
 1. **TypeScript backend over PHP Laravel** — The old `fwber-backend` (PHP Laravel) was deprecated. Only `fwber-backend-ts` is active. PHP service files (`fwber-queue`, `fwber-reverb`) were stopped & disabled.
-2. **Hetzner VPS + Vercel frontend** — Backend on bare-metal VPS, frontend on Vercel with Next.js rewrites proxying `/api/*` to `https://api.fwber.me`.
+2. **Hetzner VPS + Vercel frontend** — Backend on bare-metal VPS, frontend on Vercel with Next.js rewrites proxying `/api/*` to `https://api.fwber.site`.
 3. **Port 4002 instead of 4000** — Changed from 4000 to 4002 to avoid conflict with `freellm` process.
 4. **PM2 over systemd** — Backend managed via PM2 with systemd integration for auto-startup.
 5. **Prisma baseline migration** — Database was created outside Prisma migrations. A `0000_initial` baseline was created and applied, with deploy script handling re-apply gracefully.

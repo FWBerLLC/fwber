@@ -22,7 +22,7 @@ const openrouter = process.env.OPENROUTER_API_KEY ? new OpenAI({
   apiKey: process.env.OPENROUTER_API_KEY,
   baseURL: 'https://openrouter.ai/api/v1',
   defaultHeaders: {
-    'HTTP-Referer': 'https://www.fwber.me',
+    'HTTP-Referer': 'https://www.fwber.site',
     'X-Title': 'fwber',
   }
 }) : null;

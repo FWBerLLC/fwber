@@ -62,10 +62,10 @@ This checklist ensures that both the frontend and backend are fully prepared for
 
 - [ ] Production environment variables set:
   ```env
-  NEXT_PUBLIC_API_URL=https://api.fwber.me
-  NEXT_PUBLIC_WS_URL=wss://api.fwber.me
+  NEXT_PUBLIC_API_URL=https://api.fwber.site
+  NEXT_PUBLIC_WS_URL=wss://api.fwber.site
   NEXT_PUBLIC_ENVIRONMENT=production
-  NEXTAUTH_URL=https://fwber.me
+  NEXTAUTH_URL=https://fwber.site
   NEXTAUTH_SECRET=<secure-random-secret>
   ```
 - [ ] API endpoints point to production backend
@@ -156,7 +156,7 @@ The `deploy.sh` script in `fwber-backend` handles the backend deployment correct
   APP_ENV=production
   APP_DEBUG=false
   APP_KEY=<secure-random-32-char-key>
-  APP_URL=https://api.fwber.me
+  APP_URL=https://api.fwber.site
 
   DB_CONNECTION=mysql
   DB_HOST=<production-db-host>
@@ -179,7 +179,7 @@ The `deploy.sh` script in `fwber-backend` handles the backend deployment correct
   MAIL_USERNAME=<mail-user>
   MAIL_PASSWORD=<mail-password>
   MAIL_ENCRYPTION=tls
-  MAIL_FROM_ADDRESS=noreply@fwber.me
+  MAIL_FROM_ADDRESS=noreply@fwber.site
   MAIL_FROM_NAME="fwber"
 
   AWS_ACCESS_KEY_ID=<aws-key>
@@ -316,20 +316,20 @@ The `deploy.sh` script in `fwber-backend` handles the backend deployment correct
 server {
     listen 80;
     listen [::]:80;
-    server_name api.fwber.me;
+    server_name api.fwber.site;
     return 301 https://$server_name$request_uri;
 }
 
 server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
-    server_name api.fwber.me;
+    server_name api.fwber.site;
 
     root /var/www/fwber-backend/public;
     index index.php;
 
-    ssl_certificate /etc/letsencrypt/live/api.fwber.me/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/api.fwber.me/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/api.fwber.site/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/api.fwber.site/privkey.pem;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers HIGH:!aNULL:!MD5;
 
@@ -504,7 +504,7 @@ server {
 - [ ] Load testing performed
   ```bash
   # Example with Apache Bench
-  ab -n 1000 -c 100 https://api.fwber.me/health
+  ab -n 1000 -c 100 https://api.fwber.site/health
   ```
 - [ ] Application handles expected traffic
 - [ ] Auto-scaling configured (if using cloud)
@@ -579,15 +579,15 @@ server {
 
 - [ ] A/AAAA records configured
   ```
-  fwber.me          A      <frontend-ip>
-  www.fwber.me      CNAME  fwber.me
-  api.fwber.me      A      <backend-ip>
+  fwber.site          A      <frontend-ip>
+  www.fwber.site      CNAME  fwber.site
+  api.fwber.site      A      <backend-ip>
   ```
 - [ ] TTL values appropriate (lower for launch, higher after stability)
 - [ ] DNS propagation verified
   ```bash
-  dig fwber.me
-  dig api.fwber.me
+  dig fwber.site
+  dig api.fwber.site
   ```
 - [ ] CAA records configured (if using specific CA)
 

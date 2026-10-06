@@ -85,9 +85,9 @@ const nextConfig = {
   // Image optimization
   images: {
     remotePatterns: [
-      { protocol: 'https', hostname: 'api.fwber.me' },
-      { protocol: 'https', hostname: 'fwber.me' },
-      { protocol: 'https', hostname: 'www.fwber.me' },
+      { protocol: 'https', hostname: 'api.fwber.site' },
+      { protocol: 'https', hostname: 'fwber.site' },
+      { protocol: 'https', hostname: 'www.fwber.site' },
       { protocol: 'https', hostname: '**.amazonaws.com' },
       { protocol: 'https', hostname: '**.cloudfront.net' },
       { protocol: 'https', hostname: 'oaidalleapiprodscus.blob.core.windows.net' },
@@ -144,7 +144,7 @@ const nextConfig = {
           {
             key: 'Content-Security-Policy',
             value:
-              "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' blob: https://js.stripe.com; worker-src 'self' blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https://api.fwber.me https://*.amazonaws.com https://*.cloudfront.net https://oaidalleapiprodscus.blob.core.windows.net https://*.googleapis.com; font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com; connect-src 'self' https://api.fwber.me wss://ws.fwber.me wss://ws.fwber.me/socket.io/ https://*.sentry.io https://www.fwber.me https://api.stripe.com https://nominatim.openstreetmap.org; frame-src 'self' https://js.stripe.com https://hooks.stripe.com; frame-ancestors 'self' https://fwber.me https://www.fwber.me; media-src 'self' blob:;",
+              "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' blob: https://js.stripe.com; worker-src 'self' blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https://api.fwber.site https://*.amazonaws.com https://*.cloudfront.net https://oaidalleapiprodscus.blob.core.windows.net https://*.googleapis.com; font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com; connect-src 'self' https://api.fwber.site wss://ws.fwber.site wss://ws.fwber.site/socket.io/ https://*.sentry.io https://www.fwber.site https://api.stripe.com https://nominatim.openstreetmap.org; frame-src 'self' https://js.stripe.com https://hooks.stripe.com; frame-ancestors 'self' https://fwber.site https://www.fwber.site; media-src 'self' blob:;",
           },
           { key: 'X-Content-Type-Options', value: '' }, // Neutralize legacy block
 
@@ -181,15 +181,15 @@ const nextConfig = {
     return [
       {
         source: '/api/:path((?!sentry-tunnel).*)',
-        destination: 'https://api.fwber.me/api/:path*',
+        destination: 'https://api.fwber.site/api/:path*',
       },
       {
         source: '/.well-known/webfinger',
-        destination: 'https://api.fwber.me/.well-known/webfinger',
+        destination: 'https://api.fwber.site/.well-known/webfinger',
       },
       {
         source: '/.well-known/nodeinfo',
-        destination: 'https://api.fwber.me/.well-known/nodeinfo',
+        destination: 'https://api.fwber.site/.well-known/nodeinfo',
       },
     ]
   },

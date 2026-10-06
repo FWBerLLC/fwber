@@ -2,7 +2,7 @@ import path from 'path';
 
 const UPLOAD_DIR = path.resolve(process.env.UPLOAD_DIR || 'uploads');
 
-/** Base URL for serving uploaded files (e.g. https://api.fwber.me) */
+/** Base URL for serving uploaded files (e.g. https://api.fwber.site) */
 const API_BASE = process.env.API_BASE_URL || '';
 
 /**
@@ -10,7 +10,7 @@ const API_BASE = process.env.API_BASE_URL || '';
  * suitable for returning in API responses.
  *
  * e.g. "/var/www/fwber/repo/fwber-backend-ts/uploads/1777435104230-hdia7o.jpg"
- *   → "https://api.fwber.me/uploads/1777435104230-hdia7o.jpg"
+ *   → "https://api.fwber.site/uploads/1777435104230-hdia7o.jpg"
  *
  * If the path is already a relative URL (starts with "/uploads"), prepend API_BASE.
  * If empty/null, return empty string.

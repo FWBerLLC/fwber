@@ -1,4 +1,4 @@
-# DNS Records for fwber.me — Email Delivery Setup
+# DNS Records for fwber.site — Email Delivery Setup
 
 ## Current State
 - ✅ Postfix running on Hetzner (5.161.250.43)
@@ -11,7 +11,7 @@
 ### 1. MX Record — Route email to Hetzner
 | Type | Name | Value | Priority |
 |------|------|-------|----------|
-| MX | `@` | `mail.fwber.me` | 10 |
+| MX | `@` | `mail.fwber.site` | 10 |
 
 ### 2. A Record — Mail server
 | Type | Name | Value |
@@ -31,7 +31,7 @@
 ### 5. DMARC — Policy for failed authentication
 | Type | Name | Value |
 |------|------|-------|
-| TXT | `_dmarc` | `v=DMARC1; p=none; rua=mailto:dmarc@fwber.me` |
+| TXT | `_dmarc` | `v=DMARC1; p=none; rua=mailto:dmarc@fwber.site` |
 
 ## How to Add These Records
 
@@ -41,10 +41,10 @@
 
 ## Verify After Adding
 ```bash
-dig MX fwber.me +short          # Should show: 10 mail.fwber.me
-dig TXT fwber.me +short         # Should show: v=spf1 ip4:5.161.250.43 ~all
-dig TXT default._domainkey.fwber.me +short  # Should show DKIM key
-dig TXT _dmarc.fwber.me +short  # Should show: v=DMARC1; p=none; ...
+dig MX fwber.site +short          # Should show: 10 mail.fwber.site
+dig TXT fwber.site +short         # Should show: v=spf1 ip4:5.161.250.43 ~all
+dig TXT default._domainkey.fwber.site +short  # Should show DKIM key
+dig TXT _dmarc.fwber.site +short  # Should show: v=DMARC1; p=none; ...
 ```
 
 ## Test Email Delivery
@@ -53,7 +53,7 @@ After DNS propagates, register a new account and check if the verification email
 ## Alternative: Resend.com (Recommended for Production)
 If DNS setup is complex, use Resend.com (free 100 emails/day):
 1. Sign up at https://resend.com
-2. Add domain fwber.me in Resend dashboard
+2. Add domain fwber.site in Resend dashboard
 3. Add the DNS records Resend provides
 4. Add `RESEND_API_KEY=re_xxx` to the backend `.env`
 5. Restart: `pm2 restart fwber-backend-ts`

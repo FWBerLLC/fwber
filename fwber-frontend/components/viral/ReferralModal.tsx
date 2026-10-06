@@ -68,7 +68,7 @@ export function ReferralModal({ trigger }: ReferralModalProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<'invite' | 'vouch'>('invite');
 
-  const origin = typeof window !== 'undefined' ? window.location.origin : (process.env.NEXT_PUBLIC_APP_URL || 'https://fwber.me');
+  const origin = typeof window !== 'undefined' ? window.location.origin : (process.env.NEXT_PUBLIC_APP_URL || 'https://fwber.site');
 
   const { data: summary, isLoading } = useQuery({
     queryKey: ['referral-summary'],

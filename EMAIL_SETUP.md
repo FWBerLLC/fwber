@@ -7,7 +7,7 @@
 
 ## Option 1: Fix DreamHost SMTP (Quickest)
 1. Log into DreamHost panel → Mail → Manage Email
-2. Reset password for `notifications@fwber.me` 
+2. Reset password for `notifications@fwber.site` 
 3. Update the password on the server:
    ```bash
    ssh root@5.161.250.43
@@ -17,12 +17,12 @@
 
 ## Option 2: Set up Resend (Recommended — Free 100 emails/day)
 1. Sign up at https://resend.com
-2. Add your domain `fwber.me` in the Resend dashboard
+2. Add your domain `fwber.site` in the Resend dashboard
 3. Add the DNS records Resend provides (through Vercel DNS panel):
    - Go to https://vercel.com → fwber project → Settings → Domains → DNS
-   - Add SPF TXT record for `fwber.me`
+   - Add SPF TXT record for `fwber.site`
    - Add DKIM CNAME record 
-   - Add DMARC TXT record for `_dmarc.fwber.me`
+   - Add DMARC TXT record for `_dmarc.fwber.site`
 4. Get your API key from Resend dashboard
 5. Add it to the server:
    ```bash

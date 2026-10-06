@@ -24,7 +24,7 @@ NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_...
 ## 2. Stripe Webhook Registration
 1. Log into the Stripe Dashboard.
 2. Navigate to **Developers > Webhooks**.
-3. Add a new endpoint: `https://api.fwber.me/api/stripe/webhook`
+3. Add a new endpoint: `https://api.fwber.site/api/stripe/webhook`
 4. Select the following events to listen to:
    - `payment_intent.succeeded`
    - `customer.subscription.created`

@@ -23,7 +23,7 @@ This document evaluates the active logical packages (formerly submodules) within
   - Native Push Notification forwarding.
   - Native Location permissions.
 - **Status**: **ACTIVE COMPONENT**. Provides the essential native bridge for hardware features (NFC) that PWA cannot yet handle with 100% reliability across iOS/Android.
-- **Implementation**: Fully functional Expo app pointing to `fwber.me`.
+- **Implementation**: Fully functional Expo app pointing to `fwber.site`.
 
 ## 4. ARCHIVE_v1_8_php_legacy
 - **Features**: Retired Laravel backend, old migration scripts, and stress tests.

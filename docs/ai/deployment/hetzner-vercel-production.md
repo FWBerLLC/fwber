@@ -12,17 +12,17 @@ This document captures the production topology now recommended for fwber after t
 
 ### Vercel
 Hosts:
-- `fwber.me`
-- `www.fwber.me`
+- `fwber.site`
+- `www.fwber.site`
 
 Role:
 - Next.js frontend only
 
 ### Hetzner VPS
 Hosts:
-- `api.fwber.me` → Laravel backend
-- `ws.fwber.me` → Reverb websocket server
-- `geo.fwber.me` → Rust geo service
+- `api.fwber.site` → Laravel backend
+- `ws.fwber.site` → Reverb websocket server
+- `geo.fwber.site` → Rust geo service
 
 Role:
 - API
@@ -55,11 +55,11 @@ This minimum can work, but may require resizing sooner if realtime traffic, buil
 ## 3. DNS
 
 Create records:
-- `fwber.me` → Vercel
-- `www.fwber.me` → Vercel
-- `api.fwber.me` → Hetzner VPS IP
-- `ws.fwber.me` → Hetzner VPS IP
-- `geo.fwber.me` → Hetzner VPS IP
+- `fwber.site` → Vercel
+- `www.fwber.site` → Vercel
+- `api.fwber.site` → Hetzner VPS IP
+- `ws.fwber.site` → Hetzner VPS IP
+- `geo.fwber.site` → Hetzner VPS IP
 
 ## 4. Services on the VPS
 
@@ -92,17 +92,17 @@ Copy-ready templates now exist in:
 
 ### Vercel frontend env
 ```env
-NEXT_PUBLIC_APP_URL=https://fwber.me
-NEXT_PUBLIC_API_URL=https://api.fwber.me
-NEXT_PUBLIC_REVERB_HOST=ws.fwber.me
+NEXT_PUBLIC_APP_URL=https://fwber.site
+NEXT_PUBLIC_API_URL=https://api.fwber.site
+NEXT_PUBLIC_REVERB_HOST=ws.fwber.site
 NEXT_PUBLIC_REVERB_SCHEME=https
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_...
 ```
 
 ### Backend env
 ```env
-APP_URL=https://api.fwber.me
-FRONTEND_URL=https://fwber.me
+APP_URL=https://api.fwber.site
+FRONTEND_URL=https://fwber.site
 QUEUE_CONNECTION=redis
 CACHE_STORE=redis
 SESSION_DRIVER=redis
@@ -110,7 +110,7 @@ PAYMENT_DRIVER=stripe
 STRIPE_SECRET=sk_live_...
 STRIPE_WEBHOOK_SECRET=whsec_...
 GEO_SCREENER_ENABLED=true
-GEO_SCREENER_URL=https://geo.fwber.me
+GEO_SCREENER_URL=https://geo.fwber.site
 ```
 
 ## 7. Deployment Order
@@ -122,9 +122,9 @@ Copy-ready bootstrap and deploy scripts now exist in:
 - timestamped smoke-check reports under `logs/deploy-reports/` when `FWBER_RUN_SMOKE_CHECK=1`
 
 Nginx virtual host templates exist in:
-- `ops/hetzner/nginx/api.fwber.me.conf`
-- `ops/hetzner/nginx/ws.fwber.me.conf`
-- `ops/hetzner/nginx/geo.fwber.me.conf`
+- `ops/hetzner/nginx/api.fwber.site.conf`
+- `ops/hetzner/nginx/ws.fwber.site.conf`
+- `ops/hetzner/nginx/geo.fwber.site.conf`
 
 
 1. Provision Hetzner VPS

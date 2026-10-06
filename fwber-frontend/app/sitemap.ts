@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://fwber.me'
+  const baseUrl = 'https://fwber.site'
   const now = new Date()
 
   // ── High-priority public pages ──

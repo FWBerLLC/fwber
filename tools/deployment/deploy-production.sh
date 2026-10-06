@@ -1,17 +1,17 @@
 #!/bin/bash
 
-# fwber.me Production Deployment Script
+# fwber.site Production Deployment Script
 # Based on Multi-AI Consensus Recommendations
 
 set -e
 
-echo "🚀 Starting fwber.me Production Deployment..."
+echo "🚀 Starting fwber.site Production Deployment..."
 
 # Configuration
 APP_NAME="fwber"
 BACKUP_DIR="/backups/fwber"
 DEPLOY_DIR="/var/www/fwber"
-REPO_URL="https://github.com/yourusername/fwber.git"
+REPO_URL="https://github.com/FWBerLLC/fwber.git"
 BRANCH="main"
 
 # Colors for output
@@ -197,7 +197,7 @@ performance_check() {
 
 # Main deployment function
 main() {
-    log "Starting fwber.me production deployment..."
+    log "Starting fwber.site production deployment..."
     
     # Pre-deployment checks
     if ! command -v docker &> /dev/null; then
@@ -225,7 +225,7 @@ main() {
     # Performance validation
     performance_check
     
-    success "🎉 fwber.me deployment completed successfully!"
+    success "🎉 fwber.site deployment completed successfully!"
     log "Services are running on:"
     log "  - Frontend: http://localhost:3000"
     log "  - Backend API: http://localhost:8000"

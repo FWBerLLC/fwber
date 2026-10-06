@@ -72,7 +72,7 @@ interface AuthContextType extends AuthState {
   updateUser: (user: User) => void
 }
 
-const BROWSER_API_BASE_URL = 'https://api.fwber.me/api'
+const BROWSER_API_BASE_URL = 'https://api.fwber.site/api'
 
 function isTransientAuthResponse(status: number): boolean {
   return status >= 500 || status === 429
@@ -444,7 +444,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // API base URL - Ensure relative /api in browser for proxying
   const API_BASE_URL = typeof window !== 'undefined' 
     ? '/api' 
-    : (process.env.NEXT_PUBLIC_API_URL || 'https://api.fwber.me/api');
+    : (process.env.NEXT_PUBLIC_API_URL || 'https://api.fwber.site/api');
 
 
   // Login function

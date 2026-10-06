@@ -16,7 +16,7 @@ export const authOptions: NextAuthOptions = {
         }
 
         try {
-          const apiBaseUrl = process.env.API_BASE_URL || process.env.NEXT_PUBLIC_API_URL || 'https://api.fwber.me/api';
+          const apiBaseUrl = process.env.API_BASE_URL || process.env.NEXT_PUBLIC_API_URL || 'https://api.fwber.site/api';
           const response = await axios.post(`${apiBaseUrl}/auth/login`, {
             email: credentials.email,
             password: credentials.password,

@@ -1,6 +1,6 @@
 [PROJECT_MEMORY]
 
-## fwber (fwber.me) - Project Architecture & Memory Summary
+## fwber (fwber.site) - Project Architecture & Memory Summary
 
 ### 1. Project Vision & Philosophy
 **fwber** is an open-source, privacy-first proximity social and dating platform evolving into a "Local Social Economy."

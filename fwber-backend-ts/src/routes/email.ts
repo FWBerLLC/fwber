@@ -35,7 +35,7 @@ router.post('/verification-notification', authenticate, async (req: any, res) =>
       // Return success so the frontend doesn't show an error.
       // The verification URL is logged to server console for manual use.
       console.log('[Email Route] Verification URL for %s: %s/verify?token=%s',
-        user.email, process.env.FRONTEND_URL || 'https://www.fwber.me', token);
+        user.email, process.env.FRONTEND_URL || 'https://www.fwber.site', token);
       res.json({
         message: 'Verification email queued. If you don\'t receive it within a few minutes, please check your spam folder or contact support.',
       });

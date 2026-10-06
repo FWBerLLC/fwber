@@ -96,8 +96,8 @@ setupSocketIO(httpServer);
 // Middleware
 app.use(cors({
   origin: [
-    'https://www.fwber.me',
-    'https://fwber.me',
+    'https://www.fwber.site',
+    'https://fwber.site',
     'http://localhost:3000',
   ],
   credentials: true,
@@ -110,9 +110,9 @@ app.use(helmet({
       defaultSrc: ["'self'"],
       scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://unpkg.com"],
       styleSrc: ["'self'", "'unsafe-inline'", "https://unpkg.com", "https://fonts.googleapis.com"],
-      imgSrc: ["'self'", "data:", "blob:", "https://*.tile.openstreetmap.org", "https://unpkg.com", "https://*.fwber.me", "https://*.cloudinary.com"],
+      imgSrc: ["'self'", "data:", "blob:", "https://*.tile.openstreetmap.org", "https://unpkg.com", "https://*.fwber.site", "https://*.cloudinary.com"],
       fontSrc: ["'self'", "https://fonts.gstatic.com"],
-      connectSrc: ["'self'", "https://*.fwber.me", "https://openrouter.ai", "https://api.openai.com"],
+      connectSrc: ["'self'", "https://*.fwber.site", "https://openrouter.ai", "https://api.openai.com"],
     },
   },
 }));
@@ -232,12 +232,12 @@ app.get('/.well-known/webfinger', async (req, res) => {
     }
 
     res.json({
-      subject: `acct:${user.name}@fwber.me`,
+      subject: `acct:${user.name}@fwber.site`,
       links: [
         {
           rel: 'self',
           type: 'application/activity+json',
-          href: `https://api.fwber.me/api/federation/actors/${user.id}`
+          href: `https://api.fwber.site/api/federation/actors/${user.id}`
         }
       ]
     });

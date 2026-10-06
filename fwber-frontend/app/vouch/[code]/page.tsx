@@ -10,7 +10,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   const code = params.code
 
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.fwber.me/api'
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.fwber.site/api'
     const res = await fetch(`${apiUrl}/auth/referral/${code}`, { next: { revalidate: 60 } })
 
     if (res.ok) {

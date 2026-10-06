@@ -41,7 +41,7 @@ export default function LeaderboardPage() {
 
   const handleShare = async () => {
     const rank = data?.my_rank || '?'
-    const text = `🏆 I'm ranked #${rank} on the fwber leaderboard! Join Detroit's hottest privacy-first dating platform. fwber.me #fwber #detroit`
+    const text = `🏆 I'm ranked #${rank} on the fwber leaderboard! Join Detroit's hottest privacy-first dating platform. fwber.site #fwber #detroit`
     if (navigator.share) {
       try { await navigator.share({ title: 'fwber Leaderboard', text, url: window.location.origin }) } catch {}
     } else {

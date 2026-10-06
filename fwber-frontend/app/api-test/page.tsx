@@ -17,7 +17,7 @@ export default function ApiTestPage() {
     try {
       addResult('Testing backend connection...');
       
-      const apiUrl = typeof window !== 'undefined' ? '/api' : (process.env.NEXT_PUBLIC_API_URL || 'https://api.fwber.me/api');
+      const apiUrl = typeof window !== 'undefined' ? '/api' : (process.env.NEXT_PUBLIC_API_URL || 'https://api.fwber.site/api');
       addResult(`API URL: ${apiUrl}`);
       
       addResult('Testing backend health...');
@@ -78,7 +78,7 @@ export default function ApiTestPage() {
           <div className="space-y-4">
             <div className="p-4 bg-purple-50 rounded-lg">
               <p className="font-semibold">API Base URL:</p>
-              <p className="text-sm text-gray-600">{process.env.NEXT_PUBLIC_API_URL || 'https://api.fwber.me/api'}</p>
+              <p className="text-sm text-gray-600">{process.env.NEXT_PUBLIC_API_URL || 'https://api.fwber.site/api'}</p>
             </div>
           </div>
           

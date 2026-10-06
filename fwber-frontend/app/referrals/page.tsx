@@ -31,7 +31,7 @@ interface ReferralSummary {
 
 export default function ReferralsPage() {
   const { user } = useAuth();
-  const origin = typeof window !== 'undefined' ? window.location.origin : (process.env.NEXT_PUBLIC_APP_URL || 'https://fwber.me');
+  const origin = typeof window !== 'undefined' ? window.location.origin : (process.env.NEXT_PUBLIC_APP_URL || 'https://fwber.site');
 
   const { data: summary, isLoading } = useQuery({
     queryKey: ['referrals-page-summary'],

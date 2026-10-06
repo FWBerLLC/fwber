@@ -347,7 +347,7 @@ export default function LandingVariantA() {
               <span className="text-sm text-gray-500">© 2026 fwber</span>
             </div>
             <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-500">
-              {[{ href: '/privacy', label: 'Privacy' }, { href: '/terms', label: 'Terms' }, { href: '/contact', label: 'Contact' }, { href: 'https://github.com/robertpelloni/fwber', label: 'GitHub' }].map((link) => (
+              {[{ href: '/privacy', label: 'Privacy' }, { href: '/terms', label: 'Terms' }, { href: '/contact', label: 'Contact' }, { href: 'https://github.com/FWBerLLC/fwber', label: 'GitHub' }].map((link) => (
                 <Link key={link.label} href={link.href} {...(link.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                   className="transition-all hover:text-purple-500 dark:hover:text-purple-400">{link.label}</Link>
               ))}

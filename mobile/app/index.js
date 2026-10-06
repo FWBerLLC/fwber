@@ -6,7 +6,7 @@ import * as Location from 'expo-location';
 import * as Notifications from 'expo-notifications';
 import NfcManager, { NfcTech, Ndef } from 'react-native-nfc-manager';
 
-const TARGET_DOMAIN = 'fwber.me';
+const TARGET_DOMAIN = 'fwber.site';
 
 // Configure notification behavior
 Notifications.setNotificationHandler({

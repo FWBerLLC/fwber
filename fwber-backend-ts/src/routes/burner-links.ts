@@ -14,7 +14,7 @@ router.get('/', async (req: any, res) => {
       orderBy: { created_at: 'desc' }, take: 20,
       include: { users_burner_links_scanner_idTousers: { select: { id: true, name: true, user_profiles: { select: { display_name: true, avatar_url: true } } } } }
     });
-    const fe = process.env.FRONTEND_URL || 'https://www.fwber.me';
+    const fe = process.env.FRONTEND_URL || 'https://www.fwber.site';
     const data = links.map((l: any) => {
       const s = l.users_burner_links_scanner_idTousers;
       const sp = Array.isArray(s?.user_profiles) ? s.user_profiles[0] : s?.user_profiles;
@@ -37,7 +37,7 @@ router.post('/', async (req: any, res) => {
     const link = await prisma.burner_links.create({
       data: { creator_id: BigInt(req.user.id), token, expires_at: new Date(Date.now() + hours * 3600000) }
     });
-    const fe = process.env.FRONTEND_URL || 'https://www.fwber.me';
+    const fe = process.env.FRONTEND_URL || 'https://www.fwber.site';
     res.status(201).json({ id: Number(link.id), token: link.token, url: `${fe}/burner/join/${link.token}`, expires_at: link.expires_at, created_at: link.created_at, message: 'Share this link for a private conversation' });
   } catch (err: any) { res.status(500).json({ error: "Failed to create burner link", details: err.message }); }
 });

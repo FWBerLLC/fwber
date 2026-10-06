@@ -9,7 +9,7 @@ router.get('/roast', (_req, res) => {
   res.json({
     roast: 'Your profile gives off "I still use Internet Explorer" energy. But hey, at least you showed up! Create a profile for a personalized roast.',
     is_preview: true,
-    cta: 'Create a profile at fwber.me for a personalized roast',
+    cta: 'Create a profile at fwber.site for a personalized roast',
   });
 });
 
@@ -38,7 +38,7 @@ router.post('/roast', async (req, res) => {
       });
     } catch {}
 
-    res.json({ roast: finalRoast, is_preview: !roast, cta: 'Create your own profile at fwber.me', share_id: shareId });
+    res.json({ roast: finalRoast, is_preview: !roast, cta: 'Create your own profile at fwber.site', share_id: shareId });
   } catch (err: any) {
     console.error('[public/roast]', err.message);
     const name = (req.body || {}).name || 'you';

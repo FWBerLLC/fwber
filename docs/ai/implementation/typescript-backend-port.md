@@ -18,7 +18,7 @@ The backend has been migrated from a legacy PHP/Laravel architecture to a modern
 - **Service Layer**: Rewritten core logic (Matching, Geo-screening, ZK-ID, Tokens) in TypeScript.
 
 ## Frontend Integration
-- The frontend `apiClient` now defaults to `http://localhost:4000` (development) or `https://api.fwber.me/api` (production).
+- The frontend `apiClient` now defaults to `http://localhost:4000` (development) or `https://api.fwber.site/api` (production).
 - The `useWebSocket` hook has been refactored to use `socket.io-client` while maintaining the existing API for UI components.
 
 ## Deployment

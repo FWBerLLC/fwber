@@ -8,7 +8,7 @@ echo "🚀 Starting fwber-backend-ts deployment..."
 
 # Configuration (Replace with actual server details or use environment variables)
 REMOTE_USER=${REMOTE_USER:-"root"}
-REMOTE_HOST=${REMOTE_HOST:-"api.fwber.me"}
+REMOTE_HOST=${REMOTE_HOST:-"api.fwber.site"}
 REMOTE_PATH=${REMOTE_PATH:-"/var/www/fwber-backend-ts"}
 
 # 1. Build locally

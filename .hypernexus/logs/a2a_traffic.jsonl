@@ -1,0 +1,2 @@
+{"id":"cap-req-go-coder-1791316660989","timestamp":1791316660989,"sender":"BROKER","recipient":"go-coder","type":"STATE_UPDATE","payload":{"action":"REPORT_CAPABILITIES"}}
+{"id":"hb-go-coder-1791316676051","timestamp":1791316676051,"sender":"go-coder","type":"HEARTBEAT","payload":{}}

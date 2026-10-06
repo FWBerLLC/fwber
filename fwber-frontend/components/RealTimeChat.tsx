@@ -224,7 +224,7 @@ export default function RealTimeChat({
 	}, [currentNudges]);
 
 	const { loadConversationHistory, connectionStatus } = useWebSocket();
-  const BACKEND_URL = (process.env.NEXT_PUBLIC_API_URL || 'https://api.fwber.me').replace('/api', '');
+  const BACKEND_URL = (process.env.NEXT_PUBLIC_API_URL || 'https://api.fwber.site').replace('/api', '');
 
 	useEffect(() => {
 		setIsConnected(connectionStatus.connected);

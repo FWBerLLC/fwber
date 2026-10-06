@@ -10,7 +10,7 @@ export default async function SharePage(props: { params: Promise<{ id: string }>
 // Generate dynamic metadata for social sharing
 export async function generateMetadata(props: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const params = await props.params;
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.fwber.me/api';
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.fwber.site/api';
   
   try {
     const res = await fetch(`${apiUrl}/viral-content/${params.id}`);

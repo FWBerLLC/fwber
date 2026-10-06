@@ -302,7 +302,7 @@ export default function AvatarGenerationFlow({
     if (!user?.referral_code) return
     const text = encodeURIComponent('Check out my AI Avatar on @fwber! Sign up for 50 free tokens:')
     const url = encodeURIComponent(
-      `${process.env.NEXT_PUBLIC_APP_URL || 'https://fwber.me'}/?ref=${user.referral_code}`
+      `${process.env.NEXT_PUBLIC_APP_URL || 'https://fwber.site'}/?ref=${user.referral_code}`
     )
     window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank')
   }
@@ -785,7 +785,7 @@ export default function AvatarGenerationFlow({
                           >
                             <Image
                               src={`${(
-                                process.env.NEXT_PUBLIC_API_URL || 'https://api.fwber.me'
+                                process.env.NEXT_PUBLIC_API_URL || 'https://api.fwber.site'
                               ).replace('/api', '')}/storage/${photo.file_path || photo.filename}`}
                               alt="Your photo"
                               fill

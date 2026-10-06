@@ -21,7 +21,7 @@ Each diagnostic contains:
 - remediation guidance
 
 ## Current Heuristics
-### 1. Backend route drift on `api.fwber.me`
+### 1. Backend route drift on `api.fwber.site`
 Triggered when:
 - `/api/health`
 - `/api/health/liveness`
@@ -37,7 +37,7 @@ Triggered when:
 - the body contains `deployment could not be found on Vercel`
 
 Interpretation:
-- DNS or proxy routing for `geo.fwber.me` is still wrong for the intended Hetzner topology
+- DNS or proxy routing for `geo.fwber.site` is still wrong for the intended Hetzner topology
 
 ### 3. Authenticated smoke coverage incomplete
 Triggered when premium / merchant / moderation checks are skipped for missing bearer tokens.

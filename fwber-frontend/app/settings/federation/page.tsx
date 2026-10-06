@@ -201,7 +201,7 @@ export default function FederationSettingsPage() {
         }
     };
 
-    const federatedHandle = user?.email ? `@${user.email.split('@')[0]}@api.fwber.me` : '';
+    const federatedHandle = user?.email ? `@${user.email.split('@')[0]}@api.fwber.site` : '';
     const followedActorIds = new Set(following.map((connection) => connection.actor_uri));
 
     const copyFederatedHandle = async () => {

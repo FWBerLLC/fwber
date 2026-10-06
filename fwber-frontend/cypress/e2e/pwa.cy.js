@@ -2,7 +2,7 @@ describe('PWA Verification', () => {
   it('should have a valid manifest.json', () => {
     cy.request('/manifest.json').then((response) => {
       expect(response.status).to.eq(200);
-      expect(response.body).to.have.property('name', 'fwber.me — Adult Dating Platform');
+      expect(response.body).to.have.property('name', 'fwber.site — Adult Dating Platform');
       expect(response.body).to.have.property('short_name', 'fwber');
       expect(response.body).to.have.property('display', 'standalone');
       expect(response.body).to.have.property('start_url', '/');

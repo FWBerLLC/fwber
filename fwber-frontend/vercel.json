@@ -3,12 +3,12 @@
   "installCommand": "npm install",
   "framework": "nextjs",
   "env": {
-    "NEXT_PUBLIC_API_URL": "https://api.fwber.me",
-    "NEXT_PUBLIC_WS_URL": "wss://api.fwber.me",
-    "NEXT_PUBLIC_REVERB_HOST": "ws.fwber.me",
+    "NEXT_PUBLIC_API_URL": "https://api.fwber.site",
+    "NEXT_PUBLIC_WS_URL": "wss://api.fwber.site",
+    "NEXT_PUBLIC_REVERB_HOST": "ws.fwber.site",
     "NEXT_PUBLIC_REVERB_PORT": "443",
     "NEXT_PUBLIC_REVERB_SCHEME": "https",
-    "NEXT_PUBLIC_APP_URL": "https://fwber.me"
+    "NEXT_PUBLIC_APP_URL": "https://fwber.site"
   },
   "regions": [
     "iad1"

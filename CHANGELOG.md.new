@@ -246,7 +246,7 @@ All notable changes to this project will be documented in this file.
 ## [1.8.53] - 2026-04-08 — WebSocket Production Default Fix
 
 ### Fixed
-- **Critical: WebSocket fallback for production**: When `NEXT_PUBLIC_REVERB_*` env vars are not explicitly set in production, the echo client no longer returns `null` (disabled). Instead it falls back to `api.fwber.me:8080` with TLS — the correct production Reverb server.
+- **Critical: WebSocket fallback for production**: When `NEXT_PUBLIC_REVERB_*` env vars are not explicitly set in production, the echo client no longer returns `null` (disabled). Instead it falls back to `api.fwber.site:8080` with TLS — the correct production Reverb server.
 - This fixes the case where Vercel environment variables are missing but the WebSocket server is still running.
 
 ### Impact
@@ -257,8 +257,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 - **CSP header tightened**: Replaced permissive `frame-ancestors *` with full Content Security Policy restricting script, style, image, font, connect, frame, and media sources to known-good origins.
-- **Image remote patterns**: Replaced wildcard `hostname: '**'` with explicit list of allowed image sources (fwber.me, AWS S3, CloudFront, DALL-E, Google APIs).
-- **DNS prefetch**: Changed from `localhost` to `api.fwber.me` in root layout for production performance.
+- **Image remote patterns**: Replaced wildcard `hostname: '**'` with explicit list of allowed image sources (fwber.site, AWS S3, CloudFront, DALL-E, Google APIs).
+- **DNS prefetch**: Changed from `localhost` to `api.fwber.site` in root layout for production performance.
 
 ### Impact
 - Reduced XSS/CSRF attack surface through proper CSP.
@@ -344,7 +344,7 @@ All notable changes to this project will be documented in this file.
 - **Custom RPC endpoint support**: Added `NEXT_PUBLIC_SOLANA_RPC_URL` env var for using a dedicated RPC provider (e.g., Helius, QuickNode) instead of the rate-limited public endpoint.
 
 ### Changed
-- Updated `.env.example` `MAIL_FROM_ADDRESS` from `hello@example.com` to `noreply@fwber.me`.
+- Updated `.env.example` `MAIL_FROM_ADDRESS` from `hello@example.com` to `noreply@fwber.site`.
 
 ### Impact
 - Solana wallet operations (login, payments, token transfers) will now work on Mainnet in production instead of silently connecting to Devnet.
@@ -422,7 +422,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 - **Critical: Broadcasting driver default changed from `null` to `reverb`** — Previously, if `BROADCAST_DRIVER` was not set in production `.env`, all 19 `ShouldBroadcast` events (messages, matches, notifications, audio rooms, etc.) were silently discarded instead of being sent to connected WebSocket clients.
-- **Reverb WebSocket origin restriction** — Changed `allowed_origins` from `*` to explicit origin list (`fwber.me`, `www.fwber.me`, `localhost:3000`), matching the CORS configuration.
+- **Reverb WebSocket origin restriction** — Changed `allowed_origins` from `*` to explicit origin list (`fwber.site`, `www.fwber.site`, `localhost:3000`), matching the CORS configuration.
 
 ### Changed
 - External link safety: Added `rel="noopener noreferrer"` to all `target="_blank"` links.
@@ -526,7 +526,7 @@ All notable changes to this project will be documented in this file.
 - Added `GET api/photos/settings` endpoint returning upload constraints (max photos, formats, quality).
 
 ### Fixed
-- **CORS credentials+wildcard mismatch**: Changed `allowed_origins` from `*` to explicit origin list (`fwber.me`, `www.fwber.me`, `localhost:3000`) so `supports_credentials: true` works correctly in browsers.
+- **CORS credentials+wildcard mismatch**: Changed `allowed_origins` from `*` to explicit origin list (`fwber.site`, `www.fwber.site`, `localhost:3000`) so `supports_credentials: true` works correctly in browsers.
 - Added `PATCH` to CORS `allowed_methods` for routes like `scrapbook/{id}/pin`.
 - Fixed stale "DreamHost" reference in frontend API client comment and Next.js config header comment.
 
@@ -629,7 +629,7 @@ All notable changes to this project will be documented in this file.
 - Defined next-phase milestones for growth and performance tuning.
 
 ### Verified
-- `api.fwber.me` fully healthy and scheduled.
+- `api.fwber.site` fully healthy and scheduled.
 - Reverb websocket signal is live on dashboard.
 - Mainline 100% feature-complete.
 
@@ -698,7 +698,7 @@ All notable changes to this project will be documented in this file.
 
 ### Verified
 - `npm run build --prefix fwber-frontend` completed successfully.
-- Verified `api.fwber.me/api/health` reports status "Healthy" on v1.8.16.
+- Verified `api.fwber.site/api/health` reports status "Healthy" on v1.8.16.
 
 ## [1.8.16] - 2026-04-07 — Gamification & Physical-Match Surfacing
 
@@ -769,7 +769,7 @@ All notable changes to this project will be documented in this file.
 - Updated `TODO.md` to reflect the promotion of the restore branch to mainline and the successful verification of the `NodeInfo` fix.
 
 ### Verified
-- Confirmed `api.fwber.me/nodeinfo/2.0` and `api.fwber.me/api/health` return correct versioned data (`1.8.11` at time of check).
+- Confirmed `api.fwber.site/nodeinfo/2.0` and `api.fwber.site/api/health` return correct versioned data (`1.8.11` at time of check).
 - Confirmed Hetzner services (reverb, queue, geo) are all active and running.
 
 ## [1.8.11] - 2026-04-06 — Rewind Shell Product-Map Consistency
@@ -1082,7 +1082,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 - Hardened `NodeInfoController` so `/.well-known/nodeinfo` and `/nodeinfo/2.0` degrade safely on drifted production schemas instead of crashing when optional columns like `users.last_active_at` or `user_profiles.is_federated` are absent.
-- Strengthened the Hetzner nginx source config for `api.fwber.me` with an explicit `location ^~ /.well-known/` block so discovery routes are not accidentally trapped by hidden-file protections.
+- Strengthened the Hetzner nginx source config for `api.fwber.site` with an explicit `location ^~ /.well-known/` block so discovery routes are not accidentally trapped by hidden-file protections.
 - Added discovery-route regression coverage for NodeInfo in `PublicWebRoutesTest`.
 
 ### Verified
@@ -1092,7 +1092,7 @@ All notable changes to this project will be documented in this file.
 ## [1.6.5] - 2026-04-04 — Hetzner Backend Stability Repair
 
 ### Fixed
-- Replaced the broken backend root web route that rendered a non-existent `welcome` view with a lightweight JSON status payload, eliminating the live `api.fwber.me/` root-route 500 caused by missing view templates.
+- Replaced the broken backend root web route that rendered a non-existent `welcome` view with a lightweight JSON status payload, eliminating the live `api.fwber.site/` root-route 500 caused by missing view templates.
 - Added `WebFingerController` so the public discovery routes no longer point at a missing class, restoring `php artisan route:list` and preventing route-cache/tooling breakage in production.
 - Hardened `DashboardController` so dashboard stats and activity degrade gracefully when `user_matches` is missing from a drifted production database instead of throwing production 500s.
 - Fixed a latent PHP 8.4 type bug in dashboard activity where the `limit` query string could remain a string and crash `array_slice()`.
@@ -1142,10 +1142,10 @@ All notable changes to this project will be documented in this file.
 ## [1.5.9] - 2026-04-04 — Live Dashboard API + Realtime Recovery
 
 ### Fixed
-- Corrected the browser API base handling so authenticated frontend requests go to `https://api.fwber.me/api/...` instead of incorrectly hitting Vercel-relative `/api/...` paths like `https://www.fwber.me/api/dashboard/stats`.
+- Corrected the browser API base handling so authenticated frontend requests go to `https://api.fwber.site/api/...` instead of incorrectly hitting Vercel-relative `/api/...` paths like `https://www.fwber.site/api/dashboard/stats`.
 - Restored missing backend routes for `/api/dashboard/stats` and `/api/dashboard/activity`, eliminating the live dashboard 404 spam.
 - Hardened `DashboardController` to tolerate simplified/drifted databases where `profile_views` may not exist, returning zero values instead of throwing a production error.
-- Hardened realtime client defaults so the live fwber frontend can fall back to `ws.fwber.me` and the correct API broadcast-auth origin when Vercel env drift leaves Reverb config incomplete.
+- Hardened realtime client defaults so the live fwber frontend can fall back to `ws.fwber.site` and the correct API broadcast-auth origin when Vercel env drift leaves Reverb config incomplete.
 - Added backend coverage for the dashboard endpoints via `DashboardEndpointsTest`.
 
 ## [1.5.8] - 2026-04-04 — Restored Feature Navigation Surface
@@ -1166,7 +1166,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 - Corrected the websocket smoke probe in `ops/hetzner/scripts/smoke-check.sh` to use a valid RFC-compliant `Sec-WebSocket-Key`, fixing the live Hetzner smoke-check failure where the websocket endpoint was healthy but the probe itself produced `400 Invalid Sec-WebSocket-Key`.
-- This turns the public smoke run from a false-negative websocket failure into a valid handshake test against `ws.fwber.me`.
+- This turns the public smoke run from a false-negative websocket failure into a valid handshake test against `ws.fwber.site`.
 
 ## [1.5.5] - 2026-04-04 — Deploy Script Privilege Hardening
 
@@ -1219,7 +1219,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Smoke-check reports now connect hostname resolution with HTTP responder fingerprints, making live routing drift easier to prove without extra manual DNS commands.
-- Re-ran the public smoke check and confirmed concrete host mappings: `api.fwber.me` resolves to `75.119.202.57`, while `geo.fwber.me` currently resolves to `216.198.79.65|64.29.17.1`, reinforcing the geo-domain drift diagnosis.
+- Re-ran the public smoke check and confirmed concrete host mappings: `api.fwber.site` resolves to `75.119.202.57`, while `geo.fwber.site` currently resolves to `216.198.79.65|64.29.17.1`, reinforcing the geo-domain drift diagnosis.
 
 ## [1.5.0] - 2026-04-04 — Endpoint Fingerprints & Host Signals
 
@@ -1230,7 +1230,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Hardened snapshot logging by normalizing empty values to `—`, preventing Bash field-parsing drift when optional headers like `Location` are absent.
-- Re-ran the public smoke check and confirmed the live environment is now fingerprinted more concretely: `api.fwber.me` health-route failures come back from **Apache** at `75.119.202.57`, while `geo.fwber.me` failures come back from **Vercel** at `64.29.17.1`.
+- Re-ran the public smoke check and confirmed the live environment is now fingerprinted more concretely: `api.fwber.site` health-route failures come back from **Apache** at `75.119.202.57`, while `geo.fwber.site` failures come back from **Vercel** at `64.29.17.1`.
 
 ## [1.4.9] - 2026-04-04 — Smoke Check Diagnostics & Remediation Hints
 
@@ -1239,10 +1239,10 @@ All notable changes to this project will be documented in this file.
 - Added AI DevKit implementation/testing notes for the diagnostics layer under `docs/ai/implementation/smoke-check-diagnostics-and-remediation.md` and `docs/ai/testing/smoke-check-diagnostics-and-remediation.md`.
 
 ### Changed
-- Smoke-check reports now translate common failure patterns into concrete next steps, including stale backend route detection on `api.fwber.me`, geo-domain drift pointing at Vercel, incomplete authenticated smoke coverage, and “partial health” narrowing hints when only selected public surfaces fail.
+- Smoke-check reports now translate common failure patterns into concrete next steps, including stale backend route detection on `api.fwber.site`, geo-domain drift pointing at Vercel, incomplete authenticated smoke coverage, and “partial health” narrowing hints when only selected public surfaces fail.
 
 ### Verified
-- Re-ran the smoke-check script against the currently reachable public domains and confirmed the new diagnostics correctly identified backend route drift on `/api/health*`, `geo.fwber.me` misrouting, incomplete authenticated coverage, and the fact that auth error handling + public roast preview remain healthy.
+- Re-ran the smoke-check script against the currently reachable public domains and confirmed the new diagnostics correctly identified backend route drift on `/api/health*`, `geo.fwber.site` misrouting, incomplete authenticated coverage, and the fact that auth error handling + public roast preview remain healthy.
 
 ## [1.4.8] - 2026-04-04 — Smoke Check Report Artifacts & Live Drift Detection
 
@@ -1256,7 +1256,7 @@ All notable changes to this project will be documented in this file.
 - Updated deployment docs to describe the new report artifact paths and how to use them during Hetzner cutover.
 
 ### Verified
-- Ran the smoke-check script against the currently reachable public deployment targets with report generation enabled and discovered live-environment drift: `/api/health*` is still returning `404` on `api.fwber.me`, while `geo.fwber.me/nearby` currently returns a Vercel `404 deployment could not be found` response.
+- Ran the smoke-check script against the currently reachable public deployment targets with report generation enabled and discovered live-environment drift: `/api/health*` is still returning `404` on `api.fwber.site`, while `geo.fwber.site/nearby` currently returns a Vercel `404 deployment could not be found` response.
 - Confirmed the current public contract still passes invalid-login (`422`) and public roast preview (`200`) checks, which narrows the live deployment gap to specific routing/domain alignment issues rather than a total outage.
 
 ## [1.4.7] - 2026-04-04 — Hetzner Post-Deploy Smoke Checks
@@ -1798,7 +1798,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 - Replaced remaining dashboard widget calls that still bypassed the shared authenticated API client for stats, leaderboard, activity, profile completeness, and boosts.
 - Gated achievements and related protected dashboard widgets so they do not fire unauthenticated requests during auth initialization.
-- Reduced stray direct browser requests to `api.fwber.me` that were still producing unauthenticated and network-noise logs after the earlier production fixes.
+- Reduced stray direct browser requests to `api.fwber.site` that were still producing unauthenticated and network-noise logs after the earlier production fixes.
 
 ## [1.0.8] - 2026-04-01 — Protected Route Navigation Noise Reduction
 

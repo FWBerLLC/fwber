@@ -36,7 +36,7 @@ export default function CompatibilityPage() {
 
   async function handleShare() {
     if (!result) return
-    const text = `My dating compatibility score: ${result.score}/100! Get yours at fwber.me`
+    const text = `My dating compatibility score: ${result.score}/100! Get yours at fwber.site`
     try {
       if (navigator.share) {
         await navigator.share({ title: 'My Compatibility Score', text })

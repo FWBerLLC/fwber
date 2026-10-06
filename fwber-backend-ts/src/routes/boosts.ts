@@ -162,8 +162,8 @@ router.post('/purchase', async (req, res) => {
           },
         ],
         mode: 'payment',
-        success_url: `${process.env.FRONTEND_URL || 'https://www.fwber.me'}/boosts?success=true`,
-        cancel_url: `${process.env.FRONTEND_URL || 'https://www.fwber.me'}/boosts?canceled=true`,
+        success_url: `${process.env.FRONTEND_URL || 'https://www.fwber.site'}/boosts?success=true`,
+        cancel_url: `${process.env.FRONTEND_URL || 'https://www.fwber.site'}/boosts?canceled=true`,
         metadata: {
           userId: userId.toString(),
           boostType: type,

@@ -161,7 +161,7 @@ router.post('/artifacts', authenticate, async (req: any, res) => {
     // Federation: Broadcast if enabled
     const profile = await prisma.user_profiles.findFirst({ where: { user_id: userId } });
     if (profile?.is_federated) {
-        const apiDomain = process.env.API_DOMAIN || 'api.fwber.me';
+        const apiDomain = process.env.API_DOMAIN || 'api.fwber.site';
         federationService.broadcastUpdate(userId, {
             id: `https://${apiDomain}/api/proximity/artifacts/${a.id}`,
             type: 'Note',
@@ -203,7 +203,7 @@ router.delete('/artifacts/:id', authenticate, async (req: any, res) => {
           // Federation: Broadcast Delete if enabled
           const profile = await prisma.user_profiles.findFirst({ where: { user_id: userId } });
           if (profile?.is_federated) {
-              const apiDomain = process.env.API_DOMAIN || 'api.fwber.me';
+              const apiDomain = process.env.API_DOMAIN || 'api.fwber.site';
               federationService.broadcastUpdate(userId, {
                   id: `https://${apiDomain}/api/proximity/artifacts/${artifactId}`,
                   type: 'Tombstone'

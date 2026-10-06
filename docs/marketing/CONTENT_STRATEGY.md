@@ -57,7 +57,7 @@ Hey r/Detroit,
 
 I'm a local developer who got frustrated with dating apps selling our data and showing us the same 50 people forever. So I built my own.
 
-fwber.me is:
+fwber.site is:
 - Privacy-first (your photos never touch our servers unencrypted)
 - Open-source (you can literally see the code)
 - Location-based but fuzzy (we never know your exact location)
@@ -68,7 +68,7 @@ I'm looking for 50 Detroit-area beta testers to try it out and give honest feedb
 - 100 free tokens (normally $10)
 - Direct line to me for feature requests
 
-If you're tired of Tinder/Hinge/Bumble, give it a shot: fwber.me
+If you're tired of Tinder/Hinge/Bumble, give it a shot: fwber.site
 
 Happy to answer any questions about the tech, privacy approach, or why I built this.
 ```
@@ -129,7 +129,7 @@ Ended up building my own. Key features for our community:
 
 Looking for beta testers in the Detroit area. Free to use, just want honest feedback.
 
-fwber.me
+fwber.site
 ```
 
 ---
@@ -252,7 +252,7 @@ Fight me in the replies.
 - Lifestyle clubs (The Works, etc.)
 
 **Physical Marketing:**
-1. **Bathroom Flyers** - Simple QR code + "Tired of Tinder? fwber.me"
+1. **Bathroom Flyers** - Simple QR code + "Tired of Tinder? fwber.site"
 2. **Stickers** - Small logo stickers on poles (technically illegal, be careful)
 3. **Coasters** - Partner with bars to put branded coasters on tables
 
@@ -271,7 +271,7 @@ Fight me in the replies.
 │                                 │
 │     [QR CODE]                   │
 │                                 │
-│     fwber.me                    │
+│     fwber.site                    │
 │                                 │
 └─────────────────────────────────┘
 ```
@@ -295,7 +295,7 @@ Hi [Name],
 
 I'm a Detroit-based developer who got frustrated with dating apps selling our data. So I built my own - and made it open-source so anyone can verify we're not being creepy.
 
-fwber.me is now live with [X] Detroit users and growing. Some angles that might interest your readers:
+fwber.site is now live with [X] Detroit users and growing. Some angles that might interest your readers:
 
 1. **Local tech story** - Built entirely in Detroit, for Detroiters first
 2. **Privacy angle** - We never see your photos unencrypted, unlike Tinder/Hinge
@@ -306,7 +306,7 @@ Happy to do an interview, demo the app, or provide any other info.
 
 Best,
 [Name]
-fwber.me
+fwber.site
 ```
 
 ---
@@ -346,7 +346,7 @@ fwber.me
 **Concept:** Get on local TV wearing fwber merch
 
 **Execution:**
-1. Order simple black t-shirt with "fwber.me" in the gradient logo
+1. Order simple black t-shirt with "fwber.site" in the gradient logo
 2. Go to Lions/Tigers/Red Wings games
 3. Position yourself behind reporters doing live shots
 4. Attend public events (festivals, protests, etc.) in the shirt
@@ -446,7 +446,7 @@ fwber.me
 
 | Item | Cost | Priority |
 |------|------|----------|
-| Domain (fwber.me) | $15/year | ✅ Done |
+| Domain (fwber.site) | $15/year | ✅ Done |
 | Hosting | ~$50/month | ✅ Done |
 | T-shirts (10x) | ~$150 | High |
 | Flyers (500x) | ~$50 | High |
@@ -522,7 +522,7 @@ A bait-and-switch viral campaign where users upload photos of their **cats** to 
 
 ### Execution
 
-**Landing Page:** `fwber.me/rate-my-pussy` or `ratemypussy.fwber.me`
+**Landing Page:** `fwber.site/rate-my-pussy` or `ratemypussy.fwber.site`
 
 **Features:**
 - Upload cat photo
@@ -581,7 +581,7 @@ Title: I built a website called "Rate My Pussy" and it's exactly what you think
 My mass marketed dating app is called fwber and we added this
 as a joke feature. Now it's getting more traffic than the actual dating app.
 
-Rate your cat: fwber.me/rate-my-pussy
+Rate your cat: fwber.site/rate-my-pussy
 ```
 
 ### Technical Implementation
@@ -592,7 +592,7 @@ Rate your cat: fwber.me/rate-my-pussy
 - Separate "cat" content type in database
 
 **Option B: Full mini-app**
-- Subdomain: `cats.fwber.me`
+- Subdomain: `cats.fwber.site`
 - Full leaderboard, commenting, sharing
 - Account optional (rate without signup, upload requires account)
 
@@ -622,14 +622,14 @@ Uses existing infrastructure. Just needs a new page.
 ## Appendix: Quick Reference
 
 ### Key URLs
-- App: https://fwber.me
-- Roast Tool: https://fwber.me/roast
-- Register: https://fwber.me/register
+- App: https://fwber.site
+- Roast Tool: https://fwber.site/roast
+- Register: https://fwber.site/register
 - GitHub: https://github.com/[repo]
 
 ### Social Handles (Claim These!)
 - Twitter: @fwber_me or @fwberapp
-- Instagram: @fwber.me
+- Instagram: @fwber.site
 - TikTok: @fwber
 - Reddit: u/fwber_official
 

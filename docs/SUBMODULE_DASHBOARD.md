@@ -1,7 +1,7 @@
 # Submodule Dashboard — fwber
 
-> **Last Updated:** 2026-07-17
-> **Root Version:** 2.3.32
+> **Last Updated:** 2026-09-30
+> **Root Version:** 2.3.33
 
 ---
 
@@ -9,7 +9,7 @@
 
 | Component | Path | Type | Remote | Status |
 |-----------|------|------|--------|--------|
-| **Root** | `.` | Monorepo | `github.com/robertpelloni/fwber` | ✅ Active |
+| **Root** | `.` | Monorepo | `github.com/FWBerLLC/fwber` | ✅ Active |
 | **Backend (TS)** | `fwber-backend-ts/` | Directory | (same repo) | ✅ Active, port 4003 |
 | **Frontend** | `fwber-frontend/` | Directory | (same repo) | ✅ Active, port 3000 (Hetzner) |
 | **Geo Service** | `fwber-geo/` | Directory | (same repo) | ✅ Active, port 8081 |
@@ -26,20 +26,20 @@
 
 | Domain | Certificate | Expires | Auto-Renew |
 |--------|-------------|---------|------------|
-| `fwber.me` + `www.fwber.me` | Let's Encrypt | Oct 15, 2026 | ✅ |
-| `api.fwber.me` | Let's Encrypt | Sep 1, 2026 | ✅ |
-| `geo.fwber.me` | Let's Encrypt | Sep 1, 2026 | ✅ |
-| `ws.fwber.me` | Let's Encrypt | Sep 1, 2026 | ✅ |
+| `fwber.site` + `www.fwber.site` | Let's Encrypt | Oct 15, 2026 | ✅ |
+| `api.fwber.site` | Let's Encrypt | Sep 1, 2026 | ✅ |
+| `geo.fwber.site` | Let's Encrypt | Sep 1, 2026 | ✅ |
+| `ws.fwber.site` | Let's Encrypt | Sep 1, 2026 | ✅ |
 
 ## DNS
 
 | Domain | Type | Value |
 |--------|------|-------|
-| `fwber.me` | A | `5.161.250.43` |
-| `www.fwber.me` | A | `5.161.250.43` |
-| `api.fwber.me` | A | `5.161.250.43` |
-| `geo.fwber.me` | A | `5.161.250.43` |
-| `ws.fwber.me` | A | `5.161.250.43` |
+| `fwber.site` | A | `5.161.250.43` |
+| `www.fwber.site` | A | `5.161.250.43` |
+| `api.fwber.site` | A | `5.161.250.43` |
+| `geo.fwber.site` | A | `5.161.250.43` |
+| `ws.fwber.site` | A | `5.161.250.43` |
 
 ## Deploy Targets
 
@@ -52,4 +52,4 @@
 
 ## Active Feature Branches
 
-All feature branches are fully merged into `main`. No unique commits outstanding.
+All feature branches are fully merged into `main`. No unique commits outstanding. Remote `FWBerLLC/fwber` has only `main` (verified 2026-09-30 via `git ls-remote`).

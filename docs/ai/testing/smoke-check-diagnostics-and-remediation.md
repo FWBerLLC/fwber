@@ -29,7 +29,7 @@ bash ops/hetzner/scripts/smoke-check.sh
 The generated reports now include diagnostics with remediation hints.
 
 Validated diagnostics from the live public-domain run:
-- backend route drift on `api.fwber.me`
+- backend route drift on `api.fwber.site`
 - geo domain still pointing at Vercel or a missing Vercel target
 - authenticated smoke coverage incomplete
 - partial-health narrowing hint

@@ -16,4 +16,4 @@ Disallow: /test-auth
 Disallow: /dev-auth
 Disallow: /reset-password
 
-Sitemap: https://fwber.me/sitemap.xml
+Sitemap: https://fwber.site/sitemap.xml

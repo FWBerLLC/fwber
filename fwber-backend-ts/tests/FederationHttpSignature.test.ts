@@ -37,7 +37,7 @@ describe('FederationService - Http Signature', () => {
     const reqMethod = 'POST';
     const reqUrl = '/api/federation/inbox/1';
     const reqDate = new Date().toUTCString();
-    const reqHost = 'api.fwber.me';
+    const reqHost = 'api.fwber.site';
 
     const stringToSign = `(request-target): ${reqMethod.toLowerCase()} ${reqUrl}\nhost: ${reqHost}\ndate: ${reqDate}`;
 
@@ -73,7 +73,7 @@ describe('FederationService - Http Signature', () => {
       const reqMethod = 'POST';
       const reqUrl = '/api/federation/inbox/1';
       const reqDate = new Date().toUTCString();
-      const reqHost = 'api.fwber.me';
+      const reqHost = 'api.fwber.site';
 
       const stringToSign = `(request-target): ${reqMethod.toLowerCase()} ${reqUrl}\nhost: ${reqHost}\ndate: ${reqDate}`;
 
