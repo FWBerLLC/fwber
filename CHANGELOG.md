@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.3.34] - 2026-10-06
+
+### Added
+
+- **Dashboard IA Overhaul**: Two new high-value sections consolidating previously orphaned pages.
+  - *Community & Governance*: Council, Federation, Integrations, Journal, My Reports, Contact Us
+  - *Progress & Insights*: Achievements, Analytics, Bounties, Location Settings, Privacy, Terms
+- **FeatureTile Tooltips**: Interactive info markers (`?`) on high-context tiles with descriptive hover text explaining purpose and value. TooltipProvider wraps the dashboard.
+
+### Changed
+
+- Dashboard now surfaces every major app area from a single page — no feature left unreachable.
+
 ## [2.3.33] - 2026-09-30
 
 ### Changed
