@@ -5,14 +5,32 @@ import prisma from '../lib/prisma.js';
 import OpenAI from 'openai';
 import { WingmanService } from '../services/WingmanService.js';
 
-const openai = new OpenAI({ 
-  apiKey: process.env.OPENROUTER_API_KEY || process.env.OPENAI_API_KEY,
-  baseURL: process.env.OPENROUTER_API_KEY ? 'https://openrouter.ai/api/v1' : undefined,
-  defaultHeaders: process.env.OPENROUTER_API_KEY ? {
-    'HTTP-Referer': 'https://www.fwber.site',
-    'X-Title': 'fwber',
-  } : undefined
-});
+// Lazy client construction: `new OpenAI()` throws at import time when no
+// credential is configured, which used to crash the entire API on boot just
+// because an optional AI integration was unconfigured. Deferring creation to
+// first use lets the server start and lets only this feature fail, with a
+// clear 503 telling the operator which variable to set.
+let openaiClient: OpenAI | null = null;
+
+function getOpenAI(): OpenAI {
+  if (openaiClient) return openaiClient;
+  const apiKey = process.env.OPENROUTER_API_KEY || process.env.OPENAI_API_KEY;
+  if (!apiKey) {
+    throw new Error(
+      'AI wingman is not configured: set OPENROUTER_API_KEY or OPENAI_API_KEY to enable this endpoint.'
+    );
+  }
+  openaiClient = new OpenAI({
+    apiKey,
+    // OpenRouter is preferred; fall back to direct OpenAI when only that key exists.
+    baseURL: process.env.OPENROUTER_API_KEY ? 'https://openrouter.ai/api/v1' : undefined,
+    defaultHeaders: process.env.OPENROUTER_API_KEY ? {
+      'HTTP-Referer': 'https://www.fwber.site',
+      'X-Title': 'fwber',
+    } : undefined
+  });
+  return openaiClient;
+}
 
 const router = Router();
 
@@ -207,7 +225,7 @@ router.get('/profile-analysis', async (req: any, res) => {
 router.get('/date-ideas/general', async (req: any, res) => {
   const model = process.env.OPENROUTER_API_KEY ? 'google/gemini-2.0-flash-lite-preview-02-05:free' : 'gpt-4o-mini';
   try {
-    const result = await openai.chat.completions.create({
+    const result = await getOpenAI().chat.completions.create({
       model: model,
       messages: [{
         role: 'user',
@@ -233,7 +251,7 @@ router.get('/date-ideas/general', async (req: any, res) => {
 
 router.get('/date-ideas/:matchId', async (req: any, res) => {
   try {
-    const result = await openai.chat.completions.create({
+    const result = await getOpenAI().chat.completions.create({
       model: 'gpt-4o-mini',
       messages: [{
         role: 'user',
@@ -280,7 +298,7 @@ router.post('/assist', async (req: any, res) => {
 router.get('/ice-breaker', async (req: any, res) => {
   try {
     const model = process.env.OPENROUTER_API_KEY ? 'google/gemini-2.0-flash-lite-preview-02-05:free' : 'gpt-4o-mini';
-    const suggestion = await openai.chat.completions.create({
+    const suggestion = await getOpenAI().chat.completions.create({
       model, messages: [{ role: 'user', content: 'Generate three clever, unique dating ice breaker messages. Be specific and creative — avoid clichés. Format as a JSON array of strings: ["suggestion1", "suggestion2", "suggestion3"]' }],
       temperature: 0.95, max_tokens: 300,
     });
@@ -373,7 +391,7 @@ router.post('/compatibility-audit/:targetId', async (req: any, res) => {
     const mySummary = buildProfileText(myProfile);
     const theirSummary = buildProfileText(theirProfile);
 
-    const result = await openai.chat.completions.create({
+    const result = await getOpenAI().chat.completions.create({
       model: 'gpt-4o-mini',
       messages: [{
         role: 'user',
@@ -433,7 +451,7 @@ router.post('/message-feedback/:matchId', async (req: any, res) => {
     const { draft } = req.body;
     if (!draft) return res.status(400).json({ message: 'No draft provided' });
 
-    const result = await openai.chat.completions.create({
+    const result = await getOpenAI().chat.completions.create({
       model: 'gpt-4o-mini',
       messages: [{
         role: 'user',
