@@ -18,7 +18,7 @@ export class VibePromotionService {
         - title: The title of the quest.
         - description: A short description of the quest.
         - token_reward: An integer between 10 and 50 representing the reward.
-        - target_aura: The emotion this quest is targeting (e.g., 'excited', 'thoughtful', 'happy', 'cynical', 'mysterious', 'melancholic').
+        - target_vibe: The emotion this quest is targeting (e.g., 'excited', 'thoughtful', 'happy', 'cynical', 'mysterious', 'melancholic').
       `;
 
       const response = await generateText(prompt, '', 0.7);
@@ -38,14 +38,18 @@ export class VibePromotionService {
           title: `Explore the ${sentiment.vibe} neighborhood`,
           description: `The neighborhood is feeling ${sentiment.vibe}. Get out there and explore!`,
           token_reward: 20,
-          target_aura: 'neutral'
+          target_vibe: 'neutral'
         };
       }
 
+      // `type` is required by the quests schema and distinguishes quest sources;
+      // these are always sentiment-derived, so they are 'vibe_action'.
       const newQuest = await prisma.quests.create({
         data: {
           title: questData.title,
           description: questData.description,
+          type: 'vibe_action',
+          target_vibe: questData.target_vibe || 'neutral',
           token_reward: Number(questData.token_reward),
           is_active: true,
           expires_at: new Date(Date.now() + 24 * 60 * 60 * 1000) // Expires in 24 hours
@@ -57,8 +61,9 @@ export class VibePromotionService {
         vibe: sentiment.vibe
       });
 
-      // Inject ai_vibe_match explicitly, mimicking target_aura for now
-      return { ...newQuest, ai_vibe_match: true, target_aura: questData.target_aura || 'neutral' };
+      // Surface the matched vibe alongside the row so callers can explain why
+      // this quest was chosen without re-querying sentiment.
+      return { ...newQuest, ai_vibe_match: true, target_vibe: questData.target_vibe || 'neutral' };
 
     } catch (err: any) {
       console.error('[VibePromotionService] Error generating quest:', err.message);
