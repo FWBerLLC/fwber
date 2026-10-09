@@ -1,10 +1,81 @@
 # HANDOFF.md — Session Summary
 
-> **Date:** 2026-09-30
-> **Agent:** MiMo (Executive Protocol v2.3.33)
-> **Version:** 2.3.33
+> **Date:** 2026-10-07
+> **Agent:** MiMo (Autonomous Cycle v2.3.34)
+> **Version:** 2.3.34
 
 ---
+
+## Session 2026-10-07 — Dev Stack Bring-Up + Crash Fixes
+
+### What was broken and is now fixed
+
+1. **Backend would not boot at all** (two independent crashes):
+   - `src/routes/wingman.ts` called `new OpenAI(...)` at module load. With no
+     `OPENAI_API_KEY`/`OPENROUTER_API_KEY` set, the OpenAI SDK throws during
+     import and takes the entire API down. Now lazy via `getOpenAI()` with a
+     clear "set OPENROUTER_API_KEY or OPENAI_API_KEY" message — matches the
+     pattern `NarrativeService` and `lib/wingman-ai.ts` already used.
+   - Prisma client had never been generated → `PrismaClient` was not exported
+     from `@prisma/client`. Fixed with `npx prisma generate` (v6.4.1). This also
+     cleared 82 of 83 `tsc` errors (only 1 remains).
+
+2. **ESM `.js` → `.ts` resolution broken on modern Node.** The codebase uses
+   TypeScript `nodenext` imports (`import x from './auth.js'` → `auth.ts`).
+   ts-node 10.x no longer remaps these under Node 26, so `npm run dev` crashed
+   on the very first route import. Added `fwber-backend-ts/scripts/ts-js-resolve.mjs`,
+   a zero-dependency resolve hook that restores the remap.
+
+3. **`npm install` in `fwber-frontend` silently truncated several packages.**
+   Network timeouts left partial extractions that only surface at runtime:
+   - `next` (229 files vs 6790) → missing `dist/server/require-hook`
+   - `caniuse-lite` (168 vs 839) → missing `dist/unpacker/agents`
+   - `@next/swc-win32-x64-msvc` (0.9 MB stub, not a valid Win32 app) → forced
+     slow WASM SWC fallback
+   - `@rollup/rollup-win32-x64-msvc` (854 KB stub) → `ModuleBuildError` 500s
+
+   Fixed by curling the exact tarballs from the npm registry and extracting over
+   the broken trees. Native SWC took compile from 381s → 32s.
+
+### What is running now
+
+| Component | Port | PID | Status |
+|-----------|------|-----|--------|
+| Backend `dist/index.js` | 4003 | 18228 | **Healthy** — HTTP 200 on `/` |
+| Frontend `next dev` | 3010 | 760 | Compiling (see note below) |
+
+**Port 3010, not 3000**: port 3000 is held by another workspace project's
+`next start` (PID 8816), as are 3001/3003/3005. Those are not fwber processes
+and were left alone. fwber dev runs on 3010 locally until 3000 frees up.
+
+**Frontend first-compile is very slow** (worker PID 4816, 1.2 GB RSS). The app
+has ~170 routes and `Sentry` wraps every module. Not wedged — just heavy.
+
+### New tooling added
+
+- `tools/fwber-tray.ps1` + `tools/fwber-tray.bat` — Windows tray icon that
+  starts/stops/opens the dev stack and can quit the servers cleanly. Answers the
+  long-standing "where is the system tray icon?" question: there was none. Kept
+  as a minimal WinForms helper rather than an Electron wrapper.
+- `build.bat` — unified build entrypoint (backend/frontend/mobile targets).
+
+### Still broken / needs a human
+
+1. **No local MySQL** — `DATABASE_URL` is unset (`no mysql service found`).
+   Backend starts and serves `/`, but every Prisma call fails with
+   `Environment variable not found: DATABASE_URL`. Created
+   `fwber-backend-ts/.env` from `.env.example` as a placeholder.
+2. **`.bin` links are missing** in `fwber-frontend/node_modules` (npm died
+   before linking). `next` is invoked by path instead. A future `npm install`
+   should restore them.
+3. **`typescript` resolution confuses Next.js** — package is present and valid,
+   but Next intermittently runs `npm install --save-dev typescript` at boot.
+4. **Port 3000 collision** with an unrelated project — see above.
+5. **DNS/certbot for `fwber.site`** still outstanding (carried from 2.3.33).
+
+---
+
+## Prior session (2026-09-30) — v2.3.33
 
 ## Completed Work
 
