@@ -1,5 +1,23 @@
 # Changelog
 
+## [2.3.35] - 2026-10-11
+
+### Added
+
+- **Upstream tracking**: `upstream` remote (`robertpelloni/fwber`) registered for fork-parent synchronization. Fork (`FWBerLLC/fwber`) and upstream are verified at identical commit `cacc94b7` (0 ahead / 0 behind).
+- **Maintenance tooling tracked**: `tools/audit-entry-points.cjs` and `tools/repair-truncated-packages.cjs` (previously untracked npm-package repair utilities) committed.
+
+### Changed
+
+- **Version governance**: `VERSION.md` synchronized from stale `2.3.9` → `2.3.35` (single source of truth now matches `VERSION`).
+- **`.gitignore` sanitization**: added `*.tgz`, `_elliptic*/`, `_hashjs/` (npm extraction scratch dirs) and `fwber-backend-ts/logs-*.txt` (runtime startup logs). Memory, sessions, and databases remain tracked per project policy.
+- **Runtime logs untracked**: `fwber-backend-ts/logs-startup.txt` and `logs-startup-err.txt` removed from tracking (live runtime dumps; boot-crash history preserved in `HANDOFF.md`).
+
+### Verification
+
+- **Branch reconciliation**: single `main` branch on local + both remotes; no feature branches, stashes, or divergent commits to merge (confirmed via `git branch -a`, `git stash list`, `git rev-list --left-right --count main...upstream/main`).
+- **Submodules**: monorepo — no `.gitmodules`; `git submodule status` empty.
+
 ## [2.3.34] - 2026-10-06
 
 ### Added

@@ -1,7 +1,7 @@
 # ROADMAP.md — fwber Project Trajectory
 
-> **Current Version:** 2.3.8 "10,000x Shiny UI"
-> **Last Updated:** 2026-06-23
+> **Current Version:** 2.3.35
+> **Last Updated:** 2026-10-11
 
 ---
 

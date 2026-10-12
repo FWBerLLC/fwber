@@ -1,7 +1,7 @@
 # Submodule Dashboard — fwber
 
-> **Last Updated:** 2026-09-30
-> **Root Version:** 2.3.33
+> **Last Updated:** 2026-10-11
+> **Root Version:** 2.3.35
 
 ---
 
@@ -52,4 +52,4 @@
 
 ## Active Feature Branches
 
-All feature branches are fully merged into `main`. No unique commits outstanding. Remote `FWBerLLC/fwber` has only `main` (verified 2026-09-30 via `git ls-remote`).
+All feature branches are fully merged into `main`. No unique commits outstanding. Remote `FWBerLLC/fwber` and upstream `robertpelloni/fwber` both have only `main` (verified 2026-10-11 at identical commit `cacc94b7`, 0 ahead / 0 behind).

@@ -1,12 +1,84 @@
 # HANDOFF.md — Session Summary
 
-> **Date:** 2026-10-07
-> **Agent:** MiMo (Autonomous Cycle v2.3.34)
-> **Version:** 2.3.34
+> **Date:** 2026-10-11
+> **Agent:** Pi (Executive Repository Sync & Intelligent Merge — v2.3.35)
+> **Version:** 2.3.35
 
 ---
 
-## Session 2026-10-07 — Dev Stack Bring-Up + Crash Fixes
+## Session 2026-10-11 — Repository Sync, Upstream Tracking & Version Governance
+
+### Objective
+
+Run the full EXECUTIVE PROTOCOL (upstream tracking + submodule sanitization +
+dual-direction merge engine + cleanup/docs/version/push/build) on the `fwber`
+monorepo, prioritizing retention (no lost progress) and intelligent merge of
+feature branches across `github.com/robertpelloni` repos.
+
+### Step 1 — Upstream Tracking & Submodule Sanitization (DONE)
+
+1. **Fetch**: `git fetch --all --tags` completed cleanly on `origin` (FWBerLLC)
+   and the newly-registered `upstream` (robertpelloni/fwber).
+2. **Upstream sync**: The fork (`FWBerLLC/fwber`) and its upstream parent
+   (`robertpelloni/fwber`) are at **identical commit `cacc94b7`** (v2.3.34).
+   `git rev-list --left-right --count main...upstream/main` = `0 0` — zero
+   divergence, nothing to merge.
+3. **Submodules**: `fwber` is a **monorepo** — no `.gitmodules`, `git submodule
+   status` is empty. The `fwber-backend-ts/`, `fwber-frontend/`, `fwber-geo/`,
+   `fwber-wasm/`, `mobile/` directories are ordinary dirs in the same repo.
+   (Note: `fwber` itself is a git-submodule of the parent workspace at
+   `C:/Users/hyper/workspace`, tracked under `robertpelloni/workspace`.)
+
+### Step 2 — Dual-Direction Merge Engine (NOTHING TO MERGE)
+
+- Local branches: only `main`.
+- `origin/main` (FWBerLLC/fwber): only `main`.
+- `upstream/main` (robertpelloni/fwber): only `main`.
+- `git stash list`: empty. No divergent commits. No feature branches exist to
+  forward- or reverse-merge. All prior feature branches (e.g.
+  `feat-group-aura-chatroom`, `feat/okcupid-matching-engine`) were already
+  merged in earlier versions (v2.3.32 and before).
+
+### Step 3 — Workspace Cleanup, Versioning & Docs (DONE)
+
+1. **`.gitignore` sanitization**: added `*.tgz`, `_elliptic*/`, `_hashjs/`
+   (npm extraction scratch dirs left by the package-repair work) and
+   `fwber-backend-ts/logs-*.txt` (runtime startup logs). Memory, sessions, and
+   databases remain tracked per project policy.
+2. **Runtime logs untracked**: `fwber-backend-ts/logs-startup.txt` +
+   `logs-startup-err.txt` were live runtime dumps — removed from tracking
+   (`git rm --cached`). Boot-crash history is preserved here and in
+   `CHANGELOG.md` v2.3.34.
+3. **Maintenance tooling tracked**: `tools/audit-entry-points.cjs` and
+   `tools/repair-truncated-packages.cjs` (previously untracked) committed.
+4. **Version bump** `2.3.34` → `2.3.35`: `VERSION`, `VERSION.md` (fixed stale
+   `2.3.9` → `2.3.35`), `CHANGELOG.md` (new 2.3.35 entry), `build.bat` header.
+5. **Docs refreshed**: `ROADMAP.md`, `TODO.md`, `docs/SUBMODULE_DASHBOARD.md`,
+   `SUBMODULE_INVENTORY.md` all bumped to v2.3.35 / 2026-10-11.
+6. **Batch scripts**: `start.bat` (backend :4003, frontend :3000) and
+   `build.bat` (backend/frontend/mobile targets) pathing verified correct for
+   the monorepo layout. No structural changes needed.
+
+### Build Phase
+
+- See `tools` below — TypeScript type-check status recorded at time of handoff.
+- No fwber processes were running (ports 3000/3010/4003/8081 free), so no
+  process kill/restart was required. No built binaries were cleaned.
+
+### Carried-forward open items (unchanged)
+
+1. No local MySQL — `DATABASE_URL` unset; every Prisma call fails.
+2. `fwber-frontend/node_modules` `.bin` links missing (npm died before linking).
+3. DNS + certbot reissue for `fwber.site` still outstanding.
+4. Stripe test→live keys; Resend email DNS; Bing Webmaster submission.
+
+---
+
+## Prior session (2026-10-07) — v2.3.34
+
+> **Date:** 2026-10-07
+> **Agent:** MiMo (Autonomous Cycle v2.3.34)
+> **Version:** 2.3.34
 
 ### What was broken and is now fixed
 
