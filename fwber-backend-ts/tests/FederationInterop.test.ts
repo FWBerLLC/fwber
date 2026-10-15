@@ -70,6 +70,11 @@ jest.unstable_mockModule('../src/lib/prisma.js', () => ({
 
 let server: any;
 
+jest.unstable_mockModule('../src/lib/ssrf.js', () => ({
+  getHardenedFederationAgent: jest.fn().mockImplementation(async (url) => undefined),
+  validateFederationUrl: jest.fn().mockImplementation(async (url) => true)
+}));
+
 describe('ActivityPub End-to-End Interop', () => {
   beforeAll((done) => {
     server = app.listen(8082, () => done());

@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.3.36] - 2026-10-12
+
+### Added
+
+- **Upstream sync**: Executed intelligent upstream merge and branch reconciliation from `robertpelloni/fwber` into `main`.
+
 ## [2.3.35] - 2026-10-11
 
 ### Added

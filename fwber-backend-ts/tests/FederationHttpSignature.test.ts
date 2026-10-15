@@ -6,13 +6,18 @@ jest.unstable_mockModule('axios', () => ({
   default: { get: mockGet }
 }));
 
-const { FederationService } = await import('../src/services/FederationService.js');
+jest.unstable_mockModule('../src/lib/ssrf.js', () => ({
+  getHardenedFederationAgent: jest.fn().mockImplementation(async (url) => undefined),
+  validateFederationUrl: jest.fn().mockImplementation(async (url) => true)
+}));
 
 describe('FederationService - Http Signature', () => {
   let federationService: any;
   let keyPair: { publicKey: string, privateKey: string };
+  let FederationServiceModule: any;
 
-  beforeAll(() => {
+  beforeAll(async () => {
+    FederationServiceModule = await import('../src/services/FederationService.js');
     const generated = crypto.generateKeyPairSync('rsa', {
       modulusLength: 2048,
       publicKeyEncoding: { type: 'spki', format: 'pem' },
@@ -22,7 +27,7 @@ describe('FederationService - Http Signature', () => {
   });
 
   beforeEach(() => {
-    federationService = new FederationService();
+    federationService = new FederationServiceModule.FederationService();
     jest.clearAllMocks();
   });
 

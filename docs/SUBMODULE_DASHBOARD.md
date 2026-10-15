@@ -1,7 +1,7 @@
 # Submodule Dashboard — fwber
 
 > **Last Updated:** 2026-10-11
-> **Root Version:** 2.3.35
+> **Root Version:** 2.3.36
 
 ---
 
