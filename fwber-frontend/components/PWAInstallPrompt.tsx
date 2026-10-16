@@ -9,8 +9,6 @@ export default function PWAInstallPrompt() {
 
   useEffect(() => {
     const handler = (e: any) => {
-      // Prevent Chrome 67 and earlier from automatically showing the prompt
-      e.preventDefault()
       // Stash the event so it can be triggered later.
       setDeferredPrompt(e)
       setIsVisible(true)
@@ -31,8 +29,13 @@ export default function PWAInstallPrompt() {
 
     // Wait for the user to respond to the prompt
     await deferredPrompt.userChoice
-    
+
     // We've used the prompt, and can't use it again, throw it away
+    setDeferredPrompt(null)
+    setIsVisible(false)
+  }
+
+  const handleDismiss = () => {
     setDeferredPrompt(null)
     setIsVisible(false)
   }
@@ -56,7 +59,7 @@ export default function PWAInstallPrompt() {
           </button>
         </div>
         <button
-          onClick={() => setIsVisible(false)}
+          onClick={handleDismiss}
           className="text-gray-400 hover:text-gray-600 p-1"
           title="Dismiss"
           aria-label="Dismiss"
