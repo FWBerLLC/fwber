@@ -19,7 +19,8 @@
     "test:e2e:physical": "start-server-and-test \"npm run dev:3005\" http://localhost:3005 \"cypress run --spec cypress/e2e/physical-profile.cy.js --config baseUrl=http://localhost:3005\"",
     "test:e2e:face-reveal": "start-server-and-test \"npm run dev -- -p 3007\" http://localhost:3007 \"cypress run --spec cypress/e2e/face-reveal.cy.js --config baseUrl=http://localhost:3007\"",
     "test:e2e:new-features": "start-server-and-test \"npm run dev:3005\" http://localhost:3005 \"cypress run --spec cypress/e2e/premium-features.cy.js,cypress/e2e/boosts.cy.js,cypress/e2e/events.cy.js,cypress/e2e/groups.cy.js --config baseUrl=http://localhost:3005\"",
-    "test:e2e:pwa": "start-server-and-test \"npm run dev:3005\" http://localhost:3005 \"cypress run --spec cypress/e2e/pwa.cy.js --config baseUrl=http://localhost:3005\""
+    "test:e2e:pwa": "start-server-and-test \"npm run dev:3005\" http://localhost:3005 \"cypress run --spec cypress/e2e/pwa.cy.js --config baseUrl=http://localhost:3005\"",
+    "postbuild": "node scripts/copy-standalone-assets.mjs"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
