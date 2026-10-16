@@ -11,8 +11,11 @@ const DICEBEAR_BASE = 'https://api.dicebear.com/7.x/avataaars/svg';
  * @param seed - A unique identifier for the user (name, id, email, etc.)
  * @returns A valid URL string
  */
+// Legacy upload URLs pointing to decommissioned hosts — skip these entirely
+const DEAD_HOSTS = /https?:\/\/api\.fwber\.me\//;
+
 export function getAvatarUrl(avatarUrl: string | null | undefined, seed?: string | number): string {
-  if (avatarUrl && avatarUrl.trim() !== '') {
+  if (avatarUrl && avatarUrl.trim() !== '' && !DEAD_HOSTS.test(avatarUrl)) {
     return avatarUrl;
   }
   // Generate a deterministic DiceBear avatar from the seed
