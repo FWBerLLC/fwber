@@ -86,6 +86,7 @@ const nextConfig = {
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'api.fwber.online' },
+      { protocol: 'https', hostname: 'api.fwber.me' },
       { protocol: 'https', hostname: 'fwber.online' },
       { protocol: 'https', hostname: 'www.fwber.online' },
       { protocol: 'https', hostname: '**.amazonaws.com' },
