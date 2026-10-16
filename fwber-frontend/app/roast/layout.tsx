@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     title: 'Get Roasted by AI 🔥 — fwber',
     description: 'Get a brutally honest AI roast of your dating profile. Free, instant, hilarious.',
     type: 'website',
-    url: 'https://www.fwber.site/roast',
+    url: 'https://www.fwber.online/roast',
   },
   twitter: {
     card: 'summary_large_image',
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     description: 'Get a brutally honest AI roast of your dating profile. Free, instant, hilarious.',
   },
   alternates: {
-    canonical: 'https://www.fwber.site/roast',
+    canonical: 'https://www.fwber.online/roast',
   },
 };
 

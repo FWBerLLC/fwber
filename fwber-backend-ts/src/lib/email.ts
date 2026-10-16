@@ -38,8 +38,8 @@ if (process.env.MAIL_HOST) {
   console.log('[Email] No SMTP configured, relying on Resend or console fallback');
 }
 
-const MAIL_FROM = process.env.MAIL_FROM || 'noreply@fwber.site';
-const FRONTEND_URL = process.env.FRONTEND_URL || 'https://www.fwber.site';
+const MAIL_FROM = process.env.MAIL_FROM || 'noreply@fwber.online';
+const FRONTEND_URL = process.env.FRONTEND_URL || 'https://www.fwber.online';
 
 /**
  * Send email using the best available method:

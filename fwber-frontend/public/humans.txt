@@ -1,6 +1,6 @@
 /* TEAM */
-Name: fwber.site Team
-Site: https://www.fwber.site
+Name: fwber.online Team
+Site: https://www.fwber.online
 Location: Detroit, MI
 
 /* SITE */

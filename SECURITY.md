@@ -12,7 +12,7 @@
 If you discover a security vulnerability in fwber, please report it responsibly:
 
 1. **Do NOT open a public issue.**
-2. Email **security@fwber.site** with:
+2. Email **security@fwber.online** with:
    - Description of the vulnerability
    - Steps to reproduce
    - Potential impact
@@ -30,4 +30,4 @@ If you discover a security vulnerability in fwber, please report it responsibly:
 
 ## Scope
 
-This policy applies to the `fwber` repository and the `fwber.site` production deployment.
+This policy applies to the `fwber` repository and the `fwber.online` production deployment.

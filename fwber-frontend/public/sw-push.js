@@ -1,4 +1,4 @@
-// fwber.site Service Worker - Push Notifications & Background Sync
+// fwber.online Service Worker - Push Notifications & Background Sync
 // Extracted from sw-manual.js to avoid conflicts with next-pwa caching
 
 // Background sync for offline messages
@@ -18,7 +18,7 @@ self.addEventListener('sync', (event) => {
 self.addEventListener('push', (event) => {
   console.log('Push notification received:', event);
   
-  let data = { title: 'fwber.site', body: 'New notification', url: '/' };
+  let data = { title: 'fwber.online', body: 'New notification', url: '/' };
   
   try {
     data = event.data ? event.data.json() : data;
@@ -45,7 +45,7 @@ self.addEventListener('push', (event) => {
   };
   
   event.waitUntil(
-    self.registration.showNotification(data.title || 'fwber.site', options)
+    self.registration.showNotification(data.title || 'fwber.online', options)
   );
 });
 

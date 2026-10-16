@@ -1,7 +1,7 @@
 #!/usr/bin/env pwsh
 <#
  Phase 3 Production Readiness Verification Script (Clean ASCII Version)
- Author: fwber.site Development Team
+ Author: fwber.online Development Team
  Date: November 15, 2025
 #>
 
@@ -22,7 +22,7 @@ $backend = Join-Path $PSScriptRoot 'fwber-backend'
 if(-not (Test-Path $backend)){ $backend = Join-Path (Get-Location) 'fwber-backend' }
 if(-not (Test-Path $backend)){ Fail 'Cannot find fwber-backend directory'; exit 1 }
 Set-Location $backend
-Write-Host 'fwber.site Phase 3 Verification' -ForegroundColor Magenta
+Write-Host 'fwber.online Phase 3 Verification' -ForegroundColor Magenta
 
 Sect 'Item 1: Deployment Automation'
 HasFile 'deploy.sh' 'Deployment script'

@@ -1,13 +1,13 @@
-# DNS Records for fwber.site Email Delivery
+# DNS Records for fwber.online Email Delivery
 
-These DNS records must be added through **Vercel Dashboard → fwber.site → Settings → DNS**.
+These DNS records must be added through **Vercel Dashboard → fwber.online → Settings → DNS**.
 
 ## Required Records
 
-### 1. MX Record (tells other servers where to deliver mail for fwber.site)
+### 1. MX Record (tells other servers where to deliver mail for fwber.online)
 | Type | Name | Value | Priority |
 |------|------|-------|----------|
-| MX | `@` | `mail.fwber.site` | 10 |
+| MX | `@` | `mail.fwber.online` | 10 |
 
 ### 2. A Record for mail server
 | Type | Name | Value |
@@ -27,16 +27,16 @@ These DNS records must be added through **Vercel Dashboard → fwber.site → Se
 ### 5. DMARC Record (tells receivers what to do with unauthenticated mail)
 | Type | Name | Value |
 |------|------|-------|
-| TXT | `_dmarc` | `v=DMARC1; p=none; rua=mailto:dmarc@fwber.site` |
+| TXT | `_dmarc` | `v=DMARC1; p=none; rua=mailto:dmarc@fwber.online` |
 
 ## Verification
 
 After adding all records, verify with:
 ```bash
-dig MX fwber.site +short          # Should show: 10 mail.fwber.site
-dig TXT fwber.site +short         # Should show: v=spf1 ip4:5.161.250.43 ~all
-dig TXT default._domainkey.fwber.site +short  # Should show DKIM key
-dig TXT _dmarc.fwber.site +short  # Should show: v=DMARC1; p=none; ...
+dig MX fwber.online +short          # Should show: 10 mail.fwber.online
+dig TXT fwber.online +short         # Should show: v=spf1 ip4:5.161.250.43 ~all
+dig TXT default._domainkey.fwber.online +short  # Should show DKIM key
+dig TXT _dmarc.fwber.online +short  # Should show: v=DMARC1; p=none; ...
 ```
 
 ## Current Status

@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# fwber.site Production Deployment Script
+# fwber.online Production Deployment Script
 # Based on Multi-AI Consensus Recommendations
 
 set -e
 
-echo "🚀 Starting fwber.site Production Deployment..."
+echo "🚀 Starting fwber.online Production Deployment..."
 
 # Configuration
 APP_NAME="fwber"
@@ -197,7 +197,7 @@ performance_check() {
 
 # Main deployment function
 main() {
-    log "Starting fwber.site production deployment..."
+    log "Starting fwber.online production deployment..."
     
     # Pre-deployment checks
     if ! command -v docker &> /dev/null; then
@@ -225,7 +225,7 @@ main() {
     # Performance validation
     performance_check
     
-    success "🎉 fwber.site deployment completed successfully!"
+    success "🎉 fwber.online deployment completed successfully!"
     log "Services are running on:"
     log "  - Frontend: http://localhost:3000"
     log "  - Backend API: http://localhost:8000"

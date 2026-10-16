@@ -13,7 +13,7 @@
 Upload and find out.
 
 **CTA:**
-[QR Code leading to fwber.site/rate-my-pussy]
+[QR Code leading to fwber.online/rate-my-pussy]
 
 ---
 
@@ -28,7 +28,7 @@ Upload and find out.
 Real connections. Total privacy. No data mining.
 
 **CTA:**
-[QR Code leading to fwber.site/register]
+[QR Code leading to fwber.online/register]
 
 **Small Print:**
-fwber.site | The social network that keeps its mouth shut.
+fwber.online | The social network that keeps its mouth shut.

@@ -1494,4 +1494,4 @@ Use this checklist before each production deployment:
 
 **Report Generated**: 2025-11-15  
 **Next Audit Scheduled**: 2025-12-15 (Monthly)  
-**Contact**: security@fwber.site (if available)
+**Contact**: security@fwber.online (if available)

@@ -1,8 +1,8 @@
-Contact: security@fwber.site
-Contact: https://www.fwber.site/help/security
+Contact: security@fwber.online
+Contact: https://www.fwber.online/help/security
 Preferred-Languages: en
-Canonical: https://www.fwber.site/.well-known/security.txt
-Policy: https://www.fwber.site/help/security
+Canonical: https://www.fwber.online/.well-known/security.txt
+Policy: https://www.fwber.online/help/security
 
 This policy is for reporting security vulnerabilities in the fwber platform.
 We appreciate responsible disclosure and will respond within 48 hours.

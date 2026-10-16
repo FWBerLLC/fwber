@@ -36,7 +36,7 @@ export default function SecuritySettingsPage() {
     }
   }, [user]);
 
-  const federatedHandle = user?.email ? `@${user.email.split('@')[0]}@api.fwber.site` : '@loading@api.fwber.site';
+  const federatedHandle = user?.email ? `@${user.email.split('@')[0]}@api.fwber.online` : '@loading@api.fwber.online';
 
   const handleRunBenchmark = async () => {
     setIsBenchmarking(true);

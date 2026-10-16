@@ -26,20 +26,20 @@
 
 | Domain | Certificate | Expires | Auto-Renew |
 |--------|-------------|---------|------------|
-| `fwber.site` + `www.fwber.site` | Let's Encrypt | Oct 15, 2026 | ✅ |
-| `api.fwber.site` | Let's Encrypt | Sep 1, 2026 | ✅ |
-| `geo.fwber.site` | Let's Encrypt | Sep 1, 2026 | ✅ |
-| `ws.fwber.site` | Let's Encrypt | Sep 1, 2026 | ✅ |
+| `fwber.online` + `www.fwber.online` | Let's Encrypt | Oct 15, 2026 | ✅ |
+| `api.fwber.online` | Let's Encrypt | Sep 1, 2026 | ✅ |
+| `geo.fwber.online` | Let's Encrypt | Sep 1, 2026 | ✅ |
+| `ws.fwber.online` | Let's Encrypt | Sep 1, 2026 | ✅ |
 
 ## DNS
 
 | Domain | Type | Value |
 |--------|------|-------|
-| `fwber.site` | A | `5.161.250.43` |
-| `www.fwber.site` | A | `5.161.250.43` |
-| `api.fwber.site` | A | `5.161.250.43` |
-| `geo.fwber.site` | A | `5.161.250.43` |
-| `ws.fwber.site` | A | `5.161.250.43` |
+| `fwber.online` | A | `5.161.250.43` |
+| `www.fwber.online` | A | `5.161.250.43` |
+| `api.fwber.online` | A | `5.161.250.43` |
+| `geo.fwber.online` | A | `5.161.250.43` |
+| `ws.fwber.online` | A | `5.161.250.43` |
 
 ## Deploy Targets
 

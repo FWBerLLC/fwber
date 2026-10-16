@@ -12,17 +12,17 @@ This document captures the production topology now recommended for fwber after t
 
 ### Vercel
 Hosts:
-- `fwber.site`
-- `www.fwber.site`
+- `fwber.online`
+- `www.fwber.online`
 
 Role:
 - Next.js frontend only
 
 ### Hetzner VPS
 Hosts:
-- `api.fwber.site` → Laravel backend
-- `ws.fwber.site` → Reverb websocket server
-- `geo.fwber.site` → Rust geo service
+- `api.fwber.online` → Laravel backend
+- `ws.fwber.online` → Reverb websocket server
+- `geo.fwber.online` → Rust geo service
 
 Role:
 - API
@@ -55,11 +55,11 @@ This minimum can work, but may require resizing sooner if realtime traffic, buil
 ## 3. DNS
 
 Create records:
-- `fwber.site` → Vercel
-- `www.fwber.site` → Vercel
-- `api.fwber.site` → Hetzner VPS IP
-- `ws.fwber.site` → Hetzner VPS IP
-- `geo.fwber.site` → Hetzner VPS IP
+- `fwber.online` → Vercel
+- `www.fwber.online` → Vercel
+- `api.fwber.online` → Hetzner VPS IP
+- `ws.fwber.online` → Hetzner VPS IP
+- `geo.fwber.online` → Hetzner VPS IP
 
 ## 4. Services on the VPS
 
@@ -92,17 +92,17 @@ Copy-ready templates now exist in:
 
 ### Vercel frontend env
 ```env
-NEXT_PUBLIC_APP_URL=https://fwber.site
-NEXT_PUBLIC_API_URL=https://api.fwber.site
-NEXT_PUBLIC_REVERB_HOST=ws.fwber.site
+NEXT_PUBLIC_APP_URL=https://fwber.online
+NEXT_PUBLIC_API_URL=https://api.fwber.online
+NEXT_PUBLIC_REVERB_HOST=ws.fwber.online
 NEXT_PUBLIC_REVERB_SCHEME=https
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_...
 ```
 
 ### Backend env
 ```env
-APP_URL=https://api.fwber.site
-FRONTEND_URL=https://fwber.site
+APP_URL=https://api.fwber.online
+FRONTEND_URL=https://fwber.online
 QUEUE_CONNECTION=redis
 CACHE_STORE=redis
 SESSION_DRIVER=redis
@@ -110,7 +110,7 @@ PAYMENT_DRIVER=stripe
 STRIPE_SECRET=sk_live_...
 STRIPE_WEBHOOK_SECRET=whsec_...
 GEO_SCREENER_ENABLED=true
-GEO_SCREENER_URL=https://geo.fwber.site
+GEO_SCREENER_URL=https://geo.fwber.online
 ```
 
 ## 7. Deployment Order
@@ -122,9 +122,9 @@ Copy-ready bootstrap and deploy scripts now exist in:
 - timestamped smoke-check reports under `logs/deploy-reports/` when `FWBER_RUN_SMOKE_CHECK=1`
 
 Nginx virtual host templates exist in:
-- `ops/hetzner/nginx/api.fwber.site.conf`
-- `ops/hetzner/nginx/ws.fwber.site.conf`
-- `ops/hetzner/nginx/geo.fwber.site.conf`
+- `ops/hetzner/nginx/api.fwber.online.conf`
+- `ops/hetzner/nginx/ws.fwber.online.conf`
+- `ops/hetzner/nginx/geo.fwber.online.conf`
 
 
 1. Provision Hetzner VPS

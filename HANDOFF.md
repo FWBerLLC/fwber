@@ -69,7 +69,7 @@ feature branches across `github.com/robertpelloni` repos.
 
 1. No local MySQL — `DATABASE_URL` unset; every Prisma call fails.
 2. `fwber-frontend/node_modules` `.bin` links missing (npm died before linking).
-3. DNS + certbot reissue for `fwber.site` still outstanding.
+3. DNS + certbot reissue for `fwber.online` still outstanding.
 4. Stripe test→live keys; Resend email DNS; Bing Webmaster submission.
 
 ---
@@ -143,7 +143,7 @@ has ~170 routes and `Sentry` wraps every module. Not wedged — just heavy.
 3. **`typescript` resolution confuses Next.js** — package is present and valid,
    but Next intermittently runs `npm install --save-dev typescript` at boot.
 4. **Port 3000 collision** with an unrelated project — see above.
-5. **DNS/certbot for `fwber.site`** still outstanding (carried from 2.3.33).
+5. **DNS/certbot for `fwber.online`** still outstanding (carried from 2.3.33).
 
 ---
 
@@ -171,13 +171,13 @@ has ~170 routes and `Sentry` wraps every module. Not wedged — just heavy.
   - `SUBMODULE_INVENTORY.md` — repo column
 - **Historical logs preserved**: `.tormentnexus/agent_memory/memories.json` retains original `robertpelloni` strings as historical record.
 
-### 2b. Domain Migration: fwber.me → fwber.site
+### 2b. Domain Migration: fwber.me → fwber.online
 
 - **106+ tracked files updated** across frontend, backend, mobile, ops, docs, tests
-- **Nginx configs renamed**: `fwber.site.conf`, `api.fwber.site.conf`, `geo.fwber.site.conf`, `ws.fwber.site.conf`
-- **SSL cert paths**: `/etc/letsencrypt/live/fwber.site/` (certs must be reissued for new domain)
-- **Key config surfaces**: `vercel.json`, `next.config.js` (CSP, image domains, rewrites), `.env.example` files, federation handles (`@user@api.fwber.site`), service workers, PWA manifest, mobile `TARGET_DOMAIN`
-- **DNS still points to** `5.161.250.43` — DNS records for `fwber.site` must be created/updated at registrar
+- **Nginx configs renamed**: `fwber.online.conf`, `api.fwber.online.conf`, `geo.fwber.online.conf`, `ws.fwber.online.conf`
+- **SSL cert paths**: `/etc/letsencrypt/live/fwber.online/` (certs must be reissued for new domain)
+- **Key config surfaces**: `vercel.json`, `next.config.js` (CSP, image domains, rewrites), `.env.example` files, federation handles (`@user@api.fwber.online`), service workers, PWA manifest, mobile `TARGET_DOMAIN`
+- **DNS still points to** `5.161.250.43` — DNS records for `fwber.online` must be created/updated at registrar
 
 ### 3. Repository Sync & Branch Reconciliation
 
@@ -198,11 +198,11 @@ has ~170 routes and `Sentry` wraps every module. Not wedged — just heavy.
 ## Architecture (v2.3.33)
 
 ```
-https://fwber.site          → Nginx → localhost:3000 (Next.js)
-https://www.fwber.site      → Nginx → localhost:3000 (Next.js)
-https://api.fwber.site      → Nginx → localhost:4003 (Express/TS)
-https://geo.fwber.site      → Nginx → localhost:8081 (Rust)
-https://ws.fwber.site       → Nginx → localhost:4003 (Socket.io)
+https://fwber.online          → Nginx → localhost:3000 (Next.js)
+https://www.fwber.online      → Nginx → localhost:3000 (Next.js)
+https://api.fwber.online      → Nginx → localhost:4003 (Express/TS)
+https://geo.fwber.online      → Nginx → localhost:8081 (Rust)
+https://ws.fwber.online       → Nginx → localhost:4003 (Socket.io)
 ```
 
 All on Hetzner VPS `5.161.250.43`. Zero cross-origin latency.
@@ -212,12 +212,12 @@ Repository: `https://github.com/FWBerLLC/fwber` (monorepo, no submodules).
 
 ## Next Steps
 
-1. **DNS for fwber.site**: Create A records (`fwber.site`, `www`, `api`, `geo`, `ws`) → `5.161.250.43`
-2. **SSL reissue**: Run certbot for `fwber.site` + all subdomains on Hetzner
-3. **Nginx reload**: Deploy renamed `*.fwber.site.conf` files and reload nginx
-4. **Bing Webmaster Tools**: Submit `https://fwber.site/sitemap.xml`
+1. **DNS for fwber.online**: Create A records (`fwber.online`, `www`, `api`, `geo`, `ws`) → `5.161.250.43`
+2. **SSL reissue**: Run certbot for `fwber.online` + all subdomains on Hetzner
+3. **Nginx reload**: Deploy renamed `*.fwber.online.conf` files and reload nginx
+4. **Bing Webmaster Tools**: Submit `https://fwber.online/sitemap.xml`
 5. **Stripe Live Keys**: Transition from test to live mode
-6. **Email DNS**: Configure Resend MX/SPF/DKIM/DMARC records for `fwber.site`
+6. **Email DNS**: Configure Resend MX/SPF/DKIM/DMARC records for `fwber.online`
 7. **Cargo Upgrade**: Update Rust toolchain on Hetzner for geo rebuild
 8. **Landing Variant B**: Apply glassmorphism/framer-motion treatment
 9. **VibePromotionService**: Fix missing `type` field in quest creation (TS warning)

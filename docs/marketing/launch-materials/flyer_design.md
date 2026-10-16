@@ -13,7 +13,7 @@
 Your dating data belongs to you, not a billionaire in Silicon Valley.
 
 **CTA (Centered):**
-[Large QR Code leading to fwber.site]
+[Large QR Code leading to fwber.online]
 
 ---
 
@@ -32,4 +32,4 @@ Your dating data belongs to you, not a billionaire in Silicon Valley.
 Use code **"313ONLY"** for **500 free FWB tokens** upon signup.
 
 **Footer:**
-fwber.site | @fwber.site | Built for Detroit by Detroit.
+fwber.online | @fwber.online | Built for Detroit by Detroit.

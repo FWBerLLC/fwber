@@ -25,7 +25,7 @@ function getOpenAI(): OpenAI {
     // OpenRouter is preferred; fall back to direct OpenAI when only that key exists.
     baseURL: process.env.OPENROUTER_API_KEY ? 'https://openrouter.ai/api/v1' : undefined,
     defaultHeaders: process.env.OPENROUTER_API_KEY ? {
-      'HTTP-Referer': 'https://www.fwber.site',
+      'HTTP-Referer': 'https://www.fwber.online',
       'X-Title': 'fwber',
     } : undefined
   });

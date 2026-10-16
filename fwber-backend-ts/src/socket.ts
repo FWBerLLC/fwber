@@ -21,8 +21,8 @@ export function setupSocketIO(httpServer: any) {
     transports: ['websocket', 'polling'],
     cors: {
       origin: [
-        'https://www.fwber.site',
-        'https://fwber.site',
+        'https://www.fwber.online',
+        'https://fwber.online',
         'http://localhost:3000',
       ],
       methods: ['GET', 'POST'],
