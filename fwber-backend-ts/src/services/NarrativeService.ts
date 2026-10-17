@@ -28,12 +28,12 @@ export class NarrativeService {
 			// 1. Fetch answers for both users
 			const userAnswers = await prisma.user_matching_answers.findMany({
 				where: { user_id: userId },
-				include: { matching_questions: true, matching_options: true },
+				include: { matching_questions: true, chosen_option: true },
 			});
 
 			const targetAnswers = await prisma.user_matching_answers.findMany({
 				where: { user_id: targetId },
-				include: { matching_questions: true, matching_options: true },
+				include: { matching_questions: true, chosen_option: true },
 			});
 
 			if (userAnswers.length === 0 || targetAnswers.length === 0) {
@@ -49,8 +49,8 @@ export class NarrativeService {
 				const ta = targetAnswers.find((a) => a.question_id === ua.question_id);
 				if (ta) {
 					const questionText = uaAny.matching_questions?.text ?? "";
-					const userOption = uaAny.matching_options?.text ?? "";
-					const targetOption = (ta as any).matching_options?.text ?? "";
+					const userOption = uaAny.chosen_option?.text ?? "";
+					const targetOption = (ta as any).chosen_option?.text ?? "";
 
 					if (ua.chosen_option_id === ta.chosen_option_id) {
 						commonalities.push(
