@@ -8,6 +8,7 @@ import { useLocalPulseRealtime } from '@/lib/hooks/use-local-pulse-realtime';
 import { useTopics } from '@/lib/hooks/use-topics';
 import { useActiveQuests, useAcceptQuest, useCompleteQuest } from '@/lib/hooks/use-quests';
 import { EvolvingAvatar } from '@/components/ui/avatar';
+import { getAvatarUrl } from '@/lib/utils/avatar';
 
 import { apiClient } from '@/lib/api/client';
 import {
@@ -354,7 +355,7 @@ const CandidateCard = ({ candidate }: { candidate: MatchCandidate }) => {
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-3">
           <EvolvingAvatar
-            src={candidate.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${candidate.user_id}`}
+            src={getAvatarUrl(candidate.avatar, candidate.user_id)}
             alt={candidate.name || "Candidate"}
             size="md"
             emotion={

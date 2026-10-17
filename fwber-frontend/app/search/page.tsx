@@ -6,6 +6,7 @@ import ProtectedRoute from '@/components/ProtectedRoute';
 import AppHeader from '@/components/AppHeader';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '@/lib/api/client';
+import { getAvatarUrl } from '@/lib/utils/avatar';
 
 export default function SearchPage() {
   const { token, isAuthenticated } = useAuth();
@@ -166,7 +167,7 @@ export default function SearchPage() {
                   className="flex items-center gap-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 hover:border-orange-300 dark:hover:border-orange-600 transition-colors"
                 >
                   <img
-                    src={user.avatar_url || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.display_name || user.name}`}
+                    src={getAvatarUrl(user.avatar_url, user.display_name || user.name)}
                     alt={user.display_name || user.name}
                     className="w-12 h-12 rounded-full"
                   />

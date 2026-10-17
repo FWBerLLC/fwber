@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import Image from 'next/image';
+import { getAvatarUrl } from '@/lib/utils/avatar';
 import { useAuth } from '@/lib/auth-context'
 import ProtectedRoute from '@/components/ProtectedRoute'
 import { getMutualMatches, type Match } from '@/lib/api/matches'
@@ -250,7 +251,7 @@ export default function MatchesDashboardPage() {
                   <div className="relative aspect-square bg-gradient-to-br from-blue-400 to-purple-500">
                     {match.profile?.photos?.[0] ? (
                       <Image
-                        src={match.profile.photos[0].url}
+                        src={getAvatarUrl(match.profile.photos[0].url, match.profile.display_name)}
                         alt={match.profile.display_name || 'Profile'}
                         fill
                         className="object-cover"

@@ -6,6 +6,7 @@ import { apiClient } from '@/lib/api/client';
 import { ArrowLeft, Shield, UserX, Search } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { getAvatarUrl } from '@/lib/utils/avatar';
 
 interface BlockedUser {
   id: number;
@@ -106,7 +107,7 @@ export default function BlockedUsersPage() {
                       <div className="relative w-10 h-10 rounded-full overflow-hidden bg-gray-200">
                         {user.profile.avatarUrl ? (
                           <Image
-                            src={user.profile.avatarUrl}
+                            src={getAvatarUrl(user.profile.avatarUrl, user.profile.displayName)}
                             alt={user.profile.displayName}
                             fill
                             className="object-cover"

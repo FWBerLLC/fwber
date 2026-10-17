@@ -6,6 +6,7 @@ import { proximityApi } from '@/lib/api/proximity';
 import { MessageSquare, Loader2, User, Send } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import Image from 'next/image';
+import { getAvatarUrl } from '@/lib/utils/avatar';
 
 interface Comment {
     id: string;
@@ -110,7 +111,7 @@ export default function ArtifactComments({ artifactId, isOpen }: ArtifactComment
                         <div key={comment.id} className="flex gap-3">
                             <div className="flex-shrink-0 relative w-8 h-8 rounded-full overflow-hidden">
                                 {comment.user?.avatar_url ? (
-                                    <Image src={comment.user.avatar_url} alt={comment.user.name} fill sizes="32px" className="object-cover" />
+                                    <Image src={getAvatarUrl(comment.user.avatar_url, comment.user.name)} alt={comment.user.name} fill sizes="32px" className="object-cover" />
                                 ) : (
                                     <div className="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center">
                                         <User className="h-4 w-4 text-gray-500" />

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { User, Coins, Heart, CheckCircle, Search } from "lucide-react";
 import OptimizedImage from "@/components/OptimizedImage";
+import { getAvatarUrl } from "@/lib/utils/avatar";
 import { useAuth } from "@/lib/auth-context";
 // Removed Radix UI avatar since it might not be installed directly, using simple divs instead
 // import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar"; 
@@ -283,7 +284,7 @@ export default function BountyPage() {
                                     <div className="flex items-center space-x-3">
                                         <div className="h-10 w-10 rounded-full overflow-hidden bg-gray-700 dark:bg-gray-800 flex items-center justify-center relative">
                                             {friend.avatar_url ? (
-                                                <Image src={friend.avatar_url} alt={friend.name} fill className="object-cover" />
+                                                <Image src={getAvatarUrl(friend.avatar_url, friend.name)} alt={friend.name} fill className="object-cover" />
                                             ) : (
                                                 <span className="text-gray-400 dark:text-gray-500 font-bold">{friend.name.charAt(0)}</span>
                                             )}

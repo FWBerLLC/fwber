@@ -5,6 +5,7 @@ import { useAuth } from '@/lib/auth-context';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { apiClient } from '@/lib/api/client';
 import Image from 'next/image';
+import { getAvatarUrl } from '@/lib/utils/avatar';
 
 interface LikedUser {
   id: number;
@@ -64,7 +65,7 @@ export default function WhoLikesYouPage() {
                 <div key={user.id} className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
                   <div className="relative h-48 w-full">
                     <Image
-                      src={user.photo_url || user.avatarUrl || '/placeholder-user.jpg'}
+                      src={getAvatarUrl(user.photo_url || user.avatarUrl, user.display_name || user.name)}
                       alt={user.display_name || user.name || 'User'}
                       fill
                       className="object-cover"

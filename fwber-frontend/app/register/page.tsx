@@ -5,6 +5,7 @@ import { useAuth } from '@/lib/auth-context'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
+import { getAvatarUrl } from '@/lib/utils/avatar'
 import { blurFacesOnFile } from '@/lib/faceBlur'
 import { isFeatureEnabled } from '@/lib/featureFlags'
 import { ThemeToggle } from '@/components/ThemeToggle'
@@ -176,7 +177,7 @@ function RegisterForm() {
           <div className="flex items-center gap-4">
             {referrer.avatar ? (
               <div className="relative h-12 w-12 overflow-hidden rounded-full border-2 border-amber-400">
-                <Image src={referrer.avatar} alt={referrer.name} fill className="object-cover" />
+                <Image src={getAvatarUrl(referrer.avatar, referrer.name)} alt={referrer.name} fill className="object-cover" />
               </div>
             ) : (
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-amber-200 text-xl font-bold text-amber-800">

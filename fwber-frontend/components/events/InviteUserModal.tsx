@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
+import { getAvatarUrl } from '@/lib/utils/avatar';
 import { api } from '@/lib/api/client';
 import { X, Search, UserPlus, Check, Users, User as UserIcon } from 'lucide-react';
 import { Group, getMyGroups } from '@/lib/api/groups';
@@ -160,7 +161,7 @@ export default function InviteUserModal({ eventId, isOpen, onClose }: InviteUser
                     <div className="w-10 h-10 bg-gray-200 rounded-full overflow-hidden relative">
                       {user.avatar_url ? (
                         <Image 
-                          src={user.avatar_url} 
+                          src={getAvatarUrl(user.avatar_url, user.name)} 
                           alt={user.name} 
                           width={40} 
                           height={40} 

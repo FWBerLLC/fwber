@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { apiClient } from '@/lib/api/client'
 import Link from 'next/link'
 import { Shield, Flame, PartyPopper, CheckCircle2, User, Loader2 } from 'lucide-react'
+import { getAvatarUrl } from '@/lib/utils/avatar'
 
 interface VouchClientProps {
   code: string
@@ -90,7 +91,7 @@ export function VouchClient({ code }: VouchClientProps) {
         <div className="bg-gray-50 dark:bg-gray-900 p-8 text-center border-b border-gray-100">
           <div className="w-24 h-24 mx-auto bg-purple-100 rounded-full flex items-center justify-center mb-4 relative">
             {referrer.avatar ? (
-                <img src={referrer.avatar} alt={referrer.name} className="w-full h-full rounded-full object-cover" />
+                <img src={getAvatarUrl(referrer.avatar, referrer.name)} alt={referrer.name} className="w-full h-full rounded-full object-cover" />
             ) : (
                 <User className="w-12 h-12 text-purple-400" />
             )}

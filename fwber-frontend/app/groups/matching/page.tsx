@@ -11,6 +11,7 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { getAvatarUrl } from '@/lib/utils/avatar'
 import type { Group, GroupMatchRankingStrategy } from '@/lib/api/groups'
 
 interface MatchRequest {
@@ -300,7 +301,7 @@ export default function GroupMatchingPage() {
                             <div className="w-14 h-14 rounded-xl bg-slate-700 flex items-center justify-center flex-shrink-0 relative overflow-hidden">
                               {match.group?.avatar_url ? (
                                 <Image
-                                  src={match.group.avatar_url}
+                                  src={getAvatarUrl(match.group.avatar_url, match.group?.name)}
                                   alt={match.group?.name || match.name}
                                   fill
                                   className="object-cover"

@@ -1,6 +1,7 @@
 "use client";
 import { Sparkles } from 'lucide-react';
 import { EvolvingAvatar } from '@/components/ui/avatar';
+import { getAvatarUrl } from '@/lib/utils/avatar';
 
 export const dynamic = "force-dynamic";
 
@@ -231,7 +232,7 @@ export default function MessagesPage() {
 									>
 										<div className="relative">
 											<EvolvingAvatar
-												src={match.avatar || "/placeholder-avatar.png"}
+												src={getAvatarUrl(match.avatar, match.name)}
 												alt={match.name}
 												size="md"
 												emotion={match.emotion.toLowerCase()}
@@ -333,7 +334,7 @@ export default function MessagesPage() {
 											<div className="flex items-center space-x-3">
 												<div className="relative">
 													<EvolvingAvatar
-														src={conversation.other_user?.profile?.photos?.[0]?.url || "/placeholder-avatar.png"}
+														src={getAvatarUrl(conversation.other_user?.profile?.photos?.[0]?.url, conversation.other_user?.profile?.display_name)}
 														alt={conversation.other_user?.profile?.display_name || "User"}
 														size="md"
 														emotion={(conversation.other_user?.profile?.current_emotion as any) || "neutral"}

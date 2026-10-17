@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
+import { getAvatarUrl } from '@/lib/utils/avatar';
 import { useWhoLikesYou, usePremiumStatus } from '@/lib/hooks/use-premium';
 import { PremiumUpgradeModal } from '@/components/PremiumUpgradeModal';
 import { Button } from '@/components/ui/button';
@@ -52,7 +53,7 @@ export default function WhoLikesYouPage() {
                       // Unlocked State
                       <>
                         <Image 
-                          src={liker.photos?.[0]?.url || liker.avatar_url || '/placeholder-user.jpg'} 
+                          src={getAvatarUrl(liker.photos?.[0]?.url || liker.avatar_url, liker.name)} 
                           alt={liker.name}
                           fill
                           className="object-cover"
