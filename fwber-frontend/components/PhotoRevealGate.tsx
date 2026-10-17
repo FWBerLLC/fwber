@@ -131,6 +131,7 @@ export default function PhotoRevealGate({
               alt="AI generated photo"
               fill
               className="object-cover"
+              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
             />
             <div className="absolute top-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
               AI
@@ -146,6 +147,7 @@ export default function PhotoRevealGate({
               alt="Private Photo"
               fill
               className={`object-cover ${!photo.isUnlocked ? 'blur-xl' : ''}`}
+              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
             />
             {photo.isUnlocked ? (
               <div className="absolute top-2 right-2 bg-green-600 text-white text-xs px-2 py-1 rounded flex items-center gap-1">
@@ -175,6 +177,7 @@ export default function PhotoRevealGate({
               alt="Photo"
               fill
               className="object-cover"
+              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
             />
             {photo.isPrimary && (
               <div className="absolute top-2 left-2 bg-blue-600 text-white text-xs px-2 py-1 rounded">

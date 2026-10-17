@@ -34,8 +34,10 @@ export default function OptimizedImage({
   onLoad,
   onError,
 }: OptimizedImageProps) {
-  const [isLoading, setIsLoading] = useState(true)
-  const [hasError, setHasError] = useState(false)
+  // Legacy upload URLs pointing to decommissioned hosts — skip the network request entirely
+  const isDeadHost = /https?:\/\/api\.fwber\.me\//.test(src)
+  const [isLoading, setIsLoading] = useState(!isDeadHost)
+  const [hasError, setHasError] = useState(isDeadHost)
 
   // Generate blur placeholder if not provided
   const defaultBlurDataURL = blurDataURL || `data:image/svg+xml;base64,${Buffer.from(

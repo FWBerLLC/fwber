@@ -108,6 +108,7 @@ function SortablePhotoItem({
                <Image
                  src={photo.thumbnail_url || photo.url}
                  alt={`Photo ${index + 1}`}
+                 onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
                  style={{
                    width: '100%',
                    height: '100%',
