@@ -153,7 +153,7 @@ export default function PhysicalProfilePage() {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-24">
       <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8">
         {/* Header */}
-        <button
+        <button type="button"
           onClick={() => router.push('/profile')}
           className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white mb-6 transition-colors"
         >
@@ -326,7 +326,7 @@ export default function PhysicalProfilePage() {
           ) : (
             <span className="text-sm text-gray-500">Changes save to your profile</span>
           )}
-          <button
+          <button type="button"
             onClick={handleSave}
             disabled={saving}
             className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-8 rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 shadow-md"

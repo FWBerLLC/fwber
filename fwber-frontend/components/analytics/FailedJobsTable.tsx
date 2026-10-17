@@ -130,7 +130,7 @@ export default function FailedJobsTable() {
       <div className="rounded-lg bg-white dark:bg-gray-800 p-6 shadow-sm">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white">⚠️ Failed Jobs</h2>
-          <button onClick={fetchJobs} className="text-sm text-blue-600 hover:underline">Refresh</button>
+          <button type="button" onClick={fetchJobs} className="text-sm text-blue-600 hover:underline">Refresh</button>
         </div>
         <div className="mt-4 flex flex-col items-center justify-center py-8 text-center">
           <CheckCircle className="h-12 w-12 text-green-500 mb-3" />
@@ -149,7 +149,7 @@ export default function FailedJobsTable() {
           <p className="text-sm text-gray-500">{jobs.length} jobs require attention</p>
         </div>
         <div className="flex gap-2">
-          <button
+          <button type="button"
             onClick={handleRetryAll}
             disabled={!!processing}
             className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
@@ -157,7 +157,7 @@ export default function FailedJobsTable() {
             <RefreshCw className={`h-4 w-4 mr-2 ${processing === 'all' ? 'animate-spin' : ''}`} />
             Retry All
           </button>
-          <button
+          <button type="button"
             onClick={handleFlush}
             disabled={!!processing}
             className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50"
@@ -218,7 +218,7 @@ export default function FailedJobsTable() {
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <button
+                    <button type="button"
                       onClick={() => handleRetry(job.uuid)}
                       disabled={!!processing}
                       className="text-blue-600 hover:text-blue-900 mr-4 disabled:opacity-50"
@@ -226,7 +226,7 @@ export default function FailedJobsTable() {
                     >
                       <RefreshCw className={`h-4 w-4 ${processing === job.uuid ? 'animate-spin' : ''}`} />
                     </button>
-                    <button
+                    <button type="button"
                       onClick={() => handleDelete(job.uuid)}
                       disabled={!!processing}
                       className="text-red-600 hover:text-red-900 disabled:opacity-50"

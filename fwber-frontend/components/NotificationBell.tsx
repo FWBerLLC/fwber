@@ -166,7 +166,7 @@ export function NotificationBell({ className = '' }: NotificationBellProps) {
 
   return (
     <div className={`notification-bell relative ${className}`}>
-      <button
+      <button type="button"
         onClick={() => setIsOpen(!isOpen)}
         className="relative p-2 rounded-full hover:bg-gray-100 dark:bg-gray-800 transition-colors"
         aria-label="Notifications"
@@ -185,14 +185,14 @@ export function NotificationBell({ className = '' }: NotificationBellProps) {
             <h3 className="font-semibold text-gray-900 dark:text-white">Notifications</h3>
             <div className="flex items-center gap-2">
               {unreadCount > 0 && (
-                <button
+                <button type="button"
                   onClick={markAllAsRead}
                   className="text-xs text-blue-600 hover:text-blue-800 font-medium"
                 >
                   Mark all read
                 </button>
               )}
-              <button
+              <button type="button"
                 onClick={() => setIsOpen(false)}
                 className="p-1 rounded hover:bg-gray-200"
                 aria-label="Close notifications"

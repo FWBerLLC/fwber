@@ -161,7 +161,7 @@ export default function MatchARView({ matchId, matchName, onClose, token }: Matc
                 )}
             </div>
         </div>
-        <button onClick={onClose} className="bg-white dark:bg-gray-800 text-black p-3 rounded-full hover:scale-110 transition active:scale-95 shadow-xl">
+        <button type="button" onClick={onClose} className="bg-white dark:bg-gray-800 text-black p-3 rounded-full hover:scale-110 transition active:scale-95 shadow-xl">
           <X className="w-6 h-6" />
         </button>
       </div>

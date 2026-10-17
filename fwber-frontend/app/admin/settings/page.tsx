@@ -142,7 +142,7 @@ function FeatureToggle({
         </div>
         <p className="text-sm text-gray-500 mt-1">{info.description}</p>
       </div>
-      <button
+      <button type="button"
         onClick={() => onToggle(flag, !enabled)}
         disabled={isPending}
         className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed ${enabled ? 'bg-blue-600' : 'bg-gray-200'
@@ -234,7 +234,7 @@ export default function AdminSettingsPage() {
               <p className="mt-2 text-sm text-red-700">
                 {(featuresQuery.error as Error)?.message ?? 'An error occurred'}
               </p>
-              <button
+              <button type="button"
                 onClick={() => featuresQuery.refetch()}
                 className="mt-4 rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-500"
               >
@@ -262,7 +262,7 @@ export default function AdminSettingsPage() {
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <button
+                <button type="button"
                   onClick={() => {
                     featuresQuery.refetch();
                     healthQuery.refetch();

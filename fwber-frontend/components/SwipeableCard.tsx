@@ -176,7 +176,7 @@ export default function SwipeableCard({ user, onSwipe, onAction }: SwipeableCard
                 {user.voice_intro_url && (
                     <div className="w-full pt-4">
                         <audio ref={audioRef} src={user.voice_intro_url} onEnded={() => setIsPlaying(false)} className="hidden" />
-                        <button
+                        <button type="button"
                             onClick={toggleAudio}
                             className="w-full py-4 bg-white dark:bg-gray-800 text-black rounded-2xl font-black flex items-center justify-center gap-3 hover:scale-[1.02] transition active:scale-95"
                         >

@@ -61,7 +61,7 @@ export default function VerifyEmailPage() {
               </div>
               <h2 className="text-xl font-bold text-green-700 dark:text-green-400 mb-2">Verified!</h2>
               <p className="text-gray-600 dark:text-gray-400 mb-6">{message}</p>
-              <button
+              <button type="button"
                 onClick={() => router.push('/dashboard')}
                 className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition shadow-lg"
               >

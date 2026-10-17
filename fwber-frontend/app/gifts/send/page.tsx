@@ -37,7 +37,7 @@ export default function GiftsSendPage() {
             <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
               Choose a gift from the shop below
             </p>
-            <button
+            <button type="button"
               onClick={() => setIsShopOpen(true)}
               className="rounded-xl bg-pink-600 px-6 py-3 text-sm font-medium text-white hover:bg-pink-700 transition-colors"
             >

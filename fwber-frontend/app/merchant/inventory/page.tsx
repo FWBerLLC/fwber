@@ -77,7 +77,7 @@ export default function MerchantInventoryPage() {
                 Inventory Management
               </h1>
             </div>
-            <button 
+            <button type="button" 
               onClick={fetchInventory}
               className="p-2 hover:bg-gray-200 dark:hover:bg-gray-800 rounded-lg transition"
             >

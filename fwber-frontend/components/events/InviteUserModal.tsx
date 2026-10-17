@@ -104,7 +104,7 @@ export default function InviteUserModal({ eventId, isOpen, onClose }: InviteUser
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white dark:bg-gray-800 rounded-lg w-full max-w-md p-6 relative">
-        <button
+        <button type="button"
           onClick={onClose}
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:text-gray-400 dark:hover:text-gray-200"
           aria-label="Close"
@@ -175,7 +175,7 @@ export default function InviteUserModal({ eventId, isOpen, onClose }: InviteUser
                     </div>
                     <span className="font-medium">{user.name}</span>
                   </div>
-                  <button
+                  <button type="button"
                     onClick={() => handleInviteUser(user.id)}
                     disabled={invitingUser === user.id || invitedUsers.includes(user.id)}
                     className={`p-2 rounded-full ${
@@ -223,7 +223,7 @@ export default function InviteUserModal({ eventId, isOpen, onClose }: InviteUser
                       <span className="text-xs text-gray-500">{group.member_count} members</span>
                     </div>
                   </div>
-                  <button
+                  <button type="button"
                     onClick={() => handleInviteGroup(group.id)}
                     disabled={invitingGroup === group.id || invitedGroups.includes(group.id)}
                     className={`p-2 rounded-full ${

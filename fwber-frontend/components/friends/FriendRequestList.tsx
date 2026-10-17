@@ -25,14 +25,14 @@ export default function FriendRequestList({ friendRequests, onRespondToRequest }
             <p className="text-sm text-gray-500">{request.user?.email || ''}</p>
           </div>
           <div className="space-x-4">
-            <button
+            <button type="button"
               onClick={() => request.user?.id && onRespondToRequest(request.user.id, 'accepted')}
               disabled={!request.user?.id}
               className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg"
             >
               Accept
             </button>
-            <button
+            <button type="button"
               onClick={() => request.user?.id && onRespondToRequest(request.user.id, 'declined')}
               disabled={!request.user?.id}
               className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg"

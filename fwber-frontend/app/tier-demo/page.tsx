@@ -75,7 +75,7 @@ export default function TierDemoPage() {
               </label>
               <div className="flex flex-wrap gap-2">
                 {Object.entries(tierLabels).map(([tier, label]) => (
-                  <button
+                  <button type="button"
                     key={tier}
                     onClick={() => handleTierChange(tier as RelationshipTier)}
                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${currentTier === tier

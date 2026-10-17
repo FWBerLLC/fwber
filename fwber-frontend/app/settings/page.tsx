@@ -129,7 +129,7 @@ interface SettingsButtonProps {
 
 function SettingsButton({ onClick, icon, title, description, disabled }: SettingsButtonProps) {
   return (
-    <button
+    <button type="button"
       onClick={onClick}
       disabled={disabled}
       className="w-full flex items-center gap-4 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-purple-300 hover:shadow-sm transition-all group text-left disabled:opacity-50 disabled:cursor-not-allowed"
@@ -292,7 +292,7 @@ export default function SettingsPage() {
             <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center gap-3">
               <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
               <p className="dark:text-gray-300 text-sm font-medium text-green-800">{verifiedMessage}</p>
-              <button onClick={() => setVerifiedMessage(null)} className="ml-auto text-green-600 hover:text-green-800">✕</button>
+              <button type="button" onClick={() => setVerifiedMessage(null)} className="ml-auto text-green-600 hover:text-green-800">✕</button>
             </div>
           )}
 
@@ -304,7 +304,7 @@ export default function SettingsPage() {
                 <p className="text-sm font-medium text-amber-800 dark:text-amber-200">Verify your email address</p>
                 <p className="text-xs text-amber-600 dark:text-amber-400">Check your inbox for a verification link.</p>
               </div>
-              <button
+              <button type="button"
                 onClick={async () => {
                   try {
                     await apiClient.post('/email/verification-notification');
@@ -500,7 +500,7 @@ export default function SettingsPage() {
 
           {/* Logout Button */}
           <section>
-            <button
+            <button type="button"
               onClick={handleLogout}
               className="w-full flex items-center justify-center gap-2 p-4 bg-red-50 text-red-600 rounded-lg border border-red-200 hover:bg-red-100 transition-colors"
             >

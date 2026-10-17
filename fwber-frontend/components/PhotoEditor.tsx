@@ -367,22 +367,22 @@ export default function PhotoEditor({ src, fileName, onSave, onCancel }: PhotoEd
       {/* ── Top Bar ──────────────────────────────────────────────────── */}
       <div className="flex items-center justify-between px-4 py-2 bg-gray-900 border-b border-gray-800">
         <div className="flex items-center gap-2">
-          <button onClick={onCancel} className="p-2 hover:bg-gray-800 rounded-lg transition" title="Cancel (Esc)">
+          <button type="button" onClick={onCancel} className="p-2 hover:bg-gray-800 rounded-lg transition" title="Cancel (Esc)">
             <X className="w-5 h-5" />
           </button>
           <span className="text-sm font-medium text-gray-400">Photo Editor</span>
         </div>
 
         <div className="flex items-center gap-1">
-          <button onClick={undo} disabled={historyIndex <= 0} className="p-2 hover:bg-gray-800 rounded-lg transition disabled:opacity-30" title="Undo (Ctrl+Z)">
+          <button type="button" onClick={undo} disabled={historyIndex <= 0} className="p-2 hover:bg-gray-800 rounded-lg transition disabled:opacity-30" title="Undo (Ctrl+Z)">
             <Undo2 className="w-4 h-4" />
           </button>
-          <button onClick={resetAdjustments} className="px-3 py-1.5 text-xs hover:bg-gray-800 rounded-lg transition text-gray-400">
+          <button type="button" onClick={resetAdjustments} className="px-3 py-1.5 text-xs hover:bg-gray-800 rounded-lg transition text-gray-400">
             Reset All
           </button>
         </div>
 
-        <button onClick={handleSave} className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg text-sm font-medium transition">
+        <button type="button" onClick={handleSave} className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg text-sm font-medium transition">
           <Check className="w-4 h-4" />
           Save
         </button>
@@ -494,12 +494,12 @@ export default function PhotoEditor({ src, fileName, onSave, onCancel }: PhotoEd
                     Selection: {Math.round(crop.width)}% × {Math.round(crop.height)}%
                   </div>
                   <div className="grid grid-cols-2 gap-2">
-                    <button onClick={() => { setCrop({ x: 10, y: 10, width: 80, height: 80, active: true }); pushHistory(); }} className="text-xs px-3 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition">1:1</button>
-                    <button onClick={() => { setCrop({ x: 10, y: 15, width: 80, height: 70, active: true }); pushHistory(); }} className="text-xs px-3 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition">4:3</button>
-                    <button onClick={() => { setCrop({ x: 5, y: 20, width: 90, height: 60, active: true }); pushHistory(); }} className="text-xs px-3 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition">3:2</button>
-                    <button onClick={() => { setCrop({ x: 0, y: 15, width: 100, height: 56.25, active: true }); pushHistory(); }} className="text-xs px-3 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition">16:9</button>
+                    <button type="button" onClick={() => { setCrop({ x: 10, y: 10, width: 80, height: 80, active: true }); pushHistory(); }} className="text-xs px-3 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition">1:1</button>
+                    <button type="button" onClick={() => { setCrop({ x: 10, y: 15, width: 80, height: 70, active: true }); pushHistory(); }} className="text-xs px-3 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition">4:3</button>
+                    <button type="button" onClick={() => { setCrop({ x: 5, y: 20, width: 90, height: 60, active: true }); pushHistory(); }} className="text-xs px-3 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition">3:2</button>
+                    <button type="button" onClick={() => { setCrop({ x: 0, y: 15, width: 100, height: 56.25, active: true }); pushHistory(); }} className="text-xs px-3 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition">16:9</button>
                   </div>
-                  <button onClick={() => { setCrop(null); pushHistory(); }} className="w-full text-xs px-3 py-2 bg-red-900/50 hover:bg-red-800/50 rounded-lg transition text-red-300">
+                  <button type="button" onClick={() => { setCrop(null); pushHistory(); }} className="w-full text-xs px-3 py-2 bg-red-900/50 hover:bg-red-800/50 rounded-lg transition text-red-300">
                     Clear Crop
                   </button>
                 </div>
@@ -516,7 +516,7 @@ export default function PhotoEditor({ src, fileName, onSave, onCancel }: PhotoEd
               <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-500">Filters</h3>
               <div className="grid grid-cols-3 gap-2">
                 {Object.entries(FILTER_THUMBNAILS).map(([key, { label, css }]) => (
-                  <button
+                  <button type="button"
                     key={key}
                     onClick={() => { setActiveFilter(key); pushHistory(); }}
                     className={`flex flex-col items-center gap-1 p-1 rounded-lg transition ${activeFilter === key ? 'ring-2 ring-purple-500 bg-gray-800' : 'hover:bg-gray-800'}`}
@@ -562,7 +562,7 @@ function ToolButton({ icon, label, active, onClick }: {
   onClick: () => void
 }) {
   return (
-    <button
+    <button type="button"
       onClick={onClick}
       title={label}
       className={`p-2.5 rounded-lg transition-colors ${active ? 'bg-purple-600 text-white' : 'text-gray-400 hover:bg-gray-800 hover:text-white'}`}
@@ -591,7 +591,7 @@ function SliderControl({ label, icon, value, min, max, defaultValue, onChange }:
         <div className="flex items-center gap-1">
           <span className="text-xs text-gray-500 w-8 text-right">{value}</span>
           {value !== defaultValue && (
-            <button
+            <button type="button"
               onClick={() => onChange(defaultValue)}
               className="text-[10px] text-purple-400 hover:text-purple-300 px-1"
             >

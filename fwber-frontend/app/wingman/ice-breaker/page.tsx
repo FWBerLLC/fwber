@@ -96,7 +96,7 @@ export default function IceBreakerPage() {
                     ]).map((ib, i) => (
                       <div key={i} className="bg-slate-800/50 border border-cyan-500/20 rounded-xl p-4 hover:border-cyan-500/40 transition group">
                         <p className="text-gray-200">{ib}</p>
-                        <button
+                        <button type="button"
                           onClick={async () => {
                             try { await navigator.clipboard.writeText(ib) } catch { /* ok */ }
                           }}
@@ -114,7 +114,7 @@ export default function IceBreakerPage() {
                 )}
 
                 <div className="mt-8">
-                  <button onClick={getIceBreakers} disabled={loading}
+                  <button type="button" onClick={getIceBreakers} disabled={loading}
                     className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-xl hover:from-cyan-600 hover:to-blue-700 transition disabled:opacity-50 shadow-lg shadow-cyan-500/30 mx-auto">
                     {loading ? <RefreshCw className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
                     {result ? 'Generate More' : 'Get Ice Breakers'}

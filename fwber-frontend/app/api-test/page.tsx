@@ -82,7 +82,7 @@ export default function ApiTestPage() {
             </div>
           </div>
           
-          <button
+          <button type="button"
             onClick={testBackendConnection}
             disabled={isLoading}
             className="mt-6 w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:from-purple-700 hover:to-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"

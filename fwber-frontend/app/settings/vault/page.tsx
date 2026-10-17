@@ -205,7 +205,7 @@ function VaultSettingsContent() {
           </div>
 
           {vault.isUnlocked && (
-            <button
+            <button type="button"
               onClick={handleLock}
               className="mt-4 flex items-center gap-2 rounded-lg border border-yellow-300 bg-yellow-50 px-4 py-2 text-sm font-medium text-yellow-700 hover:bg-yellow-100"
             >
@@ -323,7 +323,7 @@ function VaultSettingsContent() {
                 </div>
               )}
 
-              <button
+              <button type="button"
                 onClick={vault.status === 'uninitialized' ? handleInitialize : handleUnlock}
                 disabled={
                   actionLoading !== null ||
@@ -355,7 +355,7 @@ function VaultSettingsContent() {
           <div className="rounded-lg border bg-white dark:bg-gray-800 p-6 shadow-sm">
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Vault Contents</h2>
-              <button
+              <button type="button"
                 onClick={handleExport}
                 disabled={actionLoading === 'export' || vault.items.length === 0}
                 className="flex items-center gap-2 rounded-lg border border-purple-300 bg-purple-50 px-3 py-1.5 text-sm font-medium text-purple-700 hover:bg-purple-100 disabled:cursor-not-allowed disabled:opacity-50"
@@ -388,7 +388,7 @@ function VaultSettingsContent() {
                         {new Date(item.createdAt).toLocaleDateString()}
                       </p>
                     </div>
-                    <button
+                    <button type="button"
                       onClick={() => vault.removeFile(item.id)}
                       className="rounded p-2 text-gray-400 hover:bg-red-50 hover:text-red-500"
                       aria-label="Remove from vault"
@@ -438,7 +438,7 @@ function VaultSettingsContent() {
                   Reset the vault to delete all encrypted media and start fresh. This action cannot
                   be undone.
                 </p>
-                <button
+                <button type="button"
                   onClick={() => setShowResetConfirm(true)}
                   className="mt-3 rounded-lg border border-red-300 px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50"
                 >
@@ -451,7 +451,7 @@ function VaultSettingsContent() {
                   Are you absolutely sure? This will permanently delete all vault data.
                 </p>
                 <div className="mt-3 flex gap-3">
-                  <button
+                  <button type="button"
                     onClick={handleReset}
                     disabled={actionLoading === 'reset'}
                     className="flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 disabled:opacity-50"
@@ -463,7 +463,7 @@ function VaultSettingsContent() {
                     )}
                     Yes, Delete Everything
                   </button>
-                  <button
+                  <button type="button"
                     onClick={() => setShowResetConfirm(false)}
                     className="rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:bg-gray-900"
                   >

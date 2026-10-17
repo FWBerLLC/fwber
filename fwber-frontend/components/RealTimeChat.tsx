@@ -103,7 +103,7 @@ function TranslateButton({
 					{translatedText}
 				</div>
 			)}
-			<button
+			<button type="button"
 				onClick={handleTranslate}
 				className="text-[10px] text-gray-400 hover:text-white flex items-center gap-1 mt-1 opacity-50 hover:opacity-100 transition-opacity"
 				title="Translate"
@@ -466,7 +466,7 @@ export default function RealTimeChat({
 						/>
 					</ErrorBoundary>
 
-					<button
+					<button type="button"
 						onClick={onLocate}
 						className="p-2 hover:bg-gray-700 rounded-full text-gray-400 hover:text-purple-400 transition-colors"
 						title="Locate Match (AR)"
@@ -475,7 +475,7 @@ export default function RealTimeChat({
 					</button>
 
 					{onVideoCall && (
-						<button
+						<button type="button"
 							onClick={onVideoCall}
 							className="p-2 hover:bg-gray-700 rounded-full text-gray-400 hover:text-blue-400 transition-colors"
 							title="Video Call"
@@ -484,7 +484,7 @@ export default function RealTimeChat({
 						</button>
 					)}
 
-					<button
+					<button type="button"
 						onClick={() => setIsGiftModalOpen(true)}
 						className="p-2 hover:bg-gray-700 rounded-full text-gray-400 hover:text-pink-400 transition-colors"
 						title="Send Gift"
@@ -514,7 +514,7 @@ export default function RealTimeChat({
 						</PopoverTrigger>
 						<PopoverContent className="w-56 bg-gray-900 border-gray-700 text-white p-2">
 							<div className="space-y-1">
-								<button
+								<button type="button"
 									onClick={() =>
 										router.push(`/ice-breakers?match=${recipientId}`)
 									}
@@ -523,7 +523,7 @@ export default function RealTimeChat({
 									<Sparkles className="h-4 w-4 text-yellow-400" />
 									<span>Play Ice Breakers</span>
 								</button>
-								<button
+								<button type="button"
 									onClick={() => router.push(`/scrapbook?match=${recipientId}`)}
 									className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-800 rounded-md transition-colors text-sm"
 								>
@@ -549,7 +549,7 @@ export default function RealTimeChat({
 					</Dialog>
 
 					{onRateDate && (
-						<button
+						<button type="button"
 							onClick={onRateDate}
 							className="p-2 hover:bg-gray-700 rounded-full text-gray-400 hover:text-green-400 transition-colors"
 							title="Rate Date Feedback"
@@ -559,7 +559,7 @@ export default function RealTimeChat({
 					)}
 
 					<div className="relative">
-						<button
+						<button type="button"
 							onClick={() => setShowSafetyMenu(!showSafetyMenu)}
 							className="p-2 hover:bg-gray-700 rounded-full text-gray-400 hover:text-white transition-colors"
 							title="Options"
@@ -570,7 +570,7 @@ export default function RealTimeChat({
 							<div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 dark:bg-gray-700 rounded-md shadow-lg z-10 border border-gray-200 dark:border-gray-700 dark:border-gray-600">
 								<div className="py-1">
 									{onReport && (
-										<button
+										<button type="button"
 											onClick={() => {
 												onReport();
 												setShowSafetyMenu(false);
@@ -581,7 +581,7 @@ export default function RealTimeChat({
 										</button>
 									)}
 									{onBlock && (
-										<button
+										<button type="button"
 											onClick={() => {
 												onBlock();
 												setShowSafetyMenu(false);
@@ -632,7 +632,7 @@ export default function RealTimeChat({
 							<div className="flex-1 min-w-0">
 								<h4 className="text-red-400 font-semibold text-sm flex items-center justify-between">
 									Wingman Suggestion
-									<button
+									<button type="button"
 										onClick={() => setActiveNudge(null)}
 										className="text-gray-400 hover:text-white transition-colors p-1"
 									>
@@ -784,7 +784,7 @@ export default function RealTimeChat({
 								</div>
 
 								<div className="flex gap-1 mt-1 opacity-0 hover:opacity-100 transition-opacity">
-									<button
+									<button type="button"
 										onClick={() =>
 											handleReaction(
 												String(msg.message_id || msg.id || ""),
@@ -796,7 +796,7 @@ export default function RealTimeChat({
 									>
 										<ThumbsUp className="w-3 h-3 text-gray-400 hover:text-blue-400" />
 									</button>
-									<button
+									<button type="button"
 										onClick={() =>
 											handleReaction(
 												String(msg.message_id || msg.id || ""),
@@ -808,7 +808,7 @@ export default function RealTimeChat({
 									>
 										<Heart className="w-3 h-3 text-gray-400 hover:text-pink-500" />
 									</button>
-									<button
+									<button type="button"
 										onClick={() =>
 											handleReaction(
 												String(msg.message_id || msg.id || ""),
@@ -863,7 +863,7 @@ export default function RealTimeChat({
 						<span className="text-sm text-gray-300 truncate max-w-xs">
 							{selectedFile.name}
 						</span>
-						<button
+						<button type="button"
 							onClick={() => {
 								setSelectedFile(null);
 								if (fileInputRef.current) fileInputRef.current.value = "";

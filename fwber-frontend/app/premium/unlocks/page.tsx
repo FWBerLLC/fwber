@@ -163,7 +163,7 @@ export default function ContentUnlocksPage() {
 
           {/* Tabs */}
           <div className="flex gap-2 mb-6">
-            <button
+            <button type="button"
               onClick={() => setActiveTab('available')}
               className={`flex-1 py-3 px-4 rounded-xl font-medium transition-all ${
                 activeTab === 'available'
@@ -176,7 +176,7 @@ export default function ContentUnlocksPage() {
                 Available to Unlock
               </div>
             </button>
-            <button
+            <button type="button"
               onClick={() => setActiveTab('unlocked')}
               className={`flex-1 py-3 px-4 rounded-xl font-medium transition-all ${
                 activeTab === 'unlocked'
@@ -193,7 +193,7 @@ export default function ContentUnlocksPage() {
 
           {/* Refresh Button */}
           <div className="flex justify-end mb-4">
-            <button
+            <button type="button"
               onClick={fetchUnlocks}
               disabled={loading}
               className="flex items-center gap-2 text-purple-300 hover:text-purple-200 text-sm transition-colors"
@@ -261,7 +261,7 @@ export default function ContentUnlocksPage() {
                               <Sparkles className="w-4 h-4" />
                               <span className="font-medium">{item.token_cost} tokens</span>
                             </div>
-                            <button
+                            <button type="button"
                               onClick={() => item.match_id && handleUnlock(item.match_id, item.token_cost)}
                               disabled={unlocking === item.match_id || tokenBalance < item.token_cost}
                               className={`flex items-center gap-2 px-4 py-2 rounded-xl font-medium transition-all ${

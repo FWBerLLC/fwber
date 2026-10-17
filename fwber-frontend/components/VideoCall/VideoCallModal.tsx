@@ -231,7 +231,7 @@ export function VideoCallModal({ recipientId, isOpen, onClose, isIncoming = fals
             <div className="w-full h-full flex flex-col items-center justify-center text-red-500 p-4 text-center">
               <p className="text-xl font-semibold mb-2">Camera Error</p>
               <p className="mb-4">{error}</p>
-              <button 
+              <button type="button" 
                 onClick={onClose} 
                 className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded"
               >

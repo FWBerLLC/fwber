@@ -32,7 +32,7 @@ export default function GlobalError({
             <p style={{ color: '#6b7280', fontSize: '0.875rem', marginBottom: '1.5rem' }}>
               The application encountered a critical error. Please try refreshing.
             </p>
-            <button
+            <button type="button"
               onClick={reset}
               style={{
                 padding: '0.75rem 1.5rem',

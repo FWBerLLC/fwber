@@ -73,7 +73,7 @@ export default function PhotoGallery({
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
-        <button
+        <button type="button"
           onClick={onClose}
           className="absolute top-6 right-6 z-10 p-3 bg-black/70 text-white rounded-full border-2 border-white/30 flex items-center justify-center hover:bg-black/90 transition-colors"
           aria-label="Close gallery"
@@ -83,7 +83,7 @@ export default function PhotoGallery({
 
         {/* Delete Button */}
         {onDelete && photoIds && photoIds[currentIndex] && (
-          <button
+          <button type="button"
             onClick={handleDelete}
             className="absolute top-6 right-20 z-10 p-3 bg-red-500/80 text-white rounded-full border-2 border-white/30 flex items-center justify-center hover:bg-red-500 transition-colors"
             title="Delete photo"
@@ -110,7 +110,7 @@ export default function PhotoGallery({
         {/* Navigation */}
         {photos.length > 1 && (
           <>
-            <button
+            <button type="button"
               onClick={prevPhoto}
               className="absolute left-8 top-1/2 -translate-y-1/2 z-10 p-4 bg-black/70 text-white rounded-full border-2 border-white/30 flex items-center justify-center hover:bg-black/90 hover:scale-110 transition-all"
               aria-label="Previous photo"
@@ -118,7 +118,7 @@ export default function PhotoGallery({
               <ChevronLeft className="w-8 h-8 text-white" />
             </button>
             
-            <button
+            <button type="button"
               onClick={nextPhoto}
               className="absolute right-8 top-1/2 -translate-y-1/2 z-10 p-4 bg-black/70 text-white rounded-full border-2 border-white/30 flex items-center justify-center hover:bg-black/90 hover:scale-110 transition-all"
               aria-label="Next photo"

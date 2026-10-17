@@ -98,14 +98,14 @@ export default function RateMyPussyPage() {
 
         {/* Action Buttons */}
         <div className="flex flex-wrap justify-center gap-4 mb-12">
-          <button
+          <button type="button"
             onClick={() => setShowUpload(!showUpload)}
             className="flex items-center gap-2 px-8 py-4 bg-white dark:bg-gray-800 text-black font-bold rounded-full hover:scale-105 transition active:scale-95 shadow-xl shadow-white/10"
           >
             <Upload className="w-5 h-5" />
             Upload Your Pussy
           </button>
-          <button
+          <button type="button"
             onClick={fetchCats}
             className="flex items-center gap-2 px-8 py-4 bg-zinc-900 border border-zinc-800 text-white font-bold rounded-full hover:bg-zinc-800 transition shadow-xl"
           >
@@ -191,7 +191,7 @@ export default function RateMyPussyPage() {
                     <p className="text-zinc-500 text-sm mb-4">by {cat.user_name}</p>
                     <div className="grid grid-cols-5 gap-1">
                       {[2, 4, 6, 8, 10].map((r) => (
-                        <button
+                        <button type="button"
                           key={r}
                           onClick={() => handleRate(cat.id, r)}
                           className="py-2 bg-zinc-900 rounded-lg hover:bg-pink-600 transition text-xs font-bold border border-zinc-800"
@@ -221,7 +221,7 @@ export default function RateMyPussyPage() {
                     className="object-cover group-hover:scale-110 transition duration-500"
                   />
                   <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-                    <button 
+                    <button type="button" 
                       onClick={() => handleRate(cat.id, 10)}
                       className="p-2 bg-pink-600 rounded-full"
                     >

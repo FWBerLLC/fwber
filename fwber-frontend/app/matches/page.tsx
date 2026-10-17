@@ -213,7 +213,7 @@ export default function MatchesPage() {
 													onEnded={() => setIsPlaying(false)}
 													className="hidden"
 												/>
-												<button
+												<button type="button"
 													onClick={toggleAudio}
 													className="w-full py-4 bg-purple-600 hover:bg-purple-700 text-white rounded-2xl font-black flex items-center justify-center gap-3 hover:scale-[1.02] transition active:scale-95"
 												>

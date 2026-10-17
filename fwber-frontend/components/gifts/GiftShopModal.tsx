@@ -65,7 +65,7 @@ export default function GiftShopModal({ isOpen, onClose, receiverId, receiverNam
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6">
               {gifts?.map((gift) => (
-                <button
+                <button type="button"
                   key={gift.id}
                   onClick={() => setSelectedGiftId(gift.id)}
                   className={`p-4 border-2 rounded-xl transition-all flex flex-col items-center gap-2 relative ${
@@ -107,7 +107,7 @@ export default function GiftShopModal({ isOpen, onClose, receiverId, receiverNam
               />
             </div>
 
-            <button
+            <button type="button"
               onClick={handleSend}
               disabled={!selectedGiftId || isPending || (selectedGift && tokenBalance < selectedGift.cost)}
               className={`w-full py-3 px-4 rounded-lg font-bold text-white transition-all flex items-center justify-center gap-2 ${

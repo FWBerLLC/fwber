@@ -67,7 +67,7 @@ export default function PaymentRequests() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h3 className="text-lg font-medium">Payment Requests</h3>
-        <button
+        <button type="button"
           onClick={() => setIsCreateOpen(true)}
           className="flex items-center gap-2 bg-indigo-600 text-white px-3 py-1.5 rounded-lg text-sm hover:bg-indigo-700"
         >
@@ -105,13 +105,13 @@ export default function PaymentRequests() {
 
                 {req.status === 'pending' ? (
                   <div className="flex gap-2">
-                    <button
+                    <button type="button"
                       onClick={() => handlePay(req.id)}
                       className="flex-1 bg-green-600 hover:bg-green-700 text-white py-1.5 px-3 rounded text-sm font-medium flex justify-center items-center gap-1"
                     >
                       <Check className="w-3 h-3" /> Pay
                     </button>
-                    <button
+                    <button type="button"
                       onClick={() => handleCancel(req.id)}
                       className="flex-1 bg-red-100 hover:bg-red-200 text-red-700 dark:bg-red-900/30 dark:hover:bg-red-900/50 dark:text-red-300 py-1.5 px-3 rounded text-sm font-medium flex justify-center items-center gap-1"
                     >
@@ -153,7 +153,7 @@ export default function PaymentRequests() {
                    </span>
 
                    {req.status === 'pending' && (
-                     <button
+                     <button type="button"
                        onClick={() => handleCancel(req.id)}
                        className="text-xs text-red-500 hover:text-red-700 hover:underline"
                      >

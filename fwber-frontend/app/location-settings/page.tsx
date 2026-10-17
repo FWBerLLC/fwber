@@ -229,7 +229,7 @@ export default function LocationSettingsPage() {
 
               {/* Actions */}
               <div className="flex space-x-4">
-                <button
+                <button type="button"
                   onClick={handleUpdateLocation}
                   disabled={isUpdating}
                   className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-bold py-2 px-6 rounded transition duration-200"
@@ -237,7 +237,7 @@ export default function LocationSettingsPage() {
                   {isUpdating ? 'Updating...' : 'Update Location'}
                 </button>
                 
-                <button
+                <button type="button"
                   onClick={handleClearLocation}
                   disabled={isUpdating}
                   className="bg-red-600 hover:bg-red-700 disabled:bg-red-400 text-white font-bold py-2 px-6 rounded transition duration-200"
@@ -253,7 +253,7 @@ export default function LocationSettingsPage() {
               <p className="text-gray-500 mb-6">
                 You haven&apos;t shared your location yet. Enable location sharing to discover people nearby!
               </p>
-              <button
+              <button type="button"
                 onClick={handleUpdateLocation}
                 disabled={isUpdating}
                 className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-bold py-3 px-8 rounded-lg transition duration-200"

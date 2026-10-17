@@ -188,7 +188,7 @@ export function ActivityFeed({
           Recent Activity
         </h3>
         {showRefresh && (
-          <button
+          <button type="button"
             onClick={() => fetchActivities(true)}
             disabled={isRefreshing}
             className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 transition-colors disabled:opacity-50"
@@ -204,7 +204,7 @@ export function ActivityFeed({
         {error ? (
           <div className="text-center py-8">
             <p className="text-gray-500 dark:text-gray-400 text-sm">{error}</p>
-            <button
+            <button type="button"
               onClick={() => fetchActivities()}
               className="mt-2 text-blue-600 hover:text-blue-700 text-sm font-medium"
             >

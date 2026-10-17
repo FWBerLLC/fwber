@@ -178,7 +178,7 @@ export default function MatchesDashboardPage() {
 
               {/* Tier Filter */}
               <div className="flex gap-2 flex-wrap">
-                <button
+                <button type="button"
                   onClick={() => setFilter('all')}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                     filter === 'all'
@@ -188,7 +188,7 @@ export default function MatchesDashboardPage() {
                 >
                   All
                 </button>
-                <button
+                <button type="button"
                   onClick={() => setFilter(RelationshipTier.MATCHED)}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                     filter === RelationshipTier.MATCHED
@@ -198,7 +198,7 @@ export default function MatchesDashboardPage() {
                 >
                   💫 Matched
                 </button>
-                <button
+                <button type="button"
                   onClick={() => setFilter(RelationshipTier.CONNECTED)}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                     filter === RelationshipTier.CONNECTED
@@ -208,7 +208,7 @@ export default function MatchesDashboardPage() {
                 >
                   💬 Connected
                 </button>
-                <button
+                <button type="button"
                   onClick={() => setFilter(RelationshipTier.ESTABLISHED)}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                     filter === RelationshipTier.ESTABLISHED

@@ -274,7 +274,7 @@ export default function ProfileViewModal({ isOpen, onClose, user, messagesExchan
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <button 
+            <button type="button" 
               onClick={handleShare}
               className="p-2 text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300 rounded-full hover:bg-purple-50 dark:hover:bg-purple-900/20"
               aria-label="Share to unlock"
@@ -282,7 +282,7 @@ export default function ProfileViewModal({ isOpen, onClose, user, messagesExchan
             >
               <Share2 className="w-6 h-6" />
             </button>
-            <button 
+            <button type="button" 
               onClick={onClose}
               className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-300 rounded-full hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-800"
               aria-label="Close profile view"
@@ -307,7 +307,7 @@ export default function ProfileViewModal({ isOpen, onClose, user, messagesExchan
                         Unlock all private photos and insights.
                     </p>
                 </div>
-                <button
+                <button type="button"
                     onClick={handleSubscribe}
                     className="bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-4 rounded-lg shadow-sm transition-colors flex flex-col items-center leading-tight"
                 >
@@ -346,7 +346,7 @@ export default function ProfileViewModal({ isOpen, onClose, user, messagesExchan
                         <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 filter blur-[3px]">
                            Based on your lifestyle and preferences, we found that you are highly compatible in...
                         </p>
-                        <button
+                        <button type="button"
                           onClick={handleInsightUnlock}
                           className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold py-2 px-4 rounded-full flex items-center gap-2 mx-auto transition-colors"
                         >
@@ -399,7 +399,7 @@ export default function ProfileViewModal({ isOpen, onClose, user, messagesExchan
               </p>
               
               <div className="flex flex-col sm:flex-row gap-3">
-                <button
+                <button type="button"
                   onClick={() => markAsMetInPerson()}
                   disabled={userConfirmedMeeting}
                   className={`flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
@@ -458,7 +458,7 @@ export default function ProfileViewModal({ isOpen, onClose, user, messagesExchan
           {/* Floating Action Buttons */}
           {onAction && (
             <div className="sticky bottom-0 left-0 right-0 py-4 bg-gradient-to-t from-white dark:from-gray-900 via-white dark:via-gray-900 flex justify-center gap-6 z-30">
-              <button
+              <button type="button"
                 className="h-14 w-14 rounded-full border-2 border-red-500 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center justify-center shadow-lg transition-transform hover:scale-110 active:scale-95 bg-white dark:bg-gray-800"
                 onClick={() => {
                   onAction('pass');
@@ -468,7 +468,7 @@ export default function ProfileViewModal({ isOpen, onClose, user, messagesExchan
                 <X className="h-8 w-8" />
               </button>
 
-              <button
+              <button type="button"
                 className="h-10 w-10 rounded-full border-2 border-blue-400 text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 flex items-center justify-center mt-2 shadow-lg transition-transform hover:scale-110 active:scale-95 bg-white dark:bg-gray-800"
                 onClick={() => {
                   onAction('super_like');
@@ -478,7 +478,7 @@ export default function ProfileViewModal({ isOpen, onClose, user, messagesExchan
                 <Star className="h-5 w-5" />
               </button>
 
-              <button
+              <button type="button"
                 className="h-14 w-14 rounded-full border-2 border-green-500 text-green-500 hover:bg-green-50 dark:hover:bg-green-900/20 flex items-center justify-center shadow-lg transition-transform hover:scale-110 active:scale-95 bg-white dark:bg-gray-800"
                 onClick={() => {
                   onAction('like');

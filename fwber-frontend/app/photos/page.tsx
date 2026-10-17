@@ -208,7 +208,7 @@ function SortablePhotoItem({
               willChange: 'transform',
             }}
           >
-        <button
+        <button type="button"
           onClick={(e) => {
             e.stopPropagation()
             e.preventDefault()
@@ -243,7 +243,7 @@ function SortablePhotoItem({
         </button>
         
         {!isPrimary && (
-          <button
+          <button type="button"
             onClick={(e) => {
               e.stopPropagation()
               e.preventDefault()
@@ -278,7 +278,7 @@ function SortablePhotoItem({
           </button>
         )}
         
-        <button
+        <button type="button"
           onClick={(e) => {
             e.stopPropagation()
             e.preventDefault()

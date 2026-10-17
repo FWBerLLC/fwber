@@ -175,7 +175,7 @@ export default function AudioRecorder({
           <span className="text-sm font-medium text-gray-600 dark:text-gray-300 w-10">{formatDuration(duration)}</span>
           <audio src={URL.createObjectURL(audioBlob)} controls className="h-8 w-40 md:w-48" />
         </div>
-        <button
+        <button type="button"
           onClick={() => {
             setAudioBlob(null);
             setDuration(0);

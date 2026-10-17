@@ -150,7 +150,7 @@ export function OnlineUsersList({ users, className = '', onUserClick }: OnlineUs
       <h3 className="text-white font-semibold mb-3">Online Now ({users.length})</h3>
       <div className="space-y-2">
         {users.map(user => (
-          <button
+          <button type="button"
             key={user.user_id}
             onClick={() => onUserClick?.(user.user_id)}
             className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700 transition-colors text-left"

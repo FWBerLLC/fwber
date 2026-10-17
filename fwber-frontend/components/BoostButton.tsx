@@ -65,7 +65,7 @@ export default function BoostButton() {
 
   return (
     <>
-      <button
+      <button type="button"
         onClick={() => setIsModalOpen(true)}
         className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full hover:from-purple-700 hover:to-pink-700 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
       >

@@ -123,7 +123,7 @@ export default function BlockedUsersPage() {
                         <p className="text-sm text-gray-500">Blocked on {new Date(user.blocked_at).toLocaleDateString()}</p>
                       </div>
                     </div>
-                    <button
+                    <button type="button"
                       onClick={() => setShowConfirmModal(user.id)}
                       className="px-3 py-1.5 text-sm font-medium text-red-600 hover:bg-red-50 rounded-md transition-colors"
                     >
@@ -145,13 +145,13 @@ export default function BlockedUsersPage() {
                 Are you sure you want to unblock this user? They will be able to see your profile and send you messages again.
               </p>
               <div className="flex justify-end gap-3">
-                <button
+                <button type="button"
                   onClick={() => setShowConfirmModal(null)}
                   className="px-4 py-2 text-gray-600 hover:bg-gray-100 dark:bg-gray-800 rounded-md transition-colors"
                 >
                   Cancel
                 </button>
-                <button
+                <button type="button"
                   onClick={() => handleUnblock(showConfirmModal)}
                   disabled={unblockingId === showConfirmModal}
                   className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors disabled:opacity-50"

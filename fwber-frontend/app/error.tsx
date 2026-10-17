@@ -27,7 +27,7 @@ export default function Error({
           We encountered an unexpected error. This has been logged and we&apos;re working on it.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <button
+          <button type="button"
             onClick={reset}
             className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-emerald-600 text-white rounded-xl font-semibold hover:bg-emerald-700 transition"
           >

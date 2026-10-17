@@ -259,7 +259,7 @@ export default function PublicProfilePage() {
                         <span className="text-[10px] font-mono font-bold text-blue-600 dark:text-blue-400 uppercase tracking-tighter">
                             @{profile.name || 'user'}@api.fwber.online
                         </span>
-                        <button
+                        <button type="button"
                             onClick={() => {
                                 navigator.clipboard.writeText(`@${profile.name}@api.fwber.online`);
                                 showSuccess('Handle Copied', 'Federated handle copied to clipboard');
@@ -428,13 +428,13 @@ export default function PublicProfilePage() {
             {!actionPerformed ? (
               <div className="flex flex-col items-center gap-4">
                 <div className="flex gap-4 justify-center">
-                  <button
+                  <button type="button"
                     onClick={() => handleAction('pass')}
                     className="px-8 py-3 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100 dark:text-white rounded-full font-semibold hover:bg-gray-300 transition-colors"
                   >
                     Pass
                   </button>
-                  <button
+                  <button type="button"
                     onClick={() => handleAction('like')}
                     className="px-8 py-3 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-full font-semibold hover:opacity-90 transition-opacity shadow-lg"
                   >
@@ -442,7 +442,7 @@ export default function PublicProfilePage() {
                   </button>
                 </div>
 
-                <button
+                <button type="button"
                   onClick={() => setIsGiftModalOpen(true)}
                   className="flex items-center gap-2 px-6 py-2 bg-pink-100 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400 rounded-full font-medium hover:bg-pink-200 dark:hover:bg-pink-900/50 transition-colors"
                 >

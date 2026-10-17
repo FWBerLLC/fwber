@@ -80,7 +80,7 @@ export default function PhotoTestPage() {
                 justifyContent: 'center'
               }}
             >
-              <button
+              <button type="button"
                 onClick={() => alert(`View photo ${index + 1}`)}
                 style={{
                   padding: '8px',
@@ -95,7 +95,7 @@ export default function PhotoTestPage() {
                 <Eye style={{ width: '16px', height: '16px' }} />
               </button>
               
-              <button
+              <button type="button"
                 onClick={() => alert(`Set primary ${index + 1}`)}
                 style={{
                   padding: '8px',
@@ -110,7 +110,7 @@ export default function PhotoTestPage() {
                 <Star style={{ width: '16px', height: '16px' }} />
               </button>
               
-              <button
+              <button type="button"
                 onClick={() => alert(`Delete ${index + 1}`)}
                 style={{
                   padding: '8px',

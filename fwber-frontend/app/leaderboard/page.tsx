@@ -85,7 +85,7 @@ export default function LeaderboardPage() {
                 {data?.total || 0} ranked users
               </p>
             </div>
-            <button
+            <button type="button"
               onClick={handleShare}
               className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full transition shadow-lg text-sm"
             >
@@ -113,7 +113,7 @@ export default function LeaderboardPage() {
           {/* Tabs */}
           <div className="flex gap-1 p-1 bg-gray-200/50 dark:bg-gray-800/50 rounded-xl mb-6">
             {tabs.map(tab => (
-              <button
+              <button type="button"
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold transition ${

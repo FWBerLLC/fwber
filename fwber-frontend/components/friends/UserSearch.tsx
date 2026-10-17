@@ -14,7 +14,7 @@ export default function UserSearch({ searchResults, onSendRequest }: UserSearchP
             <p className="font-semibold">{user.name}</p>
             <p className="text-sm text-gray-500">{user.email}</p>
           </div>
-          <button
+          <button type="button"
             onClick={() => onSendRequest(user.id)}
             className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg"
           >

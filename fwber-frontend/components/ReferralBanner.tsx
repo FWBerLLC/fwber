@@ -64,7 +64,7 @@ export default function ReferralBanner() {
             >
               Claim Reward
             </Link>
-            <button
+            <button type="button"
                 onClick={() => setIsVisible(false)}
                 className="p-1 hover:bg-white dark:bg-gray-800/20 rounded-full transition-colors"
             >

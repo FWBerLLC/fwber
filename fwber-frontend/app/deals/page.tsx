@@ -241,7 +241,7 @@ function DealCard({ deal }: { deal: Deal }) {
               <div className="text-xs text-gray-400">Free to claim</div>
             )}
 
-            <button
+            <button type="button"
               onClick={handleRedeem}
               className="px-3 py-1.5 bg-amber-100 text-amber-700 text-sm font-medium rounded-lg hover:bg-amber-200 transition"
             >
@@ -406,7 +406,7 @@ export default function DealsPage() {
                 </p>
               </div>
             </div>
-            <button
+            <button type="button"
               onClick={handleRefresh}
               className="p-2 hover:bg-amber-100 rounded-lg transition"
               title="Refresh deals"
@@ -416,7 +416,7 @@ export default function DealsPage() {
           </div>
 
           {/* Filters Toggle */}
-          <button
+          <button type="button"
             onClick={() => setShowFilters(!showFilters)}
             className="w-full mb-4 flex items-center justify-between px-4 py-3 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-amber-100"
           >
@@ -439,7 +439,7 @@ export default function DealsPage() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Category</label>
                 <div className="flex flex-wrap gap-2">
-                  <button
+                  <button type="button"
                     onClick={() => handleFilterChange('all')}
                     className={`px-3 py-1.5 rounded-full text-sm font-medium transition ${selectedCategory === 'all'
                         ? 'bg-amber-500 text-white'
@@ -449,7 +449,7 @@ export default function DealsPage() {
                     All
                   </button>
                   {categories.map(cat => (
-                    <button
+                    <button type="button"
                       key={cat}
                       onClick={() => handleFilterChange(cat)}
                       className={`px-3 py-1.5 rounded-full text-sm font-medium transition ${selectedCategory === cat
@@ -468,7 +468,7 @@ export default function DealsPage() {
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Search Radius</label>
                 <div className="flex flex-wrap gap-2">
                   {radiusOptions.map(opt => (
-                    <button
+                    <button type="button"
                       key={opt.value}
                       onClick={() => handleRadiusChange(opt.value)}
                       className={`px-3 py-1.5 rounded-full text-sm font-medium transition ${radius === opt.value
@@ -487,7 +487,7 @@ export default function DealsPage() {
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Sort By</label>
                 <div className="flex flex-wrap gap-2">
                   {sortOptions.map(opt => (
-                    <button
+                    <button type="button"
                       key={opt.value}
                       onClick={() => handleSortChange(opt.value)}
                       className={`px-3 py-1.5 rounded-full text-sm font-medium transition ${sortBy === opt.value
@@ -542,7 +542,7 @@ export default function DealsPage() {
           ) : error ? (
             <div className="text-center py-12">
               <p className="text-red-500 mb-4">{error}</p>
-              <button
+              <button type="button"
                 onClick={handleRefresh}
                 className="px-4 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition"
               >
@@ -556,7 +556,7 @@ export default function DealsPage() {
               <p className="text-gray-500 mb-4">
                 Try expanding your search radius or check back later for new offers.
               </p>
-              <button
+              <button type="button"
                 onClick={() => handleRadiusChange(25000)}
                 className="px-4 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition"
               >
@@ -574,7 +574,7 @@ export default function DealsPage() {
               {/* Load More */}
               {hasMore && (
                 <div className="mt-6 text-center">
-                  <button
+                  <button type="button"
                     onClick={() => setPage(p => p + 1)}
                     disabled={loading}
                     className="px-6 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition disabled:opacity-50"

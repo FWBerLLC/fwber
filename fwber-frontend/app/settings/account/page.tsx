@@ -216,7 +216,7 @@ export default function AccountSettingsPage() {
               <p className="text-gray-600 dark:text-gray-400 mb-4">
                 Download a copy of all your data including profile, messages, matches, and photos. We&apos;ll email you when your export is ready.
               </p>
-              <button
+              <button type="button"
                 onClick={handleDataExport}
                 disabled={isExporting || exportStatus === 'processing'}
                 className="px-4 py-2 border border-blue-600 text-blue-600 dark:text-blue-400 rounded-md hover:bg-blue-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
@@ -264,7 +264,7 @@ export default function AccountSettingsPage() {
                   <p className="text-gray-600 dark:text-gray-400 mb-4">
                     Permanently delete your account and all of your content. This action cannot be undone.
                   </p>
-                  <button
+                  <button type="button"
                     onClick={() => setShowDeleteConfirm(true)}
                     className="px-4 py-2 border border-red-600 text-red-600 rounded-md hover:bg-red-50 transition-colors"
                   >

@@ -103,7 +103,7 @@ export default function WalletDashboard() {
 
             <div className="flex space-x-1 p-1 bg-gray-100 dark:bg-gray-800 dark:bg-gray-700/50 rounded-lg overflow-x-auto">
                 {(['wallet', 'requests', 'merchant', 'bridge'] as const).map(tab => (
-                    <button
+                    <button type="button"
                         key={tab}
                         onClick={() => setActiveTab(tab)}
                         className={`flex-1 py-2 px-4 text-sm font-medium rounded-md transition-all whitespace-nowrap capitalize ${activeTab === tab
@@ -143,14 +143,14 @@ export default function WalletDashboard() {
                                 <p className="text-xs text-gray-500 mt-1">Use for instant tips and boosts.</p>
                             </div>
                             <div className="flex gap-2">
-                                <button
+                                <button type="button"
                                     onClick={() => setIsTopUpOpen(true)}
                                     className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 shadow-sm transition-colors"
                                 >
                                     <ArrowDownCircle className="w-4 h-4" />
                                     Buy FWB
                                 </button>
-                                <button
+                                <button type="button"
                                     onClick={() => setIsSendOpen(true)}
                                     className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 shadow-sm transition-colors"
                                 >
@@ -180,7 +180,7 @@ export default function WalletDashboard() {
                                         className="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600"
                                         placeholder="Amount (FWB)"
                                     />
-                                    <button
+                                    <button type="button"
                                         onClick={handleWithdraw}
                                         disabled={loading || !withdrawAmount}
                                         className="w-full bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 disabled:opacity-50 flex justify-center items-center gap-2"
@@ -204,7 +204,7 @@ export default function WalletDashboard() {
                                         className="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600"
                                         placeholder="Amount (FWB)"
                                     />
-                                    <button
+                                    <button type="button"
                                         onClick={handleDeposit}
                                         disabled={loading || !depositAmount || !internalWallet?.treasury_address}
                                         className="w-full bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 disabled:opacity-50 flex justify-center items-center gap-2"
@@ -281,7 +281,7 @@ export default function WalletDashboard() {
                         </p>
 
                         {!merchantKeys ? (
-                            <button
+                            <button type="button"
                                 onClick={generateMerchantKeys}
                                 className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white px-4 py-2 rounded-lg font-bold hover:bg-gray-100 transition-colors"
                             >
@@ -292,7 +292,7 @@ export default function WalletDashboard() {
                                 <p className="text-xs text-gray-400 uppercase font-bold">Secret Key (Keep Safe)</p>
                                 <div className="flex items-center gap-2">
                                     <code className="font-mono text-green-400 break-all">{merchantKeys.merchant_secret}</code>
-                                    <button onClick={() => navigator.clipboard.writeText(merchantKeys.merchant_secret)} className="text-gray-400 hover:text-white">
+                                    <button type="button" onClick={() => navigator.clipboard.writeText(merchantKeys.merchant_secret)} className="text-gray-400 hover:text-white">
                                         <Copy className="w-4 h-4" />
                                     </button>
                                 </div>

@@ -149,7 +149,7 @@ export default function FortunePage() {
                 )}
 
                 <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-                  <button
+                  <button type="button"
                     onClick={getFortune}
                     disabled={loading}
                     className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold rounded-xl hover:from-indigo-600 hover:to-purple-700 transition disabled:opacity-50 shadow-lg shadow-purple-500/30"
@@ -163,7 +163,7 @@ export default function FortunePage() {
                   </button>
 
                   {fortune && (
-                    <button
+                    <button type="button"
                       onClick={handleShare}
                       className="flex items-center justify-center gap-2 px-6 py-3 bg-slate-700/50 text-white font-semibold rounded-xl hover:bg-slate-700 transition border border-slate-600"
                     >

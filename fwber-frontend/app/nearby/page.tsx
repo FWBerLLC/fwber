@@ -137,7 +137,7 @@ export default function NearbyPage() {
           <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center text-red-500">
             <div className="text-center">
               <p className="text-xl mb-4">{error}</p>
-              <button
+              <button type="button"
                 onClick={() => window.location.reload()}
                 className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
               >
@@ -173,7 +173,7 @@ export default function NearbyPage() {
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <button
+                <button type="button"
                   onClick={handleRefresh}
                   disabled={isRefreshing}
                   className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 rounded-lg text-gray-700 dark:text-gray-300 transition-colors disabled:opacity-50"
@@ -182,13 +182,13 @@ export default function NearbyPage() {
                   Refresh
                 </button>
                 <div className="flex border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
-                  <button
+                  <button type="button"
                     onClick={() => setViewMode('grid')}
                     className={`px-3 py-2 text-sm ${viewMode === 'grid' ? 'bg-blue-600 text-white' : 'bg-white dark:bg-gray-800 text-gray-600 hover:bg-gray-50 dark:bg-gray-900'}`}
                   >
                     Grid
                   </button>
-                  <button
+                  <button type="button"
                     onClick={() => setViewMode('list')}
                     className={`px-3 py-2 text-sm ${viewMode === 'list' ? 'bg-blue-600 text-white' : 'bg-white dark:bg-gray-800 text-gray-600 hover:bg-gray-50 dark:bg-gray-900'}`}
                   >

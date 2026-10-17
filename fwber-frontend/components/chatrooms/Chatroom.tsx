@@ -201,7 +201,7 @@ export default function Chatroom({ chatroomId }: ChatroomProps) {
                     </Tooltip>
                   </TooltipProvider>
                 )}
-                <button
+                <button type="button"
                   onClick={() => setShowOnlineUsers(!showOnlineUsers)}
                   className="flex items-center gap-1 hover:text-blue-600 transition-colors"
                 >
@@ -236,7 +236,7 @@ export default function Chatroom({ chatroomId }: ChatroomProps) {
                     ? `This chatroom requires an entry fee of ${chatroom.token_entry_fee} tokens.`
                     : "You need to join this chatroom to view messages and participate."}
                 </p>
-                <button
+                <button type="button"
                   onClick={handleJoin}
                   disabled={joinChatroomMutation.isPending}
                   className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-md transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
@@ -292,7 +292,7 @@ export default function Chatroom({ chatroomId }: ChatroomProps) {
                     {Array.isArray(message.reactions) && message.reactions.length > 0 && (
                       <div className="flex flex-wrap gap-1 mt-2">
                         {Object.entries(message.reaction_summary || {}).map(([emoji, count]) => (
-                          <button
+                          <button type="button"
                             key={emoji}
                             onClick={() => handleReaction(message.id, emoji)}
                             className="inline-flex items-center px-2 py-1 text-xs bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 rounded-full transition-colors"
@@ -359,7 +359,7 @@ export default function Chatroom({ chatroomId }: ChatroomProps) {
         <div className="bg-gray-50 dark:bg-gray-900 p-2 flex items-center space-x-2 rounded-b-lg">
           <span className="text-sm text-gray-500">Quick reactions:</span>
           {['👍', '❤️', '😂', '😮', '😢', '😡'].map((emoji) => (
-            <button
+            <button type="button"
               key={emoji}
               onClick={() => {
                 const lastMessage = messages[messages.length - 1];

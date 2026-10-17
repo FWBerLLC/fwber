@@ -88,7 +88,7 @@ export default function RoastPage() {
 
           <div className="mb-6 flex justify-center">
             <div className="inline-flex rounded-xl bg-slate-800/50 p-1 border border-slate-700">
-              <button
+              <button type="button"
                 onClick={() => setMode('roast')}
                 className={`px-6 py-2 rounded-lg font-medium transition ${isRoast
                     ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white'
@@ -97,7 +97,7 @@ export default function RoastPage() {
               >
                 🔥 Roast Me
               </button>
-              <button
+              <button type="button"
                 onClick={() => setMode('hype')}
                 className={`px-6 py-2 rounded-lg font-medium transition ${!isRoast
                     ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white'
@@ -160,7 +160,7 @@ export default function RoastPage() {
                 )}
 
                 <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-                  <button
+                  <button type="button"
                     onClick={getRoast}
                     disabled={loading}
                     className={`flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r ${isRoast ? 'from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 shadow-orange-500/30' : 'from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 shadow-cyan-500/30'} text-white font-semibold rounded-xl transition disabled:opacity-50 shadow-lg`}
@@ -174,7 +174,7 @@ export default function RoastPage() {
                   </button>
 
                   {result && (
-                    <button
+                    <button type="button"
                       onClick={handleShare}
                       className="flex items-center justify-center gap-2 px-6 py-3 bg-slate-700/50 text-white font-semibold rounded-xl hover:bg-slate-700 transition border border-slate-600"
                     >

@@ -62,7 +62,7 @@ function AchievementCard({ achievement }: { achievement: Achievement }) {
           <CardTitle className="text-lg flex items-center justify-between">
             {achievement.is_hidden ? 'Secret Achievement' : achievement.name}
             {achievement.earned && (
-              <button 
+              <button type="button" 
                 onClick={(e) => {
                   e.preventDefault();
                   handleShare();

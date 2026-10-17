@@ -37,7 +37,7 @@ export default function RateLimitStats() {
           <span>⚠️</span>
           <span>{error}</span>
         </div>
-        <button 
+        <button type="button" 
           onClick={() => fetchStats()}
           className="mt-4 text-sm text-blue-600 hover:underline"
         >
@@ -66,14 +66,14 @@ export default function RateLimitStats() {
             <option value="1h">Last Hour</option>
             <option value="24h">Last 24 Hours</option>
           </select>
-          <button
+          <button type="button"
             onClick={() => exportRateLimitStatsToCSV(stats)}
             className="p-2 text-green-600 hover:text-green-800"
             title="Export CSV"
           >
             📥
           </button>
-          <button
+          <button type="button"
             onClick={() => fetchStats()}
             className="p-2 text-gray-400 hover:text-gray-600"
             title="Refresh"

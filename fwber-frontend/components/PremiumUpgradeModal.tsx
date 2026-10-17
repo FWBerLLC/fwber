@@ -108,7 +108,7 @@ export const PremiumUpgradeModal = ({ isOpen, onClose }: PremiumUpgradeModalProp
 
               {/* Payment Method Selector */}
               <div className="flex gap-2 p-1 bg-gray-100 dark:bg-gray-800 rounded-lg mt-4">
-                <button
+                <button type="button"
                   onClick={() => setPaymentMethod('token')}
                   className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-md text-sm font-medium transition-all ${
                     paymentMethod === 'token'
@@ -119,7 +119,7 @@ export const PremiumUpgradeModal = ({ isOpen, onClose }: PremiumUpgradeModalProp
                   <Coins className="w-4 h-4" />
                   Tokens ({tokenBalance})
                 </button>
-                <button
+                <button type="button"
                   onClick={() => setPaymentMethod('stripe')}
                   disabled={!stripeEnabled}
                   className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-md text-sm font-medium transition-all ${

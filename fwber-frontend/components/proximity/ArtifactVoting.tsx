@@ -48,7 +48,7 @@ export default function ArtifactVoting({ artifactId, initialScore, initialUserVo
 
     return (
         <div className="flex flex-col items-center justify-center bg-gray-50 dark:bg-gray-900 rounded-lg p-1 mr-3 border border-gray-100">
-            <button
+            <button type="button"
                 onClick={() => handleVote(1)}
                 disabled={isVoting || !token}
                 className={`p-1 rounded transition-colors ${userVote === 1
@@ -65,7 +65,7 @@ export default function ArtifactVoting({ artifactId, initialScore, initialUserVo
                 {score}
             </span>
 
-            <button
+            <button type="button"
                 onClick={() => handleVote(-1)}
                 disabled={isVoting || !token}
                 className={`p-1 rounded transition-colors ${userVote === -1

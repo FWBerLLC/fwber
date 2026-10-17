@@ -56,7 +56,7 @@ export default function BoostPurchaseModal({ isOpen, onClose }: BoostPurchaseMod
 
           {/* Payment Method Selector */}
           <div className="flex gap-2 mb-6 p-1 bg-gray-100 dark:bg-gray-800 rounded-lg">
-            <button
+            <button type="button"
               onClick={() => setPaymentMethod('token')}
               className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-md text-sm font-medium transition-all ${
                 paymentMethod === 'token'
@@ -67,7 +67,7 @@ export default function BoostPurchaseModal({ isOpen, onClose }: BoostPurchaseMod
               <Coins className="w-4 h-4" />
               Tokens ({tokenBalance})
             </button>
-            <button
+            <button type="button"
               onClick={() => setPaymentMethod('stripe')}
               className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-md text-sm font-medium transition-all ${
                 paymentMethod === 'stripe'
@@ -82,7 +82,7 @@ export default function BoostPurchaseModal({ isOpen, onClose }: BoostPurchaseMod
 
           <div className="space-y-4">
             {/* Standard Boost */}
-            <button
+            <button type="button"
               onClick={() => handlePurchase('standard')}
               disabled={isPending || (paymentMethod === 'token' && tokenBalance < 50)}
               className={`w-full p-4 border-2 rounded-xl transition-all group text-left relative overflow-hidden ${
@@ -111,7 +111,7 @@ export default function BoostPurchaseModal({ isOpen, onClose }: BoostPurchaseMod
             </button>
 
             {/* Super Boost */}
-            <button
+            <button type="button"
               onClick={() => handlePurchase('super')}
               disabled={isPending || (paymentMethod === 'token' && tokenBalance < 100)}
               className={`w-full p-4 border-2 rounded-xl transition-all group text-left relative overflow-hidden ${

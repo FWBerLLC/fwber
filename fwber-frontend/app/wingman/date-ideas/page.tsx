@@ -64,7 +64,7 @@ export default function DateIdeasPage() {
               <ArrowLeft className="w-4 h-4" />
               Back to Matching
             </Link>
-            <button 
+            <button type="button" 
               onClick={generateIdeas}
               disabled={loading}
               className="inline-flex items-center gap-2 px-4 py-2 bg-rose-600 text-white rounded-full font-bold hover:bg-rose-700 transition disabled:opacity-50"

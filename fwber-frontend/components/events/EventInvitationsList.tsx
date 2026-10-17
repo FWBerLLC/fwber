@@ -81,7 +81,7 @@ export default function EventInvitationsList() {
               </p>
             </div>
             <div className="flex gap-2">
-              <button
+              <button type="button"
                 onClick={() => handleRespond(invitation.id, 'accepted')}
                 disabled={processing === invitation.id}
                 className="p-2 bg-green-100 text-green-600 rounded-full hover:bg-green-200 disabled:opacity-50"
@@ -89,7 +89,7 @@ export default function EventInvitationsList() {
               >
                 <Check className="w-5 h-5" />
               </button>
-              <button
+              <button type="button"
                 onClick={() => handleRespond(invitation.id, 'declined')}
                 disabled={processing === invitation.id}
                 className="p-2 bg-red-100 text-red-600 rounded-full hover:bg-red-200 disabled:opacity-50"

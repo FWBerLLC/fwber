@@ -215,7 +215,7 @@ export default function ScientificNemesisPage() {
                 )}
 
                 <div className="mt-12 flex flex-col gap-4">
-                  <button
+                  <button type="button"
                     onClick={findNemesis}
                     disabled={loading}
                     className="w-full h-16 flex items-center justify-center gap-3 bg-white dark:bg-gray-800 text-black font-black uppercase tracking-tighter italic rounded-2xl hover:bg-zinc-200 transition-all disabled:opacity-50 group"
@@ -231,7 +231,7 @@ export default function ScientificNemesisPage() {
                   </button>
 
                   {result && (
-                    <button
+                    <button type="button"
                       onClick={handleShare}
                       className="w-full h-12 flex items-center justify-center gap-2 bg-zinc-800/50 text-white font-bold uppercase tracking-widest text-[10px] rounded-xl hover:bg-zinc-800 transition border border-zinc-700"
                     >

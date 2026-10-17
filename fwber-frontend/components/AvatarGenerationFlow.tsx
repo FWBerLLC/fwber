@@ -360,7 +360,7 @@ export default function AvatarGenerationFlow({
       {/* View Toggle */}
       <div className="mb-6 flex justify-center">
         <div className="flex rounded-lg bg-gray-100 p-1 dark:bg-gray-800">
-          <button
+          <button type="button"
             onClick={() => setView('generate')}
             className={`rounded-md px-4 py-2 text-sm font-medium transition-all ${
               view === 'generate'
@@ -370,7 +370,7 @@ export default function AvatarGenerationFlow({
           >
             Generate
           </button>
-          <button
+          <button type="button"
             onClick={() => setView('gallery')}
             className={`rounded-md px-4 py-2 text-sm font-medium transition-all ${
               view === 'gallery'
@@ -397,7 +397,7 @@ export default function AvatarGenerationFlow({
               <div className="col-span-full rounded-lg bg-gray-50 py-12 text-center dark:bg-gray-900">
                 <ImageIcon className="mx-auto mb-2 h-12 w-12 text-gray-300" />
                 <p className="text-gray-500">No AI avatars generated yet.</p>
-                <button
+                <button type="button"
                   onClick={() => setView('generate')}
                   className="mt-4 font-medium text-purple-600 hover:underline"
                 >
@@ -417,7 +417,7 @@ export default function AvatarGenerationFlow({
                     className="object-cover"
                   />
                   <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-black/50 opacity-0 transition-opacity group-hover:opacity-100">
-                    <button
+                    <button type="button"
                       onClick={() => {
                         setGeneratedAvatar(photo.url || photo.thumbnail_url || null)
                         setGeneratedPhotoId(photo.id)
@@ -520,7 +520,7 @@ export default function AvatarGenerationFlow({
 
               {/* Mode Toggle */}
               <div className="grid grid-cols-2 gap-4">
-                <button
+                <button type="button"
                   onClick={() => setMode('traits')}
                   className={`flex flex-col items-center gap-2 rounded-xl border-2 p-4 transition-all ${
                     mode === 'traits'
@@ -534,7 +534,7 @@ export default function AvatarGenerationFlow({
                   <span className="text-sm font-semibold">From Physical Traits</span>
                   <span className="text-xs text-gray-500">Auto-filled from your profile</span>
                 </button>
-                <button
+                <button type="button"
                   onClick={() => setMode('photo')}
                   className={`flex flex-col items-center gap-2 rounded-xl border-2 p-4 transition-all ${
                     mode === 'photo'
@@ -774,7 +774,7 @@ export default function AvatarGenerationFlow({
                       </p>
                       <div className="grid grid-cols-3 gap-3">
                         {userPhotos.map((photo) => (
-                          <button
+                          <button type="button"
                             key={photo.id}
                             onClick={() => setSelectedPhotoId(photo.id)}
                             className={`aspect-square border-3 relative overflow-hidden rounded-lg transition-all ${
@@ -804,7 +804,7 @@ export default function AvatarGenerationFlow({
                 </div>
               )}
 
-              <button
+              <button type="button"
                 onClick={handleProfileSubmit}
                 disabled={mode === 'traits' ? !isProfileComplete() : !selectedPhotoId}
                 className="flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-3 font-medium text-white shadow-lg transition-all hover:from-purple-700 hover:to-pink-700 hover:shadow-xl disabled:cursor-not-allowed disabled:from-gray-300 disabled:to-gray-300"
@@ -838,7 +838,7 @@ export default function AvatarGenerationFlow({
                       lighting
                     </p>
                   </div>
-                  <button
+                  <button type="button"
                     onClick={() => setSexyBoost(!sexyBoost)}
                     className={`relative inline-flex h-7 w-14 items-center rounded-full transition-colors ${
                       sexyBoost ? 'bg-gradient-to-r from-pink-500 to-purple-500' : 'bg-gray-300'
@@ -897,7 +897,7 @@ export default function AvatarGenerationFlow({
                       <div className="rounded-full bg-purple-100 p-3">
                         <Users className="h-6 w-6 text-purple-600" />
                       </div>
-                      <button
+                      <button type="button"
                         onClick={() => setShowReferralModal(false)}
                         className="text-gray-400 hover:text-gray-600"
                       >
@@ -911,7 +911,7 @@ export default function AvatarGenerationFlow({
                       Invite just 1 friend to unlock Neon Cyberpunk, Oil Painting, and other premium
                       styles forever.
                     </p>
-                    <button
+                    <button type="button"
                       onClick={handleShare}
                       className="flex w-full items-center justify-center gap-2 rounded-lg bg-purple-600 py-3 font-bold text-white transition-colors hover:bg-purple-700"
                     >
@@ -924,7 +924,7 @@ export default function AvatarGenerationFlow({
 
               {/* Advanced Settings Toggle */}
               <div className="border-t pt-4">
-                <button
+                <button type="button"
                   onClick={() => setShowAdvanced(!showAdvanced)}
                   className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 dark:text-white"
                 >
@@ -988,13 +988,13 @@ export default function AvatarGenerationFlow({
               )}
 
               <div className="flex justify-between">
-                <button
+                <button type="button"
                   onClick={() => setStep('profile')}
                   className="rounded-lg border-2 border-gray-300 px-6 py-3 font-medium text-gray-700 transition-colors hover:border-purple-600 hover:text-purple-600 dark:border-gray-600 dark:text-gray-300"
                 >
                   Back
                 </button>
-                <button
+                <button type="button"
                   onClick={handleGenerate}
                   className="rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-3 font-medium text-white shadow-lg transition-all hover:from-purple-700 hover:to-pink-700"
                 >
@@ -1053,7 +1053,7 @@ export default function AvatarGenerationFlow({
               </div>
 
               <div className="mb-6 flex justify-center">
-                <button
+                <button type="button"
                   onClick={handleShare}
                   className="flex w-full transform items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 py-3 font-bold text-white shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-xl"
                 >
@@ -1063,7 +1063,7 @@ export default function AvatarGenerationFlow({
               </div>
 
               <div className="grid grid-cols-2 gap-4">
-                <button
+                <button type="button"
                   onClick={handleRegenerate}
                   disabled={generateMutation.isPending || generateFromPhotoMutation.isPending}
                   className="flex items-center justify-center gap-2 rounded-lg border-2 border-gray-300 px-6 py-3 font-medium text-gray-700 transition-colors hover:border-purple-600 hover:text-purple-600 disabled:opacity-50 dark:border-gray-600 dark:text-gray-300"
@@ -1072,7 +1072,7 @@ export default function AvatarGenerationFlow({
                   Regenerate
                 </button>
 
-                <button
+                <button type="button"
                   onClick={handleAccept}
                   disabled={acceptMutation.isPending}
                   className="flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-3 font-medium text-white transition-all hover:from-purple-700 hover:to-pink-700 disabled:opacity-50"
@@ -1082,7 +1082,7 @@ export default function AvatarGenerationFlow({
                 </button>
               </div>
 
-              <button
+              <button type="button"
                 onClick={handleReject}
                 className="w-full text-sm text-gray-500 transition-colors hover:text-gray-700 dark:text-gray-300"
               >

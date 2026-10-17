@@ -208,7 +208,7 @@ export default function ARView({ artifacts, candidates, userLocation, onClose }:
                 {points.length} points nearby
             </p>
           </div>
-          <button 
+          <button type="button" 
             onClick={onClose}
             className="bg-black/50 p-2 rounded-full backdrop-blur-sm hover:bg-black/70 transition-colors"
           >
@@ -221,7 +221,7 @@ export default function ARView({ artifacts, candidates, userLocation, onClose }:
             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-red-900/80 p-6 rounded-lg text-center max-w-xs pointer-events-auto">
                 <Smartphone className="w-12 h-12 mx-auto mb-3 text-red-200" />
                 <p className="mb-4">{error}</p>
-                <button 
+                <button type="button" 
                     onClick={onClose}
                     className="bg-white dark:bg-gray-800 text-red-900 px-4 py-2 rounded font-semibold"
                 >

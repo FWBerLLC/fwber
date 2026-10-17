@@ -215,7 +215,7 @@ export default function AIProfileBuilder({
             </div>
 
             {/* Generate Button */}
-            <button
+            <button type="button"
               onClick={handleGenerateProfile}
               disabled={isGenerating || isLoading}
               data-testid="generate-btn"
@@ -239,7 +239,7 @@ export default function AIProfileBuilder({
               <p className="text-sm text-red-700" data-testid="error-message">
                 {error.message || 'An error occurred while generating your profile.'}
               </p>
-              <button onClick={handleGenerateProfile} className="mt-2 text-sm text-red-600 hover:text-red-800 font-medium">Try Again</button>
+              <button type="button" onClick={handleGenerateProfile} className="mt-2 text-sm text-red-600 hover:text-red-800 font-medium">Try Again</button>
             </div>
           )}
 
@@ -261,7 +261,7 @@ export default function AIProfileBuilder({
                           Safety: {Math.round(suggestion.safety_score * 100)}%
                         </span>
                       </div>
-                      <button
+                      <button type="button"
                         onClick={() => handleContentSelect(suggestion.content)}
                         className={`px-3 py-1 text-sm rounded ${
                           selectedContent === suggestion.content
@@ -275,7 +275,7 @@ export default function AIProfileBuilder({
                     <p className="text-sm text-gray-700 dark:text-gray-300 mb-3" data-testid="suggestion-content">{suggestion.content}</p>
                     <div className="flex space-x-2">
                       {[1, 2, 3, 4, 5].map(rating => (
-                        <button
+                        <button type="button"
                           key={rating}
                           onClick={() => handleFeedback(suggestion.content, rating)}
                           data-testid={`rating-${rating}`}
@@ -300,7 +300,7 @@ export default function AIProfileBuilder({
             <div className="bg-green-50 p-4 rounded-lg" data-testid="selected-profile">
               <h3 className="font-semibold text-green-800 mb-2">Selected Profile</h3>
               <p className="text-sm text-green-700 mb-3" data-testid="selected-content">{selectedContent}</p>
-              <button
+              <button type="button"
                 onClick={() => setSelectedContent('')}
                 className="text-sm text-green-600 hover:text-green-800"
               >

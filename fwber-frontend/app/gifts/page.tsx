@@ -45,7 +45,7 @@ export default function GiftsPage() {
               </div>
             </div>
             <div className="mt-4 flex justify-end">
-              <button
+              <button type="button"
                 onClick={() => setIsShopOpen(true)}
                 disabled={!canOpenShop}
                 className="inline-flex items-center gap-2 rounded-xl bg-pink-600 px-4 py-3 text-sm font-semibold text-white hover:bg-pink-700 disabled:cursor-not-allowed disabled:opacity-60"

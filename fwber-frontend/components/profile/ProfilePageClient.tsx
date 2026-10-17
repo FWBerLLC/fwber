@@ -707,7 +707,7 @@ export default function ProfilePage() {
 									🎉 Amazing! Your profile is 100% complete!
 								</span>
 							</div>
-							<button
+							<button type="button"
 								onClick={async () => {
 									const shareText = `💎 My dating profile is officially 100% complete on fwber! Come find me in Detroit's private-first social network. #fwber #dating #detroit`;
 									if (navigator.share) {

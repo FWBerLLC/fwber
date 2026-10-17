@@ -94,7 +94,7 @@ export default function MerchantHeader({ title = 'fwber Merchant', showNav = tru
 
             {/* User Menu */}
             <div className="relative">
-              <button
+              <button type="button"
                 onClick={() => setUserMenuOpen(!userMenuOpen)}
                 className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-800 transition-colors"
               >
@@ -129,7 +129,7 @@ export default function MerchantHeader({ title = 'fwber Merchant', showNav = tru
                     </Link>
                     
                     <div className="border-t border-gray-200 dark:border-gray-700 mt-1 pt-1">
-                      <button
+                      <button type="button"
                         onClick={() => {
                           setUserMenuOpen(false)
                           logout()
@@ -147,7 +147,7 @@ export default function MerchantHeader({ title = 'fwber Merchant', showNav = tru
 
             {/* Mobile Menu Button */}
             {showNav && (
-              <button
+              <button type="button"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 className="md:hidden p-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-800"
               >

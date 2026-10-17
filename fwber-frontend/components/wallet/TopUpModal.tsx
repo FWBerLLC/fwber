@@ -122,7 +122,7 @@ export default function TopUpModal({ isOpen, onClose, onSuccess }: TopUpModalPro
                 {step === 'select' ? (
                     <div className="grid grid-cols-2 gap-4 py-4">
                         {AMOUNTS.map((opt) => (
-                            <button
+                            <button type="button"
                                 key={opt.usd}
                                 onClick={() => handleSelectAmount(opt.usd)}
                                 disabled={loading}
@@ -152,7 +152,7 @@ export default function TopUpModal({ isOpen, onClose, onSuccess }: TopUpModalPro
                     <div className="py-4">
                         <div className="mb-4 flex justify-between items-center text-sm text-gray-500">
                             <span>Amount: ${selectedAmount}</span>
-                            <button onClick={() => setStep('select')} className="text-indigo-600 hover:underline">Change</button>
+                            <button type="button" onClick={() => setStep('select')} className="text-indigo-600 hover:underline">Change</button>
                         </div>
 
                         {clientSecret && (

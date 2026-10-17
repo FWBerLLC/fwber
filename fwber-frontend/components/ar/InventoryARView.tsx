@@ -143,7 +143,7 @@ export default function InventoryARView({ onClose }: InventoryARViewProps) {
                     </div>
                 </div>
 
-                <button 
+                <button type="button" 
                     onClick={onClose}
                     className="absolute top-6 right-6 p-2 bg-red-500 rounded-full text-white shadow-lg"
                 >

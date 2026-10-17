@@ -68,7 +68,7 @@ export default function TierUpgradeNotification({
         isVisible ? 'scale-100' : 'scale-95'
       }`}>
         {/* Close button */}
-        <button
+        <button type="button"
           onClick={handleClose}
           className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
           aria-label="Close notification"
@@ -127,7 +127,7 @@ export default function TierUpgradeNotification({
           </div>
 
           {/* CTA */}
-          <button
+          <button type="button"
             onClick={handleClose}
             className={`w-full py-3 rounded-lg font-semibold text-white bg-gradient-to-r ${
               colorClasses[tierInfo.color as keyof typeof colorClasses]

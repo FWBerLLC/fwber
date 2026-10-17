@@ -76,7 +76,7 @@ export default function NotificationsPage() {
               <div>
                 <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Notifications</h1>
               </div>
-              <button
+              <button type="button"
                 onClick={markAllAsRead}
                 className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white hover:bg-blue-700"
               >

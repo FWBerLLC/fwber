@@ -119,13 +119,13 @@ export default function GlobalFeedPage() {
 
             <div className="flex flex-wrap gap-3 items-center">
               <div className="flex bg-zinc-100 dark:bg-zinc-800 p-1 rounded-lg mr-4">
-                  <button
+                  <button type="button"
                     onClick={() => setFeedMode('global')}
                     className={`px-3 py-1.5 text-xs font-bold rounded-md transition-all ${feedMode === 'global' ? 'bg-white dark:bg-zinc-700 shadow-sm text-blue-600' : 'text-zinc-500 hover:text-zinc-700'}`}
                   >
                       Global
                   </button>
-                  <button
+                  <button type="button"
                     onClick={() => setFeedMode('following')}
                     className={`px-3 py-1.5 text-xs font-bold rounded-md transition-all ${feedMode === 'following' ? 'bg-white dark:bg-zinc-700 shadow-sm text-blue-600' : 'text-zinc-500 hover:text-zinc-700'}`}
                   >

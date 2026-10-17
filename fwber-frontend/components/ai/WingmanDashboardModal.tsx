@@ -128,19 +128,19 @@ export function WingmanDashboardModal({ matchId, matchName }: { matchId: string,
         </DialogHeader>
         
         <div className="flex bg-gray-800 p-1 rounded-lg mb-4">
-          <button 
+          <button type="button" 
             className={`flex-1 py-1.5 text-xs font-semibold rounded-md transition-colors ${activeTab === 'fortune' ? 'bg-purple-600 text-white' : 'text-gray-400 hover:text-white hover:bg-gray-700'}`}
             onClick={() => setActiveTab('fortune')}
           >
             Fortune
           </button>
-          <button 
+          <button type="button" 
             className={`flex-1 py-1.5 text-xs font-semibold rounded-md transition-colors ${activeTab === 'audit' ? 'bg-blue-600 text-white' : 'text-gray-400 hover:text-white hover:bg-gray-700'}`}
             onClick={() => setActiveTab('audit')}
           >
             Audit
           </button>
-          <button 
+          <button type="button" 
             className={`flex-1 py-1.5 text-xs font-semibold rounded-md transition-colors ${activeTab === 'nemesis' ? 'bg-red-800 text-white' : 'text-gray-400 hover:text-white hover:bg-gray-700'}`}
             onClick={() => setActiveTab('nemesis')}
           >

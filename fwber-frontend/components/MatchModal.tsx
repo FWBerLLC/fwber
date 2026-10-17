@@ -104,14 +104,14 @@ export default function MatchModal({ isOpen, onClose, matchedUser, currentUser }
             </div>
 
             <div className="space-y-3">
-              <button
+              <button type="button"
                 onClick={() => router.push('/messages')}
                 className="w-full bg-gradient-to-r from-pink-500 to-red-500 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
               >
                 Send a Message
               </button>
 
-              <button
+              <button type="button"
                 onClick={handleShare}
                 className="w-full bg-white dark:bg-gray-800 text-pink-600 dark:text-pink-400 font-bold py-3 px-6 rounded-full border-2 border-pink-100 dark:border-pink-900/30 shadow-sm hover:bg-pink-50 dark:hover:bg-pink-900/10 flex items-center justify-center gap-2 transition-all"
               >
@@ -119,7 +119,7 @@ export default function MatchModal({ isOpen, onClose, matchedUser, currentUser }
                 Share This Match
               </button>
               
-              <button
+              <button type="button"
                 onClick={onClose}
                 className="w-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 dark:text-gray-200 font-semibold py-3 px-6 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
               >

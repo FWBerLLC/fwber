@@ -125,7 +125,7 @@ export default function FeedbackPage() {
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <div className="flex justify-end gap-2">
                       {item.status !== 'resolved' && (
-                        <button
+                        <button type="button"
                           onClick={() => handleStatusUpdate(item.id, 'resolved')}
                           className="text-green-600 hover:text-green-900"
                           title="Mark as Resolved"
@@ -134,7 +134,7 @@ export default function FeedbackPage() {
                         </button>
                       )}
                       {item.status !== 'dismissed' && (
-                        <button
+                        <button type="button"
                           onClick={() => handleStatusUpdate(item.id, 'dismissed')}
                           className="text-gray-400 hover:text-gray-600"
                           title="Dismiss"
@@ -152,14 +152,14 @@ export default function FeedbackPage() {
           {/* Pagination */}
           <div className="bg-white dark:bg-gray-800 px-4 py-3 flex items-center justify-between border-t border-gray-200 dark:border-gray-700 sm:px-6">
             <div className="flex-1 flex justify-between sm:hidden">
-              <button
+              <button type="button"
                 onClick={() => setPage(p => Math.max(1, p - 1))}
                 disabled={page === 1}
                 className="relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:bg-gray-900 disabled:opacity-50"
               >
                 Previous
               </button>
-              <button
+              <button type="button"
                 onClick={() => setPage(p => p + 1)}
                 disabled={page === (data?.last_page || 1)}
                 className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:bg-gray-900 disabled:opacity-50"
@@ -175,14 +175,14 @@ export default function FeedbackPage() {
               </div>
               <div>
                 <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                  <button
+                  <button type="button"
                     onClick={() => setPage(p => Math.max(1, p - 1))}
                     disabled={page === 1}
                     className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 hover:bg-gray-50 dark:bg-gray-900 disabled:opacity-50"
                   >
                     Previous
                   </button>
-                  <button
+                  <button type="button"
                     onClick={() => setPage(p => p + 1)}
                     disabled={page === (data?.last_page || 1)}
                     className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 hover:bg-gray-50 dark:bg-gray-900 disabled:opacity-50"

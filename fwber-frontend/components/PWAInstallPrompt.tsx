@@ -50,7 +50,7 @@ export default function PWAInstallPrompt() {
           <p className="text-sm text-gray-600 mb-3">
             Install fwber to enable crypto wallet features, offline access, and instant payment notifications.
           </p>
-          <button
+          <button type="button"
             onClick={handleInstallClick}
             className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold py-2 px-4 rounded-lg flex items-center transition-colors"
           >
@@ -58,7 +58,7 @@ export default function PWAInstallPrompt() {
             Install Now
           </button>
         </div>
-        <button
+        <button type="button"
           onClick={handleDismiss}
           className="text-gray-400 hover:text-gray-600 p-1"
           title="Dismiss"

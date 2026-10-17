@@ -66,7 +66,7 @@ function ProfessionalCard({
             </div>
 
             {/* CTA */}
-            <button
+            <button type="button"
                 onClick={() => onCoffeeChat(pro.user_id)}
                 className="conference-cta"
                 id={`coffee-chat-${pro.user_id}`}
@@ -125,7 +125,7 @@ export default function ConferencePulsePage() {
                 <Briefcase size={48} />
                 <h1>Conference Pulse</h1>
                 <p>Sign in to discover professionals nearby.</p>
-                <button onClick={() => router.push('/login')} className="conference-cta-primary">Log In</button>
+                <button type="button" onClick={() => router.push('/login')} className="conference-cta-primary">Log In</button>
             </div>
         );
     }

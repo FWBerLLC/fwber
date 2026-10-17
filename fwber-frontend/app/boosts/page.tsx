@@ -25,7 +25,7 @@ export default function BoostsPage() {
                   Recovered the dedicated boost surface so token and card-based profile boosts are reachable outside buried modals.
                 </p>
               </div>
-              <button
+              <button type="button"
                 onClick={() => setIsPurchaseOpen(true)}
                 className="inline-flex items-center gap-2 rounded-xl bg-purple-600 px-4 py-3 text-sm font-semibold text-white hover:bg-purple-700"
               >

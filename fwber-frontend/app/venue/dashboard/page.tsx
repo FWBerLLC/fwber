@@ -46,7 +46,7 @@ export default function VenueDashboard() {
           <h1 className="text-xl font-bold text-purple-400">fwber Partner</h1>
           <div className="flex items-center gap-4">
             <span className="font-medium">{venue?.name}</span>
-            <button 
+            <button type="button" 
               onClick={() => {
                 localStorage.removeItem('venue_token')
                 router.push('/venue/login')

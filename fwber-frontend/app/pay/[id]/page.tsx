@@ -102,7 +102,7 @@ export default function CheckoutPage() {
             </div>
 
             {!isAuthenticated ? (
-                <button
+                <button type="button"
                     onClick={() => router.push(`/login?returnUrl=/pay/${params.id}`)}
                     className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-lg transition-colors"
                 >
@@ -117,7 +117,7 @@ export default function CheckoutPage() {
                         </span>
                     </div>
 
-                    <button
+                    <button type="button"
                         onClick={handleConfirm}
                         disabled={paying || user?.token_balance < payment.payment.amount}
                         className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3 rounded-lg transition-colors flex justify-center items-center gap-2"
@@ -135,7 +135,7 @@ export default function CheckoutPage() {
             )}
 
             <div className="mt-6 text-center">
-                <button onClick={() => router.back()} className="text-sm text-gray-400 hover:text-gray-600">Cancel</button>
+                <button type="button" onClick={() => router.back()} className="text-sm text-gray-400 hover:text-gray-600">Cancel</button>
             </div>
         </div>
     </div>

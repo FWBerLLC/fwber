@@ -141,7 +141,7 @@ export default function VerificationPage() {
                       onChange={handleFileChange}
                     />
                     
-                    <button
+                    <button type="button"
                       onClick={triggerCamera}
                       disabled={verifying}
                       className="w-full py-3 px-4 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg shadow-md transition-colors flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"

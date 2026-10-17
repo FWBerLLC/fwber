@@ -172,7 +172,7 @@ export const ZKProver: React.FC<ZKProverProps> = ({
             </div>
 
             {(status === 'idle' || status === 'error') && (
-                <button
+                <button type="button"
                     onClick={generateAndVerifyProof}
                     className="w-full relative overflow-hidden group bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-medium py-3 px-4 rounded-lg transition-all shadow-[0_0_20px_rgba(79,70,229,0.3)] hover:shadow-[0_0_30px_rgba(79,70,229,0.6)] flex items-center justify-center gap-2"
                 >

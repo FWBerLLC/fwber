@@ -78,7 +78,7 @@ export default function SecurePhotoReveal({
 
       {!isRevealed && (
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/20 backdrop-blur-sm transition-opacity hover:bg-black/30">
-          <button
+          <button type="button"
             onClick={handleReveal}
             disabled={isLoading}
             className="group flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800/90 hover:bg-white text-gray-900 dark:text-white rounded-full shadow-lg transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"

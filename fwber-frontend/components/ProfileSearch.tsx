@@ -72,7 +72,7 @@ export function ProfileSearch() {
           onFocus={() => query.length >= 2 && setIsOpen(true)}
         />
         {query && (
-          <button
+          <button type="button"
             onClick={() => setQuery('')}
             className="absolute inset-y-0 right-0 flex items-center pr-3"
           >

@@ -134,13 +134,13 @@ export default function CompatibilityPage() {
                 )}
 
                 <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-                  <button onClick={getCompatibility} disabled={loading}
+                  <button type="button" onClick={getCompatibility} disabled={loading}
                     className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-pink-500 to-rose-600 text-white font-semibold rounded-xl hover:from-pink-600 hover:to-rose-700 transition disabled:opacity-50 shadow-lg shadow-pink-500/30">
                     {loading ? <RefreshCw className="w-5 h-5 animate-spin" /> : <Sparkles className="w-5 h-5" />}
                     {result ? 'Analyze Again' : 'Analyze My Profile'}
                   </button>
                   {result && (
-                    <button onClick={handleShare}
+                    <button type="button" onClick={handleShare}
                       className="flex items-center justify-center gap-2 px-6 py-3 bg-slate-700/50 text-white font-semibold rounded-xl hover:bg-slate-700 transition border border-slate-600">
                       <Share2 className="w-5 h-5" /> Share
                     </button>

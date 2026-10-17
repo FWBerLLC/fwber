@@ -171,7 +171,7 @@ export default function VibeCheckPage() {
                 )}
 
                 <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-                  <button
+                  <button type="button"
                     onClick={getVibeCheck}
                     disabled={loading}
                     className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold rounded-xl hover:from-emerald-600 hover:to-teal-700 transition disabled:opacity-50 shadow-lg shadow-emerald-500/30"
@@ -185,7 +185,7 @@ export default function VibeCheckPage() {
                   </button>
 
                   {result && (
-                    <button
+                    <button type="button"
                       onClick={handleShare}
                       className="flex items-center justify-center gap-2 px-6 py-3 bg-slate-700/50 text-white font-semibold rounded-xl hover:bg-slate-700 transition border border-slate-600"
                     >

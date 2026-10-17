@@ -33,13 +33,13 @@ function UnlockButton({ photoId, price, onUnlock }: { photoId: string, price: nu
   if (confirming) {
     return (
       <div className="flex gap-1 animate-in fade-in zoom-in duration-200" onClick={(e) => e.stopPropagation()}>
-        <button
+        <button type="button"
           onClick={(e) => { e.stopPropagation(); onUnlock(photoId) }}
           className="bg-green-500 hover:bg-green-600 text-white text-xs font-bold py-1.5 px-3 rounded-full shadow-lg"
         >
           Confirm
         </button>
-        <button
+        <button type="button"
           onClick={(e) => { e.stopPropagation(); setConfirming(false) }}
           className="bg-red-500 hover:bg-red-600 text-white text-xs font-bold py-1.5 px-2 rounded-full shadow-lg"
         >
@@ -50,7 +50,7 @@ function UnlockButton({ photoId, price, onUnlock }: { photoId: string, price: nu
   }
 
   return (
-    <button
+    <button type="button"
       onClick={(e) => { e.stopPropagation(); setConfirming(true) }}
       className="bg-yellow-500 hover:bg-yellow-600 text-black text-xs font-bold py-1.5 px-3 rounded-full transition-colors flex items-center gap-1 shadow-lg"
     >

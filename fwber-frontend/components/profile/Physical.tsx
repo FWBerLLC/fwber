@@ -22,7 +22,7 @@ export default function Physical() {
           <p className="text-gray-600 dark:text-gray-400 max-w-md mx-auto">
             Height, body type, ethnicity, hair &amp; eye color, fitness level, clothing style, tattoos, piercings, and more.
           </p>
-          <button
+          <button type="button"
             onClick={() => router.push('/settings/physical-profile')}
             className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition-colors shadow-md"
           >

@@ -66,7 +66,7 @@ export default function TipButton({ recipientId, recipientName, compact = false 
           <div className="space-y-4">
             <div className="grid grid-cols-3 gap-2">
               {['10', '50', '100'].map((amt) => (
-                <button
+                <button type="button"
                   key={amt}
                   onClick={() => setAmount(amt)}
                   className={`p-2 rounded border transition-colors ${
@@ -90,7 +90,7 @@ export default function TipButton({ recipientId, recipientName, compact = false 
               />
             </div>
 
-            <button
+            <button type="button"
               onClick={handleTip}
               disabled={loading || !amount}
               className="w-full bg-purple-600 text-white p-3 rounded-lg font-bold hover:bg-purple-700 disabled:opacity-50 flex justify-center items-center gap-2"

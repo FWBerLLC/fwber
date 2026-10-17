@@ -92,7 +92,7 @@ export function FederatedAuthModal({ isOpen, onOpenChange }: { isOpen: boolean, 
                             <p className="text-[10px] font-black uppercase text-zinc-500 mb-2">Your Challenge Token</p>
                             <div className="flex items-center justify-center gap-2">
                                 <code className="text-sm font-mono text-purple-600 dark:text-purple-400 break-all">{challengeData.challenge}</code>
-                                <button onClick={() => navigator.clipboard.writeText(challengeData.challenge)} className="p-1 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded">
+                                <button type="button" onClick={() => navigator.clipboard.writeText(challengeData.challenge)} className="p-1 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded">
                                     <Copy className="w-4 h-4 text-zinc-500" />
                                 </button>
                             </div>

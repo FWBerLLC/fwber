@@ -113,7 +113,7 @@ export function VouchClient({ code }: VouchClientProps) {
                   </p>
 
                   <div className="space-y-3">
-                    <button
+                    <button type="button"
                       onClick={() => handleTypeSelect('safe')}
                       className="w-full flex items-center p-4 rounded-xl border-2 border-gray-100 hover:border-green-500 hover:bg-green-50 transition-all group"
                     >
@@ -126,7 +126,7 @@ export function VouchClient({ code }: VouchClientProps) {
                       </div>
                     </button>
 
-                    <button
+                    <button type="button"
                       onClick={() => handleTypeSelect('fun')}
                       className="w-full flex items-center p-4 rounded-xl border-2 border-gray-100 hover:border-purple-500 hover:bg-purple-50 transition-all group"
                     >
@@ -139,7 +139,7 @@ export function VouchClient({ code }: VouchClientProps) {
                       </div>
                     </button>
 
-                    <button
+                    <button type="button"
                       onClick={() => handleTypeSelect('hot')}
                       className="w-full flex items-center p-4 rounded-xl border-2 border-gray-100 hover:border-orange-500 hover:bg-orange-50 transition-all group"
                     >

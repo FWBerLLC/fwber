@@ -65,7 +65,7 @@ export default function EventPaymentModal({ isOpen, onClose, event }: EventPayme
 
           {/* Payment Method Selector */}
           <div className="flex gap-2 mb-6 p-1 bg-gray-100 dark:bg-gray-800 rounded-lg">
-            <button
+            <button type="button"
               onClick={() => setPaymentMethod('token')}
               className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-md text-sm font-medium transition-all ${
                 paymentMethod === 'token'
@@ -76,7 +76,7 @@ export default function EventPaymentModal({ isOpen, onClose, event }: EventPayme
               <Coins className="w-4 h-4" />
               Tokens ({tokenBalance})
             </button>
-            <button
+            <button type="button"
               onClick={() => setPaymentMethod('stripe')}
               className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-md text-sm font-medium transition-all ${
                 paymentMethod === 'stripe'
@@ -110,7 +110,7 @@ export default function EventPaymentModal({ isOpen, onClose, event }: EventPayme
               </div>
             </div>
 
-            <button
+            <button type="button"
               onClick={handlePurchase}
               disabled={isPending || (paymentMethod === 'token' && tokenBalance < tokenPrice)}
               className={`w-full py-3 px-4 rounded-lg font-bold text-white transition-all ${

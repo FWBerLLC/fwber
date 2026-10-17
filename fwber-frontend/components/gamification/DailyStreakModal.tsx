@@ -45,7 +45,7 @@ export function DailyStreakModal({ currentStreak, isOpen, onClose }: StreakProps
             <div className="absolute top-0 left-0 w-full h-full bg-[url('/patterns/circuit-board.svg')] opacity-10"></div>
             <div className="absolute -top-10 -right-10 w-32 h-32 bg-yellow-400 rounded-full blur-3xl opacity-30 animate-pulse"></div>
 
-            <button 
+            <button type="button" 
                 onClick={handleClose}
                 className="absolute top-4 right-4 text-white/70 hover:text-white"
             >
@@ -88,7 +88,7 @@ export function DailyStreakModal({ currentStreak, isOpen, onClose }: StreakProps
                 </div>
             </div>
 
-            <button
+            <button type="button"
                 onClick={handleClose}
                 className="w-full py-3 bg-white dark:bg-gray-800 text-orange-600 rounded-xl font-bold text-lg hover:bg-orange-50 transform hover:scale-105 transition-all shadow-lg"
             >

@@ -126,7 +126,7 @@ export default function BulletinBoardsPageClient() {
           <div className="text-center">
             <div className="text-red-600 dark:text-red-400 text-xl mb-4">⚠️</div>
             <p className="text-red-600 dark:text-red-400 mb-4">Failed to load bulletin boards</p>
-            <button
+            <button type="button"
               onClick={() => window.location.reload()}
               className="px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
             >
@@ -173,7 +173,7 @@ export default function BulletinBoardsPageClient() {
                 <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
                   Nearby Boards
                 </h2>
-                <button
+                <button type="button"
                   onClick={handleCreateBoard}
                   disabled={createBoardMutation.isPending}
                   className="px-3 py-1 bg-blue-600 dark:bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
@@ -341,7 +341,7 @@ export default function BulletinBoardsPageClient() {
                         className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         onKeyPress={(e) => e.key === 'Enter' && handlePostMessage()}
                       />
-                      <button
+                      <button type="button"
                         onClick={handlePostMessage}
                         disabled={!newMessage.trim() || postMessageMutation.isPending}
                         className="px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"

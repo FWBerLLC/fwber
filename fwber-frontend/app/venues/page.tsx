@@ -126,7 +126,7 @@ export default function VenuesPage() {
                 <span className="block sm:inline">{currentCheckin.venue?.name}</span>
                 {currentCheckin.message && <p className="text-sm italic">&quot;{currentCheckin.message}&quot;</p>}
               </div>
-              <button 
+              <button type="button" 
                 onClick={() => handleCheckOut(currentCheckin.venue_id)}
                 className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded inline-flex items-center"
               >
@@ -170,7 +170,7 @@ export default function VenuesPage() {
                   {currentCheckin?.venue_id === venue.id ? (
                     <span className="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">Checked In</span>
                   ) : (
-                    <button
+                    <button type="button"
                       onClick={() => handleCheckIn(venue.id)}
                       className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold py-2 px-4 rounded inline-flex items-center"
                     >

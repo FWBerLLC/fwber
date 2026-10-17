@@ -306,19 +306,19 @@ export default function FederationSettingsPage() {
                     </Card>
 
                     <div className="flex border-b border-zinc-200 dark:border-zinc-800">
-                        <button 
+                        <button type="button" 
                             onClick={() => setActiveTab('search')}
                             className={`pb-2 px-4 text-sm font-bold uppercase tracking-widest transition-colors ${activeTab === 'search' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-zinc-400 hover:text-zinc-600'}`}
                         >
                             Search
                         </button>
-                        <button 
+                        <button type="button" 
                             onClick={() => setActiveTab('following')}
                             className={`pb-2 px-4 text-sm font-bold uppercase tracking-widest transition-colors ${activeTab === 'following' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-zinc-400 hover:text-zinc-600'}`}
                         >
                             Following ({following.length})
                         </button>
-                        <button 
+                        <button type="button" 
                             onClick={() => setActiveTab('followers')}
                             className={`pb-2 px-4 text-sm font-bold uppercase tracking-widest transition-colors ${activeTab === 'followers' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-zinc-400 hover:text-zinc-600'}`}
                         >

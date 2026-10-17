@@ -233,7 +233,7 @@ export default function GiftHistoryPage() {
 
           {/* Tabs */}
           <div className="flex gap-2 mb-6">
-            <button
+            <button type="button"
               onClick={() => setActiveTab('received')}
               className={`flex-1 py-3 px-4 rounded-xl font-medium transition-all ${
                 activeTab === 'received'
@@ -246,7 +246,7 @@ export default function GiftHistoryPage() {
                 Received ({receivedGifts.length})
               </div>
             </button>
-            <button
+            <button type="button"
               onClick={() => setActiveTab('sent')}
               className={`flex-1 py-3 px-4 rounded-xl font-medium transition-all ${
                 activeTab === 'sent'
@@ -263,7 +263,7 @@ export default function GiftHistoryPage() {
 
           {/* Refresh Button */}
           <div className="flex justify-end mb-4">
-            <button
+            <button type="button"
               onClick={fetchGifts}
               disabled={loading}
               className="flex items-center gap-2 text-purple-300 hover:text-purple-200 text-sm transition-colors"

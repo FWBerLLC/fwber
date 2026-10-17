@@ -73,7 +73,7 @@ export default function MarketplacePage() {
                 Nearby Marketplace
               </h1>
             </div>
-            <button 
+            <button type="button" 
               onClick={() => fetchItems(true)}
               disabled={loading || refreshing}
               className="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 dark:bg-zinc-900 border border-gray-200 dark:border-gray-700 dark:border-zinc-800 rounded-full font-bold hover:bg-gray-50 dark:bg-gray-900 dark:hover:bg-zinc-800 transition disabled:opacity-50"

@@ -42,7 +42,7 @@ export default function ContentGenerationPage() {
           <div className="mb-8">
             <nav className="flex space-x-8" aria-label="Tabs">
               {tabs.map((tab) => (
-                <button
+                <button type="button"
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
                   data-testid={`${tab.id}-tab`}
@@ -247,7 +247,7 @@ export default function ContentGenerationPage() {
               <p className="text-gray-600 mb-4">
                 Get started with AI content generation in just a few clicks.
               </p>
-              <button
+              <button type="button"
                 onClick={() => setActiveTab('profile')}
                 className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors"
               >
@@ -260,7 +260,7 @@ export default function ContentGenerationPage() {
               <p className="text-gray-600 mb-4">
                 Use our AI-powered editor to create and optimize content.
               </p>
-              <button
+              <button type="button"
                 onClick={() => setActiveTab('editor')}
                 className="w-full bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition-colors"
               >
@@ -273,7 +273,7 @@ export default function ContentGenerationPage() {
               <p className="text-gray-600 mb-4">
                 Track your content performance and optimization results.
               </p>
-              <button
+              <button type="button"
                 onClick={() => setActiveTab('analytics')}
                 className="w-full bg-purple-500 text-white py-2 px-4 rounded-lg hover:bg-purple-600 transition-colors"
               >

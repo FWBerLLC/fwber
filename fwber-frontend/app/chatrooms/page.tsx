@@ -88,7 +88,7 @@ export default function ChatroomsPage() {
         {/* Tabs */}
         <div className="border-b border-gray-200 dark:border-gray-700 dark:border-gray-800 mb-6">
           <nav className="-mb-px flex space-x-8">
-            <button
+            <button type="button"
               onClick={() => setActiveTab('all')}
               className={`${
                 activeTab === 'all'
@@ -98,7 +98,7 @@ export default function ChatroomsPage() {
             >
               All Chatrooms
             </button>
-            <button
+            <button type="button"
               onClick={() => setActiveTab('nearby')}
               className={`${
                 activeTab === 'nearby'

@@ -86,7 +86,7 @@ export default function CompatibilityAuditPage() {
             <div className="max-w-2xl mx-auto">
                 {/* Header */}
                 <div className="flex items-center gap-3 mb-8">
-                    <button
+                    <button type="button"
                         onClick={() => router.back()}
                         className="p-2 rounded-lg bg-white dark:bg-gray-800/5 hover:bg-white/10 transition-colors"
                     >
@@ -118,7 +118,7 @@ export default function CompatibilityAuditPage() {
                             Go beyond surface-level matching. Our AI analyzes shared life goals,
                             values, communication styles, and long-term potential.
                         </p>
-                        <button
+                        <button type="button"
                             onClick={requestAudit}
                             className="px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-semibold rounded-xl transition-all shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40"
                         >
@@ -277,7 +277,7 @@ export default function CompatibilityAuditPage() {
                                 transition={{ delay: 1.0 }}
                                 className="flex justify-center pt-4"
                             >
-                                <button
+                                <button type="button"
                                     onClick={() => {
                                         if (navigator.share) {
                                             navigator.share({

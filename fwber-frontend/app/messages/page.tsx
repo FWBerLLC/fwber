@@ -192,7 +192,7 @@ export default function MessagesPage() {
 					<div className="flex min-h-[calc(100vh-4rem)] items-center justify-center">
 						<div className="text-center">
 							<div className="text-red-500 text-xl mb-4">Error: {error}</div>
-							<button
+							<button type="button"
 								onClick={loadConversations}
 								className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
 							>
@@ -269,13 +269,13 @@ export default function MessagesPage() {
 								</p>
 							</div>
 							<div className="flex flex-wrap items-center gap-3">
-								<button
+								<button type="button"
 									onClick={() => setIsHistoryOpen(true)}
 									className="bg-gray-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-700"
 								>
 									Call History
 								</button>
-								<button
+								<button type="button"
 									onClick={loadConversations}
 									className="bg-gray-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-700"
 								>

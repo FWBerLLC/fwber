@@ -61,7 +61,7 @@ export default function ModerationDashboard() {
         <h1 className="text-3xl font-bold flex items-center gap-2">
           <ShieldAlert className="h-8 w-8 text-purple-600" /> Moderation Dashboard
         </h1>
-        <button
+        <button type="button"
           onClick={() => dashboard.refetch()}
           disabled={dashboard.isFetching}
           className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border rounded-lg hover:bg-gray-50 dark:bg-gray-900 disabled:opacity-50"
@@ -83,7 +83,7 @@ export default function ModerationDashboard() {
       <div className="border-b border-gray-200 dark:border-gray-700 mb-6">
         <nav className="-mb-px flex space-x-8">
           {tabs.map((tab) => (
-            <button
+            <button type="button"
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`group inline-flex items-center py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
@@ -218,14 +218,14 @@ function Pagination({ page, lastPage, setPage }: { page: number; lastPage: numbe
     <div className="flex items-center justify-between px-4 py-3 border-t">
       <span className="text-sm text-gray-600">Page {page} of {lastPage}</span>
       <div className="flex gap-2">
-        <button
+        <button type="button"
           onClick={() => setPage(Math.max(1, page - 1))}
           disabled={page === 1}
           className="px-3 py-1 text-sm border rounded disabled:opacity-50 hover:bg-gray-50 dark:bg-gray-900"
         >
           Previous
         </button>
-        <button
+        <button type="button"
           onClick={() => setPage(Math.min(lastPage, page + 1))}
           disabled={page === lastPage}
           className="px-3 py-1 text-sm border rounded disabled:opacity-50 hover:bg-gray-50 dark:bg-gray-900"
@@ -272,7 +272,7 @@ function FlaggedContentPanel({
                   </span>
                 </div>
                 <p className="text-gray-600 text-sm mt-1 line-clamp-2">{item.content}</p>
-                <button
+                <button type="button"
                   onClick={() => onViewUser(item.user_id)}
                   className="text-xs text-purple-600 hover:underline mt-1 flex items-center gap-1"
                 >
@@ -280,28 +280,28 @@ function FlaggedContentPanel({
                 </button>
               </div>
               <div className="flex flex-wrap gap-2">
-                <button
+                <button type="button"
                   disabled={isPending}
                   className="px-3 py-1.5 text-sm bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50 flex items-center gap-1"
                   onClick={() => onReview(item.id, 'approve', 'Content approved')}
                 >
                   <CheckCircle2 className="h-4 w-4" /> Approve
                 </button>
-                <button
+                <button type="button"
                   disabled={isPending}
                   className="px-3 py-1.5 text-sm bg-red-600 text-white rounded hover:bg-red-700 disabled:opacity-50 flex items-center gap-1"
                   onClick={() => onReview(item.id, 'remove', 'Policy violation')}
                 >
                   <Trash2 className="h-4 w-4" /> Remove
                 </button>
-                <button
+                <button type="button"
                   disabled={isPending}
                   className="px-3 py-1.5 text-sm bg-yellow-600 text-white rounded hover:bg-yellow-700 disabled:opacity-50 flex items-center gap-1"
                   onClick={() => onReview(item.id, 'throttle_user', 'Repeated abuse', { throttle_severity: 3, throttle_duration_hours: 24 })}
                 >
                   <Gauge className="h-4 w-4" /> Throttle
                 </button>
-                <button
+                <button type="button"
                   disabled={isPending}
                   className="px-3 py-1.5 text-sm bg-gray-800 text-white rounded hover:bg-gray-900 disabled:opacity-50 flex items-center gap-1"
                   onClick={() => onReview(item.id, 'ban_user', 'Extreme abuse')}
@@ -346,7 +346,7 @@ function SpoofDetectionsPanel({
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
               <div className="flex-1">
                 <div className="flex items-center gap-2">
-                  <button
+                  <button type="button"
                     onClick={() => onViewUser(d.user_id)}
                     className="font-medium text-purple-600 hover:underline flex items-center gap-1"
                   >
@@ -365,14 +365,14 @@ function SpoofDetectionsPanel({
                 </p>
               </div>
               <div className="flex gap-2">
-                <button
+                <button type="button"
                   disabled={isPending}
                   className="px-3 py-1.5 text-sm bg-red-600 text-white rounded hover:bg-red-700 disabled:opacity-50"
                   onClick={() => onReview(d.id, 'confirm', 'Impossible velocity', true)}
                 >
                   Confirm & Throttle
                 </button>
-                <button
+                <button type="button"
                   disabled={isPending}
                   className="px-3 py-1.5 text-sm bg-gray-600 text-white rounded hover:bg-gray-700 disabled:opacity-50"
                   onClick={() => onReview(d.id, 'dismiss', 'Benign')}
@@ -423,7 +423,7 @@ function ThrottlesPanel({
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
               <div className="flex-1">
                 <div className="flex items-center gap-2">
-                  <button
+                  <button type="button"
                     onClick={() => onViewUser(t.user_id)}
                     className="font-medium text-purple-600 hover:underline flex items-center gap-1"
                   >
@@ -439,7 +439,7 @@ function ThrottlesPanel({
                   Expires: {t.expires_at ? new Date(t.expires_at).toLocaleString() : 'Never'}
                 </p>
               </div>
-              <button
+              <button type="button"
                 disabled={isPending}
                 className="px-3 py-1.5 text-sm bg-gray-800 text-white rounded hover:bg-gray-900 disabled:opacity-50 flex items-center gap-1"
                 onClick={() => onRemove(t.id)}
@@ -494,7 +494,7 @@ function ActionsPanel({
                 </div>
                 <div className="flex items-center gap-4 mt-1 text-sm text-gray-600">
                   {a.target_user_id && (
-                    <button
+                    <button type="button"
                       onClick={() => onViewUser(a.target_user_id)}
                       className="text-purple-600 hover:underline flex items-center gap-1"
                     >
@@ -537,7 +537,7 @@ function UserProfileModal({
             <h2 className="text-xl font-semibold flex items-center gap-2">
               <User className="h-5 w-5 text-purple-600" /> User #{userId} Profile
             </h2>
-            <button onClick={onClose} className="p-2 hover:bg-gray-100 dark:bg-gray-800 rounded-full" aria-label="Close modal" title="Close">
+            <button type="button" onClick={onClose} className="p-2 hover:bg-gray-100 dark:bg-gray-800 rounded-full" aria-label="Close modal" title="Close">
               <X className="h-5 w-5" />
             </button>
           </div>

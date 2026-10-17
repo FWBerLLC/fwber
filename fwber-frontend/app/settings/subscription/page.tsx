@@ -138,7 +138,7 @@ function SubscriptionContent() {
                           </div>
                         </div>
                       </div>
-                      <button
+                      <button type="button"
                         onClick={handleCancel}
                         disabled={canceling}
                         className="text-sm text-red-600 hover:text-red-800 font-medium underline disabled:opacity-50"
@@ -161,7 +161,7 @@ function SubscriptionContent() {
                         <Check className="w-4 h-4" /> Priority support
                       </li>
                     </ul>
-                    <button
+                    <button type="button"
                       onClick={() => setShowUpgradeModal(true)}
                       className="w-full py-3 px-4 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
                     >

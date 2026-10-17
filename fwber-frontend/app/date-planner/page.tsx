@@ -119,7 +119,7 @@ function DatePlannerContent() {
                 <Sparkles size={48} />
                 <h1>AI Date Planner</h1>
                 <p>Sign in to plan your perfect date.</p>
-                <button onClick={() => router.push('/login')} className="dp-primary-btn">Log In</button>
+                <button type="button" onClick={() => router.push('/login')} className="dp-primary-btn">Log In</button>
             </div>
         );
     }
@@ -347,12 +347,12 @@ function DatePlannerContent() {
                                     value={location}
                                     onChange={(e) => { setLocation(e.target.value); setSubmitted(false); }}
                                 />
-                                <button className="dp-geo-btn" onClick={handleGeolocate} title="Use my location">
+                                <button type="button" className="dp-geo-btn" onClick={handleGeolocate} title="Use my location">
                                     <Navigation size={18} />
                                 </button>
                             </div>
                         </div>
-                        <button
+                        <button type="button"
                             className="dp-generate-btn"
                             disabled={!matchId || (isLoading && submitted)}
                             onClick={handleGenerate}
@@ -379,7 +379,7 @@ function DatePlannerContent() {
                                     <TimelineStep key={i} idea={idea} index={i} />
                                 ))}
                             </div>
-                            <button
+                            <button type="button"
                                 className="dp-regen-btn"
                                 onClick={() => refetch()}
                                 disabled={isFetching}

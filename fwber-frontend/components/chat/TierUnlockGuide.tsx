@@ -111,7 +111,7 @@ export function TierUnlockGuide({ matchId }: TierUnlockGuideProps) {
 
                 <div className="flex items-center gap-3">
                     {currentTier === 'established' && (
-                        <button
+                        <button type="button"
                             onClick={handleVerifyMeeting}
                             className="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-[10px] font-black rounded-full transition uppercase tracking-tighter shadow-lg shadow-green-500/20 whitespace-nowrap"
                         >

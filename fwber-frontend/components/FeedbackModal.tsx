@@ -49,7 +49,7 @@ export default function FeedbackModal() {
 
   if (!isOpen) {
     return (
-      <button
+      <button type="button"
         onClick={() => setIsOpen(true)}
         className="fixed bottom-4 right-4 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg transition-all z-50"
         title="Send Feedback"
@@ -62,7 +62,7 @@ export default function FeedbackModal() {
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md relative">
-        <button
+        <button type="button"
           onClick={() => setIsOpen(false)}
           className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
         >

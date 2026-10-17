@@ -102,14 +102,14 @@ function WebSocketPageContent() {
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-4xl font-bold text-red-500">WebSocket Real-Time Communication</h1>
           <div className="flex space-x-4">
-            <button
+            <button type="button"
               onClick={handleConnect}
               disabled={connectionStatus.connected || !isReady}
               className="bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-4 py-2 rounded transition-colors"
             >
               {isReady ? 'Connect' : 'Initializing...'}
             </button>
-            <button
+            <button type="button"
               onClick={handleDisconnect}
               disabled={!connectionStatus.connected}
               className="bg-red-600 hover:bg-red-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-4 py-2 rounded transition-colors"
@@ -155,7 +155,7 @@ function WebSocketPageContent() {
         <div className="bg-gray-800 p-6 rounded-lg mb-8">
           <h3 className="text-lg font-semibold mb-4">Presence Status</h3>
           <div className="flex space-x-4">
-            <button
+            <button type="button"
               onClick={() => setOnline()}
               className={`px-4 py-2 rounded ${
                 currentStatus === 'online' ? 'bg-green-600 text-white' : 'bg-gray-700 text-gray-300'
@@ -163,7 +163,7 @@ function WebSocketPageContent() {
             >
               Online
             </button>
-            <button
+            <button type="button"
               onClick={() => setAway()}
               className={`px-4 py-2 rounded ${
                 currentStatus === 'away' ? 'bg-yellow-600 text-white' : 'bg-gray-700 text-gray-300'
@@ -171,7 +171,7 @@ function WebSocketPageContent() {
             >
               Away
             </button>
-            <button
+            <button type="button"
               onClick={() => setBusy()}
               className={`px-4 py-2 rounded ${
                 currentStatus === 'busy' ? 'bg-red-600 text-white' : 'bg-gray-700 text-gray-300'
@@ -179,7 +179,7 @@ function WebSocketPageContent() {
             >
               Busy
             </button>
-            <button
+            <button type="button"
               onClick={() => setOffline()}
               className={`px-4 py-2 rounded ${
                 currentStatus === 'offline' ? 'bg-gray-600 text-white' : 'bg-gray-700 text-gray-300'
@@ -219,7 +219,7 @@ function WebSocketPageContent() {
               </div>
 
               <div className="flex space-x-2">
-                <button
+                <button type="button"
                   onClick={handleSendChatMessage}
                   disabled={!selectedRecipient || !testMessage.trim()}
                   className="bg-purple-600 hover:bg-purple-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-4 py-2 rounded transition-colors"
@@ -229,21 +229,21 @@ function WebSocketPageContent() {
               </div>
 
               <div className="flex space-x-2">
-                <button
+                <button type="button"
                   onClick={handleSendNotification}
                   disabled={!selectedRecipient}
                   className="bg-yellow-600 hover:bg-yellow-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-4 py-2 rounded transition-colors"
                 >
                   Send Notification
                 </button>
-                <button
+                <button type="button"
                   onClick={handleStartTyping}
                   disabled={!selectedRecipient}
                   className="bg-orange-600 hover:bg-orange-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-4 py-2 rounded transition-colors"
                 >
                   Start Typing
                 </button>
-                <button
+                <button type="button"
                   onClick={handleStopTyping}
                   disabled={!selectedRecipient}
                   className="bg-gray-600 hover:bg-gray-700 disabled:bg-gray-500 disabled:cursor-not-allowed text-white px-4 py-2 rounded transition-colors"
@@ -306,7 +306,7 @@ function WebSocketPageContent() {
         <div className="mt-8 bg-gray-800 p-6 rounded-lg">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-lg font-semibold">Message Log</h3>
-            <button
+            <button type="button"
               onClick={clearMessages}
               className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-1 rounded text-sm transition-colors"
             >

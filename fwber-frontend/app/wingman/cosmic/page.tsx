@@ -152,7 +152,7 @@ export default function CosmicMatchPage() {
                         <p className="text-zinc-400 max-w-md mx-auto leading-relaxed mb-10">
                             Our AI Oracle will triangulate your profile data against the current celestial alignment to reveal your ultimate partner and your greatest clash.
                         </p>
-                        <button
+                        <button type="button"
                             onClick={getCosmicMatch}
                             className="h-20 w-full bg-white dark:bg-gray-800 text-black font-black uppercase tracking-widest italic rounded-3xl hover:bg-zinc-200 transition-all transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-4 text-xl shadow-xl shadow-white/5"
                         >
@@ -265,14 +265,14 @@ export default function CosmicMatchPage() {
                                 transition={{ delay: 0.6 }}
                                 className="flex flex-col gap-4"
                             >
-                                <button
+                                <button type="button"
                                     onClick={handleShare}
                                     className="flex-1 bg-white dark:bg-gray-800 text-black font-black uppercase tracking-widest italic rounded-3xl flex items-center justify-center gap-3 hover:bg-zinc-200 transition-all shadow-lg shadow-white/5"
                                 >
                                     <Share2 className="w-5 h-5" />
                                     Broadcast Destiny
                                 </button>
-                                <button
+                                <button type="button"
                                     onClick={getCosmicMatch}
                                     className="flex-1 bg-zinc-800/50 text-white font-black uppercase tracking-widest italic rounded-3xl border border-zinc-700 flex items-center justify-center gap-3 hover:bg-zinc-800 transition-all"
                                 >

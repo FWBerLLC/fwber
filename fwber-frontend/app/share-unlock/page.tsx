@@ -137,7 +137,7 @@ export default function ShareUnlockPage() {
                   const isSuccess = shareSuccess === platform.id
 
                   return (
-                    <button
+                    <button type="button"
                       key={platform.id}
                       onClick={() => handleShare(platform.id)}
                       disabled={isSharing}

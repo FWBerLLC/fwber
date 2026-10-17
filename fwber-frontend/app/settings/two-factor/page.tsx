@@ -145,7 +145,7 @@ export default function TwoFactorSettingsPage() {
                   <p className="text-gray-500 max-w-md mx-auto mb-8">
                     When two-factor authentication is enabled, you will be prompted for a secure, random token during authentication. You may retrieve this token from your phone&apos;s Google Authenticator application.
                   </p>
-                  <button
+                  <button type="button"
                     onClick={enableTwoFactor}
                     disabled={isLoading}
                     className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 disabled:opacity-50"
@@ -199,7 +199,7 @@ export default function TwoFactorSettingsPage() {
                   </div>
                   
                   <div className="flex justify-center">
-                     <button
+                     <button type="button"
                         onClick={() => setQrCode(null)}
                         className="text-sm text-gray-500 hover:text-gray-700 dark:text-gray-300"
                       >
@@ -219,7 +219,7 @@ export default function TwoFactorSettingsPage() {
                         <p className="text-sm text-green-600">Your account is secure.</p>
                       </div>
                     </div>
-                    <button
+                    <button type="button"
                       onClick={disableTwoFactor}
                       disabled={isLoading}
                       className="inline-flex items-center px-3 py-1.5 border border-red-200 text-xs font-medium rounded text-red-700 bg-white dark:bg-gray-800 hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50"
@@ -247,7 +247,7 @@ export default function TwoFactorSettingsPage() {
                       </div>
                     ) : (
                       <div className="mb-6">
-                        <button
+                        <button type="button"
                           onClick={fetchRecoveryCodes}
                           disabled={isLoading}
                           className="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
@@ -258,7 +258,7 @@ export default function TwoFactorSettingsPage() {
                     )}
 
                     <div className="flex gap-4">
-                      <button
+                      <button type="button"
                         onClick={regenerateRecoveryCodes}
                         disabled={isLoading}
                         className="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"

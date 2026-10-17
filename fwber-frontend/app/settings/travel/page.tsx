@@ -171,7 +171,7 @@ export default function TravelModePage() {
                         className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                       />
                     </div>
-                    <button
+                    <button type="button"
                       onClick={handleSearch}
                       disabled={searching || !searchQuery.trim()}
                       className="px-4 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 disabled:opacity-50 font-medium flex items-center gap-2"
@@ -185,7 +185,7 @@ export default function TravelModePage() {
                   {searchResults.length > 0 && (
                     <div className="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                       {searchResults.map((result) => (
-                        <button
+                        <button type="button"
                           key={result.place_id}
                           onClick={() => selectLocation(result)}
                           className="w-full text-left px-4 py-3 hover:bg-purple-50 transition-colors border-b border-gray-100 last:border-0"
@@ -232,7 +232,7 @@ export default function TravelModePage() {
 
               {/* Save Button */}
               <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
-                <button
+                <button type="button"
                   onClick={handleSave}
                   disabled={saving}
                   className="w-full py-3 px-4 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg shadow-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 transition-colors"

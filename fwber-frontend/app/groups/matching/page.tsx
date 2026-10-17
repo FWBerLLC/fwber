@@ -171,7 +171,7 @@ export default function GroupMatchingPage() {
                 </p>
               </div>
             </div>
-            <button
+            <button type="button"
               onClick={() => {
                 fetchMatches()
                 fetchRequests()
@@ -234,7 +234,7 @@ export default function GroupMatchingPage() {
 
               <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
                 {(['discover', 'pending', 'connected'] as Tab[]).map(tab => (
-                  <button
+                  <button type="button"
                     key={tab}
                     onClick={() => setActiveTab(tab)}
                     className={`px-4 py-2 rounded-lg font-medium whitespace-nowrap transition ${
@@ -268,7 +268,7 @@ export default function GroupMatchingPage() {
                     <span className="text-sm text-gray-400">Search radius:</span>
                     <div className="flex gap-1">
                       {[25, 50, 100].map(r => (
-                        <button
+                        <button type="button"
                           key={r}
                           onClick={() => setRadius(r)}
                           className={`px-3 py-1 rounded-lg text-sm transition ${
@@ -364,7 +364,7 @@ export default function GroupMatchingPage() {
                                 </span>
                               </div>
 
-                              <button
+                              <button type="button"
                                 onClick={() => handleConnect(match.id)}
                                 disabled={connecting === match.id}
                                 className="flex items-center gap-1 px-3 py-1.5 bg-gradient-to-r from-pink-500 to-purple-600 text-white text-sm font-medium rounded-lg hover:from-pink-600 hover:to-purple-700 transition disabled:opacity-50"
@@ -436,13 +436,13 @@ export default function GroupMatchingPage() {
 
                             {isIncoming ? (
                               <div className="flex gap-2">
-                                <button
+                                <button type="button"
                                   onClick={() => handleRequest(request.id, 'accept')}
                                   className="p-2 bg-green-500/20 text-green-400 rounded-lg hover:bg-green-500/30 transition"
                                 >
                                   <Check className="w-5 h-5" />
                                 </button>
-                                <button
+                                <button type="button"
                                   onClick={() => handleRequest(request.id, 'reject')}
                                   className="p-2 bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500/30 transition"
                                 >

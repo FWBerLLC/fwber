@@ -90,7 +90,7 @@ export default function AnalyticsPage() {
           <p className="mt-2 text-sm text-red-700">
             {analyticsError.message ?? 'An unexpected error occurred while requesting analytics.'}
           </p>
-          <button
+          <button type="button"
             onClick={() => platformQuery.refetch()}
             className="mt-4 rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-500"
           >
@@ -258,7 +258,7 @@ export default function AnalyticsPage() {
         ) : (
           <div className="mt-4 rounded-lg bg-gray-50 dark:bg-gray-900 p-4 text-center">
             <p className="text-sm text-gray-500">Health data unavailable.</p>
-            <button
+            <button type="button"
               onClick={() => healthQuery.refetch()}
               className="mt-2 text-sm text-blue-600 hover:underline"
             >

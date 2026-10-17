@@ -225,7 +225,7 @@ export default function ProximityFeed() {
                   <span>{location ? `${Math.round(getDistanceFromLatLonInM(location.lat, location.lng, room.lat, room.lng))}m away` : 'Nearby'}</span>
                 </div>
                 <div className="flex gap-2">
-                  <button
+                  <button type="button"
                     onClick={() => router.push(`/proximity-chatrooms/${room.id}`)}
                     className={`flex-1 text-white text-sm font-medium py-2 px-4 rounded transition-colors flex items-center justify-center gap-2 ${room.is_member
                       ? 'bg-green-600 hover:bg-green-700'
@@ -236,7 +236,7 @@ export default function ProximityFeed() {
                   </button>
 
                   {room.is_member && (
-                    <button
+                    <button type="button"
                       onClick={(e) => handleLeaveRoom(e, room.id)}
                       className="bg-gray-100 dark:bg-gray-800 hover:bg-red-100 text-gray-500 hover:text-red-600 py-2 px-3 rounded transition-colors border border-gray-200 dark:border-gray-700"
                       title="Leave Room"
@@ -302,7 +302,7 @@ export default function ProximityFeed() {
                   </div>
                   <div className="flex gap-2">
                     {user?.id === artifact.user_id ? (
-                      <button
+                      <button type="button"
                         onClick={() => handleDelete(artifact.id)}
                         className="text-gray-400 hover:text-red-600"
                         title="Delete"
@@ -310,7 +310,7 @@ export default function ProximityFeed() {
                         <Trash2 className="h-4 w-4" />
                       </button>
                     ) : (
-                      <button
+                      <button type="button"
                         onClick={() => handleFlag(artifact.id)}
                         className="text-gray-400 hover:text-yellow-600"
                         title="Report"
@@ -340,7 +340,7 @@ export default function ProximityFeed() {
                       <MapPin className="h-3 w-3" />
                       {location ? `${Math.round(getDistanceFromLatLonInM(location.lat, location.lng, artifact.lat, artifact.lng))}m away` : 'Nearby'}
                     </span>
-                    <button
+                    <button type="button"
                       onClick={() => toggleComments(artifact.id)}
                       className="flex items-center gap-1 hover:text-blue-600 hover:bg-blue-50 px-2 py-1 rounded-full transition-colors"
                     >

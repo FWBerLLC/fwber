@@ -194,7 +194,7 @@ function ToastItem({ toast, onClose }: ToastItemProps) {
             </p>
           )}
           {toast.action && (
-            <button
+            <button type="button"
               onClick={() => {
                 toast.action?.onClick();
                 handleClose();
@@ -205,7 +205,7 @@ function ToastItem({ toast, onClose }: ToastItemProps) {
             </button>
           )}
         </div>
-        <button
+        <button type="button"
           onClick={handleClose}
           className="flex-shrink-0 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
         >

@@ -135,7 +135,7 @@ const ArtifactCard = ({
       {/* Vote Component */}
       {hasVoting && (
         <div className="flex flex-col items-center justify-start space-y-1 w-8 flex-shrink-0">
-          <button
+          <button type="button"
             onClick={() => onVote(artifact.id, userVote === 1 ? 0 : 1)}
             className={`p-1 rounded hover:bg-black/5 transition-colors ${userVote === 1 ? 'text-orange-600' : 'text-gray-500'}`}
           >
@@ -144,7 +144,7 @@ const ArtifactCard = ({
           <span className={`font-bold text-sm ${userVote === 1 ? 'text-orange-600' : userVote === -1 ? 'text-blue-600' : 'text-gray-700 dark:text-gray-300'}`}>
             {score}
           </span>
-          <button
+          <button type="button"
             onClick={() => onVote(artifact.id, userVote === -1 ? 0 : -1)}
             className={`p-1 rounded hover:bg-black/5 transition-colors ${userVote === -1 ? 'text-blue-600' : 'text-gray-500'}`}
           >
@@ -170,7 +170,7 @@ const ArtifactCard = ({
               </span>
             )}
           </div>
-          <button
+          <button type="button"
             onClick={() => onFlag(artifact.id)}
             className="text-gray-400 hover:text-red-600 transition-colors"
             title="Flag for review"
@@ -228,7 +228,7 @@ const ArtifactCard = ({
 
         {artifact.type === 'token_drop' && !isClaimed && (
           <div className="mb-3">
-            <button
+            <button type="button"
               onClick={() => onClaim(artifact.id)}
               className="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 rounded shadow-sm flex justify-center items-center gap-2"
             >
@@ -247,7 +247,7 @@ const ArtifactCard = ({
         <div className="flex flex-wrap items-center justify-between gap-y-2 text-xs text-gray-600">
           <div className="flex space-x-3">
             {hasVoting && (
-              <button
+              <button type="button"
                 onClick={() => setShowComments(!showComments)}
                 className="flex items-center space-x-1 hover:text-gray-900 dark:text-white transition-colors p-1 rounded hover:bg-black/5"
               >
@@ -274,7 +274,7 @@ const ArtifactCard = ({
                 <div key={comment.id} className="space-y-2">
                   <div className="bg-white/50 dark:bg-gray-800/50 p-2 rounded">
                     <p className="text-sm">{comment.content}</p>
-                    <button
+                    <button type="button"
                       onClick={() => setReplyingTo(replyingTo === comment.id ? null : comment.id)}
                       className="text-[10px] text-blue-600 font-bold uppercase mt-1"
                     >
@@ -378,7 +378,7 @@ const CandidateCard = ({ candidate }: { candidate: MatchCandidate }) => {
           </div>
         </div>
         <div className="flex gap-2">
-          <button
+          <button type="button"
             onClick={() => setShowZkProver(true)}
             title="Verify proximity"
             className="bg-indigo-100 text-indigo-700 p-2 rounded-full hover:bg-indigo-200 transition-colors"
@@ -608,7 +608,7 @@ export default function LocalPulse({ initialTopicSlug, compact = false }: LocalP
 
             <div className="flex items-center space-x-2">
               {!compact && (
-                <button
+                <button type="button"
                   onClick={() => setShowAR(true)}
                   className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 flex items-center space-x-2"
                 >
@@ -616,7 +616,7 @@ export default function LocalPulse({ initialTopicSlug, compact = false }: LocalP
                   <span>AR View</span>
                 </button>
               )}
-              <button
+              <button type="button"
                 onClick={() => setShowCreateForm(!showCreateForm)}
                 className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center space-x-2"
             >
@@ -697,7 +697,7 @@ export default function LocalPulse({ initialTopicSlug, compact = false }: LocalP
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Type</label>
               <div className="grid grid-cols-4 gap-2">
                 {(['chat', 'board_post', 'announce', 'token_drop'] as const).map((type) => (
-                  <button
+                  <button type="button"
                     key={type}
                     onClick={() => setNewArtifact({ ...newArtifact, type })}
                     className={`p-3 rounded-lg border-2 transition-colors flex flex-col items-center justify-center ${newArtifact.type === type
@@ -758,13 +758,13 @@ export default function LocalPulse({ initialTopicSlug, compact = false }: LocalP
             </div>
 
             <div className="flex space-x-3">
-              <button
+              <button type="button"
                 onClick={() => setShowCreateForm(false)}
                 className="flex-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-lg hover:bg-gray-200"
               >
                 Cancel
               </button>
-              <button
+              <button type="button"
                 onClick={handleCreateArtifact}
                 disabled={!newArtifact.content.trim() || createArtifact.isPending || (newArtifact.type === 'token_drop' && !dropAmount)}
                 className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50"
@@ -819,7 +819,7 @@ export default function LocalPulse({ initialTopicSlug, compact = false }: LocalP
                           {quest.token_reward} FWB
                         </span>
                         {isAccepted ? (
-                          <button
+                          <button type="button"
                             onClick={() => completeQuestMutation.mutate({ questId: quest.id })}
                             disabled={completeQuestMutation.isPending}
                             className="flex items-center text-sm font-medium text-green-600 hover:text-green-700 dark:text-green-400 cursor-pointer bg-green-50 px-3 py-1.5 rounded transition-colors"
@@ -828,7 +828,7 @@ export default function LocalPulse({ initialTopicSlug, compact = false }: LocalP
                             Complete Quest
                           </button>
                         ) : (
-                          <button
+                          <button type="button"
                             onClick={() => acceptQuestMutation.mutate(quest.id)}
                             disabled={acceptQuestMutation.isPending}
                             className="text-sm bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded transition-colors"
@@ -871,7 +871,7 @@ export default function LocalPulse({ initialTopicSlug, compact = false }: LocalP
                 <p className="text-gray-600 mb-4">
                   Be the first to post something in your area!
                 </p>
-                <button
+                <button type="button"
                   onClick={() => setShowCreateForm(true)}
                   className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700"
                 >

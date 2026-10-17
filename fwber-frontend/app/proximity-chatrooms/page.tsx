@@ -119,7 +119,7 @@ export default function ProximityChatroomsPage() {
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Authentication Required</h1>
           <p className="text-gray-600 mb-6">Please log in to access proximity chatrooms.</p>
-          <button
+          <button type="button"
             onClick={() => router.push('/login')}
             className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700"
           >
@@ -145,7 +145,7 @@ export default function ProximityChatroomsPage() {
                 <p className="text-gray-600">Connect with people nearby for networking and social interaction</p>
               </div>
             </div>
-            <button
+            <button type="button"
               onClick={() => setShowCreateForm(true)}
               className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center space-x-2"
             >
@@ -284,7 +284,7 @@ export default function ProximityChatroomsPage() {
               <p className="text-gray-600 mb-4">
                 Be the first to create a proximity chatroom in your area!
               </p>
-              <button
+              <button type="button"
                 onClick={() => setShowCreateForm(true)}
                 className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700"
               >
@@ -343,7 +343,7 @@ export default function ProximityChatroomsPage() {
                   </div>
                 </div>
                 
-                <button
+                <button type="button"
                   onClick={() => router.push(`/proximity-chatrooms/${chatroom.id}`)}
                   className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 ml-4"
                 >
@@ -362,7 +362,7 @@ export default function ProximityChatroomsPage() {
             <div className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Create Proximity Chatroom</h2>
-                <button
+                <button type="button"
                   onClick={() => setShowCreateForm(false)}
                   className="text-gray-400 hover:text-gray-600"
                 >

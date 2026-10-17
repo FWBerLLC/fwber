@@ -51,7 +51,7 @@ export default function EventDetailPage() {
           <div className="flex justify-between items-start mb-4">
             <h1 className="text-3xl font-bold">{event.title}</h1>
             <div className="flex gap-2">
-              <button
+              <button type="button"
                 onClick={() => setIsInviteModalOpen(true)}
                 className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium flex items-center gap-1 hover:bg-blue-200"
               >
@@ -157,19 +157,19 @@ export default function EventDetailPage() {
           <div className="border-t pt-6">
             <h2 className="text-xl font-semibold mb-4">RSVP</h2>
             <div className="flex gap-4">
-              <button
+              <button type="button"
                 onClick={() => handleRsvp('attending')}
                 className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
               >
                 Attend
               </button>
-              <button
+              <button type="button"
                 onClick={() => handleRsvp('maybe')}
                 className="px-6 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600"
               >
                 Maybe
               </button>
-              <button
+              <button type="button"
                 onClick={() => handleRsvp('declined')}
                 className="px-6 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
               >

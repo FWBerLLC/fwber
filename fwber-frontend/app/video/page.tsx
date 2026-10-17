@@ -33,7 +33,7 @@ export default function VideoPage() {
                   placeholder="Recipient user ID"
                   className="flex-1 rounded-xl border border-gray-300 px-4 py-3 text-sm dark:border-gray-700 dark:bg-gray-950 dark:text-white"
                 />
-                <button
+                <button type="button"
                   onClick={() => setIsOpen(true)}
                   disabled={!canStart}
                   className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"

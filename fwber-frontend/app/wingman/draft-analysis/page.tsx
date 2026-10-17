@@ -122,7 +122,7 @@ export default function DraftAnalysisPage() {
                       </div>
                     )}
 
-                    <button onClick={() => { setResult(null); setDraft('') }}
+                    <button type="button" onClick={() => { setResult(null); setDraft('') }}
                       className="w-full py-2 text-violet-400 hover:text-violet-300 transition text-sm">
                       Analyze another draft →
                     </button>
@@ -137,7 +137,7 @@ export default function DraftAnalysisPage() {
 
                 {!result && (
                   <div className="mt-6">
-                    <button onClick={analyzeDraft} disabled={loading || !draft.trim()}
+                    <button type="button" onClick={analyzeDraft} disabled={loading || !draft.trim()}
                       className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-violet-500 to-purple-600 text-white font-semibold rounded-xl hover:from-violet-600 hover:to-purple-700 transition disabled:opacity-50 shadow-lg shadow-violet-500/30 mx-auto">
                       <Pencil className="w-5 h-5" /> Analyze Draft
                     </button>

@@ -624,7 +624,7 @@ export default function PhotoUpload({
         <div className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900 space-y-2">
           <div className="flex items-center justify-between">
             <span className="font-semibold">Face blur notices</span>
-            <button
+            <button type="button"
               onClick={() => setProcessingWarnings([])}
               className="text-xs underline decoration-dotted"
             >
@@ -739,7 +739,7 @@ export default function PhotoUpload({
                 {/* Photo Actions */}
                 <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-lg">
                   <div className="flex items-center justify-center h-full space-x-2">
-                    <button
+                    <button type="button"
                       onClick={() => removePhoto(index)}
                       className="p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
                       title="Remove photo"
@@ -824,14 +824,14 @@ export default function PhotoUpload({
                   {!isUploadingPhoto && (
                     <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-lg">
                       <div className="flex items-center justify-center h-full space-x-2">
-                        <button
+                        <button type="button"
                           onClick={() => removePreview(preview.id)}
                           className="p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
                           title="Remove preview"
                         >
                           <X className="w-4 h-4" />
                         </button>
-                        <button
+                        <button type="button"
                           onClick={() => setEditingPreviewId(preview.id)}
                           className="p-2 bg-purple-500 text-white rounded-full hover:bg-purple-600 transition-colors"
                           title="Edit photo"
@@ -839,7 +839,7 @@ export default function PhotoUpload({
                           <Pencil className="w-4 h-4" />
                         </button>
                         {preview.blurApplied && preview.previewUrls.processed && (
-                          <button
+                          <button type="button"
                             onClick={(event) => {
                               event.stopPropagation()
                               setComparisonPreviewId(preview.id)

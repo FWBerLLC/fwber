@@ -231,7 +231,7 @@ export default function ChatroomPage() {
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Chatroom not found</h1>
           <p className="text-gray-600 dark:text-gray-400 mb-4">The chatroom you&apos;re looking for doesn&apos;t exist or you don&apos;t have access to it.</p>
-          <button
+          <button type="button"
             onClick={() => router.push('/chatrooms')}
             className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition-colors"
           >
@@ -262,7 +262,7 @@ export default function ChatroomPage() {
                 <p className="text-gray-600 dark:text-gray-400 mb-4">{chatroom.description}</p>
               )}
               <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-500 flex-wrap">
-                <button
+                <button type="button"
                   onClick={() => setShowOnlineUsers(!showOnlineUsers)}
                   className="flex items-center gap-1 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                 >
@@ -307,7 +307,7 @@ export default function ChatroomPage() {
                     ? `This chatroom requires an entry fee of ${chatroom.token_entry_fee} tokens.`
                     : "You need to join this chatroom to view messages and participate."}
                 </p>
-                <button
+                <button type="button"
                   onClick={handleJoin}
                   disabled={joinChatroomMutation.isPending}
                   className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white font-medium rounded-lg shadow-md transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
@@ -362,7 +362,7 @@ export default function ChatroomPage() {
                       {(Array.isArray(message.reactions) && message.reactions.length > 0) && (
                         <div className="flex flex-wrap gap-1 mt-2">
                           {Object.entries(message.reaction_summary || {}).map(([emoji, count]) => (
-                            <button
+                            <button type="button"
                               key={emoji}
                               onClick={() => handleReaction(message.id, emoji)}
                               className="inline-flex items-center px-2 py-1 text-xs bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-900 dark:text-white dark:text-gray-200 rounded-full transition-colors border border-gray-200 dark:border-gray-700"
@@ -430,7 +430,7 @@ export default function ChatroomPage() {
           <span className="text-sm text-gray-500 dark:text-gray-500">Quick reactions:</span>
           <div className="flex items-center space-x-2">
             {['👍', '❤️', '😂', '😮', '😢', '😡'].map((emoji) => (
-              <button
+              <button type="button"
                 key={emoji}
                 onClick={() => {
                   const lastMessage = messages[messages.length - 1];

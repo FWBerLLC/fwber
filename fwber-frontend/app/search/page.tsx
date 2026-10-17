@@ -51,7 +51,7 @@ export default function SearchPage() {
                 placeholder="Search by name, bio, or occupation..."
                 className="flex-1 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 px-4 py-3 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent"
               />
-              <button
+              <button type="button"
                 onClick={() => setShowFilters(!showFilters)}
                 className={`px-4 rounded-xl border transition-colors ${
                   showFilters
@@ -122,25 +122,25 @@ export default function SearchPage() {
               {gender && (
                 <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 text-xs">
                   {gender}
-                  <button onClick={() => setGender('')} className="hover:text-orange-900 dark:hover:text-orange-100">×</button>
+                  <button type="button" onClick={() => setGender('')} className="hover:text-orange-900 dark:hover:text-orange-100">×</button>
                 </span>
               )}
               {ageMin && (
                 <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs">
                   {ageMin}+
-                  <button onClick={() => setAgeMin('')} className="hover:text-blue-900 dark:hover:text-blue-100">×</button>
+                  <button type="button" onClick={() => setAgeMin('')} className="hover:text-blue-900 dark:hover:text-blue-100">×</button>
                 </span>
               )}
               {ageMax && (
                 <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs">
                   ≤{ageMax}
-                  <button onClick={() => setAgeMax('')} className="hover:text-blue-900 dark:hover:text-blue-100">×</button>
+                  <button type="button" onClick={() => setAgeMax('')} className="hover:text-blue-900 dark:hover:text-blue-100">×</button>
                 </span>
               )}
               {verifiedOnly && (
                 <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs">
                   Verified
-                  <button onClick={() => setVerifiedOnly(false)} className="hover:text-green-900 dark:hover:text-green-100">×</button>
+                  <button type="button" onClick={() => setVerifiedOnly(false)} className="hover:text-green-900 dark:hover:text-green-100">×</button>
                 </span>
               )}
             </div>

@@ -76,7 +76,7 @@ function IceBreakerCard({
                                 className="ib-textarea"
                                 rows={3}
                             />
-                            <button
+                            <button type="button"
                                 onClick={handleSubmit}
                                 disabled={isSubmitting || !answer.trim()}
                                 className="ib-submit-btn"
@@ -87,7 +87,7 @@ function IceBreakerCard({
                             </button>
                         </div>
                     ) : (
-                        <button onClick={() => setFlipped(true)} className="ib-flip-hint">
+                        <button type="button" onClick={() => setFlipped(true)} className="ib-flip-hint">
                             Tap to see answers →
                         </button>
                     )}
@@ -134,7 +134,7 @@ function IceBreakerCard({
                         </div>
                     </div>
 
-                    <button onClick={() => setFlipped(false)} className="ib-flip-hint">
+                    <button type="button" onClick={() => setFlipped(false)} className="ib-flip-hint">
                         ← Flip back
                     </button>
                 </div>
@@ -167,7 +167,7 @@ function IceBreakerContent() {
                 <Sparkles size={48} />
                 <h1>Ice Breaker Cards</h1>
                 <p>Sign in to start breaking the ice.</p>
-                <button onClick={() => router.push('/login')} className="ib-primary-btn">Log In</button>
+                <button type="button" onClick={() => router.push('/login')} className="ib-primary-btn">Log In</button>
             </div>
         );
     }
@@ -178,7 +178,7 @@ function IceBreakerContent() {
                 <Sparkles size={48} />
                 <h1>Ice Breaker Cards</h1>
                 <p>Open this page from a match to start answering questions together!</p>
-                <button onClick={() => router.push('/matches')} className="ib-primary-btn">Go to Matches</button>
+                <button type="button" onClick={() => router.push('/matches')} className="ib-primary-btn">Go to Matches</button>
             </div>
         );
     }
@@ -404,7 +404,7 @@ function IceBreakerContent() {
                             isSubmitting={submitAnswer.isPending}
                         />
                         <div className="ib-nav">
-                            <button
+                            <button type="button"
                                 className="ib-nav-btn"
                                 onClick={() => setCurrentIndex(Math.max(0, currentIndex - 1))}
                                 disabled={currentIndex === 0}
@@ -412,7 +412,7 @@ function IceBreakerContent() {
                                 <ArrowLeft size={20} />
                             </button>
                             <span className="ib-nav-count">{currentIndex + 1} / {questions.length}</span>
-                            <button
+                            <button type="button"
                                 className="ib-nav-btn"
                                 onClick={() => setCurrentIndex(Math.min(questions.length - 1, currentIndex + 1))}
                                 disabled={currentIndex === questions.length - 1}

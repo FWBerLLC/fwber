@@ -82,7 +82,7 @@ export default function FriendList({ friends, onRemoveFriend }: FriendListProps)
               <User className="h-4 w-4" />
               Profile
             </Link>
-            <button
+            <button type="button"
               onClick={() => onRemoveFriend(friend.id)}
               className="flex items-center gap-1 px-3 py-2 bg-red-100 hover:bg-red-200 text-red-700 rounded-lg text-sm font-medium transition-colors"
               title="Remove friend"

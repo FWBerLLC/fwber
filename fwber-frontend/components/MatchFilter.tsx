@@ -542,7 +542,7 @@ export default function MatchFilter({ onFilterChange }: MatchFilterProps) {
       </div>
 
       <div className="flex justify-end pt-2">
-        <button
+        <button type="button"
           onClick={handleApplyFilters}
           className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 px-6 rounded-lg shadow-md transition duration-200 transform hover:-translate-y-0.5"
         >

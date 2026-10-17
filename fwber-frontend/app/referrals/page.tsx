@@ -94,7 +94,7 @@ export default function ReferralsPage() {
                   value={referralLink}
                   className="flex-1 rounded-xl border border-gray-300 px-4 py-3 text-sm dark:border-gray-700 dark:bg-gray-950 dark:text-white"
                 />
-                <button
+                <button type="button"
                   onClick={() => copy(referralLink)}
                   className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-3 text-sm font-semibold text-white hover:bg-emerald-700"
                 >

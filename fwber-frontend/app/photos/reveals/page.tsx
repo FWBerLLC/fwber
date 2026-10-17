@@ -101,7 +101,7 @@ function PhotoRevealsContent() {
                 </p>
               </div>
             </div>
-            <button
+            <button type="button"
               onClick={fetchReveals}
               className="p-2 hover:bg-purple-800/30 rounded-lg transition"
               title="Refresh"
@@ -145,7 +145,7 @@ function PhotoRevealsContent() {
           ) : error ? (
             <div className="text-center py-12">
               <p className="text-red-400 mb-4">{error}</p>
-              <button
+              <button type="button"
                 onClick={fetchReveals}
                 className="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition"
               >

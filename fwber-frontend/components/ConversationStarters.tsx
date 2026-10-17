@@ -83,7 +83,7 @@ export default function ConversationStarters() {
               />
             </div>
 
-            <button
+            <button type="button"
               onClick={handleGenerate}
               disabled={isLoading}
               className="w-full bg-blue-500 text-white py-3 px-6 rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
@@ -119,7 +119,7 @@ export default function ConversationStarters() {
                   <span data-testid="engagement-score">Engagement: {Math.round((suggestion.confidence || 0.8) * 100)}%</span>
                 </div>
                 
-                <button
+                <button type="button"
                   onClick={() => handleCopy(suggestion.content)}
                   className="text-blue-600 hover:text-blue-800 text-sm font-medium"
                 >

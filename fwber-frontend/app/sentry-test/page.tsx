@@ -88,56 +88,56 @@ export default function SentryTestPage() {
         <div className="bg-gray-800 rounded-lg p-6 mb-6 border border-gray-700">
           <h2 className="text-xl font-semibold mb-4">🧪 Test Error Logging</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <button
+            <button type="button"
               onClick={testError}
               className="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
             >
               Test General Error
             </button>
 
-            <button
+            <button type="button"
               onClick={testWarning}
               className="bg-yellow-600 hover:bg-yellow-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
             >
               Test Warning (Breadcrumb)
             </button>
 
-            <button
+            <button type="button"
               onClick={testAuthError}
               className="bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
             >
               Test Auth Error
             </button>
 
-            <button
+            <button type="button"
               onClick={testWebSocketError}
               className="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
             >
               Test WebSocket Error
             </button>
 
-            <button
+            <button type="button"
               onClick={testLocationError}
               className="bg-pink-600 hover:bg-pink-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
             >
               Test Location Error
             </button>
 
-            <button
+            <button type="button"
               onClick={testAPIError}
               className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
             >
               Test API Error
             </button>
 
-            <button
+            <button type="button"
               onClick={testComponentError}
               className="bg-rose-600 hover:bg-rose-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
             >
               Test Component Error
             </button>
 
-            <button
+            <button type="button"
               onClick={testInfo}
               className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
             >
