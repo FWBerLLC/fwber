@@ -1,9 +1,37 @@
 # TODO — fwber Immediate Action Items
 
 > **Version:** 2.3.36
-> **Last Updated:** 2026-10-11
+> **Last Updated:** 2026-10-16
 
 ---
+
+## 🔧 Open Items (2026-10-16)
+
+### High Priority
+- [ ] **Image URL migration**: Rewrite `api.fwber.me/uploads/` URLs in DB to `api.fwber.online/uploads/` (currently intercepted at UI layer via `getAvatarUrl` + `OptimizedImage` dead-host check)
+- [ ] **436 unguarded `.map()` calls**: Filter to API-response props and add `Array.isArray` / `|| []` guards (many false positives — literal arrays are safe)
+- [ ] **10,631 hardcoded color classes**: Continue theme-token migration (`text-white`, `bg-white`, `text-gray-900`, etc. → `bg-card`, `text-foreground`, `text-muted-foreground`)
+
+### Medium Priority
+- [ ] **Uploads directory empty on Hetzner**: No uploaded images survived previous deployments. User avatars/photos from old deployments are permanently lost — users must re-upload.
+- [ ] **Login 401 transient failures**: Occasional "Invalid credentials" then success on retry. May be rate-limit or DB timing. Worth watching.
+- [ ] **`bigint: Failed to load bindings`**: Non-critical (pure JS fallback works). Could rebuild native bindings for performance.
+
+### Low Priority
+- [ ] **`CHANGELOG.md.new`** (182 KB): Leftover draft at repo root — historical record, leave as-is per policy.
+- [ ] **`VERSION.md` drift**: Was `2.3.9` vs `VERSION` `2.3.35` — now both at `2.3.36`. Resolved.
+
+## 🟢 Recently Completed (2026-10-16)
+- [x] **Loading/error state coverage**: 180 routes now have `loading.tsx` + `error.tsx`
+- [x] **Dead-host avatar interception**: `getAvatarUrl` intercepts `api.fwber.me` URLs in 13+ components
+- [x] **Dead-host photo interception**: `OptimizedImage` + `onError` fallbacks on direct `<Image>` usages
+- [x] **`api is not defined` fix**: Missing import in messages page
+- [x] **Event list flicker fix**: `keepPreviousData` in `useNearbyEvents`
+- [x] **Button `type="button"`**: 452 buttons fixed across 141 files
+- [x] **Prisma `matching_options` fix**: Corrected to `chosen_option` in `NarrativeService`
+- [x] **Socket.io production URL**: `.env.production` + nginx `/socket.io/` proxy + rebuild
+- [x] **PWA banner warning**: Removed `preventDefault()` from `PWAInstallPrompt`
+- [x] **Tools cleanup**: Archived 19 stale scripts/configs to `tools/archive/`
 
 ## 🟢 Recently Completed: Phase 9 - Social Velocity & Federation (v2.2.5)
 - [x] **WebFinger Discovery**: Implement real handle-to-URI resolution in `FederationService`.

@@ -1,12 +1,36 @@
 # HANDOFF.md — Session Summary
 
-> **Date:** 2026-10-12
-> **Agent:** Jules (Executive Repository Sync & Intelligent Merge — v2.3.36)
+> **Date:** 2026-10-16
+> **Agent:** MiMoCode (Production Bug Fixes & UI Audit — v2.3.36)
 > **Version:** 2.3.36
 
 ---
 
-## 🚀 Session Actions & State
+## 🚀 Session Actions & State (2026-10-16)
+
+### Production Bugs Fixed & Deployed to fwber.online
+1. **Socket.io `ws://localhost:4000`**: Created `.env.production` on Hetzner + nginx `/socket.io/` WebSocket proxy + frontend rebuild to bake `NEXT_PUBLIC_*` vars.
+2. **`_next/image` 500 for `api.fwber.me`**: Added domain to `images.remotePatterns`; then intercepted dead host URLs in `getAvatarUrl` (13+ components) and `OptimizedImage` + `onError` on direct `<Image>`.
+3. **PWA `beforeinstallprompt` warning**: Removed `preventDefault()` — Chrome native banner now works.
+4. **`api is not defined` on messages**: Missing `import { api }` in `app/messages/page.tsx`.
+5. **Event list flicker**: `placeholderData: keepPreviousData` in `useNearbyEvents` (query key changes when geolocation resolves).
+6. **Prisma `matching_options` error**: `NarrativeService.ts` included `matching_options` on `user_matching_answers` — corrected to `chosen_option`.
+
+### UI Audit (T2)
+7. **Loading/error states**: 180 routes now have `loading.tsx` + `error.tsx` (generated via `gen_loading_error.py`).
+8. **Button `type="button"`**: 452 buttons across 141 files fixed (via `fix_button_types.py`).
+9. **Tools cleanup**: 19 stale scripts/configs archived to `tools/archive/` (gitignored, local backup). Added `tools/README.md`.
+
+### Key Findings (NOT yet fixed)
+- **10,631 hardcoded color classes** across 667 files (ongoing theme-token migration).
+- **436 unguarded `.map()` calls** (many false positives — filter to API-response props).
+- **Uploads directory empty on Hetzner** — images from old deployments permanently lost.
+- **`bigint: Failed to load bindings`** — non-critical, pure JS fallback works.
+- **Login 401 transient** — occasional "Invalid credentials" then success on retry.
+
+---
+
+## Prior session (2026-10-12) — v2.3.36
 
 1. **Upstream Tracking & Fetch:**
    - Executed `git fetch --all --tags`.
