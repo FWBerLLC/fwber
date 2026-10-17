@@ -38,6 +38,9 @@ import {
   Flame,
   CheckCircle2,
   User,
+  Palette,
+  Lightbulb,
+  Activity,
 } from 'lucide-react'
 import Link from 'next/link'
 import ProfileCompletenessWidget from '@/components/ProfileCompletenessWidget'
@@ -332,6 +335,20 @@ export default function DashboardPage() {
                 icon={<Search className="h-5 w-5" />}
                 accent="slate"
               />
+              <FeatureTile
+                href="/matches/dashboard"
+                title="Match Dashboard"
+                subtitle="Match analytics"
+                icon={<BarChart3 className="h-5 w-5" />}
+                accent="blue"
+              />
+              <FeatureTile
+                href="/matching/nfc"
+                title="NFC Exchange"
+                subtitle="Tap to connect"
+                icon={<Phone className="h-5 w-5" />}
+                accent="green"
+              />
             </div>
 
             {/* Chat & Social */}
@@ -377,6 +394,62 @@ export default function DashboardPage() {
                 title="Topics"
                 subtitle="Discussion threads"
                 icon={<MessageSquare className="h-5 w-5" />}
+                accent="slate"
+              />
+              <FeatureTile
+                href="/group-chat"
+                title="Group Chat"
+                subtitle="Multi-user rooms"
+                icon={<MessageSquare className="h-5 w-5" />}
+                accent="purple"
+              />
+              <FeatureTile
+                href="/icebreakers"
+                title="Icebreakers"
+                subtitle="Conversation starters"
+                icon={<Heart className="h-5 w-5" />}
+                accent="pink"
+              />
+              <FeatureTile
+                href="/chat-themes"
+                title="Chat Themes"
+                subtitle="Customize chat"
+                icon={<Palette className="h-5 w-5" />}
+                accent="slate"
+              />
+              <FeatureTile
+                href="/chat-rooms"
+                title="Chat Rooms"
+                subtitle="Themed rooms"
+                icon={<MessageSquare className="h-5 w-5" />}
+                accent="blue"
+              />
+              <FeatureTile
+                href="/burner-links"
+                title="Burner Links"
+                subtitle="Temporary links"
+                icon={<Flame className="h-5 w-5" />}
+                accent="red"
+              />
+              <FeatureTile
+                href="/friend-requests"
+                title="Friend Requests"
+                subtitle="Pending requests"
+                icon={<UserPlus className="h-5 w-5" />}
+                accent="green"
+              />
+              <FeatureTile
+                href="/mutual-friends"
+                title="Mutual Friends"
+                subtitle="Shared connections"
+                icon={<Users className="h-5 w-5" />}
+                accent="purple"
+              />
+              <FeatureTile
+                href="/guestbook"
+                title="Guestbook"
+                subtitle="Leave messages"
+                icon={<ScrollText className="h-5 w-5" />}
                 accent="slate"
               />
             </div>
@@ -425,6 +498,62 @@ export default function DashboardPage() {
                 subtitle="People around you"
                 icon={<MapPin className="h-5 w-5" />}
                 accent="green"
+              />
+              <FeatureTile
+                href="/meetup"
+                title="Meetup"
+                subtitle="Plan meetups"
+                icon={<MapPin className="h-5 w-5" />}
+                accent="green"
+              />
+              <FeatureTile
+                href="/date-invites"
+                title="Date Invites"
+                subtitle="Send invitations"
+                icon={<Gift className="h-5 w-5" />}
+                accent="pink"
+              />
+              <FeatureTile
+                href="/date-stories"
+                title="Date Stories"
+                subtitle="Share experiences"
+                icon={<ScrollText className="h-5 w-5" />}
+                accent="purple"
+              />
+              <FeatureTile
+                href="/travel-mode"
+                title="Travel Mode"
+                subtitle="Date while traveling"
+                icon={<Plane className="h-5 w-5" />}
+                accent="blue"
+              />
+              <FeatureTile
+                href="/discover"
+                title="Discover"
+                subtitle="Find new people"
+                icon={<Compass className="h-5 w-5" />}
+                accent="blue"
+              />
+              <FeatureTile
+                href="/date-ideas"
+                title="Date Ideas"
+                subtitle="Inspiration"
+                icon={<Lightbulb className="h-5 w-5" />}
+                accent="amber"
+              />
+              <FeatureTile
+                href="/proximity"
+                title="Proximity"
+                subtitle="Nearby alerts"
+                icon={<Radio className="h-5 w-5" />}
+                accent="green"
+              />
+              <FeatureTile
+                href="/pulse"
+                title="Pulse"
+                subtitle="Local activity"
+                icon={<Activity className="h-5 w-5" />}
+                accent="red"
               />
             </div>
 
@@ -479,9 +608,16 @@ export default function DashboardPage() {
             <SectionHeader icon={<Sparkles className="h-4 w-4" />} title="AI Wingman" />
             <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
               <FeatureTile
+                href="/wingman"
+                title="Wingman Hub"
+                subtitle="All AI tools"
+                icon={<Sparkles className="h-5 w-5" />}
+                accent="purple"
+              />
+              <FeatureTile
                 href="/studio"
                 title="Studio"
-                subtitle="All AI tools"
+                subtitle="Create content"
                 icon={<Wand2 className="h-5 w-5" />}
                 accent="purple"
               />
@@ -520,6 +656,27 @@ export default function DashboardPage() {
                 icon={<Wand2 className="h-5 w-5" />}
                 accent="purple"
               />
+              <FeatureTile
+                href="/roast"
+                title="Roast"
+                subtitle="Profile roasts"
+                icon={<Flame className="h-5 w-5" />}
+                accent="red"
+              />
+              <FeatureTile
+                href="/roast-date"
+                title="Roast Date"
+                subtitle="Roast your dates"
+                icon={<Flame className="h-5 w-5" />}
+                accent="orange"
+              />
+              <FeatureTile
+                href="/journals"
+                title="Journals"
+                subtitle="Private notes"
+                icon={<ScrollText className="h-5 w-5" />}
+                accent="slate"
+              />
             </div>
 
             {/* Economy & Premium */}
@@ -552,6 +709,20 @@ export default function DashboardPage() {
                 subtitle="Send tokens"
                 icon={<Gift className="h-5 w-5" />}
                 accent="pink"
+              />
+              <FeatureTile
+                href="/gifts/send"
+                title="Send Gift"
+                subtitle="Gift to a match"
+                icon={<Gift className="h-5 w-5" />}
+                accent="pink"
+              />
+              <FeatureTile
+                href="/gifts/history"
+                title="Gift History"
+                subtitle="Past gifts"
+                icon={<Clock className="h-5 w-5" />}
+                accent="slate"
               />
               <FeatureTile
                 href="/referrals"
@@ -613,6 +784,27 @@ export default function DashboardPage() {
                 subtitle="Vouch for friends"
                 icon={<Users className="h-5 w-5" />}
                 accent="green"
+              />
+              <FeatureTile
+                href="/photo-guessing"
+                title="Photo Guessing"
+                subtitle="Guess who"
+                icon={<Eye className="h-5 w-5" />}
+                accent="purple"
+              />
+              <FeatureTile
+                href="/photo-reveal"
+                title="Photo Reveal"
+                subtitle="Gradual reveal"
+                icon={<Eye className="h-5 w-5" />}
+                accent="pink"
+              />
+              <FeatureTile
+                href="/profile-views"
+                title="Profile Views"
+                subtitle="Who viewed you"
+                icon={<Eye className="h-5 w-5" />}
+                accent="blue"
               />
             </div>
 
