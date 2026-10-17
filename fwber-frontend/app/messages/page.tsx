@@ -9,6 +9,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "@/lib/auth-context";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { getConversations, type Conversation } from "@/lib/api/messages";
+import { api } from "@/lib/api/client";
 import ReportModal from "@/components/ReportModal";
 import ProfileViewModal from "@/components/ProfileViewModal";
 import { blockUser, reportUser } from "@/lib/api/safety";

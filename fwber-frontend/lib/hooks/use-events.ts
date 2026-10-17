@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient, keepPreviousData } from '@tanstack/react-query';
 import { useAuth } from '@/lib/auth-context';
 import { 
   getNearbyEvents, 
@@ -18,6 +18,7 @@ export function useNearbyEvents(latitude?: number, longitude?: number, radius: n
     queryKey: ['events', 'nearby', latitude, longitude, radius, type],
     queryFn: () => getNearbyEvents(latitude, longitude, radius, type),
     enabled: !!token,
+    placeholderData: keepPreviousData,
   });
 }
 
