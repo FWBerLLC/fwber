@@ -418,6 +418,13 @@ export default function DashboardPage() {
                 accent="slate"
               />
               <FeatureTile
+                href="/chatrooms"
+                title="Chatrooms"
+                subtitle="Public rooms"
+                icon={<MessageSquare className="h-5 w-5" />}
+                accent="blue"
+              />
+              <FeatureTile
                 href="/chat-rooms"
                 title="Chat Rooms"
                 subtitle="Themed rooms"
@@ -954,6 +961,33 @@ export default function DashboardPage() {
                   subtitle="Autonomous system"
                   icon={<Rocket className="h-5 w-5" />}
                   accent="purple"
+                />
+              )}
+              {(user as any)?.is_moderator && (
+                <FeatureTile
+                  href="/admin/dashboard"
+                  title="Admin Dashboard"
+                  subtitle="System overview"
+                  icon={<BarChart3 className="h-5 w-5" />}
+                  accent="red"
+                />
+              )}
+              {(user as any)?.is_moderator && (
+                <FeatureTile
+                  href="/admin/settings"
+                  title="Admin Settings"
+                  subtitle="System config"
+                  icon={<Settings className="h-5 w-5" />}
+                  accent="red"
+                />
+              )}
+              {(user as any)?.is_moderator && (
+                <FeatureTile
+                  href="/admin/feedback"
+                  title="Admin Feedback"
+                  subtitle="User feedback"
+                  icon={<MessageSquare className="h-5 w-5" />}
+                  accent="red"
                 />
               )}
               {(user as any)?.is_moderator && (
