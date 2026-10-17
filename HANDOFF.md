@@ -1,5 +1,31 @@
 # HANDOFF.md — Session Summary
 
+> **Date:** 2026-10-12
+> **Agent:** Jules (Executive Repository Sync & Intelligent Merge — v2.3.36)
+> **Version:** 2.3.36
+
+---
+
+## 🚀 Session Actions & State
+
+1. **Upstream Tracking & Fetch:**
+   - Executed `git fetch --all --tags`.
+   - Identified upstream `https://github.com/robertpelloni/fwber` and merged upstream `main` into local `main`. (Found already up to date).
+2. **Submodule Sanitization:**
+   - Monorepo confirmed; no submodules exist to update. Workspace is clean.
+3. **Branch Reconciliation:**
+   - Evaluated active feature branches. No active feature branches found to merge, forward or reverse. `main` is the sole active tracking branch.
+4. **Version Governance:**
+   - Version bump `2.3.35` -> `2.3.36` in `VERSION`, `VERSION.md`, `CHANGELOG.md`, `ROADMAP.md`, `TODO.md`, `SUBMODULE_INVENTORY.md`, `docs/SUBMODULE_DASHBOARD.md`, and `build.bat`.
+5. **Documentation Sync:**
+   - Synchronized all documentation indicating the repository merge and synchronization.
+6. **Build Phase:**
+   - Executed `npm run build` in `fwber-backend-ts` and `fwber-frontend` to verify all components compile successfully. Fixed tests that depended on ssrf agent checking by mocking it for the tests.
+
+---
+
+## Prior session (2026-10-11) — v2.3.35
+
 > **Date:** 2026-10-11
 > **Agent:** Pi (Executive Repository Sync & Intelligent Merge — v2.3.35)
 > **Version:** 2.3.35
