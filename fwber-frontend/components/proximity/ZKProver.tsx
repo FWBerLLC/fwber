@@ -145,7 +145,7 @@ export const ZKProver: React.FC<ZKProverProps> = ({
                 {/* Trace Box */}
                 {proofTrace.length > 0 && (
                     <div className="bg-black/40 rounded-lg p-3 font-mono text-[10px] text-green-400 overflow-hidden h-24 border dark:border-border flex flex-col justify-end">
-                        {proofTrace.map((msg, idx) => (
+                        {(proofTrace || []).map((msg, idx) => (
                             <div key={idx} className="opacity-80">
                                 {`> ${msg}`}
                             </div>

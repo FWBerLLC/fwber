@@ -68,7 +68,7 @@ export default function ReportsPage() {
                 </div>
             ) : (
                 <div className="space-y-4">
-                    {reports.map((report) => (
+                    {(reports || []).map((report) => (
                         <Card key={report.id} className="hover:shadow-md transition-shadow">
                             <CardContent className="p-6 flex flex-col md:flex-row gap-4 justify-between md:items-center">
                                 <div>

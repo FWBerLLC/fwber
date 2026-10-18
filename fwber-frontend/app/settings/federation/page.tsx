@@ -202,7 +202,7 @@ export default function FederationSettingsPage() {
     };
 
     const federatedHandle = user?.email ? `@${user.email.split('@')[0]}@api.fwber.online` : '';
-    const followedActorIds = new Set(following.map((connection) => connection.actor_uri));
+    const followedActorIds = new Set((following || []).map((connection) => connection.actor_uri));
 
     const copyFederatedHandle = async () => {
         if (!federatedHandle) {
@@ -350,7 +350,7 @@ export default function FederationSettingsPage() {
 
                                 {results.length > 0 && (
                                     <div className="mt-8 space-y-4">
-                                        {results.map((actor) => {
+                                        {(results || []).map((actor) => {
                                             const isFollowing = followedActorIds.has(actor.id);
                                             return (
                                                 <div key={actor.id} className="p-4 border rounded-xl flex items-center justify-between bg-card dark:bg-card dark:bg-zinc-900 shadow-sm transition-all hover:shadow-md">
@@ -424,7 +424,7 @@ export default function FederationSettingsPage() {
                             {following.length === 0 ? (
                                 <p className="text-center py-12 text-zinc-500 italic">You aren&apos;t following anyone yet.</p>
                             ) : (
-                                following.map((f) => (
+                                (following || []).map((f) => (
                                     <div key={f.id} className="p-4 border rounded-xl flex items-center justify-between bg-card dark:bg-card dark:bg-zinc-900 shadow-sm">
                                         <div className="flex items-center gap-3">
                                             <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold">
@@ -465,7 +465,7 @@ export default function FederationSettingsPage() {
                             {followers.length === 0 ? (
                                 <p className="text-center py-12 text-zinc-500 italic">No one is following you yet.</p>
                             ) : (
-                                followers.map((f) => (
+                                (followers || []).map((f) => (
                                     <div key={f.id} className="p-4 border rounded-xl flex items-center justify-between bg-card dark:bg-card dark:bg-zinc-900 shadow-sm">
                                         <div className="flex items-center gap-3">
                                             <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 font-bold">

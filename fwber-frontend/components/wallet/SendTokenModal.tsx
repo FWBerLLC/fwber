@@ -168,7 +168,7 @@ export default function SendTokenModal({ isOpen, onClose, onSuccess }: SendToken
                     required={recipientType === 'friend'}
                 >
                     <option value="">Select a friend...</option>
-                    {friends.map(f => (
+                    {(friends || []).map(f => (
                     <option key={f.id} value={f.id}>{f.name}</option>
                     ))}
                 </select>

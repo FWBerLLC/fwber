@@ -193,7 +193,7 @@ export default function FailedJobsTable() {
             </tr>
           </thead>
           <tbody className="bg-card dark:bg-card divide-y divide-gray-200">
-            {jobs.map((job) => {
+            {(jobs || []).map((job) => {
               // Parse payload to get job name if possible
               let jobName = 'Unknown Job';
               try {

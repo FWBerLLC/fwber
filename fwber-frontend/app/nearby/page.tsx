@@ -26,10 +26,10 @@ export default function NearbyPage() {
   const [isRefreshing, setIsRefreshing] = useState(false)
 
   // Get user IDs for presence tracking
-  const nearbyUserIds = useMemo(() => nearbyUsers.map(u => String(u.id)), [nearbyUsers])
+  const nearbyUserIds = useMemo(() => (nearbyUsers || []).map(u => String(u.id)), [nearbyUsers])
 
   // Transform for ProximityPresenceView
-  const proximityUsers = useMemo(() => nearbyUsers.map(u => ({
+  const proximityUsers = useMemo(() => (nearbyUsers || []).map(u => ({
     id: String(u.id),
     displayName: u.display_name || 'Anonymous',
     distance: ((u.distance_meters ?? u.location.distance_meters ?? parseFloat(u.location.distance.replace(/[^\d.]/g, '')) * (u.location.distance.includes('km') ? 1000 : 1)) || 0) / 1000,
@@ -261,7 +261,7 @@ export default function NearbyPage() {
                   ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" 
                   : "space-y-4"
                 }>
-                {nearbyUsers.map((user) => (
+                {(nearbyUsers || []).map((user) => (
                   <div 
                     key={user.id} 
                     className={`border border-border dark:border-border bg-card dark:bg-card rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow ${

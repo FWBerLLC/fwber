@@ -172,7 +172,7 @@ export default function GlobalFeedPage() {
             </Card>
           ) : (
             <div className="space-y-6">
-              {posts.map((post) => {
+              {(posts || []).map((post) => {
                 const authorName = post.metadata?.name || post.actor_username || 'Federated User'
                 const actorHandle = formatFederationHandle(post.actor_username, post.actor_domain, post.actor_uri)
 

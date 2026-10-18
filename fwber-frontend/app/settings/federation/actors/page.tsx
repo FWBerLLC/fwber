@@ -99,7 +99,7 @@ function FederationActorExplorerContent() {
   }, [actorUri])
 
   const followedActorIds = useMemo(
-    () => new Set(following.map((connection) => connection.actor_uri)),
+    () => new Set((following || []).map((connection) => connection.actor_uri)),
     [following]
   )
   const isFollowing = actor ? followedActorIds.has(actor.id) : false
@@ -356,7 +356,7 @@ function FederationActorExplorerContent() {
                     No cached posts are available for this actor yet.
                   </div>
                 ) : (
-                  posts.map((post) => {
+                  (posts || []).map((post) => {
                     const authorName = post.metadata?.name || post.actor_username || actor.name || 'Federated User'
 
                     return (

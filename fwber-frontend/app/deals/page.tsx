@@ -448,7 +448,7 @@ export default function DealsPage() {
                   >
                     All
                   </button>
-                  {categories.map(cat => (
+                  {(categories || []).map(cat => (
                     <button type="button"
                       key={cat}
                       onClick={() => handleFilterChange(cat)}
@@ -566,7 +566,7 @@ export default function DealsPage() {
           ) : (
             <>
               <div className="grid gap-4 sm:grid-cols-2">
-                {deals.map(deal => (
+                {(deals || []).map(deal => (
                   <DealCard key={deal.id} deal={deal} />
                 ))}
               </div>

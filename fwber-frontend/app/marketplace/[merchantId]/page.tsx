@@ -83,7 +83,7 @@ export default function MarketplacePage() {
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {items.map(item => (
+                        {(items || []).map(item => (
                             <Card key={item.id} className="overflow-hidden border-zinc-200 dark:border-zinc-800">
                                 {item.image_url && (
                                     <div className="relative h-48 w-full">

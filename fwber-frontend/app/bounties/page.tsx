@@ -68,7 +68,7 @@ export default function BountiesPage() {
                 </div>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {bounties.map((bounty) => (
+                    {(bounties || []).map((bounty) => (
                         <Card key={bounty.id} className="hover:shadow-md transition-shadow">
                             <CardContent className="p-6">
                                 <div className="flex justify-between items-start mb-4">

@@ -209,7 +209,7 @@ function SubscriptionContent() {
                 </div>
               ) : (
                 <div className="divide-y divide-gray-200">
-                  {history.map((payment) => (
+                  {(history || []).map((payment) => (
                     <div key={payment.id} className="p-4 hover:bg-muted dark:bg-background transition-colors flex items-center justify-between">
                       <div className="flex items-center gap-4">
                         <div className={`p-2 rounded-full ${payment.status === 'succeeded' ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'

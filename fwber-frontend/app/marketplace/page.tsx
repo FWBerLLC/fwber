@@ -105,7 +105,7 @@ export default function MarketplacePage() {
             </div>
           ) : (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {items.map((item) => (
+              {(items || []).map((item) => (
                 <Link 
                   key={item.id} 
                   href={`/marketplace/${item.merchant_profile_id}`}

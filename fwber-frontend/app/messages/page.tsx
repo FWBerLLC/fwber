@@ -222,7 +222,7 @@ export default function MessagesPage() {
 								</h3>
 							</div>
 							<div className="flex gap-4 overflow-x-auto pb-4 px-2 scrollbar-hide">
-								{auraMatches.map((match) => (
+								{(auraMatches || []).map((match) => (
 									<div
 										key={match.user_id}
 										className="flex-shrink-0 flex flex-col items-center gap-2 cursor-pointer group"
@@ -322,7 +322,7 @@ export default function MessagesPage() {
 									</h2>
 								</div>
 								<div className="overflow-y-auto h-[calc(100%-80px)]">
-									{conversations.map((conversation) => (
+									{(conversations || []).map((conversation) => (
 										<div
 											key={conversation.id}
 											onClick={() => setSelectedConversation(conversation)}

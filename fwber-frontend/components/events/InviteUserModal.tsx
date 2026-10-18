@@ -155,7 +155,7 @@ export default function InviteUserModal({ eventId, isOpen, onClose }: InviteUser
             ) : matches.length === 0 ? (
               <div className="text-center py-4 text-muted-foreground">No matches found to invite.</div>
             ) : (
-              matches.map((user) => (
+              (matches || []).map((user) => (
                 <div key={user.id} className="flex items-center justify-between p-2 hover:bg-muted dark:bg-background dark:hover:dark:bg-muted rounded-lg">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-muted rounded-full overflow-hidden relative">
@@ -202,7 +202,7 @@ export default function InviteUserModal({ eventId, isOpen, onClose }: InviteUser
             ) : groups.length === 0 ? (
               <div className="text-center py-4 text-muted-foreground">No groups found to invite.</div>
             ) : (
-              groups.map((group) => (
+              (groups || []).map((group) => (
                 <div key={group.id} className="flex items-center justify-between p-2 hover:bg-muted dark:bg-background dark:hover:dark:bg-muted rounded-lg">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-muted rounded-lg overflow-hidden relative flex items-center justify-center bg-indigo-100 text-indigo-600">

@@ -80,7 +80,7 @@ export default function QuestBoard() {
                 </Card>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {quests.map((quest) => {
+                    {(quests || []).map((quest) => {
                         const userQuest = quest.user_quests[0];
                         const isActive = userQuest?.status === 'active';
                         const isClaimed = userQuest?.status === 'claimed';

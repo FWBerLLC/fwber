@@ -107,7 +107,7 @@ export default function ActivityPage() {
               <div className="p-8 text-sm text-muted-foreground">No recent activity yet.</div>
             ) : (
               <div className="divide-y divide-gray-100 dark:divide-gray-800">
-                {activities.map((activity, index) => (
+                {(activities || []).map((activity, index) => (
                   <Link
                     key={`${activity.type}-${activity.user.id}-${activity.timestamp}-${index}`}
                     href={getHref(activity)}

@@ -216,7 +216,7 @@ export default function ProximityFeed() {
             Nearby Chatrooms
           </h3>
           <div className="grid gap-3 sm:grid-cols-2">
-            {chatrooms.map(room => (
+            {(chatrooms || []).map(room => (
               <div key={room.id} className="bg-card dark:bg-card shadow rounded-lg p-4 border-l-4 border-purple-500 hover:shadow-md transition-shadow cursor-pointer">
                 <h4 className="font-bold text-foreground dark:text-foreground">{room.name}</h4>
                 {room.description && <p className="text-sm text-muted-foreground mb-2">{room.description}</p>}
@@ -259,7 +259,7 @@ export default function ProximityFeed() {
             No activity nearby. Be the first to post!
           </div>
         ) : (
-          artifacts.map((artifact) => (
+          (artifacts || []).map((artifact) => (
             <div key={artifact.id} className={`bg-card dark:bg-card shadow rounded-lg p-4 flex gap-3 ${artifact.type === 'promotion' ? 'border border-amber-300 bg-amber-50/30' : ''}`}>
 
               {/* Left Column: Voting (Hidden for Promotions currently though backend supports it) */}

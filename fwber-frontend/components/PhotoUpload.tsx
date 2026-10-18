@@ -632,7 +632,7 @@ export default function PhotoUpload({
             </button>
           </div>
           <ul className="space-y-1 text-xs list-disc list-inside">
-            {processingWarnings.map((warning, index) => (
+            {(processingWarnings || []).map((warning, index) => (
               <li key={`${warning}-${index}`}>{warning}</li>
             ))}
           </ul>
@@ -650,7 +650,7 @@ export default function PhotoUpload({
           </div>
 
           <div className="space-y-3">
-            {previews.map((preview) => {
+            {(previews || []).map((preview) => {
               const progress = uploadProgress.get(preview.id)
               if (!progress) return null
 
@@ -772,7 +772,7 @@ export default function PhotoUpload({
             ))}
 
             {/* Preview Photos */}
-            {previews.map((preview) => {
+            {(previews || []).map((preview) => {
               const progress = uploadProgress.get(preview.id)
               const status = progress?.status || 'pending'
               const isUploadingPhoto = status === 'uploading'

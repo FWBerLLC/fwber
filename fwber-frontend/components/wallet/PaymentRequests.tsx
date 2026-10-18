@@ -92,7 +92,7 @@ export default function PaymentRequests() {
           <div className="space-y-3">
             <h4 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">To Pay (Incoming)</h4>
             {incoming.length === 0 && <p className="text-sm text-muted-foreground italic">No pending requests.</p>}
-            {incoming.map(req => (
+            {(incoming || []).map(req => (
               <div key={req.id} className="bg-card dark:bg-card p-4 rounded-lg border border-border dark:border-border shadow-sm">
                 <div className="flex justify-between items-start mb-2">
                   <div>
@@ -131,7 +131,7 @@ export default function PaymentRequests() {
           <div className="space-y-3">
             <h4 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Sent (Outgoing)</h4>
             {outgoing.length === 0 && <p className="text-sm text-muted-foreground italic">No sent requests.</p>}
-            {outgoing.map(req => (
+            {(outgoing || []).map(req => (
               <div key={req.id} className="bg-card dark:bg-card p-4 rounded-lg border border-border dark:border-border opacity-90">
                 <div className="flex justify-between items-start mb-2">
                   <div>
@@ -223,7 +223,7 @@ function CreateRequestModal({ isOpen, onClose, onSuccess }: { isOpen: boolean; o
                 required
               >
                 <option value="">Select a friend...</option>
-                {friends.map(f => (
+                {(friends || []).map(f => (
                   <option key={f.id} value={f.id}>{f.name}</option>
                 ))}
               </select>

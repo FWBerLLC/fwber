@@ -112,7 +112,7 @@ export default function FederationActivityPage() {
   }, [user?.id])
 
   const activityItems = useMemo<ActivityItem[]>(() => {
-    const merged = unifiedActivity.map((item) => {
+    const merged = (unifiedActivity || []).map((item) => {
       let kind: ActivityItem['kind'] = 'outbox'
       if (item.type === 'Follow') kind = 'follower'
       else if (item.type === 'Create') kind = 'post'
@@ -138,7 +138,7 @@ export default function FederationActivityPage() {
     })
 
     // Keep legacy local outbox items too
-    const outboxItems = outboxActivities.map((activity) => ({
+    const outboxItems = (outboxActivities || []).map((activity) => ({
       id: `outbox-${activity.id}`,
       kind: 'outbox' as const,
       title: 'You published a federated board post',

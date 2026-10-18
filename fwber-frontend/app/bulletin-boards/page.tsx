@@ -68,7 +68,7 @@ export default function BulletinBoardsPage() {
                 </div>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {boards.map((board) => (
+                    {(boards || []).map((board) => (
                         <Card key={board.id} className="hover:shadow-md transition-shadow cursor-pointer">
                             <CardContent className="p-6">
                                 <h3 className="font-bold text-lg mb-2">{board.name}</h3>

@@ -113,7 +113,7 @@ interface ToastContainerProps {
 function ToastContainer({ toasts, onClose }: ToastContainerProps) {
   return (
     <div className="fixed top-4 right-4 z-50 flex flex-col gap-2 pointer-events-none">
-      {toasts.map(toast => (
+      {(toasts || []).map(toast => (
         <ToastItem key={toast.id} toast={toast} onClose={() => onClose(toast.id)} />
       ))}
     </div>

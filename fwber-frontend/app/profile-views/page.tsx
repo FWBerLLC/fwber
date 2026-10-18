@@ -160,7 +160,7 @@ export default function ProfileViewsPage() {
 
             {viewers.length > 0 ? (
               <div className="divide-y divide-gray-100 dark:divide-gray-800">
-                {viewers.map((view) => (
+                {(viewers || []).map((view) => (
                   <Link
                     key={view.id}
                     href={`/profile/${view.viewer.id}`}

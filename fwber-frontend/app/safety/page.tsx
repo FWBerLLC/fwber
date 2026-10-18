@@ -295,7 +295,7 @@ export default function SafetyPage() {
                                         <p className="text-muted-foreground dark:text-muted-foreground">No emergency contacts set up yet. Please add one for your safety.</p>
                                     </div>
                                 ) : (
-                                    contacts.map(contact => (
+                                    (contacts || []).map(contact => (
                                         <div key={contact.id} className="flex items-center justify-between p-3 border border-border dark:border-border rounded-lg bg-card dark:bg-background">
                                             <div>
                                                 <div className="flex items-center gap-2">

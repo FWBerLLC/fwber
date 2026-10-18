@@ -215,7 +215,7 @@ export function NotificationBell({ className = '' }: NotificationBellProps) {
               </div>
             ) : (
               <div className="divide-y divide-gray-100">
-                {notifications.map((notification) => (
+                {(notifications || []).map((notification) => (
                   <Link
                     key={notification.id}
                     href={getNotificationLink(notification)}

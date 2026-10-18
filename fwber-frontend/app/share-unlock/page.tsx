@@ -87,7 +87,7 @@ export default function ShareUnlockPage() {
     }
   }
 
-  const uniquePlatforms = new Set(unlocks.map(u => u.platform))
+  const uniquePlatforms = new Set((unlocks || []).map(u => u.platform))
   const shareStreak = unlocks.length
 
   return (

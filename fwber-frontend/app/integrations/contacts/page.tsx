@@ -90,7 +90,7 @@ export default function SyncedContactsPage() {
                 </div>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {contacts.map((contact) => (
+                    {(contacts || []).map((contact) => (
                         <Card key={contact.id} className="hover:shadow-md transition-shadow">
                             <CardContent className="p-4 flex items-center gap-4">
                                 <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center font-bold text-muted-foreground shrink-0">

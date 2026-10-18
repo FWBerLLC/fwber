@@ -27,7 +27,7 @@ export function CallHistory() {
 
   return (
     <div className="space-y-2">
-      {history.map((call) => {
+      {(history || []).map((call) => {
         const isCaller = call.caller_id === user?.id;
         const otherUser = isCaller ? call.receiver : call.caller;
         const date = new Date(call.started_at || call.created_at); // Fallback to created_at if started_at is null

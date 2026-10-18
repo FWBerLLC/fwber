@@ -171,7 +171,7 @@ function PhotoRevealsContent() {
             </div>
           ) : (
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {reveals.map(reveal => {
+              {(reveals || []).map(reveal => {
                 const otherUser = reveal.match.user1 || reveal.match.user2
                 const displayName = otherUser?.profile?.display_name || otherUser?.name || 'Your Match'
 

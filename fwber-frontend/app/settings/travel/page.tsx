@@ -184,7 +184,7 @@ export default function TravelModePage() {
                   {/* Search Results */}
                   {searchResults.length > 0 && (
                     <div className="absolute z-10 w-full mt-1 bg-card dark:bg-card border border-border dark:border-border rounded-lg shadow-lg max-h-60 overflow-y-auto">
-                      {searchResults.map((result) => (
+                      {(searchResults || []).map((result) => (
                         <button type="button"
                           key={result.place_id}
                           onClick={() => selectLocation(result)}

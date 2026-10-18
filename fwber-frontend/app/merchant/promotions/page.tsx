@@ -77,7 +77,7 @@ export default function PromotionsListPage() {
         </Card>
       ) : (
         <div className="grid gap-4">
-          {promotions.map((promo) => (
+          {(promotions || []).map((promo) => (
             <Card key={promo.id} className="overflow-hidden">
                 <div className="flex flex-col sm:flex-row">
                     <div className="flex-1 p-6">

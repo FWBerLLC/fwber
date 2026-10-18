@@ -136,7 +136,7 @@ export default function VenuesPage() {
           )}
 
           <div className="grid gap-6 md:grid-cols-2">
-            {venues.map(venue => (
+            {(venues || []).map(venue => (
               <div key={venue.id} className="bg-card dark:bg-card rounded-lg shadow-md p-6">
                 <div className="flex justify-between items-start mb-4">
                   <div>

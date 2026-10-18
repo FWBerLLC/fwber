@@ -144,7 +144,7 @@ export default function FederationOutboxPage() {
             </Card>
           ) : (
             <div className="space-y-4">
-              {activities.map((activity) => (
+              {(activities || []).map((activity) => (
                 <Card key={activity.id}>
                   <CardHeader>
                     <div className="flex flex-wrap items-start justify-between gap-3">

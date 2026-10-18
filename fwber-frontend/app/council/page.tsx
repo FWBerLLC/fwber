@@ -124,7 +124,7 @@ export default function CouncilPage() {
                             <div className="grid grid-cols-1 gap-8">
                                 {activeProposals.length === 0 ? (
                                     <p className="text-sm text-zinc-500 italic">No active proposals. Create one to get started!</p>
-                                ) : activeProposals.map(proposal => {
+                                ) : (activeProposals || []).map(proposal => {
                                     const totalWeight = getTotalWeight(proposal);
                                     return (
                                         <ProposalCard 
@@ -145,7 +145,7 @@ export default function CouncilPage() {
                             <div className="space-y-8">
                                 <h2 className="text-xl font-black uppercase tracking-tighter italic border-l-4 border-zinc-500 pl-4 text-zinc-500">History & Audit</h2>
                                 <div className="grid grid-cols-1 gap-8 opacity-80">
-                                    {finalizedProposals.map(proposal => {
+                                    {(finalizedProposals || []).map(proposal => {
                                         const totalWeight = getTotalWeight(proposal);
                                         return (
                                             <div key={proposal.id} className="relative">

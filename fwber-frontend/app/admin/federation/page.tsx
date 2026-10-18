@@ -89,7 +89,7 @@ export default function AdminFederationPage() {
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y dark:divide-gray-800">
-                                            {peers.map((peer) => (
+                                            {(peers || []).map((peer) => (
                                                 <tr key={peer.id} className="hover:bg-muted/50 dark:hover:dark:bg-card/30 transition-colors">
                                                     <td className="py-4 font-mono text-sm">{peer.domain}</td>
                                                     <td className="py-4 text-sm text-muted-foreground dark:text-muted-foreground">{peer.software}</td>

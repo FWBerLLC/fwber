@@ -76,7 +76,7 @@ export default function BurnerLinksPage() {
                 </div>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {links.map((link) => (
+                    {(links || []).map((link) => (
                         <Card key={link.id} className="hover:shadow-md transition-shadow relative overflow-hidden">
                             {link.isExpired && (
                                 <div className="absolute top-0 right-0 bg-red-100 text-red-800 text-xs px-2 py-1 rounded-bl-lg font-medium">

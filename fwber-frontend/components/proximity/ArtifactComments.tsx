@@ -107,7 +107,7 @@ export default function ArtifactComments({ artifactId, isOpen }: ArtifactComment
                 ) : comments.length === 0 ? (
                     <p className="text-sm text-center text-muted-foreground py-4">No comments yet. Be the first to start the conversation!</p>
                 ) : (
-                    comments.map((comment) => (
+                    (comments || []).map((comment) => (
                         <div key={comment.id} className="flex gap-3">
                             <div className="flex-shrink-0 relative w-8 h-8 rounded-full overflow-hidden">
                                 {comment.user?.avatar_url ? (

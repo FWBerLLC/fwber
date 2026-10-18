@@ -163,7 +163,7 @@ export default function MerchantInventoryPage() {
                 </div>
               ) : (
                 <div className="space-y-4">
-                  {items.map(item => (
+                  {(items || []).map(item => (
                     <div 
                       key={item.id}
                       className="bg-card dark:bg-card dark:bg-zinc-900 rounded-3xl p-6 shadow-sm border border-border dark:border-zinc-800 flex items-center justify-between"

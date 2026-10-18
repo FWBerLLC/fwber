@@ -222,7 +222,7 @@ export default function GroupMatchingPage() {
                     }}
                     className="w-full appearance-none px-4 py-3 bg-slate-800/50 border border-purple-500/20 rounded-xl text-white focus:outline-none focus:border-purple-500/50 pr-10"
                   >
-                    {myGroups.map(group => (
+                    {(myGroups || []).map(group => (
                       <option key={group.id} value={group.id}>
                         {group.name} ({group.member_count} members)
                       </option>
@@ -289,7 +289,7 @@ export default function GroupMatchingPage() {
                     </div>
                   ) : (
                     <div className="space-y-4">
-                      {matches.map(match => {
+                      {(matches || []).map(match => {
                         const matchScore = match.match_score ?? 0
 
                         return (
@@ -413,7 +413,7 @@ export default function GroupMatchingPage() {
                       No pending requests
                     </div>
                   ) : (
-                    pendingRequests.map(request => {
+                    (pendingRequests || []).map(request => {
                       const isIncoming = request.initiator?.id !== selectedGroup?.created_by_user_id
                       const otherGroup = request.other_group
 
@@ -470,7 +470,7 @@ export default function GroupMatchingPage() {
                       No connected groups yet
                     </div>
                   ) : (
-                    connectedGroups.map(match => (
+                    (connectedGroups || []).map(match => (
                       <div
                         key={match.id}
                         className="bg-slate-800/50 rounded-xl border border-green-500/20 p-4"

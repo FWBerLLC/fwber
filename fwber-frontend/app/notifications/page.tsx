@@ -96,7 +96,7 @@ export default function NotificationsPage() {
               </div>
             ) : (
               <div className="divide-y divide-gray-100 dark:divide-gray-800">
-                {notifications.map((notification) => (
+                {(notifications || []).map((notification) => (
                   <Link
                     key={notification.id}
                     href={getNotificationRoute(notification)}

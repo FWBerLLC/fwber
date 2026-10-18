@@ -93,7 +93,7 @@ export function DatePlanner({ matchId, matchName, open, onOpenChange, hideTrigge
 
           {ideas.length > 0 && (
             <div className="space-y-4">
-              {ideas.map((idea, index) => (
+              {(ideas || []).map((idea, index) => (
                 <div key={index} className="bg-muted dark:bg-background p-4 rounded-lg border border-border hover:border-pink-200 transition-colors">
                   <div className="flex justify-between items-start mb-2">
                     <h3 className="font-semibold text-foreground dark:text-foreground">{idea.title}</h3>

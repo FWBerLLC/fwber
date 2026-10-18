@@ -207,7 +207,7 @@ export default function SubscriptionPage() {
                 </thead>
                 <tbody className="bg-card dark:bg-card divide-y divide-gray-200">
                   {history.length > 0 ? (
-                    history.map((payment) => (
+                    (history || []).map((payment) => (
                       <tr key={payment.id}>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-muted-foreground">
                           {format(new Date(payment.created_at), 'MMM d, yyyy')}

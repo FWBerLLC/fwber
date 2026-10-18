@@ -84,7 +84,7 @@ export function AchievementsList() {
 
   return (
     <div className="space-y-3">
-      {achievements.map((achievement) => {
+      {(achievements || []).map((achievement) => {
         const Icon = iconMap[achievement.icon] || Trophy
 
         if (achievement.is_hidden && !achievement.is_unlocked) {

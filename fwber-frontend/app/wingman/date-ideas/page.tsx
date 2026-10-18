@@ -87,7 +87,7 @@ export default function DateIdeasPage() {
           </header>
 
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {ideas.map((idea, i) => (
+            {(ideas || []).map((idea, i) => (
               <div 
                 key={i}
                 className="bg-card dark:bg-card dark:bg-zinc-900 rounded-3xl p-6 shadow-xl border border-rose-100 dark:border-rose-900/30 flex flex-col justify-between"

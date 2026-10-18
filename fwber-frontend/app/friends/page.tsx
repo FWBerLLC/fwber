@@ -296,7 +296,7 @@ export default function FriendsPage() {
                           className="w-full rounded-lg border border-border dark:border-border px-3 py-2 text-sm"
                         >
                           <option value="">Select a friend</option>
-                          {friends.map((friend) => (
+                          {(friends || []).map((friend) => (
                             <option key={friend.id} value={friend.id}>
                               {friend.profile?.display_name || friend.name}
                             </option>
@@ -355,7 +355,7 @@ export default function FriendsPage() {
                     {relationshipLinks.length === 0 ? (
                       <p className="text-sm text-muted-foreground">No confirmed relationship links yet.</p>
                     ) : (
-                      relationshipLinks.map((link) => (
+                      (relationshipLinks || []).map((link) => (
                         <RelationshipLinkCard
                           key={link.id}
                           link={link}
@@ -373,7 +373,7 @@ export default function FriendsPage() {
                   {relationshipRequests.length === 0 ? (
                     <p className="text-sm text-muted-foreground">No pending relationship link requests.</p>
                   ) : (
-                    relationshipRequests.map((link) => (
+                    (relationshipRequests || []).map((link) => (
                       <div key={link.id} className="rounded-lg border border-border dark:border-border p-4">
                         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                           <div>
@@ -408,7 +408,7 @@ export default function FriendsPage() {
                     <p className="text-muted-foreground">No users found</p>
                   ) : (
                     <div className="grid gap-4">
-                      {searchResults.map((user: FriendUser) => (
+                      {(searchResults || []).map((user: FriendUser) => (
                         <div key={user.id} className="flex items-center justify-between rounded-lg border p-4">
                           <div className="flex items-center gap-3">
                             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted">
