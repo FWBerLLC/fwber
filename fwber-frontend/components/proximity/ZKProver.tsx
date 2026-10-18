@@ -121,7 +121,7 @@ export const ZKProver: React.FC<ZKProverProps> = ({
     };
 
     return (
-        <div className={`bg-gray-900 border border-gray-800 rounded-xl p-6 text-white max-w-sm ${className}`}>
+        <div className={`dark:bg-background border dark:border-border rounded-xl p-6 text-white max-w-sm ${className}`}>
 
             <div className="flex items-center gap-3 mb-6">
                 <div className={`p-3 rounded-full ${status === 'success' ? 'bg-green-500/20 text-green-400' : 'bg-blue-500/20 text-blue-400'}`}>
@@ -144,7 +144,7 @@ export const ZKProver: React.FC<ZKProverProps> = ({
 
                 {/* Trace Box */}
                 {proofTrace.length > 0 && (
-                    <div className="bg-black/40 rounded-lg p-3 font-mono text-[10px] text-green-400 overflow-hidden h-24 border border-gray-800 flex flex-col justify-end">
+                    <div className="bg-black/40 rounded-lg p-3 font-mono text-[10px] text-green-400 overflow-hidden h-24 border dark:border-border flex flex-col justify-end">
                         {proofTrace.map((msg, idx) => (
                             <div key={idx} className="opacity-80">
                                 {`> ${msg}`}
@@ -184,7 +184,7 @@ export const ZKProver: React.FC<ZKProverProps> = ({
             {status === 'success' && (
                 <button
                     disabled
-                    className="w-full bg-gray-800 text-green-400 font-medium py-3 px-4 rounded-lg opacity-70 cursor-not-allowed flex items-center justify-center gap-2"
+                    className="w-full dark:bg-card text-green-400 font-medium py-3 px-4 rounded-lg opacity-70 cursor-not-allowed flex items-center justify-center gap-2"
                 >
                     Verified
                 </button>

@@ -83,7 +83,7 @@ export default function ReferralsPage() {
             <MetricCard icon={<DollarSign className="h-5 w-5" />} label="💵 Pending Cash" value={`$${Number(summary?.pending_cash_usd ?? 0).toFixed(2)}`} color="green" />
           </section>
 
-          <section className="rounded-2xl border border-border dark:border-border bg-card p-6 shadow-sm dark:border-gray-800 dark:bg-background">
+          <section className="rounded-2xl border border-border dark:border-border bg-card p-6 shadow-sm dark:dark:border-border dark:bg-background">
             <h2 className="text-lg font-semibold text-foreground dark:text-foreground">Invite Link</h2>
             {isLoading ? (
               <p className="mt-3 text-sm text-muted-foreground">Loading referral summary…</p>

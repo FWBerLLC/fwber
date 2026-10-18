@@ -69,7 +69,7 @@ export default function MerchantInventoryPage() {
             <div className="flex items-center gap-3">
               <Link 
                 href="/commerce" 
-                className="p-2 -ml-2 hover:bg-muted dark:hover:bg-gray-800 rounded-lg transition"
+                className="p-2 -ml-2 hover:bg-muted dark:hover:dark:bg-card rounded-lg transition"
               >
                 <ArrowLeft className="w-5 h-5 text-muted-foreground" />
               </Link>
@@ -79,7 +79,7 @@ export default function MerchantInventoryPage() {
             </div>
             <button type="button" 
               onClick={fetchInventory}
-              className="p-2 hover:bg-muted dark:hover:bg-gray-800 rounded-lg transition"
+              className="p-2 hover:bg-muted dark:hover:dark:bg-card rounded-lg transition"
             >
               <RefreshCw className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />
             </button>
@@ -88,7 +88,7 @@ export default function MerchantInventoryPage() {
           <div className="grid gap-8 lg:grid-cols-3">
             {/* Sidebar: Add Item */}
             <div className="lg:col-span-1">
-              <div className="bg-card dark:bg-card dark:bg-zinc-900 rounded-3xl p-6 shadow-sm border border-gray-100 dark:border-zinc-800 sticky top-24">
+              <div className="bg-card dark:bg-card dark:bg-zinc-900 rounded-3xl p-6 shadow-sm border border-border dark:border-zinc-800 sticky top-24">
                 <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
                   <Plus className="w-5 h-5 text-amber-500" />
                   List New Item
@@ -157,7 +157,7 @@ export default function MerchantInventoryPage() {
                 </div>
               ) : items.length === 0 ? (
                 <div className="text-center py-20 bg-card dark:bg-card dark:bg-zinc-900 rounded-[3rem] border border-dashed border-border dark:border-border dark:border-zinc-800">
-                  <Package className="w-16 h-16 text-gray-200 mx-auto mb-4" />
+                  <Package className="w-16 h-16 dark:text-foreground mx-auto mb-4" />
                   <h3 className="text-xl font-bold text-muted-foreground">No items listed yet</h3>
                   <p className="text-muted-foreground text-sm mt-2">Start by adding your first redeemable item.</p>
                 </div>
@@ -166,7 +166,7 @@ export default function MerchantInventoryPage() {
                   {items.map(item => (
                     <div 
                       key={item.id}
-                      className="bg-card dark:bg-card dark:bg-zinc-900 rounded-3xl p-6 shadow-sm border border-gray-100 dark:border-zinc-800 flex items-center justify-between"
+                      className="bg-card dark:bg-card dark:bg-zinc-900 rounded-3xl p-6 shadow-sm border border-border dark:border-zinc-800 flex items-center justify-between"
                     >
                       <div className="flex items-center gap-4">
                         <div className="w-12 h-12 bg-amber-100 dark:bg-amber-900/30 rounded-xl flex items-center justify-center text-amber-600">

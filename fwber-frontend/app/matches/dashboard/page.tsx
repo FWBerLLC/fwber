@@ -108,7 +108,7 @@ export default function MatchesDashboardPage() {
     <ProtectedRoute>
       <div className="min-h-screen bg-muted dark:bg-background">
         {/* Header */}
-        <header className="bg-card dark:bg-background border-b border-border dark:border-border dark:border-gray-800">
+        <header className="bg-card dark:bg-background border-b border-border dark:border-border dark:dark:border-border">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div>
@@ -162,7 +162,7 @@ export default function MatchesDashboardPage() {
           </div>
 
           {/* Filters */}
-          <div className="bg-card dark:bg-background rounded-lg border border-border dark:border-border dark:border-gray-800 p-4 mb-6">
+          <div className="bg-card dark:bg-background rounded-lg border border-border dark:border-border dark:dark:border-border p-4 mb-6">
             <div className="flex flex-col md:flex-row gap-4">
               {/* Search */}
               <div className="flex-1 relative">
@@ -183,7 +183,7 @@ export default function MatchesDashboardPage() {
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                     filter === 'all'
                       ? 'bg-purple-600 text-white'
-                      : 'bg-muted dark:bg-card text-foreground dark:text-muted-foreground hover:bg-muted dark:hover:bg-gray-700'
+                      : 'bg-muted dark:bg-card text-foreground dark:text-muted-foreground hover:bg-muted dark:hover:dark:bg-muted'
                   }`}
                 >
                   All
@@ -193,7 +193,7 @@ export default function MatchesDashboardPage() {
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                     filter === RelationshipTier.MATCHED
                       ? 'bg-blue-600 text-white'
-                      : 'bg-muted dark:bg-card text-foreground dark:text-muted-foreground hover:bg-muted dark:hover:bg-gray-700'
+                      : 'bg-muted dark:bg-card text-foreground dark:text-muted-foreground hover:bg-muted dark:hover:dark:bg-muted'
                   }`}
                 >
                   💫 Matched
@@ -203,7 +203,7 @@ export default function MatchesDashboardPage() {
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                     filter === RelationshipTier.CONNECTED
                       ? 'bg-purple-600 text-white'
-                      : 'bg-muted dark:bg-card text-foreground dark:text-muted-foreground hover:bg-muted dark:hover:bg-gray-700'
+                      : 'bg-muted dark:bg-card text-foreground dark:text-muted-foreground hover:bg-muted dark:hover:dark:bg-muted'
                   }`}
                 >
                   💬 Connected
@@ -213,7 +213,7 @@ export default function MatchesDashboardPage() {
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                     filter === RelationshipTier.ESTABLISHED
                       ? 'bg-pink-600 text-white'
-                      : 'bg-muted dark:bg-card text-foreground dark:text-muted-foreground hover:bg-muted dark:hover:bg-gray-700'
+                      : 'bg-muted dark:bg-card text-foreground dark:text-muted-foreground hover:bg-muted dark:hover:dark:bg-muted'
                   }`}
                 >
                   ❤️ Established
@@ -245,7 +245,7 @@ export default function MatchesDashboardPage() {
               {filteredMatches.map((match) => (
                 <div
                   key={match.id}
-                  className="bg-card dark:bg-background rounded-lg border border-border dark:border-border dark:border-gray-800 overflow-hidden hover:shadow-lg transition-shadow"
+                  className="bg-card dark:bg-background rounded-lg border border-border dark:border-border dark:dark:border-border overflow-hidden hover:shadow-lg transition-shadow"
                 >
                   {/* Photo */}
                   <div className="relative aspect-square bg-gradient-to-br from-blue-400 to-purple-500">
@@ -322,7 +322,7 @@ export default function MatchesDashboardPage() {
                       </Link>
                       <Link
                         href={`/profile/${match.id}`}
-                        className="flex-1 bg-muted dark:bg-card text-foreground dark:text-muted-foreground py-2 rounded-lg hover:bg-muted dark:hover:bg-gray-700 transition-colors text-sm font-medium text-center"
+                        className="flex-1 bg-muted dark:bg-card text-foreground dark:text-muted-foreground py-2 rounded-lg hover:bg-muted dark:hover:dark:bg-muted transition-colors text-sm font-medium text-center"
                       >
                         View Profile
                       </Link>

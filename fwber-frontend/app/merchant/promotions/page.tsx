@@ -63,7 +63,7 @@ export default function PromotionsListPage() {
       </div>
 
       {promotions.length === 0 ? (
-        <Card className="bg-muted dark:bg-background dark:bg-gray-800/50 border-dashed py-12">
+        <Card className="bg-muted dark:bg-background dark:dark:bg-card/50 border-dashed py-12">
             <CardContent className="flex flex-col items-center justify-center text-center">
                 <Tag className="h-12 w-12 text-muted-foreground mb-4" />
                 <h3 className="text-xl font-medium text-foreground dark:text-foreground dark:text-foreground">No promotions yet</h3>

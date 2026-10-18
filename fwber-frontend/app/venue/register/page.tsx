@@ -77,7 +77,7 @@ export default function VenueRegisterPage() {
                 name="name"
                 type="text"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-700 placeholder-gray-500 text-foreground dark:text-foreground rounded-t-md focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border dark:border-border placeholder-gray-500 text-foreground dark:text-foreground rounded-t-md focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm"
                 placeholder="Venue Name"
                 value={formData.name}
                 onChange={handleChange}
@@ -90,7 +90,7 @@ export default function VenueRegisterPage() {
                 name="email"
                 type="email"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-700 placeholder-gray-500 text-foreground dark:text-foreground focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border dark:border-border placeholder-gray-500 text-foreground dark:text-foreground focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm"
                 placeholder="Email address"
                 value={formData.email}
                 onChange={handleChange}
@@ -102,7 +102,7 @@ export default function VenueRegisterPage() {
                 id="business_type"
                 name="business_type"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-700 placeholder-gray-500 text-foreground dark:text-foreground focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border dark:border-border placeholder-gray-500 text-foreground dark:text-foreground focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm"
                 value={formData.business_type}
                 onChange={handleChange}
               >
@@ -120,7 +120,7 @@ export default function VenueRegisterPage() {
                 name="address"
                 type="text"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-700 placeholder-gray-500 text-foreground dark:text-foreground focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border dark:border-border placeholder-gray-500 text-foreground dark:text-foreground focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm"
                 placeholder="Address"
                 value={formData.address}
                 onChange={handleChange}
@@ -133,7 +133,7 @@ export default function VenueRegisterPage() {
                 name="password"
                 type="password"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-700 placeholder-gray-500 text-foreground dark:text-foreground focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border dark:border-border placeholder-gray-500 text-foreground dark:text-foreground focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm"
                 placeholder="Password"
                 value={formData.password}
                 onChange={handleChange}
@@ -146,7 +146,7 @@ export default function VenueRegisterPage() {
                 name="password_confirmation"
                 type="password"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-700 placeholder-gray-500 text-foreground dark:text-foreground rounded-b-md focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border dark:border-border placeholder-gray-500 text-foreground dark:text-foreground rounded-b-md focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm"
                 placeholder="Confirm Password"
                 value={formData.password_confirmation}
                 onChange={handleChange}

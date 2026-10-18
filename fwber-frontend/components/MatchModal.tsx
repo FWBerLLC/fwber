@@ -121,7 +121,7 @@ export default function MatchModal({ isOpen, onClose, matchedUser, currentUser }
               
               <button type="button"
                 onClick={onClose}
-                className="w-full bg-muted dark:bg-card text-foreground dark:text-muted-foreground dark:text-foreground font-semibold py-3 px-6 rounded-full hover:bg-muted dark:hover:bg-gray-700 transition-colors"
+                className="w-full bg-muted dark:bg-card text-foreground dark:text-muted-foreground dark:text-foreground font-semibold py-3 px-6 rounded-full hover:bg-muted dark:hover:dark:bg-muted transition-colors"
               >
                 Keep Swiping
               </button>

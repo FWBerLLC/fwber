@@ -70,7 +70,7 @@ export default function IceBreakerPage() {
                       value={context}
                       onChange={(e) => setContext(e.target.value)}
                       placeholder="Describe your match or the situation (optional)..."
-                      className="w-full bg-slate-800/50 border border-slate-600 rounded-xl p-4 text-gray-200 placeholder-gray-500 focus:outline-none focus:border-cyan-500 resize-none h-24"
+                      className="w-full bg-slate-800/50 border border-slate-600 rounded-xl p-4 dark:text-foreground placeholder-gray-500 focus:outline-none focus:border-cyan-500 resize-none h-24"
                     />
                   </div>
                 )}
@@ -95,7 +95,7 @@ export default function IceBreakerPage() {
                       'What\'s your go-to karaoke song?',
                     ]).map((ib, i) => (
                       <div key={i} className="bg-slate-800/50 border border-cyan-500/20 rounded-xl p-4 hover:border-cyan-500/40 transition group">
-                        <p className="text-gray-200">{ib}</p>
+                        <p className="dark:text-foreground">{ib}</p>
                         <button type="button"
                           onClick={async () => {
                             try { await navigator.clipboard.writeText(ib) } catch { /* ok */ }

@@ -15,7 +15,7 @@ function ScoreBar({ label, score, color = "bg-blue-500" }: { label: string; scor
         <span className="font-medium text-foreground dark:text-muted-foreground">{label}</span>
         <span className="text-muted-foreground">{score}%</span>
       </div>
-      <div className="h-2 bg-muted dark:bg-gray-700 rounded-full overflow-hidden">
+      <div className="h-2 bg-muted dark:dark:bg-muted rounded-full overflow-hidden">
         <div 
           className={`h-full ${color} transition-all duration-500 ease-out`} 
           style={{ width: `${score}%` }}
@@ -70,7 +70,7 @@ export function MatchInsights({ matchId }: MatchInsightsProps) {
         </div>
 
         {/* Detailed Categories */}
-        <div className="grid grid-cols-2 gap-4 pt-2 border-t border-gray-100 dark:border-border">
+        <div className="grid grid-cols-2 gap-4 pt-2 border-t border-border dark:border-border">
           <div className="flex items-center gap-2">
             <div className="p-2 bg-pink-100 dark:bg-pink-900/20 rounded-lg">
               <Heart className="h-4 w-4 text-pink-500" />
@@ -110,7 +110,7 @@ export function MatchInsights({ matchId }: MatchInsightsProps) {
         </div>
 
         {/* Narrative Compatibility Report (v2.1.9) */}
-        <div className="pt-4 border-t border-gray-100 dark:border-border">
+        <div className="pt-4 border-t border-border dark:border-border">
           <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2 flex items-center gap-1">
             <Quote className="h-3 w-3" />
             The Signal Breakdown

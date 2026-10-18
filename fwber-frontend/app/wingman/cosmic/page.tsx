@@ -120,7 +120,7 @@ export default function CosmicMatchPage() {
           <div className="flex items-center gap-4 mb-12">
             <Link
               href="/wingman"
-              className="p-2 -ml-2 hover:bg-card dark:bg-gray-800/5 rounded-full transition"
+              className="p-2 -ml-2 hover:bg-card dark:dark:bg-card/5 rounded-full transition"
             >
               <ArrowLeft className="w-6 h-6 text-zinc-500" />
             </Link>

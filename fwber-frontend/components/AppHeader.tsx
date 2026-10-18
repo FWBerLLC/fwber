@@ -177,7 +177,7 @@ function getNavLinkClasses(isActive: boolean, compact = false) {
     compact ? 'gap-2 px-3 py-2 text-sm' : 'gap-3 px-4 py-3 text-sm',
     isActive
       ? 'bg-gradient-to-r from-pink-500 to-orange-500 text-white shadow-sm'
-      : 'text-foreground hover:bg-muted dark:text-muted-foreground dark:hover:bg-gray-800',
+      : 'text-foreground hover:bg-muted dark:text-muted-foreground dark:hover:dark:bg-card',
   ].join(' ')
 }
 
@@ -185,8 +185,8 @@ function getUtilityLinkClasses(isActive: boolean) {
   return [
     'flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
     isActive
-      ? 'bg-gray-900 text-white dark:bg-card dark:text-foreground'
-      : 'text-foreground hover:bg-muted dark:text-muted-foreground dark:hover:bg-gray-800',
+      ? 'dark:bg-background text-white dark:bg-card dark:text-foreground'
+      : 'text-foreground hover:bg-muted dark:text-muted-foreground dark:hover:dark:bg-card',
   ].join(' ')
 }
 
@@ -290,7 +290,7 @@ export default function AppHeader({ title = 'FWBer', showNav = true }: AppHeader
               <button
                 type="button"
                 onClick={handleBack}
-                className="rounded-full p-2 text-foreground transition-colors hover:bg-muted dark:bg-card dark:text-muted-foreground dark:hover:bg-gray-800"
+                className="rounded-full p-2 text-foreground transition-colors hover:bg-muted dark:bg-card dark:text-muted-foreground dark:hover:dark:bg-card"
                 aria-label="Go back"
                 title="Go back"
               >
@@ -367,7 +367,7 @@ export default function AppHeader({ title = 'FWBer', showNav = true }: AppHeader
             {showNav && (
               <button type="button"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="rounded-lg p-2 text-foreground transition-colors hover:bg-muted lg:hidden dark:bg-card dark:text-muted-foreground dark:hover:bg-gray-800"
+                className="rounded-lg p-2 text-foreground transition-colors hover:bg-muted lg:hidden dark:bg-card dark:text-muted-foreground dark:hover:dark:bg-card"
                 aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
               >
                 {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -387,7 +387,7 @@ export default function AppHeader({ title = 'FWBer', showNav = true }: AppHeader
               })}
             </nav>
 
-            <div className="mt-4 rounded-2xl border border-border bg-muted p-3 dark:border-border dark:border-gray-800 dark:bg-gray-950/60">
+            <div className="mt-4 rounded-2xl border border-border bg-muted p-3 dark:border-border dark:dark:border-border dark:dark:bg-background/60">
               <p className="mb-2 px-1 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground dark:text-muted-foreground">
                 Product map
               </p>
@@ -469,7 +469,7 @@ export default function AppHeader({ title = 'FWBer', showNav = true }: AppHeader
       </header>
 
       {showNav && (
-        <aside className="fixed bottom-0 left-0 top-[4.625rem] z-30 hidden w-72 border-r border-border bg-white/95 backdrop-blur lg:flex lg:flex-col dark:border-border dark:border-gray-800 dark:bg-gray-900/95">
+        <aside className="fixed bottom-0 left-0 top-[4.625rem] z-30 hidden w-72 border-r border-border bg-card/95 backdrop-blur lg:flex lg:flex-col dark:border-border dark:dark:border-border dark:dark:bg-background/95">
           <div className="flex-1 overflow-y-auto px-4 py-6">
             <div className="glass shadow-premium mb-6 rounded-2xl border border-white/20 p-4 dark:border-white/5">
               <div className="mb-3 flex items-center gap-3">
@@ -494,7 +494,7 @@ export default function AppHeader({ title = 'FWBer', showNav = true }: AppHeader
               })}
             </nav>
 
-            <div className="mt-6 rounded-2xl border border-border bg-muted p-4 dark:border-border dark:border-gray-800 dark:bg-gray-950/60">
+            <div className="mt-6 rounded-2xl border border-border bg-muted p-4 dark:border-border dark:dark:border-border dark:dark:bg-background/60">
               <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground dark:text-muted-foreground">
                 Product map
               </p>

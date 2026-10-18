@@ -46,7 +46,7 @@ export function PresenceIndicator({
     online: 'bg-green-500',
     away: 'bg-yellow-500',
     busy: 'bg-red-500',
-    offline: 'bg-gray-400',
+    offline: 'bg-muted',
   };
 
   const statusLabels = {
@@ -108,9 +108,9 @@ export function TypingIndicator({
   return (
     <div className={`flex items-center gap-2 text-sm text-muted-foreground ${className}`}>
       <div className="flex space-x-1">
-        <span className="typing-dot typing-dot-1 w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
-        <span className="typing-dot typing-dot-2 w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:150ms]" />
-        <span className="typing-dot typing-dot-3 w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:300ms]" />
+        <span className="typing-dot typing-dot-1 w-2 h-2 bg-muted rounded-full animate-bounce" />
+        <span className="typing-dot typing-dot-2 w-2 h-2 bg-muted rounded-full animate-bounce [animation-delay:150ms]" />
+        <span className="typing-dot typing-dot-3 w-2 h-2 bg-muted rounded-full animate-bounce [animation-delay:300ms]" />
       </div>
       <span>
         {typingUsers.length === 1 ? 'Someone is typing...' : `${typingUsers.length} people are typing...`}
@@ -269,7 +269,7 @@ export function ConnectionStatusBadge({
 
   return (
     <div className={`inline-flex items-center gap-1.5 text-xs ${className}`}>
-      <span className="w-2 h-2 bg-gray-400 rounded-full" />
+      <span className="w-2 h-2 bg-muted rounded-full" />
       <span className="text-muted-foreground">Disconnected</span>
     </div>
   );

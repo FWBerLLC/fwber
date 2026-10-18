@@ -271,13 +271,13 @@ export default function MessagesPage() {
 							<div className="flex flex-wrap items-center gap-3">
 								<button type="button"
 									onClick={() => setIsHistoryOpen(true)}
-									className="bg-gray-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-700"
+									className="dark:bg-muted text-white px-4 py-2 rounded-md text-sm font-medium hover:dark:bg-muted"
 								>
 									Call History
 								</button>
 								<button type="button"
 									onClick={loadConversations}
-									className="bg-gray-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-700"
+									className="dark:bg-muted text-white px-4 py-2 rounded-md text-sm font-medium hover:dark:bg-muted"
 								>
 									Refresh
 								</button>

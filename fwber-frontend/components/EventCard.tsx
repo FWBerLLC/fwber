@@ -47,7 +47,7 @@ export function EventCard({ event }: EventCardProps) {
               {(Array.isArray(event.scene_signals.matched_tags) ? event.scene_signals.matched_tags : []).map((tag) => (
                 <span
                   key={`event-tag-${event.id}-${tag}`}
-                  className="rounded-full bg-card dark:bg-gray-800/80 px-2.5 py-1 text-xs font-medium text-purple-700"
+                  className="rounded-full bg-card dark:dark:bg-card/80 px-2.5 py-1 text-xs font-medium text-purple-700"
                 >
                   #{tag}
                 </span>

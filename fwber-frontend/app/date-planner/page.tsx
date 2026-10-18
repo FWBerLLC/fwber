@@ -316,7 +316,7 @@ function DatePlannerContent() {
         }
       `}</style>
 
-            <div className="min-h-screen bg-gray-950">
+            <div className="min-h-screen dark:bg-background">
                 <AppHeader title="Date Planner" />
 
                 <div className="dp-page">

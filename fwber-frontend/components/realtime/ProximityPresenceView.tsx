@@ -86,7 +86,7 @@ export function ProximityPresenceView({
             <Link
               key={user.id}
               href={`/profile/${user.id}`}
-              className="flex items-center justify-between p-3 rounded-lg hover:bg-muted dark:hover:bg-gray-900 transition-colors"
+              className="flex items-center justify-between p-3 rounded-lg hover:bg-muted dark:hover:dark:bg-background transition-colors"
             >
               <div className="flex items-center gap-3">
                 <div className="relative">
@@ -129,7 +129,7 @@ export function ProximityPresenceView({
       )}
 
       {/* Footer */}
-      <div className="mt-4 pt-4 border-t border-gray-100 dark:border-border">
+      <div className="mt-4 pt-4 border-t border-border dark:border-border">
         <Link
           href="/nearby"
           prefetch={false}

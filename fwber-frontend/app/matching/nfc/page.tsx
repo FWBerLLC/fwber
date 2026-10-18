@@ -23,7 +23,7 @@ export default function NFCPage() {
 
           <NFCProfileExchange />
           
-          <div className="rounded-2xl border border-border dark:border-border bg-card p-6 shadow-sm dark:border-gray-800 dark:bg-background">
+          <div className="rounded-2xl border border-border dark:border-border bg-card p-6 shadow-sm dark:dark:border-border dark:bg-background">
             <h2 className="text-lg font-semibold text-foreground dark:text-foreground mb-3">How it works</h2>
             <ul className="space-y-3 text-sm text-muted-foreground dark:text-muted-foreground">
               <li className="flex gap-3">

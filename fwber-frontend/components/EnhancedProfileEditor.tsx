@@ -1119,7 +1119,7 @@ export default function EnhancedProfileEditor() {
           <button
             type="submit"
             disabled={updateMutation.isPending || Object.keys(errors).length > 0}
-            className="flex items-center gap-2 px-8 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors font-medium"
+            className="flex items-center gap-2 px-8 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:bg-muted disabled:cursor-not-allowed transition-colors font-medium"
           >
             {updateMutation.isPending ? (
               <>

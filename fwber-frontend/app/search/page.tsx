@@ -71,7 +71,7 @@ export default function SearchPage() {
                     <select
                       value={gender}
                       onChange={e => setGender(e.target.value)}
-                      className="w-full rounded-lg border border-border dark:border-border bg-card dark:bg-gray-700 px-3 py-2 text-sm text-foreground dark:text-foreground"
+                      className="w-full rounded-lg border border-border dark:border-border bg-card dark:dark:bg-muted px-3 py-2 text-sm text-foreground dark:text-foreground"
                     >
                       <option value="">Any</option>
                       <option value="male">Male</option>
@@ -90,7 +90,7 @@ export default function SearchPage() {
                         placeholder="Min"
                         min="18"
                         max="99"
-                        className="w-full rounded-lg border border-border dark:border-border bg-card dark:bg-gray-700 px-3 py-2 text-sm text-foreground dark:text-foreground"
+                        className="w-full rounded-lg border border-border dark:border-border bg-card dark:dark:bg-muted px-3 py-2 text-sm text-foreground dark:text-foreground"
                       />
                       <input
                         type="number"
@@ -99,7 +99,7 @@ export default function SearchPage() {
                         placeholder="Max"
                         min="18"
                         max="99"
-                        className="w-full rounded-lg border border-border dark:border-border bg-card dark:bg-gray-700 px-3 py-2 text-sm text-foreground dark:text-foreground"
+                        className="w-full rounded-lg border border-border dark:border-border bg-card dark:dark:bg-muted px-3 py-2 text-sm text-foreground dark:text-foreground"
                       />
                     </div>
                   </div>

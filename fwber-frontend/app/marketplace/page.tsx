@@ -90,7 +90,7 @@ export default function MarketplacePage() {
               ))}
             </div>
           ) : items.length === 0 ? (
-            <div className="text-center py-20 bg-card dark:bg-card dark:bg-zinc-900 rounded-[3rem] border border-gray-100 dark:border-zinc-800">
+            <div className="text-center py-20 bg-card dark:bg-card dark:bg-zinc-900 rounded-[3rem] border border-border dark:border-zinc-800">
               <Store className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
               <h2 className="text-2xl font-bold text-foreground dark:text-foreground mb-2">No items found nearby</h2>
               <p className="text-muted-foreground max-w-sm mx-auto mb-8">
@@ -109,7 +109,7 @@ export default function MarketplacePage() {
                 <Link 
                   key={item.id} 
                   href={`/marketplace/${item.merchant_profile_id}`}
-                  className="bg-card dark:bg-card dark:bg-zinc-900 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition group border border-gray-100 dark:border-zinc-800"
+                  className="bg-card dark:bg-card dark:bg-zinc-900 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition group border border-border dark:border-zinc-800"
                 >
                   <div className="relative h-48 bg-muted dark:bg-card dark:bg-zinc-800">
                     {item.image_url ? (

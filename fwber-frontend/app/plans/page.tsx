@@ -63,7 +63,7 @@ export default function PlansPage() {
       <div className="min-h-screen bg-muted dark:bg-background">
         <AppHeader title="Plans & Meetups" />
         <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8 space-y-6">
-          <section className="rounded-2xl border border-border dark:border-border bg-card p-6 shadow-sm dark:border-gray-800 dark:bg-background">
+          <section className="rounded-2xl border border-border dark:border-border bg-card p-6 shadow-sm dark:dark:border-border dark:bg-background">
             <div className="flex items-start gap-3">
               <div className="rounded-2xl bg-purple-100 p-3 text-purple-600 dark:bg-purple-900/30 dark:text-purple-300">
                 <Calendar className="h-6 w-6" />
@@ -82,7 +82,7 @@ export default function PlansPage() {
               const Icon = surface.icon
               return (
                 <Link key={surface.href} href={surface.href} prefetch={false} className="block">
-                  <div className="h-full rounded-2xl border border-border dark:border-border bg-card p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-gray-800 dark:bg-background">
+                  <div className="h-full rounded-2xl border border-border dark:border-border bg-card p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:dark:border-border dark:bg-background">
                     <div className={`mb-4 inline-flex rounded-xl bg-gradient-to-br ${surface.accent} p-3 text-white`}>
                       <Icon className="h-5 w-5" />
                     </div>

@@ -137,7 +137,7 @@ export function ProfileCompletenessBar({ percentage, className = '' }: ProfileCo
           {percentage}%
         </span>
       </div>
-      <div className="w-full bg-muted dark:bg-gray-700 rounded-full h-2.5 overflow-hidden">
+      <div className="w-full bg-muted dark:dark:bg-muted rounded-full h-2.5 overflow-hidden">
         <div 
           className={`h-2.5 rounded-full transition-all duration-500 ${getColor()} max-w-full`}
           style={{ width: `${Math.min(100, Math.max(0, percentage))}%` }}
@@ -199,7 +199,7 @@ export function ProfileCompletenessChecklist({
                   ? 'bg-green-50 dark:bg-green-900/20 hover:bg-green-100 dark:hover:bg-green-900/30' 
                   : field.required
                   ? 'bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/30'
-                  : 'bg-muted dark:bg-gray-700 hover:bg-muted dark:hover:bg-gray-600'
+                  : 'bg-muted dark:dark:bg-muted hover:bg-muted dark:hover:dark:bg-muted'
               }`}
             >
               {isComplete ? (

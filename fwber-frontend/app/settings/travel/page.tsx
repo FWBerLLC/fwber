@@ -188,7 +188,7 @@ export default function TravelModePage() {
                         <button type="button"
                           key={result.place_id}
                           onClick={() => selectLocation(result)}
-                          className="w-full text-left px-4 py-3 hover:bg-purple-50 transition-colors border-b border-gray-100 last:border-0"
+                          className="w-full text-left px-4 py-3 hover:bg-purple-50 transition-colors border-b border-border last:border-0"
                         >
                           <div className="font-medium text-foreground dark:text-foreground truncate">{result.display_name}</div>
                           <div className="text-xs text-muted-foreground mt-0.5">

@@ -70,7 +70,7 @@ export default function TierUpgradeNotification({
         {/* Close button */}
         <button type="button"
           onClick={handleClose}
-          className="absolute top-4 right-4 text-muted-foreground hover:text-muted-foreground dark:hover:text-gray-200"
+          className="absolute top-4 right-4 text-muted-foreground hover:text-muted-foreground dark:hover:dark:text-foreground"
           aria-label="Close notification"
           title="Close"
         >

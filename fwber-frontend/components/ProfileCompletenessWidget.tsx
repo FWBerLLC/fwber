@@ -30,7 +30,7 @@ export default function ProfileCompletenessWidget() {
         <span className="text-sm font-bold text-purple-600 dark:text-purple-400">{percentage}%</span>
       </div>
 
-      <div className="w-full bg-muted dark:bg-gray-700 rounded-full h-2 mb-4">
+      <div className="w-full bg-muted dark:dark:bg-muted rounded-full h-2 mb-4">
         <div
           className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full transition-all duration-500"
           style={{ width: `${percentage}%` }}
@@ -50,7 +50,7 @@ export default function ProfileCompletenessWidget() {
 
       <Link
         href="/identity"
-        className="flex items-center justify-center w-full py-2 px-4 bg-muted dark:bg-gray-700 hover:bg-muted dark:hover:bg-gray-600 rounded-lg text-sm font-semibold text-foreground dark:text-foreground transition-colors group"
+        className="flex items-center justify-center w-full py-2 px-4 bg-muted dark:dark:bg-muted hover:bg-muted dark:hover:dark:bg-muted rounded-lg text-sm font-semibold text-foreground dark:text-foreground transition-colors group"
       >
         Boost Profile
         <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-0.5 transition-transform" />

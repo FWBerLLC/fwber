@@ -371,7 +371,7 @@ export default function ConferencePulsePage() {
         }
       `}</style>
 
-            <div className="min-h-screen bg-gray-950">
+            <div className="min-h-screen dark:bg-background">
                 <AppHeader title="Conference Pulse" />
 
                 <div className="conference-page">

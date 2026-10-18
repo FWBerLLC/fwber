@@ -35,7 +35,7 @@ export default function Error({
           </button>
           <a
             href="/dashboard"
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-muted dark:bg-card text-foreground dark:text-foreground rounded-xl font-semibold hover:bg-muted dark:hover:bg-gray-700 transition"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-muted dark:bg-card text-foreground dark:text-foreground rounded-xl font-semibold hover:bg-muted dark:hover:dark:bg-muted transition"
           >
             Go to Dashboard
           </a>

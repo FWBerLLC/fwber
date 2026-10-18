@@ -76,7 +76,7 @@ export default function DraftAnalysisPage() {
                       value={draft}
                       onChange={(e) => setDraft(e.target.value)}
                       placeholder="Paste your message draft here..."
-                      className="w-full bg-slate-800/50 border border-slate-600 rounded-xl p-4 text-gray-200 placeholder-gray-500 focus:outline-none focus:border-violet-500 resize-none h-32"
+                      className="w-full bg-slate-800/50 border border-slate-600 rounded-xl p-4 dark:text-foreground placeholder-gray-500 focus:outline-none focus:border-violet-500 resize-none h-32"
                     />
                   </div>
                 )}
@@ -106,7 +106,7 @@ export default function DraftAnalysisPage() {
                         <h3 className="text-violet-400 font-semibold mb-3">💡 Suggestions</h3>
                         <ul className="space-y-2">
                           {result.suggestions.map((s, i) => (
-                            <li key={i} className="flex items-start gap-2 text-sm text-gray-200">
+                            <li key={i} className="flex items-start gap-2 text-sm dark:text-foreground">
                               <Check className="w-4 h-4 text-violet-400 mt-0.5 shrink-0" />
                               {s}
                             </li>
@@ -118,7 +118,7 @@ export default function DraftAnalysisPage() {
                     {result.improved_draft && (
                       <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-4">
                         <h3 className="text-green-400 font-semibold mb-2">✨ Improved Version</h3>
-                        <p className="text-gray-200 text-sm">{result.improved_draft}</p>
+                        <p className="dark:text-foreground text-sm">{result.improved_draft}</p>
                       </div>
                     )}
 

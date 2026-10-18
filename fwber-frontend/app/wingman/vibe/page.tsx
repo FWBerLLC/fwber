@@ -136,7 +136,7 @@ export default function VibeCheckPage() {
                           {(result.green_flags || []).map((flag, index) => (
                             <li key={index} className="flex items-start gap-2">
                               <span className="text-green-400 mt-0.5">✓</span>
-                              <span className="text-sm text-gray-200">{flag}</span>
+                              <span className="text-sm dark:text-foreground">{flag}</span>
                             </li>
                           ))}
                         </ul>
@@ -151,7 +151,7 @@ export default function VibeCheckPage() {
                           {(result.red_flags || []).map((flag, index) => (
                             <li key={index} className="flex items-start gap-2">
                               <span className="text-red-400 mt-0.5">⚠</span>
-                              <span className="text-sm text-gray-200">{flag}</span>
+                              <span className="text-sm dark:text-foreground">{flag}</span>
                             </li>
                           ))}
                         </ul>

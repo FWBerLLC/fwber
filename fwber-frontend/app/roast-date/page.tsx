@@ -166,7 +166,7 @@ export default function RoastDatePage() {
                   Try Again
                 </Button>
                 <Button
-                  className="flex-1 bg-gray-900 text-white hover:bg-gray-800"
+                  className="flex-1 dark:bg-background text-white hover:dark:bg-card"
                   onClick={handleShare}
                 >
                   <Share2 className="w-4 h-4 mr-2" /> Share

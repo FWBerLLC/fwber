@@ -99,7 +99,7 @@ function TranslateButton({
 			className={`flex flex-col ${isOwnMessage ? "items-end" : "items-start"}`}
 		>
 			{translatedText && (
-				<div className="text-xs text-gray-200 italic mb-1 border-l-2 border-blue-500 pl-2 bg-black/20 p-1 rounded">
+				<div className="text-xs dark:text-foreground italic mb-1 border-l-2 border-blue-500 pl-2 bg-black/20 p-1 rounded">
 					{translatedText}
 				</div>
 			)}
@@ -411,7 +411,7 @@ export default function RealTimeChat({
 	};
 
 	const atmosphereStyles: Record<string, string> = {
-		standard: "bg-gray-800",
+		standard: "dark:bg-card",
 		calm: "bg-slate-800/90 backdrop-blur-sm",
 		electric: "bg-indigo-900/40 shadow-[inset_0_0_50px_rgba(79,70,229,0.2)]",
 		warm: "bg-orange-900/20 shadow-[inset_0_0_50px_rgba(245,158,11,0.1)]",
@@ -427,7 +427,7 @@ export default function RealTimeChat({
 			atmosphereStyles[atmosphere] || atmosphereStyles.standard,
 			className
 		)}>
-			<div className="flex items-center justify-between p-4 border-b border-gray-700">
+			<div className="flex items-center justify-between p-4 border-b dark:border-border">
 				<div
 					className="flex items-center space-x-3 cursor-pointer"
 					onClick={onProfileView}
@@ -468,7 +468,7 @@ export default function RealTimeChat({
 
 					<button type="button"
 						onClick={onLocate}
-						className="p-2 hover:bg-gray-700 rounded-full text-muted-foreground hover:text-purple-400 transition-colors"
+						className="p-2 hover:dark:bg-muted rounded-full text-muted-foreground hover:text-purple-400 transition-colors"
 						title="Locate Match (AR)"
 					>
 						<Zap className="w-5 h-5" />
@@ -477,7 +477,7 @@ export default function RealTimeChat({
 					{onVideoCall && (
 						<button type="button"
 							onClick={onVideoCall}
-							className="p-2 hover:bg-gray-700 rounded-full text-muted-foreground hover:text-blue-400 transition-colors"
+							className="p-2 hover:dark:bg-muted rounded-full text-muted-foreground hover:text-blue-400 transition-colors"
 							title="Video Call"
 						>
 							<Video className="w-5 h-5" />
@@ -486,7 +486,7 @@ export default function RealTimeChat({
 
 					<button type="button"
 						onClick={() => setIsGiftModalOpen(true)}
-						className="p-2 hover:bg-gray-700 rounded-full text-muted-foreground hover:text-pink-400 transition-colors"
+						className="p-2 hover:dark:bg-muted rounded-full text-muted-foreground hover:text-pink-400 transition-colors"
 						title="Send Gift"
 					>
 						<GiftIcon className="w-5 h-5" />
@@ -506,26 +506,26 @@ export default function RealTimeChat({
 					<Popover>
 						<PopoverTrigger asChild>
 							<button
-								className="p-2 hover:bg-gray-700 rounded-full text-muted-foreground hover:text-purple-400 transition-colors"
+								className="p-2 hover:dark:bg-muted rounded-full text-muted-foreground hover:text-purple-400 transition-colors"
 								title="Shared Experiences"
 							>
 								<BookOpen className="w-5 h-5" />
 							</button>
 						</PopoverTrigger>
-						<PopoverContent className="w-56 bg-gray-900 border-gray-700 text-white p-2">
+						<PopoverContent className="w-56 dark:bg-background dark:border-border text-white p-2">
 							<div className="space-y-1">
 								<button type="button"
 									onClick={() =>
 										router.push(`/ice-breakers?match=${recipientId}`)
 									}
-									className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-800 rounded-md transition-colors text-sm"
+									className="w-full flex items-center gap-3 px-3 py-2 hover:dark:bg-card rounded-md transition-colors text-sm"
 								>
 									<Sparkles className="h-4 w-4 text-yellow-400" />
 									<span>Play Ice Breakers</span>
 								</button>
 								<button type="button"
 									onClick={() => router.push(`/scrapbook?match=${recipientId}`)}
-									className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-800 rounded-md transition-colors text-sm"
+									className="w-full flex items-center gap-3 px-3 py-2 hover:dark:bg-card rounded-md transition-colors text-sm"
 								>
 									<MessageSquareQuote className="h-4 w-4 text-purple-400" />
 									<span>Shared Scrapbook</span>
@@ -537,13 +537,13 @@ export default function RealTimeChat({
 					<Dialog>
 						<DialogTrigger asChild>
 							<button
-								className="p-2 hover:bg-gray-700 rounded-full text-muted-foreground hover:text-yellow-400 transition-colors"
+								className="p-2 hover:dark:bg-muted rounded-full text-muted-foreground hover:text-yellow-400 transition-colors"
 								title="View Match Insights"
 							>
 								<Sparkles className="w-5 h-5" />
 							</button>
 						</DialogTrigger>
-						<DialogContent className="bg-gray-900 border-gray-800 text-white max-w-md">
+						<DialogContent className="dark:bg-background dark:border-border text-white max-w-md">
 							<MatchInsights matchId={recipientId} />
 						</DialogContent>
 					</Dialog>
@@ -551,7 +551,7 @@ export default function RealTimeChat({
 					{onRateDate && (
 						<button type="button"
 							onClick={onRateDate}
-							className="p-2 hover:bg-gray-700 rounded-full text-muted-foreground hover:text-green-400 transition-colors"
+							className="p-2 hover:dark:bg-muted rounded-full text-muted-foreground hover:text-green-400 transition-colors"
 							title="Rate Date Feedback"
 						>
 							<Star className="w-5 h-5" />
@@ -561,13 +561,13 @@ export default function RealTimeChat({
 					<div className="relative">
 						<button type="button"
 							onClick={() => setShowSafetyMenu(!showSafetyMenu)}
-							className="p-2 hover:bg-gray-700 rounded-full text-muted-foreground hover:text-white transition-colors"
+							className="p-2 hover:dark:bg-muted rounded-full text-muted-foreground hover:text-white transition-colors"
 							title="Options"
 						>
 							<MoreVertical className="w-5 h-5" />
 						</button>
 						{showSafetyMenu && (
-							<div className="absolute right-0 mt-2 w-48 bg-card dark:bg-card dark:bg-gray-700 rounded-md shadow-lg z-10 border border-border dark:border-border dark:border-border">
+							<div className="absolute right-0 mt-2 w-48 bg-card dark:bg-card dark:dark:bg-muted rounded-md shadow-lg z-10 border border-border dark:border-border dark:border-border">
 								<div className="py-1">
 									{onReport && (
 										<button type="button"
@@ -575,7 +575,7 @@ export default function RealTimeChat({
 												onReport();
 												setShowSafetyMenu(false);
 											}}
-											className="block w-full text-left px-4 py-2 text-sm text-foreground dark:text-muted-foreground dark:text-foreground hover:bg-muted dark:bg-card dark:hover:bg-gray-600"
+											className="block w-full text-left px-4 py-2 text-sm text-foreground dark:text-muted-foreground dark:text-foreground hover:bg-muted dark:bg-card dark:hover:dark:bg-muted"
 										>
 											Report User
 										</button>
@@ -586,7 +586,7 @@ export default function RealTimeChat({
 												onBlock();
 												setShowSafetyMenu(false);
 											}}
-											className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-muted dark:bg-card dark:hover:bg-gray-600"
+											className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-muted dark:bg-card dark:hover:dark:bg-muted"
 										>
 											Block User
 										</button>
@@ -599,13 +599,13 @@ export default function RealTimeChat({
 					{recipientTyping && (
 						<div className="flex items-center space-x-1 text-muted-foreground text-sm">
 							<div className="flex space-x-1">
-								<div className="w-1 h-1 bg-gray-400 rounded-full animate-bounce"></div>
+								<div className="w-1 h-1 bg-muted rounded-full animate-bounce"></div>
 								<div
-									className="w-1 h-1 bg-gray-400 rounded-full animate-bounce"
+									className="w-1 h-1 bg-muted rounded-full animate-bounce"
 									style={{ animationDelay: "0.1s" }}
 								></div>
 								<div
-									className="w-1 h-1 bg-gray-400 rounded-full animate-bounce"
+									className="w-1 h-1 bg-muted rounded-full animate-bounce"
 									style={{ animationDelay: "0.2s" }}
 								></div>
 							</div>
@@ -639,7 +639,7 @@ export default function RealTimeChat({
 										<X className="h-3 w-3" />
 									</button>
 								</h4>
-								<p className="text-gray-200 text-sm mt-1 leading-snug">
+								<p className="dark:text-foreground text-sm mt-1 leading-snug">
 									{activeNudge.nudge?.message ||
 										activeNudge.message ||
 										"Consider asking them out!"}
@@ -693,7 +693,7 @@ export default function RealTimeChat({
 									className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
 										isOwnMessage
 											? "bg-red-600 text-white"
-											: "bg-gray-700 text-white"
+											: "dark:bg-muted text-white"
 									}`}
 								>
 									{mediaUrl && (
@@ -740,7 +740,7 @@ export default function RealTimeChat({
 														)}
 													</div>
 													{msg.transcription && (
-														<div className="mt-1 p-2 bg-black/20 rounded text-sm italic text-gray-200">
+														<div className="mt-1 p-2 bg-black/20 rounded text-sm italic dark:text-foreground">
 															&quot;{msg.transcription}&quot;
 														</div>
 													)}
@@ -827,7 +827,7 @@ export default function RealTimeChat({
 										{msg.reactions.map((r: any, i: number) => (
 												<span
 													key={i}
-													className="bg-gray-800 border border-gray-600 rounded-full px-1 text-xs"
+													className="dark:bg-card border dark:border-border rounded-full px-1 text-xs"
 													title={r.user_name}
 												>
 													{r.emoji}
@@ -842,7 +842,7 @@ export default function RealTimeChat({
 				<div ref={messagesEndRef} />
 			</div>
 
-			<div className="p-4 border-t border-gray-700">
+			<div className="p-4 border-t dark:border-border">
 				<div className="mb-2">
 					<WingmanSuggestions
 						matchId={recipientId}
@@ -859,7 +859,7 @@ export default function RealTimeChat({
 				</div>
 
 				{selectedFile && (
-					<div className="mb-2 px-3 py-1 bg-gray-700 rounded flex justify-between items-center">
+					<div className="mb-2 px-3 py-1 dark:bg-muted rounded flex justify-between items-center">
 						<span className="text-sm text-muted-foreground truncate max-w-xs">
 							{selectedFile.name}
 						</span>
@@ -882,7 +882,7 @@ export default function RealTimeChat({
 					<button
 						type="button"
 						onClick={() => fileInputRef.current?.click()}
-						className="p-2 text-muted-foreground hover:text-white hover:bg-gray-700 rounded-full transition-colors"
+						className="p-2 text-muted-foreground hover:text-white hover:dark:bg-muted rounded-full transition-colors"
 						title="Attach file"
 					>
 						<Paperclip className="w-5 h-5" />
@@ -913,7 +913,7 @@ export default function RealTimeChat({
 											? "Type an encrypted message..."
 											: "Type a message..."
 									}
-									className="w-full bg-gray-700 text-white px-4 py-2 pr-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 disabled:opacity-50"
+									className="w-full dark:bg-muted text-white px-4 py-2 pr-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 disabled:opacity-50"
 									disabled={isSending}
 								/>
 								<div className="absolute right-2 top-1/2 transform -translate-y-1/2">
@@ -930,7 +930,7 @@ export default function RealTimeChat({
 							<button
 								type="submit"
 								disabled={(!message.trim() && !selectedFile) || isSending}
-								className="bg-red-600 hover:bg-red-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg transition-colors"
+								className="bg-red-600 hover:bg-red-700 disabled:dark:bg-muted disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg transition-colors"
 							>
 								{isSending ? (
 									<Loader2 className="w-5 h-5 animate-spin" />
@@ -969,8 +969,8 @@ export function ChatList({ className = "" }: { className?: string }) {
 	}, {});
 
 	return (
-		<div className={`bg-gray-800 rounded-lg ${className}`}>
-			<div className="p-4 border-b border-gray-700">
+		<div className={`dark:bg-card rounded-lg ${className}`}>
+			<div className="p-4 border-b dark:border-border">
 				<h3 className="text-white font-semibold">Active Conversations</h3>
 			</div>
 
@@ -985,7 +985,7 @@ export function ChatList({ className = "" }: { className?: string }) {
 					return (
 						<div
 							key={userId}
-							className="p-4 hover:bg-gray-700 cursor-pointer transition-colors"
+							className="p-4 hover:dark:bg-muted cursor-pointer transition-colors"
 						>
 							<div className="flex items-center space-x-3">
 								<div className="relative">
@@ -995,7 +995,7 @@ export function ChatList({ className = "" }: { className?: string }) {
 										</span>
 									</div>
 									{isOnline && (
-										<div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-gray-800"></div>
+										<div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 dark:border-border"></div>
 									)}
 								</div>
 								<div className="flex-1 min-w-0">
@@ -1022,8 +1022,8 @@ export function OnlineUsers({ className = "" }: { className?: string }) {
 	const { onlineUsers } = useWebSocketChat();
 
 	return (
-		<div className={`bg-gray-800 rounded-lg ${className}`}>
-			<div className="p-4 border-b border-gray-700">
+		<div className={`dark:bg-card rounded-lg ${className}`}>
+			<div className="p-4 border-b dark:border-border">
 				<h3 className="text-white font-semibold">
 					Online Users ({(Array.isArray(onlineUsers) ? onlineUsers : []).length})
 				</h3>
@@ -1041,7 +1041,7 @@ export function OnlineUsers({ className = "" }: { className?: string }) {
 										{user?.user_id?.charAt(0).toUpperCase() || '?'}
 									</span>
 								</div>
-								<div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-gray-800"></div>
+								<div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 dark:border-border"></div>
 							</div>
 							<div className="flex-1">
 								<p className="text-white text-sm">User {user?.user_id || 'Unknown'}</p>

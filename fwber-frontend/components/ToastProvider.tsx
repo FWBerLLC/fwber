@@ -207,7 +207,7 @@ function ToastItem({ toast, onClose }: ToastItemProps) {
         </div>
         <button type="button"
           onClick={handleClose}
-          className="flex-shrink-0 text-muted-foreground hover:text-muted-foreground dark:hover:text-gray-200 transition-colors"
+          className="flex-shrink-0 text-muted-foreground hover:text-muted-foreground dark:hover:dark:text-foreground transition-colors"
         >
           <X className="w-4 h-4" />
         </button>

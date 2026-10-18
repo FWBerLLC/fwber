@@ -112,7 +112,7 @@ export default function GiftShopModal({ isOpen, onClose, receiverId, receiverNam
               disabled={!selectedGiftId || isPending || (selectedGift && tokenBalance < selectedGift.cost)}
               className={`w-full py-3 px-4 rounded-lg font-bold text-white transition-all flex items-center justify-center gap-2 ${
                 !selectedGiftId || isPending || (selectedGift && tokenBalance < selectedGift.cost)
-                  ? 'bg-gray-400 cursor-not-allowed'
+                  ? 'bg-muted cursor-not-allowed'
                   : 'bg-pink-600 hover:bg-pink-700 shadow-lg hover:shadow-xl'
               }`}
             >

@@ -119,7 +119,7 @@ export default function PaymentRequests() {
                     </button>
                   </div>
                 ) : (
-                  <div className="text-center text-sm font-medium text-muted-foreground capitalize bg-muted dark:bg-card dark:bg-gray-700 py-1 rounded">
+                  <div className="text-center text-sm font-medium text-muted-foreground capitalize bg-muted dark:bg-card dark:dark:bg-muted py-1 rounded">
                     {req.status}
                   </div>
                 )}
@@ -260,7 +260,7 @@ function CreateRequestModal({ isOpen, onClose, onSuccess }: { isOpen: boolean; o
               <button
                 type="button"
                 onClick={onClose}
-                className="flex-1 px-4 py-2 border border-border rounded-lg text-foreground hover:bg-muted dark:bg-background dark:border-border dark:text-muted-foreground dark:hover:bg-gray-800"
+                className="flex-1 px-4 py-2 border border-border rounded-lg text-foreground hover:bg-muted dark:bg-background dark:border-border dark:text-muted-foreground dark:hover:dark:bg-card"
               >
                 Cancel
               </button>

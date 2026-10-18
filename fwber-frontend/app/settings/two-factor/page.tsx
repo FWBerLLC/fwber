@@ -236,7 +236,7 @@ export default function TwoFactorSettingsPage() {
                     </p>
 
                     {showRecoveryCodes ? (
-                      <div className="bg-gray-900 rounded-lg p-6 mb-6">
+                      <div className="dark:bg-background rounded-lg p-6 mb-6">
                         <div className="grid grid-cols-2 gap-4">
                           {recoveryCodes.map((code, index) => (
                             <div key={index} className="font-mono text-white text-sm">

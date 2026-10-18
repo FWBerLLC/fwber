@@ -71,7 +71,7 @@ export default function NotificationsPage() {
       <div className="min-h-screen bg-muted dark:bg-background">
         <AppHeader title="Notifications" />
         <main className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
-          <div className="mb-8 rounded-2xl border border-border dark:border-border bg-card p-6 shadow-sm dark:border-gray-800 dark:bg-background">
+          <div className="mb-8 rounded-2xl border border-border dark:border-border bg-card p-6 shadow-sm dark:dark:border-border dark:bg-background">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <h1 className="text-3xl font-bold text-foreground dark:text-foreground">Notifications</h1>
@@ -86,7 +86,7 @@ export default function NotificationsPage() {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-border dark:border-border bg-card shadow-sm dark:border-gray-800 dark:bg-background">
+          <div className="rounded-2xl border border-border dark:border-border bg-card shadow-sm dark:dark:border-border dark:bg-background">
             {isLoading ? (
               <div className="p-8 text-sm text-muted-foreground">Loading notifications…</div>
             ) : notifications.length === 0 ? (
@@ -105,7 +105,7 @@ export default function NotificationsPage() {
                         void markAsRead(notification.id)
                       }
                     }}
-                    className={`block p-4 transition hover:bg-muted dark:bg-background dark:hover:bg-gray-800/50 ${notification.read ? '' : 'bg-blue-50/70 dark:bg-blue-950/20'}`}
+                    className={`block p-4 transition hover:bg-muted dark:bg-background dark:hover:dark:bg-card/50 ${notification.read ? '' : 'bg-blue-50/70 dark:bg-blue-950/20'}`}
                   >
                     <div className="flex items-start gap-3">
                       <div className="mt-1 rounded-full bg-muted p-2 dark:bg-card">

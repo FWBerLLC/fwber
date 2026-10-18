@@ -101,7 +101,7 @@ export function ProfileRoast() {
 
   if (roastProfile.isPending) {
     return (
-      <Card className="bg-gray-900 border-gray-800">
+      <Card className="dark:bg-background dark:border-border">
         <CardContent className="p-8 flex flex-col items-center justify-center space-y-4">
           <Loader2 className={`w-8 h-8 animate-spin ${isRoast ? 'text-orange-500' : 'text-blue-500'}`} />
           <p className="text-muted-foreground animate-pulse">
@@ -113,7 +113,7 @@ export function ProfileRoast() {
   }
 
   return (
-    <Card className={`bg-gray-900 overflow-hidden shadow-[0_0_15px_rgba(0,0,0,0.3)] ${isRoast ? 'border-orange-500/50 shadow-orange-500/20' : 'border-blue-500/50 shadow-blue-500/20'}`}>
+    <Card className={`dark:bg-background overflow-hidden shadow-[0_0_15px_rgba(0,0,0,0.3)] ${isRoast ? 'border-orange-500/50 shadow-orange-500/20' : 'border-blue-500/50 shadow-blue-500/20'}`}>
       <CardHeader className={`${isRoast ? 'bg-orange-900/20 border-orange-900/30' : 'bg-blue-900/20 border-blue-900/30'} border-b pb-4`}>
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg font-semibold text-white flex items-center gap-2">
@@ -132,7 +132,7 @@ export function ProfileRoast() {
       </CardHeader>
       <CardContent className="p-6 space-y-6">
         <div className={`bg-black/40 rounded-lg p-4 border ${isRoast ? 'border-orange-500/20' : 'border-blue-500/20'}`}>
-          <p className="text-gray-200 italic leading-relaxed font-medium">
+          <p className="dark:text-foreground italic leading-relaxed font-medium">
             &quot;{content}&quot;
           </p>
         </div>

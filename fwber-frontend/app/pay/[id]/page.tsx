@@ -73,7 +73,7 @@ export default function CheckoutPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-muted dark:bg-background p-4">
-        <div className="bg-card dark:bg-card p-8 rounded-xl shadow-2xl max-w-md w-full border border-gray-100 dark:border-border">
+        <div className="bg-card dark:bg-card p-8 rounded-xl shadow-2xl max-w-md w-full border border-border dark:border-border">
             <div className="flex justify-center mb-6">
                 <div className="w-16 h-16 bg-indigo-100 dark:bg-indigo-900/30 rounded-full flex items-center justify-center text-indigo-600 dark:text-indigo-400">
                     <ShoppingBag className="w-8 h-8" />
@@ -83,7 +83,7 @@ export default function CheckoutPage() {
             <h1 className="text-2xl font-bold text-center mb-1 dark:text-foreground">Pay with fwber</h1>
             <p className="text-center text-muted-foreground mb-8">Secure Token Payment</p>
 
-            <div className="bg-muted dark:bg-gray-900/50 p-4 rounded-lg mb-6 border border-border dark:border-border">
+            <div className="bg-muted dark:dark:bg-background/50 p-4 rounded-lg mb-6 border border-border dark:border-border">
                 <div className="flex justify-between mb-2">
                     <span className="text-muted-foreground text-sm">Merchant</span>
                     <span className="font-medium dark:text-foreground">{payment.merchant_name}</span>

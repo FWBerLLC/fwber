@@ -18,7 +18,7 @@ export default function PremiumSuccessPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-amber-50 px-4 py-16 dark:from-slate-950 dark:via-slate-900 dark:to-amber-950/20">
-      <div className="mx-auto flex max-w-xl flex-col items-center rounded-3xl border border-emerald-200/70 bg-card dark:bg-gray-800/90 p-8 text-center shadow-[0_24px_70px_rgba(15,23,42,0.08)] backdrop-blur dark:border-emerald-500/20 dark:bg-slate-900/85">
+      <div className="mx-auto flex max-w-xl flex-col items-center rounded-3xl border border-emerald-200/70 bg-card dark:dark:bg-card/90 p-8 text-center shadow-[0_24px_70px_rgba(15,23,42,0.08)] backdrop-blur dark:border-emerald-500/20 dark:bg-slate-900/85">
         <div className="mb-5 rounded-full bg-emerald-100 p-4 text-emerald-600 dark:bg-emerald-500/15 dark:text-emerald-300">
           <CheckCircle2 className="h-10 w-10" />
         </div>

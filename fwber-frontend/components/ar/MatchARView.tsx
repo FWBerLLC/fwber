@@ -155,7 +155,7 @@ export default function MatchARView({ matchId, matchName, onClose, token }: Matc
                     <span className="font-mono text-[10px] text-zinc-400">{Math.round(deviceHeading)}° N</span>
                 </div>
                 {overlay && (
-                    <span className="text-[10px] font-bold text-white bg-card dark:bg-gray-800/10 px-2 py-0.5 rounded-full uppercase tracking-widest">
+                    <span className="text-[10px] font-bold text-white bg-card dark:dark:bg-card/10 px-2 py-0.5 rounded-full uppercase tracking-widest">
                         {Math.round(overlay.distance)} meters away
                     </span>
                 )}

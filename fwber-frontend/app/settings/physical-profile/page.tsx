@@ -297,7 +297,7 @@ export default function PhysicalProfilePage() {
                     type="checkbox"
                     checked={data.tattoos || false}
                     onChange={e => update('tattoos', e.target.checked)}
-                    className="h-5 w-5 rounded border-2 border-gray-400 text-blue-600 accent-blue-600 cursor-pointer"
+                    className="h-5 w-5 rounded border-2 border-border text-blue-600 accent-blue-600 cursor-pointer"
                   />
                   <span className="text-sm font-medium">I have tattoos</span>
                 </label>
@@ -306,7 +306,7 @@ export default function PhysicalProfilePage() {
                     type="checkbox"
                     checked={data.piercings || false}
                     onChange={e => update('piercings', e.target.checked)}
-                    className="h-5 w-5 rounded border-2 border-gray-400 text-blue-600 accent-blue-600 cursor-pointer"
+                    className="h-5 w-5 rounded border-2 border-border text-blue-600 accent-blue-600 cursor-pointer"
                   />
                   <span className="text-sm font-medium">I have piercings</span>
                 </label>
@@ -317,7 +317,7 @@ export default function PhysicalProfilePage() {
       </div>
 
       {/* Sticky Save Bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur border-t border-border dark:border-border shadow-lg z-50">
+      <div className="fixed bottom-0 left-0 right-0 bg-card/95 dark:dark:bg-background/95 backdrop-blur border-t border-border dark:border-border shadow-lg z-50">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
           {message ? (
             <span className={`text-sm font-medium ${message.type === 'success' ? 'text-green-600' : 'text-red-600'}`}>

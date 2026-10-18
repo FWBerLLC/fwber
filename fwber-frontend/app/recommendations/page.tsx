@@ -267,7 +267,7 @@ export default function RecommendationsPage() {
     const contentId = String(recommendation.content.id || recommendation.id);
 
     return (
-      <Card key={recommendation.id || `${activeTab}-${index}`} className="h-full border-border dark:border-border bg-card dark:border-gray-800 dark:bg-background overflow-hidden">
+      <Card key={recommendation.id || `${activeTab}-${index}`} className="h-full border-border dark:border-border bg-card dark:dark:border-border dark:bg-background overflow-hidden">
         {(recommendation as any).compatibility_score && (
           <div className="bg-purple-600/10 border-b border-purple-500/20 py-2 px-4 flex items-center justify-between">
             <span className="text-xs font-bold text-purple-400 flex items-center gap-1">
@@ -354,7 +354,7 @@ export default function RecommendationsPage() {
   };
 
   const renderTrendingCard = (item: TrendingContent, index: number) => (
-    <Card key={item.id || `${activeTab}-${index}`} className="h-full border-border dark:border-border bg-card dark:border-gray-800 dark:bg-background">
+    <Card key={item.id || `${activeTab}-${index}`} className="h-full border-border dark:border-border bg-card dark:dark:border-border dark:bg-background">
       <CardHeader className="space-y-3">
         <div className="flex items-start justify-between gap-3">
           <div className="space-y-2">
@@ -387,7 +387,7 @@ export default function RecommendationsPage() {
     const description = item.reason || item.content?.description || 'Personalized recommendation item';
 
     return (
-      <Card key={item.id || `${activeTab}-${index}`} className="h-full border-border dark:border-border bg-card dark:border-gray-800 dark:bg-background">
+      <Card key={item.id || `${activeTab}-${index}`} className="h-full border-border dark:border-border bg-card dark:dark:border-border dark:bg-background">
         <CardHeader className="space-y-3">
           <div className="flex items-start justify-between gap-3">
             <div className="space-y-2">
@@ -493,7 +493,7 @@ export default function RecommendationsPage() {
             </div>
           </div>
 
-          <Card className="border-border dark:border-border bg-card dark:border-gray-800 dark:bg-background">
+          <Card className="border-border dark:border-border bg-card dark:dark:border-border dark:bg-background">
             <CardHeader>
               <CardTitle className="text-lg text-foreground dark:text-foreground">Context</CardTitle>
               <CardDescription>
@@ -526,7 +526,7 @@ export default function RecommendationsPage() {
                   className={`rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
                     isActive
                       ? 'border-purple-200 bg-purple-50 text-purple-700 dark:border-purple-900 dark:bg-purple-950 dark:text-purple-200'
-                      : 'border-border bg-card text-muted-foreground hover:border-purple-200 hover:text-purple-700 dark:border-gray-800 dark:bg-background dark:text-muted-foreground dark:hover:border-purple-900 dark:hover:text-purple-200'
+                      : 'border-border bg-card text-muted-foreground hover:border-purple-200 hover:text-purple-700 dark:dark:border-border dark:bg-background dark:text-muted-foreground dark:hover:border-purple-900 dark:hover:text-purple-200'
                   }`}
                   title={tab.description}
                 >
@@ -580,7 +580,7 @@ export default function RecommendationsPage() {
           </section>
 
           {mixedMetadata ? (
-            <Card className="border-border dark:border-border bg-card dark:border-gray-800 dark:bg-background">
+            <Card className="border-border dark:border-border bg-card dark:dark:border-border dark:bg-background">
               <CardHeader>
                 <CardTitle className="text-lg text-foreground dark:text-foreground">Mixed recommendation metadata</CardTitle>
                 <CardDescription>Live details for the current combined recommendation batch.</CardDescription>

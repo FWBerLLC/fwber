@@ -126,8 +126,8 @@ export default function DashboardPage() {
                     key={i}
                     className="animate-pulse rounded-xl border border-border bg-card p-5 dark:border-border dark:bg-card"
                   >
-                    <div className="mb-3 h-4 w-2/3 rounded bg-muted dark:bg-gray-700" />
-                    <div className="h-7 w-1/2 rounded bg-muted dark:bg-gray-700" />
+                    <div className="mb-3 h-4 w-2/3 rounded bg-muted dark:dark:bg-muted" />
+                    <div className="h-7 w-1/2 rounded bg-muted dark:dark:bg-muted" />
                   </div>
                 ))}
               </div>
@@ -1177,13 +1177,13 @@ function QuickAction({
         ? 'hover:bg-amber-50 dark:hover:bg-amber-900/20'
         : accent === 'purple'
           ? 'hover:bg-purple-50 dark:hover:bg-purple-900/20'
-          : 'hover:bg-muted dark:hover:bg-gray-700'
+          : 'hover:bg-muted dark:hover:dark:bg-muted'
 
   return (
     <Link
       href={href}
       prefetch={false}
-      className={`flex flex-col items-center gap-1.5 rounded-lg border border-gray-100 p-3 transition-colors dark:border-border ${bg}`}
+      className={`flex flex-col items-center gap-1.5 rounded-lg border border-border p-3 transition-colors dark:border-border ${bg}`}
     >
       <div className="text-muted-foreground dark:text-muted-foreground">{icon}</div>
       <span className="text-center text-[11px] font-medium leading-tight text-foreground dark:text-muted-foreground">

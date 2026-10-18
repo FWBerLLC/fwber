@@ -102,7 +102,7 @@ export default function CompatibilityPage() {
                         <h3 className="text-green-400 font-semibold mb-3">✅ Strengths</h3>
                         <ul className="space-y-2">
                           {(result.strengths || ['Profile exists']).map((s, i) => (
-                            <li key={i} className="text-sm text-gray-200">• {s}</li>
+                            <li key={i} className="text-sm dark:text-foreground">• {s}</li>
                           ))}
                         </ul>
                       </div>
@@ -110,7 +110,7 @@ export default function CompatibilityPage() {
                         <h3 className="text-amber-400 font-semibold mb-3">⚠️ Areas to Improve</h3>
                         <ul className="space-y-2">
                           {(result.weaknesses || ['AI is resting']).map((w, i) => (
-                            <li key={i} className="text-sm text-gray-200">• {w}</li>
+                            <li key={i} className="text-sm dark:text-foreground">• {w}</li>
                           ))}
                         </ul>
                       </div>
@@ -121,7 +121,7 @@ export default function CompatibilityPage() {
                         <h3 className="text-blue-400 font-semibold mb-3">💡 Tips</h3>
                         <ul className="space-y-2">
                           {result.tips.map((t, i) => (
-                            <li key={i} className="text-sm text-gray-200">• {t}</li>
+                            <li key={i} className="text-sm dark:text-foreground">• {t}</li>
                           ))}
                         </ul>
                       </div>

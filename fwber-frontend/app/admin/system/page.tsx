@@ -171,7 +171,7 @@ export default function SystemDashboardPage() {
                 <CardContent>
                   <div className="relative overflow-x-auto">
                     <table className="w-full text-sm text-left text-muted-foreground dark:text-muted-foreground">
-                      <thead className="text-xs text-foreground dark:text-muted-foreground uppercase bg-muted dark:bg-background dark:bg-gray-700 dark:text-muted-foreground">
+                      <thead className="text-xs text-foreground dark:text-muted-foreground uppercase bg-muted dark:bg-background dark:dark:bg-muted dark:text-muted-foreground">
                         <tr>
                           <th scope="col" className="px-6 py-3">Module Name</th>
                           <th scope="col" className="px-6 py-3">Path</th>
@@ -257,7 +257,7 @@ export default function SystemDashboardPage() {
                             </div>
                             <span className="font-bold">{Math.round((analytics.feedback.sentiment.positive / sentimentTotal) * 100)}%</span>
                           </div>
-                          <div className="w-full bg-muted dark:bg-gray-700 rounded-full h-2.5">
+                          <div className="w-full bg-muted dark:dark:bg-muted rounded-full h-2.5">
                             <div className="bg-green-500 h-2.5 rounded-full" style={{ width: `${(analytics.feedback.sentiment.positive / sentimentTotal) * 100}%` }}></div>
                           </div>
 
@@ -268,7 +268,7 @@ export default function SystemDashboardPage() {
                             </div>
                             <span className="font-bold">{Math.round((analytics.feedback.sentiment.neutral / sentimentTotal) * 100)}%</span>
                           </div>
-                          <div className="w-full bg-muted dark:bg-gray-700 rounded-full h-2.5">
+                          <div className="w-full bg-muted dark:dark:bg-muted rounded-full h-2.5">
                             <div className="bg-yellow-500 h-2.5 rounded-full" style={{ width: `${(analytics.feedback.sentiment.neutral / sentimentTotal) * 100}%` }}></div>
                           </div>
 
@@ -279,7 +279,7 @@ export default function SystemDashboardPage() {
                             </div>
                             <span className="font-bold">{Math.round((analytics.feedback.sentiment.negative / sentimentTotal) * 100)}%</span>
                           </div>
-                          <div className="w-full bg-muted dark:bg-gray-700 rounded-full h-2.5">
+                          <div className="w-full bg-muted dark:dark:bg-muted rounded-full h-2.5">
                             <div className="bg-red-500 h-2.5 rounded-full" style={{ width: `${(analytics.feedback.sentiment.negative / sentimentTotal) * 100}%` }}></div>
                           </div>
                         </div>
@@ -326,7 +326,7 @@ export default function SystemDashboardPage() {
                 <CardHeader>
                   <CardTitle>Project Directory Structure</CardTitle>
                 </CardHeader>
-                <CardContent className="font-mono text-sm bg-gray-900 text-muted-foreground p-6 rounded-lg overflow-x-auto">
+                <CardContent className="font-mono text-sm dark:bg-background text-muted-foreground p-6 rounded-lg overflow-x-auto">
                   <pre>{`
 / (Project Root)
 ├── fwber-backend/          # Laravel API Source

@@ -47,7 +47,7 @@ export default function ArtifactVoting({ artifactId, initialScore, initialUserVo
     };
 
     return (
-        <div className="flex flex-col items-center justify-center bg-muted dark:bg-background rounded-lg p-1 mr-3 border border-gray-100">
+        <div className="flex flex-col items-center justify-center bg-muted dark:bg-background rounded-lg p-1 mr-3 border border-border">
             <button type="button"
                 onClick={() => handleVote(1)}
                 disabled={isVoting || !token}

@@ -61,7 +61,7 @@ export default function AdminFederationPage() {
                         <Globe className="h-12 w-12 text-blue-500 opacity-20" />
                     </div>
 
-                    <Card className="bg-card dark:bg-background border-border dark:border-gray-800">
+                    <Card className="bg-card dark:bg-background border-border dark:dark:border-border">
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
                                 <Server className="h-5 w-5 text-blue-500" />
@@ -80,7 +80,7 @@ export default function AdminFederationPage() {
                                 <div className="overflow-x-auto">
                                     <table className="w-full text-left">
                                         <thead>
-                                            <tr className="border-b dark:border-gray-800">
+                                            <tr className="border-b dark:dark:border-border">
                                                 <th className="py-3 font-medium text-muted-foreground">Domain</th>
                                                 <th className="py-3 font-medium text-muted-foreground">Software</th>
                                                 <th className="py-3 font-medium text-muted-foreground">Status</th>
@@ -90,7 +90,7 @@ export default function AdminFederationPage() {
                                         </thead>
                                         <tbody className="divide-y dark:divide-gray-800">
                                             {peers.map((peer) => (
-                                                <tr key={peer.id} className="hover:bg-gray-50/50 dark:hover:bg-gray-800/30 transition-colors">
+                                                <tr key={peer.id} className="hover:bg-muted/50 dark:hover:dark:bg-card/30 transition-colors">
                                                     <td className="py-4 font-mono text-sm">{peer.domain}</td>
                                                     <td className="py-4 text-sm text-muted-foreground dark:text-muted-foreground">{peer.software}</td>
                                                     <td className="py-4">

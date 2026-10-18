@@ -257,7 +257,7 @@ export default function GroupMatchingPage() {
                       <div className="mb-1 text-xs font-semibold uppercase tracking-wide text-purple-300">
                         Trust-aware group ranking
                       </div>
-                      <p className="text-sm text-gray-200">
+                      <p className="text-sm dark:text-foreground">
                         {rankingStrategy.summary}
                       </p>
                     </div>

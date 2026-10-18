@@ -845,7 +845,7 @@ export default function PhotoUpload({
                               setComparisonPreviewId(preview.id)
                               setComparisonSliderValue(50)
                             }}
-                            className="p-2 bg-card dark:bg-gray-800/80 text-foreground dark:text-foreground rounded-full hover:bg-card transition-colors"
+                            className="p-2 bg-card dark:dark:bg-card/80 text-foreground dark:text-foreground rounded-full hover:bg-card transition-colors"
                             title="Compare blur"
                           >
                             <Eye className="w-4 h-4" />
@@ -968,8 +968,8 @@ export default function PhotoUpload({
                     className="pointer-events-none absolute inset-y-0"
                     style={{ left: `calc(${comparisonSliderValue}% - 1px)` }}
                   >
-                    <div className="relative h-full w-px bg-card dark:bg-gray-800/70">
-                      <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center gap-1 rounded-full bg-card dark:bg-gray-800/90 px-2 py-1 text-xs font-medium text-foreground dark:text-foreground">
+                    <div className="relative h-full w-px bg-card dark:dark:bg-card/70">
+                      <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center gap-1 rounded-full bg-card dark:dark:bg-card/90 px-2 py-1 text-xs font-medium text-foreground dark:text-foreground">
                         <ChevronLeft className="h-4 w-4" />
                         <span>Drag</span>
                         <ChevronRight className="h-4 w-4" />

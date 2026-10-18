@@ -177,7 +177,7 @@ export default function LocationMatcher({ formData, handleLocationChange }: Loca
               className={`flex flex-col items-center gap-1 p-3 rounded-xl border-2 transition-all text-center ${
                 effectiveScope === key
                   ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 shadow-sm'
-                  : 'border-border dark:border-border hover:border-border dark:hover:border-gray-600 text-muted-foreground dark:text-muted-foreground'
+                  : 'border-border dark:border-border hover:border-border dark:hover:dark:border-border text-muted-foreground dark:text-muted-foreground'
               }`}
             >
               {icon}
@@ -201,7 +201,7 @@ export default function LocationMatcher({ formData, handleLocationChange }: Loca
             max={effectiveScope === 'regional' ? 500 : 100}
             value={maxDistance}
             onChange={(e) => handleLocationChange('max_distance', parseInt(e.target.value))}
-            className="w-full h-2 bg-muted dark:bg-gray-700 rounded-full appearance-none cursor-pointer accent-blue-500"
+            className="w-full h-2 bg-muted dark:dark:bg-muted rounded-full appearance-none cursor-pointer accent-blue-500"
           />
           <div className="flex justify-between mt-1.5">
             {Object.entries(presets).map(([label, val]) => (
@@ -275,7 +275,7 @@ export default function LocationMatcher({ formData, handleLocationChange }: Loca
               step={50}
               value={maxDistance}
               onChange={(e) => handleLocationChange('max_distance', parseInt(e.target.value))}
-              className="w-full h-2 bg-muted dark:bg-gray-700 rounded-full appearance-none cursor-pointer accent-blue-500"
+              className="w-full h-2 bg-muted dark:dark:bg-muted rounded-full appearance-none cursor-pointer accent-blue-500"
             />
             <div className="flex justify-between text-[10px] text-muted-foreground mt-1">
               <span>50 mi</span><span>500 mi</span><span>1500 mi</span><span>3000 mi</span>

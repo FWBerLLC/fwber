@@ -59,7 +59,7 @@ export default function MerchantHeader({ title = 'fwber Merchant', showNav = tru
               <button
                 type="button"
                 onClick={handleBack}
-                className="rounded-full p-2 text-foreground transition-colors hover:bg-muted dark:bg-card dark:text-muted-foreground dark:hover:bg-gray-800"
+                className="rounded-full p-2 text-foreground transition-colors hover:bg-muted dark:bg-card dark:text-muted-foreground dark:hover:dark:bg-card"
                 aria-label="Go back"
                 title="Go back"
               >
@@ -79,7 +79,7 @@ export default function MerchantHeader({ title = 'fwber Merchant', showNav = tru
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-foreground dark:text-muted-foreground hover:bg-muted dark:bg-card dark:hover:bg-gray-800 transition-colors"
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-foreground dark:text-muted-foreground hover:bg-muted dark:bg-card dark:hover:dark:bg-card transition-colors"
                 >
                   <link.icon className="w-4 h-4" />
                   <span>{link.label}</span>
@@ -96,7 +96,7 @@ export default function MerchantHeader({ title = 'fwber Merchant', showNav = tru
             <div className="relative">
               <button type="button"
                 onClick={() => setUserMenuOpen(!userMenuOpen)}
-                className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-foreground dark:text-muted-foreground hover:bg-muted dark:bg-card dark:hover:bg-gray-800 transition-colors"
+                className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-foreground dark:text-muted-foreground hover:bg-muted dark:bg-card dark:hover:dark:bg-card transition-colors"
               >
                 <div className="w-8 h-8 rounded-full bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center text-white font-bold">
                   {(user?.name || user?.email || 'M').charAt(0).toUpperCase()}
@@ -122,7 +122,7 @@ export default function MerchantHeader({ title = 'fwber Merchant', showNav = tru
                     <Link
                       href="/dashboard"
                       onClick={() => setUserMenuOpen(false)}
-                      className="flex items-center gap-2 px-4 py-2 text-sm text-foreground dark:text-muted-foreground hover:bg-muted dark:bg-card dark:hover:bg-gray-700"
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-foreground dark:text-muted-foreground hover:bg-muted dark:bg-card dark:hover:dark:bg-muted"
                     >
                       <LogOut className="w-4 h-4" />
                       Back to App
@@ -149,7 +149,7 @@ export default function MerchantHeader({ title = 'fwber Merchant', showNav = tru
             {showNav && (
               <button type="button"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="md:hidden p-2 rounded-lg text-foreground dark:text-muted-foreground hover:bg-muted dark:bg-card dark:hover:bg-gray-800"
+                className="md:hidden p-2 rounded-lg text-foreground dark:text-muted-foreground hover:bg-muted dark:bg-card dark:hover:dark:bg-card"
               >
                 {mobileMenuOpen ? (
                   <X className="w-6 h-6" />
@@ -170,7 +170,7 @@ export default function MerchantHeader({ title = 'fwber Merchant', showNav = tru
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-3 px-3 py-3 rounded-lg text-base font-medium text-foreground dark:text-muted-foreground hover:bg-muted dark:bg-card dark:hover:bg-gray-800 transition-colors"
+                  className="flex items-center gap-3 px-3 py-3 rounded-lg text-base font-medium text-foreground dark:text-muted-foreground hover:bg-muted dark:bg-card dark:hover:dark:bg-card transition-colors"
                 >
                   <link.icon className="w-5 h-5" />
                   <span>{link.label}</span>

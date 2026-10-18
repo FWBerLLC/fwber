@@ -133,7 +133,7 @@ export default function AccountSettingsPage() {
                     name="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full px-3 py-2 border border-border dark:border-border dark:bg-gray-700 dark:text-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-border dark:border-border dark:dark:bg-muted dark:text-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required
                   />
                 </div>
@@ -165,7 +165,7 @@ export default function AccountSettingsPage() {
                     name="current_password"
                     value={currentPassword}
                     onChange={(e) => setCurrentPassword(e.target.value)}
-                    className="w-full px-3 py-2 border border-border dark:border-border dark:bg-gray-700 dark:text-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full px-3 py-2 border border-border dark:border-border dark:dark:bg-muted dark:text-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
                     required
                   />
                 </div>
@@ -176,7 +176,7 @@ export default function AccountSettingsPage() {
                     name="password"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
-                    className="w-full px-3 py-2 border border-border dark:border-border dark:bg-gray-700 dark:text-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full px-3 py-2 border border-border dark:border-border dark:dark:bg-muted dark:text-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
                     required
                     minLength={8}
                   />
@@ -188,7 +188,7 @@ export default function AccountSettingsPage() {
                     name="password_confirmation"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="w-full px-3 py-2 border border-border dark:border-border dark:bg-gray-700 dark:text-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full px-3 py-2 border border-border dark:border-border dark:dark:bg-muted dark:text-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
                     required
                     minLength={8}
                   />
@@ -289,7 +289,7 @@ export default function AccountSettingsPage() {
                       placeholder="Enter your password"
                       value={deletePassword}
                       onChange={(e) => setDeletePassword(e.target.value)}
-                      className="w-full px-3 py-2 border border-red-300 dark:border-red-800 dark:bg-gray-700 dark:text-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+                      className="w-full px-3 py-2 border border-red-300 dark:border-red-800 dark:dark:bg-muted dark:text-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                       required
                     />
                     <div className="flex gap-3">

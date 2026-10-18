@@ -55,7 +55,7 @@ export function DailyStreakModal({ currentStreak, isOpen, onClose }: StreakProps
             <motion.div 
                 animate={{ scale: [1, 1.2, 1] }}
                 transition={{ repeat: Infinity, duration: 2 }}
-                className="w-24 h-24 mx-auto bg-card dark:bg-gray-800/20 rounded-full flex items-center justify-center mb-6 backdrop-blur-sm border-2 border-white/30 shadow-[0_0_30px_rgba(255,165,0,0.5)]"
+                className="w-24 h-24 mx-auto bg-card dark:dark:bg-card/20 rounded-full flex items-center justify-center mb-6 backdrop-blur-sm border-2 border-white/30 shadow-[0_0_30px_rgba(255,165,0,0.5)]"
             >
                 <Flame className="w-14 h-14 text-yellow-300 drop-shadow-md fill-orange-500" />
             </motion.div>

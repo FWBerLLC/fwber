@@ -218,7 +218,7 @@ export default function NearbyPage() {
                 step="100"
                 value={radius}
                 onChange={(e) => handleRadiusChange(parseInt(e.target.value))}
-                className="w-full h-2 bg-muted dark:bg-gray-600 rounded-lg appearance-none cursor-pointer"
+                className="w-full h-2 bg-muted dark:dark:bg-muted rounded-lg appearance-none cursor-pointer"
               />
               <div className="flex justify-between text-xs text-muted-foreground dark:text-muted-foreground mt-1">
                 <span>100m</span>

@@ -253,7 +253,7 @@ export default function FederationActivityPage() {
                       </div>
                     ) : (
                       activityItems.map((item) => (
-                        <div key={item.id} className="rounded-xl border bg-card dark:bg-card p-4 shadow-sm dark:bg-gray-950/30">
+                        <div key={item.id} className="rounded-xl border bg-card dark:bg-card p-4 shadow-sm dark:dark:bg-background/30">
                           <div className="flex items-start justify-between gap-3">
                             <div>
                               <Link

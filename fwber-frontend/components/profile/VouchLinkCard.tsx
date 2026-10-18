@@ -136,7 +136,7 @@ export function VouchLinkCard() {
                     <Button 
                         variant="ghost" 
                         size="icon" 
-                        className="h-8 w-8 text-indigo-300 hover:text-white hover:bg-card dark:bg-gray-800/10"
+                        className="h-8 w-8 text-indigo-300 hover:text-white hover:bg-card dark:dark:bg-card/10"
                         onClick={copyToClipboard}
                     >
                         {copied ? <span className="text-green-400 text-xs font-bold">✓</span> : <Copy className="w-4 h-4" />}

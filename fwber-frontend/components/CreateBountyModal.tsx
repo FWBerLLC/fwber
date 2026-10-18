@@ -81,7 +81,7 @@ export default function CreateBountyModal({
           {triggerLabel}
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md bg-gray-900 border-gray-800 text-white">
+      <DialogContent className="sm:max-w-md dark:bg-background dark:border-border text-white">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-purple-500">
             Create Match Bounty
@@ -94,7 +94,7 @@ export default function CreateBountyModal({
         {!createdBountyUrl ? (
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <Label htmlFor="amount" className="text-gray-200">
+              <Label htmlFor="amount" className="dark:text-foreground">
                 Token Reward Amount
               </Label>
               <div className="relative">
@@ -104,7 +104,7 @@ export default function CreateBountyModal({
                   min="10"
                   value={tokenAmount}
                   onChange={(e) => setTokenAmount(parseInt(e.target.value) || 0)}
-                  className="bg-gray-800 border-gray-700 text-white pl-4 pr-12"
+                  className="dark:bg-card dark:border-border text-white pl-4 pr-12"
                 />
                 <span className="absolute right-3 top-2.5 text-xs text-muted-foreground uppercase font-bold">
                   Tokens
@@ -134,11 +134,11 @@ export default function CreateBountyModal({
                  <p className="text-sm text-muted-foreground">Share this link with your friends or on social media.</p>
              </div>
 
-            <div className="flex items-center space-x-2 bg-black/30 p-2 rounded-lg border border-gray-800">
+            <div className="flex items-center space-x-2 bg-black/30 p-2 rounded-lg border dark:border-border">
               <code className="flex-1 text-sm font-mono text-muted-foreground truncate">
                 {createdBountyUrl}
               </code>
-              <Button size="sm" variant="ghost" onClick={copyToClipboard} className="hover:bg-gray-800 text-muted-foreground">
+              <Button size="sm" variant="ghost" onClick={copyToClipboard} className="hover:dark:bg-card text-muted-foreground">
                 <Copy className="h-4 w-4" />
               </Button>
             </div>

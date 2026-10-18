@@ -70,7 +70,7 @@ export default function SyncedContactsPage() {
                 </Button>
             </div>
 
-            <Card className="bg-card shadow-sm border border-gray-100 mb-8">
+            <Card className="bg-card shadow-sm border border-border mb-8">
                 <CardHeader>
                     <CardTitle className="text-xl">Your Network</CardTitle>
                     <CardDescription>

@@ -334,7 +334,7 @@ export default function ProximityFeed() {
 
                 <p className="text-foreground dark:text-foreground mb-3 whitespace-pre-wrap">{artifact.content}</p>
 
-                <div className="flex flex-wrap items-center justify-between mt-3 pt-3 border-t border-gray-50 text-xs text-muted-foreground">
+                <div className="flex flex-wrap items-center justify-between mt-3 pt-3 border-t border-border text-xs text-muted-foreground">
                   <div className="flex gap-4">
                     <span className="flex items-center gap-1 bg-muted dark:bg-background px-2 py-1 rounded-full">
                       <MapPin className="h-3 w-3" />

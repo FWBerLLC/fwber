@@ -88,7 +88,7 @@ export function VouchClient({ code }: VouchClientProps) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-600 via-indigo-600 to-blue-600 flex items-center justify-center p-4">
       <div className="bg-card dark:bg-card rounded-2xl shadow-2xl max-w-md w-full overflow-hidden">
-        <div className="bg-muted dark:bg-background p-8 text-center border-b border-gray-100">
+        <div className="bg-muted dark:bg-background p-8 text-center border-b border-border">
           <div className="w-24 h-24 mx-auto bg-purple-100 rounded-full flex items-center justify-center mb-4 relative">
             {referrer.avatar ? (
                 <img src={getAvatarUrl(referrer.avatar, referrer.name)} alt={referrer.name} className="w-full h-full rounded-full object-cover" />
@@ -115,7 +115,7 @@ export function VouchClient({ code }: VouchClientProps) {
                   <div className="space-y-3">
                     <button type="button"
                       onClick={() => handleTypeSelect('safe')}
-                      className="w-full flex items-center p-4 rounded-xl border-2 border-gray-100 hover:border-green-500 hover:bg-green-50 transition-all group"
+                      className="w-full flex items-center p-4 rounded-xl border-2 border-border hover:border-green-500 hover:bg-green-50 transition-all group"
                     >
                       <div className="p-2 bg-green-100 rounded-full mr-4 group-hover:bg-green-200">
                         <Shield className="w-6 h-6 text-green-600" />
@@ -128,7 +128,7 @@ export function VouchClient({ code }: VouchClientProps) {
 
                     <button type="button"
                       onClick={() => handleTypeSelect('fun')}
-                      className="w-full flex items-center p-4 rounded-xl border-2 border-gray-100 hover:border-purple-500 hover:bg-purple-50 transition-all group"
+                      className="w-full flex items-center p-4 rounded-xl border-2 border-border hover:border-purple-500 hover:bg-purple-50 transition-all group"
                     >
                       <div className="p-2 bg-purple-100 rounded-full mr-4 group-hover:bg-purple-200">
                         <PartyPopper className="w-6 h-6 text-purple-600" />
@@ -141,7 +141,7 @@ export function VouchClient({ code }: VouchClientProps) {
 
                     <button type="button"
                       onClick={() => handleTypeSelect('hot')}
-                      className="w-full flex items-center p-4 rounded-xl border-2 border-gray-100 hover:border-orange-500 hover:bg-orange-50 transition-all group"
+                      className="w-full flex items-center p-4 rounded-xl border-2 border-border hover:border-orange-500 hover:bg-orange-50 transition-all group"
                     >
                       <div className="p-2 bg-orange-100 rounded-full mr-4 group-hover:bg-orange-200">
                         <Flame className="w-6 h-6 text-orange-600" />

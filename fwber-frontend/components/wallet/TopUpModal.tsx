@@ -141,7 +141,7 @@ export default function TopUpModal({ isOpen, onClose, onSuccess }: TopUpModalPro
                                     {opt.fwb} FWB
                                 </div>
                                 {loading && selectedAmount === opt.usd && (
-                                    <div className="absolute inset-0 bg-card dark:bg-gray-800/50 dark:bg-black/50 flex items-center justify-center rounded-xl">
+                                    <div className="absolute inset-0 bg-card dark:dark:bg-card/50 dark:bg-black/50 flex items-center justify-center rounded-xl">
                                         <Loader2 className="w-6 h-6 animate-spin text-indigo-600" />
                                     </div>
                                 )}

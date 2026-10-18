@@ -104,7 +104,7 @@ export function AchievementsList() {
               className={`rounded-full p-2 ${
                 achievement.is_unlocked
                   ? 'bg-yellow-100 text-yellow-600 dark:bg-yellow-900/30 dark:text-yellow-400'
-                  : 'bg-muted text-muted-foreground dark:bg-gray-700 dark:text-muted-foreground'
+                  : 'bg-muted text-muted-foreground dark:dark:bg-muted dark:text-muted-foreground'
               }`}
             >
               {achievement.is_unlocked ? (

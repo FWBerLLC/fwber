@@ -81,7 +81,7 @@ export function RetentionTable() {
             </thead>
             <tbody>
               {cohorts.map((cohort) => (
-                <tr key={cohort.month} className="border-b last:border-0 hover:bg-muted dark:bg-gray-900/50">
+                <tr key={cohort.month} className="border-b last:border-0 hover:bg-muted dark:dark:bg-background/50">
                   <td className="py-2 px-2 font-medium">{cohort.month}</td>
                   <td className="py-2 px-2 text-muted-foreground">{cohort.size}</td>
                   {Array.from({ length: maxMonths }).map((_, i) => {

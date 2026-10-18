@@ -212,7 +212,7 @@ export default function PhotoRevealGate({
         {lockedRealPhotos.map((photo, index) => (
           <div 
             key={photo.id} 
-            className="relative aspect-square rounded-lg bg-gray-800 flex items-center justify-center cursor-pointer group"
+            className="relative aspect-square rounded-lg dark:bg-card flex items-center justify-center cursor-pointer group"
             onClick={onUnlockClick}
           >
             <div className="text-center text-muted-foreground">

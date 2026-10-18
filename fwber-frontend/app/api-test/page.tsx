@@ -94,7 +94,7 @@ export default function ApiTestPage() {
         {testResults.length > 0 && (
           <div className="bg-card dark:bg-card rounded-lg shadow-lg p-6">
             <h2 className="text-2xl font-semibold mb-4">Test Results</h2>
-            <div className="bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-sm overflow-auto max-h-96">
+            <div className="dark:bg-background text-green-400 p-4 rounded-lg font-mono text-sm overflow-auto max-h-96">
               {testResults.map((result, index) => (
                 <div key={index} className="mb-1">
                   {result}

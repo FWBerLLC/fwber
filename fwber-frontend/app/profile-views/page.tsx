@@ -147,8 +147,8 @@ export default function ProfileViewsPage() {
             </div>
           )}
 
-          <div className="bg-card dark:bg-background rounded-2xl border border-border dark:border-border dark:border-gray-800 overflow-hidden">
-            <div className="p-4 border-b border-border dark:border-border dark:border-gray-800">
+          <div className="bg-card dark:bg-background rounded-2xl border border-border dark:border-border dark:dark:border-border overflow-hidden">
+            <div className="p-4 border-b border-border dark:border-border dark:dark:border-border">
               <h2 className="text-lg font-semibold text-foreground dark:text-foreground flex items-center gap-2">
                 <Users className="w-5 h-5 text-blue-500" />
                 Recent Visitors
@@ -164,7 +164,7 @@ export default function ProfileViewsPage() {
                   <Link
                     key={view.id}
                     href={`/profile/${view.viewer.id}`}
-                    className="flex items-center gap-4 p-4 hover:bg-muted dark:bg-background dark:hover:bg-gray-800/50 transition-colors group"
+                    className="flex items-center gap-4 p-4 hover:bg-muted dark:bg-background dark:hover:dark:bg-card/50 transition-colors group"
                   >
                     <div className="relative">
                       <UserAvatar
@@ -273,7 +273,7 @@ function StatCard({
   }
 
   return (
-    <div className="bg-card dark:bg-background rounded-xl border border-border dark:border-border dark:border-gray-800 p-4">
+    <div className="bg-card dark:bg-background rounded-xl border border-border dark:border-border dark:dark:border-border p-4">
       <div className={`w-10 h-10 rounded-lg ${colorClasses[color]} flex items-center justify-center mb-3`}>
         {icon}
       </div>

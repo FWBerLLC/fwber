@@ -106,7 +106,7 @@ export default function InviteUserModal({ eventId, isOpen, onClose }: InviteUser
       <div className="bg-card dark:bg-card rounded-lg w-full max-w-md p-6 relative">
         <button type="button"
           onClick={onClose}
-          className="absolute top-4 right-4 text-muted-foreground hover:text-foreground dark:text-muted-foreground dark:text-muted-foreground dark:hover:text-gray-200"
+          className="absolute top-4 right-4 text-muted-foreground hover:text-foreground dark:text-muted-foreground dark:text-muted-foreground dark:hover:dark:text-foreground"
           aria-label="Close"
         >
           <X className="w-6 h-6" />
@@ -143,7 +143,7 @@ export default function InviteUserModal({ eventId, isOpen, onClose }: InviteUser
           <input
             type="text"
             placeholder={activeTab === 'friends' ? "Search matches..." : "Search groups..."}
-            className="w-full pl-10 pr-4 py-2 border rounded-lg dark:bg-gray-700 dark:border-border"
+            className="w-full pl-10 pr-4 py-2 border rounded-lg dark:dark:bg-muted dark:border-border"
           />
           <Search className="w-5 h-5 text-muted-foreground absolute left-3 top-2.5" />
         </div>
@@ -156,7 +156,7 @@ export default function InviteUserModal({ eventId, isOpen, onClose }: InviteUser
               <div className="text-center py-4 text-muted-foreground">No matches found to invite.</div>
             ) : (
               matches.map((user) => (
-                <div key={user.id} className="flex items-center justify-between p-2 hover:bg-muted dark:bg-background dark:hover:bg-gray-700 rounded-lg">
+                <div key={user.id} className="flex items-center justify-between p-2 hover:bg-muted dark:bg-background dark:hover:dark:bg-muted rounded-lg">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-muted rounded-full overflow-hidden relative">
                       {user.avatar_url ? (
@@ -203,7 +203,7 @@ export default function InviteUserModal({ eventId, isOpen, onClose }: InviteUser
               <div className="text-center py-4 text-muted-foreground">No groups found to invite.</div>
             ) : (
               groups.map((group) => (
-                <div key={group.id} className="flex items-center justify-between p-2 hover:bg-muted dark:bg-background dark:hover:bg-gray-700 rounded-lg">
+                <div key={group.id} className="flex items-center justify-between p-2 hover:bg-muted dark:bg-background dark:hover:dark:bg-muted rounded-lg">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-muted rounded-lg overflow-hidden relative flex items-center justify-center bg-indigo-100 text-indigo-600">
                       {group.icon ? (

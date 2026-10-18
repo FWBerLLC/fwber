@@ -113,13 +113,13 @@ export function WingmanDashboardModal({ matchId, matchName }: { matchId: string,
     <Dialog>
       <DialogTrigger asChild>
         <button
-          className="p-2 hover:bg-gray-700 rounded-full text-muted-foreground hover:text-indigo-400 transition-colors"
+          className="p-2 hover:dark:bg-muted rounded-full text-muted-foreground hover:text-indigo-400 transition-colors"
           title="AI Wingman Tools"
         >
           <ScrollText className="w-5 h-5" />
         </button>
       </DialogTrigger>
-      <DialogContent className="bg-gray-900 border-gray-800 text-white sm:max-w-md">
+      <DialogContent className="dark:bg-background dark:border-border text-white sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-xl font-black bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
             <Sparkles className="w-5 h-5 text-purple-400" />
@@ -127,21 +127,21 @@ export function WingmanDashboardModal({ matchId, matchName }: { matchId: string,
           </DialogTitle>
         </DialogHeader>
         
-        <div className="flex bg-gray-800 p-1 rounded-lg mb-4">
+        <div className="flex dark:bg-card p-1 rounded-lg mb-4">
           <button type="button" 
-            className={`flex-1 py-1.5 text-xs font-semibold rounded-md transition-colors ${activeTab === 'fortune' ? 'bg-purple-600 text-white' : 'text-muted-foreground hover:text-white hover:bg-gray-700'}`}
+            className={`flex-1 py-1.5 text-xs font-semibold rounded-md transition-colors ${activeTab === 'fortune' ? 'bg-purple-600 text-white' : 'text-muted-foreground hover:text-white hover:dark:bg-muted'}`}
             onClick={() => setActiveTab('fortune')}
           >
             Fortune
           </button>
           <button type="button" 
-            className={`flex-1 py-1.5 text-xs font-semibold rounded-md transition-colors ${activeTab === 'audit' ? 'bg-blue-600 text-white' : 'text-muted-foreground hover:text-white hover:bg-gray-700'}`}
+            className={`flex-1 py-1.5 text-xs font-semibold rounded-md transition-colors ${activeTab === 'audit' ? 'bg-blue-600 text-white' : 'text-muted-foreground hover:text-white hover:dark:bg-muted'}`}
             onClick={() => setActiveTab('audit')}
           >
             Audit
           </button>
           <button type="button" 
-            className={`flex-1 py-1.5 text-xs font-semibold rounded-md transition-colors ${activeTab === 'nemesis' ? 'bg-red-800 text-white' : 'text-muted-foreground hover:text-white hover:bg-gray-700'}`}
+            className={`flex-1 py-1.5 text-xs font-semibold rounded-md transition-colors ${activeTab === 'nemesis' ? 'bg-red-800 text-white' : 'text-muted-foreground hover:text-white hover:dark:bg-muted'}`}
             onClick={() => setActiveTab('nemesis')}
           >
             Nemesis

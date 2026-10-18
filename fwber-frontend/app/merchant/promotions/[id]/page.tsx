@@ -192,7 +192,7 @@ export default function MerchantPromotionDetailPage() {
     <div className="space-y-6 px-4 sm:px-0 pb-12">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <Link href="/merchant/promotions" className="mb-3 inline-flex items-center text-sm text-muted-foreground hover:text-foreground dark:text-foreground dark:hover:text-gray-200">
+          <Link href="/merchant/promotions" className="mb-3 inline-flex items-center text-sm text-muted-foreground hover:text-foreground dark:text-foreground dark:hover:dark:text-foreground">
             <ArrowLeft className="mr-1 h-4 w-4" />
             Back to Promotions
           </Link>

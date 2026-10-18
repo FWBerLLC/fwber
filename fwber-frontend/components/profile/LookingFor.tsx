@@ -21,7 +21,7 @@ export default function LookingFor({ formData, handleLookingForChange }: Looking
                 type="checkbox"
                 checked={Array.isArray(formData.looking_for) ? formData.looking_for.includes(option) : false}
                 onChange={(e) => handleLookingForChange(option, e.target.checked)}
-                className="h-5 w-5 rounded border-2 border-gray-400 text-blue-600 accent-blue-600 cursor-pointer"
+                className="h-5 w-5 rounded border-2 border-border text-blue-600 accent-blue-600 cursor-pointer"
               />
               <span className="ml-2 text-sm text-foreground dark:text-muted-foreground capitalize select-none">{option}</span>
             </label>

@@ -39,7 +39,7 @@ export default function TipButton({ recipientId, recipientName, compact = false 
       <Dialog.Trigger asChild>
         {compact ? (
           <button
-            className="p-2 hover:bg-gray-700 rounded-full text-muted-foreground hover:text-yellow-400 transition-colors"
+            className="p-2 hover:dark:bg-muted rounded-full text-muted-foreground hover:text-yellow-400 transition-colors"
             title={`Tip ${recipientName}`}
           >
             <Coins className="w-5 h-5" />
@@ -85,7 +85,7 @@ export default function TipButton({ recipientId, recipientName, compact = false 
                 type="number"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                className="flex-1 p-2 border rounded dark:bg-gray-700 dark:border-border"
+                className="flex-1 p-2 border rounded dark:dark:bg-muted dark:border-border"
                 placeholder="Custom Amount"
               />
             </div>

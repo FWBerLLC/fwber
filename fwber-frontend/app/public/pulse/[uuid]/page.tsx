@@ -99,7 +99,7 @@ export default function LivePulseBoard() {
                         </motion.h2>
                         
                         <div className="mt-12 flex items-start gap-6">
-                            <div className="p-4 rounded-2xl bg-card dark:bg-gray-800/5 border border-white/10">
+                            <div className="p-4 rounded-2xl bg-card dark:dark:bg-card/5 border border-white/10">
                                 <Info className="w-6 h-6 text-zinc-400" />
                             </div>
                             <p className="text-2xl text-zinc-300 font-medium leading-tight max-w-2xl">
@@ -136,7 +136,7 @@ export default function LivePulseBoard() {
                                     initial={{ opacity: 0, x: -20 }}
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ delay: i * 0.1 }}
-                                    className="flex items-center justify-between p-6 bg-card dark:bg-gray-800/5 rounded-2xl border border-white/5 hover:border-purple-500/30 transition-colors group"
+                                    className="flex items-center justify-between p-6 bg-card dark:dark:bg-card/5 rounded-2xl border border-white/5 hover:border-purple-500/30 transition-colors group"
                                 >
                                     <span className="text-2xl font-black uppercase italic tracking-tighter group-hover:text-purple-400 transition-colors">#{kw}</span>
                                     <TrendingUp className="w-5 h-5 text-zinc-600 group-hover:text-purple-500 transition-colors" />
@@ -165,7 +165,7 @@ export default function LivePulseBoard() {
                     </div>
                     <div className="font-black uppercase italic tracking-tighter text-xl">fwber <span className="text-purple-500">Pulse Node</span></div>
                 </div>
-                <div className="bg-card dark:bg-gray-800/5 border border-white/10 px-6 py-2 rounded-full">
+                <div className="bg-card dark:dark:bg-card/5 border border-white/10 px-6 py-2 rounded-full">
                     <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Join the pulse: </span>
                     <span className="text-[10px] font-black uppercase tracking-widest text-white ml-2">fwber.app</span>
                 </div>

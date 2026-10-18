@@ -120,7 +120,7 @@ export default function VerificationCard() {
               </Alert>
             )}
 
-            <div className="flex flex-col items-center justify-center border-2 border-dashed border-border dark:border-border rounded-lg p-6 hover:bg-muted dark:bg-background dark:hover:bg-gray-800/50 transition-colors">
+            <div className="flex flex-col items-center justify-center border-2 border-dashed border-border dark:border-border rounded-lg p-6 hover:bg-muted dark:bg-background dark:hover:dark:bg-card/50 transition-colors">
               <input
                 type="file"
                 accept="image/*"

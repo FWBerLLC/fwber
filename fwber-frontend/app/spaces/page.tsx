@@ -70,7 +70,7 @@ export default function SpacesPage() {
       <div className="min-h-screen bg-muted dark:bg-background">
         <AppHeader title="Live Spaces" />
         <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8 space-y-6">
-          <section className="rounded-2xl border border-border dark:border-border bg-card p-6 shadow-sm dark:border-gray-800 dark:bg-background">
+          <section className="rounded-2xl border border-border dark:border-border bg-card p-6 shadow-sm dark:dark:border-border dark:bg-background">
             <div className="flex items-start gap-3">
               <div className="rounded-2xl bg-sky-100 p-3 text-sky-600 dark:bg-sky-900/30 dark:text-sky-300">
                 <Radio className="h-6 w-6" />
@@ -89,7 +89,7 @@ export default function SpacesPage() {
               const Icon = space.icon
               return (
                 <Link key={space.href} href={space.href} prefetch={false} className="block">
-                  <div className="h-full rounded-2xl border border-border dark:border-border bg-card p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-gray-800 dark:bg-background">
+                  <div className="h-full rounded-2xl border border-border dark:border-border bg-card p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:dark:border-border dark:bg-background">
                     <div className={`mb-4 inline-flex rounded-xl bg-gradient-to-br ${space.accent} p-3 text-white`}>
                       <Icon className="h-5 w-5" />
                     </div>

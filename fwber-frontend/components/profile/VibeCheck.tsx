@@ -102,7 +102,7 @@ export function VibeCheck() {
   };
 
   return (
-    <Card className="bg-gray-900 overflow-hidden shadow-[0_0_15px_rgba(0,0,0,0.3)] border-purple-500/50 shadow-purple-500/20">
+    <Card className="dark:bg-background overflow-hidden shadow-[0_0_15px_rgba(0,0,0,0.3)] border-purple-500/50 shadow-purple-500/20">
       <Tabs defaultValue="vibe" className="w-full">
         <div className="bg-purple-900/20 border-purple-900/30 border-b p-4">
             <div className="flex items-center justify-between mb-4">
@@ -197,7 +197,7 @@ export function VibeCheck() {
                                 placeholder="I clap when the plane lands..."
                                 value={quirkInput}
                                 onChange={(e) => setQuirkInput(e.target.value)}
-                                className="bg-gray-800 border-gray-700 min-h-[100px]"
+                                className="dark:bg-card dark:border-border min-h-[100px]"
                             />
                         </div>
                         <Button 
@@ -215,7 +215,7 @@ export function VibeCheck() {
                     </div>
                 ) : (
                     <div className="space-y-4">
-                        <div className="text-center p-6 bg-gray-800/50 rounded-lg border border-gray-700">
+                        <div className="text-center p-6 dark:bg-card/50 rounded-lg border dark:border-border">
                             <div className="text-4xl mb-2">{quirkResult.emoji}</div>
                             <h3 className={`text-xl font-bold mb-2 ${
                                 quirkResult.flag_type === 'Green Flag' ? 'text-green-400' :

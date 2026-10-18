@@ -68,7 +68,7 @@ export default function SlowRequestAnalysis() {
             {insight.sample_slow_queries && insight.sample_slow_queries.length > 0 && (
               <div className="mt-4 border-t border-red-100 pt-3">
                 <p className="text-xs font-semibold text-red-800 mb-2">Slowest Query Sample:</p>
-                <div className="bg-gray-900 rounded p-3 overflow-x-auto">
+                <div className="dark:bg-background rounded p-3 overflow-x-auto">
                   <code className="text-xs text-green-400 font-mono whitespace-pre-wrap">
                     {insight.sample_slow_queries[0].sql}
                   </code>

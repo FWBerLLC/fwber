@@ -841,7 +841,7 @@ export default function AvatarGenerationFlow({
                   <button type="button"
                     onClick={() => setSexyBoost(!sexyBoost)}
                     className={`relative inline-flex h-7 w-14 items-center rounded-full transition-colors ${
-                      sexyBoost ? 'bg-gradient-to-r from-pink-500 to-purple-500' : 'bg-gray-300'
+                      sexyBoost ? 'bg-gradient-to-r from-pink-500 to-purple-500' : 'bg-muted'
                     }`}
                   >
                     <span
@@ -871,7 +871,7 @@ export default function AvatarGenerationFlow({
                       } ${locked ? 'bg-muted opacity-70' : 'hover:border-purple-300'}`}
                     >
                       {locked && (
-                        <div className="absolute right-2 top-2 z-10 rounded-full bg-gray-900/10 p-1">
+                        <div className="absolute right-2 top-2 z-10 rounded-full dark:bg-background/10 p-1">
                           <Lock className="h-4 w-4 text-muted-foreground" />
                         </div>
                       )}

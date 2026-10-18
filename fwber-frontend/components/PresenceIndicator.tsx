@@ -37,7 +37,7 @@ export function PresenceIndicator({
     online: 'bg-green-500',
     away: 'bg-yellow-500',
     busy: 'bg-red-500',
-    offline: 'bg-gray-400',
+    offline: 'bg-muted',
   };
 
   const labelText = {
@@ -146,14 +146,14 @@ interface OnlineUsersListProps {
 
 export function OnlineUsersList({ users, className = '', onUserClick }: OnlineUsersListProps) {
   return (
-    <div className={`bg-gray-800 rounded-lg p-4 ${className}`}>
+    <div className={`dark:bg-card rounded-lg p-4 ${className}`}>
       <h3 className="text-white font-semibold mb-3">Online Now ({users.length})</h3>
       <div className="space-y-2">
         {users.map(user => (
           <button type="button"
             key={user.user_id}
             onClick={() => onUserClick?.(user.user_id)}
-            className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700 transition-colors text-left"
+            className="w-full flex items-center gap-3 p-2 rounded-lg hover:dark:bg-muted transition-colors text-left"
           >
             <UserAvatar 
               name={user.metadata?.name || user.user_id}

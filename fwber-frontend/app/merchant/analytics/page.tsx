@@ -294,7 +294,7 @@ export default function MerchantAnalyticsPage() {
                             </CardHeader>
                             <CardContent className="space-y-8 relative z-10">
                                 <div className="flex items-center gap-4">
-                                    <div className="p-4 rounded-2xl bg-card dark:bg-gray-800/5 border border-white/10">
+                                    <div className="p-4 rounded-2xl bg-card dark:dark:bg-card/5 border border-white/10">
                                         <TrendingUp className="w-8 h-8 text-blue-400" />
                                     </div>
                                     <div>

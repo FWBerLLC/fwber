@@ -100,7 +100,7 @@ export default function MerchantRegisterPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           {/* Form Column */}
-          <div className="lg:col-span-7 bg-card dark:bg-card rounded-2xl shadow-xl border border-gray-100 dark:border-gray-800 overflow-hidden">
+          <div className="lg:col-span-7 bg-card dark:bg-card rounded-2xl shadow-xl border border-border dark:dark:border-border overflow-hidden">
             <div className="p-8 sm:p-10">
               <h2 className="text-2xl font-bold text-foreground dark:text-foreground mb-6">Business Details</h2>
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -207,7 +207,7 @@ export default function MerchantRegisterPage() {
               </ul>
             </div>
 
-            <div className="bg-card dark:bg-card rounded-2xl p-8 shadow-sm border border-gray-100 dark:border-gray-800">
+            <div className="bg-card dark:bg-card rounded-2xl p-8 shadow-sm border border-border dark:dark:border-border">
               <h4 className="text-lg font-bold text-foreground dark:text-foreground mb-4">What happens next?</h4>
               <div className="space-y-4">
                 <div className="flex gap-4">

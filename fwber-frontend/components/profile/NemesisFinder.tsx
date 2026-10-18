@@ -97,7 +97,7 @@ export function NemesisFinder({ userId }: NemesisFinderProps) {
 
   if (findNemesis.isPending) {
     return (
-      <Card className="bg-gray-900 border-gray-800">
+      <Card className="dark:bg-background dark:border-border">
         <CardContent className="p-8 flex flex-col items-center justify-center space-y-4">
           <Loader2 className="w-8 h-8 animate-spin text-emerald-500" />
           <p className="text-muted-foreground animate-pulse">
@@ -109,7 +109,7 @@ export function NemesisFinder({ userId }: NemesisFinderProps) {
   }
 
   return (
-    <Card className="bg-gray-900 overflow-hidden shadow-[0_0_15px_rgba(0,0,0,0.3)] border-emerald-500/50 shadow-emerald-500/20">
+    <Card className="dark:bg-background overflow-hidden shadow-[0_0_15px_rgba(0,0,0,0.3)] border-emerald-500/50 shadow-emerald-500/20">
       <CardHeader className="bg-emerald-900/20 border-emerald-900/30 border-b pb-4">
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg font-semibold text-white flex items-center gap-2">
@@ -138,7 +138,7 @@ export function NemesisFinder({ userId }: NemesisFinderProps) {
             </div>
 
             {/* Clashing Traits */}
-            <div className="bg-gray-800/50 rounded-lg p-3 border border-gray-700">
+            <div className="dark:bg-card/50 rounded-lg p-3 border dark:border-border">
                 <h4 className="text-xs font-semibold text-muted-foreground uppercase mb-2 flex items-center gap-1">
                     <Zap className="w-3 h-3" /> Incompatible Traits
                 </h4>

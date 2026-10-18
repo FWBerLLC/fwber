@@ -33,7 +33,7 @@ export function ProfileAnalysis() {
 
   if (isLoading) {
     return (
-      <Card className="bg-gray-900 border-gray-800">
+      <Card className="dark:bg-background dark:border-border">
         <CardContent className="p-8 flex flex-col items-center justify-center space-y-4">
           <Loader2 className="w-8 h-8 text-purple-500 animate-spin" />
           <p className="text-muted-foreground animate-pulse">Analyzing your profile...</p>
@@ -68,8 +68,8 @@ export function ProfileAnalysis() {
   };
 
   return (
-    <Card className="bg-gray-900 border-gray-800 overflow-hidden">
-      <CardHeader className="bg-gray-800/50 border-b border-gray-800 pb-4">
+    <Card className="dark:bg-background dark:border-border overflow-hidden">
+      <CardHeader className="dark:bg-card/50 border-b dark:border-border pb-4">
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg font-semibold text-white flex items-center gap-2">
             <Sparkles className="w-5 h-5 text-purple-500" />

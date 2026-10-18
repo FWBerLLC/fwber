@@ -188,7 +188,7 @@ const ArtifactCard = ({
         <p className="text-sm mb-3 font-medium">{artifact.content}</p>
 
         {artifact.scene_signals && (
-          <div className="mb-3 rounded-xl border border-black/10 bg-card dark:bg-gray-800/50 p-3">
+          <div className="mb-3 rounded-xl border border-black/10 bg-card dark:dark:bg-card/50 p-3">
             <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-purple-700">
               <Tag className="h-3.5 w-3.5" />
               <span>Scene aligned +{Math.round(artifact.scene_signals.score_boost * 100)} pts</span>
@@ -208,7 +208,7 @@ const ArtifactCard = ({
               {(Array.isArray(artifact.scene_signals.matched_tags) ? artifact.scene_signals.matched_tags : []).map((tag) => (
                 <span
                   key={`scene-tag-${artifact.id}-${tag}`}
-                  className="rounded-full bg-gray-900/5 px-2.5 py-1 text-xs font-medium text-foreground dark:text-muted-foreground"
+                  className="rounded-full dark:bg-background/5 px-2.5 py-1 text-xs font-medium text-foreground dark:text-muted-foreground"
                 >
                   #{tag}
                 </span>
@@ -218,7 +218,7 @@ const ArtifactCard = ({
         )}
 
         {isPromotion && artifact.meta?.promo_code && (
-          <div className="mb-3 bg-card dark:bg-gray-800/50 p-2 rounded border border-amber-200 border-dashed text-center">
+          <div className="mb-3 bg-card dark:dark:bg-card/50 p-2 rounded border border-amber-200 border-dashed text-center">
             <span className="text-xs text-amber-800 block mb-1">PROMO CODE</span>
             <span className="font-mono font-bold text-lg tracking-wider select-all">
               {artifact.meta.promo_code}
@@ -272,7 +272,7 @@ const ArtifactCard = ({
             <div className="space-y-4 mb-4 max-h-60 overflow-y-auto">
               {comments.filter(c => !c.parent_id).map(comment => (
                 <div key={comment.id} className="space-y-2">
-                  <div className="bg-white/50 dark:bg-gray-800/50 p-2 rounded">
+                  <div className="bg-card/50 dark:dark:bg-card/50 p-2 rounded">
                     <p className="text-sm">{comment.content}</p>
                     <button type="button"
                       onClick={() => setReplyingTo(replyingTo === comment.id ? null : comment.id)}
@@ -285,7 +285,7 @@ const ArtifactCard = ({
                   {/* Replies */}
                   <div className="ml-4 space-y-2 border-l-2 border-black/5 pl-2">
                     {comments.filter(c => c.parent_id === comment.id).map(reply => (
-                      <div key={reply.id} className="bg-white/30 dark:bg-gray-800/30 p-2 rounded">
+                      <div key={reply.id} className="bg-card/30 dark:dark:bg-card/30 p-2 rounded">
                         <p className="text-xs">{reply.content}</p>
                       </div>
                     ))}
@@ -977,7 +977,7 @@ function LiveStatusBanner() {
   }
   return (
     <div className="mb-4 flex items-center space-x-2 text-sm text-muted-foreground">
-      <span className={`inline-block h-2 w-2 rounded-full ${isConnected ? 'bg-green-500' : 'bg-gray-400'}`} />
+      <span className={`inline-block h-2 w-2 rounded-full ${isConnected ? 'bg-green-500' : 'bg-muted'}`} />
       <span>{isConnected ? 'Live updates on' : 'Live updates connecting...'}</span>
     </div>
   );

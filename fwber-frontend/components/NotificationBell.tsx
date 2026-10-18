@@ -181,7 +181,7 @@ export function NotificationBell({ className = '' }: NotificationBellProps) {
 
       {isOpen && (
         <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-card dark:bg-card rounded-xl shadow-xl border border-border dark:border-border z-50 overflow-hidden">
-          <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 bg-muted dark:bg-background">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-muted dark:bg-background">
             <h3 className="font-semibold text-foreground dark:text-foreground">Notifications</h3>
             <div className="flex items-center gap-2">
               {unreadCount > 0 && (
@@ -269,7 +269,7 @@ export function NotificationBell({ className = '' }: NotificationBellProps) {
           </div>
 
           {notifications.length > 0 && (
-            <div className="border-t border-gray-100 px-4 py-3 bg-muted dark:bg-background">
+            <div className="border-t border-border px-4 py-3 bg-muted dark:bg-background">
               <Link
                 href="/notifications"
                 onClick={() => setIsOpen(false)}

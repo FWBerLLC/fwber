@@ -47,7 +47,7 @@ export function CallHistory() {
         }
 
         return (
-          <div key={call.id} className="flex items-center justify-between p-3 bg-card dark:bg-card rounded-lg shadow-sm border border-gray-100">
+          <div key={call.id} className="flex items-center justify-between p-3 bg-card dark:bg-card rounded-lg shadow-sm border border-border">
             <div className="flex items-center gap-3">
               <div className={`p-2 rounded-full bg-muted dark:bg-background ${color}`}>
                 <Icon className="w-5 h-5" />

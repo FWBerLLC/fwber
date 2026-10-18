@@ -86,14 +86,14 @@ export default function ChatroomsPage() {
         </div>
 
         {/* Tabs */}
-        <div className="border-b border-border dark:border-border dark:border-gray-800 mb-6">
+        <div className="border-b border-border dark:border-border dark:dark:border-border mb-6">
           <nav className="-mb-px flex space-x-8">
             <button type="button"
               onClick={() => setActiveTab('all')}
               className={`${
                 activeTab === 'all'
                   ? 'border-blue-500 text-blue-600 dark:text-blue-400'
-                  : 'border-transparent text-muted-foreground dark:text-muted-foreground hover:text-foreground dark:hover:text-muted-foreground hover:border-border dark:hover:border-gray-700'
+                  : 'border-transparent text-muted-foreground dark:text-muted-foreground hover:text-foreground dark:hover:text-muted-foreground hover:border-border dark:hover:dark:border-border'
               } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors`}
             >
               All Chatrooms
@@ -103,7 +103,7 @@ export default function ChatroomsPage() {
               className={`${
                 activeTab === 'nearby'
                   ? 'border-blue-500 text-blue-600 dark:text-blue-400'
-                  : 'border-transparent text-muted-foreground dark:text-muted-foreground hover:text-foreground dark:hover:text-muted-foreground hover:border-border dark:hover:border-gray-700'
+                  : 'border-transparent text-muted-foreground dark:text-muted-foreground hover:text-foreground dark:hover:text-muted-foreground hover:border-border dark:hover:dark:border-border'
               } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors`}
             >
               📍 Nearby
@@ -113,7 +113,7 @@ export default function ChatroomsPage() {
 
         {/* Search and Filters - Only show for 'all' tab or if we want to filter nearby too */}
         {activeTab === 'all' && (
-          <div className="bg-card dark:bg-background rounded-lg shadow-sm border border-border dark:border-border dark:border-gray-800 p-6 mb-8">
+          <div className="bg-card dark:bg-background rounded-lg shadow-sm border border-border dark:border-border dark:dark:border-border p-6 mb-8">
           <div className="flex flex-col lg:flex-row gap-4">
             {/* Search */}
             <div className="flex-1">
@@ -205,7 +205,7 @@ export default function ChatroomsPage() {
                 <Link
                   key={chatroom.id}
                   href={`/chatrooms/${chatroom.id}`}
-                  className="bg-card dark:bg-background rounded-lg shadow-sm border border-border dark:border-border dark:border-gray-800 p-4 hover:shadow-md dark:hover:shadow-lg transition-shadow group"
+                  className="bg-card dark:bg-background rounded-lg shadow-sm border border-border dark:border-border dark:dark:border-border p-4 hover:shadow-md dark:hover:shadow-lg transition-shadow group"
                 >
                   <div className="flex items-start justify-between mb-2">
                     <h3 className="font-medium text-foreground dark:text-foreground group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{chatroom.display_name}</h3>
@@ -241,8 +241,8 @@ export default function ChatroomsPage() {
         )}
 
         {/* Chatrooms List */}
-        <div className="bg-card dark:bg-background rounded-lg shadow-sm border border-border dark:border-border dark:border-gray-800">
-          <div className="px-6 py-4 border-b border-border dark:border-border dark:border-gray-800">
+        <div className="bg-card dark:bg-background rounded-lg shadow-sm border border-border dark:border-border dark:dark:border-border">
+          <div className="px-6 py-4 border-b border-border dark:border-border dark:dark:border-border">
             <h2 className="text-xl font-semibold text-foreground dark:text-foreground">
               {activeTab === 'nearby' 
                 ? '📍 Nearby Chatrooms'
@@ -264,7 +264,7 @@ export default function ChatroomsPage() {
                 <Link
                   key={chatroom.id}
                   href={`/chatrooms/${chatroom.id}${activeTab === 'nearby' ? '?type=proximity' : ''}`}
-                  className="block p-6 hover:bg-muted dark:bg-background dark:hover:bg-gray-800/50 transition-colors group"
+                  className="block p-6 hover:bg-muted dark:bg-background dark:hover:dark:bg-card/50 transition-colors group"
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
@@ -380,13 +380,13 @@ export default function ChatroomsPage() {
         {displayChatrooms && displayChatrooms.length > 0 && (
           <div className="mt-8 flex justify-center">
             <nav className="flex items-center space-x-2">
-              <button className="px-3 py-2 text-sm font-medium text-muted-foreground dark:text-muted-foreground bg-card dark:bg-background border border-border dark:border-border dark:border-gray-800 rounded-md hover:bg-muted dark:hover:bg-gray-800 transition-colors">
+              <button className="px-3 py-2 text-sm font-medium text-muted-foreground dark:text-muted-foreground bg-card dark:bg-background border border-border dark:border-border dark:dark:border-border rounded-md hover:bg-muted dark:hover:dark:bg-card transition-colors">
                 Previous
               </button>
               <button className="px-3 py-2 text-sm font-medium text-white bg-blue-600 dark:bg-blue-500 border border-transparent rounded-md">
                 1
               </button>
-              <button className="px-3 py-2 text-sm font-medium text-muted-foreground dark:text-muted-foreground bg-card dark:bg-background border border-border dark:border-border dark:border-gray-800 rounded-md hover:bg-muted dark:hover:bg-gray-800 transition-colors">
+              <button className="px-3 py-2 text-sm font-medium text-muted-foreground dark:text-muted-foreground bg-card dark:bg-background border border-border dark:border-border dark:dark:border-border rounded-md hover:bg-muted dark:hover:dark:bg-card transition-colors">
                 Next
               </button>
             </nav>

@@ -22,14 +22,14 @@ export default function GiftsSendPage() {
           <div className="mb-6">
             <Link
               href="/gifts"
-              className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground dark:text-muted-foreground dark:text-muted-foreground dark:hover:text-gray-200"
+              className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground dark:text-muted-foreground dark:text-muted-foreground dark:hover:dark:text-foreground"
             >
               <ArrowLeft className="w-4 h-4" />
               Back to Gifts
             </Link>
           </div>
 
-          <div className="rounded-2xl border border-border dark:border-border bg-card p-8 shadow-sm dark:border-gray-800 dark:bg-background text-center">
+          <div className="rounded-2xl border border-border dark:border-border bg-card p-8 shadow-sm dark:dark:border-border dark:bg-background text-center">
             <Gift className="w-16 h-16 mx-auto mb-4 text-pink-500" />
             <h1 className="text-2xl font-bold text-foreground dark:text-foreground mb-2">
               {receiverName ? `Send a gift to ${receiverName}` : 'Send a Gift'}

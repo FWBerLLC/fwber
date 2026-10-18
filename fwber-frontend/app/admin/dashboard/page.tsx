@@ -24,7 +24,7 @@ export default function ProjectDashboardPage() {
               <div className="flex items-center gap-3">
                 <a
                   href="/admin/settings"
-                  className="rounded-md bg-card dark:bg-card border border-border dark:border-border px-4 py-2 text-sm font-medium text-foreground dark:text-muted-foreground hover:bg-muted dark:bg-background dark:hover:bg-gray-700 transition-colors"
+                  className="rounded-md bg-card dark:bg-card border border-border dark:border-border px-4 py-2 text-sm font-medium text-foreground dark:text-muted-foreground hover:bg-muted dark:bg-background dark:hover:dark:bg-muted transition-colors"
                 >
                   Back to Settings
                 </a>
@@ -41,7 +41,7 @@ export default function ProjectDashboardPage() {
               Component Versions
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-card dark:bg-background rounded-lg border border-border dark:border-border dark:border-gray-800 p-6 shadow-sm">
+              <div className="bg-card dark:bg-background rounded-lg border border-border dark:border-border dark:dark:border-border p-6 shadow-sm">
                 <div className="flex items-center justify-between mb-2">
                   <span className="font-medium text-foreground dark:text-foreground">Project Root</span>
                   <span className="text-xs font-medium bg-indigo-100 dark:bg-indigo-900/30 text-indigo-800 dark:text-indigo-300 px-2 py-0.5 rounded-full">
@@ -52,7 +52,7 @@ export default function ProjectDashboardPage() {
                 <div className="mt-4 text-xs text-muted-foreground dark:text-muted-foreground font-mono">Source: /VERSION</div>
               </div>
 
-              <div className="bg-card dark:bg-background rounded-lg border border-border dark:border-border dark:border-gray-800 p-6 shadow-sm">
+              <div className="bg-card dark:bg-background rounded-lg border border-border dark:border-border dark:dark:border-border p-6 shadow-sm">
                 <div className="flex items-center justify-between mb-2">
                   <span className="font-medium text-foreground dark:text-foreground">Backend API</span>
                   <span className="text-xs font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 px-2 py-0.5 rounded-full">
@@ -63,7 +63,7 @@ export default function ProjectDashboardPage() {
                 <div className="mt-4 text-xs text-muted-foreground dark:text-muted-foreground font-mono">Source: /fwber-backend/package.json</div>
               </div>
 
-              <div className="bg-card dark:bg-background rounded-lg border border-border dark:border-border dark:border-gray-800 p-6 shadow-sm">
+              <div className="bg-card dark:bg-background rounded-lg border border-border dark:border-border dark:dark:border-border p-6 shadow-sm">
                 <div className="flex items-center justify-between mb-2">
                   <span className="font-medium text-foreground dark:text-foreground">Frontend App</span>
                   <span className="text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 px-2 py-0.5 rounded-full">
@@ -82,7 +82,7 @@ export default function ProjectDashboardPage() {
               <Folder className="h-5 w-5 text-muted-foreground dark:text-muted-foreground" />
               Project Structure
             </h2>
-            <div className="bg-card dark:bg-background rounded-lg border border-border dark:border-border dark:border-gray-800 overflow-hidden shadow-sm">
+            <div className="bg-card dark:bg-background rounded-lg border border-border dark:border-border dark:dark:border-border overflow-hidden shadow-sm">
               <div className="p-6">
                 <div className="space-y-6">
                   <div className="flex items-start gap-4">
@@ -109,7 +109,7 @@ export default function ProjectDashboardPage() {
                     </div>
                   </div>
 
-                  <div className="border-t border-gray-100 dark:border-gray-800 pt-6 flex items-start gap-4">
+                  <div className="border-t border-border dark:dark:border-border pt-6 flex items-start gap-4">
                     <div className="p-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
                       <Server className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                     </div>
@@ -132,7 +132,7 @@ export default function ProjectDashboardPage() {
                     </div>
                   </div>
 
-                  <div className="border-t border-gray-100 dark:border-gray-800 pt-6 flex items-start gap-4">
+                  <div className="border-t border-border dark:dark:border-border pt-6 flex items-start gap-4">
                     <div className="p-2 bg-green-50 dark:bg-green-900/20 rounded-lg">
                       <Database className="h-6 w-6 text-green-600 dark:text-green-400" />
                     </div>
@@ -155,7 +155,7 @@ export default function ProjectDashboardPage() {
                     </div>
                   </div>
 
-                  <div className="border-t border-gray-100 dark:border-gray-800 pt-6 flex items-start gap-4">
+                  <div className="border-t border-border dark:dark:border-border pt-6 flex items-start gap-4">
                     <div className="p-2 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
                       <FileText className="h-6 w-6 text-yellow-600 dark:text-yellow-400" />
                     </div>

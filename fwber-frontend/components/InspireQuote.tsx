@@ -42,7 +42,7 @@ export default function InspireQuote() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(244,114,182,0.18),_transparent_35%),radial-gradient(circle_at_bottom_left,_rgba(34,211,238,0.16),_transparent_30%)] pointer-events-none" />
 
       <div className="relative z-10 flex items-start gap-4">
-        <div className="rounded-xl border border-fuchsia-200/80 bg-card dark:bg-gray-800/85 p-2.5 shadow-sm dark:border-cyan-400/20 dark:bg-white/10">
+        <div className="rounded-xl border border-fuchsia-200/80 bg-card dark:dark:bg-card/85 p-2.5 shadow-sm dark:border-cyan-400/20 dark:bg-card/10">
           <Quote className="h-5 w-5 text-fuchsia-500 dark:text-cyan-300" />
         </div>
         <p className="text-lg md:text-xl font-medium italic leading-relaxed text-slate-800 dark:bg-gradient-to-r dark:from-cyan-200 dark:via-white dark:to-fuchsia-200 dark:bg-clip-text dark:text-transparent">

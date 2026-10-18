@@ -69,7 +69,7 @@ export default function LandingVariantB() {
         <ReferralBanner />
       </Suspense>
       {/* Navigation */}
-      <nav className="sticky top-0 z-50 border-b border-slate-200/70 bg-card backdrop-blur-xl dark:border-slate-800/80 dark:bg-gray-800/90 dark:bg-slate-950/85">
+      <nav className="sticky top-0 z-50 border-b border-slate-200/70 bg-card backdrop-blur-xl dark:border-slate-800/80 dark:dark:bg-card/90 dark:bg-slate-950/85">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 justify-between">
             <div className="flex items-center">
@@ -131,7 +131,7 @@ export default function LandingVariantB() {
               with end-to-end encryption.
             </p>
 
-            <div className="mx-auto mb-10 w-full max-w-2xl rounded-[28px] border border-white/70 bg-card p-4 shadow-[0_24px_60px_rgba(15,23,42,0.08)] backdrop-blur-xl dark:border-white/10 dark:bg-gray-800/70 dark:bg-slate-900/35">
+            <div className="mx-auto mb-10 w-full max-w-2xl rounded-[28px] border border-white/70 bg-card p-4 shadow-[0_24px_60px_rgba(15,23,42,0.08)] backdrop-blur-xl dark:border-white/10 dark:dark:bg-card/70 dark:bg-slate-900/35">
               <InspireQuote />
             </div>
 
@@ -211,7 +211,7 @@ export default function LandingVariantB() {
               </div>
             </div>
 
-            <div className="mt-12 border-t border-gray-200/60 pt-8 dark:border-gray-700/60">
+            <div className="mt-12 border-t border-border/60 pt-8 dark:dark:border-border/60">
               <p className="mb-6 text-sm font-bold uppercase tracking-widest text-muted-foreground dark:text-muted-foreground">
                 A Community for Every Orientation and Identity
               </p>
@@ -425,7 +425,7 @@ export default function LandingVariantB() {
       </div>
 
       {/* Safety Section */}
-      <div id="safety" className="bg-gray-900 py-24 text-white">
+      <div id="safety" className="dark:bg-background py-24 text-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center justify-between md:flex-row">
             <div className="mb-12 md:mb-0 md:w-1/2">
@@ -450,7 +450,7 @@ export default function LandingVariantB() {
               </ul>
             </div>
             <div className="md:w-5/12">
-              <div className="rounded-2xl border border-gray-700 bg-gray-800 p-8">
+              <div className="rounded-2xl border dark:border-border dark:bg-card p-8">
                 <h3 className="mb-4 text-2xl font-bold">Join 50,000+ Members</h3>
                 <p className="mb-8 text-muted-foreground">
                   Create your free account today and start exploring matches in your area.
@@ -494,7 +494,7 @@ export default function LandingVariantB() {
       </footer>
 
       {/* Mobile Bottom Navigation */}
-      <div className="pb-safe fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-card md:hidden dark:border-border dark:border-gray-800 dark:bg-background">
+      <div className="pb-safe fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-card md:hidden dark:border-border dark:dark:border-border dark:bg-background">
         <div className="flex h-16 items-center justify-around">
           <Link
             href="/"

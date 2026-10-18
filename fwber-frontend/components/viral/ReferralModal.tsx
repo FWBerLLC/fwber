@@ -141,7 +141,7 @@ export function ReferralModal({ trigger }: ReferralModalProps) {
               className="group relative gap-2 overflow-hidden border border-amber-300/70 bg-gradient-to-r from-amber-400 via-yellow-300 to-orange-400 px-5 text-sm font-extrabold text-slate-950 shadow-[0_0_24px_rgba(251,191,36,0.45)] transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_32px_rgba(251,191,36,0.65)]"
             >
               <span className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.65),_transparent_55%)] opacity-80" />
-              <span className="absolute inset-y-0 left-[-35%] w-1/3 -skew-x-12 bg-card dark:bg-gray-800/40 blur-md transition-transform duration-500 group-hover:translate-x-[230%]" />
+              <span className="absolute inset-y-0 left-[-35%] w-1/3 -skew-x-12 bg-card dark:dark:bg-card/40 blur-md transition-transform duration-500 group-hover:translate-x-[230%]" />
               <Sparkles className="relative h-4 w-4 animate-pulse" />
               <Gift className="relative h-4 w-4" />
               <span className="relative">Invite &amp; Earn</span>
@@ -262,14 +262,14 @@ export function ReferralModal({ trigger }: ReferralModalProps) {
                   </p>
                 </div>
               </div>
-              <div className="text-center my-2 bg-card dark:bg-gray-800/50 rounded-lg py-2">
+              <div className="text-center my-2 bg-card dark:dark:bg-card/50 rounded-lg py-2">
                 <span className="text-2xl font-bold text-blue-700">{vouchCount}</span>
                 <span className="text-xs text-blue-600 uppercase tracking-wide ml-1">Vouches Received</span>
               </div>
               <div className="flex gap-2 mt-3 justify-center">
-                <span className="flex items-center text-xs bg-card dark:bg-gray-800/50 px-2 py-1 rounded-full text-green-700 font-bold"><Shield className="w-3 h-3 mr-1" /> Safe</span>
-                <span className="flex items-center text-xs bg-card dark:bg-gray-800/50 px-2 py-1 rounded-full text-purple-700 font-bold"><PartyPopper className="w-3 h-3 mr-1" /> Fun</span>
-                <span className="flex items-center text-xs bg-card dark:bg-gray-800/50 px-2 py-1 rounded-full text-orange-700 font-bold"><Flame className="w-3 h-3 mr-1" /> Hot</span>
+                <span className="flex items-center text-xs bg-card dark:dark:bg-card/50 px-2 py-1 rounded-full text-green-700 font-bold"><Shield className="w-3 h-3 mr-1" /> Safe</span>
+                <span className="flex items-center text-xs bg-card dark:dark:bg-card/50 px-2 py-1 rounded-full text-purple-700 font-bold"><PartyPopper className="w-3 h-3 mr-1" /> Fun</span>
+                <span className="flex items-center text-xs bg-card dark:dark:bg-card/50 px-2 py-1 rounded-full text-orange-700 font-bold"><Flame className="w-3 h-3 mr-1" /> Hot</span>
               </div>
             </div>
 

@@ -58,9 +58,9 @@ export default function LeaderboardPage() {
 
   const getRankBg = (rank: number) => {
     if (rank === 1) return 'bg-gradient-to-r from-yellow-500/10 to-amber-500/10 border-yellow-500/30'
-    if (rank === 2) return 'bg-gradient-to-r from-gray-400/10 to-gray-500/10 border-gray-400/30'
+    if (rank === 2) return 'bg-gradient-to-r from-gray-400/10 to-gray-500/10 border-border/30'
     if (rank === 3) return 'bg-gradient-to-r from-amber-600/10 to-orange-600/10 border-amber-600/30'
-    return 'bg-card dark:bg-gray-800/50 border-border dark:border-border'
+    return 'bg-card dark:dark:bg-card/50 border-border dark:border-border'
   }
 
   const tabs: { id: TabType; label: string; icon: React.ReactNode }[] = [
@@ -111,14 +111,14 @@ export default function LeaderboardPage() {
           )}
 
           {/* Tabs */}
-          <div className="flex gap-1 p-1 bg-gray-200/50 dark:bg-gray-800/50 rounded-xl mb-6">
+          <div className="flex gap-1 p-1 bg-muted/50 dark:dark:bg-card/50 rounded-xl mb-6">
             {tabs.map(tab => (
               <button type="button"
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold transition ${
                   activeTab === tab.id
-                    ? 'bg-card dark:bg-gray-700 text-foreground dark:text-foreground shadow-sm'
+                    ? 'bg-card dark:dark:bg-muted text-foreground dark:text-foreground shadow-sm'
                     : 'text-muted-foreground hover:text-foreground dark:hover:text-muted-foreground'
                 }`}
               >

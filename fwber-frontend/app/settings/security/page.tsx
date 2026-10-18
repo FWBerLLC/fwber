@@ -178,7 +178,7 @@ export default function SecuritySettingsPage() {
             <CardContent>
               <div className="flex items-center justify-between p-4 bg-purple-50 dark:bg-purple-900/10 rounded-lg border border-purple-100 dark:border-purple-900/30">
                 <div className="flex items-center gap-3">
-                  <div className={`w-3 h-3 rounded-full ${isConfessional ? 'bg-purple-500' : 'bg-gray-500'}`} />
+                  <div className={`w-3 h-3 rounded-full ${isConfessional ? 'bg-purple-500' : 'bg-muted'}`} />
                   <div>
                     <Label htmlFor="confessional-toggle" className="font-medium text-sm text-foreground dark:text-foreground cursor-pointer">
                       Enable Confessional Mode

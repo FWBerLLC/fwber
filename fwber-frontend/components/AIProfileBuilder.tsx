@@ -266,7 +266,7 @@ export default function AIProfileBuilder({
                         className={`px-3 py-1 text-sm rounded ${
                           selectedContent === suggestion.content
                             ? 'bg-blue-500 text-white'
-                            : 'bg-muted text-foreground hover:bg-gray-300'
+                            : 'bg-muted text-foreground hover:bg-muted'
                         }`}
                       >
                         {selectedContent === suggestion.content ? 'Selected' : 'Select'}

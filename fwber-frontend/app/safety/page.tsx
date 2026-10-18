@@ -291,7 +291,7 @@ export default function SafetyPage() {
                                 {isLoadingContacts ? (
                                     <p className="text-center text-sm text-muted-foreground py-4">Loading contacts...</p>
                                 ) : contacts.length === 0 ? (
-                                    <div className="text-center p-6 border-2 border-dashed border-border dark:border-border dark:border-gray-800 rounded-lg">
+                                    <div className="text-center p-6 border-2 border-dashed border-border dark:border-border dark:dark:border-border rounded-lg">
                                         <p className="text-muted-foreground dark:text-muted-foreground">No emergency contacts set up yet. Please add one for your safety.</p>
                                     </div>
                                 ) : (

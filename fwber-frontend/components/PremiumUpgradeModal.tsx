@@ -112,7 +112,7 @@ export const PremiumUpgradeModal = ({ isOpen, onClose }: PremiumUpgradeModalProp
                   onClick={() => setPaymentMethod('token')}
                   className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-md text-sm font-medium transition-all ${
                     paymentMethod === 'token'
-                      ? 'bg-card dark:bg-gray-700 shadow-sm text-purple-600 dark:text-purple-400'
+                      ? 'bg-card dark:dark:bg-muted shadow-sm text-purple-600 dark:text-purple-400'
                       : 'text-muted-foreground hover:text-foreground dark:text-muted-foreground'
                   }`}
                 >
@@ -124,7 +124,7 @@ export const PremiumUpgradeModal = ({ isOpen, onClose }: PremiumUpgradeModalProp
                   disabled={!stripeEnabled}
                   className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-md text-sm font-medium transition-all ${
                     paymentMethod === 'stripe'
-                      ? 'bg-card dark:bg-gray-700 shadow-sm text-purple-600 dark:text-purple-400'
+                      ? 'bg-card dark:dark:bg-muted shadow-sm text-purple-600 dark:text-purple-400'
                       : 'text-muted-foreground hover:text-foreground dark:text-muted-foreground'
                   } ${!stripeEnabled ? 'cursor-not-allowed opacity-50' : ''}`}
                 >

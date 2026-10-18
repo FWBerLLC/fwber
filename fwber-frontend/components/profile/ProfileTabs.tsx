@@ -90,7 +90,7 @@ export default function ProfileTabs({
           <button
             type="button"
             onClick={() => scroll('left')}
-            className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-muted dark:bg-gray-700 hover:bg-muted dark:hover:bg-gray-600 transition-colors z-10"
+            className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-muted dark:dark:bg-muted hover:bg-muted dark:hover:dark:bg-muted transition-colors z-10"
             aria-label="Scroll tabs left"
           >
             <ChevronLeft className="w-4 h-4" />
@@ -118,7 +118,7 @@ export default function ProfileTabs({
           <button
             type="button"
             onClick={() => scroll('right')}
-            className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-muted dark:bg-gray-700 hover:bg-muted dark:hover:bg-gray-600 transition-colors z-10"
+            className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-muted dark:dark:bg-muted hover:bg-muted dark:hover:dark:bg-muted transition-colors z-10"
             aria-label="Scroll tabs right"
           >
             <ChevronRight className="w-4 h-4" />

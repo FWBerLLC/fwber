@@ -69,7 +69,7 @@ export default function EventPaymentModal({ isOpen, onClose, event }: EventPayme
               onClick={() => setPaymentMethod('token')}
               className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-md text-sm font-medium transition-all ${
                 paymentMethod === 'token'
-                  ? 'bg-card dark:bg-gray-700 shadow-sm text-purple-600 dark:text-purple-400'
+                  ? 'bg-card dark:dark:bg-muted shadow-sm text-purple-600 dark:text-purple-400'
                   : 'text-muted-foreground hover:text-foreground dark:text-muted-foreground'
               }`}
             >
@@ -80,7 +80,7 @@ export default function EventPaymentModal({ isOpen, onClose, event }: EventPayme
               onClick={() => setPaymentMethod('stripe')}
               className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-md text-sm font-medium transition-all ${
                 paymentMethod === 'stripe'
-                  ? 'bg-card dark:bg-gray-700 shadow-sm text-purple-600 dark:text-purple-400'
+                  ? 'bg-card dark:dark:bg-muted shadow-sm text-purple-600 dark:text-purple-400'
                   : 'text-muted-foreground hover:text-foreground dark:text-muted-foreground'
               }`}
             >
@@ -115,7 +115,7 @@ export default function EventPaymentModal({ isOpen, onClose, event }: EventPayme
               disabled={isPending || (paymentMethod === 'token' && tokenBalance < tokenPrice)}
               className={`w-full py-3 px-4 rounded-lg font-bold text-white transition-all ${
                 isPending || (paymentMethod === 'token' && tokenBalance < tokenPrice)
-                  ? 'bg-gray-400 cursor-not-allowed'
+                  ? 'bg-muted cursor-not-allowed'
                   : 'bg-purple-600 hover:bg-purple-700 shadow-lg hover:shadow-xl'
               }`}
             >

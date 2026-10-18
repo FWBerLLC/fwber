@@ -156,7 +156,7 @@ export default function MerchantDashboard() {
                  </Link>
             </div>
              {promotions.length === 0 ? (
-                <Card className="bg-muted dark:bg-background dark:bg-gray-800/50 border-dashed">
+                <Card className="bg-muted dark:bg-background dark:dark:bg-card/50 border-dashed">
                     <CardContent className="flex flex-col items-center justify-center py-10 text-center">
                         <Tag className="h-10 w-10 text-muted-foreground mb-4" />
                         <h3 className="text-lg font-medium text-foreground dark:text-foreground dark:text-foreground">No promotions yet</h3>

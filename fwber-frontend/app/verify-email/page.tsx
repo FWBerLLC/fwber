@@ -86,7 +86,7 @@ export default function VerifyEmailPage() {
                 </Link>
                 <Link
                   href="/login"
-                  className="w-full flex items-center justify-center gap-2 px-6 py-3 border border-border dark:border-border text-foreground dark:text-muted-foreground font-semibold rounded-xl transition hover:bg-muted dark:hover:bg-gray-700"
+                  className="w-full flex items-center justify-center gap-2 px-6 py-3 border border-border dark:border-border text-foreground dark:text-muted-foreground font-semibold rounded-xl transition hover:bg-muted dark:hover:dark:bg-muted"
                 >
                   Back to Login
                 </Link>

@@ -393,7 +393,7 @@ export default function HelpArticlePage() {
         </CardContent>
 
         {/* Feedback Section */}
-        <div className="border-t border-gray-100 dark:border-gray-800 mt-8 pt-6">
+        <div className="border-t border-border dark:dark:border-border mt-8 pt-6">
           <div className="flex flex-col items-center justify-center space-y-4">
             <p className="text-sm text-muted-foreground font-medium">Was this article helpful?</p>
             <div className="flex gap-4">

@@ -65,7 +65,7 @@ export default function SentryTestPage() {
         <h1 className="text-4xl font-bold mb-2">🔍 Sentry Test Dashboard</h1>
         <p className="text-muted-foreground mb-8">Test your error tracking integration</p>
 
-        <div className="bg-gray-800 rounded-lg p-6 mb-6 border border-gray-700">
+        <div className="dark:bg-card rounded-lg p-6 mb-6 border dark:border-border">
           <h2 className="text-xl font-semibold mb-4">📊 Configuration Status</h2>
           <div className="space-y-2 text-sm">
             <div className="flex items-center">
@@ -85,7 +85,7 @@ export default function SentryTestPage() {
           </div>
         </div>
 
-        <div className="bg-gray-800 rounded-lg p-6 mb-6 border border-gray-700">
+        <div className="dark:bg-card rounded-lg p-6 mb-6 border dark:border-border">
           <h2 className="text-xl font-semibold mb-4">🧪 Test Error Logging</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <button type="button"
@@ -146,13 +146,13 @@ export default function SentryTestPage() {
           </div>
 
           {testResult && (
-            <div className="mt-6 p-4 bg-gray-900 rounded-lg border border-gray-600">
+            <div className="mt-6 p-4 dark:bg-background rounded-lg border dark:border-border">
               <p className="font-mono text-sm">{testResult}</p>
             </div>
           )}
         </div>
 
-        <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
+        <div className="dark:bg-card rounded-lg p-6 border dark:border-border">
           <h2 className="text-xl font-semibold mb-4">📖 Instructions</h2>
           <ol className="list-decimal list-inside space-y-2 text-muted-foreground text-sm">
             <li>Click any test button above</li>

@@ -63,7 +63,7 @@ export function TopicCard({ topic }: TopicCardProps) {
           disabled={isPending}
           className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
             topic.is_followed
-              ? 'bg-gray-900 text-white hover:bg-gray-800'
+              ? 'dark:bg-background text-white hover:dark:bg-card'
               : 'bg-purple-100 text-purple-700 hover:bg-purple-200'
           } disabled:cursor-not-allowed disabled:opacity-60`}
         >

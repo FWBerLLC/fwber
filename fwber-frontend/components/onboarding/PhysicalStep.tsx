@@ -126,7 +126,7 @@ export default function PhysicalStep({ formData, setFormData }: PhysicalStepProp
               type="checkbox"
               checked={formData.tattoos}
               onChange={e => handleChange('tattoos', e.target.checked)}
-              className="h-5 w-5 rounded border-2 border-gray-400 text-blue-600 accent-blue-600 cursor-pointer"
+              className="h-5 w-5 rounded border-2 border-border text-blue-600 accent-blue-600 cursor-pointer"
             />
             <span className="text-sm font-medium">I have tattoos</span>
           </label>
@@ -135,7 +135,7 @@ export default function PhysicalStep({ formData, setFormData }: PhysicalStepProp
               type="checkbox"
               checked={formData.piercings}
               onChange={e => handleChange('piercings', e.target.checked)}
-              className="h-5 w-5 rounded border-2 border-gray-400 text-blue-600 accent-blue-600 cursor-pointer"
+              className="h-5 w-5 rounded border-2 border-border text-blue-600 accent-blue-600 cursor-pointer"
             />
             <span className="text-sm font-medium">I have piercings</span>
           </label>

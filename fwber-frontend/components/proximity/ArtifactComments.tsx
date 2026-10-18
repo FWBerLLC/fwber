@@ -76,7 +76,7 @@ export default function ArtifactComments({ artifactId, isOpen }: ArtifactComment
     if (!isOpen) return null;
 
     return (
-        <div className="mt-4 pt-4 border-t border-gray-100">
+        <div className="mt-4 pt-4 border-t border-border">
             <h4 className="flex items-center gap-2 font-semibold text-foreground dark:text-foreground mb-4 whitespace-nowrap">
                 <MessageSquare className="h-4 w-4" /> Discussion
             </h4>
@@ -127,7 +127,7 @@ export default function ArtifactComments({ artifactId, isOpen }: ArtifactComment
 
                                 {/* Nested Replies (1 level deep) */}
                                 {comment.replies && comment.replies.length > 0 && (
-                                    <div className="mt-3 space-y-3 pl-4 border-l-2 border-gray-100">
+                                    <div className="mt-3 space-y-3 pl-4 border-l-2 border-border">
                                         {comment.replies.map(reply => (
                                             <div key={reply.id} className="flex gap-2">
                                                 <div className="flex-shrink-0">

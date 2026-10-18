@@ -193,7 +193,7 @@ export default function Chatroom({ chatroomId }: ChatroomProps) {
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger>
-                        <span className="px-2 py-1 text-xs rounded-full bg-black/5 dark:bg-white/10 font-medium tracking-wide cursor-help">
+                        <span className="px-2 py-1 text-xs rounded-full bg-black/5 dark:bg-card/10 font-medium tracking-wide cursor-help">
                           ✨ {auraLabel}
                         </span>
                       </TooltipTrigger>
@@ -225,7 +225,7 @@ export default function Chatroom({ chatroomId }: ChatroomProps) {
 
           {/* Preview Mode Overlay */}
           {(chatroomData?.preview_mode) && (
-            <div className="absolute inset-0 z-10 bg-card dark:bg-gray-800/80 backdrop-blur-sm flex items-center justify-center rounded-lg">
+            <div className="absolute inset-0 z-10 bg-card dark:dark:bg-card/80 backdrop-blur-sm flex items-center justify-center rounded-lg">
               <div className="bg-card dark:bg-card p-8 rounded-xl shadow-2xl border border-border dark:border-border max-w-md w-full text-center">
                 <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span className="text-3xl">🔒</span>

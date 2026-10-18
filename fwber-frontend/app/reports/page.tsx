@@ -37,7 +37,7 @@ export default function ReportsPage() {
                 <Button variant="destructive">File New Report</Button>
             </div>
 
-            <Card className="bg-card shadow-sm border border-gray-100 mb-8">
+            <Card className="bg-card shadow-sm border border-border mb-8">
                 <CardHeader>
                     <CardTitle className="text-xl flex items-center gap-2">
                         Safety Center

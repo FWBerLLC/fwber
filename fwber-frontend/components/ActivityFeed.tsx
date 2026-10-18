@@ -167,10 +167,10 @@ export function ActivityFeed({
         <div className="space-y-3">
           {[...Array(3)].map((_, i) => (
             <div key={i} className="animate-pulse flex items-center gap-3 p-3">
-              <div className="w-10 h-10 bg-muted dark:bg-gray-700 rounded-full" />
+              <div className="w-10 h-10 bg-muted dark:dark:bg-muted rounded-full" />
               <div className="flex-1 space-y-2">
-                <div className="h-4 bg-muted dark:bg-gray-700 rounded w-3/4" />
-                <div className="h-3 bg-muted dark:bg-gray-700 rounded w-1/2" />
+                <div className="h-4 bg-muted dark:dark:bg-muted rounded w-3/4" />
+                <div className="h-3 bg-muted dark:dark:bg-muted rounded w-1/2" />
               </div>
             </div>
           ))}
@@ -191,7 +191,7 @@ export function ActivityFeed({
           <button type="button"
             onClick={() => fetchActivities(true)}
             disabled={isRefreshing}
-            className="p-2 text-muted-foreground hover:text-foreground dark:text-muted-foreground dark:hover:text-muted-foreground rounded-lg hover:bg-muted dark:bg-card dark:hover:bg-gray-700 transition-colors disabled:opacity-50"
+            className="p-2 text-muted-foreground hover:text-foreground dark:text-muted-foreground dark:hover:text-muted-foreground rounded-lg hover:bg-muted dark:bg-card dark:hover:dark:bg-muted transition-colors disabled:opacity-50"
             title="Refresh"
           >
             <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
@@ -234,7 +234,7 @@ export function ActivityFeed({
                       ? `/friends`
                       : `/profile/${activity.user.id}`
               }
-              className={`flex items-start gap-3 p-4 hover:bg-muted dark:bg-background dark:hover:bg-gray-700/50 transition-colors ${getActivityBgStyle(activity.type)} border-l-4`}
+              className={`flex items-start gap-3 p-4 hover:bg-muted dark:bg-background dark:hover:dark:bg-muted/50 transition-colors ${getActivityBgStyle(activity.type)} border-l-4`}
             >
               {/* User Avatar with Presence */}
               <div className="relative flex-shrink-0">
@@ -289,7 +289,7 @@ export function ActivityFeed({
 
       {/* View All Link */}
       {activities.length > 0 && (
-        <div className="p-3 bg-muted dark:bg-background dark:bg-gray-700/50 border-t border-border dark:border-border text-center">
+        <div className="p-3 bg-muted dark:bg-background dark:dark:bg-muted/50 border-t border-border dark:border-border text-center">
           <Link 
             href="/activity"
             className="text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400 font-medium"

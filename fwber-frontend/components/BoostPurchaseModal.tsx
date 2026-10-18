@@ -60,7 +60,7 @@ export default function BoostPurchaseModal({ isOpen, onClose }: BoostPurchaseMod
               onClick={() => setPaymentMethod('token')}
               className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-md text-sm font-medium transition-all ${
                 paymentMethod === 'token'
-                  ? 'bg-card dark:bg-gray-700 shadow-sm text-purple-600 dark:text-purple-400'
+                  ? 'bg-card dark:dark:bg-muted shadow-sm text-purple-600 dark:text-purple-400'
                   : 'text-muted-foreground hover:text-foreground dark:text-muted-foreground'
               }`}
             >
@@ -71,7 +71,7 @@ export default function BoostPurchaseModal({ isOpen, onClose }: BoostPurchaseMod
               onClick={() => setPaymentMethod('stripe')}
               className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-md text-sm font-medium transition-all ${
                 paymentMethod === 'stripe'
-                  ? 'bg-card dark:bg-gray-700 shadow-sm text-purple-600 dark:text-purple-400'
+                  ? 'bg-card dark:dark:bg-muted shadow-sm text-purple-600 dark:text-purple-400'
                   : 'text-muted-foreground hover:text-foreground dark:text-muted-foreground'
               }`}
             >
@@ -87,7 +87,7 @@ export default function BoostPurchaseModal({ isOpen, onClose }: BoostPurchaseMod
               disabled={isPending || (paymentMethod === 'token' && tokenBalance < 50)}
               className={`w-full p-4 border-2 rounded-xl transition-all group text-left relative overflow-hidden ${
                 paymentMethod === 'token' && tokenBalance < 50
-                  ? 'opacity-50 cursor-not-allowed border-border bg-muted dark:border-gray-800 dark:bg-background'
+                  ? 'opacity-50 cursor-not-allowed border-border bg-muted dark:dark:border-border dark:bg-background'
                   : 'border-purple-100 hover:border-purple-500 bg-purple-50/50 dark:bg-purple-900/20 dark:border-purple-800'
               }`}
             >
@@ -116,7 +116,7 @@ export default function BoostPurchaseModal({ isOpen, onClose }: BoostPurchaseMod
               disabled={isPending || (paymentMethod === 'token' && tokenBalance < 100)}
               className={`w-full p-4 border-2 rounded-xl transition-all group text-left relative overflow-hidden ${
                 paymentMethod === 'token' && tokenBalance < 100
-                  ? 'opacity-50 cursor-not-allowed border-border bg-muted dark:border-gray-800 dark:bg-background'
+                  ? 'opacity-50 cursor-not-allowed border-border bg-muted dark:dark:border-border dark:bg-background'
                   : 'border-amber-100 hover:border-amber-500 bg-amber-50/50 dark:bg-amber-900/20 dark:border-amber-800'
               }`}
             >

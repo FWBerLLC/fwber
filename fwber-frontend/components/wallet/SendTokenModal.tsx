@@ -218,7 +218,7 @@ export default function SendTokenModal({ isOpen, onClose, onSuccess }: SendToken
               <button
                 type="button"
                 onClick={onClose}
-                className="flex-1 px-4 py-2 border border-border rounded-lg text-foreground hover:bg-muted dark:bg-background dark:border-border dark:text-muted-foreground dark:hover:bg-gray-800"
+                className="flex-1 px-4 py-2 border border-border rounded-lg text-foreground hover:bg-muted dark:bg-background dark:border-border dark:text-muted-foreground dark:hover:dark:bg-card"
               >
                 Cancel
               </button>

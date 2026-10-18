@@ -18,7 +18,7 @@ export default function VideoPage() {
       <div className="min-h-screen bg-muted dark:bg-background">
         <AppHeader title="Video Chat" />
         <main className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8 space-y-6">
-          <section className="rounded-2xl border border-border dark:border-border bg-card p-6 shadow-sm dark:border-gray-800 dark:bg-background">
+          <section className="rounded-2xl border border-border dark:border-border bg-card p-6 shadow-sm dark:dark:border-border dark:bg-background">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <h1 className="text-3xl font-bold text-foreground dark:text-foreground">Video Calls</h1>
@@ -45,7 +45,7 @@ export default function VideoPage() {
             </div>
           </section>
 
-          <section className="rounded-2xl border border-border dark:border-border bg-card p-6 shadow-sm dark:border-gray-800 dark:bg-background">
+          <section className="rounded-2xl border border-border dark:border-border bg-card p-6 shadow-sm dark:dark:border-border dark:bg-background">
             <div className="mb-4 flex items-center gap-2 text-foreground dark:text-muted-foreground dark:text-foreground">
               <Phone className="h-5 w-5" />
               <h2 className="text-lg font-semibold">Call History</h2>

@@ -67,9 +67,9 @@ export function ConversationCoach({ matchId, draft, onApplySuggestion }: Convers
           <BrainCircuit className="h-5 w-5" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-80 bg-gray-900 border-gray-700 text-white p-4">
+      <PopoverContent className="w-80 dark:bg-background dark:border-border text-white p-4">
         <div className="space-y-4">
-          <div className="flex justify-between items-center border-b border-gray-800 pb-2">
+          <div className="flex justify-between items-center border-b dark:border-border pb-2">
             <h4 className="font-semibold flex items-center gap-2">
               <BrainCircuit className="h-4 w-4 text-purple-500" />
               Coach Feedback
@@ -92,17 +92,17 @@ export function ConversationCoach({ matchId, draft, onApplySuggestion }: Convers
               
               <div className="flex justify-between items-center">
                 <span className="text-sm text-muted-foreground">Tone</span>
-                <span className="text-sm bg-gray-800 px-2 py-0.5 rounded text-gray-200">
+                <span className="text-sm dark:bg-card px-2 py-0.5 rounded dark:text-foreground">
                   {analysis.tone}
                 </span>
               </div>
 
-              <div className="bg-gray-800/50 p-2 rounded text-sm text-muted-foreground">
+              <div className="dark:bg-card/50 p-2 rounded text-sm text-muted-foreground">
                 {analysis.feedback}
               </div>
 
               {analysis.suggestion && (
-                <div className="space-y-2 pt-2 border-t border-gray-800">
+                <div className="space-y-2 pt-2 border-t dark:border-border">
                   <span className="text-xs text-purple-400 uppercase font-bold">Suggestion</span>
                   <div className="bg-purple-900/20 p-2 rounded text-sm text-purple-100 italic">
                     &quot;{analysis.suggestion}&quot;

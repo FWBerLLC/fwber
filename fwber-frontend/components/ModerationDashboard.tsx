@@ -303,7 +303,7 @@ function FlaggedContentPanel({
                 </button>
                 <button type="button"
                   disabled={isPending}
-                  className="px-3 py-1.5 text-sm bg-gray-800 text-white rounded hover:bg-gray-900 disabled:opacity-50 flex items-center gap-1"
+                  className="px-3 py-1.5 text-sm dark:bg-card text-white rounded hover:dark:bg-background disabled:opacity-50 flex items-center gap-1"
                   onClick={() => onReview(item.id, 'ban_user', 'Extreme abuse')}
                 >
                   <Ban className="h-4 w-4" /> Ban
@@ -374,7 +374,7 @@ function SpoofDetectionsPanel({
                 </button>
                 <button type="button"
                   disabled={isPending}
-                  className="px-3 py-1.5 text-sm bg-gray-600 text-white rounded hover:bg-gray-700 disabled:opacity-50"
+                  className="px-3 py-1.5 text-sm dark:bg-muted text-white rounded hover:dark:bg-muted disabled:opacity-50"
                   onClick={() => onReview(d.id, 'dismiss', 'Benign')}
                 >
                   Dismiss
@@ -441,7 +441,7 @@ function ThrottlesPanel({
               </div>
               <button type="button"
                 disabled={isPending}
-                className="px-3 py-1.5 text-sm bg-gray-800 text-white rounded hover:bg-gray-900 disabled:opacity-50 flex items-center gap-1"
+                className="px-3 py-1.5 text-sm dark:bg-card text-white rounded hover:dark:bg-background disabled:opacity-50 flex items-center gap-1"
                 onClick={() => onRemove(t.id)}
               >
                 <Trash2 className="h-4 w-4" /> Remove

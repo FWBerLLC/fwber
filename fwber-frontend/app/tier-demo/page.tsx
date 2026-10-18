@@ -64,7 +64,7 @@ export default function TierDemoPage() {
         </p>
 
         {/* Controls */}
-        <div className="bg-card dark:bg-background rounded-lg border border-border dark:border-border dark:border-gray-800 p-6 mb-6">
+        <div className="bg-card dark:bg-background rounded-lg border border-border dark:border-border dark:dark:border-border p-6 mb-6">
           <h2 className="text-xl font-bold mb-4 text-foreground dark:text-foreground">Controls</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -80,7 +80,7 @@ export default function TierDemoPage() {
                     onClick={() => handleTierChange(tier as RelationshipTier)}
                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${currentTier === tier
                         ? 'bg-purple-600 text-white'
-                        : 'bg-muted dark:bg-card text-foreground dark:text-muted-foreground hover:bg-muted dark:hover:bg-gray-700'
+                        : 'bg-muted dark:bg-card text-foreground dark:text-muted-foreground hover:bg-muted dark:hover:dark:bg-muted'
                       }`}
                   >
                     {label}

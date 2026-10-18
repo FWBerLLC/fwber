@@ -88,7 +88,7 @@ export default function CompatibilityAuditPage() {
                 <div className="flex items-center gap-3 mb-8">
                     <button type="button"
                         onClick={() => router.back()}
-                        className="p-2 rounded-lg bg-card dark:bg-gray-800/5 hover:bg-white/10 transition-colors"
+                        className="p-2 rounded-lg bg-card dark:dark:bg-card/5 hover:bg-card/10 transition-colors"
                     >
                         <ArrowLeft className="w-5 h-5 text-muted-foreground" />
                     </button>
@@ -158,7 +158,7 @@ export default function CompatibilityAuditPage() {
                                 initial={{ scale: 0.8, opacity: 0 }}
                                 animate={{ scale: 1, opacity: 1 }}
                                 transition={{ delay: 0.2, type: 'spring' }}
-                                className="rounded-2xl border border-white/10 bg-card dark:bg-gray-800/5 backdrop-blur-xl p-8 text-center"
+                                className="rounded-2xl border border-white/10 bg-card dark:dark:bg-card/5 backdrop-blur-xl p-8 text-center"
                             >
                                 <div className={`inline-flex items-center justify-center w-28 h-28 rounded-full bg-gradient-to-br ${getScoreColor(audit.overall_score)} mb-4`}>
                                     <span className="text-4xl font-bold text-white">{audit.overall_score}</span>
@@ -189,13 +189,13 @@ export default function CompatibilityAuditPage() {
                                             initial={{ opacity: 0, y: 10 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ delay: 0.5 + i * 0.1 }}
-                                            className="bg-card dark:bg-gray-800/5 rounded-lg p-4"
+                                            className="bg-card dark:dark:bg-card/5 rounded-lg p-4"
                                         >
                                             <div className="flex items-center justify-between mb-1">
                                                 <span className="font-medium text-white">{item.area}</span>
                                                 <span className="text-emerald-400 text-sm font-mono">{item.strength}/10</span>
                                             </div>
-                                            <div className="w-full bg-card dark:bg-gray-800/10 rounded-full h-1.5 mb-2">
+                                            <div className="w-full bg-card dark:dark:bg-card/10 rounded-full h-1.5 mb-2">
                                                 <div
                                                     className="bg-gradient-to-r from-emerald-400 to-teal-400 rounded-full h-1.5 transition-all duration-1000"
                                                     style={{ width: `${item.strength * 10}%` }}
@@ -225,13 +225,13 @@ export default function CompatibilityAuditPage() {
                                             initial={{ opacity: 0, y: 10 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ delay: 0.7 + i * 0.1 }}
-                                            className="bg-card dark:bg-gray-800/5 rounded-lg p-4"
+                                            className="bg-card dark:dark:bg-card/5 rounded-lg p-4"
                                         >
                                             <div className="flex items-center justify-between mb-1">
                                                 <span className="font-medium text-white">{item.area}</span>
                                                 <span className="text-amber-400 text-sm font-mono">{item.severity}/10</span>
                                             </div>
-                                            <div className="w-full bg-card dark:bg-gray-800/10 rounded-full h-1.5 mb-2">
+                                            <div className="w-full bg-card dark:dark:bg-card/10 rounded-full h-1.5 mb-2">
                                                 <div
                                                     className="bg-gradient-to-r from-amber-400 to-orange-400 rounded-full h-1.5 transition-all duration-1000"
                                                     style={{ width: `${item.severity * 10}%` }}
@@ -261,7 +261,7 @@ export default function CompatibilityAuditPage() {
                                             initial={{ opacity: 0, y: 10 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ delay: 0.9 + i * 0.1 }}
-                                            className="bg-card dark:bg-gray-800/5 rounded-lg p-4"
+                                            className="bg-card dark:dark:bg-card/5 rounded-lg p-4"
                                         >
                                             <span className="font-medium text-white block mb-1">{item.area}</span>
                                             <p className="text-muted-foreground text-sm">{item.detail}</p>
@@ -286,7 +286,7 @@ export default function CompatibilityAuditPage() {
                                             });
                                         }
                                     }}
-                                    className="px-6 py-3 bg-card dark:bg-gray-800/10 hover:bg-white/15 text-muted-foreground rounded-xl flex items-center gap-2 transition-colors"
+                                    className="px-6 py-3 bg-card dark:dark:bg-card/10 hover:bg-card/15 text-muted-foreground rounded-xl flex items-center gap-2 transition-colors"
                                 >
                                     <Share2 className="w-4 h-4" />
                                     Share Results

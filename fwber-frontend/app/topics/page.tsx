@@ -76,7 +76,7 @@ export default function TopicsPage() {
                       type="button"
                       onClick={() => setFollowedOnly((value) => !value)}
                       className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
-                        followedOnly ? 'bg-gray-900 text-white' : 'bg-muted text-foreground'
+                        followedOnly ? 'dark:bg-background text-white' : 'bg-muted text-foreground'
                       }`}
                     >
                       Following

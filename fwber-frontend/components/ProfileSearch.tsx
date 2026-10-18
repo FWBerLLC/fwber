@@ -94,7 +94,7 @@ export function ProfileSearch() {
                   key={result.id}
                   href={`/profile/${result.id}`}
                   onClick={() => setIsOpen(false)}
-                  className="flex items-center gap-3 p-3 hover:bg-muted dark:hover:bg-gray-800 transition-colors"
+                  className="flex items-center gap-3 p-3 hover:bg-muted dark:hover:dark:bg-card transition-colors"
                 >
                   <div className="relative h-10 w-10 flex-shrink-0">
                     <UserAvatar

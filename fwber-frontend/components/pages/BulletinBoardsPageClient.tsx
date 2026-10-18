@@ -143,7 +143,7 @@ export default function BulletinBoardsPageClient() {
       <AppHeader title="Bulletin Boards" />
       <div className="max-w-4xl mx-auto p-4">
         {/* Header */}
-        <div className="bg-card dark:bg-background rounded-lg shadow-sm border border-border dark:border-border dark:border-gray-800 p-6 mb-6">
+        <div className="bg-card dark:bg-background rounded-lg shadow-sm border border-border dark:border-border dark:dark:border-border p-6 mb-6">
           <div className="flex items-center justify-between mb-2">
             <h1 className="text-2xl font-bold text-foreground dark:text-foreground">
               📍 Local Bulletin Boards
@@ -168,7 +168,7 @@ export default function BulletinBoardsPageClient() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Bulletin Boards List */}
           <div className="lg:col-span-1">
-            <div className="bg-card dark:bg-background rounded-lg shadow-sm border border-border dark:border-border dark:border-gray-800 p-6">
+            <div className="bg-card dark:bg-background rounded-lg shadow-sm border border-border dark:border-border dark:dark:border-border p-6">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-lg font-semibold text-foreground dark:text-foreground">
                   Nearby Boards
@@ -199,7 +199,7 @@ export default function BulletinBoardsPageClient() {
                     className={`p-4 rounded-lg border cursor-pointer transition-colors ${
                       selectedBoardId === board.id
                         ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
-                        : 'border-border dark:border-gray-800 hover:border-border dark:hover:border-gray-700'
+                        : 'border-border dark:dark:border-border hover:border-border dark:hover:dark:border-border'
                     }`}
                   >
                     <h3 className="font-medium text-foreground dark:text-foreground">{board.name}</h3>
@@ -248,9 +248,9 @@ export default function BulletinBoardsPageClient() {
           {/* Messages Area */}
           <div className="lg:col-span-2">
             {selectedBoardId && boardData ? (
-              <div className="bg-card dark:bg-background rounded-lg shadow-sm border border-border dark:border-border dark:border-gray-800">
+              <div className="bg-card dark:bg-background rounded-lg shadow-sm border border-border dark:border-border dark:dark:border-border">
                 {/* Board Header */}
-                <div className="p-6 border-b border-border dark:border-border dark:border-gray-800">
+                <div className="p-6 border-b border-border dark:border-border dark:dark:border-border">
                   <h2 className="text-xl font-semibold text-foreground dark:text-foreground">
                     {boardData.board.name}
                   </h2>
@@ -275,9 +275,9 @@ export default function BulletinBoardsPageClient() {
                     </div>
                   ) : (
                     messagesData?.messages.data.map((message) => (
-                      <div key={message.id} className="border-b border-gray-100 dark:border-gray-800 pb-4 last:border-b-0">
+                      <div key={message.id} className="border-b border-border dark:dark:border-border pb-4 last:border-b-0">
                         <div className="flex items-start space-x-3">
-                          <div className="w-8 h-8 bg-gray-300 dark:bg-gray-700 rounded-full flex items-center justify-center">
+                          <div className="w-8 h-8 bg-muted dark:dark:bg-muted rounded-full flex items-center justify-center">
                             {message.is_anonymous ? (
                               <span className="text-muted-foreground dark:text-muted-foreground text-sm">?</span>
                             ) : (
@@ -309,7 +309,7 @@ export default function BulletinBoardsPageClient() {
                 </div>
 
                 {/* Message Input */}
-                <div className="p-6 border-t border-border dark:border-border dark:border-gray-800">
+                <div className="p-6 border-t border-border dark:border-border dark:dark:border-border">
                   <div className="mb-4">
                     <PostSuggester 
                       boardId={selectedBoardId}
@@ -353,7 +353,7 @@ export default function BulletinBoardsPageClient() {
                 </div>
               </div>
             ) : (
-              <div className="bg-card dark:bg-background rounded-lg shadow-sm border border-border dark:border-border dark:border-gray-800 p-12 text-center">
+              <div className="bg-card dark:bg-background rounded-lg shadow-sm border border-border dark:border-border dark:dark:border-border p-12 text-center">
                 <div className="text-muted-foreground dark:text-muted-foreground text-6xl mb-4">📍</div>
                 <h3 className="text-lg font-medium text-foreground dark:text-foreground mb-2">
                   Select a Bulletin Board

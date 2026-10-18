@@ -97,7 +97,7 @@ export function CosmicMatch({ userId }: CosmicMatchProps) {
 
   if (getCosmicMatch.isPending) {
     return (
-      <Card className="bg-gray-900 border-gray-800">
+      <Card className="dark:bg-background dark:border-border">
         <CardContent className="p-8 flex flex-col items-center justify-center space-y-4">
           <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
           <p className="text-muted-foreground animate-pulse">
@@ -109,7 +109,7 @@ export function CosmicMatch({ userId }: CosmicMatchProps) {
   }
 
   return (
-    <Card className="bg-gray-900 overflow-hidden shadow-[0_0_15px_rgba(0,0,0,0.3)] border-blue-500/50 shadow-blue-500/20">
+    <Card className="dark:bg-background overflow-hidden shadow-[0_0_15px_rgba(0,0,0,0.3)] border-blue-500/50 shadow-blue-500/20">
       <CardHeader className="bg-blue-900/20 border-blue-900/30 border-b pb-4">
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg font-semibold text-white flex items-center gap-2">

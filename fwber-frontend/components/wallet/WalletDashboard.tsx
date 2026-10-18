@@ -101,13 +101,13 @@ export default function WalletDashboard() {
                 <div className="text-xs px-2 py-1 bg-blue-100 text-blue-800 rounded">Devnet</div>
             </div>
 
-            <div className="flex space-x-1 p-1 bg-muted dark:bg-card dark:bg-gray-700/50 rounded-lg overflow-x-auto">
+            <div className="flex space-x-1 p-1 bg-muted dark:bg-card dark:dark:bg-muted/50 rounded-lg overflow-x-auto">
                 {(['wallet', 'requests', 'merchant', 'bridge'] as const).map(tab => (
                     <button type="button"
                         key={tab}
                         onClick={() => setActiveTab(tab)}
                         className={`flex-1 py-2 px-4 text-sm font-medium rounded-md transition-all whitespace-nowrap capitalize ${activeTab === tab
-                            ? 'bg-card dark:bg-gray-700 shadow text-foreground dark:text-foreground'
+                            ? 'bg-card dark:dark:bg-muted shadow text-foreground dark:text-foreground'
                             : 'text-muted-foreground hover:text-foreground dark:text-muted-foreground'
                             }`}
                     >
@@ -177,7 +177,7 @@ export default function WalletDashboard() {
                                         type="number"
                                         value={withdrawAmount}
                                         onChange={e => setWithdrawAmount(e.target.value)}
-                                        className="w-full p-2 border rounded dark:bg-gray-700 dark:border-border"
+                                        className="w-full p-2 border rounded dark:dark:bg-muted dark:border-border"
                                         placeholder="Amount (FWB)"
                                     />
                                     <button type="button"
@@ -201,7 +201,7 @@ export default function WalletDashboard() {
                                         type="number"
                                         value={depositAmount}
                                         onChange={e => setDepositAmount(e.target.value)}
-                                        className="w-full p-2 border rounded dark:bg-gray-700 dark:border-border"
+                                        className="w-full p-2 border rounded dark:dark:bg-muted dark:border-border"
                                         placeholder="Amount (FWB)"
                                     />
                                     <button type="button"
@@ -236,7 +236,7 @@ export default function WalletDashboard() {
                         <div className="space-y-2">
                             {internalWallet?.transactions?.length ? (
                                 internalWallet.transactions.map((tx: any) => (
-                                    <div key={tx.id} className="flex justify-between items-center p-3 border rounded dark:border-border text-sm bg-muted dark:bg-gray-900/50">
+                                    <div key={tx.id} className="flex justify-between items-center p-3 border rounded dark:border-border text-sm bg-muted dark:dark:bg-background/50">
                                         <div>
                                             <p className="font-medium">{tx.description}</p>
                                             {tx.metadata?.message && (

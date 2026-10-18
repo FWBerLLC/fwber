@@ -24,7 +24,7 @@ export default function FeedbackStats({ stats }: FeedbackStatsProps) {
               title={`Positive: ${stats.sentiment.positive}`}
             />
             <div 
-              className="bg-gray-400" 
+              className="bg-muted" 
               style={{ width: `${getPercentage(stats.sentiment.neutral)}%` }}
               title={`Neutral: ${stats.sentiment.neutral}`}
             />
@@ -40,7 +40,7 @@ export default function FeedbackStats({ stats }: FeedbackStatsProps) {
               <span>Positive ({getPercentage(stats.sentiment.positive)}%)</span>
             </div>
             <div className="flex items-center gap-1">
-              <div className="h-2 w-2 rounded-full bg-gray-400" />
+              <div className="h-2 w-2 rounded-full bg-muted" />
               <span>Neutral ({getPercentage(stats.sentiment.neutral)}%)</span>
             </div>
             <div className="flex items-center gap-1">
@@ -76,7 +76,7 @@ export default function FeedbackStats({ stats }: FeedbackStatsProps) {
         </div>
       </div>
 
-      <div className="mt-6 border-t border-gray-100 pt-4">
+      <div className="mt-6 border-t border-border pt-4">
         <div className="flex items-center justify-between">
           <p className="text-sm text-muted-foreground">Total feedback received</p>
           <p className="text-2xl font-semibold text-foreground dark:text-foreground">{stats.total}</p>

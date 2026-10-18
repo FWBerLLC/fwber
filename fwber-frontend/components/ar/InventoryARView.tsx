@@ -161,7 +161,7 @@ export default function InventoryARView({ onClose }: InventoryARViewProps) {
                     <span className="text-[10px] text-zinc-500 font-black uppercase mb-1">Heading</span>
                     <span className="text-white font-mono font-bold text-sm">{Math.round(heading)}°</span>
                  </div>
-                 <div className="w-px h-8 bg-card dark:bg-gray-800/10" />
+                 <div className="w-px h-8 bg-card dark:dark:bg-card/10" />
                  <div className="flex flex-col items-center text-center">
                     <p className="text-xs text-zinc-400">Point your camera towards local venues to see available FWB Token inventory.</p>
                  </div>

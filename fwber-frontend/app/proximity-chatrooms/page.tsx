@@ -19,7 +19,7 @@ interface LocationState {
       case 'warm': return 'border-orange-200 dark:border-orange-800/50 bg-orange-50/10 hover:shadow-orange-500/10';
       case 'electric': return 'border-yellow-200 dark:border-yellow-800/50 bg-yellow-50/10 hover:shadow-yellow-500/10';
       case 'contemplative': return 'border-blue-200 dark:border-blue-800/50 bg-blue-50/10 hover:shadow-blue-500/10';
-      case 'noir': return 'border-gray-500 dark:border-gray-600/50 bg-gray-500/10 hover:shadow-gray-500/10';
+      case 'noir': return 'border-border dark:dark:border-border/50 bg-muted/10 hover:shadow-gray-500/10';
       case 'moody': return 'border-indigo-300 dark:border-indigo-800/50 bg-indigo-50/10 hover:shadow-indigo-500/10';
       case 'shadowy': return 'border-violet-300 dark:border-violet-800/50 bg-violet-50/10 hover:shadow-violet-500/10';
       default: return 'border-border dark:border-border bg-card dark:bg-card';

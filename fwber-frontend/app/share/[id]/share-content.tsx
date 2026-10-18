@@ -74,7 +74,7 @@ export function ShareContent({ id }: { id: string }) {
               {data.user_name ? `Roast of ${data.user_name} 🔥` : 'Profile Roast 🔥'}
             </h2>
             <div className="bg-orange-900/20 border border-orange-500/30 rounded-lg p-6">
-              <p className="text-lg text-gray-200 italic leading-relaxed">
+              <p className="text-lg dark:text-foreground italic leading-relaxed">
                 &quot;{data.content.text}&quot;
               </p>
             </div>
@@ -93,7 +93,7 @@ export function ShareContent({ id }: { id: string }) {
               {data.user_name ? `${data.user_name}'s Hype ✨` : 'Profile Hype ✨'}
             </h2>
             <div className="bg-blue-900/20 border border-blue-500/30 rounded-lg p-6">
-              <p className="text-lg text-gray-200 italic leading-relaxed">
+              <p className="text-lg dark:text-foreground italic leading-relaxed">
                 &quot;{data.content.text}&quot;
               </p>
             </div>
@@ -152,7 +152,7 @@ export function ShareContent({ id }: { id: string }) {
               {data.user_name ? `${data.user_name}'s Fortune 🔮` : 'Dating Fortune 🔮'}
             </h2>
             <div className="bg-yellow-900/20 border border-yellow-500/30 rounded-lg p-6">
-              <p className="text-lg text-gray-200 italic leading-relaxed">
+              <p className="text-lg dark:text-foreground italic leading-relaxed">
                 &quot;{data.content.text}&quot;
               </p>
             </div>
@@ -323,19 +323,19 @@ export function ShareContent({ id }: { id: string }) {
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col">
-      <header className="p-4 border-b border-gray-800 flex justify-between items-center">
+      <header className="p-4 border-b dark:border-border flex justify-between items-center">
         <Link href="/" className="text-xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent">
           fwber
         </Link>
         <Link href="/auth/register">
-          <Button variant="outline" className="border-gray-700 hover:bg-gray-800">
+          <Button variant="outline" className="dark:border-border hover:dark:bg-card">
             Join Now
           </Button>
         </Link>
       </header>
 
       <main className="flex-1 container max-w-2xl mx-auto p-4 flex flex-col justify-center">
-        <Card className="bg-gray-900 border-gray-800 shadow-2xl">
+        <Card className="dark:bg-background dark:border-border shadow-2xl">
           <CardContent className="p-8">
             {data.is_owner && (
               <div className="mb-6 p-4 bg-gradient-to-r from-purple-900/50 to-pink-900/50 border border-purple-500/30 rounded-lg">
@@ -350,7 +350,7 @@ export function ShareContent({ id }: { id: string }) {
                     <p className="text-muted-foreground mb-2">
                       Get 5 views on this link to unlock <strong>24h of Gold Premium</strong>!
                     </p>
-                    <div className="w-full bg-gray-700 rounded-full h-2.5 mb-1">
+                    <div className="w-full dark:bg-muted rounded-full h-2.5 mb-1">
                       <div
                         className="bg-purple-500 h-2.5 rounded-full transition-all duration-500"
                         style={{ width: `${Math.min((data.views / 5) * 100, 100)}%` }}
@@ -364,7 +364,7 @@ export function ShareContent({ id }: { id: string }) {
 
             {renderContent()}
 
-            <div className="mt-8 pt-8 border-t border-gray-800 flex flex-col items-center">
+            <div className="mt-8 pt-8 border-t dark:border-border flex flex-col items-center">
               {data.content.profile_id && (
                 <Link href={`/profile/${data.content.profile_id}`}>
                    <Button variant="ghost" className="text-primary hover:text-primary/80 transition-colors flex items-center gap-2 group mb-4 font-bold italic uppercase tracking-tighter">

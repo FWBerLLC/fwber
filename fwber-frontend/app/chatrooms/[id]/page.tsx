@@ -246,7 +246,7 @@ export default function ChatroomPage() {
     <div className="min-h-screen bg-muted dark:bg-background transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Chatroom Header */}
-        <div className="bg-card dark:bg-background rounded-lg shadow-sm border border-border dark:border-border dark:border-gray-800 p-6 mb-6">
+        <div className="bg-card dark:bg-background rounded-lg shadow-sm border border-border dark:border-border dark:dark:border-border p-6 mb-6">
           <div className="flex items-start justify-between flex-wrap gap-4">
             <div>
               <div className="flex items-center gap-3 mb-2 flex-wrap">
@@ -292,12 +292,12 @@ export default function ChatroomPage() {
         </div>
 
         {/* Chat Interface */}
-        <div className="bg-card dark:bg-background rounded-lg shadow-sm border border-border dark:border-border dark:border-gray-800 flex flex-col h-[600px] relative">
+        <div className="bg-card dark:bg-background rounded-lg shadow-sm border border-border dark:border-border dark:dark:border-border flex flex-col h-[600px] relative">
 
           {/* Preview Mode Overlay */}
           {(standardChatroomData?.preview_mode && !isProximity) && (
-            <div className="absolute inset-0 z-10 bg-card dark:bg-gray-800/80 dark:bg-gray-950/80 backdrop-blur-sm flex items-center justify-center rounded-lg">
-              <div className="bg-card dark:bg-background p-8 rounded-xl shadow-2xl border border-border dark:border-border dark:border-gray-800 max-w-md w-full text-center">
+            <div className="absolute inset-0 z-10 bg-card dark:dark:bg-card/80 dark:dark:bg-background/80 backdrop-blur-sm flex items-center justify-center rounded-lg">
+              <div className="bg-card dark:bg-background p-8 rounded-xl shadow-2xl border border-border dark:border-border dark:dark:border-border max-w-md w-full text-center">
                 <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span className="text-3xl">🔒</span>
                 </div>
@@ -365,7 +365,7 @@ export default function ChatroomPage() {
                             <button type="button"
                               key={emoji}
                               onClick={() => handleReaction(message.id, emoji)}
-                              className="inline-flex items-center px-2 py-1 text-xs bg-muted dark:bg-card hover:bg-muted dark:hover:bg-gray-700 text-foreground dark:text-foreground dark:text-foreground rounded-full transition-colors border border-border dark:border-border"
+                              className="inline-flex items-center px-2 py-1 text-xs bg-muted dark:bg-card hover:bg-muted dark:hover:dark:bg-muted text-foreground dark:text-foreground dark:text-foreground rounded-full transition-colors border border-border dark:border-border"
                             >
                               <span className="mr-1">{emoji}</span>
                               <span>{count as number}</span>
@@ -391,7 +391,7 @@ export default function ChatroomPage() {
           </div>
 
           {/* Message Input */}
-          <div className="border-t border-border dark:border-border dark:border-gray-800 p-4">
+          <div className="border-t border-border dark:border-border dark:dark:border-border p-4">
             <form onSubmit={handleSendMessage} className="flex space-x-3">
               <div className="flex-1">
                 <textarea

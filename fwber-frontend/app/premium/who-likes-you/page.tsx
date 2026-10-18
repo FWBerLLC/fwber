@@ -47,7 +47,7 @@ export default function WhoLikesYouPage() {
                             <p className="text-sm font-bold text-muted-foreground">Someone</p>
                             <p className="text-xs text-muted-foreground">{liker.age} years old</p>
                         </div>
-                        <div className="absolute inset-0 backdrop-blur-md bg-card dark:bg-gray-800/30" />
+                        <div className="absolute inset-0 backdrop-blur-md bg-card dark:dark:bg-card/30" />
                       </div>
                    ) : (
                       // Unlocked State
@@ -84,7 +84,7 @@ export default function WhoLikesYouPage() {
             );
 
             return (
-              <div key={liker.id} className="relative group overflow-hidden rounded-xl shadow-md bg-card dark:bg-card border border-gray-100">
+              <div key={liker.id} className="relative group overflow-hidden rounded-xl shadow-md bg-card dark:bg-card border border-border">
                 {isLocked ? (
                    <ShareToUnlock
                      targetId={liker.id}

@@ -156,7 +156,7 @@ export default function BountyPage() {
         <h1 className="text-2xl font-bold mb-4 text-red-500">
           {error || "Bounty not found"}
         </h1>
-        <Button onClick={() => router.push("/")} variant="outline" className="dark:border-border dark:hover:bg-gray-800">
+        <Button onClick={() => router.push("/")} variant="outline" className="dark:border-border dark:hover:dark:bg-card">
           Go Home
         </Button>
       </div>
@@ -183,9 +183,9 @@ export default function BountyPage() {
           </p>
         </div>
 
-        <Card className="bg-gray-900 dark:bg-gray-900/80 border-gray-800 dark:border-gray-800/50 shadow-xl overflow-hidden backdrop-blur-sm">
+        <Card className="dark:bg-background dark:dark:bg-background/80 dark:border-border dark:dark:border-border/50 shadow-xl overflow-hidden backdrop-blur-sm">
           {/* Header Image */}
-          <div className="relative h-64 w-full bg-gray-800 dark:bg-gray-800/50">
+          <div className="relative h-64 w-full dark:bg-card dark:dark:bg-card/50">
             {primaryPhoto ? (
               <OptimizedImage
                 src={primaryPhoto.url}
@@ -210,7 +210,7 @@ export default function BountyPage() {
 
           <CardContent className="p-6 space-y-6">
              {bounty.user.profile?.bio && (
-                 <div className="bg-gray-800/50 dark:bg-gray-800/30 p-4 rounded-lg border border-gray-700/20">
+                 <div className="dark:bg-card/50 dark:dark:bg-card/30 p-4 rounded-lg border dark:border-border/20">
                     <p className="italic text-muted-foreground dark:text-muted-foreground">&quot;{bounty.user.profile.bio}&quot;</p>
                  </div>
              )}
@@ -256,14 +256,14 @@ export default function BountyPage() {
                 <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-300">
                      <div className="flex items-center justify-between">
                         <h3 className="font-semibold text-lg">Select a Friend</h3>
-                        <Button variant="ghost" size="sm" onClick={() => setShowSuggestUI(false)} className="dark:text-muted-foreground dark:hover:text-white dark:hover:bg-gray-800">Cancel</Button>
+                        <Button variant="ghost" size="sm" onClick={() => setShowSuggestUI(false)} className="dark:text-muted-foreground dark:hover:text-white dark:hover:dark:bg-card">Cancel</Button>
                      </div>
 
                      <div className="relative">
                         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground dark:text-muted-foreground" />
                         <Input 
                             placeholder="Search friends..." 
-                            className="pl-9 bg-gray-800 dark:bg-gray-800/50 border-gray-700 dark:border-gray-700/50 text-white dark:text-foreground"
+                            className="pl-9 dark:bg-card dark:dark:bg-card/50 dark:border-border dark:dark:border-border/50 text-white dark:text-foreground"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
@@ -279,10 +279,10 @@ export default function BountyPage() {
                                 <div 
                                     key={friend.id}
                                     onClick={() => setSelectedFriend(friend)}
-                                    className={`flex items-center justify-between p-3 rounded-lg cursor-pointer transition-colors ${selectedFriend?.id === friend.id ? 'bg-pink-900/40 border border-pink-500/50 dark:bg-pink-950/50 dark:border-pink-700/50' : 'bg-gray-800 dark:bg-gray-800/40 hover:bg-gray-700 dark:hover:bg-gray-700/60'}`}
+                                    className={`flex items-center justify-between p-3 rounded-lg cursor-pointer transition-colors ${selectedFriend?.id === friend.id ? 'bg-pink-900/40 border border-pink-500/50 dark:bg-pink-950/50 dark:border-pink-700/50' : 'dark:bg-card dark:dark:bg-card/40 hover:dark:bg-muted dark:hover:dark:bg-muted/60'}`}
                                 >
                                     <div className="flex items-center space-x-3">
-                                        <div className="h-10 w-10 rounded-full overflow-hidden bg-gray-700 dark:bg-card flex items-center justify-center relative">
+                                        <div className="h-10 w-10 rounded-full overflow-hidden dark:bg-muted dark:bg-card flex items-center justify-center relative">
                                             {friend.avatar_url ? (
                                                 <Image src={getAvatarUrl(friend.avatar_url, friend.name)} alt={friend.name} fill className="object-cover" />
                                             ) : (

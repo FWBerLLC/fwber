@@ -139,7 +139,7 @@ export default function PublicProfilePage() {
 			<div className="min-h-screen bg-muted dark:bg-background py-8">
 				<div className="max-w-2xl mx-auto bg-card dark:bg-card rounded-lg shadow-xl overflow-hidden">
 					{/* Main Photo & Header */}
-					<div className="relative h-96 w-full bg-muted dark:bg-gray-700 flex justify-center items-center">
+					<div className="relative h-96 w-full bg-muted dark:dark:bg-muted flex justify-center items-center">
 						{photos[0] ? (
 							<EvolvingAvatar
 								src={photos[0].url}
@@ -177,7 +177,7 @@ export default function PublicProfilePage() {
 											</div>
 										)}
 									</div>
-									<p className="text-gray-200">
+									<p className="dark:text-foreground">
 										{p.location?.city || 'Unknown'}, {p.location?.state || 'Location'}
 									</p>
 								</div>
@@ -308,15 +308,15 @@ export default function PublicProfilePage() {
                   </div>
                 )}
                 <div className="grid grid-cols-1 gap-3 text-sm text-muted-foreground dark:text-muted-foreground sm:grid-cols-3">
-                  <div className="rounded-2xl bg-white/80 p-3 dark:bg-gray-900/40">
+                  <div className="rounded-2xl bg-card/80 p-3 dark:dark:bg-background/40">
                     <p className="text-xs uppercase tracking-wide text-muted-foreground dark:text-muted-foreground">Followed topics</p>
                     <p className="mt-1 text-lg font-semibold text-foreground dark:text-foreground">{p.scene_summary.stats.followed_topic_count}</p>
                   </div>
-                  <div className="rounded-2xl bg-white/80 p-3 dark:bg-gray-900/40">
+                  <div className="rounded-2xl bg-card/80 p-3 dark:dark:bg-background/40">
                     <p className="text-xs uppercase tracking-wide text-muted-foreground dark:text-muted-foreground">Visible notes</p>
                     <p className="mt-1 text-lg font-semibold text-foreground dark:text-foreground">{p.scene_summary.stats.visible_journal_count}</p>
                   </div>
-                  <div className="rounded-2xl bg-white/80 p-3 dark:bg-gray-900/40">
+                  <div className="rounded-2xl bg-card/80 p-3 dark:dark:bg-background/40">
                     <p className="text-xs uppercase tracking-wide text-muted-foreground dark:text-muted-foreground">Public groups</p>
                     <p className="mt-1 text-lg font-semibold text-foreground dark:text-foreground">{p.scene_summary.stats.public_group_count}</p>
                   </div>
@@ -357,7 +357,7 @@ export default function PublicProfilePage() {
                       {journal.tags.length > 0 && (
                         <div className="mt-3 flex flex-wrap gap-2">
                           {(journal.tags || []).map((tag) => (
-                            <span key={tag} className="rounded-full bg-muted dark:bg-card px-3 py-1 text-xs text-muted-foreground dark:bg-gray-700 dark:text-muted-foreground">
+                            <span key={tag} className="rounded-full bg-muted dark:bg-card px-3 py-1 text-xs text-muted-foreground dark:dark:bg-muted dark:text-muted-foreground">
                               #{tag}
                             </span>
                           ))}
@@ -430,7 +430,7 @@ export default function PublicProfilePage() {
                 <div className="flex gap-4 justify-center">
                   <button type="button"
                     onClick={() => handleAction('pass')}
-                    className="px-8 py-3 bg-muted dark:bg-gray-700 text-foreground dark:text-foreground dark:text-foreground rounded-full font-semibold hover:bg-gray-300 transition-colors"
+                    className="px-8 py-3 bg-muted dark:dark:bg-muted text-foreground dark:text-foreground dark:text-foreground rounded-full font-semibold hover:bg-muted transition-colors"
                   >
                     Pass
                   </button>

@@ -21,7 +21,7 @@ export default function GiftsPage() {
       <div className="min-h-screen bg-muted dark:bg-background">
         <AppHeader title="Gifts" />
         <main className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8 space-y-6">
-          <section className="rounded-2xl border border-border dark:border-border bg-card p-6 shadow-sm dark:border-gray-800 dark:bg-background">
+          <section className="rounded-2xl border border-border dark:border-border bg-card p-6 shadow-sm dark:dark:border-border dark:bg-background">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <h1 className="text-3xl font-bold text-foreground dark:text-foreground">Gift Shop</h1>
@@ -56,7 +56,7 @@ export default function GiftsPage() {
             </div>
           </section>
 
-          <section className="rounded-2xl border border-border dark:border-border bg-card p-6 shadow-sm dark:border-gray-800 dark:bg-background">
+          <section className="rounded-2xl border border-border dark:border-border bg-card p-6 shadow-sm dark:dark:border-border dark:bg-background">
             <div className="mb-4 flex items-center gap-2 text-foreground dark:text-muted-foreground dark:text-foreground">
               <Inbox className="h-5 w-5" />
               <h2 className="text-lg font-semibold">Received Gifts</h2>
@@ -68,7 +68,7 @@ export default function GiftsPage() {
             ) : (
               <div className="space-y-3">
                 {receivedGifts.map((gift) => (
-                  <div key={gift.id} className="rounded-xl border border-border dark:border-border p-4 dark:border-gray-800">
+                  <div key={gift.id} className="rounded-xl border border-border dark:border-border p-4 dark:dark:border-border">
                     <div className="flex items-center gap-3">
                       <div className="rounded-full bg-pink-100 p-2 text-pink-600 dark:bg-pink-900/30 dark:text-pink-300">
                         <Gift className="h-5 w-5" />

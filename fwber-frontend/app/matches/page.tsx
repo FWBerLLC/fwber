@@ -180,13 +180,13 @@ export default function MatchesPage() {
 					</div>
 
 					<div
-						className={`relative h-[600px] overflow-hidden rounded-lg border shadow-sm border-gray-700 ${isConfessional ? "border-purple-500/30" : ""}`}
+						className={`relative h-[600px] overflow-hidden rounded-lg border shadow-sm dark:border-border ${isConfessional ? "border-purple-500/30" : ""}`}
 						style={{ backgroundColor: "#111827" }}
 					>
 						<div className="relative h-full">
 							{/* Image/Content Area */}
 							<div
-								className={`h-3/4 relative cursor-pointer ${isConfessional ? "bg-zinc-900 flex flex-col items-center justify-center p-8" : "bg-gray-800"}`}
+								className={`h-3/4 relative cursor-pointer ${isConfessional ? "bg-zinc-900 flex flex-col items-center justify-center p-8" : "dark:bg-card"}`}
 								onClick={() => !isConfessional && setIsProfileOpen(true)}
 							>
 								{isConfessional ? (
@@ -262,7 +262,7 @@ export default function MatchesPage() {
 												<span className="text-blue-400 text-sm">✓</span>
 											)}
 										</h2>
-										<div className="flex items-center gap-1 text-gray-200 mb-2">
+										<div className="flex items-center gap-1 dark:text-foreground mb-2">
 											<MapPin className="h-4 w-4" />
 											<span>{currentMatch.distance} miles away</span>
 										</div>
@@ -275,7 +275,7 @@ export default function MatchesPage() {
 													(interest: string) => (
 														<span
 															key={interest}
-															className="rounded-full border border-white/30 bg-white/15 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-white"
+															className="rounded-full border border-white/30 bg-card/15 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-white"
 														>
 															{interest}
 														</span>
@@ -311,7 +311,7 @@ export default function MatchesPage() {
 													.map((tag) => (
 														<span
 															key={tag}
-															className="rounded-full border border-white/20 bg-white/15 px-2.5 py-1 text-[11px] font-medium text-white"
+															className="rounded-full border border-white/20 bg-card/15 px-2.5 py-1 text-[11px] font-medium text-white"
 														>
 															#{tag}
 														</span>
@@ -323,7 +323,7 @@ export default function MatchesPage() {
 										<Button
 											size="icon"
 											variant="ghost"
-											className="text-white hover:bg-white/20 pointer-events-auto mb-2 z-10"
+											className="text-white hover:bg-card/20 pointer-events-auto mb-2 z-10"
 											onClick={(e) => {
 												e.stopPropagation();
 												setIsProfileOpen(true);
@@ -357,7 +357,7 @@ export default function MatchesPage() {
 								<Button
 									size="icon"
 									variant="outline"
-									className="h-14 w-14 rounded-full border-2 border-red-500 text-red-500 hover:bg-red-50 shadow-lg hover:scale-110 transition-transform bg-card dark:bg-gray-800/10 backdrop-blur-md"
+									className="h-14 w-14 rounded-full border-2 border-red-500 text-red-500 hover:bg-red-50 shadow-lg hover:scale-110 transition-transform bg-card dark:dark:bg-card/10 backdrop-blur-md"
 									onClick={() => handleAction("pass")}
 								>
 									<X className="h-8 w-8" />
@@ -366,7 +366,7 @@ export default function MatchesPage() {
 								<Button
 									size="icon"
 									variant="outline"
-									className="h-10 w-10 rounded-full border-2 border-blue-400 text-blue-400 hover:bg-blue-50 mt-2 shadow-lg hover:scale-110 transition-transform bg-card dark:bg-gray-800/10 backdrop-blur-md"
+									className="h-10 w-10 rounded-full border-2 border-blue-400 text-blue-400 hover:bg-blue-50 mt-2 shadow-lg hover:scale-110 transition-transform bg-card dark:dark:bg-card/10 backdrop-blur-md"
 									onClick={() => handleAction("super_like")}
 								>
 									<Star className="h-5 w-5" />
@@ -375,7 +375,7 @@ export default function MatchesPage() {
 								<Button
 									size="icon"
 									variant="outline"
-									className="h-14 w-14 rounded-full border-2 border-green-500 text-green-500 hover:bg-green-50 shadow-lg hover:scale-110 transition-transform bg-card dark:bg-gray-800/10 backdrop-blur-md"
+									className="h-14 w-14 rounded-full border-2 border-green-500 text-green-500 hover:bg-green-50 shadow-lg hover:scale-110 transition-transform bg-card dark:dark:bg-card/10 backdrop-blur-md"
 									onClick={() => handleAction("like")}
 								>
 									<Heart className="h-8 w-8" />
