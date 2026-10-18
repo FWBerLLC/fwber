@@ -291,7 +291,7 @@ export default function JournalPage() {
 
                       {journal.tags.length > 0 && (
                         <div className="mt-4 flex flex-wrap gap-2">
-                          {journal.(tags || []).map((tag) => (
+                          {(journal.tags || []).map((tag) => (
                             <span key={tag} className="rounded-full bg-muted dark:bg-card px-3 py-1 text-xs font-medium text-muted-foreground">
                               #{tag}
                             </span>

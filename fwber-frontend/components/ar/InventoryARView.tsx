@@ -56,7 +56,7 @@ export default function InventoryARView({ onClose }: InventoryARViewProps) {
             // For now, we simulate finding the merchant's items
             marketplaceApi.getInventory(1) // Demo merchant
                 .then(res => {
-                    const enhancedItems = res.(items || []).map(item => ({
+                    const enhancedItems = (res.items || []).map(item => ({
                         ...item,
                         // Mock location slightly north-east of user
                         lat: userLocation.latitude + 0.001,
