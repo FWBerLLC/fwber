@@ -10,19 +10,19 @@ interface EventCardProps {
 export function EventCard({ event }: EventCardProps) {
   return (
     <Link href={`/events/${event.id}`} className="block">
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow">
+      <div className="bg-card dark:bg-card rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow">
         <h3 className="text-lg font-semibold mb-2">{event.title}</h3>
-        <div className="flex items-center text-gray-600 dark:text-gray-300 mb-1">
+        <div className="flex items-center text-muted-foreground dark:text-muted-foreground mb-1">
           <Calendar className="w-4 h-4 mr-2" />
           <span className="text-sm">
             {new Date(event.starts_at || (event as any).start_time).toLocaleDateString()} {new Date(event.starts_at || (event as any).start_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
           </span>
         </div>
-        <div className="flex items-center text-gray-600 dark:text-gray-300 mb-1">
+        <div className="flex items-center text-muted-foreground dark:text-muted-foreground mb-1">
           <MapPin className="w-4 h-4 mr-2" />
           <span className="text-sm truncate">{event.location_name}</span>
         </div>
-        <div className="flex items-center text-gray-600 dark:text-gray-300">
+        <div className="flex items-center text-muted-foreground dark:text-muted-foreground">
           <Users className="w-4 h-4 mr-2" />
           <span className="text-sm">{event.attendees_count} attending</span>
         </div>
@@ -39,7 +39,7 @@ export function EventCard({ event }: EventCardProps) {
               {(Array.isArray(event.scene_signals.matched_topics) ? event.scene_signals.matched_topics : []).map((topic) => (
                 <span
                   key={`event-topic-${event.id}-${topic.slug}`}
-                  className="rounded-full bg-white dark:bg-gray-800 px-2.5 py-1 text-xs font-medium text-purple-800"
+                  className="rounded-full bg-card dark:bg-card px-2.5 py-1 text-xs font-medium text-purple-800"
                 >
                   {topic.emoji ? `${topic.emoji} ` : ''}{topic.label}
                 </span>
@@ -47,7 +47,7 @@ export function EventCard({ event }: EventCardProps) {
               {(Array.isArray(event.scene_signals.matched_tags) ? event.scene_signals.matched_tags : []).map((tag) => (
                 <span
                   key={`event-tag-${event.id}-${tag}`}
-                  className="rounded-full bg-white dark:bg-gray-800/80 px-2.5 py-1 text-xs font-medium text-purple-700"
+                  className="rounded-full bg-card dark:bg-gray-800/80 px-2.5 py-1 text-xs font-medium text-purple-700"
                 >
                   #{tag}
                 </span>

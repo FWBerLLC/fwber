@@ -55,7 +55,7 @@ export default function SyncedContactsPage() {
     return (
         <div className="container mx-auto p-4 md:p-8 max-w-5xl space-y-6">
             <div className="flex justify-between items-center">
-                <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-2">
+                <h1 className="text-3xl font-bold text-foreground flex items-center gap-2">
                     <Users className="w-8 h-8 text-primary" />
                     Synced Contacts
                 </h1>
@@ -70,7 +70,7 @@ export default function SyncedContactsPage() {
                 </Button>
             </div>
 
-            <Card className="bg-white shadow-sm border border-gray-100 mb-8">
+            <Card className="bg-card shadow-sm border border-gray-100 mb-8">
                 <CardHeader>
                     <CardTitle className="text-xl">Your Network</CardTitle>
                     <CardDescription>
@@ -82,10 +82,10 @@ export default function SyncedContactsPage() {
             {loading ? (
                 <div className="flex justify-center p-12"><div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" /></div>
             ) : contacts.length === 0 ? (
-                <div className="text-center p-12 bg-gray-50 rounded-lg border border-gray-200">
-                    <Smartphone className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                    <h3 className="text-lg font-medium text-gray-700">No contacts found</h3>
-                    <p className="text-gray-500 mb-4">You haven't synced any external accounts yet, or your accounts are empty.</p>
+                <div className="text-center p-12 bg-muted rounded-lg border border-border">
+                    <Smartphone className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+                    <h3 className="text-lg font-medium text-foreground">No contacts found</h3>
+                    <p className="text-muted-foreground mb-4">You haven't synced any external accounts yet, or your accounts are empty.</p>
                     <Button onClick={() => window.location.href = '/integrations'}>Manage Integrations</Button>
                 </div>
             ) : (
@@ -93,16 +93,16 @@ export default function SyncedContactsPage() {
                     {contacts.map((contact) => (
                         <Card key={contact.id} className="hover:shadow-md transition-shadow">
                             <CardContent className="p-4 flex items-center gap-4">
-                                <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center font-bold text-gray-500 shrink-0">
+                                <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center font-bold text-muted-foreground shrink-0">
                                     {(contact.firstName?.[0] || '') + (contact.lastName?.[0] || '')}
                                 </div>
                                 <div className="overflow-hidden">
                                     <h3 className="font-bold truncate">{contact.firstName} {contact.lastName}</h3>
                                     {contact.emails && (Array.isArray(contact.emails) ? contact.emails.length > 0 : !!contact.emails) && (
-                                        <p className="text-sm text-gray-500 truncate">{Array.isArray(contact.emails) ? contact.emails[0] : contact.emails}</p>
+                                        <p className="text-sm text-muted-foreground truncate">{Array.isArray(contact.emails) ? contact.emails[0] : contact.emails}</p>
                                     )}
                                     {contact.phones && (Array.isArray(contact.phones) ? contact.phones.length > 0 : !!contact.phones) && (
-                                        <p className="text-xs text-gray-400 truncate">{Array.isArray(contact.phones) ? contact.phones[0] : contact.phones}</p>
+                                        <p className="text-xs text-muted-foreground truncate">{Array.isArray(contact.phones) ? contact.phones[0] : contact.phones}</p>
                                     )}
                                 </div>
                             </CardContent>

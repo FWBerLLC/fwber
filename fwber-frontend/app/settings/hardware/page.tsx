@@ -99,7 +99,7 @@ export default function HardwareTokenPage() {
       
       <main className="max-w-2xl mx-auto px-4 py-8 pb-24">
         <div className="mb-8">
-          <h1 className="text-3xl font-black italic tracking-tighter text-zinc-900 dark:text-white uppercase flex items-center gap-3">
+          <h1 className="text-3xl font-black italic tracking-tighter text-zinc-900 dark:text-foreground uppercase flex items-center gap-3">
             <Bluetooth className="w-8 h-8 text-blue-500" />
             &quot;Anti-App&quot; Token
           </h1>
@@ -153,7 +153,7 @@ export default function HardwareTokenPage() {
                 <div className="flex items-center gap-3">
                   <BatteryMedium className={`w-5 h-5 ${tokenStatus.battery_level && tokenStatus.battery_level < 20 ? 'text-red-500' : 'text-green-500'}`} />
                   <div>
-                    <p className="font-bold text-sm text-zinc-900 dark:text-white">Battery Level</p>
+                    <p className="font-bold text-sm text-zinc-900 dark:text-foreground">Battery Level</p>
                     <p className="text-xs text-zinc-500">
                       {tokenStatus.battery_level !== null ? `${tokenStatus.battery_level}%` : 'Unknown'}
                     </p>
@@ -161,7 +161,7 @@ export default function HardwareTokenPage() {
                 </div>
                 
                 <div className="text-right">
-                    <p className="font-bold text-sm text-zinc-900 dark:text-white">Last Sync</p>
+                    <p className="font-bold text-sm text-zinc-900 dark:text-foreground">Last Sync</p>
                     <p className="text-xs text-zinc-500">
                       {tokenStatus.last_seen_at ? new Date(tokenStatus.last_seen_at).toLocaleTimeString() : 'Never'}
                     </p>

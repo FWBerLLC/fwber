@@ -82,7 +82,7 @@ export default function VibeBroadcastPage() {
                         </Button>
                     </Link>
                     <div>
-                        <h1 className="text-2xl font-black italic uppercase tracking-tighter text-zinc-900 dark:text-white">
+                        <h1 className="text-2xl font-black italic uppercase tracking-tighter text-zinc-900 dark:text-foreground">
                             Vibe Broadcast Deck
                         </h1>
                         <p className="text-xs font-bold text-amber-600 uppercase tracking-widest flex items-center gap-1">
@@ -180,7 +180,7 @@ export default function VibeBroadcastPage() {
                                 type="submit" 
                                 size="lg"
                                 disabled={isSubmitting}
-                                className="w-full bg-zinc-900 dark:bg-white dark:bg-gray-800 text-white dark:text-zinc-900 hover:bg-zinc-800 dark:hover:bg-zinc-100 rounded-2xl h-16 text-lg font-black italic uppercase tracking-tighter"
+                                className="w-full bg-zinc-900 dark:bg-card dark:bg-card text-white dark:text-zinc-900 hover:bg-zinc-800 dark:hover:bg-zinc-100 rounded-2xl h-16 text-lg font-black italic uppercase tracking-tighter"
                             >
                                 {isSubmitting ? 'Transmitting...' : (
                                     <>

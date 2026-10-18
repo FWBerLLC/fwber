@@ -86,20 +86,20 @@ export default function SmartContentEditor({
           placeholder={placeholder}
           maxLength={maxLength}
           data-testid="content-textarea"
-          className="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+          className="w-full p-4 border border-border dark:border-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
           rows={4}
         />
         
         {/* Character Count */}
-        <div className="absolute bottom-2 right-2 text-sm text-gray-500" data-testid="character-count">
+        <div className="absolute bottom-2 right-2 text-sm text-muted-foreground" data-testid="character-count">
           {content.length}/{maxLength}
         </div>
       </div>
 
       {/* Quality Analysis */}
       {enableQualityAnalysis && content.length > 0 && (
-        <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg" data-testid="quality-analysis">
-          <h3 className="font-semibold mb-3 text-gray-800 dark:text-gray-100">Content Quality Analysis</h3>
+        <div className="bg-muted dark:bg-background p-4 rounded-lg" data-testid="quality-analysis">
+          <h3 className="font-semibold mb-3 text-foreground dark:text-foreground">Content Quality Analysis</h3>
           {isAnalyzing ? (
             <div className="text-center py-2">Analyzing content...</div>
           ) : qualityAnalysis ? (
@@ -108,25 +108,25 @@ export default function SmartContentEditor({
                 <div className={`text-2xl font-bold ${getQualityColor(qualityAnalysis.readability)}`} data-testid="readability-score">
                   {Math.round(qualityAnalysis.readability * 100)}%
                 </div>
-                <div className="text-sm text-gray-600">Readability</div>
+                <div className="text-sm text-muted-foreground">Readability</div>
               </div>
               <div className="text-center">
                 <div className={`text-2xl font-bold ${getQualityColor(qualityAnalysis.engagement)}`} data-testid="engagement-score">
                   {Math.round(qualityAnalysis.engagement * 100)}%
                 </div>
-                <div className="text-sm text-gray-600">Engagement</div>
+                <div className="text-sm text-muted-foreground">Engagement</div>
               </div>
               <div className="text-center">
                 <div className={`text-2xl font-bold ${getQualityColor(qualityAnalysis.clarity)}`} data-testid="clarity-score">
                   {Math.round(qualityAnalysis.clarity * 100)}%
                 </div>
-                <div className="text-sm text-gray-600">Clarity</div>
+                <div className="text-sm text-muted-foreground">Clarity</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-gray-800 dark:text-gray-100" data-testid="safety-score">
+                <div className="text-2xl font-bold text-foreground dark:text-foreground" data-testid="safety-score">
                   {Math.round(qualityAnalysis.safety * 100)}%
                 </div>
-                <div className="text-sm text-gray-600">Safety</div>
+                <div className="text-sm text-muted-foreground">Safety</div>
               </div>
             </div>
           ) : null}
@@ -176,7 +176,7 @@ export default function SmartContentEditor({
                 <span data-testid="optimization-loading">Optimizing...</span>
               ) : 'Optimize Content (10 🪙)'}
             </button>
-            <span className="text-xs text-gray-500 mt-1">Cost: 10 Tokens</span>
+            <span className="text-xs text-muted-foreground mt-1">Cost: 10 Tokens</span>
           </div>
         )}
         
@@ -196,8 +196,8 @@ export default function SmartContentEditor({
             <p>Overall Score: {Math.round(optimizeContent.data.data.overall_score * 100)}%</p>
             <p>Improvements: {Object.keys(optimizeContent.data.data.improvements).join(', ')}</p>
           </div>
-          <div className="mt-3 p-3 bg-white dark:bg-gray-800 rounded border border-green-200">
-             <p className="text-gray-800 dark:text-gray-100" data-testid="optimized-text">{optimizeContent.data.data.optimized}</p>
+          <div className="mt-3 p-3 bg-card dark:bg-card rounded border border-green-200">
+             <p className="text-foreground dark:text-foreground" data-testid="optimized-text">{optimizeContent.data.data.optimized}</p>
           </div>
           <button type="button" 
             onClick={() => setContent(optimizeContent.data.data.optimized)}
@@ -220,9 +220,9 @@ export default function SmartContentEditor({
 
       {/* Content Preview */}
       {content.length > 0 && (
-        <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg">
-          <h3 className="font-semibold mb-2 text-gray-800 dark:text-gray-100">Content Preview</h3>
-          <div className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
+        <div className="bg-muted dark:bg-background p-4 rounded-lg">
+          <h3 className="font-semibold mb-2 text-foreground dark:text-foreground">Content Preview</h3>
+          <div className="text-sm text-foreground dark:text-muted-foreground whitespace-pre-wrap">
             {content}
           </div>
         </div>

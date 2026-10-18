@@ -159,7 +159,7 @@ export default function LocationMatcher({ formData, handleLocationChange }: Loca
     <div className="space-y-6">
       {/* ── Match Scope Selector ─────────────────────────────────────────── */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+        <label className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-3">
           <Globe className="w-4 h-4 inline mr-1.5 -mt-0.5" />
           Match Scope
         </label>
@@ -177,7 +177,7 @@ export default function LocationMatcher({ formData, handleLocationChange }: Loca
               className={`flex flex-col items-center gap-1 p-3 rounded-xl border-2 transition-all text-center ${
                 effectiveScope === key
                   ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 shadow-sm'
-                  : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 text-gray-600 dark:text-gray-400'
+                  : 'border-border dark:border-border hover:border-border dark:hover:border-gray-600 text-muted-foreground dark:text-muted-foreground'
               }`}
             >
               {icon}
@@ -191,7 +191,7 @@ export default function LocationMatcher({ formData, handleLocationChange }: Loca
       {/* ── Distance Slider (Local / Regional) ──────────────────────────── */}
       {(effectiveScope === 'local' || effectiveScope === 'regional') && (
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          <label className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-2">
             <MapPin className="w-4 h-4 inline mr-1.5 -mt-0.5" />
             Maximum Distance: <span className="text-blue-600 dark:text-blue-400 font-semibold">{maxDistance} miles</span>
           </label>
@@ -201,7 +201,7 @@ export default function LocationMatcher({ formData, handleLocationChange }: Loca
             max={effectiveScope === 'regional' ? 500 : 100}
             value={maxDistance}
             onChange={(e) => handleLocationChange('max_distance', parseInt(e.target.value))}
-            className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full appearance-none cursor-pointer accent-blue-500"
+            className="w-full h-2 bg-muted dark:bg-gray-700 rounded-full appearance-none cursor-pointer accent-blue-500"
           />
           <div className="flex justify-between mt-1.5">
             {Object.entries(presets).map(([label, val]) => (
@@ -212,7 +212,7 @@ export default function LocationMatcher({ formData, handleLocationChange }: Loca
                 className={`text-[11px] px-2 py-0.5 rounded-full transition-colors ${
                   maxDistance === val
                     ? 'bg-blue-100 dark:bg-blue-800 text-blue-700 dark:text-blue-200 font-medium'
-                    : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'
+                    : 'text-muted-foreground hover:text-foreground dark:hover:text-muted-foreground'
                 }`}
               >
                 {label}
@@ -226,7 +226,7 @@ export default function LocationMatcher({ formData, handleLocationChange }: Loca
       {effectiveScope === 'national' && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-1">
               <Building2 className="w-4 h-4 inline mr-1.5 -mt-0.5" />
               Country
             </label>
@@ -236,7 +236,7 @@ export default function LocationMatcher({ formData, handleLocationChange }: Loca
                 handleLocationChange('search_country', e.target.value)
                 handleLocationChange('search_city', '')
               }}
-              className="w-full border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-800 dark:text-white"
+              className="w-full border-border dark:border-border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-card dark:text-foreground"
             >
               <option value="">Any country</option>
               {Object.entries(COUNTRIES).map(([code, { label }]) => (
@@ -247,14 +247,14 @@ export default function LocationMatcher({ formData, handleLocationChange }: Loca
 
           {availableCities.length > 0 && (
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-1">
                 <MapPin className="w-4 h-4 inline mr-1.5 -mt-0.5" />
                 City (optional)
               </label>
               <select
                 value={searchCity}
                 onChange={(e) => handleLocationChange('search_city', e.target.value)}
-                className="w-full border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-800 dark:text-white"
+                className="w-full border-border dark:border-border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-card dark:text-foreground"
               >
                 <option value="">Any city</option>
                 {availableCities.map((city) => (
@@ -265,7 +265,7 @@ export default function LocationMatcher({ formData, handleLocationChange }: Loca
           )}
 
           <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-2">
               Search radius: <span className="text-blue-600 dark:text-blue-400 font-semibold">{maxDistance} miles</span>
             </label>
             <input
@@ -275,9 +275,9 @@ export default function LocationMatcher({ formData, handleLocationChange }: Loca
               step={50}
               value={maxDistance}
               onChange={(e) => handleLocationChange('max_distance', parseInt(e.target.value))}
-              className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full appearance-none cursor-pointer accent-blue-500"
+              className="w-full h-2 bg-muted dark:bg-gray-700 rounded-full appearance-none cursor-pointer accent-blue-500"
             />
-            <div className="flex justify-between text-[10px] text-gray-500 mt-1">
+            <div className="flex justify-between text-[10px] text-muted-foreground mt-1">
               <span>50 mi</span><span>500 mi</span><span>1500 mi</span><span>3000 mi</span>
             </div>
           </div>
@@ -300,15 +300,15 @@ export default function LocationMatcher({ formData, handleLocationChange }: Loca
       )}
 
       {/* ── Hometown ──────────────────────────────────────────────────────── */}
-      <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+      <div className="pt-4 border-t border-border dark:border-border">
+        <label className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-3">
           <Building2 className="w-4 h-4 inline mr-1.5 -mt-0.5" />
           Hometown
-          <span className="ml-2 text-xs text-gray-400 dark:text-gray-500 font-normal">Where you grew up</span>
+          <span className="ml-2 text-xs text-muted-foreground dark:text-muted-foreground font-normal">Where you grew up</span>
         </label>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <div>
-            <label className="block text-[11px] font-medium text-gray-500 dark:text-gray-400 mb-1 uppercase tracking-wider">
+            <label className="block text-[11px] font-medium text-muted-foreground dark:text-muted-foreground mb-1 uppercase tracking-wider">
               City
             </label>
             <input
@@ -316,11 +316,11 @@ export default function LocationMatcher({ formData, handleLocationChange }: Loca
               placeholder="e.g. Chicago"
               value={location.hometown_city || ''}
               onChange={(e) => handleLocationChange('hometown_city', e.target.value)}
-              className="w-full border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-800 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500"
+              className="w-full border-border dark:border-border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-card dark:text-foreground placeholder:text-muted-foreground dark:placeholder:text-muted-foreground"
             />
           </div>
           <div>
-            <label className="block text-[11px] font-medium text-gray-500 dark:text-gray-400 mb-1 uppercase tracking-wider">
+            <label className="block text-[11px] font-medium text-muted-foreground dark:text-muted-foreground mb-1 uppercase tracking-wider">
               State / Region
             </label>
             <input
@@ -328,16 +328,16 @@ export default function LocationMatcher({ formData, handleLocationChange }: Loca
               placeholder="e.g. Illinois"
               value={location.hometown_state || ''}
               onChange={(e) => handleLocationChange('hometown_state', e.target.value)}
-              className="w-full border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-800 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500"
+              className="w-full border-border dark:border-border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-card dark:text-foreground placeholder:text-muted-foreground dark:placeholder:text-muted-foreground"
             />
           </div>
         </div>
       </div>
 
       {/* ── Your Location ────────────────────────────────────────────────── */}
-      <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
+      <div className="pt-4 border-t border-border dark:border-border">
         <div className="flex items-center justify-between mb-3">
-          <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label className="text-sm font-medium text-foreground dark:text-muted-foreground">
             <Navigation className="w-4 h-4 inline mr-1.5 -mt-0.5" />
             Your Location
           </label>
@@ -412,7 +412,7 @@ export default function LocationMatcher({ formData, handleLocationChange }: Loca
         {/* City & State inputs */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <div>
-            <label className="block text-[11px] font-medium text-gray-500 dark:text-gray-400 mb-1 uppercase tracking-wider">
+            <label className="block text-[11px] font-medium text-muted-foreground dark:text-muted-foreground mb-1 uppercase tracking-wider">
               City
             </label>
             <input
@@ -420,11 +420,11 @@ export default function LocationMatcher({ formData, handleLocationChange }: Loca
               placeholder="e.g. Austin"
               value={location.city || ''}
               onChange={(e) => handleLocationChange('city', e.target.value)}
-              className="w-full border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-800 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500"
+              className="w-full border-border dark:border-border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-card dark:text-foreground placeholder:text-muted-foreground dark:placeholder:text-muted-foreground"
             />
           </div>
           <div>
-            <label className="block text-[11px] font-medium text-gray-500 dark:text-gray-400 mb-1 uppercase tracking-wider">
+            <label className="block text-[11px] font-medium text-muted-foreground dark:text-muted-foreground mb-1 uppercase tracking-wider">
               State / Region
             </label>
             <input
@@ -432,14 +432,14 @@ export default function LocationMatcher({ formData, handleLocationChange }: Loca
               placeholder="e.g. Texas"
               value={location.state || ''}
               onChange={(e) => handleLocationChange('state', e.target.value)}
-              className="w-full border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-800 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500"
+              className="w-full border-border dark:border-border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-card dark:text-foreground placeholder:text-muted-foreground dark:placeholder:text-muted-foreground"
             />
           </div>
         </div>
 
         {/* Coordinates preview */}
         {location.latitude && location.longitude && (
-          <div className="mt-2 flex items-center gap-1.5 text-[10px] text-gray-400 dark:text-gray-500">
+          <div className="mt-2 flex items-center gap-1.5 text-[10px] text-muted-foreground dark:text-muted-foreground">
             <Crosshair className="w-3 h-3" />
             <span>
               {Number(location.latitude).toFixed(4)}°, {Number(location.longitude).toFixed(4)}°

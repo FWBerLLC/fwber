@@ -69,7 +69,7 @@ export default function FaceReveal({
           </div>
           <div className="bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border border-white/10">
             <div className="flex items-center gap-2">
-              <div className="w-16 h-1.5 bg-white dark:bg-gray-800/20 rounded-full overflow-hidden">
+              <div className="w-16 h-1.5 bg-card dark:bg-gray-800/20 rounded-full overflow-hidden">
                 <div 
                   className="h-full bg-primary transition-all duration-1000 ease-out"
                   style={{ width: `${revealProgress}%` }}

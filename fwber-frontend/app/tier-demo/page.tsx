@@ -56,21 +56,21 @@ export default function TierDemoPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 p-6">
+    <div className="min-h-screen bg-muted dark:bg-background p-6">
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-3xl font-bold mb-2 text-gray-900 dark:text-white">Relationship Tier System Demo</h1>
-        <p className="text-gray-600 dark:text-gray-400 mb-8">
+        <h1 className="text-3xl font-bold mb-2 text-foreground dark:text-foreground">Relationship Tier System Demo</h1>
+        <p className="text-muted-foreground dark:text-muted-foreground mb-8">
           Test the progressive photo reveal system
         </p>
 
         {/* Controls */}
-        <div className="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 dark:border-gray-800 p-6 mb-6">
-          <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">Controls</h2>
+        <div className="bg-card dark:bg-background rounded-lg border border-border dark:border-border dark:border-gray-800 p-6 mb-6">
+          <h2 className="text-xl font-bold mb-4 text-foreground dark:text-foreground">Controls</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Tier selector */}
             <div>
-              <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
+              <label className="block text-sm font-medium mb-2 text-foreground dark:text-muted-foreground">
                 Relationship Tier
               </label>
               <div className="flex flex-wrap gap-2">
@@ -80,7 +80,7 @@ export default function TierDemoPage() {
                     onClick={() => handleTierChange(tier as RelationshipTier)}
                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${currentTier === tier
                         ? 'bg-purple-600 text-white'
-                        : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+                        : 'bg-muted dark:bg-card text-foreground dark:text-muted-foreground hover:bg-muted dark:hover:bg-gray-700'
                       }`}
                   >
                     {label}
@@ -92,7 +92,7 @@ export default function TierDemoPage() {
             {/* Metrics */}
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
+                <label className="block text-sm font-medium mb-2 text-foreground dark:text-muted-foreground">
                   Messages Exchanged: {messagesExchanged}
                 </label>
                 <input
@@ -109,7 +109,7 @@ export default function TierDemoPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
+                <label className="block text-sm font-medium mb-2 text-foreground dark:text-muted-foreground">
                   Days Connected: {daysConnected}
                 </label>
                 <input
@@ -136,7 +136,7 @@ export default function TierDemoPage() {
                   }}
                   className="w-4 h-4"
                 />
-                <label htmlFor="metInPerson" className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                <label htmlFor="metInPerson" className="text-sm font-medium text-foreground dark:text-muted-foreground">
                   Met in person
                 </label>
               </div>
@@ -148,7 +148,7 @@ export default function TierDemoPage() {
           {/* Tier Badges */}
           <div className="lg:col-span-1 space-y-4">
             <div>
-              <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">Current Status</h2>
+              <h2 className="text-xl font-bold mb-4 text-foreground dark:text-foreground">Current Status</h2>
               <RelationshipTierBadge
                 tier={currentTier}
                 messagesExchanged={messagesExchanged}
@@ -159,7 +159,7 @@ export default function TierDemoPage() {
             </div>
 
             <div>
-              <h3 className="text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">Compact View:</h3>
+              <h3 className="text-sm font-semibold mb-2 text-foreground dark:text-muted-foreground">Compact View:</h3>
               <RelationshipTierBadge
                 tier={currentTier}
                 compact={true}
@@ -169,7 +169,7 @@ export default function TierDemoPage() {
 
           {/* Photo Gallery */}
           <div className="lg:col-span-2">
-            <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">Photo Gallery</h2>
+            <h2 className="text-xl font-bold mb-4 text-foreground dark:text-foreground">Photo Gallery</h2>
             <PhotoRevealGate
               photos={mockPhotos}
               currentTier={currentTier}
@@ -184,7 +184,7 @@ export default function TierDemoPage() {
 
         {/* All Tiers Overview */}
         <div className="mt-8">
-          <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">All Tiers</h2>
+          <h2 className="text-xl font-bold mb-4 text-foreground dark:text-foreground">All Tiers</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {Object.entries(tierLabels).map(([tier]) => (
               <RelationshipTierBadge

@@ -79,7 +79,7 @@ export function CosmicMatch({ userId }: CosmicMatchProps) {
           </div>
           <div>
             <h3 className="text-lg font-semibold text-white">Cosmic Match</h3>
-            <p className="text-sm text-gray-400 mt-1">
+            <p className="text-sm text-muted-foreground mt-1">
               Let the stars decide who you should date (and who to avoid).
             </p>
           </div>
@@ -100,7 +100,7 @@ export function CosmicMatch({ userId }: CosmicMatchProps) {
       <Card className="bg-gray-900 border-gray-800">
         <CardContent className="p-8 flex flex-col items-center justify-center space-y-4">
           <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
-          <p className="text-gray-400 animate-pulse">
+          <p className="text-muted-foreground animate-pulse">
             Aligning the planets...
           </p>
         </CardContent>
@@ -118,10 +118,10 @@ export function CosmicMatch({ userId }: CosmicMatchProps) {
           </CardTitle>
           <div className="flex gap-2">
             <Button variant="ghost" size="icon" onClick={handleCopy} title="Copy">
-              <Copy className="w-4 h-4 text-gray-400 hover:text-white" />
+              <Copy className="w-4 h-4 text-muted-foreground hover:text-white" />
             </Button>
             <Button variant="ghost" size="icon" onClick={handleShare} title="Share">
-              <Share2 className="w-4 h-4 text-gray-400 hover:text-white" />
+              <Share2 className="w-4 h-4 text-muted-foreground hover:text-white" />
             </Button>
           </div>
         </div>
@@ -134,7 +134,7 @@ export function CosmicMatch({ userId }: CosmicMatchProps) {
                     <Heart className="w-5 h-5 text-pink-500" />
                     <h4 className="text-blue-200 font-medium">Soulmate: <span className="text-white font-bold text-lg">{result?.best_match}</span></h4>
                 </div>
-                <p className="text-sm text-gray-300 italic">
+                <p className="text-sm text-muted-foreground italic">
                     &quot;{result?.best_reason}&quot;
                 </p>
             </div>
@@ -151,7 +151,7 @@ export function CosmicMatch({ userId }: CosmicMatchProps) {
                     <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px] z-10 flex flex-col items-center justify-center p-4 text-center">
                         <Lock className="w-8 h-8 text-red-400 mb-2 animate-pulse" />
                         <h4 className="text-white font-bold text-lg mb-1">Who to AVOID?</h4>
-                        <p className="text-xs text-gray-300 mb-3">Unlock your dating Kryptonite.</p>
+                        <p className="text-xs text-muted-foreground mb-3">Unlock your dating Kryptonite.</p>
                         <Button size="sm" variant="destructive" className="pointer-events-none">
                            Share to Unlock
                         </Button>
@@ -163,7 +163,7 @@ export function CosmicMatch({ userId }: CosmicMatchProps) {
                             <XCircle className="w-5 h-5 text-red-500" />
                             <h4 className="text-red-200 font-medium">Avoid: <span className="text-white font-bold text-lg">Scorpios</span></h4>
                         </div>
-                        <p className="text-sm text-gray-300 italic">
+                        <p className="text-sm text-muted-foreground italic">
                             &quot;They will ruin your life and steal your cat.&quot;
                         </p>
                     </div>
@@ -175,7 +175,7 @@ export function CosmicMatch({ userId }: CosmicMatchProps) {
                       <XCircle className="w-5 h-5 text-red-500" />
                       <h4 className="text-red-200 font-medium">Avoid: <span className="text-white font-bold text-lg">{result?.worst_match}</span></h4>
                   </div>
-                  <p className="text-sm text-gray-300 italic">
+                  <p className="text-sm text-muted-foreground italic">
                       &quot;{result?.worst_reason}&quot;
                   </p>
               </div>

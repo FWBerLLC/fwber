@@ -105,7 +105,7 @@ function TranslateButton({
 			)}
 			<button type="button"
 				onClick={handleTranslate}
-				className="text-[10px] text-gray-400 hover:text-white flex items-center gap-1 mt-1 opacity-50 hover:opacity-100 transition-opacity"
+				className="text-[10px] text-muted-foreground hover:text-white flex items-center gap-1 mt-1 opacity-50 hover:opacity-100 transition-opacity"
 				title="Translate"
 			>
 				{isLoading ? (
@@ -157,7 +157,7 @@ function EncryptedMessageContent({
 			</span>
 		);
 	if (!decryptedText)
-		return <span className="text-gray-400 italic text-xs">Decrypting...</span>;
+		return <span className="text-muted-foreground italic text-xs">Decrypting...</span>;
 
 	return (
 		<div>
@@ -468,7 +468,7 @@ export default function RealTimeChat({
 
 					<button type="button"
 						onClick={onLocate}
-						className="p-2 hover:bg-gray-700 rounded-full text-gray-400 hover:text-purple-400 transition-colors"
+						className="p-2 hover:bg-gray-700 rounded-full text-muted-foreground hover:text-purple-400 transition-colors"
 						title="Locate Match (AR)"
 					>
 						<Zap className="w-5 h-5" />
@@ -477,7 +477,7 @@ export default function RealTimeChat({
 					{onVideoCall && (
 						<button type="button"
 							onClick={onVideoCall}
-							className="p-2 hover:bg-gray-700 rounded-full text-gray-400 hover:text-blue-400 transition-colors"
+							className="p-2 hover:bg-gray-700 rounded-full text-muted-foreground hover:text-blue-400 transition-colors"
 							title="Video Call"
 						>
 							<Video className="w-5 h-5" />
@@ -486,7 +486,7 @@ export default function RealTimeChat({
 
 					<button type="button"
 						onClick={() => setIsGiftModalOpen(true)}
-						className="p-2 hover:bg-gray-700 rounded-full text-gray-400 hover:text-pink-400 transition-colors"
+						className="p-2 hover:bg-gray-700 rounded-full text-muted-foreground hover:text-pink-400 transition-colors"
 						title="Send Gift"
 					>
 						<GiftIcon className="w-5 h-5" />
@@ -506,7 +506,7 @@ export default function RealTimeChat({
 					<Popover>
 						<PopoverTrigger asChild>
 							<button
-								className="p-2 hover:bg-gray-700 rounded-full text-gray-400 hover:text-purple-400 transition-colors"
+								className="p-2 hover:bg-gray-700 rounded-full text-muted-foreground hover:text-purple-400 transition-colors"
 								title="Shared Experiences"
 							>
 								<BookOpen className="w-5 h-5" />
@@ -537,7 +537,7 @@ export default function RealTimeChat({
 					<Dialog>
 						<DialogTrigger asChild>
 							<button
-								className="p-2 hover:bg-gray-700 rounded-full text-gray-400 hover:text-yellow-400 transition-colors"
+								className="p-2 hover:bg-gray-700 rounded-full text-muted-foreground hover:text-yellow-400 transition-colors"
 								title="View Match Insights"
 							>
 								<Sparkles className="w-5 h-5" />
@@ -551,7 +551,7 @@ export default function RealTimeChat({
 					{onRateDate && (
 						<button type="button"
 							onClick={onRateDate}
-							className="p-2 hover:bg-gray-700 rounded-full text-gray-400 hover:text-green-400 transition-colors"
+							className="p-2 hover:bg-gray-700 rounded-full text-muted-foreground hover:text-green-400 transition-colors"
 							title="Rate Date Feedback"
 						>
 							<Star className="w-5 h-5" />
@@ -561,13 +561,13 @@ export default function RealTimeChat({
 					<div className="relative">
 						<button type="button"
 							onClick={() => setShowSafetyMenu(!showSafetyMenu)}
-							className="p-2 hover:bg-gray-700 rounded-full text-gray-400 hover:text-white transition-colors"
+							className="p-2 hover:bg-gray-700 rounded-full text-muted-foreground hover:text-white transition-colors"
 							title="Options"
 						>
 							<MoreVertical className="w-5 h-5" />
 						</button>
 						{showSafetyMenu && (
-							<div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 dark:bg-gray-700 rounded-md shadow-lg z-10 border border-gray-200 dark:border-gray-700 dark:border-gray-600">
+							<div className="absolute right-0 mt-2 w-48 bg-card dark:bg-card dark:bg-gray-700 rounded-md shadow-lg z-10 border border-border dark:border-border dark:border-border">
 								<div className="py-1">
 									{onReport && (
 										<button type="button"
@@ -575,7 +575,7 @@ export default function RealTimeChat({
 												onReport();
 												setShowSafetyMenu(false);
 											}}
-											className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 dark:text-gray-200 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-600"
+											className="block w-full text-left px-4 py-2 text-sm text-foreground dark:text-muted-foreground dark:text-foreground hover:bg-muted dark:bg-card dark:hover:bg-gray-600"
 										>
 											Report User
 										</button>
@@ -586,7 +586,7 @@ export default function RealTimeChat({
 												onBlock();
 												setShowSafetyMenu(false);
 											}}
-											className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-600"
+											className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-muted dark:bg-card dark:hover:bg-gray-600"
 										>
 											Block User
 										</button>
@@ -597,7 +597,7 @@ export default function RealTimeChat({
 					</div>
 
 					{recipientTyping && (
-						<div className="flex items-center space-x-1 text-gray-400 text-sm">
+						<div className="flex items-center space-x-1 text-muted-foreground text-sm">
 							<div className="flex space-x-1">
 								<div className="w-1 h-1 bg-gray-400 rounded-full animate-bounce"></div>
 								<div
@@ -634,7 +634,7 @@ export default function RealTimeChat({
 									Wingman Suggestion
 									<button type="button"
 										onClick={() => setActiveNudge(null)}
-										className="text-gray-400 hover:text-white transition-colors p-1"
+										className="text-muted-foreground hover:text-white transition-colors p-1"
 									>
 										<X className="h-3 w-3" />
 									</button>
@@ -669,7 +669,7 @@ export default function RealTimeChat({
 
 			<div className="flex-1 overflow-y-auto p-4 space-y-4">
 				{((messages || []) as ChatMessage[]).length === 0 ? (
-					<div className="text-center text-gray-400 py-8">
+					<div className="text-center text-muted-foreground py-8">
 						<p>No messages yet. Start a conversation!</p>
 						{isE2EReady && (
 							<p className="text-xs text-green-500 mt-2 flex items-center justify-center gap-1">
@@ -794,7 +794,7 @@ export default function RealTimeChat({
 										className="hover:scale-110 transition-transform"
 										title="Like"
 									>
-										<ThumbsUp className="w-3 h-3 text-gray-400 hover:text-blue-400" />
+										<ThumbsUp className="w-3 h-3 text-muted-foreground hover:text-blue-400" />
 									</button>
 									<button type="button"
 										onClick={() =>
@@ -806,7 +806,7 @@ export default function RealTimeChat({
 										className="hover:scale-110 transition-transform"
 										title="Love"
 									>
-										<Heart className="w-3 h-3 text-gray-400 hover:text-pink-500" />
+										<Heart className="w-3 h-3 text-muted-foreground hover:text-pink-500" />
 									</button>
 									<button type="button"
 										onClick={() =>
@@ -818,7 +818,7 @@ export default function RealTimeChat({
 										className="hover:scale-110 transition-transform"
 										title="Haha"
 									>
-										<Laugh className="w-3 h-3 text-gray-400 hover:text-yellow-400" />
+										<Laugh className="w-3 h-3 text-muted-foreground hover:text-yellow-400" />
 									</button>
 								</div>
 
@@ -860,7 +860,7 @@ export default function RealTimeChat({
 
 				{selectedFile && (
 					<div className="mb-2 px-3 py-1 bg-gray-700 rounded flex justify-between items-center">
-						<span className="text-sm text-gray-300 truncate max-w-xs">
+						<span className="text-sm text-muted-foreground truncate max-w-xs">
 							{selectedFile.name}
 						</span>
 						<button type="button"
@@ -868,7 +868,7 @@ export default function RealTimeChat({
 								setSelectedFile(null);
 								if (fileInputRef.current) fileInputRef.current.value = "";
 							}}
-							className="text-gray-400 hover:text-red-400"
+							className="text-muted-foreground hover:text-red-400"
 						>
 							<X className="w-4 h-4" />
 						</button>
@@ -882,7 +882,7 @@ export default function RealTimeChat({
 					<button
 						type="button"
 						onClick={() => fileInputRef.current?.click()}
-						className="p-2 text-gray-400 hover:text-white hover:bg-gray-700 rounded-full transition-colors"
+						className="p-2 text-muted-foreground hover:text-white hover:bg-gray-700 rounded-full transition-colors"
 						title="Attach file"
 					>
 						<Paperclip className="w-5 h-5" />
@@ -1002,11 +1002,11 @@ export function ChatList({ className = "" }: { className?: string }) {
 									<p className="text-white font-medium truncate">
 										User {userId}
 									</p>
-									<p className="text-gray-400 text-sm truncate">
+									<p className="text-muted-foreground text-sm truncate">
 										{lastMessage?.message?.content || lastMessage?.content}
 									</p>
 								</div>
-								<div className="text-gray-400 text-xs">
+								<div className="text-muted-foreground text-xs">
 									{lastMessage?.timestamp ? new Date(lastMessage.timestamp).toLocaleTimeString() : ''}
 								</div>
 							</div>
@@ -1031,7 +1031,7 @@ export function OnlineUsers({ className = "" }: { className?: string }) {
 
 			<div className="p-4 space-y-3">
 				{(!Array.isArray(onlineUsers) || onlineUsers.length === 0) ? (
-					<p className="text-gray-400 text-center py-4">No users online</p>
+					<p className="text-muted-foreground text-center py-4">No users online</p>
 				) : (
 					onlineUsers.map((user) => (
 						<div key={user?.user_id || 'unknown'} className="flex items-center space-x-3">
@@ -1045,7 +1045,7 @@ export function OnlineUsers({ className = "" }: { className?: string }) {
 							</div>
 							<div className="flex-1">
 								<p className="text-white text-sm">User {user?.user_id || 'Unknown'}</p>
-								<p className="text-gray-400 text-xs capitalize">
+								<p className="text-muted-foreground text-xs capitalize">
 									{user?.status || 'offline'}
 								</p>
 							</div>

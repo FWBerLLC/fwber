@@ -136,10 +136,10 @@ export default function PublicProfilePage() {
 
 	return (
 		<ProtectedRoute>
-			<div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
-				<div className="max-w-2xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden">
+			<div className="min-h-screen bg-muted dark:bg-background py-8">
+				<div className="max-w-2xl mx-auto bg-card dark:bg-card rounded-lg shadow-xl overflow-hidden">
 					{/* Main Photo & Header */}
-					<div className="relative h-96 w-full bg-gray-200 dark:bg-gray-700 flex justify-center items-center">
+					<div className="relative h-96 w-full bg-muted dark:bg-gray-700 flex justify-center items-center">
 						{photos[0] ? (
 							<EvolvingAvatar
 								src={photos[0].url}
@@ -149,7 +149,7 @@ export default function PublicProfilePage() {
 								className="w-64 h-64 border-4 shadow-xl mb-4"
 							/>
 						) : (
-							<div className="flex items-center justify-center h-full text-4xl text-gray-400">
+							<div className="flex items-center justify-center h-full text-4xl text-muted-foreground">
 								{(p.display_name?.[0] || '?').toUpperCase()}
 							</div>
 						)}
@@ -210,7 +210,7 @@ export default function PublicProfilePage() {
 						<div>
 							<div className="flex justify-between items-center w-full">
 								<div>
-									<h1 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+									<h1 className="text-3xl font-bold text-foreground dark:text-foreground flex items-center gap-2">
 										{p.display_name || 'Anonymous'}, {p.age || '??'}
 										<PresenceIndicator userId={String(profile.id)} />
 									</h1>
@@ -239,7 +239,7 @@ export default function PublicProfilePage() {
 										</div>
 									)}
 
-									<p className="text-gray-600 dark:text-gray-400 mt-1">
+									<p className="text-muted-foreground dark:text-muted-foreground mt-1">
 										{p.location?.city || 'Unknown'}, {p.location?.state || 'Location'}
 									</p>
 								</div>
@@ -281,14 +281,14 @@ export default function PublicProfilePage() {
                   <h3 className="text-lg font-semibold">Scene Summary</h3>
                 </div>
                 {p.scene_summary.headline && (
-                  <p className="mb-4 text-sm text-gray-700 dark:text-gray-300 dark:text-gray-200">{p.scene_summary.headline}</p>
+                  <p className="mb-4 text-sm text-foreground dark:text-muted-foreground dark:text-foreground">{p.scene_summary.headline}</p>
                 )}
                 {(p.scene_summary.followed_topics || []).length > 0 && (
                   <div className="mb-4 flex flex-wrap gap-2">
                     {(p.scene_summary.followed_topics || []).map((topic) => (
                       <span
                         key={topic.slug}
-                        className="rounded-full border border-cyan-200 bg-white dark:bg-gray-800 px-3 py-1 text-xs font-semibold text-cyan-700 dark:border-cyan-800 dark:bg-cyan-950/30 dark:text-cyan-200"
+                        className="rounded-full border border-cyan-200 bg-card dark:bg-card px-3 py-1 text-xs font-semibold text-cyan-700 dark:border-cyan-800 dark:bg-cyan-950/30 dark:text-cyan-200"
                       >
                         {topic.emoji ? `${topic.emoji} ` : ''}{topic.label}
                       </span>
@@ -307,18 +307,18 @@ export default function PublicProfilePage() {
                     ))}
                   </div>
                 )}
-                <div className="grid grid-cols-1 gap-3 text-sm text-gray-600 dark:text-gray-300 sm:grid-cols-3">
+                <div className="grid grid-cols-1 gap-3 text-sm text-muted-foreground dark:text-muted-foreground sm:grid-cols-3">
                   <div className="rounded-2xl bg-white/80 p-3 dark:bg-gray-900/40">
-                    <p className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Followed topics</p>
-                    <p className="mt-1 text-lg font-semibold text-gray-900 dark:text-white">{p.scene_summary.stats.followed_topic_count}</p>
+                    <p className="text-xs uppercase tracking-wide text-muted-foreground dark:text-muted-foreground">Followed topics</p>
+                    <p className="mt-1 text-lg font-semibold text-foreground dark:text-foreground">{p.scene_summary.stats.followed_topic_count}</p>
                   </div>
                   <div className="rounded-2xl bg-white/80 p-3 dark:bg-gray-900/40">
-                    <p className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Visible notes</p>
-                    <p className="mt-1 text-lg font-semibold text-gray-900 dark:text-white">{p.scene_summary.stats.visible_journal_count}</p>
+                    <p className="text-xs uppercase tracking-wide text-muted-foreground dark:text-muted-foreground">Visible notes</p>
+                    <p className="mt-1 text-lg font-semibold text-foreground dark:text-foreground">{p.scene_summary.stats.visible_journal_count}</p>
                   </div>
                   <div className="rounded-2xl bg-white/80 p-3 dark:bg-gray-900/40">
-                    <p className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Public groups</p>
-                    <p className="mt-1 text-lg font-semibold text-gray-900 dark:text-white">{p.scene_summary.stats.public_group_count}</p>
+                    <p className="text-xs uppercase tracking-wide text-muted-foreground dark:text-muted-foreground">Public groups</p>
+                    <p className="mt-1 text-lg font-semibold text-foreground dark:text-foreground">{p.scene_summary.stats.public_group_count}</p>
                   </div>
                 </div>
               </div>
@@ -334,11 +334,11 @@ export default function PublicProfilePage() {
                   {(p.journals || []).map((journal) => (
                     <article
                       key={journal.id}
-                      className="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 shadow-sm"
+                      className="rounded-2xl border border-border dark:border-border bg-card dark:bg-card p-4 shadow-sm"
                       style={{ borderLeftColor: journal.accent_color || '#ec4899', borderLeftWidth: '4px' }}
                     >
                       <div className="mb-2 flex flex-wrap items-center gap-2">
-                        <span className="rounded-full bg-gray-100 dark:bg-gray-800 px-3 py-1 text-xs font-semibold text-gray-700 dark:text-gray-300">
+                        <span className="rounded-full bg-muted dark:bg-card px-3 py-1 text-xs font-semibold text-foreground dark:text-muted-foreground">
                           {journal.visibility_label}
                         </span>
                         {journal.circle_group?.name && (
@@ -348,16 +348,16 @@ export default function PublicProfilePage() {
                         )}
                         {journal.mood_emoji && <span className="text-base">{journal.mood_emoji}</span>}
                       </div>
-                      <h4 className="text-base font-semibold text-gray-900 dark:text-white">
+                      <h4 className="text-base font-semibold text-foreground dark:text-foreground">
                         {journal.title || 'Untitled field note'}
                       </h4>
-                      <p className="mt-2 whitespace-pre-wrap text-sm text-gray-600 dark:text-gray-300">
+                      <p className="mt-2 whitespace-pre-wrap text-sm text-muted-foreground dark:text-muted-foreground">
                         {journal.content}
                       </p>
                       {journal.tags.length > 0 && (
                         <div className="mt-3 flex flex-wrap gap-2">
                           {(journal.tags || []).map((tag) => (
-                            <span key={tag} className="rounded-full bg-gray-100 dark:bg-gray-800 px-3 py-1 text-xs text-gray-600 dark:bg-gray-700 dark:text-gray-300">
+                            <span key={tag} className="rounded-full bg-muted dark:bg-card px-3 py-1 text-xs text-muted-foreground dark:bg-gray-700 dark:text-muted-foreground">
                               #{tag}
                             </span>
                           ))}
@@ -382,18 +382,18 @@ export default function PublicProfilePage() {
                       className="rounded-2xl border border-rose-100 bg-rose-50/60 p-4 shadow-sm dark:border-rose-900/40 dark:bg-rose-950/20"
                     >
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="rounded-full bg-white dark:bg-gray-800 px-3 py-1 text-xs font-semibold text-rose-700 dark:bg-rose-900/40 dark:text-rose-200">
+                        <span className="rounded-full bg-card dark:bg-card px-3 py-1 text-xs font-semibold text-rose-700 dark:bg-rose-900/40 dark:text-rose-200">
                           {link.relationship_type_label}
                         </span>
-                        <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-gray-600 dark:bg-gray-800 dark:text-gray-300">
+                        <span className="rounded-full bg-card px-3 py-1 text-xs font-semibold text-muted-foreground dark:bg-card dark:text-muted-foreground">
                           {link.visibility_label}
                         </span>
                       </div>
-                      <p className="mt-3 text-sm font-medium text-gray-900 dark:text-white">
+                      <p className="mt-3 text-sm font-medium text-foreground dark:text-foreground">
                         Linked with {link.related_user?.display_name || link.related_user?.name || 'a connection'}
                       </p>
                       {link.note && (
-                        <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">{link.note}</p>
+                        <p className="mt-2 text-sm text-muted-foreground dark:text-muted-foreground">{link.note}</p>
                       )}
                     </article>
                   ))}
@@ -430,7 +430,7 @@ export default function PublicProfilePage() {
                 <div className="flex gap-4 justify-center">
                   <button type="button"
                     onClick={() => handleAction('pass')}
-                    className="px-8 py-3 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100 dark:text-white rounded-full font-semibold hover:bg-gray-300 transition-colors"
+                    className="px-8 py-3 bg-muted dark:bg-gray-700 text-foreground dark:text-foreground dark:text-foreground rounded-full font-semibold hover:bg-gray-300 transition-colors"
                   >
                     Pass
                   </button>
@@ -451,7 +451,7 @@ export default function PublicProfilePage() {
                 </button>
               </div>
             ) : (
-              <div className="text-center text-gray-500 italic">
+              <div className="text-center text-muted-foreground italic">
                 You have already acted on this profile.
               </div>
             )}

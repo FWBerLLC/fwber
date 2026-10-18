@@ -63,7 +63,7 @@ export function PresenceIndicator({
         title={statusLabels[status as keyof typeof statusLabels]}
       />
       {showLabel && (
-        <span className="text-xs text-gray-500 capitalize">{status}</span>
+        <span className="text-xs text-muted-foreground capitalize">{status}</span>
       )}
     </div>
   );
@@ -106,7 +106,7 @@ export function TypingIndicator({
   if (typingUsers.length === 0) return null;
 
   return (
-    <div className={`flex items-center gap-2 text-sm text-gray-500 ${className}`}>
+    <div className={`flex items-center gap-2 text-sm text-muted-foreground ${className}`}>
       <div className="flex space-x-1">
         <span className="typing-dot typing-dot-1 w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
         <span className="typing-dot typing-dot-2 w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:150ms]" />
@@ -152,7 +152,7 @@ export function OnlineUsersList({
 
   if (onlineUsers.length === 0) {
     return (
-      <div className={`text-sm text-gray-500 ${className}`}>
+      <div className={`text-sm text-muted-foreground ${className}`}>
         No one is online
       </div>
     );
@@ -161,7 +161,7 @@ export function OnlineUsersList({
   return (
     <div className={className}>
       {showCount && (
-        <div className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+        <div className="text-sm font-medium text-foreground dark:text-muted-foreground mb-2">
           {onlineUsers.length} online
         </div>
       )}
@@ -169,14 +169,14 @@ export function OnlineUsersList({
         {displayUsers.map((user: OnlineUser) => (
           <div
             key={user.user_id}
-            className="inline-flex items-center gap-1.5 px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded-full text-sm"
+            className="inline-flex items-center gap-1.5 px-2 py-1 bg-muted dark:bg-card rounded-full text-sm"
           >
             <PresenceIndicator userId={user.user_id} size="sm" />
-            <span className="text-gray-700 dark:text-gray-300">User #{user.user_id}</span>
+            <span className="text-foreground dark:text-muted-foreground">User #{user.user_id}</span>
           </div>
         ))}
         {remainingCount > 0 && (
-          <div className="inline-flex items-center px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded-full text-sm text-gray-500">
+          <div className="inline-flex items-center px-2 py-1 bg-muted dark:bg-card rounded-full text-sm text-muted-foreground">
             +{remainingCount} more
           </div>
         )}
@@ -270,7 +270,7 @@ export function ConnectionStatusBadge({
   return (
     <div className={`inline-flex items-center gap-1.5 text-xs ${className}`}>
       <span className="w-2 h-2 bg-gray-400 rounded-full" />
-      <span className="text-gray-500">Disconnected</span>
+      <span className="text-muted-foreground">Disconnected</span>
     </div>
   );
 }

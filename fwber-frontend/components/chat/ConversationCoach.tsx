@@ -56,7 +56,7 @@ export function ConversationCoach({ matchId, draft, onApplySuggestion }: Convers
         <Button 
           variant="ghost" 
           size="icon" 
-          className="h-8 w-8 text-gray-400 hover:text-purple-400"
+          className="h-8 w-8 text-muted-foreground hover:text-purple-400"
           title="AI Conversation Coach"
           disabled={!draft.trim()}
           onClick={() => {
@@ -74,30 +74,30 @@ export function ConversationCoach({ matchId, draft, onApplySuggestion }: Convers
               <BrainCircuit className="h-4 w-4 text-purple-500" />
               Coach Feedback
             </h4>
-            {loading && <Loader2 className="h-4 w-4 animate-spin text-gray-400" />}
+            {loading && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />}
           </div>
 
           {loading ? (
-            <div className="py-8 text-center text-gray-400 text-sm">
+            <div className="py-8 text-center text-muted-foreground text-sm">
               Analyzing your message...
             </div>
           ) : analysis ? (
             <div className="space-y-3">
               <div className="flex justify-between items-center">
-                <span className="text-sm text-gray-400">Score</span>
+                <span className="text-sm text-muted-foreground">Score</span>
                 <span className={`font-bold ${getScoreColor(analysis.score)}`}>
                   {analysis.score}/100
                 </span>
               </div>
               
               <div className="flex justify-between items-center">
-                <span className="text-sm text-gray-400">Tone</span>
+                <span className="text-sm text-muted-foreground">Tone</span>
                 <span className="text-sm bg-gray-800 px-2 py-0.5 rounded text-gray-200">
                   {analysis.tone}
                 </span>
               </div>
 
-              <div className="bg-gray-800/50 p-2 rounded text-sm text-gray-300">
+              <div className="bg-gray-800/50 p-2 rounded text-sm text-muted-foreground">
                 {analysis.feedback}
               </div>
 
@@ -123,7 +123,7 @@ export function ConversationCoach({ matchId, draft, onApplySuggestion }: Convers
               )}
             </div>
           ) : (
-            <div className="py-4 text-center text-gray-400 text-sm">
+            <div className="py-4 text-center text-muted-foreground text-sm">
               Click to analyze your draft message.
             </div>
           )}

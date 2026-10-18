@@ -102,7 +102,7 @@ export default function MarketplacePage() {
                                 </CardHeader>
                                 <CardFooter className="bg-zinc-50 dark:bg-zinc-900/50 p-4">
                                     <Button 
-                                        className="w-full bg-zinc-900 dark:bg-white dark:bg-gray-800 text-white dark:text-zinc-900 hover:bg-zinc-800 font-black uppercase italic"
+                                        className="w-full bg-zinc-900 dark:bg-card dark:bg-card text-white dark:text-zinc-900 hover:bg-zinc-800 font-black uppercase italic"
                                         disabled={purchasingId === item.id || item.stock_count <= 0}
                                         onClick={() => handlePurchase(item)}
                                     >

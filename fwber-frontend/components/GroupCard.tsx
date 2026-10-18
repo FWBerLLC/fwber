@@ -70,7 +70,7 @@ export function GroupCard({ group }: GroupCardProps) {
                 </span>
               )}
               {group.tags?.slice(0, 3).map((tag) => (
-                <span key={tag} className="rounded-full bg-gray-100 dark:bg-gray-800 px-2.5 py-1 text-xs font-medium text-gray-600">
+                <span key={tag} className="rounded-full bg-muted dark:bg-card px-2.5 py-1 text-xs font-medium text-muted-foreground">
                   #{tag}
                 </span>
               ))}

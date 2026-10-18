@@ -80,7 +80,7 @@ export function PostSuggester({ boardId, onSelectPost }: PostSuggesterProps) {
             {(generatePosts.data.suggestions || []).map((suggestion) => (
               <div
                 key={suggestion.id || Math.random().toString()}
-                className="bg-white dark:bg-gray-800 p-3 rounded border text-sm hover:border-blue-300 cursor-pointer transition-all shadow-sm"
+                className="bg-card dark:bg-card p-3 rounded border text-sm hover:border-blue-300 cursor-pointer transition-all shadow-sm"
                 onClick={() => onSelectPost(suggestion.content)}
                 data-testid="suggestion-item"
               >

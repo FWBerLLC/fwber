@@ -71,19 +71,19 @@ export default function ProfileViewsPage() {
   if (loading) {
     return (
       <ProtectedRoute>
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+        <div className="min-h-screen bg-muted dark:bg-background">
           <AppHeader />
           <div className="max-w-4xl mx-auto px-4 py-8">
             <div className="animate-pulse space-y-6">
-              <div className="h-8 bg-gray-200 dark:bg-gray-800 rounded w-1/3" />
+              <div className="h-8 bg-muted dark:bg-card rounded w-1/3" />
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {[1, 2, 3, 4].map(i => (
-                  <div key={i} className="h-24 bg-gray-200 dark:bg-gray-800 rounded-xl" />
+                  <div key={i} className="h-24 bg-muted dark:bg-card rounded-xl" />
                 ))}
               </div>
               <div className="space-y-4">
                 {[1, 2, 3, 4, 5].map(i => (
-                  <div key={i} className="h-20 bg-gray-200 dark:bg-gray-800 rounded-xl" />
+                  <div key={i} className="h-20 bg-muted dark:bg-card rounded-xl" />
                 ))}
               </div>
             </div>
@@ -95,14 +95,14 @@ export default function ProfileViewsPage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+      <div className="min-h-screen bg-muted dark:bg-background">
         <AppHeader />
         
         <main className="max-w-4xl mx-auto px-4 py-8">
           <div className="mb-8">
             <Link 
               href="/dashboard" 
-              className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white dark:hover:text-white mb-4 transition-colors"
+              className="inline-flex items-center gap-2 text-muted-foreground dark:text-muted-foreground hover:text-foreground dark:text-foreground dark:hover:text-white mb-4 transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
               Back to Dashboard
@@ -112,8 +112,8 @@ export default function ProfileViewsPage() {
                 <Eye className="w-8 h-8 text-white" />
               </div>
               <div>
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Who Viewed You</h1>
-                <p className="text-gray-600 dark:text-gray-400">See who&apos;s checking out your profile</p>
+                <h1 className="text-3xl font-bold text-foreground dark:text-foreground">Who Viewed You</h1>
+                <p className="text-muted-foreground dark:text-muted-foreground">See who&apos;s checking out your profile</p>
               </div>
             </div>
           </div>
@@ -147,13 +147,13 @@ export default function ProfileViewsPage() {
             </div>
           )}
 
-          <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 dark:border-gray-800 overflow-hidden">
-            <div className="p-4 border-b border-gray-200 dark:border-gray-700 dark:border-gray-800">
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+          <div className="bg-card dark:bg-background rounded-2xl border border-border dark:border-border dark:border-gray-800 overflow-hidden">
+            <div className="p-4 border-b border-border dark:border-border dark:border-gray-800">
+              <h2 className="text-lg font-semibold text-foreground dark:text-foreground flex items-center gap-2">
                 <Users className="w-5 h-5 text-blue-500" />
                 Recent Visitors
               </h2>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
+              <p className="text-sm text-muted-foreground dark:text-muted-foreground">
                 {viewers.length > 0 ? `${viewers.length} recent visitors` : 'No visitors yet'}
               </p>
             </div>
@@ -164,7 +164,7 @@ export default function ProfileViewsPage() {
                   <Link
                     key={view.id}
                     href={`/profile/${view.viewer.id}`}
-                    className="flex items-center gap-4 p-4 hover:bg-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800/50 transition-colors group"
+                    className="flex items-center gap-4 p-4 hover:bg-muted dark:bg-background dark:hover:bg-gray-800/50 transition-colors group"
                   >
                     <div className="relative">
                       <UserAvatar
@@ -178,40 +178,40 @@ export default function ProfileViewsPage() {
 
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
-                        <h3 className="font-semibold text-gray-900 dark:text-white truncate">
+                        <h3 className="font-semibold text-foreground dark:text-foreground truncate">
                           {view.viewer?.name || 'Anonymous User'}
                         </h3>
                         {view.viewer?.age && (
-                          <span className="text-sm text-gray-500 dark:text-gray-400">
+                          <span className="text-sm text-muted-foreground dark:text-muted-foreground">
                             {view.viewer.age}
                           </span>
                         )}
                       </div>
                       {view.viewer?.city && (
-                        <p className="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-1">
+                        <p className="text-sm text-muted-foreground dark:text-muted-foreground flex items-center gap-1">
                           <MapPin className="w-3 h-3" />
                           {view.viewer.city}
                         </p>
                       )}
-                      <p className="text-xs text-gray-400 dark:text-gray-500 flex items-center gap-1 mt-1">
+                      <p className="text-xs text-muted-foreground dark:text-muted-foreground flex items-center gap-1 mt-1">
                         <Clock className="w-3 h-3" />
                         Viewed {formatTimeAgo(view.viewed_at)}
                       </p>
                     </div>
 
-                    <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors" />
+                    <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-muted-foreground dark:group-hover:text-muted-foreground transition-colors" />
                   </Link>
                 ))}
               </div>
             ) : (
               <div className="p-12 text-center">
-                <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center">
-                  <Eye className="w-8 h-8 text-gray-400" />
+                <div className="w-16 h-16 mx-auto mb-4 bg-muted dark:bg-card rounded-full flex items-center justify-center">
+                  <Eye className="w-8 h-8 text-muted-foreground" />
                 </div>
-                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+                <h3 className="text-lg font-medium text-foreground dark:text-foreground mb-2">
                   No profile views yet
                 </h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-4">
+                <p className="text-muted-foreground dark:text-muted-foreground mb-4">
                   Complete your profile and stay active to attract more visitors!
                 </p>
                 <Link
@@ -225,11 +225,11 @@ export default function ProfileViewsPage() {
           </div>
 
           <div className="mt-8 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-2xl border border-blue-200 dark:border-blue-800 p-6">
-            <h3 className="font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+            <h3 className="font-semibold text-foreground dark:text-foreground mb-3 flex items-center gap-2">
               <TrendingUp className="w-5 h-5 text-blue-600" />
               Tips to Get More Views
             </h3>
-            <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
+            <ul className="space-y-2 text-sm text-foreground dark:text-muted-foreground">
               <li className="flex items-start gap-2">
                 <span className="text-blue-500">•</span>
                 Add more photos to your profile
@@ -273,12 +273,12 @@ function StatCard({
   }
 
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 dark:border-gray-800 p-4">
+    <div className="bg-card dark:bg-background rounded-xl border border-border dark:border-border dark:border-gray-800 p-4">
       <div className={`w-10 h-10 rounded-lg ${colorClasses[color]} flex items-center justify-center mb-3`}>
         {icon}
       </div>
-      <div className="text-2xl font-bold text-gray-900 dark:text-white">{value}</div>
-      <div className="text-sm text-gray-500 dark:text-gray-400">{label}</div>
+      <div className="text-2xl font-bold text-foreground dark:text-foreground">{value}</div>
+      <div className="text-sm text-muted-foreground dark:text-muted-foreground">{label}</div>
     </div>
   )
 }

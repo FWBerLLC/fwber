@@ -12,10 +12,10 @@ function ScoreBar({ label, score, color = "bg-blue-500" }: { label: string; scor
   return (
     <div className="space-y-1">
       <div className="flex justify-between text-xs">
-        <span className="font-medium text-gray-700 dark:text-gray-300">{label}</span>
-        <span className="text-gray-500">{score}%</span>
+        <span className="font-medium text-foreground dark:text-muted-foreground">{label}</span>
+        <span className="text-muted-foreground">{score}%</span>
       </div>
-      <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+      <div className="h-2 bg-muted dark:bg-gray-700 rounded-full overflow-hidden">
         <div 
           className={`h-full ${color} transition-all duration-500 ease-out`} 
           style={{ width: `${score}%` }}
@@ -32,7 +32,7 @@ export function MatchInsights({ matchId }: MatchInsightsProps) {
   if (isLoading) {
     return (
       <div className="flex justify-center p-4">
-        <Loader2 className="h-6 w-6 animate-spin text-gray-400" />
+        <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
       </div>
     );
   }
@@ -49,7 +49,7 @@ export function MatchInsights({ matchId }: MatchInsightsProps) {
   };
 
   return (
-    <Card className="w-full bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+    <Card className="w-full bg-card dark:bg-card border-border dark:border-border">
       <CardHeader className="pb-2">
         <CardTitle className="text-lg font-semibold flex items-center justify-between">
           <span className="flex items-center gap-2">
@@ -70,13 +70,13 @@ export function MatchInsights({ matchId }: MatchInsightsProps) {
         </div>
 
         {/* Detailed Categories */}
-        <div className="grid grid-cols-2 gap-4 pt-2 border-t border-gray-100 dark:border-gray-700">
+        <div className="grid grid-cols-2 gap-4 pt-2 border-t border-gray-100 dark:border-border">
           <div className="flex items-center gap-2">
             <div className="p-2 bg-pink-100 dark:bg-pink-900/20 rounded-lg">
               <Heart className="h-4 w-4 text-pink-500" />
             </div>
             <div>
-              <p className="text-xs text-gray-500">Physical</p>
+              <p className="text-xs text-muted-foreground">Physical</p>
               <p className="font-semibold text-sm">{data.details.physical}%</p>
             </div>
           </div>
@@ -85,7 +85,7 @@ export function MatchInsights({ matchId }: MatchInsightsProps) {
               <Zap className="h-4 w-4 text-red-500" />
             </div>
             <div>
-              <p className="text-xs text-gray-500">Sexual</p>
+              <p className="text-xs text-muted-foreground">Sexual</p>
               <p className="font-semibold text-sm">{data.details.sexual}%</p>
             </div>
           </div>
@@ -94,7 +94,7 @@ export function MatchInsights({ matchId }: MatchInsightsProps) {
               <Brain className="h-4 w-4 text-indigo-500" />
             </div>
             <div>
-              <p className="text-xs text-gray-500">Personality</p>
+              <p className="text-xs text-muted-foreground">Personality</p>
               <p className="font-semibold text-sm">{data.details.personality}%</p>
             </div>
           </div>
@@ -103,25 +103,25 @@ export function MatchInsights({ matchId }: MatchInsightsProps) {
               <MessageCircle className="h-4 w-4 text-orange-500" />
             </div>
             <div>
-              <p className="text-xs text-gray-500">Lifestyle</p>
+              <p className="text-xs text-muted-foreground">Lifestyle</p>
               <p className="font-semibold text-sm">{data.details.lifestyle}%</p>
             </div>
           </div>
         </div>
 
         {/* Narrative Compatibility Report (v2.1.9) */}
-        <div className="pt-4 border-t border-gray-100 dark:border-gray-700">
-          <h4 className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-2 flex items-center gap-1">
+        <div className="pt-4 border-t border-gray-100 dark:border-border">
+          <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2 flex items-center gap-1">
             <Quote className="h-3 w-3" />
             The Signal Breakdown
           </h4>
           {narrativeLoading ? (
-            <div className="flex items-center gap-2 text-xs text-gray-400">
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
               <Loader2 className="h-3 w-3 animate-spin" />
               <span>Analyzing digital soul-print...</span>
             </div>
           ) : (
-            <p className="text-sm italic text-gray-600 dark:text-gray-400 leading-relaxed font-serif">
+            <p className="text-sm italic text-muted-foreground dark:text-muted-foreground leading-relaxed font-serif">
               "{narrative || "The system is silent. Not enough data for a narrative report."}"
             </p>
           )}

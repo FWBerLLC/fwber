@@ -80,7 +80,7 @@ export function TierUnlockGuide({ matchId }: TierUnlockGuideProps) {
     return (
         <div className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 border-b border-gray-700 w-full">
             <div
-                className="px-4 py-2 flex items-center justify-between cursor-pointer hover:bg-white dark:bg-gray-800/5 transition-colors"
+                className="px-4 py-2 flex items-center justify-between cursor-pointer hover:bg-card dark:bg-gray-800/5 transition-colors"
                 onClick={() => setIsExpanded(!isExpanded)}
             >
                 <div className="flex items-center gap-3 w-1/2">
@@ -88,14 +88,14 @@ export function TierUnlockGuide({ matchId }: TierUnlockGuideProps) {
                         <span>{nextTierInfo.icon}</span>
                     </div>
                     <div className="truncate">
-                        <div className="text-[10px] text-gray-400 font-bold tracking-wide uppercase flex items-center gap-2">
+                        <div className="text-[10px] text-muted-foreground font-bold tracking-wide uppercase flex items-center gap-2">
                             Next: {nextTierInfo.name}
                             {isReadyToUnlock && (
                                 <motion.button 
                                     initial={{ scale: 0 }}
                                     animate={{ scale: 1 }}
                                     onClick={handleShareMilestone}
-                                    className="p-1 hover:bg-white dark:bg-gray-800/10 rounded-full transition-colors text-pink-400"
+                                    className="p-1 hover:bg-card dark:bg-gray-800/10 rounded-full transition-colors text-pink-400"
                                     title="Share Milestone"
                                 >
                                     <Share2 className="w-3 h-3" />
@@ -104,7 +104,7 @@ export function TierUnlockGuide({ matchId }: TierUnlockGuideProps) {
                         </div>
                         <div className="text-sm text-white font-medium flex items-center gap-1 truncate">
                             <Sparkles className="w-3 h-3 text-yellow-400 shrink-0" />
-                            <span className="text-gray-300 ml-1 truncate">{highlightUnlock}</span>
+                            <span className="text-muted-foreground ml-1 truncate">{highlightUnlock}</span>
                         </div>
                     </div>
                 </div>
@@ -119,7 +119,7 @@ export function TierUnlockGuide({ matchId }: TierUnlockGuideProps) {
                         </button>
                     )}
                     <div className="hidden sm:block text-right">
-                        <div className="text-xs text-gray-400 flex items-center justify-end gap-1">
+                        <div className="text-xs text-muted-foreground flex items-center justify-end gap-1">
                             <Lock className="w-3 h-3" />
                             {msgsNeeded > 0 ? `${msgsNeeded} msgs to go` : (daysNeeded > 0 ? `${daysNeeded} days to go` : 'Ready to unlock!')}
                         </div>
@@ -132,7 +132,7 @@ export function TierUnlockGuide({ matchId }: TierUnlockGuideProps) {
                             />
                         </div>
                     </div>
-                    <button className="text-gray-400 hover:text-white transition-colors">
+                    <button className="text-muted-foreground hover:text-white transition-colors">
                         {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                     </button>
                 </div>
@@ -150,15 +150,15 @@ export function TierUnlockGuide({ matchId }: TierUnlockGuideProps) {
 
                             {/* Requirements Progress */}
                             <div className="space-y-4">
-                                <h4 className="text-[11px] text-gray-400 uppercase tracking-widest font-bold flex items-center gap-1">
+                                <h4 className="text-[11px] text-muted-foreground uppercase tracking-widest font-bold flex items-center gap-1">
                                     <Lock className="w-3 h-3 text-pink-400" /> Requirements for {nextTierInfo.name}
                                 </h4>
 
                                 {targetMessages > 0 && (
                                     <div>
                                         <div className="flex justify-between text-xs mb-1.5">
-                                            <span className="text-gray-300 font-medium">Messages Exchanged</span>
-                                            <span className={progress.messagesExchanged >= targetMessages ? "text-green-400 font-bold" : "text-gray-400"}>
+                                            <span className="text-muted-foreground font-medium">Messages Exchanged</span>
+                                            <span className={progress.messagesExchanged >= targetMessages ? "text-green-400 font-bold" : "text-muted-foreground"}>
                                                 {progress.messagesExchanged} / {targetMessages}
                                             </span>
                                         </div>
@@ -174,8 +174,8 @@ export function TierUnlockGuide({ matchId }: TierUnlockGuideProps) {
                                 {targetDays > 0 && (
                                     <div>
                                         <div className="flex justify-between text-xs mb-1.5">
-                                            <span className="text-gray-300 font-medium">Days Connected</span>
-                                            <span className={progress.daysConnected >= targetDays ? "text-green-400 font-bold" : "text-gray-400"}>
+                                            <span className="text-muted-foreground font-medium">Days Connected</span>
+                                            <span className={progress.daysConnected >= targetDays ? "text-green-400 font-bold" : "text-muted-foreground"}>
                                                 {progress.daysConnected} / {targetDays}
                                             </span>
                                         </div>
@@ -189,7 +189,7 @@ export function TierUnlockGuide({ matchId }: TierUnlockGuideProps) {
                                 )}
 
                                 {nextTierInfo.tier === RelationshipTier.VERIFIED && (
-                                    <div className="flex items-center gap-2 text-xs text-gray-300 bg-gray-800/50 p-2 rounded">
+                                    <div className="flex items-center gap-2 text-xs text-muted-foreground bg-gray-800/50 p-2 rounded">
                                         <div className={`w-2 h-2 rounded-full shrink-0 ${progress.hasMetInPerson ? 'bg-green-500 animate-pulse' : 'bg-gray-600'}`} />
                                         <span>Meet in person and mutually confirm safely</span>
                                     </div>
@@ -198,12 +198,12 @@ export function TierUnlockGuide({ matchId }: TierUnlockGuideProps) {
 
                             {/* What Unlocks */}
                             <div className="space-y-3">
-                                <h4 className="text-[11px] text-gray-400 uppercase tracking-widest font-bold flex items-center gap-1">
+                                <h4 className="text-[11px] text-muted-foreground uppercase tracking-widest font-bold flex items-center gap-1">
                                     <Unlock className="w-3 h-3 text-green-400" /> It Will Unlock
                                 </h4>
                                 <ul className="text-sm space-y-2">
                                     {nextTierInfo.unlocks.map((u, i) => (
-                                        <li key={i} className="flex items-start gap-2 text-gray-300 bg-gray-800/30 px-2 py-1.5 rounded border border-gray-700/50">
+                                        <li key={i} className="flex items-start gap-2 text-muted-foreground bg-gray-800/30 px-2 py-1.5 rounded border border-gray-700/50">
                                             <span className="text-green-400 pt-0.5">•</span>
                                             <span className="text-xs">{u}</span>
                                         </li>

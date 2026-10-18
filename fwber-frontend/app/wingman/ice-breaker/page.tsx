@@ -39,14 +39,14 @@ export default function IceBreakerPage() {
         <main className="max-w-2xl mx-auto px-4 py-6">
           <div className="flex items-center gap-3 mb-8">
             <Link href="/wingman" className="p-2 -ml-2 hover:bg-blue-800/30 rounded-lg transition">
-              <ArrowLeft className="w-5 h-5 text-gray-400" />
+              <ArrowLeft className="w-5 h-5 text-muted-foreground" />
             </Link>
             <div>
               <h1 className="text-2xl font-bold text-white flex items-center gap-2">
                 <MessageCircle className="w-7 h-7 text-cyan-400" />
                 Ice Breakers
               </h1>
-              <p className="text-sm text-gray-400">AI-generated conversation starters</p>
+              <p className="text-sm text-muted-foreground">AI-generated conversation starters</p>
             </div>
           </div>
 
@@ -63,7 +63,7 @@ export default function IceBreakerPage() {
                 {!result && !loading && (
                   <div className="space-y-4">
                     <h2 className="text-xl font-semibold text-white">Need help starting a conversation?</h2>
-                    <p className="text-gray-400 max-w-md mx-auto">
+                    <p className="text-muted-foreground max-w-md mx-auto">
                       Tell us about your match and we&apos;ll generate creative ice breakers to get the conversation flowing.
                     </p>
                     <textarea

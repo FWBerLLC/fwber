@@ -130,14 +130,14 @@ export function ProfileCompletenessBar({ percentage, className = '' }: ProfileCo
   return (
     <div className={className}>
       <div className="flex items-center justify-between mb-2">
-        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+        <span className="text-sm font-medium text-foreground dark:text-muted-foreground">
           Profile Completeness
         </span>
         <span className={`text-sm font-bold ${getTextColor()}`}>
           {percentage}%
         </span>
       </div>
-      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 overflow-hidden">
+      <div className="w-full bg-muted dark:bg-gray-700 rounded-full h-2.5 overflow-hidden">
         <div 
           className={`h-2.5 rounded-full transition-all duration-500 ${getColor()} max-w-full`}
           style={{ width: `${Math.min(100, Math.max(0, percentage))}%` }}
@@ -172,14 +172,14 @@ export function ProfileCompletenessChecklist({
   });
 
   return (
-    <div className={`bg-white dark:bg-gray-800 rounded-lg p-4 ${className}`}>
-      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+    <div className={`bg-card dark:bg-card rounded-lg p-4 ${className}`}>
+      <h3 className="text-lg font-semibold text-foreground dark:text-foreground mb-4">
         Complete Your Profile
       </h3>
       <ProfileCompletenessBar percentage={completeness.percentage} className="mb-4" />
       
       {completeness.percentage < 100 && (
-        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+        <p className="text-sm text-muted-foreground dark:text-muted-foreground mb-4">
           {completeness.requiredMissing.length > 0 
             ? `Complete ${completeness.requiredMissing.length} required field${completeness.requiredMissing.length !== 1 ? 's' : ''} to activate your profile.`
             : `Add more details to increase your match quality by ${100 - completeness.percentage}%!`
@@ -199,21 +199,21 @@ export function ProfileCompletenessChecklist({
                   ? 'bg-green-50 dark:bg-green-900/20 hover:bg-green-100 dark:hover:bg-green-900/30' 
                   : field.required
                   ? 'bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/30'
-                  : 'bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600'
+                  : 'bg-muted dark:bg-gray-700 hover:bg-muted dark:hover:bg-gray-600'
               }`}
             >
               {isComplete ? (
                 <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
               ) : (
                 <Circle className={`w-5 h-5 flex-shrink-0 ${
-                  field.required ? 'text-red-500' : 'text-gray-400'
+                  field.required ? 'text-red-500' : 'text-muted-foreground'
                 }`} />
               )}
               <div className="flex-1 text-left">
                 <p className={`text-sm font-medium ${
                   isComplete 
                     ? 'text-green-700 dark:text-green-300' 
-                    : 'text-gray-900 dark:text-white'
+                    : 'text-foreground dark:text-foreground'
                 }`}>
                   {field.label}
                   {field.required && !isComplete && (
@@ -221,7 +221,7 @@ export function ProfileCompletenessChecklist({
                   )}
                 </p>
               </div>
-              <div className="text-xs font-medium text-gray-500 dark:text-gray-400">
+              <div className="text-xs font-medium text-muted-foreground dark:text-muted-foreground">
                 +{field.weight}%
               </div>
             </button>

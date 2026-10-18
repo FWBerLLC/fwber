@@ -63,7 +63,7 @@ export function PresenceIndicator({
     <div className={`flex items-center gap-2 ${className}`}>
       <div className={`${sizeClasses[size]} ${colorClasses[status]} rounded-full border-2 border-white`} />
       {showLabel && (
-        <span className="text-sm text-gray-600 dark:text-gray-300">
+        <span className="text-sm text-muted-foreground dark:text-muted-foreground">
           {labelText[status]}
         </span>
       )}
@@ -174,7 +174,7 @@ export function OnlineUsersList({ users, className = '', onUserClick }: OnlineUs
           </button>
         ))}
         {users.length === 0 && (
-          <p className="text-gray-400 text-center py-4">No users online</p>
+          <p className="text-muted-foreground text-center py-4">No users online</p>
         )}
       </div>
     </div>

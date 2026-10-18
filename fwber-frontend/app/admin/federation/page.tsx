@@ -50,18 +50,18 @@ export default function AdminFederationPage() {
 
     return (
         <ProtectedRoute>
-            <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+            <div className="min-h-screen bg-muted dark:bg-background">
                 <AppHeader title="Federation Management" />
                 <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
                     <div className="mb-8 flex items-center justify-between">
                         <div>
-                            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Federation Management</h1>
-                            <p className="mt-2 text-gray-600 dark:text-gray-400">Monitor and control interactions with remote ActivityPub servers.</p>
+                            <h1 className="text-3xl font-bold text-foreground dark:text-foreground">Federation Management</h1>
+                            <p className="mt-2 text-muted-foreground dark:text-muted-foreground">Monitor and control interactions with remote ActivityPub servers.</p>
                         </div>
                         <Globe className="h-12 w-12 text-blue-500 opacity-20" />
                     </div>
 
-                    <Card className="bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800">
+                    <Card className="bg-card dark:bg-background border-border dark:border-gray-800">
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
                                 <Server className="h-5 w-5 text-blue-500" />
@@ -70,10 +70,10 @@ export default function AdminFederationPage() {
                         </CardHeader>
                         <CardContent>
                             {isLoading ? (
-                                <div className="py-8 text-center text-gray-500">Scanning the fediverse...</div>
+                                <div className="py-8 text-center text-muted-foreground">Scanning the fediverse...</div>
                             ) : peers.length === 0 ? (
-                                <div className="py-8 text-center text-gray-500">
-                                    <Globe className="mx-auto mb-3 h-8 w-8 text-gray-300" />
+                                <div className="py-8 text-center text-muted-foreground">
+                                    <Globe className="mx-auto mb-3 h-8 w-8 text-muted-foreground" />
                                     No external peers discovered yet.
                                 </div>
                             ) : (
@@ -81,18 +81,18 @@ export default function AdminFederationPage() {
                                     <table className="w-full text-left">
                                         <thead>
                                             <tr className="border-b dark:border-gray-800">
-                                                <th className="py-3 font-medium text-gray-500">Domain</th>
-                                                <th className="py-3 font-medium text-gray-500">Software</th>
-                                                <th className="py-3 font-medium text-gray-500">Status</th>
-                                                <th className="py-3 font-medium text-gray-500">Discovered</th>
-                                                <th className="py-3 text-right font-medium text-gray-500">Actions</th>
+                                                <th className="py-3 font-medium text-muted-foreground">Domain</th>
+                                                <th className="py-3 font-medium text-muted-foreground">Software</th>
+                                                <th className="py-3 font-medium text-muted-foreground">Status</th>
+                                                <th className="py-3 font-medium text-muted-foreground">Discovered</th>
+                                                <th className="py-3 text-right font-medium text-muted-foreground">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y dark:divide-gray-800">
                                             {peers.map((peer) => (
                                                 <tr key={peer.id} className="hover:bg-gray-50/50 dark:hover:bg-gray-800/30 transition-colors">
                                                     <td className="py-4 font-mono text-sm">{peer.domain}</td>
-                                                    <td className="py-4 text-sm text-gray-600 dark:text-gray-400">{peer.software}</td>
+                                                    <td className="py-4 text-sm text-muted-foreground dark:text-muted-foreground">{peer.software}</td>
                                                     <td className="py-4">
                                                         {peer.is_blocked ? (
                                                             <span className="inline-flex items-center gap-1 rounded-full bg-red-100 dark:bg-red-900/30 px-2 py-0.5 text-xs font-medium text-red-700 dark:text-red-400">
@@ -106,7 +106,7 @@ export default function AdminFederationPage() {
                                                             </span>
                                                         )}
                                                     </td>
-                                                    <td className="py-4 text-xs text-gray-500">
+                                                    <td className="py-4 text-xs text-muted-foreground">
                                                         {new Date(peer.discovered_at).toLocaleDateString()}
                                                     </td>
                                                     <td className="py-4 text-right">

@@ -23,10 +23,10 @@ interface FriendListProps {
 export default function FriendList({ friends, onRemoveFriend }: FriendListProps) {
   if (friends.length === 0) {
     return (
-      <div className="text-center py-8 bg-white dark:bg-gray-800 rounded-lg shadow">
-        <User className="mx-auto h-12 w-12 text-gray-300 mb-3" />
-        <p className="text-gray-500">No friends yet</p>
-        <p className="text-sm text-gray-400">Search for users above to add friends</p>
+      <div className="text-center py-8 bg-card dark:bg-card rounded-lg shadow">
+        <User className="mx-auto h-12 w-12 text-muted-foreground mb-3" />
+        <p className="text-muted-foreground">No friends yet</p>
+        <p className="text-sm text-muted-foreground">Search for users above to add friends</p>
       </div>
     );
   }
@@ -36,7 +36,7 @@ export default function FriendList({ friends, onRemoveFriend }: FriendListProps)
       {friends.map((friend) => (
         <div 
           key={friend.id} 
-          className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-md transition-shadow"
+          className="flex items-center justify-between p-4 bg-card dark:bg-card rounded-lg shadow hover:shadow-md transition-shadow"
         >
           <div className="flex items-center gap-3">
             {/* Avatar with presence indicator */}
@@ -52,12 +52,12 @@ export default function FriendList({ friends, onRemoveFriend }: FriendListProps)
             {/* Friend info */}
             <div>
               <div className="flex items-center gap-2">
-                <p className="font-semibold text-gray-900 dark:text-white">
+                <p className="font-semibold text-foreground dark:text-foreground">
                   {friend.profile?.display_name || friend.name}
                 </p>
                 <PresenceIndicator userId={String(friend.id)} showLabel size="sm" />
               </div>
-              <p className="text-sm text-gray-500">{friend.email}</p>
+              <p className="text-sm text-muted-foreground">{friend.email}</p>
             </div>
           </div>
           
@@ -77,7 +77,7 @@ export default function FriendList({ friends, onRemoveFriend }: FriendListProps)
             </Link>
             <Link
               href={`/profile/${friend.id}`}
-              className="flex items-center gap-1 px-3 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium transition-colors"
+              className="flex items-center gap-1 px-3 py-2 bg-muted dark:bg-card hover:bg-muted text-foreground dark:text-muted-foreground rounded-lg text-sm font-medium transition-colors"
             >
               <User className="h-4 w-4" />
               Profile

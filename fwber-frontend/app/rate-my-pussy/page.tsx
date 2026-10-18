@@ -91,7 +91,7 @@ export default function RateMyPussyPage() {
           <h1 className="text-5xl font-black italic tracking-tighter mb-4 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 bg-clip-text text-transparent">
             RATE MY PUSSY
           </h1>
-          <p className="text-xl text-gray-400 font-medium">
+          <p className="text-xl text-muted-foreground font-medium">
             The world&apos;s most provocative cat rating site.
           </p>
         </header>
@@ -100,7 +100,7 @@ export default function RateMyPussyPage() {
         <div className="flex flex-wrap justify-center gap-4 mb-12">
           <button type="button"
             onClick={() => setShowUpload(!showUpload)}
-            className="flex items-center gap-2 px-8 py-4 bg-white dark:bg-gray-800 text-black font-bold rounded-full hover:scale-105 transition active:scale-95 shadow-xl shadow-white/10"
+            className="flex items-center gap-2 px-8 py-4 bg-card dark:bg-card text-black font-bold rounded-full hover:scale-105 transition active:scale-95 shadow-xl shadow-white/10"
           >
             <Upload className="w-5 h-5" />
             Upload Your Pussy
@@ -123,7 +123,7 @@ export default function RateMyPussyPage() {
             </h2>
             <form onSubmit={handleUpload} className="space-y-6">
               <div>
-                <label className="block text-sm font-bold text-gray-400 mb-2 uppercase tracking-widest">Cat&apos;s Name</label>
+                <label className="block text-sm font-bold text-muted-foreground mb-2 uppercase tracking-widest">Cat&apos;s Name</label>
                 <input
                   type="text"
                   value={newCatName}
@@ -134,7 +134,7 @@ export default function RateMyPussyPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-bold text-gray-400 mb-2 uppercase tracking-widest">Photo</label>
+                <label className="block text-sm font-bold text-muted-foreground mb-2 uppercase tracking-widest">Photo</label>
                 <input
                   type="file"
                   accept="image/*"
@@ -247,7 +247,7 @@ export default function RateMyPussyPage() {
           </div>
           <div className="relative z-10">
             <h2 className="text-4xl font-black mb-4">Looking for humans instead?</h2>
-            <p className="text-gray-400 mb-8 max-w-lg mx-auto text-lg leading-relaxed">
+            <p className="text-muted-foreground mb-8 max-w-lg mx-auto text-lg leading-relaxed">
               fwber is Detroit&apos;s privacy-first, open-source proximity dating app.
               Find real connections, keep your data.
             </p>

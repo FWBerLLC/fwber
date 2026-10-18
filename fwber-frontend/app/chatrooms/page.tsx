@@ -73,27 +73,27 @@ export default function ChatroomsPage() {
     : null;
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+    <div className="min-h-screen bg-muted dark:bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+          <h1 className="text-3xl font-bold text-foreground dark:text-foreground mb-2">
             💬 Real-time Chatrooms
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-muted-foreground dark:text-muted-foreground">
             Join location-based chatrooms and connect with people in your area
           </p>
         </div>
 
         {/* Tabs */}
-        <div className="border-b border-gray-200 dark:border-gray-700 dark:border-gray-800 mb-6">
+        <div className="border-b border-border dark:border-border dark:border-gray-800 mb-6">
           <nav className="-mb-px flex space-x-8">
             <button type="button"
               onClick={() => setActiveTab('all')}
               className={`${
                 activeTab === 'all'
                   ? 'border-blue-500 text-blue-600 dark:text-blue-400'
-                  : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-700'
+                  : 'border-transparent text-muted-foreground dark:text-muted-foreground hover:text-foreground dark:hover:text-muted-foreground hover:border-border dark:hover:border-gray-700'
               } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors`}
             >
               All Chatrooms
@@ -103,7 +103,7 @@ export default function ChatroomsPage() {
               className={`${
                 activeTab === 'nearby'
                   ? 'border-blue-500 text-blue-600 dark:text-blue-400'
-                  : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-700'
+                  : 'border-transparent text-muted-foreground dark:text-muted-foreground hover:text-foreground dark:hover:text-muted-foreground hover:border-border dark:hover:border-gray-700'
               } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors`}
             >
               📍 Nearby
@@ -113,11 +113,11 @@ export default function ChatroomsPage() {
 
         {/* Search and Filters - Only show for 'all' tab or if we want to filter nearby too */}
         {activeTab === 'all' && (
-          <div className="bg-white dark:bg-gray-900 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 dark:border-gray-800 p-6 mb-8">
+          <div className="bg-card dark:bg-background rounded-lg shadow-sm border border-border dark:border-border dark:border-gray-800 p-6 mb-8">
           <div className="flex flex-col lg:flex-row gap-4">
             {/* Search */}
             <div className="flex-1">
-              <label htmlFor="search" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label htmlFor="search" className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-2">
                 Search Chatrooms
               </label>
               <input
@@ -126,20 +126,20 @@ export default function ChatroomsPage() {
                 placeholder="Search by name or description..."
                 value={searchQuery}
                 onChange={(e) => handleSearch(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-border dark:border-border bg-card dark:bg-card text-foreground dark:text-foreground rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
 
             {/* Type Filter */}
             <div className="lg:w-48">
-              <label htmlFor="type" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label htmlFor="type" className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-2">
                 Type
               </label>
               <select
                 id="type"
                 value={filters.type || ''}
                 onChange={(e) => handleFilterChange('type', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-border dark:border-border bg-card dark:bg-card text-foreground dark:text-foreground rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
                 <option value="">All Types</option>
                 <option value="interest">💬 Interest</option>
@@ -151,14 +151,14 @@ export default function ChatroomsPage() {
 
             {/* Category Filter */}
             <div className="lg:w-48">
-              <label htmlFor="category" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label htmlFor="category" className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-2">
                 Category
               </label>
               <select
                 id="category"
                 value={filters.category || ''}
                 onChange={(e) => handleFilterChange('category', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-border dark:border-border bg-card dark:bg-card text-foreground dark:text-foreground rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
                 <option value="">All Categories</option>
                 {categories?.map((category) => (
@@ -171,14 +171,14 @@ export default function ChatroomsPage() {
 
             {/* Sort Filter */}
             <div className="lg:w-48">
-              <label htmlFor="sort" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label htmlFor="sort" className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-2">
                 Sort By
               </label>
               <select
                 id="sort"
                 value={filters.sort || 'most_active'}
                 onChange={(e) => handleFilterChange('sort', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-border dark:border-border bg-card dark:bg-card text-foreground dark:text-foreground rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
                 <option value="most_active">Most Active</option>
                 <option value="newest">Newest</option>
@@ -199,18 +199,18 @@ export default function ChatroomsPage() {
         {/* Popular Chatrooms - Only show on 'all' tab */}
         {activeTab === 'all' && !showSearch && popularChatrooms && popularChatrooms.length > 0 && (
           <div className="mb-8">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">🔥 Popular Chatrooms</h2>
+            <h2 className="text-xl font-semibold text-foreground dark:text-foreground mb-4">🔥 Popular Chatrooms</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {popularChatrooms.slice(0, 6).map((chatroom) => (
                 <Link
                   key={chatroom.id}
                   href={`/chatrooms/${chatroom.id}`}
-                  className="bg-white dark:bg-gray-900 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 dark:border-gray-800 p-4 hover:shadow-md dark:hover:shadow-lg transition-shadow group"
+                  className="bg-card dark:bg-background rounded-lg shadow-sm border border-border dark:border-border dark:border-gray-800 p-4 hover:shadow-md dark:hover:shadow-lg transition-shadow group"
                 >
                   <div className="flex items-start justify-between mb-2">
-                    <h3 className="font-medium text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{chatroom.display_name}</h3>
+                    <h3 className="font-medium text-foreground dark:text-foreground group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{chatroom.display_name}</h3>
                     <div className="flex flex-col items-end gap-1">
-                      <span className="text-sm text-gray-500 dark:text-gray-400">{chatroom.member_count} members</span>
+                      <span className="text-sm text-muted-foreground dark:text-muted-foreground">{chatroom.member_count} members</span>
                       {chatroom.token_entry_fee && chatroom.token_entry_fee > 0 && (
                         <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-400 border border-amber-200 dark:border-amber-800">
                           💎 {chatroom.token_entry_fee}
@@ -219,9 +219,9 @@ export default function ChatroomsPage() {
                     </div>
                   </div>
                   {chatroom.description && (
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-2 line-clamp-2">{chatroom.description}</p>
+                    <p className="text-sm text-muted-foreground dark:text-muted-foreground mb-2 line-clamp-2">{chatroom.description}</p>
                   )}
-                  <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-500">
+                  <div className="flex items-center justify-between text-sm text-muted-foreground dark:text-muted-foreground">
                     <span>Created by {chatroom.creator?.name}</span>
                     <span>{new Date(chatroom.last_activity_at).toLocaleDateString()}</span>
                   </div>
@@ -241,9 +241,9 @@ export default function ChatroomsPage() {
         )}
 
         {/* Chatrooms List */}
-        <div className="bg-white dark:bg-gray-900 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 dark:border-gray-800">
-          <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700 dark:border-gray-800">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+        <div className="bg-card dark:bg-background rounded-lg shadow-sm border border-border dark:border-border dark:border-gray-800">
+          <div className="px-6 py-4 border-b border-border dark:border-border dark:border-gray-800">
+            <h2 className="text-xl font-semibold text-foreground dark:text-foreground">
               {activeTab === 'nearby' 
                 ? '📍 Nearby Chatrooms'
                 : (showSearch ? `Search Results for "${searchQuery}"` : 'All Chatrooms')
@@ -254,7 +254,7 @@ export default function ChatroomsPage() {
           {isLoading ? (
             <div className="p-8 text-center">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-              <p className="mt-2 text-gray-600 dark:text-gray-400">
+              <p className="mt-2 text-muted-foreground dark:text-muted-foreground">
                 {activeTab === 'nearby' ? 'Finding chatrooms near you...' : 'Loading chatrooms...'}
               </p>
             </div>
@@ -264,17 +264,17 @@ export default function ChatroomsPage() {
                 <Link
                   key={chatroom.id}
                   href={`/chatrooms/${chatroom.id}${activeTab === 'nearby' ? '?type=proximity' : ''}`}
-                  className="block p-6 hover:bg-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800/50 transition-colors group"
+                  className="block p-6 hover:bg-muted dark:bg-background dark:hover:bg-gray-800/50 transition-colors group"
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2 flex-wrap">
-                        <h3 className="text-lg font-medium text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{chatroom.display_name || chatroom.name}</h3>
+                        <h3 className="text-lg font-medium text-foreground dark:text-foreground group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{chatroom.display_name || chatroom.name}</h3>
                         <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400 border border-blue-200 dark:border-blue-800">
                           {chatroom.type}
                         </span>
                         {!chatroom.is_public && (
-                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 dark:text-gray-300 border border-gray-200 dark:border-gray-700">
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-muted dark:bg-card text-foreground dark:text-foreground dark:text-muted-foreground border border-border dark:border-border">
                             Private
                           </span>
                         )}
@@ -301,7 +301,7 @@ export default function ChatroomsPage() {
                       </div>
                        
                       {chatroom.description && (
-                        <p className="text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">{chatroom.description}</p>
+                        <p className="text-muted-foreground dark:text-muted-foreground mb-3 line-clamp-2">{chatroom.description}</p>
                       )}
 
                       {(Array.isArray(chatroom.scene_signals?.matched_topics) && chatroom.scene_signals.matched_topics.length > 0) || (Array.isArray(chatroom.scene_signals?.matched_tags) && chatroom.scene_signals.matched_tags.length > 0) ? (
@@ -329,7 +329,7 @@ export default function ChatroomsPage() {
                         <p className="mb-3 text-sm text-purple-700 dark:text-purple-400 font-medium">{chatroom.scene_signals.headline}</p>
                       )}
                        
-                      <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-500 flex-wrap">
+                      <div className="flex items-center gap-4 text-sm text-muted-foreground dark:text-muted-foreground flex-wrap">
                         <span>👥 {chatroom.member_count || (chatroom as any).current_members} members</span>
                         <span>💬 {chatroom.message_count} messages</span>
                         {chatroom.city && <span>📍 {chatroom.city}</span>}
@@ -338,10 +338,10 @@ export default function ChatroomsPage() {
                     </div>
                     
                     <div className="text-right hidden sm:block">
-                      <div className="text-sm text-gray-500 dark:text-gray-500 mb-1">
+                      <div className="text-sm text-muted-foreground dark:text-muted-foreground mb-1">
                         Created by {chatroom.creator?.name}
                       </div>
-                      <div className="text-xs text-gray-400 dark:text-gray-600">
+                      <div className="text-xs text-muted-foreground dark:text-muted-foreground">
                         {new Date((chatroom as any).created_at || Date.now()).toLocaleDateString()}
                       </div>
                     </div>
@@ -351,13 +351,13 @@ export default function ChatroomsPage() {
             </div>
           ) : (
             <div className="p-8 text-center">
-              <div className="text-gray-400 dark:text-gray-600 mb-4">
+              <div className="text-muted-foreground dark:text-muted-foreground mb-4">
                 <svg className="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                 </svg>
               </div>
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">No chatrooms found</h3>
-              <p className="text-gray-600 dark:text-gray-400 mb-4">
+              <h3 className="text-lg font-medium text-foreground dark:text-foreground mb-2">No chatrooms found</h3>
+              <p className="text-muted-foreground dark:text-muted-foreground mb-4">
                 {activeTab === 'nearby'
                   ? 'No chatrooms found in your area. Try increasing the search radius or create one!'
                   : (showSearch 
@@ -380,13 +380,13 @@ export default function ChatroomsPage() {
         {displayChatrooms && displayChatrooms.length > 0 && (
           <div className="mt-8 flex justify-center">
             <nav className="flex items-center space-x-2">
-              <button className="px-3 py-2 text-sm font-medium text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 dark:border-gray-800 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+              <button className="px-3 py-2 text-sm font-medium text-muted-foreground dark:text-muted-foreground bg-card dark:bg-background border border-border dark:border-border dark:border-gray-800 rounded-md hover:bg-muted dark:hover:bg-gray-800 transition-colors">
                 Previous
               </button>
               <button className="px-3 py-2 text-sm font-medium text-white bg-blue-600 dark:bg-blue-500 border border-transparent rounded-md">
                 1
               </button>
-              <button className="px-3 py-2 text-sm font-medium text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 dark:border-gray-800 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+              <button className="px-3 py-2 text-sm font-medium text-muted-foreground dark:text-muted-foreground bg-card dark:bg-background border border-border dark:border-border dark:border-gray-800 rounded-md hover:bg-muted dark:hover:bg-gray-800 transition-colors">
                 Next
               </button>
             </nav>

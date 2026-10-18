@@ -177,7 +177,7 @@ function getNavLinkClasses(isActive: boolean, compact = false) {
     compact ? 'gap-2 px-3 py-2 text-sm' : 'gap-3 px-4 py-3 text-sm',
     isActive
       ? 'bg-gradient-to-r from-pink-500 to-orange-500 text-white shadow-sm'
-      : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800',
+      : 'text-foreground hover:bg-muted dark:text-muted-foreground dark:hover:bg-gray-800',
   ].join(' ')
 }
 
@@ -185,8 +185,8 @@ function getUtilityLinkClasses(isActive: boolean) {
   return [
     'flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
     isActive
-      ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900'
-      : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800',
+      ? 'bg-gray-900 text-white dark:bg-card dark:text-foreground'
+      : 'text-foreground hover:bg-muted dark:text-muted-foreground dark:hover:bg-gray-800',
   ].join(' ')
 }
 
@@ -280,7 +280,7 @@ export default function AppHeader({ title = 'FWBer', showNav = true }: AppHeader
     <>
       <header
         data-app-header="true"
-        className={`sticky top-0 z-40 bg-white shadow dark:bg-gray-900 ${
+        className={`sticky top-0 z-40 bg-card shadow dark:bg-background ${
           showNav ? 'app-header-with-sidebar' : ''
         }`}
       >
@@ -290,7 +290,7 @@ export default function AppHeader({ title = 'FWBer', showNav = true }: AppHeader
               <button
                 type="button"
                 onClick={handleBack}
-                className="rounded-full p-2 text-gray-700 transition-colors hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-800"
+                className="rounded-full p-2 text-foreground transition-colors hover:bg-muted dark:bg-card dark:text-muted-foreground dark:hover:bg-gray-800"
                 aria-label="Go back"
                 title="Go back"
               >
@@ -311,7 +311,7 @@ export default function AppHeader({ title = 'FWBer', showNav = true }: AppHeader
               <div className="flex items-center gap-3">
                 <ConnectionStatusBadge className="ml-5 shrink-0" />
                 {title && title !== 'FWBer' && (
-                  <span className="hidden truncate text-sm font-medium text-gray-500 sm:inline dark:text-gray-400">
+                  <span className="hidden truncate text-sm font-medium text-muted-foreground sm:inline dark:text-muted-foreground">
                     {title}
                   </span>
                 )}
@@ -355,11 +355,11 @@ export default function AppHeader({ title = 'FWBer', showNav = true }: AppHeader
               </button>
             </div>
 
-            <div className="hidden items-center gap-2 rounded-full border border-gray-200 bg-white px-2 py-1 sm:flex dark:border-gray-700 dark:bg-gray-900">
+            <div className="hidden items-center gap-2 rounded-full border border-border bg-card px-2 py-1 sm:flex dark:border-border dark:bg-background">
               <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-pink-500 to-orange-500 text-sm font-bold text-white">
                 {userInitial}
               </div>
-              <span className="max-w-32 truncate text-sm font-medium text-gray-700 dark:text-gray-300">
+              <span className="max-w-32 truncate text-sm font-medium text-foreground dark:text-muted-foreground">
                 {userDisplayName}
               </span>
             </div>
@@ -367,7 +367,7 @@ export default function AppHeader({ title = 'FWBer', showNav = true }: AppHeader
             {showNav && (
               <button type="button"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="rounded-lg p-2 text-gray-700 transition-colors hover:bg-gray-100 lg:hidden dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-800"
+                className="rounded-lg p-2 text-foreground transition-colors hover:bg-muted lg:hidden dark:bg-card dark:text-muted-foreground dark:hover:bg-gray-800"
                 aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
               >
                 {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -377,7 +377,7 @@ export default function AppHeader({ title = 'FWBer', showNav = true }: AppHeader
         </div>
 
         {showNav && mobileMenuOpen && (
-          <div className="border-t border-gray-200 px-4 py-4 lg:hidden dark:border-gray-700">
+          <div className="border-t border-border px-4 py-4 lg:hidden dark:border-border">
             <nav className="space-y-1" aria-label="Mobile primary navigation">
               {navLinks.map((link) => {
                 const active = isActivePath(pathname, link.href)
@@ -387,14 +387,14 @@ export default function AppHeader({ title = 'FWBer', showNav = true }: AppHeader
               })}
             </nav>
 
-            <div className="mt-4 rounded-2xl border border-gray-200 bg-gray-50 p-3 dark:border-gray-700 dark:border-gray-800 dark:bg-gray-950/60">
-              <p className="mb-2 px-1 text-xs font-semibold uppercase tracking-[0.18em] text-gray-500 dark:text-gray-400">
+            <div className="mt-4 rounded-2xl border border-border bg-muted p-3 dark:border-border dark:border-gray-800 dark:bg-gray-950/60">
+              <p className="mb-2 px-1 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground dark:text-muted-foreground">
                 Product map
               </p>
               <div className="space-y-3">
                 {exploreSections.map((section) => (
                   <div key={section.id}>
-                    <p className="px-1 pb-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-gray-400 dark:text-gray-500">
+                    <p className="px-1 pb-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground dark:text-muted-foreground">
                       {section.label}
                     </p>
                     <div className="space-y-1">
@@ -410,16 +410,16 @@ export default function AppHeader({ title = 'FWBer', showNav = true }: AppHeader
               </div>
             </div>
 
-            <div className="mt-4 border-t border-gray-200 pt-4 dark:border-gray-700">
+            <div className="mt-4 border-t border-border pt-4 dark:border-border">
               <div className="mb-3 flex items-center gap-3 px-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-pink-500 to-orange-500 text-base font-bold text-white">
                   {userInitial}
                 </div>
                 <div className="min-w-0">
-                  <p className="truncate text-sm font-semibold text-gray-900 dark:text-white">
+                  <p className="truncate text-sm font-semibold text-foreground dark:text-foreground">
                     {userDisplayName}
                   </p>
-                  <p className="truncate text-xs text-gray-500 dark:text-gray-400">
+                  <p className="truncate text-xs text-muted-foreground dark:text-muted-foreground">
                     {user?.email || 'Signed in'}
                   </p>
                 </div>
@@ -469,7 +469,7 @@ export default function AppHeader({ title = 'FWBer', showNav = true }: AppHeader
       </header>
 
       {showNav && (
-        <aside className="fixed bottom-0 left-0 top-[4.625rem] z-30 hidden w-72 border-r border-gray-200 bg-white/95 backdrop-blur lg:flex lg:flex-col dark:border-gray-700 dark:border-gray-800 dark:bg-gray-900/95">
+        <aside className="fixed bottom-0 left-0 top-[4.625rem] z-30 hidden w-72 border-r border-border bg-white/95 backdrop-blur lg:flex lg:flex-col dark:border-border dark:border-gray-800 dark:bg-gray-900/95">
           <div className="flex-1 overflow-y-auto px-4 py-6">
             <div className="glass shadow-premium mb-6 rounded-2xl border border-white/20 p-4 dark:border-white/5">
               <div className="mb-3 flex items-center gap-3">
@@ -477,10 +477,10 @@ export default function AppHeader({ title = 'FWBer', showNav = true }: AppHeader
                   {userInitial}
                 </div>
                 <div className="min-w-0">
-                  <p className="truncate text-sm font-semibold text-gray-900 dark:text-white">
+                  <p className="truncate text-sm font-semibold text-foreground dark:text-foreground">
                     {userDisplayName}
                   </p>
-                  <p className="truncate text-xs text-gray-500 dark:text-gray-400">
+                  <p className="truncate text-xs text-muted-foreground dark:text-muted-foreground">
                     {user?.email || 'Signed in'}
                   </p>
                 </div>
@@ -494,14 +494,14 @@ export default function AppHeader({ title = 'FWBer', showNav = true }: AppHeader
               })}
             </nav>
 
-            <div className="mt-6 rounded-2xl border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:border-gray-800 dark:bg-gray-950/60">
-              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-gray-500 dark:text-gray-400">
+            <div className="mt-6 rounded-2xl border border-border bg-muted p-4 dark:border-border dark:border-gray-800 dark:bg-gray-950/60">
+              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground dark:text-muted-foreground">
                 Product map
               </p>
               <div className="space-y-4">
                 {exploreSections.map((section) => (
                   <div key={section.id}>
-                    <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-gray-400 dark:text-gray-500">
+                    <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground dark:text-muted-foreground">
                       {section.label}
                     </p>
                     <div className="space-y-1">
@@ -518,7 +518,7 @@ export default function AppHeader({ title = 'FWBer', showNav = true }: AppHeader
             <div className="glass mt-6 rounded-2xl border border-white/20 p-4 shadow-sm dark:border-white/5">
               <a
                 href="/help"
-                className="flex items-center gap-2 text-sm font-medium text-gray-700 transition-colors hover:text-purple-600 dark:text-gray-300 dark:hover:text-purple-400"
+                className="flex items-center gap-2 text-sm font-medium text-foreground transition-colors hover:text-purple-600 dark:text-muted-foreground dark:hover:text-purple-400"
               >
                 <CircleHelp className="h-4 w-4" />
                 <span>Need help?</span>

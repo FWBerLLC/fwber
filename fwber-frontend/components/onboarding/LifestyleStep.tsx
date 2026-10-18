@@ -59,7 +59,7 @@ export default function LifestyleStep({ formData, setFormData }: LifestyleStepPr
               className={`px-3 py-2 text-sm rounded-lg border transition-all ${
                 isSelected
                   ? `${colorClasses[color].active} text-white`
-                  : `bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 ${colorClasses[color].hover}`
+                  : `bg-card dark:bg-card border-border dark:border-border ${colorClasses[color].hover}`
               }`}
             >
               {opt}

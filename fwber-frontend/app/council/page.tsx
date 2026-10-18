@@ -94,7 +94,7 @@ export default function CouncilPage() {
                 {/* Header */}
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
                     <div>
-                        <h1 className="text-4xl font-black italic uppercase tracking-tighter text-zinc-900 dark:text-white flex items-center gap-3">
+                        <h1 className="text-4xl font-black italic uppercase tracking-tighter text-zinc-900 dark:text-foreground flex items-center gap-3">
                             <Gavel className="w-10 h-10 text-purple-600" />
                             The Council
                         </h1>
@@ -108,7 +108,7 @@ export default function CouncilPage() {
                             </div>
                             <div>
                                 <p className="text-[10px] font-black uppercase text-purple-600 tracking-widest">Your Voting Power</p>
-                                <p className="text-xl font-black dark:text-white">{user?.token_balance || 0} FWB</p>
+                                <p className="text-xl font-black dark:text-foreground">{user?.token_balance || 0} FWB</p>
                             </div>
                         </div>
                     </div>
@@ -191,7 +191,7 @@ function ProposalCard({
     isFinalized?: boolean
 }) {
     return (
-        <Card className="border-zinc-200 dark:border-zinc-800 shadow-xl overflow-hidden bg-white dark:bg-gray-800 dark:bg-zinc-900">
+        <Card className="border-zinc-200 dark:border-zinc-800 shadow-xl overflow-hidden bg-card dark:bg-card dark:bg-zinc-900">
             <div className="flex flex-col md:flex-row">
                 <div className="flex-1 p-6 md:p-8">
                     <div className="flex items-center gap-3 mb-4">

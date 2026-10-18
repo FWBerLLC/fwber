@@ -63,7 +63,7 @@ export default function SentryTestPage() {
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white p-8">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl font-bold mb-2">🔍 Sentry Test Dashboard</h1>
-        <p className="text-gray-400 mb-8">Test your error tracking integration</p>
+        <p className="text-muted-foreground mb-8">Test your error tracking integration</p>
 
         <div className="bg-gray-800 rounded-lg p-6 mb-6 border border-gray-700">
           <h2 className="text-xl font-semibold mb-4">📊 Configuration Status</h2>
@@ -154,7 +154,7 @@ export default function SentryTestPage() {
 
         <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
           <h2 className="text-xl font-semibold mb-4">📖 Instructions</h2>
-          <ol className="list-decimal list-inside space-y-2 text-gray-300 text-sm">
+          <ol className="list-decimal list-inside space-y-2 text-muted-foreground text-sm">
             <li>Click any test button above</li>
             <li>Open your browser console to see local logging</li>
             <li>
@@ -182,7 +182,7 @@ export default function SentryTestPage() {
           </div>
         </div>
 
-        <div className="mt-6 text-center text-gray-500 text-sm">
+        <div className="mt-6 text-center text-muted-foreground text-sm">
           <p>Open browser DevTools Console to see all logging in real-time</p>
         </div>
       </div>

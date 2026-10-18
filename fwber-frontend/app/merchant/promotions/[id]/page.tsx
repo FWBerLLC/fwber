@@ -192,17 +192,17 @@ export default function MerchantPromotionDetailPage() {
     <div className="space-y-6 px-4 sm:px-0 pb-12">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <Link href="/merchant/promotions" className="mb-3 inline-flex items-center text-sm text-gray-500 hover:text-gray-900 dark:text-white dark:hover:text-gray-200">
+          <Link href="/merchant/promotions" className="mb-3 inline-flex items-center text-sm text-muted-foreground hover:text-foreground dark:text-foreground dark:hover:text-gray-200">
             <ArrowLeft className="mr-1 h-4 w-4" />
             Back to Promotions
           </Link>
           <div className="flex flex-wrap items-center gap-3">
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">{promotion.title}</h1>
-            <Badge className={form.is_active ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-700 dark:text-gray-300 dark:bg-gray-800 dark:text-gray-200'}>
+            <h1 className="text-3xl font-bold tracking-tight text-foreground dark:text-foreground">{promotion.title}</h1>
+            <Badge className={form.is_active ? 'bg-green-600 text-white' : 'bg-muted text-foreground dark:text-muted-foreground dark:bg-card dark:text-foreground'}>
               {form.is_active ? 'Active' : 'Inactive'}
             </Badge>
           </div>
-          <p className="mt-2 text-gray-500 dark:text-gray-400">
+          <p className="mt-2 text-muted-foreground dark:text-muted-foreground">
             Fine-tune your campaign details and watch how it performs.
           </p>
         </div>
@@ -261,12 +261,12 @@ export default function MerchantPromotionDetailPage() {
               </div>
 
               <div className="space-y-2 flex items-end">
-                <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                <label className="flex items-center gap-2 text-sm font-medium text-foreground dark:text-muted-foreground">
                   <input
                     type="checkbox"
                     checked={form.is_active}
                     onChange={(event) => handleChange('is_active', event.target.checked)}
-                    className="h-4 w-4 rounded border-gray-300 dark:border-gray-600"
+                    className="h-4 w-4 rounded border-border dark:border-border"
                   />
                   Promotion is active
                 </label>
@@ -296,21 +296,21 @@ export default function MerchantPromotionDetailPage() {
             <CardTitle>Placement Snapshot</CardTitle>
             <CardDescription>Immutable location details for this promotion.</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4 text-sm text-gray-600 dark:text-gray-300">
+          <CardContent className="space-y-4 text-sm text-muted-foreground dark:text-muted-foreground">
             <div>
-              <p className="font-medium text-gray-900 dark:text-white">Latitude / Longitude</p>
+              <p className="font-medium text-foreground dark:text-foreground">Latitude / Longitude</p>
               <p>{promotion.lat}, {promotion.lng}</p>
             </div>
             <div>
-              <p className="font-medium text-gray-900 dark:text-white">Created</p>
+              <p className="font-medium text-foreground dark:text-foreground">Created</p>
               <p>{format(new Date(promotion.created_at), 'MMM d, yyyy h:mm a')}</p>
             </div>
             <div>
-              <p className="font-medium text-gray-900 dark:text-white">Last Updated</p>
+              <p className="font-medium text-foreground dark:text-foreground">Last Updated</p>
               <p>{format(new Date(promotion.updated_at), 'MMM d, yyyy h:mm a')}</p>
             </div>
             <div>
-              <p className="font-medium text-gray-900 dark:text-white">Next Step</p>
+              <p className="font-medium text-foreground dark:text-foreground">Next Step</p>
               <p>Use analytics to compare this campaign against your other active promotions.</p>
             </div>
             <Button asChild variant="outline" className="w-full border-amber-200 text-amber-700 hover:bg-amber-50">

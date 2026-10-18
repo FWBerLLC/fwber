@@ -83,7 +83,7 @@ export function ProfileRoast() {
           </div>
           <div>
             <h3 className="text-lg font-semibold text-white">{title}</h3>
-            <p className="text-sm text-gray-400 mt-1">
+            <p className="text-sm text-muted-foreground mt-1">
               {description}
             </p>
           </div>
@@ -104,7 +104,7 @@ export function ProfileRoast() {
       <Card className="bg-gray-900 border-gray-800">
         <CardContent className="p-8 flex flex-col items-center justify-center space-y-4">
           <Loader2 className={`w-8 h-8 animate-spin ${isRoast ? 'text-orange-500' : 'text-blue-500'}`} />
-          <p className="text-gray-400 animate-pulse">
+          <p className="text-muted-foreground animate-pulse">
             {isRoast ? 'Preparing the burn...' : 'Generating hype...'}
           </p>
         </CardContent>
@@ -122,10 +122,10 @@ export function ProfileRoast() {
           </CardTitle>
           <div className="flex gap-2">
             <Button variant="ghost" size="icon" onClick={handleCopy} title="Copy">
-              <Copy className="w-4 h-4 text-gray-400 hover:text-white" />
+              <Copy className="w-4 h-4 text-muted-foreground hover:text-white" />
             </Button>
             <Button variant="ghost" size="icon" onClick={handleShare} title="Share">
-              <Share2 className="w-4 h-4 text-gray-400 hover:text-white" />
+              <Share2 className="w-4 h-4 text-muted-foreground hover:text-white" />
             </Button>
           </div>
         </div>
@@ -142,7 +142,7 @@ export function ProfileRoast() {
                 variant="ghost" 
                 size="sm" 
                 onClick={() => setContent(null)}
-                className="text-gray-400 hover:text-white"
+                className="text-muted-foreground hover:text-white"
             >
                 Switch Mode
             </Button>

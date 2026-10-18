@@ -64,17 +64,17 @@ export default function FederationOutboxPage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <div className="min-h-screen bg-muted dark:bg-background">
         <AppHeader />
         <main className="mx-auto max-w-5xl space-y-8 px-4 py-8">
           <div className="flex flex-col gap-4">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div>
-                <h1 className="flex items-center gap-2 text-3xl font-bold text-gray-900 dark:text-white">
+                <h1 className="flex items-center gap-2 text-3xl font-bold text-foreground dark:text-foreground">
                   <Send className="h-8 w-8 text-blue-500" />
                   Federation Outbox
                 </h1>
-                <p className="mt-1 text-gray-500 dark:text-gray-400">
+                <p className="mt-1 text-muted-foreground dark:text-muted-foreground">
                   Review the public ActivityPub activities fwber exposes for your federated identity.
                 </p>
               </div>
@@ -149,7 +149,7 @@ export default function FederationOutboxPage() {
                   <CardHeader>
                     <div className="flex flex-wrap items-start justify-between gap-3">
                       <div>
-                        <CardTitle className="text-lg text-gray-900 dark:text-white">
+                        <CardTitle className="text-lg text-foreground dark:text-foreground">
                           {activity.type} activity
                         </CardTitle>
                         <CardDescription className="mt-1 break-all">
@@ -161,7 +161,7 @@ export default function FederationOutboxPage() {
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div
-                      className="prose max-w-none text-sm text-gray-700 dark:text-gray-300 dark:prose-invert dark:text-gray-200"
+                      className="prose max-w-none text-sm text-foreground dark:text-muted-foreground dark:prose-invert dark:text-foreground"
                       dangerouslySetInnerHTML={{ __html: sanitizeHtml(activity.object.content) }}
                     />
                     <div className="flex flex-wrap gap-3 text-xs text-muted-foreground">

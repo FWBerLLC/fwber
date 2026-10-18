@@ -101,7 +101,7 @@ export default function CosmicMatchPage() {
                         repeat: Infinity,
                         delay: Math.random() * 5
                     }}
-                    className="absolute bg-white dark:bg-gray-800 rounded-full"
+                    className="absolute bg-card dark:bg-card rounded-full"
                     style={{
                         width: Math.random() * 2 + 1 + 'px',
                         height: Math.random() * 2 + 1 + 'px',
@@ -120,7 +120,7 @@ export default function CosmicMatchPage() {
           <div className="flex items-center gap-4 mb-12">
             <Link
               href="/wingman"
-              className="p-2 -ml-2 hover:bg-white dark:bg-gray-800/5 rounded-full transition"
+              className="p-2 -ml-2 hover:bg-card dark:bg-gray-800/5 rounded-full transition"
             >
               <ArrowLeft className="w-6 h-6 text-zinc-500" />
             </Link>
@@ -154,7 +154,7 @@ export default function CosmicMatchPage() {
                         </p>
                         <button type="button"
                             onClick={getCosmicMatch}
-                            className="h-20 w-full bg-white dark:bg-gray-800 text-black font-black uppercase tracking-widest italic rounded-3xl hover:bg-zinc-200 transition-all transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-4 text-xl shadow-xl shadow-white/5"
+                            className="h-20 w-full bg-card dark:bg-card text-black font-black uppercase tracking-widest italic rounded-3xl hover:bg-zinc-200 transition-all transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-4 text-xl shadow-xl shadow-white/5"
                         >
                             <Sparkles className="w-6 h-6" />
                             Align The Stars
@@ -267,7 +267,7 @@ export default function CosmicMatchPage() {
                             >
                                 <button type="button"
                                     onClick={handleShare}
-                                    className="flex-1 bg-white dark:bg-gray-800 text-black font-black uppercase tracking-widest italic rounded-3xl flex items-center justify-center gap-3 hover:bg-zinc-200 transition-all shadow-lg shadow-white/5"
+                                    className="flex-1 bg-card dark:bg-card text-black font-black uppercase tracking-widest italic rounded-3xl flex items-center justify-center gap-3 hover:bg-zinc-200 transition-all shadow-lg shadow-white/5"
                                 >
                                     <Share2 className="w-5 h-5" />
                                     Broadcast Destiny

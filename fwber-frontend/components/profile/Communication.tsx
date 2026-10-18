@@ -15,14 +15,14 @@ export default function Communication({ formData, handlePreferenceChange }: Comm
       </CardHeader>
       <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div>
-          <label htmlFor="communication_style" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label htmlFor="communication_style" className="block text-sm font-medium text-foreground dark:text-muted-foreground">
             Communication Style
           </label>
           <select
             id="communication_style"
             value={formData.preferences.communication_style}
             onChange={(e) => handlePreferenceChange('communication_style', e.target.value)}
-            className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           >
             <option value="">Select style</option>
             <option value="direct">Direct</option>
@@ -35,14 +35,14 @@ export default function Communication({ formData, handlePreferenceChange }: Comm
         </div>
 
         <div>
-          <label htmlFor="response_time" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label htmlFor="response_time" className="block text-sm font-medium text-foreground dark:text-muted-foreground">
             Response Time
           </label>
           <select
             id="response_time"
             value={formData.preferences.response_time}
             onChange={(e) => handlePreferenceChange('response_time', e.target.value)}
-            className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           >
             <option value="">Select preference</option>
             <option value="immediate">Immediate</option>
@@ -54,14 +54,14 @@ export default function Communication({ formData, handlePreferenceChange }: Comm
         </div>
 
         <div>
-          <label htmlFor="meeting_preference" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label htmlFor="meeting_preference" className="block text-sm font-medium text-foreground dark:text-muted-foreground">
             Meeting Preference
           </label>
           <select
             id="meeting_preference"
             value={formData.preferences.meeting_preference}
             onChange={(e) => handlePreferenceChange('meeting_preference', e.target.value)}
-            className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           >
             <option value="">Select preference</option>
             <option value="public-places">Public places</option>

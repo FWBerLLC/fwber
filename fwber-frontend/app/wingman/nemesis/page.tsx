@@ -75,7 +75,7 @@ export default function ScientificNemesisPage() {
           <div className="flex items-center gap-3 mb-12">
             <Link
               href="/wingman"
-              className="p-2 -ml-2 hover:bg-white dark:bg-gray-800/5 rounded-lg transition"
+              className="p-2 -ml-2 hover:bg-card dark:bg-gray-800/5 rounded-lg transition"
             >
               <ArrowLeft className="w-5 h-5 text-zinc-500" />
             </Link>
@@ -173,7 +173,7 @@ export default function ScientificNemesisPage() {
                       </div>
 
                       <div className="grid grid-cols-1 gap-4 text-left">
-                        <div className="bg-white dark:bg-gray-800/5 border border-white/10 rounded-2xl p-6">
+                        <div className="bg-card dark:bg-gray-800/5 border border-white/10 rounded-2xl p-6">
                           <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-rose-500 mb-4 flex items-center gap-2">
                             <AlertTriangle className="w-3 h-3" /> Toxic Trait Overlap
                           </h3>
@@ -186,7 +186,7 @@ export default function ScientificNemesisPage() {
                           </div>
                         </div>
 
-                        <div className="bg-white dark:bg-gray-800/5 border border-white/10 rounded-2xl p-6">
+                        <div className="bg-card dark:bg-gray-800/5 border border-white/10 rounded-2xl p-6">
                           <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-rose-500 mb-4 flex items-center gap-2">
                             <Skull className="w-3 h-3" /> The Disaster Scenario
                           </h3>
@@ -218,7 +218,7 @@ export default function ScientificNemesisPage() {
                   <button type="button"
                     onClick={findNemesis}
                     disabled={loading}
-                    className="w-full h-16 flex items-center justify-center gap-3 bg-white dark:bg-gray-800 text-black font-black uppercase tracking-tighter italic rounded-2xl hover:bg-zinc-200 transition-all disabled:opacity-50 group"
+                    className="w-full h-16 flex items-center justify-center gap-3 bg-card dark:bg-card text-black font-black uppercase tracking-tighter italic rounded-2xl hover:bg-zinc-200 transition-all disabled:opacity-50 group"
                   >
                     {loading ? (
                       <RefreshCw className="w-6 h-6 animate-spin text-rose-600" />

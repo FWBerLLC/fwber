@@ -124,11 +124,11 @@ export function VibeCheck() {
                         {checkVibe.isPending ? (
                              <>
                                 <Loader2 className="w-8 h-8 animate-spin text-purple-500" />
-                                <p className="text-gray-400 animate-pulse">Analyzing your vibes...</p>
+                                <p className="text-muted-foreground animate-pulse">Analyzing your vibes...</p>
                              </>
                         ) : (
                             <>
-                                <p className="text-sm text-gray-400">
+                                <p className="text-sm text-muted-foreground">
                                 Are you a walking green flag or a red flag factory? Let AI decide.
                                 </p>
                                 <Button 
@@ -170,15 +170,15 @@ export function VibeCheck() {
                             </div>
                         </div>
                         <div className="flex justify-between items-center pt-2 border-t border-purple-500/20">
-                            <Button variant="ghost" size="sm" onClick={() => setVibeResult(null)} className="text-gray-400 hover:text-white">
+                            <Button variant="ghost" size="sm" onClick={() => setVibeResult(null)} className="text-muted-foreground hover:text-white">
                                 <RefreshCw className="w-4 h-4 mr-2" /> Reset
                             </Button>
                              <div className="flex gap-2">
                                 <Button variant="ghost" size="icon" onClick={handleCopyVibe} title="Copy">
-                                    <Copy className="w-4 h-4 text-gray-400 hover:text-white" />
+                                    <Copy className="w-4 h-4 text-muted-foreground hover:text-white" />
                                 </Button>
                                 <Button variant="ghost" size="icon" onClick={handleShareVibe} title="Share">
-                                    <Share2 className="w-4 h-4 text-gray-400 hover:text-white" />
+                                    <Share2 className="w-4 h-4 text-muted-foreground hover:text-white" />
                                 </Button>
                             </div>
                         </div>
@@ -190,7 +190,7 @@ export function VibeCheck() {
                 {!quirkResult ? (
                     <div className="space-y-4">
                         <div className="space-y-2">
-                            <label className="text-sm font-medium text-gray-300">
+                            <label className="text-sm font-medium text-muted-foreground">
                                 What&apos;s your quirk?
                             </label>
                             <Textarea
@@ -224,21 +224,21 @@ export function VibeCheck() {
                             }`}>
                                 {quirkResult.flag_type}
                             </h3>
-                            <p className="text-gray-300 italic">
+                            <p className="text-muted-foreground italic">
                                 &quot;{quirkResult.reason}&quot;
                             </p>
                         </div>
                         
                         <div className="flex justify-between items-center pt-2 border-t border-purple-500/20">
-                            <Button variant="ghost" size="sm" onClick={() => setQuirkResult(null)} className="text-gray-400 hover:text-white">
+                            <Button variant="ghost" size="sm" onClick={() => setQuirkResult(null)} className="text-muted-foreground hover:text-white">
                                 <RefreshCw className="w-4 h-4 mr-2" /> Check Another
                             </Button>
                              <div className="flex gap-2">
                                 <Button variant="ghost" size="icon" onClick={handleCopyQuirk} title="Copy">
-                                    <Copy className="w-4 h-4 text-gray-400 hover:text-white" />
+                                    <Copy className="w-4 h-4 text-muted-foreground hover:text-white" />
                                 </Button>
                                 <Button variant="ghost" size="icon" onClick={handleShareQuirk} title="Share">
-                                    <Share2 className="w-4 h-4 text-gray-400 hover:text-white" />
+                                    <Share2 className="w-4 h-4 text-muted-foreground hover:text-white" />
                                 </Button>
                             </div>
                         </div>

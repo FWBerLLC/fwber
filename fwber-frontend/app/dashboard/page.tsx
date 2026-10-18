@@ -98,7 +98,7 @@ export default function DashboardPage() {
   return (
     <ProtectedRoute>
       <TooltipProvider delayDuration={200}>
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+        <div className="min-h-screen bg-muted dark:bg-background">
         <AppHeader />
         <DailyStreakModal
           isOpen={isStreakModalOpen}
@@ -110,10 +110,10 @@ export default function DashboardPage() {
           <div className="px-4 py-6 sm:px-0">
             {/* ── Greeting ── */}
             <div className="mb-6">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+              <h2 className="text-2xl font-bold text-foreground dark:text-foreground">
                 Hey, {(user as any)?.display_name || (user as any)?.name || 'there'} 👋
               </h2>
-              <p className="mt-1 text-gray-500 dark:text-gray-400">
+              <p className="mt-1 text-muted-foreground dark:text-muted-foreground">
                 Your matches, messages, and everything else — one glance.
               </p>
             </div>
@@ -124,10 +124,10 @@ export default function DashboardPage() {
                 {[...Array(5)].map((_, i) => (
                   <div
                     key={i}
-                    className="animate-pulse rounded-xl border border-gray-200 bg-white p-5 dark:border-gray-700 dark:bg-gray-800"
+                    className="animate-pulse rounded-xl border border-border bg-card p-5 dark:border-border dark:bg-card"
                   >
-                    <div className="mb-3 h-4 w-2/3 rounded bg-gray-200 dark:bg-gray-700" />
-                    <div className="h-7 w-1/2 rounded bg-gray-200 dark:bg-gray-700" />
+                    <div className="mb-3 h-4 w-2/3 rounded bg-muted dark:bg-gray-700" />
+                    <div className="h-7 w-1/2 rounded bg-muted dark:bg-gray-700" />
                   </div>
                 ))}
               </div>
@@ -185,8 +185,8 @@ export default function DashboardPage() {
                 <ActivityFeed maxItems={6} showRefresh />
 
                 {/* Quick Actions */}
-                <div className="rounded-xl border border-gray-200 bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
-                  <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                <div className="rounded-xl border border-border bg-card p-5 dark:border-border dark:bg-card">
+                  <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground dark:text-muted-foreground">
                     Quick Actions
                   </h3>
                   <div className="grid grid-cols-3 gap-2 sm:grid-cols-4 lg:grid-cols-6">
@@ -232,29 +232,29 @@ export default function DashboardPage() {
                 <ProfileCompletenessWidget />
 
                 {/* Streak & Account Card */}
-                <div className="rounded-xl border border-gray-200 bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
+                <div className="rounded-xl border border-border bg-card p-5 dark:border-border dark:bg-card">
                   <div className="mb-3 flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <Clock className="h-4 w-4 text-gray-400" />
-                      <span className="text-sm font-medium text-gray-900 dark:text-white">
+                      <Clock className="h-4 w-4 text-muted-foreground" />
+                      <span className="text-sm font-medium text-foreground dark:text-foreground">
                         Account
                       </span>
                     </div>
-                    <span className="text-xs text-gray-500 dark:text-gray-400">
+                    <span className="text-xs text-muted-foreground dark:text-muted-foreground">
                       {stats?.days_active || 0} days
                     </span>
                   </div>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
-                      <span className="text-gray-500 dark:text-gray-400">Last active</span>
-                      <span className="font-medium text-gray-900 dark:text-white">
+                      <span className="text-muted-foreground dark:text-muted-foreground">Last active</span>
+                      <span className="font-medium text-foreground dark:text-foreground">
                         {stats?.last_login
                           ? new Date(stats.last_login).toLocaleDateString()
                           : 'Today'}
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-500 dark:text-gray-400">Network</span>
+                      <span className="text-muted-foreground dark:text-muted-foreground">Network</span>
                       <span
                         className={`font-medium ${
                           stats?.reverb_healthy
@@ -287,7 +287,7 @@ export default function DashboardPage() {
 
             {/* ── Feature Navigation ── */}
             <div className="mb-4">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Explore</h3>
+              <h3 className="text-lg font-semibold text-foreground dark:text-foreground">Explore</h3>
             </div>
 
             {/* Discover & Connect */}
@@ -1141,7 +1141,7 @@ function MetricCard({
 
   return (
     <Link href={href} prefetch={false} className="group block">
-      <div className="rounded-xl border border-gray-200 bg-white p-5 transition-all hover:border-purple-300 hover:shadow-lg dark:border-gray-700 dark:bg-gray-800 dark:hover:border-purple-700">
+      <div className="rounded-xl border border-border bg-card p-5 transition-all hover:border-purple-300 hover:shadow-lg dark:border-border dark:bg-card dark:hover:border-purple-700">
         <div
           className={`h-10 w-10 rounded-lg ${
             accents[accent] || accents.purple
@@ -1149,11 +1149,11 @@ function MetricCard({
         >
           {icon}
         </div>
-        <div className="mb-1 text-2xl font-bold leading-none text-gray-900 dark:text-white">
+        <div className="mb-1 text-2xl font-bold leading-none text-foreground dark:text-foreground">
           {value}
         </div>
-        <div className="text-xs font-medium text-gray-600 dark:text-gray-400">{label}</div>
-        <div className="mt-0.5 text-[11px] text-gray-400 dark:text-gray-500">{detail}</div>
+        <div className="text-xs font-medium text-muted-foreground dark:text-muted-foreground">{label}</div>
+        <div className="mt-0.5 text-[11px] text-muted-foreground dark:text-muted-foreground">{detail}</div>
       </div>
     </Link>
   )
@@ -1177,16 +1177,16 @@ function QuickAction({
         ? 'hover:bg-amber-50 dark:hover:bg-amber-900/20'
         : accent === 'purple'
           ? 'hover:bg-purple-50 dark:hover:bg-purple-900/20'
-          : 'hover:bg-gray-50 dark:hover:bg-gray-700'
+          : 'hover:bg-muted dark:hover:bg-gray-700'
 
   return (
     <Link
       href={href}
       prefetch={false}
-      className={`flex flex-col items-center gap-1.5 rounded-lg border border-gray-100 p-3 transition-colors dark:border-gray-700 ${bg}`}
+      className={`flex flex-col items-center gap-1.5 rounded-lg border border-gray-100 p-3 transition-colors dark:border-border ${bg}`}
     >
-      <div className="text-gray-600 dark:text-gray-400">{icon}</div>
-      <span className="text-center text-[11px] font-medium leading-tight text-gray-700 dark:text-gray-300">
+      <div className="text-muted-foreground dark:text-muted-foreground">{icon}</div>
+      <span className="text-center text-[11px] font-medium leading-tight text-foreground dark:text-muted-foreground">
         {label}
       </span>
     </Link>
@@ -1196,8 +1196,8 @@ function QuickAction({
 function SectionHeader({ icon, title }: { icon: React.ReactNode; title: string }) {
   return (
     <div className="mb-3 flex items-center gap-2">
-      <div className="text-gray-400 dark:text-gray-500">{icon}</div>
-      <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+      <div className="text-muted-foreground dark:text-muted-foreground">{icon}</div>
+      <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground dark:text-muted-foreground">
         {title}
       </h3>
     </div>
@@ -1276,7 +1276,7 @@ function FeatureTile({
       >
         <div className={`mb-3 inline-flex rounded-lg p-2 ${a.iconBg}`}>{icon}</div>
         <div className="flex items-start justify-between gap-1">
-          <h4 className="text-sm font-semibold leading-tight text-gray-900 dark:text-white">
+          <h4 className="text-sm font-semibold leading-tight text-foreground dark:text-foreground">
             {title}
           </h4>
           {tooltip ? (
@@ -1285,7 +1285,7 @@ function FeatureTile({
                 <button
                   type="button"
                   aria-label={`More info about ${title}`}
-                  className="mt-0.5 shrink-0 text-gray-400 transition-colors hover:text-gray-600 dark:hover:text-gray-300"
+                  className="mt-0.5 shrink-0 text-muted-foreground transition-colors hover:text-muted-foreground dark:hover:text-muted-foreground"
                   onClick={(e) => e.preventDefault()}
                 >
                   <Info className="h-3.5 w-3.5" />
@@ -1297,7 +1297,7 @@ function FeatureTile({
             </Tooltip>
           ) : null}
         </div>
-        <p className="mt-1 text-xs leading-relaxed text-gray-500 dark:text-gray-400">{subtitle}</p>
+        <p className="mt-1 text-xs leading-relaxed text-muted-foreground dark:text-muted-foreground">{subtitle}</p>
       </div>
     </Link>
   )

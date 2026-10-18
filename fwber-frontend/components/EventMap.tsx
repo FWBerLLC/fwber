@@ -77,7 +77,7 @@ export function EventMap({ eventId, centerLat, centerLng }: EventMapProps) {
   const attendees = Object.values(eventAttendeesLocations || {});
 
   return (
-    <div className="h-[400px] w-full rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 shadow-sm z-0 relative">
+    <div className="h-[400px] w-full rounded-lg overflow-hidden border border-border dark:border-border shadow-sm z-0 relative">
       {typeof window !== 'undefined' && (
         <MapContainer center={[centerLat, centerLng]} zoom={15} className="h-full w-full">
           <TileLayer
@@ -101,7 +101,7 @@ export function EventMap({ eventId, centerLat, centerLng }: EventMapProps) {
             >
               <Popup>
                 <div className="text-sm">User ID: {attendee.userId}</div>
-                <div className="text-xs text-gray-500">Updated: {new Date(attendee.timestamp).toLocaleTimeString()}</div>
+                <div className="text-xs text-muted-foreground">Updated: {new Date(attendee.timestamp).toLocaleTimeString()}</div>
               </Popup>
             </Marker>
           ))}

@@ -35,22 +35,22 @@ export default function ConversationStarters() {
     <div className="max-w-4xl mx-auto p-6">
       <div className="mb-8">
         <h2 className="text-2xl font-semibold mb-2">Conversation Starters</h2>
-        <p className="text-gray-600">
+        <p className="text-muted-foreground">
           Generate engaging icebreakers tailored to your conversation context.
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="space-y-6">
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+          <div className="bg-card dark:bg-card p-6 rounded-lg shadow-md">
             <div className="mb-4">
-              <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Conversation Type</label>
+              <label className="block text-sm font-medium mb-2 text-foreground dark:text-muted-foreground">Conversation Type</label>
               <select
                 value={type}
                 onChange={(e) => setType(e.target.value as any)}
                 data-testid="conversation-type"
                 aria-label="Conversation Type"
-                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500"
+                className="w-full p-3 border border-border dark:border-border rounded-lg focus:ring-2 focus:ring-blue-500"
               >
                 <option value="casual">Casual</option>
                 <option value="romantic">Romantic</option>
@@ -60,25 +60,25 @@ export default function ConversationStarters() {
             </div>
 
             <div className="mb-4">
-              <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Target Interests (comma separated)</label>
+              <label className="block text-sm font-medium mb-2 text-foreground dark:text-muted-foreground">Target Interests (comma separated)</label>
               <input
                 type="text"
                 value={interests}
                 onChange={(e) => setInterests(e.target.value)}
                 data-testid="target-interests"
                 placeholder="e.g. travel, music, food"
-                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500"
+                className="w-full p-3 border border-border dark:border-border rounded-lg focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
             <div className="mb-6">
-              <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Context Hints</label>
+              <label className="block text-sm font-medium mb-2 text-foreground dark:text-muted-foreground">Context Hints</label>
               <textarea
                 value={hints}
                 onChange={(e) => setHints(e.target.value)}
                 data-testid="conversation-hints"
                 placeholder="Any specific context or shared experiences..."
-                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500"
+                className="w-full p-3 border border-border dark:border-border rounded-lg focus:ring-2 focus:ring-blue-500"
                 rows={3}
               />
             </div>
@@ -90,7 +90,7 @@ export default function ConversationStarters() {
             >
               {isLoading ? 'Generating...' : 'Generate Starters (5 🪙)'}
             </button>
-            <p className="text-xs text-center text-gray-500 mt-2">
+            <p className="text-xs text-center text-muted-foreground mt-2">
                 Generating conversation starters costs 5 tokens.
             </p>
           </div>
@@ -100,7 +100,7 @@ export default function ConversationStarters() {
           {isLoading && (
             <div className="text-center py-8" data-testid="conversation-loading">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto"></div>
-              <p className="mt-2 text-gray-600">Generating conversation starters...</p>
+              <p className="mt-2 text-muted-foreground">Generating conversation starters...</p>
             </div>
           )}
 
@@ -111,11 +111,11 @@ export default function ConversationStarters() {
           )}
 
           {data?.data?.suggestions?.map((suggestion: any, index: number) => (
-            <div key={index} className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700" data-testid="conversation-starter">
-              <p className="text-gray-800 dark:text-gray-100 mb-3" data-testid="starter-content">{suggestion.content}</p>
+            <div key={index} className="bg-card dark:bg-card p-4 rounded-lg shadow-sm border border-border dark:border-border" data-testid="conversation-starter">
+              <p className="text-foreground dark:text-foreground mb-3" data-testid="starter-content">{suggestion.content}</p>
               
               <div className="flex justify-between items-center">
-                <div className="flex space-x-3 text-sm text-gray-500">
+                <div className="flex space-x-3 text-sm text-muted-foreground">
                   <span data-testid="engagement-score">Engagement: {Math.round((suggestion.confidence || 0.8) * 100)}%</span>
                 </div>
                 

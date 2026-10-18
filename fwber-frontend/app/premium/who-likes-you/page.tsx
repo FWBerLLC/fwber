@@ -28,7 +28,7 @@ export default function WhoLikesYouPage() {
       {isLoadingLikers ? (
         <div className="text-center py-12">Loading your admirers...</div>
       ) : likers?.length === 0 ? (
-        <div className="text-center py-12 text-gray-500">
+        <div className="text-center py-12 text-muted-foreground">
           No new likes yet. Keep your profile updated!
         </div>
       ) : (
@@ -41,13 +41,13 @@ export default function WhoLikesYouPage() {
                  <div className="aspect-[3/4] relative">
                    {isLocked ? (
                       // Blurred/Locked State
-                      <div className="absolute inset-0 bg-gray-200 flex flex-col items-center justify-center p-4">
-                        <Lock className="w-8 h-8 text-gray-400 mb-2" />
+                      <div className="absolute inset-0 bg-muted flex flex-col items-center justify-center p-4">
+                        <Lock className="w-8 h-8 text-muted-foreground mb-2" />
                         <div className="text-center">
-                            <p className="text-sm font-bold text-gray-500">Someone</p>
-                            <p className="text-xs text-gray-400">{liker.age} years old</p>
+                            <p className="text-sm font-bold text-muted-foreground">Someone</p>
+                            <p className="text-xs text-muted-foreground">{liker.age} years old</p>
                         </div>
-                        <div className="absolute inset-0 backdrop-blur-md bg-white dark:bg-gray-800/30" />
+                        <div className="absolute inset-0 backdrop-blur-md bg-card dark:bg-gray-800/30" />
                       </div>
                    ) : (
                       // Unlocked State
@@ -84,7 +84,7 @@ export default function WhoLikesYouPage() {
             );
 
             return (
-              <div key={liker.id} className="relative group overflow-hidden rounded-xl shadow-md bg-white dark:bg-gray-800 border border-gray-100">
+              <div key={liker.id} className="relative group overflow-hidden rounded-xl shadow-md bg-card dark:bg-card border border-gray-100">
                 {isLocked ? (
                    <ShareToUnlock
                      targetId={liker.id}
@@ -110,7 +110,7 @@ export default function WhoLikesYouPage() {
 
       <div className="mt-12 p-6 bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl text-center">
         <h3 className="font-bold text-lg mb-2">Want to see everyone instantly?</h3>
-        <p className="text-gray-600 mb-4">Upgrade to Gold to unlock all your admirers at once.</p>
+        <p className="text-muted-foreground mb-4">Upgrade to Gold to unlock all your admirers at once.</p>
         <Button 
             onClick={() => setShowUpgradeModal(true)}
             className="bg-gradient-to-r from-yellow-500 to-yellow-700 text-white font-bold"

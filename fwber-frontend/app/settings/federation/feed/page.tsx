@@ -50,7 +50,7 @@ function FederationAction({
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className={`flex items-center gap-1.5 transition-colors hover:text-gray-900 dark:hover:text-white disabled:opacity-50 disabled:cursor-not-allowed ${
+      className={`flex items-center gap-1.5 transition-colors hover:text-foreground dark:hover:text-white disabled:opacity-50 disabled:cursor-not-allowed ${
         active ? activeColor : ''
       }`}
     >
@@ -98,17 +98,17 @@ export default function GlobalFeedPage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <div className="min-h-screen bg-muted dark:bg-background">
         <AppHeader />
         <main className="max-w-4xl mx-auto px-4 py-8">
           <div className="flex flex-col gap-4 mb-8">
             <div className="flex items-center justify-between gap-4 flex-wrap">
               <div>
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                <h1 className="text-3xl font-bold text-foreground dark:text-foreground flex items-center gap-2">
                   <Globe className="w-8 h-8 text-blue-500" />
                   Global Feed
                 </h1>
-                <p className="text-gray-500 dark:text-gray-400 mt-1">
+                <p className="text-muted-foreground dark:text-muted-foreground mt-1">
                   Explore recent posts from the decentralized social web via ActivityPub.
                 </p>
               </div>
@@ -121,13 +121,13 @@ export default function GlobalFeedPage() {
               <div className="flex bg-zinc-100 dark:bg-zinc-800 p-1 rounded-lg mr-4">
                   <button type="button"
                     onClick={() => setFeedMode('global')}
-                    className={`px-3 py-1.5 text-xs font-bold rounded-md transition-all ${feedMode === 'global' ? 'bg-white dark:bg-zinc-700 shadow-sm text-blue-600' : 'text-zinc-500 hover:text-zinc-700'}`}
+                    className={`px-3 py-1.5 text-xs font-bold rounded-md transition-all ${feedMode === 'global' ? 'bg-card dark:bg-zinc-700 shadow-sm text-blue-600' : 'text-zinc-500 hover:text-zinc-700'}`}
                   >
                       Global
                   </button>
                   <button type="button"
                     onClick={() => setFeedMode('following')}
-                    className={`px-3 py-1.5 text-xs font-bold rounded-md transition-all ${feedMode === 'following' ? 'bg-white dark:bg-zinc-700 shadow-sm text-blue-600' : 'text-zinc-500 hover:text-zinc-700'}`}
+                    className={`px-3 py-1.5 text-xs font-bold rounded-md transition-all ${feedMode === 'following' ? 'bg-card dark:bg-zinc-700 shadow-sm text-blue-600' : 'text-zinc-500 hover:text-zinc-700'}`}
                   >
                       Following
                   </button>
@@ -152,13 +152,13 @@ export default function GlobalFeedPage() {
               <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
             </div>
           ) : posts.length === 0 ? (
-            <Card className="bg-white dark:bg-gray-800 border-dashed border-2">
+            <Card className="bg-card dark:bg-card border-dashed border-2">
               <CardContent className="flex flex-col items-center justify-center py-12 text-center">
-                <Users className="w-12 h-12 text-gray-300 mb-4" />
+                <Users className="w-12 h-12 text-muted-foreground mb-4" />
                 <CardTitle className="text-xl">
                     {feedMode === 'following' ? 'No posts from people you follow' : 'Your feed is empty'}
                 </CardTitle>
-                <p className="text-gray-500 mt-2">
+                <p className="text-muted-foreground mt-2">
                   {feedMode === 'following'
                     ? 'Start following federated actors to see their latest updates here.'
                     : 'Follow users from other servers to see their posts collected here.'}
@@ -179,7 +179,7 @@ export default function GlobalFeedPage() {
                 return (
                   <Card key={post.id} className="overflow-hidden hover:shadow-md transition-shadow">
                     <CardHeader className="flex flex-row items-center gap-4 pb-3">
-                      <div className="w-10 h-10 rounded-full bg-gray-200 flex-shrink-0 overflow-hidden relative">
+                      <div className="w-10 h-10 rounded-full bg-muted flex-shrink-0 overflow-hidden relative">
                         {post.actor_avatar ? (
                           <Image src={post.actor_avatar} alt="" fill sizes="40px" className="object-cover" />
                         ) : (
@@ -192,17 +192,17 @@ export default function GlobalFeedPage() {
                         <div className="flex items-center justify-between gap-3">
                           <Link
                             href={buildFederationActorExplorerHref(post.actor_uri)}
-                            className="font-bold text-gray-900 dark:text-white truncate hover:text-blue-600 dark:hover:text-blue-400"
+                            className="font-bold text-foreground dark:text-foreground truncate hover:text-blue-600 dark:hover:text-blue-400"
                           >
                             {authorName}
                           </Link>
-                          <time className="text-xs text-gray-500 whitespace-nowrap">
+                          <time className="text-xs text-muted-foreground whitespace-nowrap">
                             {formatDistanceToNow(new Date(post.published_at), { addSuffix: true })}
                           </time>
                         </div>
                         <Link
                           href={buildFederationActorExplorerHref(post.actor_uri)}
-                          className="text-xs text-gray-500 truncate hover:text-blue-600 dark:hover:text-blue-400"
+                          className="text-xs text-muted-foreground truncate hover:text-blue-600 dark:hover:text-blue-400"
                         >
                           {actorHandle}
                         </Link>
@@ -210,10 +210,10 @@ export default function GlobalFeedPage() {
                     </CardHeader>
                     <CardContent>
                       <div
-                        className="prose dark:prose-invert max-w-none text-gray-800 dark:text-gray-100 dark:text-gray-200"
+                        className="prose dark:prose-invert max-w-none text-foreground dark:text-foreground dark:text-foreground"
                         dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }}
                       />
-                      <div className="flex items-center gap-6 mt-6 pt-4 border-t dark:border-gray-700 text-gray-500">
+                      <div className="flex items-center gap-6 mt-6 pt-4 border-t dark:border-border text-muted-foreground">
                         <FederationAction
                           icon={MessageSquare}
                           label="Reply"

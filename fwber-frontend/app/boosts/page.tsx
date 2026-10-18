@@ -14,14 +14,14 @@ export default function BoostsPage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+      <div className="min-h-screen bg-muted dark:bg-background">
         <AppHeader title="Boosts" />
         <main className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8 space-y-6">
-          <section className="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
+          <section className="rounded-2xl border border-border dark:border-border bg-card p-6 shadow-sm dark:border-gray-800 dark:bg-background">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Profile Boosts</h1>
-                <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                <h1 className="text-3xl font-bold text-foreground dark:text-foreground">Profile Boosts</h1>
+                <p className="mt-2 text-sm text-muted-foreground dark:text-muted-foreground">
                   Recovered the dedicated boost surface so token and card-based profile boosts are reachable outside buried modals.
                 </p>
               </div>
@@ -36,10 +36,10 @@ export default function BoostsPage() {
           </section>
 
           <section className="grid gap-6 lg:grid-cols-2">
-            <div className="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
+            <div className="rounded-2xl border border-border dark:border-border bg-card p-6 shadow-sm dark:border-gray-800 dark:bg-background">
               <div className="mb-4 flex items-center gap-2 text-purple-600 dark:text-purple-300">
                 <Zap className="h-5 w-5" />
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Active Boost</h2>
+                <h2 className="text-lg font-semibold text-foreground dark:text-foreground">Active Boost</h2>
               </div>
               {activeBoost ? (
                 <div className="space-y-3">
@@ -47,28 +47,28 @@ export default function BoostsPage() {
                     <div className="text-sm font-semibold uppercase tracking-[0.16em] text-purple-600 dark:text-purple-300">
                       {activeBoost.boost_type ?? 'standard'} boost
                     </div>
-                    <div className="mt-2 text-sm text-gray-700 dark:text-gray-300">
+                    <div className="mt-2 text-sm text-foreground dark:text-muted-foreground">
                       Status: <span className="font-medium">{activeBoost.status ?? 'active'}</span>
                     </div>
-                    <div className="mt-1 text-sm text-gray-700 dark:text-gray-300">
+                    <div className="mt-1 text-sm text-foreground dark:text-muted-foreground">
                       Expires: <span className="font-medium">{new Date(activeBoost.expires_at).toLocaleString()}</span>
                     </div>
                   </div>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                  <p className="text-sm text-muted-foreground dark:text-muted-foreground">
                     While active, your profile is prioritized more aggressively in discovery surfaces.
                   </p>
                 </div>
               ) : (
-                <p className="text-sm text-gray-500 dark:text-gray-400">No active boost right now.</p>
+                <p className="text-sm text-muted-foreground dark:text-muted-foreground">No active boost right now.</p>
               )}
             </div>
 
-            <div className="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
+            <div className="rounded-2xl border border-border dark:border-border bg-card p-6 shadow-sm dark:border-gray-800 dark:bg-background">
               <div className="mb-4 flex items-center gap-2 text-blue-600 dark:text-blue-300">
                 <Clock className="h-5 w-5" />
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Why boosts matter</h2>
+                <h2 className="text-lg font-semibold text-foreground dark:text-foreground">Why boosts matter</h2>
               </div>
-              <ul className="space-y-3 text-sm text-gray-600 dark:text-gray-300">
+              <ul className="space-y-3 text-sm text-muted-foreground dark:text-muted-foreground">
                 <li>• Raise your visibility in nearby discovery and match feeds.</li>
                 <li>• Use token balance when you want a fast in-app spend path.</li>
                 <li>• Use card checkout when you want to preserve your token balance for gifts or unlocks.</li>
@@ -76,27 +76,27 @@ export default function BoostsPage() {
             </div>
           </section>
 
-          <section className="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
-            <div className="mb-4 flex items-center gap-2 text-gray-700 dark:text-gray-300 dark:text-gray-200">
+          <section className="rounded-2xl border border-border dark:border-border bg-card p-6 shadow-sm dark:border-gray-800 dark:bg-background">
+            <div className="mb-4 flex items-center gap-2 text-foreground dark:text-muted-foreground dark:text-foreground">
               <History className="h-5 w-5" />
               <h2 className="text-lg font-semibold">Boost History</h2>
             </div>
             {isLoading ? (
-              <p className="text-sm text-gray-500">Loading boost history…</p>
+              <p className="text-sm text-muted-foreground">Loading boost history…</p>
             ) : !boostHistory || !Array.isArray(boostHistory) || boostHistory.length === 0 ? (
-              <p className="text-sm text-gray-500 dark:text-gray-400">No boosts purchased yet.</p>
+              <p className="text-sm text-muted-foreground dark:text-muted-foreground">No boosts purchased yet.</p>
             ) : (
               <div className="space-y-3">
                 {boostHistory.map((boost: any) => (
-                  <div key={boost.id} className="rounded-xl border border-gray-200 dark:border-gray-700 p-4 dark:border-gray-800">
+                  <div key={boost.id} className="rounded-xl border border-border dark:border-border p-4 dark:border-gray-800">
                     <div className="flex flex-wrap items-center justify-between gap-2">
-                      <div className="font-medium text-gray-900 dark:text-white">{boost.boost_type} boost</div>
-                      <div className="text-xs uppercase tracking-[0.16em] text-gray-500">{boost.status}</div>
+                      <div className="font-medium text-foreground dark:text-foreground">{boost.boost_type} boost</div>
+                      <div className="text-xs uppercase tracking-[0.16em] text-muted-foreground">{boost.status}</div>
                     </div>
-                    <div className="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                    <div className="mt-2 text-sm text-muted-foreground dark:text-muted-foreground">
                       Started: {new Date(boost.started_at).toLocaleString()}
                     </div>
-                    <div className="text-sm text-gray-600 dark:text-gray-300">
+                    <div className="text-sm text-muted-foreground dark:text-muted-foreground">
                       Expires: {new Date(boost.expires_at).toLocaleString()}
                     </div>
                   </div>

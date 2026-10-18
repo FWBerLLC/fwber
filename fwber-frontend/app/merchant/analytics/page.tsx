@@ -125,7 +125,7 @@ export default function MerchantAnalyticsPage() {
                         </Button>
                     </Link>
                     <div>
-                        <h1 className="text-2xl font-black italic uppercase tracking-tighter text-zinc-900 dark:text-white">
+                        <h1 className="text-2xl font-black italic uppercase tracking-tighter text-zinc-900 dark:text-foreground">
                             Business Intelligence
                         </h1>
                         <p className="text-xs font-bold text-amber-600 uppercase tracking-widest flex items-center gap-1">
@@ -169,7 +169,7 @@ export default function MerchantAnalyticsPage() {
                                 </CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <div className="text-4xl font-black tracking-tighter text-zinc-900 dark:text-white italic">
+                                <div className="text-4xl font-black tracking-tighter text-zinc-900 dark:text-foreground italic">
                                     {data.kpis.totalReach}
                                 </div>
                                 <p className="text-[10px] text-zinc-400 mt-1 font-bold uppercase tracking-widest">
@@ -228,7 +228,7 @@ export default function MerchantAnalyticsPage() {
                                     </p>
                                 </div>
                                 <div className="text-right">
-                                    <div className="text-sm font-bold text-zinc-900 dark:text-white">
+                                    <div className="text-sm font-bold text-zinc-900 dark:text-foreground">
                                         +12.4%
                                     </div>
                                     <p className="text-[10px] text-green-600 font-black uppercase tracking-widest">
@@ -245,7 +245,7 @@ export default function MerchantAnalyticsPage() {
                                 </CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <div className="text-2xl font-black tracking-tighter text-zinc-900 dark:text-white uppercase italic">
+                                <div className="text-2xl font-black tracking-tighter text-zinc-900 dark:text-foreground uppercase italic">
                                     {data.broadcasts.length * 42} Recipients
                                 </div>
                                 <p className="text-[10px] text-zinc-400 mt-1 font-bold uppercase tracking-widest">
@@ -266,7 +266,7 @@ export default function MerchantAnalyticsPage() {
                                 <div className="p-6 rounded-2xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-900 flex items-center justify-between">
                                     <div className="space-y-1">
                                         <span className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Total Claims</span>
-                                        <div className="text-3xl font-black text-zinc-900 dark:text-white tracking-tighter">
+                                        <div className="text-3xl font-black text-zinc-900 dark:text-foreground tracking-tighter">
                                             {data.promotions.reduce((sum, promotion) => sum + promotion.redemptions, 0)}
                                         </div>
                                     </div>
@@ -294,7 +294,7 @@ export default function MerchantAnalyticsPage() {
                             </CardHeader>
                             <CardContent className="space-y-8 relative z-10">
                                 <div className="flex items-center gap-4">
-                                    <div className="p-4 rounded-2xl bg-white dark:bg-gray-800/5 border border-white/10">
+                                    <div className="p-4 rounded-2xl bg-card dark:bg-gray-800/5 border border-white/10">
                                         <TrendingUp className="w-8 h-8 text-blue-400" />
                                     </div>
                                     <div>
@@ -345,7 +345,7 @@ export default function MerchantAnalyticsPage() {
                                     {(data.broadcasts || []).map((broadcast) => (
                                         <div
                                             key={broadcast.id}
-                                            className="rounded-2xl border border-zinc-200 bg-white dark:bg-gray-800 p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-950"
+                                            className="rounded-2xl border border-zinc-200 bg-card dark:bg-card p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-950"
                                         >
                                             <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                                                 <div className="space-y-3">

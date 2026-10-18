@@ -39,7 +39,7 @@ export default function TipButton({ recipientId, recipientName, compact = false 
       <Dialog.Trigger asChild>
         {compact ? (
           <button
-            className="p-2 hover:bg-gray-700 rounded-full text-gray-400 hover:text-yellow-400 transition-colors"
+            className="p-2 hover:bg-gray-700 rounded-full text-muted-foreground hover:text-yellow-400 transition-colors"
             title={`Tip ${recipientName}`}
           >
             <Coins className="w-5 h-5" />
@@ -53,11 +53,11 @@ export default function TipButton({ recipientId, recipientName, compact = false 
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-black/50 z-50" />
-        <Dialog.Content className="fixed left-[50%] top-[50%] max-h-[85vh] w-[90vw] max-w-[400px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-white p-[25px] shadow-lg focus:outline-none z-50 dark:bg-gray-800 dark:text-white">
+        <Dialog.Content className="fixed left-[50%] top-[50%] max-h-[85vh] w-[90vw] max-w-[400px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-card p-[25px] shadow-lg focus:outline-none z-50 dark:bg-card dark:text-foreground">
           <div className="flex justify-between items-center mb-4">
             <Dialog.Title className="text-xl font-bold">Tip {recipientName}</Dialog.Title>
             <Dialog.Close asChild>
-              <button className="text-gray-400 hover:text-gray-500">
+              <button className="text-muted-foreground hover:text-muted-foreground">
                 <X className="w-5 h-5" />
               </button>
             </Dialog.Close>
@@ -72,7 +72,7 @@ export default function TipButton({ recipientId, recipientName, compact = false 
                   className={`p-2 rounded border transition-colors ${
                     amount === amt
                       ? 'bg-purple-100 border-purple-500 text-purple-700 dark:bg-purple-900 dark:text-purple-300'
-                      : 'border-gray-200 hover:border-purple-300 dark:border-gray-700'
+                      : 'border-border hover:border-purple-300 dark:border-border'
                   }`}
                 >
                   {amt} FWB
@@ -85,7 +85,7 @@ export default function TipButton({ recipientId, recipientName, compact = false 
                 type="number"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                className="flex-1 p-2 border rounded dark:bg-gray-700 dark:border-gray-600"
+                className="flex-1 p-2 border rounded dark:bg-gray-700 dark:border-border"
                 placeholder="Custom Amount"
               />
             </div>

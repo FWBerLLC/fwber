@@ -99,7 +99,7 @@ export default function SendTokenModal({ isOpen, onClose, onSuccess }: SendToken
     <Dialog.Root open={isOpen} onOpenChange={onClose}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-black/50 z-50 backdrop-blur-sm" />
-        <Dialog.Content className="fixed left-[50%] top-[50%] max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-xl bg-white p-6 shadow-2xl focus:outline-none z-50 dark:bg-gray-900 dark:text-white border border-gray-200 dark:border-gray-700">
+        <Dialog.Content className="fixed left-[50%] top-[50%] max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-xl bg-card p-6 shadow-2xl focus:outline-none z-50 dark:bg-background dark:text-foreground border border-border dark:border-border">
           <Dialog.Title className="text-xl font-bold mb-4 flex items-center gap-2">
             <Send className="w-5 h-5 text-indigo-600" />
             Send Tokens
@@ -107,12 +107,12 @@ export default function SendTokenModal({ isOpen, onClose, onSuccess }: SendToken
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Settlement Toggle */}
-            <div className="flex gap-2 p-1 bg-gray-100 dark:bg-gray-800 rounded-lg">
+            <div className="flex gap-2 p-1 bg-muted dark:bg-card rounded-lg">
                 <button
                     type="button"
                     onClick={() => setOnChain(false)}
                     className={`flex-1 py-2 flex items-center justify-center gap-2 text-xs font-bold rounded-md transition-all ${
-                        !onChain ? 'bg-white shadow text-indigo-600' : 'text-gray-500'
+                        !onChain ? 'bg-card shadow text-indigo-600' : 'text-muted-foreground'
                     }`}
                 >
                     <Database className="w-3 h-3" />
@@ -122,7 +122,7 @@ export default function SendTokenModal({ isOpen, onClose, onSuccess }: SendToken
                     type="button"
                     onClick={() => setOnChain(true)}
                     className={`flex-1 py-2 flex items-center justify-center gap-2 text-xs font-bold rounded-md transition-all ${
-                        onChain ? 'bg-purple-600 shadow text-white' : 'text-gray-500'
+                        onChain ? 'bg-purple-600 shadow text-white' : 'text-muted-foreground'
                     }`}
                 >
                     <Globe className="w-3 h-3" />
@@ -130,19 +130,19 @@ export default function SendTokenModal({ isOpen, onClose, onSuccess }: SendToken
                 </button>
             </div>
 
-            <p className="text-[10px] text-gray-500 text-center italic">
+            <p className="text-[10px] text-muted-foreground text-center italic">
                 {onChain 
                     ? "Settles on Solana Devnet. Requires connected wallet. Small gas fee applies."
                     : "Settles instantly in-app. Zero fees. Managed by fwber treasury."}
             </p>
 
             {/* Recipient Toggle */}
-            <div className="flex gap-2 mb-4 p-1 bg-gray-100 dark:bg-gray-800 rounded-lg">
+            <div className="flex gap-2 mb-4 p-1 bg-muted dark:bg-card rounded-lg">
                 <button
                     type="button"
                     onClick={() => setRecipientType('friend')}
                     className={`flex-1 py-1.5 text-xs font-medium rounded-md transition-all ${
-                        recipientType === 'friend' ? 'bg-white shadow text-indigo-600' : 'text-gray-500'
+                        recipientType === 'friend' ? 'bg-card shadow text-indigo-600' : 'text-muted-foreground'
                     }`}
                 >
                     Select Friend
@@ -151,7 +151,7 @@ export default function SendTokenModal({ isOpen, onClose, onSuccess }: SendToken
                     type="button"
                     onClick={() => setRecipientType('email')}
                     className={`flex-1 py-1.5 text-xs font-medium rounded-md transition-all ${
-                        recipientType === 'email' ? 'bg-white shadow text-indigo-600' : 'text-gray-500'
+                        recipientType === 'email' ? 'bg-card shadow text-indigo-600' : 'text-muted-foreground'
                     }`}
                 >
                     Enter Email
@@ -164,7 +164,7 @@ export default function SendTokenModal({ isOpen, onClose, onSuccess }: SendToken
                 <select
                     value={selectedRecipient}
                     onChange={e => setSelectedRecipient(e.target.value)}
-                    className="w-full p-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700"
+                    className="w-full p-2 border rounded-lg dark:bg-card dark:border-border"
                     required={recipientType === 'friend'}
                 >
                     <option value="">Select a friend...</option>
@@ -172,7 +172,7 @@ export default function SendTokenModal({ isOpen, onClose, onSuccess }: SendToken
                     <option key={f.id} value={f.id}>{f.name}</option>
                     ))}
                 </select>
-                {friends.length === 0 && <p className="text-xs text-gray-500 mt-1">No friends found.</p>}
+                {friends.length === 0 && <p className="text-xs text-muted-foreground mt-1">No friends found.</p>}
                 </div>
             ) : (
                 <div>
@@ -181,7 +181,7 @@ export default function SendTokenModal({ isOpen, onClose, onSuccess }: SendToken
                         type="email"
                         value={email}
                         onChange={e => setEmail(e.target.value)}
-                        className="w-full p-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700"
+                        className="w-full p-2 border rounded-lg dark:bg-card dark:border-border"
                         placeholder="friend@example.com"
                         required={recipientType === 'email'}
                     />
@@ -196,7 +196,7 @@ export default function SendTokenModal({ isOpen, onClose, onSuccess }: SendToken
                 step="0.1"
                 value={amount}
                 onChange={e => setAmount(e.target.value)}
-                className="w-full p-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700"
+                className="w-full p-2 border rounded-lg dark:bg-card dark:border-border"
                 placeholder="0.00"
                 required
               />
@@ -208,7 +208,7 @@ export default function SendTokenModal({ isOpen, onClose, onSuccess }: SendToken
                 type="text"
                 value={message}
                 onChange={e => setMessage(e.target.value)}
-                className="w-full p-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700"
+                className="w-full p-2 border rounded-lg dark:bg-card dark:border-border"
                 placeholder="What's this for?"
                 maxLength={255}
               />
@@ -218,7 +218,7 @@ export default function SendTokenModal({ isOpen, onClose, onSuccess }: SendToken
               <button
                 type="button"
                 onClick={onClose}
-                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
+                className="flex-1 px-4 py-2 border border-border rounded-lg text-foreground hover:bg-muted dark:bg-background dark:border-border dark:text-muted-foreground dark:hover:bg-gray-800"
               >
                 Cancel
               </button>

@@ -151,13 +151,13 @@ export default function EnhancedProfileEditor() {
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Edit Profile</h1>
-            <p className="text-gray-600 mt-1">Update your information and preferences</p>
+            <h1 className="text-3xl font-bold text-foreground dark:text-foreground">Edit Profile</h1>
+            <p className="text-muted-foreground mt-1">Update your information and preferences</p>
           </div>
           <div className="text-right">
-            <div className="text-sm text-gray-600 mb-1">Profile Completeness</div>
+            <div className="text-sm text-muted-foreground mb-1">Profile Completeness</div>
             <div className="flex items-center gap-2">
-              <div className="w-32 h-2 bg-gray-200 rounded-full overflow-hidden">
+              <div className="w-32 h-2 bg-muted rounded-full overflow-hidden">
                 <div 
                   className="h-full bg-gradient-to-r from-purple-600 to-pink-600 transition-all duration-500"
                   style={{ width: `${completeness}%` }}
@@ -196,7 +196,7 @@ export default function EnhancedProfileEditor() {
 
       {/* AI Wingman Insights */}
       <div className="mb-8">
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+        <h2 className="text-xl font-semibold text-foreground dark:text-foreground mb-4 flex items-center gap-2">
           <Sparkles className="w-5 h-5 text-purple-600" />
           AI Wingman Insights
         </h2>
@@ -994,7 +994,7 @@ export default function EnhancedProfileEditor() {
           </div>
 
           <div className="mt-4">
-            <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Social Media (Optional)</h3>
+            <h3 className="text-sm font-medium text-foreground dark:text-muted-foreground mb-2">Social Media (Optional)</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <input
                 type="text"
@@ -1077,13 +1077,13 @@ export default function EnhancedProfileEditor() {
                   ))}
                 </div>
                 <div className="mt-2">
-                  <label className="text-xs text-gray-500">Last Tested Date</label>
+                  <label className="text-xs text-muted-foreground">Last Tested Date</label>
                   <input
                     title="Last Tested Date"
                     type="date"
                     value={profile.sti_status?.last_tested || ''}
                     onChange={(e) => handleChange('sti_status', { ...profile.sti_status, last_tested: e.target.value })}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                    className="mt-1 block w-full px-3 py-2 border border-border dark:border-border rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
                   />
                 </div>
               </div>
@@ -1102,7 +1102,7 @@ export default function EnhancedProfileEditor() {
                   />
                 ))}
               </div>
-              <p className="mt-2 text-xs text-gray-500">Select all that apply. You can add more specific details in your bio if you wish.</p>
+              <p className="mt-2 text-xs text-muted-foreground">Select all that apply. You can add more specific details in your bio if you wish.</p>
             </FormField>
           </div>
         </Section>
@@ -1112,7 +1112,7 @@ export default function EnhancedProfileEditor() {
           <button
             type="button"
             onClick={() => window.history.back()}
-            className="px-6 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:bg-gray-900 transition-colors"
+            className="px-6 py-2 border border-border dark:border-border text-foreground dark:text-muted-foreground rounded-lg hover:bg-muted dark:bg-background transition-colors"
           >
             Cancel
           </button>
@@ -1142,10 +1142,10 @@ export default function EnhancedProfileEditor() {
 // Helper Components
 function Section({ title, icon, children }: { title: string; icon: React.ReactNode; children: React.ReactNode }) {
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+    <div className="bg-card dark:bg-card rounded-xl border border-border dark:border-border p-6">
       <div className="flex items-center gap-2 mb-4">
         <div className="text-purple-600">{icon}</div>
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white">{title}</h2>
+        <h2 className="text-xl font-semibold text-foreground dark:text-foreground">{title}</h2>
       </div>
       <div className="space-y-4">
         {children}
@@ -1171,13 +1171,13 @@ function FormField({
 }) {
   return (
     <div>
-      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+      <label className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-2">
         {label}
         {required && <span className="text-red-500 ml-1">*</span>}
       </label>
       {children}
       {hint && !error && (
-        <p className="mt-1 text-xs text-gray-500">{hint}</p>
+        <p className="mt-1 text-xs text-muted-foreground">{hint}</p>
       )}
       {error && touched && (
         <p className="mt-1 text-xs text-red-600 flex items-center gap-1">
@@ -1205,7 +1205,7 @@ function ToggleChip({
       className={`px-4 py-2 rounded-full border-2 transition-all font-medium text-sm ${
         selected
           ? 'bg-purple-600 border-purple-600 text-white'
-          : 'bg-white border-gray-300 text-gray-700 hover:border-purple-600 hover:text-purple-600'
+          : 'bg-card border-border text-foreground hover:border-purple-600 hover:text-purple-600'
       }`}
     >
       {label}
@@ -1218,5 +1218,5 @@ function inputClassName(error?: string, touched?: boolean) {
   if (error && touched) {
     return `${baseClass} border-red-300 focus:ring-red-500`;
   }
-  return `${baseClass} border-gray-300`;
+  return `${baseClass} border-border`;
 }

@@ -106,16 +106,16 @@ export default function MatchesDashboardPage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+      <div className="min-h-screen bg-muted dark:bg-background">
         {/* Header */}
-        <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 dark:border-gray-800">
+        <header className="bg-card dark:bg-background border-b border-border dark:border-border dark:border-gray-800">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div>
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                <h1 className="text-3xl font-bold text-foreground dark:text-foreground">
                   My Matches
                 </h1>
-                <p className="text-gray-600 dark:text-gray-400 mt-1">
+                <p className="text-muted-foreground dark:text-muted-foreground mt-1">
                   {matches.length} {matches.length === 1 ? 'connection' : 'connections'}
                 </p>
               </div>
@@ -162,17 +162,17 @@ export default function MatchesDashboardPage() {
           </div>
 
           {/* Filters */}
-          <div className="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 dark:border-gray-800 p-4 mb-6">
+          <div className="bg-card dark:bg-background rounded-lg border border-border dark:border-border dark:border-gray-800 p-4 mb-6">
             <div className="flex flex-col md:flex-row gap-4">
               {/* Search */}
               <div className="flex-1 relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                 <input
                   type="text"
                   placeholder="Search matches..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-purple-500"
+                  className="w-full pl-10 pr-4 py-2 border border-border dark:border-border rounded-lg bg-card dark:bg-card text-foreground dark:text-foreground focus:ring-2 focus:ring-purple-500"
                 />
               </div>
 
@@ -183,7 +183,7 @@ export default function MatchesDashboardPage() {
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                     filter === 'all'
                       ? 'bg-purple-600 text-white'
-                      : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+                      : 'bg-muted dark:bg-card text-foreground dark:text-muted-foreground hover:bg-muted dark:hover:bg-gray-700'
                   }`}
                 >
                   All
@@ -193,7 +193,7 @@ export default function MatchesDashboardPage() {
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                     filter === RelationshipTier.MATCHED
                       ? 'bg-blue-600 text-white'
-                      : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+                      : 'bg-muted dark:bg-card text-foreground dark:text-muted-foreground hover:bg-muted dark:hover:bg-gray-700'
                   }`}
                 >
                   💫 Matched
@@ -203,7 +203,7 @@ export default function MatchesDashboardPage() {
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                     filter === RelationshipTier.CONNECTED
                       ? 'bg-purple-600 text-white'
-                      : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+                      : 'bg-muted dark:bg-card text-foreground dark:text-muted-foreground hover:bg-muted dark:hover:bg-gray-700'
                   }`}
                 >
                   💬 Connected
@@ -213,7 +213,7 @@ export default function MatchesDashboardPage() {
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                     filter === RelationshipTier.ESTABLISHED
                       ? 'bg-pink-600 text-white'
-                      : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+                      : 'bg-muted dark:bg-card text-foreground dark:text-muted-foreground hover:bg-muted dark:hover:bg-gray-700'
                   }`}
                 >
                   ❤️ Established
@@ -232,11 +232,11 @@ export default function MatchesDashboardPage() {
           {/* Matches Grid */}
           {filteredMatches.length === 0 ? (
             <div className="text-center py-12">
-              <div className="text-gray-400 text-6xl mb-4">💔</div>
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+              <div className="text-muted-foreground text-6xl mb-4">💔</div>
+              <h3 className="text-xl font-semibold text-foreground dark:text-foreground mb-2">
                 No matches found
               </h3>
-              <p className="text-gray-600 dark:text-gray-400">
+              <p className="text-muted-foreground dark:text-muted-foreground">
                 {searchQuery ? 'Try adjusting your search' : 'Start swiping to find connections!'}
               </p>
             </div>
@@ -245,7 +245,7 @@ export default function MatchesDashboardPage() {
               {filteredMatches.map((match) => (
                 <div
                   key={match.id}
-                  className="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 dark:border-gray-800 overflow-hidden hover:shadow-lg transition-shadow"
+                  className="bg-card dark:bg-background rounded-lg border border-border dark:border-border dark:border-gray-800 overflow-hidden hover:shadow-lg transition-shadow"
                 >
                   {/* Photo */}
                   <div className="relative aspect-square bg-gradient-to-br from-blue-400 to-purple-500">
@@ -275,11 +275,11 @@ export default function MatchesDashboardPage() {
                   <div className="p-4">
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex-1">
-                        <h3 className="font-bold text-lg text-gray-900 dark:text-white">
+                        <h3 className="font-bold text-lg text-foreground dark:text-foreground">
                           {match.profile?.display_name || 'Anonymous'}
                         </h3>
                         {match.profile?.age && (
-                          <p className="text-sm text-gray-600 dark:text-gray-400">
+                          <p className="text-sm text-muted-foreground dark:text-muted-foreground">
                             {match.profile.age} years old
                           </p>
                         )}
@@ -291,7 +291,7 @@ export default function MatchesDashboardPage() {
 
                     {/* Location */}
                     {match.profile?.location?.city && (
-                      <div className="flex items-center gap-1.5 text-sm text-gray-600 dark:text-gray-400 mb-3">
+                      <div className="flex items-center gap-1.5 text-sm text-muted-foreground dark:text-muted-foreground mb-3">
                         <MapPin className="w-4 h-4" />
                         <span>
                           {match.profile.location.city}
@@ -301,7 +301,7 @@ export default function MatchesDashboardPage() {
                     )}
 
                     {/* Stats */}
-                    <div className="flex items-center gap-4 text-xs text-gray-600 dark:text-gray-400 mb-4">
+                    <div className="flex items-center gap-4 text-xs text-muted-foreground dark:text-muted-foreground mb-4">
                       <div className="flex items-center gap-1">
                         <MessageCircle className="w-3.5 h-3.5" />
                         <span>{match.tierData.messagesExchanged} msgs</span>
@@ -322,7 +322,7 @@ export default function MatchesDashboardPage() {
                       </Link>
                       <Link
                         href={`/profile/${match.id}`}
-                        className="flex-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors text-sm font-medium text-center"
+                        className="flex-1 bg-muted dark:bg-card text-foreground dark:text-muted-foreground py-2 rounded-lg hover:bg-muted dark:hover:bg-gray-700 transition-colors text-sm font-medium text-center"
                       >
                         View Profile
                       </Link>

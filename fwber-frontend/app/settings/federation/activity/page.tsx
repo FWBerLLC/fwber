@@ -155,17 +155,17 @@ export default function FederationActivityPage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <div className="min-h-screen bg-muted dark:bg-background">
         <AppHeader />
         <main className="max-w-6xl mx-auto px-4 py-8 space-y-8">
           <div className="flex flex-col gap-4">
             <div className="flex items-center justify-between gap-4 flex-wrap">
               <div>
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                <h1 className="text-3xl font-bold text-foreground dark:text-foreground flex items-center gap-2">
                   <Radio className="w-8 h-8 text-purple-500" />
                   Federation Activity
                 </h1>
-                <p className="text-gray-500 dark:text-gray-400 mt-1">
+                <p className="text-muted-foreground dark:text-muted-foreground mt-1">
                   Track federated followers, outbound follows, and recent remote posts in one place.
                 </p>
               </div>
@@ -253,18 +253,18 @@ export default function FederationActivityPage() {
                       </div>
                     ) : (
                       activityItems.map((item) => (
-                        <div key={item.id} className="rounded-xl border bg-white dark:bg-gray-800 p-4 shadow-sm dark:bg-gray-950/30">
+                        <div key={item.id} className="rounded-xl border bg-card dark:bg-card p-4 shadow-sm dark:bg-gray-950/30">
                           <div className="flex items-start justify-between gap-3">
                             <div>
                               <Link
                                 href={buildFederationActorExplorerHref(item.actorUri)}
-                                className="font-semibold text-sm text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400"
+                                className="font-semibold text-sm text-foreground dark:text-foreground hover:text-blue-600 dark:hover:text-blue-400"
                               >
                                 {item.title}
                               </Link>
                               <Link
                                 href={buildFederationActorExplorerHref(item.actorUri)}
-                                className="mt-1 block text-xs text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400"
+                                className="mt-1 block text-xs text-muted-foreground dark:text-muted-foreground hover:text-blue-600 dark:hover:text-blue-400"
                               >
                                 {item.subtitle}
                               </Link>
@@ -286,10 +286,10 @@ export default function FederationActivityPage() {
                             </Badge>
                           </div>
                           <div
-                            className="mt-3 text-sm text-gray-700 dark:text-gray-300 dark:text-gray-200 prose dark:prose-invert max-w-none"
+                            className="mt-3 text-sm text-foreground dark:text-muted-foreground dark:text-foreground prose dark:prose-invert max-w-none"
                             dangerouslySetInnerHTML={{ __html: sanitizeHtml(item.content) }}
                           />
-                          <p className="mt-3 text-xs text-gray-500 dark:text-gray-400">
+                          <p className="mt-3 text-xs text-muted-foreground dark:text-muted-foreground">
                             {formatDistanceToNow(new Date(item.timestamp), { addSuffix: true })}
                           </p>
                         </div>
@@ -313,7 +313,7 @@ export default function FederationActivityPage() {
                       ) : (
                         outboxActivities.slice(0, 5).map((activity) => (
                           <div key={activity.id} className="rounded-lg border p-3">
-                            <p className="text-sm font-medium text-gray-900 dark:text-white">
+                            <p className="text-sm font-medium text-foreground dark:text-foreground">
                               {activity.object.type}
                             </p>
                             <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">

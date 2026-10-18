@@ -101,14 +101,14 @@ export default function ShareUnlockPage() {
               href="/home" 
               className="p-2 -ml-2 hover:bg-purple-800/30 rounded-lg transition"
             >
-              <ArrowLeft className="w-5 h-5 text-gray-400" />
+              <ArrowLeft className="w-5 h-5 text-muted-foreground" />
             </Link>
             <div>
               <h1 className="text-2xl font-bold text-white flex items-center gap-2">
                 <Gift className="w-7 h-7 text-pink-500" />
                 Share to Unlock
               </h1>
-              <p className="text-sm text-gray-400">
+              <p className="text-sm text-muted-foreground">
                 Share <span className="text-transparent bg-clip-text bg-gradient-to-br from-pink-500 via-purple-500 to-cyan-500 animate-gradient-chaos font-semibold">FWBer</span> and unlock exclusive features
               </p>
             </div>
@@ -125,7 +125,7 @@ export default function ShareUnlockPage() {
                 <h2 className="text-xl font-bold text-white mb-2">
                   Share &amp; Get Rewarded
                 </h2>
-                <p className="text-gray-300">
+                <p className="text-muted-foreground">
                   Every share unlocks premium features. The more you share, the more you unlock!
                 </p>
               </div>
@@ -176,9 +176,9 @@ export default function ShareUnlockPage() {
                     </div>
                     <div className="flex-1">
                       <h4 className="font-medium text-white">{benefit.title}</h4>
-                      <p className="text-sm text-gray-400">{benefit.description}</p>
+                      <p className="text-sm text-muted-foreground">{benefit.description}</p>
                     </div>
-                    <ChevronRight className="w-5 h-5 text-gray-600" />
+                    <ChevronRight className="w-5 h-5 text-muted-foreground" />
                   </div>
                 )
               })}
@@ -198,13 +198,13 @@ export default function ShareUnlockPage() {
                 <div className="text-3xl font-bold text-yellow-400 mb-1">
                   {shareStreak}
                 </div>
-                <div className="text-sm text-gray-400">Total Shares</div>
+                <div className="text-sm text-muted-foreground">Total Shares</div>
               </div>
               <div className="p-4 bg-gradient-to-br from-purple-600/20 to-pink-600/20 rounded-xl border border-purple-500/20 text-center">
                 <div className="text-3xl font-bold text-purple-400 mb-1">
                   {uniquePlatforms.size}
                 </div>
-                <div className="text-sm text-gray-400">Platforms Used</div>
+                <div className="text-sm text-muted-foreground">Platforms Used</div>
               </div>
             </div>
 
@@ -242,7 +242,7 @@ export default function ShareUnlockPage() {
                       </div>
                       <div className="flex-1">
                         <p className="text-sm text-white">{platform?.name || 'Shared'}</p>
-                        <p className="text-xs text-gray-500">
+                        <p className="text-xs text-muted-foreground">
                           {date.toLocaleDateString()}
                         </p>
                       </div>

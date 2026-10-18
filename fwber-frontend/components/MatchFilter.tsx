@@ -153,10 +153,10 @@ export default function MatchFilter({ onFilterChange }: MatchFilterProps) {
   };
 
   const PremiumOverlay = () => (
-    <div className="absolute inset-0 bg-gray-100 dark:bg-gray-800 bg-opacity-60 backdrop-blur-[1px] flex flex-col items-center justify-center z-10 rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-600">
-      <Lock className="h-8 w-8 text-gray-500 mb-2" />
-      <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">Premium Filters</p>
-      <p className="text-xs text-gray-500 text-center px-4 mb-3">
+    <div className="absolute inset-0 bg-muted dark:bg-card bg-opacity-60 backdrop-blur-[1px] flex flex-col items-center justify-center z-10 rounded-lg border-2 border-dashed border-border dark:border-border">
+      <Lock className="h-8 w-8 text-muted-foreground mb-2" />
+      <p className="text-sm font-semibold text-foreground dark:text-muted-foreground">Premium Filters</p>
+      <p className="text-xs text-muted-foreground text-center px-4 mb-3">
         Hold {PREMIUM_THRESHOLD}+ FWB Tokens to unlock advanced lifestyle filters.
       </p>
       <Link
@@ -171,16 +171,16 @@ export default function MatchFilter({ onFilterChange }: MatchFilterProps) {
   return (
     <div className="space-y-6">
       {/* Standard Filters Section */}
-      <div className="p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
-        <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4 border-b pb-2">Basic Preferences</h3>
+      <div className="p-4 bg-card dark:bg-card rounded-lg shadow-sm border border-border dark:border-border">
+        <h3 className="text-lg font-medium text-foreground dark:text-foreground mb-4 border-b pb-2">Basic Preferences</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <div>
-            <label htmlFor="smoking" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Smoking</label>
+            <label htmlFor="smoking" className="block text-sm font-medium text-foreground dark:text-muted-foreground">Smoking</label>
             <select
               id="smoking"
               value={filters.smoking}
               onChange={(e) => handleInputChange('smoking', e.target.value)}
-              className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             >
               <option value="">Any</option>
               <option value="non-smoker">Non-smoker</option>
@@ -192,12 +192,12 @@ export default function MatchFilter({ onFilterChange }: MatchFilterProps) {
           </div>
 
           <div>
-            <label htmlFor="drinking" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Drinking</label>
+            <label htmlFor="drinking" className="block text-sm font-medium text-foreground dark:text-muted-foreground">Drinking</label>
             <select
               id="drinking"
               value={filters.drinking}
               onChange={(e) => handleInputChange('drinking', e.target.value)}
-              className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             >
               <option value="">Any</option>
               <option value="non-drinker">Non-drinker</option>
@@ -209,12 +209,12 @@ export default function MatchFilter({ onFilterChange }: MatchFilterProps) {
           </div>
 
           <div>
-            <label htmlFor="body_type" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Body Type</label>
+            <label htmlFor="body_type" className="block text-sm font-medium text-foreground dark:text-muted-foreground">Body Type</label>
             <select
               id="body_type"
               value={filters.body_type}
               onChange={(e) => handleInputChange('body_type', e.target.value)}
-              className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             >
               <option value="">Any</option>
               <option value="slim">Slim</option>
@@ -227,13 +227,13 @@ export default function MatchFilter({ onFilterChange }: MatchFilterProps) {
           </div>
 
           <div>
-            <label htmlFor="height_min" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Min Height</label>
+            <label htmlFor="height_min" className="block text-sm font-medium text-foreground dark:text-muted-foreground">Min Height</label>
             <div className="mt-1">
               <select
                 id="height_min"
                 value={filters.height_min}
                 onChange={(e) => handleInputChange('height_min', e.target.value)}
-                className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               >
                 <option value="">Any height...</option>
                 {heightOptions.map(opt => (
@@ -246,8 +246,8 @@ export default function MatchFilter({ onFilterChange }: MatchFilterProps) {
 
         <div className="mt-4">
           <div className="mb-2 flex items-center justify-between gap-3">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Shared interests</label>
-            <span className="text-xs text-gray-500">Boost profiles that overlap with your vibe</span>
+            <label className="block text-sm font-medium text-foreground dark:text-muted-foreground">Shared interests</label>
+            <span className="text-xs text-muted-foreground">Boost profiles that overlap with your vibe</span>
           </div>
           <div className="flex flex-wrap gap-2">
             {interestOptions.map((interest) => {
@@ -261,7 +261,7 @@ export default function MatchFilter({ onFilterChange }: MatchFilterProps) {
                   className={`rounded-full border px-3 py-1.5 text-sm font-medium transition ${
                     selected
                       ? 'border-indigo-600 bg-indigo-600 text-white shadow-sm'
-                      : 'border-gray-300 bg-white text-gray-700 hover:border-indigo-300 hover:text-indigo-600'
+                      : 'border-border bg-card text-foreground hover:border-indigo-300 hover:text-indigo-600'
                   }`}
                 >
                   <span className="inline-flex items-center gap-1">
@@ -287,12 +287,12 @@ export default function MatchFilter({ onFilterChange }: MatchFilterProps) {
         <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 ${!isPremium ? 'opacity-40 pointer-events-none filter blur-[1px]' : ''}`}>
           {/* Cannabis */}
           <div>
-            <label htmlFor="cannabis" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Cannabis</label>
+            <label htmlFor="cannabis" className="block text-sm font-medium text-foreground dark:text-muted-foreground">Cannabis</label>
             <select
               id="cannabis"
               value={filters.cannabis}
               onChange={(e) => handleInputChange('cannabis', e.target.value)}
-              className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               disabled={!isPremium}
             >
               <option value="">Any</option>
@@ -304,12 +304,12 @@ export default function MatchFilter({ onFilterChange }: MatchFilterProps) {
 
           {/* Diet */}
           <div>
-            <label htmlFor="diet" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Diet</label>
+            <label htmlFor="diet" className="block text-sm font-medium text-foreground dark:text-muted-foreground">Diet</label>
             <select
               id="diet"
               value={filters.diet}
               onChange={(e) => handleInputChange('diet', e.target.value)}
-              className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               disabled={!isPremium}
             >
               <option value="">Any</option>
@@ -325,12 +325,12 @@ export default function MatchFilter({ onFilterChange }: MatchFilterProps) {
 
           {/* Politics */}
           <div>
-            <label htmlFor="politics" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Politics</label>
+            <label htmlFor="politics" className="block text-sm font-medium text-foreground dark:text-muted-foreground">Politics</label>
             <select
               id="politics"
               value={filters.politics}
               onChange={(e) => handleInputChange('politics', e.target.value)}
-              className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               disabled={!isPremium}
             >
               <option value="">Any</option>
@@ -345,12 +345,12 @@ export default function MatchFilter({ onFilterChange }: MatchFilterProps) {
 
           {/* Zodiac */}
           <div>
-            <label htmlFor="zodiac" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Zodiac</label>
+            <label htmlFor="zodiac" className="block text-sm font-medium text-foreground dark:text-muted-foreground">Zodiac</label>
             <select
               id="zodiac"
               value={filters.zodiac}
               onChange={(e) => handleInputChange('zodiac', e.target.value)}
-              className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               disabled={!isPremium}
             >
               <option value="">Any</option>
@@ -371,12 +371,12 @@ export default function MatchFilter({ onFilterChange }: MatchFilterProps) {
 
           {/* Pets */}
            <div>
-            <label htmlFor="has_pets" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Has Pets</label>
+            <label htmlFor="has_pets" className="block text-sm font-medium text-foreground dark:text-muted-foreground">Has Pets</label>
             <select
               id="has_pets"
               value={filters.has_pets}
               onChange={(e) => handleInputChange('has_pets', e.target.value)}
-              className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               disabled={!isPremium}
             >
               <option value="">Any</option>
@@ -387,12 +387,12 @@ export default function MatchFilter({ onFilterChange }: MatchFilterProps) {
 
            {/* Children */}
           <div>
-            <label htmlFor="has_children" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Has Children</label>
+            <label htmlFor="has_children" className="block text-sm font-medium text-foreground dark:text-muted-foreground">Has Children</label>
             <select
               id="has_children"
               value={filters.has_children}
               onChange={(e) => handleInputChange('has_children', e.target.value)}
-              className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               disabled={!isPremium}
             >
               <option value="">Any</option>
@@ -403,12 +403,12 @@ export default function MatchFilter({ onFilterChange }: MatchFilterProps) {
 
           {/* Hair Color */}
           <div>
-            <label htmlFor="hair_color" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Hair Color</label>
+            <label htmlFor="hair_color" className="block text-sm font-medium text-foreground dark:text-muted-foreground">Hair Color</label>
             <select
               id="hair_color"
               value={filters.hair_color}
               onChange={(e) => handleInputChange('hair_color', e.target.value)}
-              className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               disabled={!isPremium}
             >
               <option value="">Any</option>
@@ -418,12 +418,12 @@ export default function MatchFilter({ onFilterChange }: MatchFilterProps) {
 
           {/* Eye Color */}
           <div>
-            <label htmlFor="eye_color" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Eye Color</label>
+            <label htmlFor="eye_color" className="block text-sm font-medium text-foreground dark:text-muted-foreground">Eye Color</label>
             <select
               id="eye_color"
               value={filters.eye_color}
               onChange={(e) => handleInputChange('eye_color', e.target.value)}
-              className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               disabled={!isPremium}
             >
               <option value="">Any</option>
@@ -433,12 +433,12 @@ export default function MatchFilter({ onFilterChange }: MatchFilterProps) {
 
           {/* Skin Tone */}
           <div>
-            <label htmlFor="skin_tone" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Skin Tone</label>
+            <label htmlFor="skin_tone" className="block text-sm font-medium text-foreground dark:text-muted-foreground">Skin Tone</label>
             <select
               id="skin_tone"
               value={filters.skin_tone}
               onChange={(e) => handleInputChange('skin_tone', e.target.value)}
-              className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               disabled={!isPremium}
             >
               <option value="">Any</option>
@@ -448,12 +448,12 @@ export default function MatchFilter({ onFilterChange }: MatchFilterProps) {
 
           {/* Ethnicity */}
           <div>
-            <label htmlFor="ethnicity" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Ethnicity</label>
+            <label htmlFor="ethnicity" className="block text-sm font-medium text-foreground dark:text-muted-foreground">Ethnicity</label>
             <select
               id="ethnicity"
               value={filters.ethnicity}
               onChange={(e) => handleInputChange('ethnicity', e.target.value)}
-              className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               disabled={!isPremium}
             >
               <option value="">Any</option>
@@ -463,12 +463,12 @@ export default function MatchFilter({ onFilterChange }: MatchFilterProps) {
 
           {/* Facial Hair */}
           <div>
-            <label htmlFor="facial_hair" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Facial Hair</label>
+            <label htmlFor="facial_hair" className="block text-sm font-medium text-foreground dark:text-muted-foreground">Facial Hair</label>
             <select
               id="facial_hair"
               value={filters.facial_hair}
               onChange={(e) => handleInputChange('facial_hair', e.target.value)}
-              className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               disabled={!isPremium}
             >
               <option value="">Any</option>
@@ -478,12 +478,12 @@ export default function MatchFilter({ onFilterChange }: MatchFilterProps) {
 
           {/* Fitness Level */}
           <div>
-            <label htmlFor="fitness_level" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Fitness Level</label>
+            <label htmlFor="fitness_level" className="block text-sm font-medium text-foreground dark:text-muted-foreground">Fitness Level</label>
             <select
               id="fitness_level"
               value={filters.fitness_level}
               onChange={(e) => handleInputChange('fitness_level', e.target.value)}
-              className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               disabled={!isPremium}
             >
               <option value="">Any</option>
@@ -493,12 +493,12 @@ export default function MatchFilter({ onFilterChange }: MatchFilterProps) {
 
           {/* Clothing Style */}
           <div>
-            <label htmlFor="clothing_style" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Clothing Style</label>
+            <label htmlFor="clothing_style" className="block text-sm font-medium text-foreground dark:text-muted-foreground">Clothing Style</label>
             <select
               id="clothing_style"
               value={filters.clothing_style}
               onChange={(e) => handleInputChange('clothing_style', e.target.value)}
-              className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               disabled={!isPremium}
             >
               <option value="">Any</option>
@@ -508,12 +508,12 @@ export default function MatchFilter({ onFilterChange }: MatchFilterProps) {
 
           {/* Tattoos */}
           <div>
-            <label htmlFor="tattoos" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Tattoos</label>
+            <label htmlFor="tattoos" className="block text-sm font-medium text-foreground dark:text-muted-foreground">Tattoos</label>
             <select
               id="tattoos"
               value={filters.tattoos}
               onChange={(e) => handleInputChange('tattoos', e.target.value)}
-              className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               disabled={!isPremium}
             >
               <option value="">Any</option>
@@ -524,12 +524,12 @@ export default function MatchFilter({ onFilterChange }: MatchFilterProps) {
 
           {/* Piercings */}
           <div>
-            <label htmlFor="piercings" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Piercings</label>
+            <label htmlFor="piercings" className="block text-sm font-medium text-foreground dark:text-muted-foreground">Piercings</label>
             <select
               id="piercings"
               value={filters.piercings}
               onChange={(e) => handleInputChange('piercings', e.target.value)}
-              className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               disabled={!isPremium}
             >
               <option value="">Any</option>

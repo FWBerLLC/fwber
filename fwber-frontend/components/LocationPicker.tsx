@@ -45,7 +45,7 @@ export default function LocationPicker({ value, onChange, radius = 100 }: Locati
   }, [map])
 
   return (
-    <div className="h-[300px] w-full rounded-md overflow-hidden border border-gray-200 dark:border-gray-700 relative z-0">
+    <div className="h-[300px] w-full rounded-md overflow-hidden border border-border dark:border-border relative z-0">
       <MapContainer
         center={center}
         zoom={13}
@@ -62,7 +62,7 @@ export default function LocationPicker({ value, onChange, radius = 100 }: Locati
           <Button 
             type="button"
             size="sm" 
-            className="bg-white text-gray-900 hover:bg-gray-100 shadow-md font-bold"
+            className="bg-card text-foreground hover:bg-muted shadow-md font-bold"
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();

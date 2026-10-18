@@ -54,22 +54,22 @@ export default function LandingVariantB() {
 
   if (isAuthenticated) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-white dark:bg-gray-900">
+      <div className="flex min-h-screen items-center justify-center bg-card dark:bg-background">
         <div className="text-center">
           <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2 border-blue-500"></div>
-          <p className="text-gray-600 dark:text-gray-300">Redirecting to dashboard...</p>
+          <p className="text-muted-foreground dark:text-muted-foreground">Redirecting to dashboard...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-800 dark:bg-slate-950">
+    <div className="min-h-screen bg-card dark:bg-card dark:bg-slate-950">
       <Suspense fallback={null}>
         <ReferralBanner />
       </Suspense>
       {/* Navigation */}
-      <nav className="sticky top-0 z-50 border-b border-slate-200/70 bg-white backdrop-blur-xl dark:border-slate-800/80 dark:bg-gray-800/90 dark:bg-slate-950/85">
+      <nav className="sticky top-0 z-50 border-b border-slate-200/70 bg-card backdrop-blur-xl dark:border-slate-800/80 dark:bg-gray-800/90 dark:bg-slate-950/85">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 justify-between">
             <div className="flex items-center">
@@ -83,17 +83,17 @@ export default function LandingVariantB() {
 
             {/* Desktop Menu */}
             <div className="hidden items-center space-x-8 md:flex">
-              <Link href="#features" className="font-medium text-gray-600 hover:text-blue-600">
+              <Link href="#features" className="font-medium text-muted-foreground hover:text-blue-600">
                 Features
               </Link>
-              <Link href="#safety" className="font-medium text-gray-600 hover:text-blue-600">
+              <Link href="#safety" className="font-medium text-muted-foreground hover:text-blue-600">
                 Safety
               </Link>
               <ThemeToggle />
               <div className="flex items-center space-x-4">
                 <Link
                   href="/login"
-                  className="font-medium text-gray-900 hover:text-blue-600 dark:text-white"
+                  className="font-medium text-foreground hover:text-blue-600 dark:text-foreground"
                 >
                   Log in
                 </Link>
@@ -131,7 +131,7 @@ export default function LandingVariantB() {
               with end-to-end encryption.
             </p>
 
-            <div className="mx-auto mb-10 w-full max-w-2xl rounded-[28px] border border-white/70 bg-white p-4 shadow-[0_24px_60px_rgba(15,23,42,0.08)] backdrop-blur-xl dark:border-white/10 dark:bg-gray-800/70 dark:bg-slate-900/35">
+            <div className="mx-auto mb-10 w-full max-w-2xl rounded-[28px] border border-white/70 bg-card p-4 shadow-[0_24px_60px_rgba(15,23,42,0.08)] backdrop-blur-xl dark:border-white/10 dark:bg-gray-800/70 dark:bg-slate-900/35">
               <InspireQuote />
             </div>
 
@@ -186,7 +186,7 @@ export default function LandingVariantB() {
                 </div>
                 <div>
                   <div className="flex flex-wrap items-center gap-2">
-                    <h3 className="text-lg font-black text-gray-900 dark:text-white">
+                    <h3 className="text-lg font-black text-foreground dark:text-foreground">
                       EARN GOLD COINS & REAL MONEY 💸
                     </h3>
                     <span className="rounded-full bg-gradient-to-r from-yellow-400 to-amber-500 px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-white shadow-sm">
@@ -196,7 +196,7 @@ export default function LandingVariantB() {
                       real cash
                     </span>
                   </div>
-                  <p className="mt-2 text-sm font-medium leading-6 text-gray-700 dark:text-gray-200">
+                  <p className="mt-2 text-sm font-medium leading-6 text-foreground dark:text-foreground">
                     <span className="font-bold text-yellow-600 dark:text-yellow-400">
                       Stack FWBcoin
                     </span>{' '}
@@ -212,7 +212,7 @@ export default function LandingVariantB() {
             </div>
 
             <div className="mt-12 border-t border-gray-200/60 pt-8 dark:border-gray-700/60">
-              <p className="mb-6 text-sm font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">
+              <p className="mb-6 text-sm font-bold uppercase tracking-widest text-muted-foreground dark:text-muted-foreground">
                 A Community for Every Orientation and Identity
               </p>
               <div className="flex flex-wrap justify-center gap-3">
@@ -225,7 +225,7 @@ export default function LandingVariantB() {
                 ].map((item) => (
                   <span
                     key={item.name}
-                    className="flex cursor-default items-center rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition-colors duration-200 hover:border-blue-400 hover:text-blue-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:border-blue-500 dark:hover:text-blue-400"
+                    className="flex cursor-default items-center rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-foreground shadow-sm transition-colors duration-200 hover:border-blue-400 hover:text-blue-600 dark:border-border dark:bg-card dark:text-muted-foreground dark:hover:border-blue-500 dark:hover:text-blue-400"
                   >
                     <item.icon className="mr-2 h-4 w-4" />
                     {item.name}
@@ -250,10 +250,10 @@ export default function LandingVariantB() {
                 <CheckCircle2 className="h-6 w-6 text-green-500" />
               </div>
               <div>
-                <h3 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
+                <h3 className="mb-2 text-xl font-bold text-foreground dark:text-foreground">
                   Privacy-First Architecture
                 </h3>
-                <p className="text-gray-600 dark:text-gray-400">
+                <p className="text-muted-foreground dark:text-muted-foreground">
                   Your secrets are safe. Photos are encrypted on your device—we can&apos;t see them,
                   and neither can hackers.
                 </p>
@@ -265,10 +265,10 @@ export default function LandingVariantB() {
                 <Zap className="h-6 w-6 text-yellow-500" />
               </div>
               <div>
-                <h3 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
+                <h3 className="mb-2 text-xl font-bold text-foreground dark:text-foreground">
                   Find Who’s Nearby
                 </h3>
-                <p className="text-gray-600 dark:text-gray-400">
+                <p className="text-muted-foreground dark:text-muted-foreground">
                   See active matches in your immediate vicinity without compromising your exact
                   coordinates. Perfect for conventions, clubs, or spontaneous meetups.
                 </p>
@@ -280,10 +280,10 @@ export default function LandingVariantB() {
                 <Layers className="h-6 w-6 text-pink-500" />
               </div>
               <div>
-                <h3 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
+                <h3 className="mb-2 text-xl font-bold text-foreground dark:text-foreground">
                   Earn Their Trust
                 </h3>
-                <p className="text-gray-600 dark:text-gray-400">
+                <p className="text-muted-foreground dark:text-muted-foreground">
                   Start as an avatar. As your connection deepens, your profile reveals more. You
                   control exactly when and what your match sees.
                 </p>
@@ -295,8 +295,8 @@ export default function LandingVariantB() {
                 <Ghost className="h-6 w-6 text-purple-500" />
               </div>
               <div>
-                <h3 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">AI Avatars</h3>
-                <p className="text-gray-600 dark:text-gray-400">
+                <h3 className="mb-2 text-xl font-bold text-foreground dark:text-foreground">AI Avatars</h3>
+                <p className="text-muted-foreground dark:text-muted-foreground">
                   Be anyone you want. Browse anonymously with a custom AI persona until you&apos;re
                   ready to reveal the real you.
                 </p>
@@ -308,10 +308,10 @@ export default function LandingVariantB() {
                 <Lock className="h-6 w-6 text-blue-500" />
               </div>
               <div>
-                <h3 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
+                <h3 className="mb-2 text-xl font-bold text-foreground dark:text-foreground">
                   The Local Vault
                 </h3>
-                <p className="text-gray-600 dark:text-gray-400">
+                <p className="text-muted-foreground dark:text-muted-foreground">
                   A secure, dedicated gallery for your private content that never touches the cloud
                   unencrypted.
                 </p>
@@ -323,10 +323,10 @@ export default function LandingVariantB() {
                 <Shield className="h-6 w-6 text-green-600" />
               </div>
               <div>
-                <h3 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
+                <h3 className="mb-2 text-xl font-bold text-foreground dark:text-foreground">
                   Verify Your Date
                 </h3>
-                <p className="text-gray-600 dark:text-gray-400">
+                <p className="text-muted-foreground dark:text-muted-foreground">
                   No more catfishing. Our Face Reveal system ensures the person you meet matches
                   their profile.
                 </p>
@@ -338,13 +338,13 @@ export default function LandingVariantB() {
                 <Sparkles className="h-6 w-6 text-indigo-500" />
               </div>
               <div>
-                <h3 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
+                <h3 className="mb-2 text-xl font-bold text-foreground dark:text-foreground">
                   Smart Behavioral Matching{' '}
                   <span className="ml-2 rounded-full bg-green-100 px-2 py-0.5 text-xs font-semibold uppercase tracking-wider text-green-800">
                     New
                   </span>
                 </h3>
-                <p className="text-gray-600 dark:text-gray-400">
+                <p className="text-muted-foreground dark:text-muted-foreground">
                   An AI matchmaker that learns your true &quot;type&quot; based on who you actually
                   interact with, not just who you say you like.
                 </p>
@@ -356,13 +356,13 @@ export default function LandingVariantB() {
                 <Shield className="h-6 w-6 text-red-500" />
               </div>
               <div>
-                <h3 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
+                <h3 className="mb-2 text-xl font-bold text-foreground dark:text-foreground">
                   AI Safety Guardrails{' '}
                   <span className="ml-2 rounded-full bg-green-100 px-2 py-0.5 text-xs font-semibold uppercase tracking-wider text-green-800">
                     Active
                   </span>
                 </h3>
-                <p className="text-gray-600 dark:text-gray-400">
+                <p className="text-muted-foreground dark:text-muted-foreground">
                   Advanced AI that blocks unsolicited explicit content before it ruins your mood.
                 </p>
               </div>
@@ -373,10 +373,10 @@ export default function LandingVariantB() {
                 <Users className="h-6 w-6 text-orange-500" />
               </div>
               <div>
-                <h3 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
+                <h3 className="mb-2 text-xl font-bold text-foreground dark:text-foreground">
                   Social Circles & Events
                 </h3>
-                <p className="text-gray-600 dark:text-gray-400">
+                <p className="text-muted-foreground dark:text-muted-foreground">
                   Because sometimes the best connections happen in a crowd. Find local events and
                   groups.
                 </p>
@@ -388,10 +388,10 @@ export default function LandingVariantB() {
                 <MapPin className="h-6 w-6 text-blue-500" />
               </div>
               <div>
-                <h3 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
+                <h3 className="mb-2 text-xl font-bold text-foreground dark:text-foreground">
                   Native Mobile Experience
                 </h3>
-                <p className="text-gray-600 dark:text-gray-400">
+                <p className="text-muted-foreground dark:text-muted-foreground">
                   The full fwber experience in your pocket. Install directly to your home screen.
                 </p>
               </div>
@@ -399,13 +399,13 @@ export default function LandingVariantB() {
 
             <div className="flex gap-4 md:col-span-2">
               <div className="mt-1 flex-shrink-0">
-                <Code className="h-6 w-6 text-gray-700 dark:text-gray-300" />
+                <Code className="h-6 w-6 text-foreground dark:text-muted-foreground" />
               </div>
               <div>
-                <h3 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
+                <h3 className="mb-2 text-xl font-bold text-foreground dark:text-foreground">
                   Trust Through Transparency
                 </h3>
-                <p className="text-gray-600 dark:text-gray-400">
+                <p className="text-muted-foreground dark:text-muted-foreground">
                   Unlike corporate dating apps, we don&apos;t sell your data. Our code is
                   open-source and auditable by anyone. Your secrets stay on your device, not our
                   servers.{' '}
@@ -430,20 +430,20 @@ export default function LandingVariantB() {
           <div className="flex flex-col items-center justify-between md:flex-row">
             <div className="mb-12 md:mb-0 md:w-1/2">
               <h2 className="mb-6 text-3xl font-bold md:text-4xl">Your Privacy Matters</h2>
-              <p className="mb-8 text-xl leading-relaxed text-gray-300">
+              <p className="mb-8 text-xl leading-relaxed text-muted-foreground">
                 We use state-of-the-art encryption and security measures to protect your data.
                 You&apos;re in control of what you share and who sees it.
               </p>
               <ul className="space-y-4">
-                <li className="flex items-center text-gray-300">
+                <li className="flex items-center text-muted-foreground">
                   <Shield className="mr-3 h-6 w-6 text-green-400" />
                   <span>End-to-end encryption for messages</span>
                 </li>
-                <li className="flex items-center text-gray-300">
+                <li className="flex items-center text-muted-foreground">
                   <Users className="mr-3 h-6 w-6 text-blue-400" />
                   <span>Verified profiles only</span>
                 </li>
-                <li className="flex items-center text-gray-300">
+                <li className="flex items-center text-muted-foreground">
                   <MessageCircle className="mr-3 h-6 w-6 text-purple-400" />
                   <span>Private and secure chat</span>
                 </li>
@@ -452,7 +452,7 @@ export default function LandingVariantB() {
             <div className="md:w-5/12">
               <div className="rounded-2xl border border-gray-700 bg-gray-800 p-8">
                 <h3 className="mb-4 text-2xl font-bold">Join 50,000+ Members</h3>
-                <p className="mb-8 text-gray-400">
+                <p className="mb-8 text-muted-foreground">
                   Create your free account today and start exploring matches in your area.
                 </p>
                 <Link
@@ -469,23 +469,23 @@ export default function LandingVariantB() {
       </div>
 
       {/* Footer */}
-      <footer className="border-t border-gray-200 bg-gray-50 py-12 dark:border-gray-700 dark:bg-gray-900">
+      <footer className="border-t border-border bg-muted py-12 dark:border-border dark:bg-background">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center justify-between md:flex-row">
             <div className="mb-8 md:mb-0">
               <div className="flex items-baseline gap-1">
                 <Logo className="text-3xl" />
               </div>
-              <p className="mt-2 text-gray-500">© 2026 fwber. All rights reserved.</p>
+              <p className="mt-2 text-muted-foreground">© 2026 fwber. All rights reserved.</p>
             </div>
             <div className="flex space-x-8">
-              <Link href="/privacy" className="text-gray-600 hover:text-gray-900 dark:text-white">
+              <Link href="/privacy" className="text-muted-foreground hover:text-foreground dark:text-foreground">
                 Privacy Policy
               </Link>
-              <Link href="/terms" className="text-gray-600 hover:text-gray-900 dark:text-white">
+              <Link href="/terms" className="text-muted-foreground hover:text-foreground dark:text-foreground">
                 Terms of Service
               </Link>
-              <Link href="/contact" className="text-gray-600 hover:text-gray-900 dark:text-white">
+              <Link href="/contact" className="text-muted-foreground hover:text-foreground dark:text-foreground">
                 Contact Us
               </Link>
             </div>
@@ -494,25 +494,25 @@ export default function LandingVariantB() {
       </footer>
 
       {/* Mobile Bottom Navigation */}
-      <div className="pb-safe fixed bottom-0 left-0 right-0 z-50 border-t border-gray-200 bg-white md:hidden dark:border-gray-700 dark:border-gray-800 dark:bg-gray-900">
+      <div className="pb-safe fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-card md:hidden dark:border-border dark:border-gray-800 dark:bg-background">
         <div className="flex h-16 items-center justify-around">
           <Link
             href="/"
-            className="flex h-full w-full flex-col items-center justify-center text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-500"
+            className="flex h-full w-full flex-col items-center justify-center text-muted-foreground hover:text-blue-600 dark:text-muted-foreground dark:hover:text-blue-500"
           >
             <Home className="mb-1 h-6 w-6" />
             <span className="text-xs font-medium">Home</span>
           </Link>
           <Link
             href="#features"
-            className="flex h-full w-full flex-col items-center justify-center text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-500"
+            className="flex h-full w-full flex-col items-center justify-center text-muted-foreground hover:text-blue-600 dark:text-muted-foreground dark:hover:text-blue-500"
           >
             <Star className="mb-1 h-6 w-6" />
             <span className="text-xs font-medium">Features</span>
           </Link>
           <Link
             href="#safety"
-            className="flex h-full w-full flex-col items-center justify-center text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-500"
+            className="flex h-full w-full flex-col items-center justify-center text-muted-foreground hover:text-blue-600 dark:text-muted-foreground dark:hover:text-blue-500"
           >
             <Shield className="mb-1 h-6 w-6" />
             <span className="text-xs font-medium">Safety</span>

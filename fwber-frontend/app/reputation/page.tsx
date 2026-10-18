@@ -55,17 +55,17 @@ const reputationSurfaces = [
 export default function ReputationPage() {
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+      <div className="min-h-screen bg-muted dark:bg-background">
         <AppHeader title="Reputation & Trust" />
         <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8 space-y-6">
-          <section className="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
+          <section className="rounded-2xl border border-border dark:border-border bg-card p-6 shadow-sm dark:border-gray-800 dark:bg-background">
             <div className="flex items-start gap-3">
               <div className="rounded-2xl bg-amber-100 p-3 text-amber-600 dark:bg-amber-900/30 dark:text-amber-300">
                 <Shield className="h-6 w-6" />
               </div>
               <div>
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Reputation & Trust</h1>
-                <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                <h1 className="text-3xl font-bold text-foreground dark:text-foreground">Reputation & Trust</h1>
+                <p className="mt-2 text-sm text-muted-foreground dark:text-muted-foreground">
                   Track your achievements, verification status, leaderboard rank, and profile trust signals from one hub.
                 </p>
               </div>
@@ -76,14 +76,14 @@ export default function ReputationPage() {
             {reputationSurfaces.map((surface) => {
               const Icon = surface.icon
               const card = (
-                <div className="h-full rounded-2xl border border-gray-200 dark:border-gray-700 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-gray-800 dark:bg-gray-900">
+                <div className="h-full rounded-2xl border border-border dark:border-border bg-card p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-gray-800 dark:bg-background">
                   <div className={`mb-4 inline-flex rounded-xl bg-gradient-to-br ${surface.accent} p-3 text-white`}>
                     <Icon className="h-5 w-5" />
                   </div>
-                  <h2 className="text-lg font-semibold text-gray-900 dark:text-white">{surface.title}</h2>
-                  <p className="mt-2 text-sm leading-6 text-gray-600 dark:text-gray-300">{surface.description}</p>
+                  <h2 className="text-lg font-semibold text-foreground dark:text-foreground">{surface.title}</h2>
+                  <p className="mt-2 text-sm leading-6 text-muted-foreground dark:text-muted-foreground">{surface.description}</p>
                   {surface.note ? (
-                    <p className="mt-3 text-xs font-medium uppercase tracking-[0.14em] text-gray-500 dark:text-gray-400">{surface.note}</p>
+                    <p className="mt-3 text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground dark:text-muted-foreground">{surface.note}</p>
                   ) : null}
                 </div>
               )

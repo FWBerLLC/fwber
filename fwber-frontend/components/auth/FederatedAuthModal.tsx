@@ -56,7 +56,7 @@ export function FederatedAuthModal({ isOpen, onOpenChange }: { isOpen: boolean, 
 
     return (
         <Dialog open={isOpen} onOpenChange={onOpenChange}>
-            <DialogContent className="bg-white dark:bg-gray-800 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 sm:max-w-md">
+            <DialogContent className="bg-card dark:bg-card dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 sm:max-w-md">
                 <DialogHeader>
                     <DialogTitle className="text-2xl font-black italic uppercase tracking-tighter flex items-center gap-2">
                         <Globe className="w-6 h-6 text-purple-500" />

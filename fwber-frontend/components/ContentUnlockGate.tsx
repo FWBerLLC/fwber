@@ -88,7 +88,7 @@ export default function ContentUnlockGate({
   }
 
   return (
-    <div className={`relative rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 ${className}`}>
+    <div className={`relative rounded-xl overflow-hidden border border-border dark:border-border dark:border-gray-800 bg-muted dark:bg-background ${className}`}>
       {/* Content Preview (Blurred/Obscured) */}
       <div className="relative">
         <div className="filter blur-md opacity-50 pointer-events-none select-none" aria-hidden="true">
@@ -97,16 +97,16 @@ export default function ContentUnlockGate({
 
         {/* Overlay */}
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-900/10 dark:bg-gray-900/30 backdrop-blur-sm z-10 p-6 text-center">
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-xl max-w-sm w-full border border-gray-100 dark:border-gray-700">
+          <div className="bg-card dark:bg-card p-6 rounded-2xl shadow-xl max-w-sm w-full border border-gray-100 dark:border-border">
             <div className="w-12 h-12 bg-amber-100 dark:bg-amber-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
               <Lock className="w-6 h-6 text-amber-600 dark:text-amber-400" />
             </div>
 
-            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
+            <h3 className="text-lg font-bold text-foreground dark:text-foreground mb-2">
               {title}
             </h3>
 
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
+            <p className="text-sm text-muted-foreground dark:text-muted-foreground mb-6">
               {description}
             </p>
 
@@ -128,7 +128,7 @@ export default function ContentUnlockGate({
               )}
             </Button>
 
-            <p className="text-xs text-gray-400 mt-3 flex items-center justify-center gap-1">
+            <p className="text-xs text-muted-foreground mt-3 flex items-center justify-center gap-1">
               <AlertCircle className="w-3 h-3" />
               Tokens will be deducted immediately
             </p>

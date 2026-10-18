@@ -42,20 +42,20 @@ export default function GiftShopModal({ isOpen, onClose, receiverId, receiverNam
     <Dialog.Root open={isOpen} onOpenChange={onClose}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-black/50 z-50" />
-        <Dialog.Content className="fixed left-[50%] top-[50%] max-h-[85vh] w-[90vw] max-w-[600px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-white p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none z-50 dark:bg-gray-900 dark:text-white overflow-y-auto">
+        <Dialog.Content className="fixed left-[50%] top-[50%] max-h-[85vh] w-[90vw] max-w-[600px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-card p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none z-50 dark:bg-background dark:text-foreground overflow-y-auto">
           <div className="flex justify-between items-center mb-4">
             <Dialog.Title className="text-xl font-bold flex items-center gap-2">
               <GiftIcon className="w-6 h-6 text-pink-500" />
               Send a Gift to {receiverName}
             </Dialog.Title>
             <Dialog.Close asChild>
-              <button className="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300" aria-label="Close">
+              <button className="text-muted-foreground hover:text-muted-foreground dark:hover:text-muted-foreground" aria-label="Close">
                 <X className="w-5 h-5" />
               </button>
             </Dialog.Close>
           </div>
 
-          <div className="flex items-center gap-2 mb-6 p-2 bg-gray-100 dark:bg-gray-800 rounded-lg">
+          <div className="flex items-center gap-2 mb-6 p-2 bg-muted dark:bg-card rounded-lg">
             <Coins className="w-5 h-5 text-yellow-500" />
             <span className="font-medium">Your Balance: {tokenBalance} Tokens</span>
           </div>
@@ -71,7 +71,7 @@ export default function GiftShopModal({ isOpen, onClose, receiverId, receiverNam
                   className={`p-4 border-2 rounded-xl transition-all flex flex-col items-center gap-2 relative ${
                     selectedGiftId === gift.id
                       ? 'border-pink-500 bg-pink-50 dark:bg-pink-900/20'
-                      : 'border-gray-200 hover:border-pink-300 dark:border-gray-700'
+                      : 'border-border hover:border-pink-300 dark:border-border'
                   }`}
                 >
                   <div className="relative w-16 h-16">
@@ -88,7 +88,7 @@ export default function GiftShopModal({ isOpen, onClose, receiverId, receiverNam
                   </div>
                   <div className="text-center">
                     <div className="font-bold text-sm">{gift.name}</div>
-                    <div className="text-xs text-gray-500 dark:text-gray-400">{gift.cost} Tokens</div>
+                    <div className="text-xs text-muted-foreground dark:text-muted-foreground">{gift.cost} Tokens</div>
                   </div>
                 </button>
               ))}
@@ -101,7 +101,7 @@ export default function GiftShopModal({ isOpen, onClose, receiverId, receiverNam
               <textarea
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                className="w-full p-2 border rounded-md dark:bg-gray-800 dark:border-gray-700"
+                className="w-full p-2 border rounded-md dark:bg-card dark:border-border"
                 placeholder="Add a personal note..."
                 rows={3}
               />

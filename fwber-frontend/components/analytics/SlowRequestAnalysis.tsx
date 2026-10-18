@@ -7,11 +7,11 @@ export default function SlowRequestAnalysis() {
 
   if (isLoading) {
     return (
-      <div className="rounded-lg bg-white dark:bg-gray-800 p-6 shadow-sm">
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white">🔍 Performance Insights</h2>
+      <div className="rounded-lg bg-card dark:bg-card p-6 shadow-sm">
+        <h2 className="text-xl font-semibold text-foreground dark:text-foreground">🔍 Performance Insights</h2>
         <div className="mt-4 space-y-2">
           {Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="h-24 animate-pulse rounded bg-gray-100 dark:bg-gray-800" />
+            <div key={i} className="h-24 animate-pulse rounded bg-muted dark:bg-card" />
           ))}
         </div>
       </div>
@@ -20,8 +20,8 @@ export default function SlowRequestAnalysis() {
 
   if (error) {
     return (
-      <div className="rounded-lg bg-white dark:bg-gray-800 p-6 shadow-sm">
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white">🔍 Performance Insights</h2>
+      <div className="rounded-lg bg-card dark:bg-card p-6 shadow-sm">
+        <h2 className="text-xl font-semibold text-foreground dark:text-foreground">🔍 Performance Insights</h2>
         <p className="mt-2 text-sm text-red-600">Failed to load analysis.</p>
       </div>
     );
@@ -29,18 +29,18 @@ export default function SlowRequestAnalysis() {
 
   if (!analysis || analysis.length === 0) {
     return (
-      <div className="rounded-lg bg-white dark:bg-gray-800 p-6 shadow-sm">
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white">🔍 Performance Insights</h2>
-        <p className="mt-2 text-sm text-gray-500">No critical performance issues detected.</p>
+      <div className="rounded-lg bg-card dark:bg-card p-6 shadow-sm">
+        <h2 className="text-xl font-semibold text-foreground dark:text-foreground">🔍 Performance Insights</h2>
+        <p className="mt-2 text-sm text-muted-foreground">No critical performance issues detected.</p>
       </div>
     );
   }
 
   return (
-    <div className="rounded-lg bg-white dark:bg-gray-800 p-6 shadow-sm">
+    <div className="rounded-lg bg-card dark:bg-card p-6 shadow-sm">
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white">🔍 Performance Insights</h2>
-        <span className="text-xs text-gray-500">Actionable Recommendations</span>
+        <h2 className="text-xl font-semibold text-foreground dark:text-foreground">🔍 Performance Insights</h2>
+        <span className="text-xs text-muted-foreground">Actionable Recommendations</span>
       </div>
       <div className="mt-4 space-y-4">
         {analysis.map((insight, index) => (
@@ -72,7 +72,7 @@ export default function SlowRequestAnalysis() {
                   <code className="text-xs text-green-400 font-mono whitespace-pre-wrap">
                     {insight.sample_slow_queries[0].sql}
                   </code>
-                  <div className="mt-1 flex justify-between text-xs text-gray-400">
+                  <div className="mt-1 flex justify-between text-xs text-muted-foreground">
                     <span>Time: {insight.sample_slow_queries[0].time.toFixed(2)}ms</span>
                     <span>Connection: {insight.sample_slow_queries[0].connection}</span>
                   </div>

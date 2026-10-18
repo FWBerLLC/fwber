@@ -51,7 +51,7 @@ export default function ActivityPage() {
       case 'gift':
         return <Gift className="h-4 w-4 text-orange-500" />
       default:
-        return <Sparkles className="h-4 w-4 text-gray-500" />
+        return <Sparkles className="h-4 w-4 text-muted-foreground" />
     }
   }
 
@@ -90,37 +90,37 @@ export default function ActivityPage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+      <div className="min-h-screen bg-muted dark:bg-background">
         <AppHeader title="Activity" />
         <main className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
-          <div className="mb-8 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Activity</h1>
-            <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
+          <div className="mb-8 rounded-2xl border border-border dark:border-border bg-card p-6 shadow-sm dark:border-gray-800 dark:bg-background">
+            <h1 className="text-3xl font-bold text-foreground dark:text-foreground">Activity</h1>
+            <p className="mt-2 text-sm text-muted-foreground dark:text-muted-foreground">
               The full-screen activity view so dashboard feed links and social surfaces land on a real page instead of a dead route.
             </p>
           </div>
 
-          <div className="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900">
+          <div className="rounded-2xl border border-border dark:border-border bg-card shadow-sm dark:border-gray-800 dark:bg-background">
             {isLoading ? (
-              <div className="p-8 text-sm text-gray-500">Loading activity…</div>
+              <div className="p-8 text-sm text-muted-foreground">Loading activity…</div>
             ) : activities.length === 0 ? (
-              <div className="p-8 text-sm text-gray-500">No recent activity yet.</div>
+              <div className="p-8 text-sm text-muted-foreground">No recent activity yet.</div>
             ) : (
               <div className="divide-y divide-gray-100 dark:divide-gray-800">
                 {activities.map((activity, index) => (
                   <Link
                     key={`${activity.type}-${activity.user.id}-${activity.timestamp}-${index}`}
                     href={getHref(activity)}
-                    className="block p-4 transition hover:bg-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800/50"
+                    className="block p-4 transition hover:bg-muted dark:bg-background dark:hover:bg-gray-800/50"
                   >
                     <div className="flex items-start gap-3">
-                      <div className="mt-1 rounded-full bg-gray-100 p-2 dark:bg-gray-800">
+                      <div className="mt-1 rounded-full bg-muted p-2 dark:bg-card">
                         {getIcon(activity.type)}
                       </div>
                       <div className="min-w-0 flex-1">
-                        <div className="font-medium text-gray-900 dark:text-white">{activity.user.name}</div>
-                        <div className="mt-1 text-sm text-gray-600 dark:text-gray-300">{getDescription(activity)}</div>
-                        <div className="mt-2 flex items-center gap-2 text-xs text-gray-500">
+                        <div className="font-medium text-foreground dark:text-foreground">{activity.user.name}</div>
+                        <div className="mt-1 text-sm text-muted-foreground dark:text-muted-foreground">{getDescription(activity)}</div>
+                        <div className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
                           <Clock className="h-3.5 w-3.5" />
                           {new Date(activity.timestamp).toLocaleString()}
                           {activity.match_score ? <span>· {activity.match_score}% match</span> : null}

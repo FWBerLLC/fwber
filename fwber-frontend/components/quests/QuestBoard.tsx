@@ -86,7 +86,7 @@ export default function QuestBoard() {
                         const isClaimed = userQuest?.status === 'claimed';
 
                         return (
-                            <Card key={quest.id} className="border-zinc-200 dark:border-zinc-800 shadow-sm overflow-hidden bg-white dark:bg-zinc-950">
+                            <Card key={quest.id} className="border-zinc-200 dark:border-zinc-800 shadow-sm overflow-hidden bg-card dark:bg-zinc-950">
                                 <div className="p-4 space-y-3">
                                     <div className="flex justify-between items-start">
                                         <Badge className="bg-amber-100 text-amber-700 hover:bg-amber-100">
@@ -98,14 +98,14 @@ export default function QuestBoard() {
                                     </div>
 
                                     <div>
-                                        <h4 className="font-black italic uppercase tracking-tight text-zinc-900 dark:text-white leading-tight">
+                                        <h4 className="font-black italic uppercase tracking-tight text-zinc-900 dark:text-foreground leading-tight">
                                             {quest.title}
                                         </h4>
                                         <p className="text-xs text-zinc-500 mt-1">{quest.description}</p>
                                     </div>
 
                                     {!userQuest ? (
-                                        <Button onClick={() => handleAccept(quest.id)} className="w-full bg-zinc-900 text-white dark:bg-white dark:text-zinc-900 hover:opacity-90 h-9 text-xs font-bold uppercase tracking-widest rounded-xl">
+                                        <Button onClick={() => handleAccept(quest.id)} className="w-full bg-zinc-900 text-white dark:bg-card dark:text-zinc-900 hover:opacity-90 h-9 text-xs font-bold uppercase tracking-widest rounded-xl">
                                             Join Quest <ArrowRight className="w-3 h-3 ml-2" />
                                         </Button>
                                     ) : isActive ? (

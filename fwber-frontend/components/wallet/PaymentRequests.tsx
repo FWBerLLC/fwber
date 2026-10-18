@@ -84,24 +84,24 @@ export default function PaymentRequests() {
 
       {loading ? (
         <div className="flex justify-center p-8">
-          <Loader2 className="w-6 h-6 animate-spin text-gray-400" />
+          <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
         </div>
       ) : (
         <div className="grid md:grid-cols-2 gap-6">
           {/* Incoming */}
           <div className="space-y-3">
-            <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wider">To Pay (Incoming)</h4>
-            {incoming.length === 0 && <p className="text-sm text-gray-400 italic">No pending requests.</p>}
+            <h4 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">To Pay (Incoming)</h4>
+            {incoming.length === 0 && <p className="text-sm text-muted-foreground italic">No pending requests.</p>}
             {incoming.map(req => (
-              <div key={req.id} className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
+              <div key={req.id} className="bg-card dark:bg-card p-4 rounded-lg border border-border dark:border-border shadow-sm">
                 <div className="flex justify-between items-start mb-2">
                   <div>
-                    <span className="font-bold text-gray-900 dark:text-white">{req.requester?.name}</span>
-                    <p className="text-xs text-gray-500">{new Date(req.created_at).toLocaleDateString()}</p>
+                    <span className="font-bold text-foreground dark:text-foreground">{req.requester?.name}</span>
+                    <p className="text-xs text-muted-foreground">{new Date(req.created_at).toLocaleDateString()}</p>
                   </div>
                   <span className="font-bold text-indigo-600 dark:text-indigo-400">{req.amount} FWB</span>
                 </div>
-                {req.note && <p className="text-sm text-gray-600 dark:text-gray-300 mb-3 bg-gray-50 dark:bg-gray-900 p-2 rounded">&quot;{req.note}&quot;</p>}
+                {req.note && <p className="text-sm text-muted-foreground dark:text-muted-foreground mb-3 bg-muted dark:bg-background p-2 rounded">&quot;{req.note}&quot;</p>}
 
                 {req.status === 'pending' ? (
                   <div className="flex gap-2">
@@ -119,7 +119,7 @@ export default function PaymentRequests() {
                     </button>
                   </div>
                 ) : (
-                  <div className="text-center text-sm font-medium text-gray-500 capitalize bg-gray-100 dark:bg-gray-800 dark:bg-gray-700 py-1 rounded">
+                  <div className="text-center text-sm font-medium text-muted-foreground capitalize bg-muted dark:bg-card dark:bg-gray-700 py-1 rounded">
                     {req.status}
                   </div>
                 )}
@@ -129,25 +129,25 @@ export default function PaymentRequests() {
 
           {/* Outgoing */}
           <div className="space-y-3">
-            <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wider">Sent (Outgoing)</h4>
-            {outgoing.length === 0 && <p className="text-sm text-gray-400 italic">No sent requests.</p>}
+            <h4 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Sent (Outgoing)</h4>
+            {outgoing.length === 0 && <p className="text-sm text-muted-foreground italic">No sent requests.</p>}
             {outgoing.map(req => (
-              <div key={req.id} className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 opacity-90">
+              <div key={req.id} className="bg-card dark:bg-card p-4 rounded-lg border border-border dark:border-border opacity-90">
                 <div className="flex justify-between items-start mb-2">
                   <div>
-                    <span className="text-sm text-gray-500">To: </span>
-                    <span className="font-bold text-gray-900 dark:text-white">{req.payer?.name}</span>
-                    <p className="text-xs text-gray-500">{new Date(req.created_at).toLocaleDateString()}</p>
+                    <span className="text-sm text-muted-foreground">To: </span>
+                    <span className="font-bold text-foreground dark:text-foreground">{req.payer?.name}</span>
+                    <p className="text-xs text-muted-foreground">{new Date(req.created_at).toLocaleDateString()}</p>
                   </div>
-                  <span className="font-bold text-gray-600 dark:text-gray-400">{req.amount} FWB</span>
+                  <span className="font-bold text-muted-foreground dark:text-muted-foreground">{req.amount} FWB</span>
                 </div>
-                {req.note && <p className="text-sm text-gray-500 mb-3 italic">&quot;{req.note}&quot;</p>}
+                {req.note && <p className="text-sm text-muted-foreground mb-3 italic">&quot;{req.note}&quot;</p>}
 
                 <div className="flex justify-between items-center">
                    <span className={`text-xs font-bold px-2 py-1 rounded uppercase ${
                      req.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
                      req.status === 'paid' ? 'bg-green-100 text-green-800' :
-                     'bg-gray-100 text-gray-800'
+                     'bg-muted text-foreground'
                    }`}>
                      {req.status}
                    </span>
@@ -210,7 +210,7 @@ function CreateRequestModal({ isOpen, onClose, onSuccess }: { isOpen: boolean; o
     <Dialog.Root open={isOpen} onOpenChange={onClose}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-black/50 z-50 backdrop-blur-sm" />
-        <Dialog.Content className="fixed left-[50%] top-[50%] max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-xl bg-white p-6 shadow-2xl focus:outline-none z-50 dark:bg-gray-900 dark:text-white border border-gray-200 dark:border-gray-700">
+        <Dialog.Content className="fixed left-[50%] top-[50%] max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-xl bg-card p-6 shadow-2xl focus:outline-none z-50 dark:bg-background dark:text-foreground border border-border dark:border-border">
           <Dialog.Title className="text-xl font-bold mb-4">Request Money</Dialog.Title>
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -219,7 +219,7 @@ function CreateRequestModal({ isOpen, onClose, onSuccess }: { isOpen: boolean; o
               <select
                 value={selectedPayer}
                 onChange={e => setSelectedPayer(e.target.value)}
-                className="w-full p-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700"
+                className="w-full p-2 border rounded-lg dark:bg-card dark:border-border"
                 required
               >
                 <option value="">Select a friend...</option>
@@ -238,7 +238,7 @@ function CreateRequestModal({ isOpen, onClose, onSuccess }: { isOpen: boolean; o
                 step="0.1"
                 value={amount}
                 onChange={e => setAmount(e.target.value)}
-                className="w-full p-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700"
+                className="w-full p-2 border rounded-lg dark:bg-card dark:border-border"
                 placeholder="0.00"
                 required
               />
@@ -250,7 +250,7 @@ function CreateRequestModal({ isOpen, onClose, onSuccess }: { isOpen: boolean; o
                 type="text"
                 value={note}
                 onChange={e => setNote(e.target.value)}
-                className="w-full p-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700"
+                className="w-full p-2 border rounded-lg dark:bg-card dark:border-border"
                 placeholder="What's this for?"
                 maxLength={50}
               />
@@ -260,7 +260,7 @@ function CreateRequestModal({ isOpen, onClose, onSuccess }: { isOpen: boolean; o
               <button
                 type="button"
                 onClick={onClose}
-                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
+                className="flex-1 px-4 py-2 border border-border rounded-lg text-foreground hover:bg-muted dark:bg-background dark:border-border dark:text-muted-foreground dark:hover:bg-gray-800"
               >
                 Cancel
               </button>

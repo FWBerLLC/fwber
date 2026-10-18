@@ -97,7 +97,7 @@ export default function TestAuthPage() {
         </button>
         
         {result && (
-          <div className="mt-4 p-4 bg-gray-100 dark:bg-gray-800 rounded">
+          <div className="mt-4 p-4 bg-muted dark:bg-card rounded">
             <pre className="whitespace-pre-wrap text-sm">{result}</pre>
           </div>
         )}

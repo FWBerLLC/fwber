@@ -73,14 +73,14 @@ export default function RoastPage() {
               href="/wingman"
               className="p-2 -ml-2 hover:bg-orange-800/30 rounded-lg transition"
             >
-              <ArrowLeft className="w-5 h-5 text-gray-400" />
+              <ArrowLeft className="w-5 h-5 text-muted-foreground" />
             </Link>
             <div>
               <h1 className="text-2xl font-bold text-white flex items-center gap-2">
                 <Flame className={`w-7 h-7 ${isRoast ? 'text-orange-400' : 'text-cyan-400'}`} />
                 {isRoast ? 'Profile Roast' : 'Profile Hype'}
               </h1>
-              <p className="text-sm text-gray-400">
+              <p className="text-sm text-muted-foreground">
                 {isRoast ? 'Get savagely roasted by AI' : 'Get hyped up by AI'}
               </p>
             </div>
@@ -92,7 +92,7 @@ export default function RoastPage() {
                 onClick={() => setMode('roast')}
                 className={`px-6 py-2 rounded-lg font-medium transition ${isRoast
                     ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white'
-                    : 'text-gray-400 hover:text-white'
+                    : 'text-muted-foreground hover:text-white'
                   }`}
               >
                 🔥 Roast Me
@@ -101,7 +101,7 @@ export default function RoastPage() {
                 onClick={() => setMode('hype')}
                 className={`px-6 py-2 rounded-lg font-medium transition ${!isRoast
                     ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white'
-                    : 'text-gray-400 hover:text-white'
+                    : 'text-muted-foreground hover:text-white'
                   }`}
               >
                 🚀 Hype Me
@@ -125,7 +125,7 @@ export default function RoastPage() {
                     <h2 className="text-xl font-semibold text-white">
                       {isRoast ? 'Ready to get roasted?' : 'Ready to get hyped?'}
                     </h2>
-                    <p className="text-gray-400 max-w-md mx-auto">
+                    <p className="text-muted-foreground max-w-md mx-auto">
                       {isRoast
                         ? 'Our AI will analyze your profile and deliver a savage (but fun) roast. Can you handle it?'
                         : 'Our AI will analyze your profile and make you feel like the legend you are!'}
@@ -193,14 +193,14 @@ export default function RoastPage() {
               className="p-4 bg-slate-800/50 rounded-xl border border-purple-500/20 hover:border-purple-500/40 transition text-center"
             >
               <Sparkles className="w-8 h-8 mx-auto text-green-400 mb-2" />
-              <span className="text-sm text-gray-300">Vibe Check</span>
+              <span className="text-sm text-muted-foreground">Vibe Check</span>
             </Link>
             <Link
               href="/wingman/nemesis"
               className="p-4 bg-slate-800/50 rounded-xl border border-purple-500/20 hover:border-purple-500/40 transition text-center"
             >
               <Star className="w-8 h-8 mx-auto text-red-400 mb-2" />
-              <span className="text-sm text-gray-300">Find Nemesis</span>
+              <span className="text-sm text-muted-foreground">Find Nemesis</span>
             </Link>
           </div>
         </main>

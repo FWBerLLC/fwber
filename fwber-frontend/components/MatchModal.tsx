@@ -57,7 +57,7 @@ export default function MatchModal({ isOpen, onClose, matchedUser, currentUser }
       {/* Modal Content */}
       <div className={`relative w-full max-w-lg transform transition-all duration-500 ${isOpen ? 'scale-100 translate-y-0' : 'scale-95 translate-y-8'}`}>
         <div className="bg-gradient-to-br from-pink-500 via-red-500 to-yellow-500 p-1 rounded-2xl shadow-2xl">
-          <div className="bg-white dark:bg-gray-900 rounded-xl p-8 text-center overflow-hidden relative">
+          <div className="bg-card dark:bg-background rounded-xl p-8 text-center overflow-hidden relative">
             
             {/* Confetti/Decoration Background */}
             <div className="absolute inset-0 opacity-10 pointer-events-none">
@@ -68,7 +68,7 @@ export default function MatchModal({ isOpen, onClose, matchedUser, currentUser }
               It&apos;s a Match!
             </h2>
             
-            <p className="text-gray-600 dark:text-gray-300 mb-8 text-lg">
+            <p className="text-muted-foreground dark:text-muted-foreground mb-8 text-lg">
               You and {matchedUser.name} have liked each other
             </p>
 
@@ -85,7 +85,7 @@ export default function MatchModal({ isOpen, onClose, matchedUser, currentUser }
               </div>
 
               {/* Heart Icon */}
-              <div className="z-10 bg-white dark:bg-gray-800 rounded-full p-2 shadow-lg animate-bounce">
+              <div className="z-10 bg-card dark:bg-card rounded-full p-2 shadow-lg animate-bounce">
                 <svg className="w-8 h-8 text-red-500 fill-current" viewBox="0 0 24 24">
                   <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                 </svg>
@@ -113,7 +113,7 @@ export default function MatchModal({ isOpen, onClose, matchedUser, currentUser }
 
               <button type="button"
                 onClick={handleShare}
-                className="w-full bg-white dark:bg-gray-800 text-pink-600 dark:text-pink-400 font-bold py-3 px-6 rounded-full border-2 border-pink-100 dark:border-pink-900/30 shadow-sm hover:bg-pink-50 dark:hover:bg-pink-900/10 flex items-center justify-center gap-2 transition-all"
+                className="w-full bg-card dark:bg-card text-pink-600 dark:text-pink-400 font-bold py-3 px-6 rounded-full border-2 border-pink-100 dark:border-pink-900/30 shadow-sm hover:bg-pink-50 dark:hover:bg-pink-900/10 flex items-center justify-center gap-2 transition-all"
               >
                 <Share2 className="w-5 h-5" />
                 Share This Match
@@ -121,7 +121,7 @@ export default function MatchModal({ isOpen, onClose, matchedUser, currentUser }
               
               <button type="button"
                 onClick={onClose}
-                className="w-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 dark:text-gray-200 font-semibold py-3 px-6 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                className="w-full bg-muted dark:bg-card text-foreground dark:text-muted-foreground dark:text-foreground font-semibold py-3 px-6 rounded-full hover:bg-muted dark:hover:bg-gray-700 transition-colors"
               >
                 Keep Swiping
               </button>

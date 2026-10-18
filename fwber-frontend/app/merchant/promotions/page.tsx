@@ -49,8 +49,8 @@ export default function PromotionsListPage() {
     <div className="space-y-6 px-4 sm:px-0">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Promotions</h1>
-          <p className="text-gray-500 dark:text-gray-400">
+          <h1 className="text-3xl font-bold tracking-tight text-foreground dark:text-foreground">Promotions</h1>
+          <p className="text-muted-foreground dark:text-muted-foreground">
             Manage your active and past deals.
           </p>
         </div>
@@ -63,11 +63,11 @@ export default function PromotionsListPage() {
       </div>
 
       {promotions.length === 0 ? (
-        <Card className="bg-gray-50 dark:bg-gray-900 dark:bg-gray-800/50 border-dashed py-12">
+        <Card className="bg-muted dark:bg-background dark:bg-gray-800/50 border-dashed py-12">
             <CardContent className="flex flex-col items-center justify-center text-center">
-                <Tag className="h-12 w-12 text-gray-400 mb-4" />
-                <h3 className="text-xl font-medium text-gray-900 dark:text-white dark:text-gray-100">No promotions yet</h3>
-                <p className="text-gray-500 dark:text-gray-400 mb-6 max-w-sm">
+                <Tag className="h-12 w-12 text-muted-foreground mb-4" />
+                <h3 className="text-xl font-medium text-foreground dark:text-foreground dark:text-foreground">No promotions yet</h3>
+                <p className="text-muted-foreground dark:text-muted-foreground mb-6 max-w-sm">
                     Create your first promotion to start attracting customers to your business.
                 </p>
                     <Link href="/merchant/promotions/new">
@@ -84,7 +84,7 @@ export default function PromotionsListPage() {
                          <div className="flex items-start justify-between mb-2">
                              <div>
                                 <CardTitle className="text-xl mb-1">{promo.title}</CardTitle>
-                                <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-3">
+                                <div className="flex items-center gap-2 text-sm text-muted-foreground dark:text-muted-foreground mb-3">
                                     <span className="font-bold text-green-600 dark:text-green-400">{promo.discount_value}</span>
                                     <span>•</span>
                                     <span className="flex items-center">
@@ -102,7 +102,7 @@ export default function PromotionsListPage() {
                              {promo.description || 'No description provided.'}
                          </CardDescription>
 
-                         <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400 border-t pt-3 mt-auto">
+                         <div className="flex items-center gap-4 text-xs text-muted-foreground dark:text-muted-foreground border-t pt-3 mt-auto">
                             <div className="flex items-center">
                                 <Calendar className="w-3 h-3 mr-1" />
                                 Starts: {format(new Date(promo.starts_at), 'MMM d, yyyy h:mm a')}

@@ -249,7 +249,7 @@ export function VideoCallModal({ recipientId, isOpen, onClose, isIncoming = fals
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-gray-500">
+                <div className="w-full h-full flex items-center justify-center text-muted-foreground">
                   {callStatus === 'calling' ? 'Calling...' : 'Waiting for video...'}
                 </div>
               )}

@@ -144,7 +144,7 @@ export default function BountyPage() {
 
   if (loading || isAuthLoading) {
     return (
-      <div className="flex justify-center items-center min-h-screen bg-black dark:bg-gray-950 text-white transition-colors duration-300">
+      <div className="flex justify-center items-center min-h-screen bg-black dark:bg-background text-white transition-colors duration-300">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-pink-500"></div>
       </div>
     );
@@ -152,11 +152,11 @@ export default function BountyPage() {
 
   if (error || !bounty) {
     return (
-      <div className="flex flex-col justify-center items-center min-h-screen bg-black dark:bg-gray-950 text-white p-4 transition-colors duration-300">
+      <div className="flex flex-col justify-center items-center min-h-screen bg-black dark:bg-background text-white p-4 transition-colors duration-300">
         <h1 className="text-2xl font-bold mb-4 text-red-500">
           {error || "Bounty not found"}
         </h1>
-        <Button onClick={() => router.push("/")} variant="outline" className="dark:border-gray-700 dark:hover:bg-gray-800">
+        <Button onClick={() => router.push("/")} variant="outline" className="dark:border-border dark:hover:bg-gray-800">
           Go Home
         </Button>
       </div>
@@ -172,13 +172,13 @@ export default function BountyPage() {
   );
 
   return (
-    <div className="min-h-screen bg-black dark:bg-gray-950 text-white flex flex-col items-center justify-center p-4 transition-colors duration-300">
+    <div className="min-h-screen bg-black dark:bg-background text-white flex flex-col items-center justify-center p-4 transition-colors duration-300">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
           <h1 className="text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-500 mb-2">
             Matchmaker Bounty
           </h1>
-          <p className="text-gray-400 dark:text-gray-500">
+          <p className="text-muted-foreground dark:text-muted-foreground">
             Help find a match and earn tokens!
           </p>
         </div>
@@ -194,7 +194,7 @@ export default function BountyPage() {
               />
             ) : (
               <div className="flex items-center justify-center h-full">
-                <User className="h-24 w-24 text-gray-600 dark:text-gray-700 dark:text-gray-300" />
+                <User className="h-24 w-24 text-muted-foreground dark:text-foreground dark:text-muted-foreground" />
               </div>
             )}
             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
@@ -202,7 +202,7 @@ export default function BountyPage() {
                 {bounty.user.profile?.display_name || bounty.user.name},{" "}
                 {bounty.user.profile?.age}
               </h2>
-              <p className="text-gray-300 dark:text-gray-400 text-sm">
+              <p className="text-muted-foreground dark:text-muted-foreground text-sm">
                  {bounty.user.profile?.gender}
               </p>
             </div>
@@ -211,7 +211,7 @@ export default function BountyPage() {
           <CardContent className="p-6 space-y-6">
              {bounty.user.profile?.bio && (
                  <div className="bg-gray-800/50 dark:bg-gray-800/30 p-4 rounded-lg border border-gray-700/20">
-                    <p className="italic text-gray-300 dark:text-gray-400">&quot;{bounty.user.profile.bio}&quot;</p>
+                    <p className="italic text-muted-foreground dark:text-muted-foreground">&quot;{bounty.user.profile.bio}&quot;</p>
                  </div>
              )}
 
@@ -247,7 +247,7 @@ export default function BountyPage() {
                     </Button>
                     
                     {!currentUser && (
-                        <p className="text-xs text-center text-gray-500 dark:text-gray-600">
+                        <p className="text-xs text-center text-muted-foreground dark:text-muted-foreground">
                             Login or Register to suggest a friend for {bounty.user.profile?.display_name || "this user"}.
                         </p>
                     )}
@@ -256,14 +256,14 @@ export default function BountyPage() {
                 <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-300">
                      <div className="flex items-center justify-between">
                         <h3 className="font-semibold text-lg">Select a Friend</h3>
-                        <Button variant="ghost" size="sm" onClick={() => setShowSuggestUI(false)} className="dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800">Cancel</Button>
+                        <Button variant="ghost" size="sm" onClick={() => setShowSuggestUI(false)} className="dark:text-muted-foreground dark:hover:text-white dark:hover:bg-gray-800">Cancel</Button>
                      </div>
 
                      <div className="relative">
-                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500 dark:text-gray-600" />
+                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground dark:text-muted-foreground" />
                         <Input 
                             placeholder="Search friends..." 
-                            className="pl-9 bg-gray-800 dark:bg-gray-800/50 border-gray-700 dark:border-gray-700/50 text-white dark:text-gray-200"
+                            className="pl-9 bg-gray-800 dark:bg-gray-800/50 border-gray-700 dark:border-gray-700/50 text-white dark:text-foreground"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
@@ -271,9 +271,9 @@ export default function BountyPage() {
 
                      <div className="max-h-60 overflow-y-auto space-y-2 pr-1 custom-scrollbar">
                         {friends.length === 0 ? (
-                             <p className="text-center text-gray-500 dark:text-gray-600 py-4">No friends found. Add some friends first!</p>
+                             <p className="text-center text-muted-foreground dark:text-muted-foreground py-4">No friends found. Add some friends first!</p>
                         ) : filteredFriends.length === 0 ? (
-                             <p className="text-center text-gray-500 dark:text-gray-600 py-4">No matching friends.</p>
+                             <p className="text-center text-muted-foreground dark:text-muted-foreground py-4">No matching friends.</p>
                         ) : (
                             filteredFriends.map(friend => (
                                 <div 
@@ -282,16 +282,16 @@ export default function BountyPage() {
                                     className={`flex items-center justify-between p-3 rounded-lg cursor-pointer transition-colors ${selectedFriend?.id === friend.id ? 'bg-pink-900/40 border border-pink-500/50 dark:bg-pink-950/50 dark:border-pink-700/50' : 'bg-gray-800 dark:bg-gray-800/40 hover:bg-gray-700 dark:hover:bg-gray-700/60'}`}
                                 >
                                     <div className="flex items-center space-x-3">
-                                        <div className="h-10 w-10 rounded-full overflow-hidden bg-gray-700 dark:bg-gray-800 flex items-center justify-center relative">
+                                        <div className="h-10 w-10 rounded-full overflow-hidden bg-gray-700 dark:bg-card flex items-center justify-center relative">
                                             {friend.avatar_url ? (
                                                 <Image src={getAvatarUrl(friend.avatar_url, friend.name)} alt={friend.name} fill className="object-cover" />
                                             ) : (
-                                                <span className="text-gray-400 dark:text-gray-500 font-bold">{friend.name.charAt(0)}</span>
+                                                <span className="text-muted-foreground dark:text-muted-foreground font-bold">{friend.name.charAt(0)}</span>
                                             )}
                                         </div>
                                         <div>
                                             <p className="font-medium text-sm">{friend.name}</p>
-                                            <p className="text-xs text-gray-400 dark:text-gray-500">@{friend.username}</p>
+                                            <p className="text-xs text-muted-foreground dark:text-muted-foreground">@{friend.username}</p>
                                         </div>
                                     </div>
                                     {selectedFriend?.id === friend.id && (

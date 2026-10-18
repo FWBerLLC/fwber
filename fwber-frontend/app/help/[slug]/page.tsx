@@ -374,7 +374,7 @@ export default function HelpArticlePage() {
       <div className="mb-6">
         <Link
           href="/help"
-          className="inline-flex items-center text-sm text-gray-500 hover:text-gray-900 dark:text-white dark:text-gray-400 dark:hover:text-white transition-colors"
+          className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground dark:text-foreground dark:text-muted-foreground dark:hover:text-white transition-colors"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Help Center
@@ -395,7 +395,7 @@ export default function HelpArticlePage() {
         {/* Feedback Section */}
         <div className="border-t border-gray-100 dark:border-gray-800 mt-8 pt-6">
           <div className="flex flex-col items-center justify-center space-y-4">
-            <p className="text-sm text-gray-500 font-medium">Was this article helpful?</p>
+            <p className="text-sm text-muted-foreground font-medium">Was this article helpful?</p>
             <div className="flex gap-4">
               <Button variant="outline" size="sm" className="gap-2">
                 <ThumbsUp className="w-4 h-4" />

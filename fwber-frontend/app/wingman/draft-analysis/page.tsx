@@ -45,14 +45,14 @@ export default function DraftAnalysisPage() {
         <main className="max-w-2xl mx-auto px-4 py-6">
           <div className="flex items-center gap-3 mb-8">
             <Link href="/wingman" className="p-2 -ml-2 hover:bg-purple-800/30 rounded-lg transition">
-              <ArrowLeft className="w-5 h-5 text-gray-400" />
+              <ArrowLeft className="w-5 h-5 text-muted-foreground" />
             </Link>
             <div>
               <h1 className="text-2xl font-bold text-white flex items-center gap-2">
                 <Pencil className="w-7 h-7 text-violet-400" />
                 Draft Analysis
               </h1>
-              <p className="text-sm text-gray-400">AI-powered message coaching</p>
+              <p className="text-sm text-muted-foreground">AI-powered message coaching</p>
             </div>
           </div>
 
@@ -69,7 +69,7 @@ export default function DraftAnalysisPage() {
                 {!result && !loading && (
                   <div className="space-y-4">
                     <h2 className="text-xl font-semibold text-white">Make every message count</h2>
-                    <p className="text-gray-400 max-w-md mx-auto">
+                    <p className="text-muted-foreground max-w-md mx-auto">
                       Paste a message draft and get instant AI feedback with a score, suggestions, and an improved version.
                     </p>
                     <textarea
@@ -93,11 +93,11 @@ export default function DraftAnalysisPage() {
                     <div className="grid grid-cols-2 gap-4">
                       <div className="bg-slate-800/50 border border-amber-500/30 rounded-xl p-4 text-center">
                         <p className="text-3xl font-bold text-amber-400">{result.original_score}</p>
-                        <p className="text-xs text-gray-400">Original Score</p>
+                        <p className="text-xs text-muted-foreground">Original Score</p>
                       </div>
                       <div className="bg-slate-800/50 border border-green-500/30 rounded-xl p-4 text-center">
                         <p className="text-3xl font-bold text-green-400">{result.improved_score}</p>
-                        <p className="text-xs text-gray-400">Improved Score</p>
+                        <p className="text-xs text-muted-foreground">Improved Score</p>
                       </div>
                     </div>
 

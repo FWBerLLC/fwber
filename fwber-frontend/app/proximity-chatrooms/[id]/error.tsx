@@ -10,8 +10,8 @@ export default function Error({
   return (
     <div className="min-h-[60vh] flex items-center justify-center">
       <div className="flex flex-col items-center gap-4 text-center">
-        <p className="text-lg font-semibold text-gray-900 dark:text-white">Something went wrong</p>
-        <p className="text-sm text-gray-500 dark:text-gray-400">{error.message || "An unexpected error occurred."}</p>
+        <p className="text-lg font-semibold text-foreground dark:text-foreground">Something went wrong</p>
+        <p className="text-sm text-muted-foreground dark:text-muted-foreground">{error.message || "An unexpected error occurred."}</p>
         <button
           type="button"
           onClick={reset}

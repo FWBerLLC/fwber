@@ -128,26 +128,26 @@ function WebSocketPageContent() {
               <span>{connectionStatus.connected ? 'Connected' : 'Disconnected'}</span>
             </div>
             {connectionStatus.connectionId && (
-              <p className="text-sm text-gray-400 mt-2">ID: {connectionStatus.connectionId}</p>
+              <p className="text-sm text-muted-foreground mt-2">ID: {connectionStatus.connectionId}</p>
             )}
           </div>
 
           <div className="bg-gray-800 p-6 rounded-lg">
             <h3 className="text-lg font-semibold mb-2">Messages</h3>
             <p className="text-2xl font-bold text-red-500">{messages.length}</p>
-            <p className="text-sm text-gray-400">Total received</p>
+            <p className="text-sm text-muted-foreground">Total received</p>
           </div>
 
           <div className="bg-gray-800 p-6 rounded-lg">
             <h3 className="text-lg font-semibold mb-2">Online Users</h3>
             <p className="text-2xl font-bold text-green-500">{onlineUsers.length}</p>
-            <p className="text-sm text-gray-400">Currently online</p>
+            <p className="text-sm text-muted-foreground">Currently online</p>
           </div>
 
           <div className="bg-gray-800 p-6 rounded-lg">
             <h3 className="text-lg font-semibold mb-2">Notifications</h3>
             <p className="text-2xl font-bold text-yellow-500">{unreadCount}</p>
-            <p className="text-sm text-gray-400">Unread notifications</p>
+            <p className="text-sm text-muted-foreground">Unread notifications</p>
           </div>
         </div>
 
@@ -158,7 +158,7 @@ function WebSocketPageContent() {
             <button type="button"
               onClick={() => setOnline()}
               className={`px-4 py-2 rounded ${
-                currentStatus === 'online' ? 'bg-green-600 text-white' : 'bg-gray-700 text-gray-300'
+                currentStatus === 'online' ? 'bg-green-600 text-white' : 'bg-gray-700 text-muted-foreground'
               }`}
             >
               Online
@@ -166,7 +166,7 @@ function WebSocketPageContent() {
             <button type="button"
               onClick={() => setAway()}
               className={`px-4 py-2 rounded ${
-                currentStatus === 'away' ? 'bg-yellow-600 text-white' : 'bg-gray-700 text-gray-300'
+                currentStatus === 'away' ? 'bg-yellow-600 text-white' : 'bg-gray-700 text-muted-foreground'
               }`}
             >
               Away
@@ -174,7 +174,7 @@ function WebSocketPageContent() {
             <button type="button"
               onClick={() => setBusy()}
               className={`px-4 py-2 rounded ${
-                currentStatus === 'busy' ? 'bg-red-600 text-white' : 'bg-gray-700 text-gray-300'
+                currentStatus === 'busy' ? 'bg-red-600 text-white' : 'bg-gray-700 text-muted-foreground'
               }`}
             >
               Busy
@@ -182,7 +182,7 @@ function WebSocketPageContent() {
             <button type="button"
               onClick={() => setOffline()}
               className={`px-4 py-2 rounded ${
-                currentStatus === 'offline' ? 'bg-gray-600 text-white' : 'bg-gray-700 text-gray-300'
+                currentStatus === 'offline' ? 'bg-gray-600 text-white' : 'bg-gray-700 text-muted-foreground'
               }`}
             >
               Offline
@@ -258,21 +258,21 @@ function WebSocketPageContent() {
             <h3 className="text-lg font-semibold mb-4">Connection Info</h3>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
-                <span className="text-gray-400">Status:</span>
+                <span className="text-muted-foreground">Status:</span>
                 <span className={connectionStatus.connected ? 'text-green-400' : 'text-red-400'}>
                   {connectionStatus.connected ? 'Connected' : 'Disconnected'}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Connection ID:</span>
+                <span className="text-muted-foreground">Connection ID:</span>
                 <span className="text-white">{connectionStatus.connectionId || 'N/A'}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">User ID:</span>
+                <span className="text-muted-foreground">User ID:</span>
                 <span className="text-white">{connectionStatus.userId || 'N/A'}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Reconnect Attempts:</span>
+                <span className="text-muted-foreground">Reconnect Attempts:</span>
                 <span className="text-white">{connectionStatus.reconnectAttempts}</span>
               </div>
             </div>
@@ -291,7 +291,7 @@ function WebSocketPageContent() {
               />
             ) : (
               <div className="bg-gray-800 p-8 rounded-lg text-center">
-                <p className="text-gray-400">Select a recipient to start chatting</p>
+                <p className="text-muted-foreground">Select a recipient to start chatting</p>
               </div>
             )}
           </div>
@@ -315,17 +315,17 @@ function WebSocketPageContent() {
           </div>
           <div className="max-h-64 overflow-y-auto space-y-2">
             {messages.length === 0 ? (
-              <p className="text-gray-400 text-center py-4">No messages received</p>
+              <p className="text-muted-foreground text-center py-4">No messages received</p>
             ) : (
               messages.slice(-20).map((msg: any, index: number) => (
                 <div key={index} className="bg-gray-700 p-3 rounded text-sm">
                   <div className="flex justify-between items-start mb-1">
                     <span className="text-red-400 font-medium">{msg.type}</span>
-                    <span className="text-gray-400 text-xs">
+                    <span className="text-muted-foreground text-xs">
                       {new Date(msg.timestamp).toLocaleTimeString()}
                     </span>
                   </div>
-                  <pre className="text-gray-300 text-xs overflow-x-auto">
+                  <pre className="text-muted-foreground text-xs overflow-x-auto">
                     {JSON.stringify(msg.data, null, 2)}
                   </pre>
                 </div>

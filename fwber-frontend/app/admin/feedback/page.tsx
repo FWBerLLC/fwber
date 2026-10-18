@@ -18,8 +18,8 @@ export default function FeedbackPage() {
       case 'new': return 'bg-blue-100 text-blue-800';
       case 'reviewed': return 'bg-yellow-100 text-yellow-800';
       case 'resolved': return 'bg-green-100 text-green-800';
-      case 'dismissed': return 'bg-gray-100 text-gray-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'dismissed': return 'bg-muted text-foreground';
+      default: return 'bg-muted text-foreground';
     }
   };
 
@@ -27,8 +27,8 @@ export default function FeedbackPage() {
     switch (sentiment) {
       case 'positive': return 'bg-green-100 text-green-800 border-green-200';
       case 'negative': return 'bg-red-100 text-red-800 border-red-200';
-      case 'neutral': return 'bg-gray-100 text-gray-800 border-gray-200';
-      default: return 'bg-gray-50 text-gray-500 border-gray-200';
+      case 'neutral': return 'bg-muted text-foreground border-border';
+      default: return 'bg-muted text-muted-foreground border-border';
     }
   };
 
@@ -45,52 +45,52 @@ export default function FeedbackPage() {
     <div className="p-8 space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">User Feedback</h1>
-          <p className="text-gray-500">Manage bug reports, feature requests, and general feedback.</p>
+          <h1 className="text-2xl font-bold text-foreground dark:text-foreground">User Feedback</h1>
+          <p className="text-muted-foreground">Manage bug reports, feature requests, and general feedback.</p>
         </div>
       </div>
 
       {isLoading ? (
         <div className="flex justify-center py-12">
-          <Loader2 className="w-8 h-8 animate-spin text-gray-400" />
+          <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
         </div>
       ) : (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+        <div className="bg-card dark:bg-card rounded-lg shadow overflow-hidden">
           <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50 dark:bg-gray-900">
+            <thead className="bg-muted dark:bg-background">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Message</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">AI Analysis</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">User</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Category</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Message</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">AI Analysis</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Status</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Date</th>
+                <th className="px-6 py-3 text-right text-xs font-medium text-muted-foreground uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
-            <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200">
+            <tbody className="bg-card dark:bg-card divide-y divide-gray-200">
               {(data?.data || []).map((item: FeedbackItem) => (
-                <tr key={item.id} className="hover:bg-gray-50 dark:bg-gray-900">
+                <tr key={item.id} className="hover:bg-muted dark:bg-background">
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900 dark:text-white">
+                    <div className="text-sm font-medium text-foreground dark:text-foreground">
                       {item.user ? item.user.name : 'Anonymous'}
                     </div>
-                    <div className="text-sm text-gray-500">
+                    <div className="text-sm text-muted-foreground">
                       {item.user ? item.user.email : '-'}
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 capitalize">
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-muted dark:bg-card text-foreground dark:text-foreground capitalize">
                       {/* Icon placeholder - need to import Sparkles/Shield if used */}
                       {item.category}
                     </span>
                   </td>
                   <td className="px-6 py-4">
-                    <div className="text-sm text-gray-900 dark:text-white max-w-md truncate" title={item.message}>
+                    <div className="text-sm text-foreground dark:text-foreground max-w-md truncate" title={item.message}>
                       {item.message}
                     </div>
                     {item.page_url && (
-                      <div className="text-xs text-gray-500 mt-1 truncate max-w-xs">
+                      <div className="text-xs text-muted-foreground mt-1 truncate max-w-xs">
                         {item.page_url}
                       </div>
                     )}
@@ -102,7 +102,7 @@ export default function FeedbackPage() {
                           {item.sentiment || 'Unknown'}
                         </span>
                         {item.ai_analysis && (
-                          <div className="flex items-start gap-1.5 text-xs text-gray-600 max-w-xs">
+                          <div className="flex items-start gap-1.5 text-xs text-muted-foreground max-w-xs">
                             <Brain className="w-3 h-3 mt-0.5 flex-shrink-0 text-purple-500" />
                             <span className="line-clamp-2" title={item.ai_analysis}>
                               {item.ai_analysis}
@@ -111,7 +111,7 @@ export default function FeedbackPage() {
                         )}
                       </div>
                     ) : (
-                      <span className="text-xs text-gray-400 italic">Pending analysis...</span>
+                      <span className="text-xs text-muted-foreground italic">Pending analysis...</span>
                     )}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
@@ -119,7 +119,7 @@ export default function FeedbackPage() {
                       {item.status}
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-muted-foreground">
                     {format(new Date(item.created_at), 'MMM d, yyyy')}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -136,7 +136,7 @@ export default function FeedbackPage() {
                       {item.status !== 'dismissed' && (
                         <button type="button"
                           onClick={() => handleStatusUpdate(item.id, 'dismissed')}
-                          className="text-gray-400 hover:text-gray-600"
+                          className="text-muted-foreground hover:text-muted-foreground"
                           title="Dismiss"
                         >
                           <XCircle className="w-5 h-5" />
@@ -150,26 +150,26 @@ export default function FeedbackPage() {
           </table>
           
           {/* Pagination */}
-          <div className="bg-white dark:bg-gray-800 px-4 py-3 flex items-center justify-between border-t border-gray-200 dark:border-gray-700 sm:px-6">
+          <div className="bg-card dark:bg-card px-4 py-3 flex items-center justify-between border-t border-border dark:border-border sm:px-6">
             <div className="flex-1 flex justify-between sm:hidden">
               <button type="button"
                 onClick={() => setPage(p => Math.max(1, p - 1))}
                 disabled={page === 1}
-                className="relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:bg-gray-900 disabled:opacity-50"
+                className="relative inline-flex items-center px-4 py-2 border border-border dark:border-border text-sm font-medium rounded-md text-foreground dark:text-muted-foreground bg-card dark:bg-card hover:bg-muted dark:bg-background disabled:opacity-50"
               >
                 Previous
               </button>
               <button type="button"
                 onClick={() => setPage(p => p + 1)}
                 disabled={page === (data?.last_page || 1)}
-                className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:bg-gray-900 disabled:opacity-50"
+                className="ml-3 relative inline-flex items-center px-4 py-2 border border-border dark:border-border text-sm font-medium rounded-md text-foreground dark:text-muted-foreground bg-card dark:bg-card hover:bg-muted dark:bg-background disabled:opacity-50"
               >
                 Next
               </button>
             </div>
             <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
               <div>
-                <p className="text-sm text-gray-700 dark:text-gray-300">
+                <p className="text-sm text-foreground dark:text-muted-foreground">
                   Showing page <span className="font-medium">{data?.current_page}</span> of <span className="font-medium">{data?.last_page}</span>
                 </p>
               </div>
@@ -178,14 +178,14 @@ export default function FeedbackPage() {
                   <button type="button"
                     onClick={() => setPage(p => Math.max(1, p - 1))}
                     disabled={page === 1}
-                    className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 hover:bg-gray-50 dark:bg-gray-900 disabled:opacity-50"
+                    className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-border dark:border-border bg-card dark:bg-card text-sm font-medium text-muted-foreground hover:bg-muted dark:bg-background disabled:opacity-50"
                   >
                     Previous
                   </button>
                   <button type="button"
                     onClick={() => setPage(p => p + 1)}
                     disabled={page === (data?.last_page || 1)}
-                    className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 hover:bg-gray-50 dark:bg-gray-900 disabled:opacity-50"
+                    className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-border dark:border-border bg-card dark:bg-card text-sm font-medium text-muted-foreground hover:bg-muted dark:bg-background disabled:opacity-50"
                   >
                     Next
                   </button>

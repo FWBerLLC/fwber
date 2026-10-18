@@ -31,11 +31,11 @@ export default function ContentGenerationPage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <div className="min-h-screen bg-muted dark:bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">AI Content Generation</h1>
-            <p className="text-gray-600">Leverage the power of AI to create engaging content</p>
+            <h1 className="text-4xl font-bold text-foreground dark:text-foreground mb-2">AI Content Generation</h1>
+            <p className="text-muted-foreground">Leverage the power of AI to create engaging content</p>
           </div>
 
           {/* Tab Navigation */}
@@ -49,7 +49,7 @@ export default function ContentGenerationPage() {
                   className={`flex items-center space-x-2 py-4 px-1 border-b-2 font-medium text-sm ${
                     activeTab === tab.id
                       ? 'border-blue-500 text-blue-600'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                      : 'border-transparent text-muted-foreground hover:text-foreground hover:border-border'
                   }`}
                 >
                   <span className="text-lg">{tab.icon}</span>
@@ -60,7 +60,7 @@ export default function ContentGenerationPage() {
           </div>
 
           {/* Tab Content */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md">
+          <div className="bg-card dark:bg-card rounded-lg shadow-md">
             {activeTab === 'profile' && (
               <div className="p-6">
                 <AIProfileBuilder onProfileGenerated={handleProfileGenerated} />
@@ -71,7 +71,7 @@ export default function ContentGenerationPage() {
               <div className="p-6">
                 <div className="mb-6">
                   <h2 className="text-2xl font-semibold mb-2">Smart Content Editor</h2>
-                  <p className="text-gray-600">
+                  <p className="text-muted-foreground">
                     Create and optimize content with AI-powered suggestions and real-time analysis.
                   </p>
                 </div>
@@ -104,7 +104,7 @@ export default function ContentGenerationPage() {
               <div className="p-6">
                 <div className="mb-6">
                   <h2 className="text-2xl font-semibold mb-2">Viral Content Tools</h2>
-                  <p className="text-gray-600">
+                  <p className="text-muted-foreground">
                     Fun, shareable AI tools to engage with friends and potential matches.
                   </p>
                 </div>
@@ -120,7 +120,7 @@ export default function ContentGenerationPage() {
               <div className="p-6">
                 <div className="mb-6">
                   <h2 className="text-2xl font-semibold mb-2">Content Generation Analytics</h2>
-                  <p className="text-gray-600">
+                  <p className="text-muted-foreground">
                     Track your content generation performance and optimization results.
                   </p>
                 </div>
@@ -128,7 +128,7 @@ export default function ContentGenerationPage() {
                 {isLoading ? (
                   <div className="text-center py-8">
                     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
-                    <p className="mt-4 text-gray-600">Loading analytics...</p>
+                    <p className="mt-4 text-muted-foreground">Loading analytics...</p>
                   </div>
                 ) : error ? (
                   <div className="bg-red-50 p-4 rounded-lg">
@@ -242,9 +242,9 @@ export default function ContentGenerationPage() {
 
           {/* Quick Actions */}
           <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-              <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">🚀 Quick Start</h3>
-              <p className="text-gray-600 mb-4">
+            <div className="bg-card dark:bg-card p-6 rounded-lg shadow-md">
+              <h3 className="text-lg font-semibold text-foreground dark:text-foreground mb-2">🚀 Quick Start</h3>
+              <p className="text-muted-foreground mb-4">
                 Get started with AI content generation in just a few clicks.
               </p>
               <button type="button"
@@ -255,9 +255,9 @@ export default function ContentGenerationPage() {
               </button>
             </div>
 
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-              <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">✍️ Smart Editor</h3>
-              <p className="text-gray-600 mb-4">
+            <div className="bg-card dark:bg-card p-6 rounded-lg shadow-md">
+              <h3 className="text-lg font-semibold text-foreground dark:text-foreground mb-2">✍️ Smart Editor</h3>
+              <p className="text-muted-foreground mb-4">
                 Use our AI-powered editor to create and optimize content.
               </p>
               <button type="button"
@@ -268,9 +268,9 @@ export default function ContentGenerationPage() {
               </button>
             </div>
 
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-              <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">📊 Analytics</h3>
-              <p className="text-gray-600 mb-4">
+            <div className="bg-card dark:bg-card p-6 rounded-lg shadow-md">
+              <h3 className="text-lg font-semibold text-foreground dark:text-foreground mb-2">📊 Analytics</h3>
+              <p className="text-muted-foreground mb-4">
                 Track your content performance and optimization results.
               </p>
               <button type="button"

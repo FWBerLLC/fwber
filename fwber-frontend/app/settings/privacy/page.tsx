@@ -53,22 +53,22 @@ export default function JournalPrivacyPage() {
     <ProtectedRoute>
       <AppHeader title="Journal Privacy" />
       <ToastContainer />
-      <main className="min-h-screen bg-gray-50 dark:bg-gray-900 px-4 py-8 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-4xl rounded-3xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 shadow-sm">
+      <main className="min-h-screen bg-muted dark:bg-background px-4 py-8 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-4xl rounded-3xl border border-border dark:border-border bg-card dark:bg-card p-6 shadow-sm">
           <div className="mb-8 flex items-start gap-4">
             <div className="rounded-2xl bg-purple-100 p-3 text-purple-600">
               <BookHeart className="h-6 w-6" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Journal privacy defaults</h1>
-              <p className="mt-2 text-sm text-gray-600">
+              <h1 className="text-2xl font-bold text-foreground dark:text-foreground">Journal privacy defaults</h1>
+              <p className="mt-2 text-sm text-muted-foreground">
                 Choose the default audience for new field notes. You can still override the visibility on each note.
               </p>
             </div>
           </div>
 
           {isLoading ? (
-            <div className="text-sm text-gray-500">Loading privacy defaults...</div>
+            <div className="text-sm text-muted-foreground">Loading privacy defaults...</div>
           ) : (
             <>
               <div className="space-y-4">
@@ -80,7 +80,7 @@ export default function JournalPrivacyPage() {
                     <label
                       key={option.value}
                       className={`flex cursor-pointer items-start gap-4 rounded-2xl border px-4 py-4 transition ${
-                        active ? 'border-purple-400 bg-purple-50' : 'border-gray-200 bg-white hover:border-gray-300'
+                        active ? 'border-purple-400 bg-purple-50' : 'border-border bg-card hover:border-border'
                       }`}
                     >
                       <input
@@ -91,12 +91,12 @@ export default function JournalPrivacyPage() {
                         onChange={() => setDefaultVisibility(option.value)}
                         className="mt-1"
                       />
-                      <div className={`rounded-xl p-2 ${active ? 'bg-white dark:bg-gray-800 text-purple-600' : 'bg-gray-100 text-gray-500'}`}>
+                      <div className={`rounded-xl p-2 ${active ? 'bg-card dark:bg-card text-purple-600' : 'bg-muted text-muted-foreground'}`}>
                         <Icon className="h-5 w-5" />
                       </div>
                       <div>
-                        <div className="font-semibold text-gray-900 dark:text-white">{option.label}</div>
-                        <p className="mt-1 text-sm text-gray-600">{option.description}</p>
+                        <div className="font-semibold text-foreground dark:text-foreground">{option.label}</div>
+                        <p className="mt-1 text-sm text-muted-foreground">{option.description}</p>
                       </div>
                     </label>
                   )
@@ -105,11 +105,11 @@ export default function JournalPrivacyPage() {
 
               {defaultVisibility === 'circle' && (
                 <div className="mt-6">
-                  <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Default circle group</label>
+                  <label className="mb-2 block text-sm font-medium text-foreground dark:text-muted-foreground">Default circle group</label>
                   <select
                     value={circleGroupId}
                     onChange={(event) => setCircleGroupId(event.target.value)}
-                    className="w-full rounded-2xl border border-gray-300 dark:border-gray-600 px-4 py-3 text-sm outline-none transition focus:border-purple-500 focus:ring-2 focus:ring-purple-100"
+                    className="w-full rounded-2xl border border-border dark:border-border px-4 py-3 text-sm outline-none transition focus:border-purple-500 focus:ring-2 focus:ring-purple-100"
                   >
                     <option value="">Select one of your groups</option>
                     {data?.available_groups.map((group) => (

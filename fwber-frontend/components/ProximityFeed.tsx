@@ -170,7 +170,7 @@ export default function ProximityFeed() {
 
   if (isLoading && !artifacts.length) {
     return (
-      <div className="p-8 text-center text-gray-500">
+      <div className="p-8 text-center text-muted-foreground">
         Finding local pulse...
         <div data-testid="debug-info" className="hidden">
           {JSON.stringify({ hasToken: !!token, hasLocation: !!location, isLoading })}
@@ -183,17 +183,17 @@ export default function ProximityFeed() {
     <div className="max-w-2xl mx-auto">
       <InspireQuote />
       {/* Post Input */}
-      <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-4 mb-6">
+      <div className="bg-card dark:bg-card shadow rounded-lg p-4 mb-6">
         <form onSubmit={handlePost}>
           <textarea
-            className="w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3"
+            className="w-full border-border dark:border-border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3"
             rows={3}
             placeholder="What's happening nearby?"
             value={newArtifactContent}
             onChange={(e) => setNewArtifactContent(e.target.value)}
           />
           <div className="flex justify-between items-center mt-3">
-            <div className="text-xs text-gray-500 flex items-center gap-1">
+            <div className="text-xs text-muted-foreground flex items-center gap-1">
               <MapPin className="h-3 w-3" />
               {location ? "Location acquired" : "Locating..."}
             </div>
@@ -217,10 +217,10 @@ export default function ProximityFeed() {
           </h3>
           <div className="grid gap-3 sm:grid-cols-2">
             {chatrooms.map(room => (
-              <div key={room.id} className="bg-white dark:bg-gray-800 shadow rounded-lg p-4 border-l-4 border-purple-500 hover:shadow-md transition-shadow cursor-pointer">
-                <h4 className="font-bold text-gray-900 dark:text-white">{room.name}</h4>
-                {room.description && <p className="text-sm text-gray-600 mb-2">{room.description}</p>}
-                <div className="flex justify-between items-center text-xs text-gray-500 mb-3">
+              <div key={room.id} className="bg-card dark:bg-card shadow rounded-lg p-4 border-l-4 border-purple-500 hover:shadow-md transition-shadow cursor-pointer">
+                <h4 className="font-bold text-foreground dark:text-foreground">{room.name}</h4>
+                {room.description && <p className="text-sm text-muted-foreground mb-2">{room.description}</p>}
+                <div className="flex justify-between items-center text-xs text-muted-foreground mb-3">
                   <span>{room.active_members_count} active</span>
                   <span>{location ? `${Math.round(getDistanceFromLatLonInM(location.lat, location.lng, room.lat, room.lng))}m away` : 'Nearby'}</span>
                 </div>
@@ -238,7 +238,7 @@ export default function ProximityFeed() {
                   {room.is_member && (
                     <button type="button"
                       onClick={(e) => handleLeaveRoom(e, room.id)}
-                      className="bg-gray-100 dark:bg-gray-800 hover:bg-red-100 text-gray-500 hover:text-red-600 py-2 px-3 rounded transition-colors border border-gray-200 dark:border-gray-700"
+                      className="bg-muted dark:bg-card hover:bg-red-100 text-muted-foreground hover:text-red-600 py-2 px-3 rounded transition-colors border border-border dark:border-border"
                       title="Leave Room"
                     >
                       <LogOut className="h-4 w-4" />
@@ -254,13 +254,13 @@ export default function ProximityFeed() {
       {/* Feed */}
       <div className="space-y-4">
         {artifacts.length === 0 ? (
-          <div className="text-center py-10 text-gray-500">
+          <div className="text-center py-10 text-muted-foreground">
             <div className="mb-2">📡</div>
             No activity nearby. Be the first to post!
           </div>
         ) : (
           artifacts.map((artifact) => (
-            <div key={artifact.id} className={`bg-white dark:bg-gray-800 shadow rounded-lg p-4 flex gap-3 ${artifact.type === 'promotion' ? 'border border-amber-300 bg-amber-50/30' : ''}`}>
+            <div key={artifact.id} className={`bg-card dark:bg-card shadow rounded-lg p-4 flex gap-3 ${artifact.type === 'promotion' ? 'border border-amber-300 bg-amber-50/30' : ''}`}>
 
               {/* Left Column: Voting (Hidden for Promotions currently though backend supports it) */}
               {!artifact.type?.includes('promotion') && (
@@ -275,11 +275,11 @@ export default function ProximityFeed() {
               <div className="flex-1 min-w-0">
                 <div className="flex justify-between items-start mb-2">
                   <div className="flex items-center gap-2">
-                    <div className={`p-1 rounded-full ${artifact.type === 'promotion' ? 'bg-amber-100 text-amber-600' : 'bg-gray-100 dark:bg-gray-800'}`}>
+                    <div className={`p-1 rounded-full ${artifact.type === 'promotion' ? 'bg-amber-100 text-amber-600' : 'bg-muted dark:bg-card'}`}>
                       {artifact.type === 'promotion' ? (
                         <div className="h-4 w-4 flex items-center justify-center font-bold">P</div>
                       ) : (
-                        <User className="h-4 w-4 text-gray-600" />
+                        <User className="h-4 w-4 text-muted-foreground" />
                       )}
                     </div>
                     <div className="flex flex-col leading-tight">
@@ -294,7 +294,7 @@ export default function ProximityFeed() {
                       )}
                     </div>
                     {!artifact.type?.includes('promotion') && (
-                      <span className="text-xs text-gray-400 flex items-center gap-1 ml-1">
+                      <span className="text-xs text-muted-foreground flex items-center gap-1 ml-1">
                         <Clock className="h-3 w-3" />
                         {new Date(artifact.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </span>
@@ -304,7 +304,7 @@ export default function ProximityFeed() {
                     {user?.id === artifact.user_id ? (
                       <button type="button"
                         onClick={() => handleDelete(artifact.id)}
-                        className="text-gray-400 hover:text-red-600"
+                        className="text-muted-foreground hover:text-red-600"
                         title="Delete"
                       >
                         <Trash2 className="h-4 w-4" />
@@ -312,7 +312,7 @@ export default function ProximityFeed() {
                     ) : (
                       <button type="button"
                         onClick={() => handleFlag(artifact.id)}
-                        className="text-gray-400 hover:text-yellow-600"
+                        className="text-muted-foreground hover:text-yellow-600"
                         title="Report"
                       >
                         <AlertTriangle className="h-4 w-4" />
@@ -324,19 +324,19 @@ export default function ProximityFeed() {
                 {/* Promotion Content */}
                 {artifact.type === 'promotion' && artifact.meta && (
                   <div className="mb-2 p-2 bg-amber-100/50 rounded border border-amber-200">
-                    {artifact.meta.title && <h4 className="font-bold text-gray-900 dark:text-white leading-tight mb-1">{artifact.meta.title}</h4>}
+                    {artifact.meta.title && <h4 className="font-bold text-foreground dark:text-foreground leading-tight mb-1">{artifact.meta.title}</h4>}
                     <div className="flex justify-between items-center">
                       {artifact.meta.discount && <span className="text-green-700 font-bold bg-green-100 px-2 py-0.5 rounded text-xs">-{artifact.meta.discount}% OFF</span>}
-                      {artifact.meta.promo_code && <span className="text-xs font-mono bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-gray-600 border border-gray-200 dark:border-gray-700">CODE: {artifact.meta.promo_code}</span>}
+                      {artifact.meta.promo_code && <span className="text-xs font-mono bg-muted dark:bg-card px-2 py-1 rounded text-muted-foreground border border-border dark:border-border">CODE: {artifact.meta.promo_code}</span>}
                     </div>
                   </div>
                 )}
 
-                <p className="text-gray-800 dark:text-gray-100 mb-3 whitespace-pre-wrap">{artifact.content}</p>
+                <p className="text-foreground dark:text-foreground mb-3 whitespace-pre-wrap">{artifact.content}</p>
 
-                <div className="flex flex-wrap items-center justify-between mt-3 pt-3 border-t border-gray-50 text-xs text-gray-500">
+                <div className="flex flex-wrap items-center justify-between mt-3 pt-3 border-t border-gray-50 text-xs text-muted-foreground">
                   <div className="flex gap-4">
-                    <span className="flex items-center gap-1 bg-gray-50 dark:bg-gray-900 px-2 py-1 rounded-full">
+                    <span className="flex items-center gap-1 bg-muted dark:bg-background px-2 py-1 rounded-full">
                       <MapPin className="h-3 w-3" />
                       {location ? `${Math.round(getDistanceFromLatLonInM(location.lat, location.lng, artifact.lat, artifact.lng))}m away` : 'Nearby'}
                     </span>
@@ -348,7 +348,7 @@ export default function ProximityFeed() {
                       {artifact.comments_count || 0} {artifact.comments_count === 1 ? 'Comment' : 'Comments'}
                     </button>
                     {!artifact.type?.includes('promotion') && (
-                      <span className="flex items-center gap-1 bg-gray-50 dark:bg-gray-900 px-2 py-1 rounded-full">
+                      <span className="flex items-center gap-1 bg-muted dark:bg-background px-2 py-1 rounded-full">
                         <Clock className="h-3 w-3" />
                         Expires {new Date(artifact.expires_at).toLocaleDateString()}
                       </span>

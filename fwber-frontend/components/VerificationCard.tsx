@@ -62,7 +62,7 @@ export default function VerificationCard() {
     return (
       <Card>
         <CardContent className="p-6 flex justify-center">
-          <Loader2 className="h-6 w-6 animate-spin text-gray-400" />
+          <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
         </CardContent>
       </Card>
     )
@@ -83,13 +83,13 @@ export default function VerificationCard() {
               <BadgeCheck className="h-12 w-12 text-green-600 dark:text-green-400" />
             </div>
             <div>
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white">Verified Profile</h3>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
+              <h3 className="text-lg font-medium text-foreground dark:text-foreground">Verified Profile</h3>
+              <p className="text-sm text-muted-foreground dark:text-muted-foreground">
                 Your identity has been verified. You have the blue checkmark!
               </p>
             </div>
             {status.verified_at && (
-              <p className="text-xs text-gray-400">
+              <p className="text-xs text-muted-foreground">
                 Verified on {new Date(status.verified_at).toLocaleDateString()}
               </p>
             )}
@@ -120,7 +120,7 @@ export default function VerificationCard() {
               </Alert>
             )}
 
-            <div className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg p-6 hover:bg-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800/50 transition-colors">
+            <div className="flex flex-col items-center justify-center border-2 border-dashed border-border dark:border-border rounded-lg p-6 hover:bg-muted dark:bg-background dark:hover:bg-gray-800/50 transition-colors">
               <input
                 type="file"
                 accept="image/*"
@@ -137,12 +137,12 @@ export default function VerificationCard() {
                 {isUploading ? (
                   <Loader2 className="h-10 w-10 text-blue-500 animate-spin mb-2" />
                 ) : (
-                  <Camera className="h-10 w-10 text-gray-400 mb-2" />
+                  <Camera className="h-10 w-10 text-muted-foreground mb-2" />
                 )}
-                <span className="text-sm font-medium text-gray-900 dark:text-white">
+                <span className="text-sm font-medium text-foreground dark:text-foreground">
                   {isUploading ? 'Verifying...' : 'Take a Selfie'}
                 </span>
-                <span className="text-xs text-gray-500 mt-1">
+                <span className="text-xs text-muted-foreground mt-1">
                   Click to upload or take a photo
                 </span>
               </label>

@@ -133,7 +133,7 @@ export default function TopUpModal({ isOpen, onClose, onSuccess }: TopUpModalPro
                                         {opt.bonus}
                                     </span>
                                 )}
-                                <div className="text-2xl font-bold text-gray-900 dark:text-white flex items-center">
+                                <div className="text-2xl font-bold text-foreground dark:text-foreground flex items-center">
                                     <span className="text-sm mr-1">$</span>{opt.usd}
                                 </div>
                                 <div className="text-sm font-medium text-indigo-600 dark:text-indigo-400 mt-1 flex items-center gap-1">
@@ -141,7 +141,7 @@ export default function TopUpModal({ isOpen, onClose, onSuccess }: TopUpModalPro
                                     {opt.fwb} FWB
                                 </div>
                                 {loading && selectedAmount === opt.usd && (
-                                    <div className="absolute inset-0 bg-white dark:bg-gray-800/50 dark:bg-black/50 flex items-center justify-center rounded-xl">
+                                    <div className="absolute inset-0 bg-card dark:bg-gray-800/50 dark:bg-black/50 flex items-center justify-center rounded-xl">
                                         <Loader2 className="w-6 h-6 animate-spin text-indigo-600" />
                                     </div>
                                 )}
@@ -150,7 +150,7 @@ export default function TopUpModal({ isOpen, onClose, onSuccess }: TopUpModalPro
                     </div>
                 ) : (
                     <div className="py-4">
-                        <div className="mb-4 flex justify-between items-center text-sm text-gray-500">
+                        <div className="mb-4 flex justify-between items-center text-sm text-muted-foreground">
                             <span>Amount: ${selectedAmount}</span>
                             <button type="button" onClick={() => setStep('select')} className="text-indigo-600 hover:underline">Change</button>
                         </div>

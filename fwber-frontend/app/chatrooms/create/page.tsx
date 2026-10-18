@@ -152,10 +152,10 @@ export default function CreateChatroomPage() {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center">
+      <div className="min-h-screen bg-muted dark:bg-background flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Authentication Required</h1>
-          <p className="text-gray-600 dark:text-gray-400 mb-4">You need to be logged in to create a chatroom.</p>
+          <h1 className="text-2xl font-bold text-foreground dark:text-foreground mb-4">Authentication Required</h1>
+          <p className="text-muted-foreground dark:text-muted-foreground mb-4">You need to be logged in to create a chatroom.</p>
           <button type="button"
             onClick={() => router.push('/login')}
             className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition-colors"
@@ -168,24 +168,24 @@ export default function CreateChatroomPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors duration-300">
+    <div className="min-h-screen bg-muted dark:bg-background transition-colors duration-300">
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+          <h1 className="text-3xl font-bold text-foreground dark:text-foreground mb-2">
             Create New Chatroom
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-muted-foreground dark:text-muted-foreground">
             Start a conversation with people in your area or with shared interests
           </p>
         </div>
 
         {/* Form */}
-        <div className="bg-white dark:bg-gray-900 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 dark:border-gray-800 p-6">
+        <div className="bg-card dark:bg-background rounded-lg shadow-sm border border-border dark:border-border dark:border-gray-800 p-6">
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Chatroom Name */}
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label htmlFor="name" className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-2">
                 Chatroom Name *
               </label>
               <input
@@ -194,8 +194,8 @@ export default function CreateChatroomPage() {
                 name="name"
                 value={formData.name}
                 onChange={handleInputChange}
-                className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white ${
-                  errors.name ? 'border-red-300 dark:border-red-900' : 'border-gray-300 dark:border-gray-700'
+                className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-card dark:bg-card text-foreground dark:text-foreground ${
+                  errors.name ? 'border-red-300 dark:border-red-900' : 'border-border dark:border-border'
                 }`}
                 placeholder="Enter chatroom name..."
                 maxLength={100}
@@ -207,7 +207,7 @@ export default function CreateChatroomPage() {
 
             {/* Description */}
             <div>
-              <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label htmlFor="description" className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-2">
                 Description
               </label>
               <textarea
@@ -216,13 +216,13 @@ export default function CreateChatroomPage() {
                 value={formData.description}
                 onChange={handleInputChange}
                 rows={3}
-                className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white ${
-                  errors.description ? 'border-red-300 dark:border-red-900' : 'border-gray-300 dark:border-gray-700'
+                className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-card dark:bg-card text-foreground dark:text-foreground ${
+                  errors.description ? 'border-red-300 dark:border-red-900' : 'border-border dark:border-border'
                 }`}
                 placeholder="Describe what this chatroom is about..."
                 maxLength={500}
               />
-              <div className="mt-1 flex justify-between text-sm text-gray-500 dark:text-gray-500">
+              <div className="mt-1 flex justify-between text-sm text-muted-foreground dark:text-muted-foreground">
                 <span>{errors.description && <span className="text-red-600 dark:text-red-400">{errors.description}</span>}</span>
                 <span>{formData.description.length}/500</span>
               </div>
@@ -230,7 +230,7 @@ export default function CreateChatroomPage() {
 
             {/* Type */}
             <div>
-              <label htmlFor="type" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label htmlFor="type" className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-2">
                 Chatroom Type *
               </label>
               <select
@@ -238,7 +238,7 @@ export default function CreateChatroomPage() {
                 name="type"
                 value={formData.type}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                className="w-full px-3 py-2 border border-border dark:border-border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-card dark:bg-card text-foreground dark:text-foreground"
               >
                 <option value="interest">💬 Interest-based</option>
                 <option value="city">🏙️ City-based</option>
@@ -246,7 +246,7 @@ export default function CreateChatroomPage() {
                 <option value="private">🔒 Private</option>
                 <option value="proximity">📍 Proximity (Location-based)</option>
               </select>
-              <p className="mt-1 text-sm text-gray-500 dark:text-gray-500">
+              <p className="mt-1 text-sm text-muted-foreground dark:text-muted-foreground">
                 Choose the type of chatroom you want to create
               </p>
             </div>
@@ -254,7 +254,7 @@ export default function CreateChatroomPage() {
             {/* Proximity Type */}
             {formData.type === 'proximity' && (
               <div>
-                <label htmlFor="proximityType" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label htmlFor="proximityType" className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-2">
                   Proximity Category *
                 </label>
                 <select
@@ -262,7 +262,7 @@ export default function CreateChatroomPage() {
                   name="proximityType"
                   value={formData.proximityType}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                  className="w-full px-3 py-2 border border-border dark:border-border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-card dark:bg-card text-foreground dark:text-foreground"
                 >
                   <option value="social">Social</option>
                   <option value="networking">Networking</option>
@@ -282,7 +282,7 @@ export default function CreateChatroomPage() {
             {formData.type === 'proximity' && (
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-2">
                     Location *
                   </label>
                   <div className="flex items-center space-x-4 flex-wrap gap-y-2">
@@ -290,7 +290,7 @@ export default function CreateChatroomPage() {
                       type="button"
                       onClick={getLocation}
                       disabled={locationStatus === 'loading'}
-                      className="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-700 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 transition-colors"
+                      className="inline-flex items-center px-4 py-2 border border-border dark:border-border shadow-sm text-sm font-medium rounded-md text-foreground dark:text-muted-foreground bg-card dark:bg-card hover:bg-muted dark:bg-background dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 transition-colors"
                     >
                       {locationStatus === 'loading' ? 'Getting Location...' : '📍 Get Current Location'}
                     </button>
@@ -309,7 +309,7 @@ export default function CreateChatroomPage() {
                 </div>
 
                 <div>
-                  <label htmlFor="radius_meters" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label htmlFor="radius_meters" className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-2">
                     Radius (meters) *
                   </label>
                   <input
@@ -321,11 +321,11 @@ export default function CreateChatroomPage() {
                     min="100"
                     max="10000"
                     step="100"
-                    className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white ${
-                      errors.radius_meters ? 'border-red-300 dark:border-red-900' : 'border-gray-300 dark:border-gray-700'
+                    className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-card dark:bg-card text-foreground dark:text-foreground ${
+                      errors.radius_meters ? 'border-red-300 dark:border-red-900' : 'border-border dark:border-border'
                     }`}
                   />
-                  <p className="mt-1 text-sm text-gray-500 dark:text-gray-500">
+                  <p className="mt-1 text-sm text-muted-foreground dark:text-muted-foreground">
                     Range: 100m to 10,000m (10km)
                   </p>
                   {errors.radius_meters && (
@@ -338,7 +338,7 @@ export default function CreateChatroomPage() {
             {/* Category (for interest-based) */}
             {formData.type === 'interest' && (
               <div>
-                <label htmlFor="category" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label htmlFor="category" className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-2">
                   Category *
                 </label>
                 <select
@@ -346,8 +346,8 @@ export default function CreateChatroomPage() {
                   name="category"
                   value={formData.category}
                   onChange={handleInputChange}
-                  className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white ${
-                    errors.category ? 'border-red-300 dark:border-red-900' : 'border-gray-300 dark:border-gray-700'
+                  className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-card dark:bg-card text-foreground dark:text-foreground ${
+                    errors.category ? 'border-red-300 dark:border-red-900' : 'border-border dark:border-border'
                   }`}
                 >
                   <option value="">Select a category</option>
@@ -366,7 +366,7 @@ export default function CreateChatroomPage() {
             {/* City (for city-based) */}
             {formData.type === 'city' && (
               <div>
-                <label htmlFor="city" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label htmlFor="city" className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-2">
                   City *
                 </label>
                 <input
@@ -375,8 +375,8 @@ export default function CreateChatroomPage() {
                   name="city"
                   value={formData.city}
                   onChange={handleInputChange}
-                  className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white ${
-                    errors.city ? 'border-red-300 dark:border-red-900' : 'border-gray-300 dark:border-gray-700'
+                  className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-card dark:bg-card text-foreground dark:text-foreground ${
+                    errors.city ? 'border-red-300 dark:border-red-900' : 'border-border dark:border-border'
                   }`}
                   placeholder="Enter city name..."
                 />
@@ -389,7 +389,7 @@ export default function CreateChatroomPage() {
             {/* Neighborhood (optional) */}
             {(formData.type === 'city' || formData.type === 'interest') && (
               <div>
-                <label htmlFor="neighborhood" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label htmlFor="neighborhood" className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-2">
                   Neighborhood (Optional)
                 </label>
                 <input
@@ -398,7 +398,7 @@ export default function CreateChatroomPage() {
                   name="neighborhood"
                   value={formData.neighborhood}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                  className="w-full px-3 py-2 border border-border dark:border-border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-card dark:bg-card text-foreground dark:text-foreground"
                   placeholder="Enter neighborhood name..."
                 />
               </div>
@@ -413,13 +413,13 @@ export default function CreateChatroomPage() {
                   name="is_public"
                   checked={formData.is_public}
                   onChange={handleInputChange}
-                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-700 rounded bg-white dark:bg-gray-800"
+                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-border dark:border-border rounded bg-card dark:bg-card"
                 />
-                <label htmlFor="is_public" className="ml-2 block text-sm text-gray-700 dark:text-gray-300">
+                <label htmlFor="is_public" className="ml-2 block text-sm text-foreground dark:text-muted-foreground">
                   Make this chatroom public
                 </label>
               </div>
-              <p className="mt-1 text-sm text-gray-500 dark:text-gray-500">
+              <p className="mt-1 text-sm text-muted-foreground dark:text-muted-foreground">
                 Public chatrooms can be discovered by anyone. Private chatrooms require an invitation.
               </p>
             </div>
@@ -427,7 +427,7 @@ export default function CreateChatroomPage() {
             {/* Token Entry Fee */}
             {formData.type !== 'proximity' && (
               <div>
-                <label htmlFor="token_entry_fee" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label htmlFor="token_entry_fee" className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-2">
                   Entry Fee (Tokens)
                 </label>
                 <input
@@ -437,11 +437,11 @@ export default function CreateChatroomPage() {
                   value={formData.token_entry_fee}
                   onChange={handleInputChange}
                   min="0"
-                  className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white ${
-                    errors.token_entry_fee ? 'border-red-300 dark:border-red-900' : 'border-gray-300 dark:border-gray-700'
+                  className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-card dark:bg-card text-foreground dark:text-foreground ${
+                    errors.token_entry_fee ? 'border-red-300 dark:border-red-900' : 'border-border dark:border-border'
                   }`}
                 />
-                <p className="mt-1 text-sm text-gray-500 dark:text-gray-500">
+                <p className="mt-1 text-sm text-muted-foreground dark:text-muted-foreground">
                   Set a token amount required to join this chatroom (0 for free).
                 </p>
                 {errors.token_entry_fee && (
@@ -451,11 +451,11 @@ export default function CreateChatroomPage() {
             )}
 
             {/* Submit Buttons */}
-            <div className="flex items-center justify-end space-x-3 pt-6 border-t border-gray-200 dark:border-gray-700 dark:border-gray-800">
+            <div className="flex items-center justify-end space-x-3 pt-6 border-t border-border dark:border-border dark:border-gray-800">
               <button
                 type="button"
                 onClick={() => router.back()}
-                className="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+                className="px-4 py-2 border border-border dark:border-border rounded-md shadow-sm text-sm font-medium text-foreground dark:text-muted-foreground bg-card dark:bg-card hover:bg-muted dark:bg-background dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
               >
                 Cancel
               </button>

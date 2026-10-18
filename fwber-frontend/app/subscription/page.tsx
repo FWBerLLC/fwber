@@ -85,7 +85,7 @@ export default function SubscriptionPage() {
   if (loading) {
     return (
       <ProtectedRoute>
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+        <div className="min-h-screen bg-muted dark:bg-background flex items-center justify-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
         </div>
       </ProtectedRoute>
@@ -94,19 +94,19 @@ export default function SubscriptionPage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen bg-muted dark:bg-background py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto space-y-8">
           
           {/* Header */}
-          <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Subscription Management</h1>
-            <p className="mt-1 text-gray-500">Manage your premium membership and billing history.</p>
+          <div className="bg-card dark:bg-card shadow rounded-lg p-6">
+            <h1 className="text-2xl font-bold text-foreground dark:text-foreground">Subscription Management</h1>
+            <p className="mt-1 text-muted-foreground">Manage your premium membership and billing history.</p>
           </div>
 
           {/* Active Subscription Status */}
-          <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
-            <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-700">
-              <h3 className="text-lg font-medium leading-6 text-gray-900 dark:text-white">Current Plan</h3>
+          <div className="bg-card dark:bg-card shadow rounded-lg overflow-hidden">
+            <div className="px-6 py-5 border-b border-border dark:border-border">
+              <h3 className="text-lg font-medium leading-6 text-foreground dark:text-foreground">Current Plan</h3>
             </div>
             <div className="p-6">
               {activeSubscription ? (
@@ -117,8 +117,8 @@ export default function SubscriptionPage() {
                         <CheckCircle className="h-6 w-6 text-green-600" />
                       </div>
                       <div className="ml-4">
-                        <h4 className="text-lg font-bold text-gray-900 dark:text-white">{activeSubscription.name}</h4>
-                        <p className="text-sm text-gray-500">
+                        <h4 className="text-lg font-bold text-foreground dark:text-foreground">{activeSubscription.name}</h4>
+                        <p className="text-sm text-muted-foreground">
                           Active since {format(new Date(activeSubscription.created_at), 'MMM d, yyyy')}
                         </p>
                       </div>
@@ -128,11 +128,11 @@ export default function SubscriptionPage() {
                     </span>
                   </div>
 
-                  <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
+                  <div className="border-t border-border dark:border-border pt-6">
                     <div className="flex justify-between items-center">
                       <div>
-                        <p className="text-sm font-medium text-gray-500">Next billing date</p>
-                        <p className="mt-1 text-lg font-semibold text-gray-900 dark:text-white">
+                        <p className="text-sm font-medium text-muted-foreground">Next billing date</p>
+                        <p className="mt-1 text-lg font-semibold text-foreground dark:text-foreground">
                           {activeSubscription.ends_at 
                             ? format(new Date(activeSubscription.ends_at), 'MMM d, yyyy')
                             : 'Auto-renews monthly'}
@@ -150,11 +150,11 @@ export default function SubscriptionPage() {
                 </div>
               ) : (
                 <div className="text-center py-8">
-                  <div className="mx-auto h-12 w-12 text-gray-400">
+                  <div className="mx-auto h-12 w-12 text-muted-foreground">
                     <XCircle className="h-12 w-12" />
                   </div>
-                  <h3 className="mt-2 text-sm font-medium text-gray-900 dark:text-white">No active subscription</h3>
-                  <p className="mt-1 text-sm text-gray-500">Get access to premium features today.</p>
+                  <h3 className="mt-2 text-sm font-medium text-foreground dark:text-foreground">No active subscription</h3>
+                  <p className="mt-1 text-sm text-muted-foreground">Get access to premium features today.</p>
                   <div className="mt-6">
                     <Link
                       href="/premium"
@@ -186,38 +186,38 @@ export default function SubscriptionPage() {
           </div>
 
           {/* Billing History */}
-          <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
-            <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-700">
-              <h3 className="text-lg font-medium leading-6 text-gray-900 dark:text-white">Billing History</h3>
+          <div className="bg-card dark:bg-card shadow rounded-lg overflow-hidden">
+            <div className="px-6 py-5 border-b border-border dark:border-border">
+              <h3 className="text-lg font-medium leading-6 text-foreground dark:text-foreground">Billing History</h3>
             </div>
             <div className="overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50 dark:bg-gray-900">
+                <thead className="bg-muted dark:bg-background">
                   <tr>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                       Date
                     </th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                       Amount
                     </th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                       Status
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200">
+                <tbody className="bg-card dark:bg-card divide-y divide-gray-200">
                   {history.length > 0 ? (
                     history.map((payment) => (
                       <tr key={payment.id}>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-muted-foreground">
                           {format(new Date(payment.created_at), 'MMM d, yyyy')}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground dark:text-foreground">
                           ${Number(payment.amount).toFixed(2)} {payment.currency.toUpperCase()}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                            payment.status === 'succeeded' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+                            payment.status === 'succeeded' ? 'bg-green-100 text-green-800' : 'bg-muted text-foreground'
                           }`}>
                             {payment.status}
                           </span>
@@ -226,7 +226,7 @@ export default function SubscriptionPage() {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan={3} className="px-6 py-4 text-center text-sm text-gray-500">
+                      <td colSpan={3} className="px-6 py-4 text-center text-sm text-muted-foreground">
                         No billing history found.
                       </td>
                     </tr>

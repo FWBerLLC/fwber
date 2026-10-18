@@ -105,7 +105,7 @@ export default function LandingVariantA() {
             transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }}
             className="mx-auto mb-4 h-14 w-14 rounded-full border-[3px] border-purple-200 border-t-purple-600 shadow-[0_0_20px_rgba(168,85,247,0.2)] dark:border-purple-800 dark:border-t-purple-400"
           />
-          <p className="text-sm text-gray-500 dark:text-gray-400 animate-pulse">Taking you to your dashboard…</p>
+          <p className="text-sm text-muted-foreground dark:text-muted-foreground animate-pulse">Taking you to your dashboard…</p>
         </motion.div>
       </div>
     )
@@ -130,11 +130,11 @@ export default function LandingVariantA() {
             <div className="hidden items-center space-x-6 md:flex">
               {['How it works', 'Features', 'Safety'].map((label) => (
                 <Link key={label} href={`#${label.toLowerCase().replace(/\s/g, '-')}`}
-                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-all relative after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-purple-500 after:transition-all hover:after:w-full"
+                  className="text-sm text-muted-foreground dark:text-muted-foreground hover:text-purple-600 dark:hover:text-purple-400 transition-all relative after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-purple-500 after:transition-all hover:after:w-full"
                 >{label}</Link>
               ))}
               <ThemeToggle />
-              <Link href="/login" className="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-all">Log in</Link>
+              <Link href="/login" className="text-sm font-medium text-muted-foreground dark:text-muted-foreground hover:text-purple-600 dark:hover:text-purple-400 transition-all">Log in</Link>
               <Link href="/register"
                 className="btn-shiny rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 bg-[length:200%_auto] animate-gradient-x px-6 py-2.5 text-sm font-semibold text-white shadow-lg hover:shadow-xl hover:shadow-purple-500/30 active:scale-95 transition-all duration-300">
                 Get started <ArrowRight className="inline h-3.5 w-3.5 ml-1 group-hover:translate-x-1 transition-transform" />
@@ -163,13 +163,13 @@ export default function LandingVariantA() {
 
             <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}
               className="mb-6 text-5xl font-black leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
-              <span className="text-gray-900 dark:text-white">Meet people for who </span>
+              <span className="text-foreground dark:text-foreground">Meet people for who </span>
               <br />
               <span className="text-gradient-pink">they really are</span>
             </motion.h1>
 
             <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }}
-              className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-gray-600 sm:text-xl dark:text-gray-400">
+              className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-muted-foreground sm:text-xl dark:text-muted-foreground">
               Photos stay hidden until you choose to reveal them. Values, personality, and real
               connection come first. Your privacy is the foundation, not a feature toggle.
             </motion.p>
@@ -182,7 +182,7 @@ export default function LandingVariantA() {
                 <ArrowRight className="inline h-4 w-4 ml-2 group-hover:translate-x-1.5 transition-transform" />
               </Link>
               <Link href="#how-it-works"
-                className="group glass border border-white/30 dark:border-white/10 rounded-full px-8 py-4 text-base font-medium text-gray-700 dark:text-gray-300 hover:shadow-premium-lg active:scale-[0.97] transition-all duration-300 w-full sm:w-auto flex items-center gap-2">
+                className="group glass border border-white/30 dark:border-white/10 rounded-full px-8 py-4 text-base font-medium text-foreground dark:text-muted-foreground hover:shadow-premium-lg active:scale-[0.97] transition-all duration-300 w-full sm:w-auto flex items-center gap-2">
                 See how it works <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             </motion.div>
@@ -219,7 +219,7 @@ export default function LandingVariantA() {
                 className="inline-flex items-center rounded-full border border-pink-500/30 bg-gradient-to-r from-pink-500/20 via-purple-500/20 to-cyan-500/20 backdrop-blur-sm px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-pink-500 dark:text-pink-400 mb-4">
                 How it works
               </motion.span>
-              <h2 className="text-4xl font-black text-gray-900 sm:text-5xl dark:text-white">
+              <h2 className="text-4xl font-black text-foreground sm:text-5xl dark:text-foreground">
                 Connection before <span className="text-gradient-pink">attraction</span>
               </h2>
             </div>
@@ -236,8 +236,8 @@ export default function LandingVariantA() {
                   <div className={`mx-auto mb-6 flex h-18 w-18 items-center justify-center rounded-2xl bg-gradient-to-br ${item.gradient} shadow-lg group-hover:scale-110 transition-transform duration-300`}>
                     <item.icon className="h-8 w-8 text-white" />
                   </div>
-                  <h3 className="mb-3 text-xl font-bold text-gray-900 dark:text-white">{item.title}</h3>
-                  <p className="leading-relaxed text-gray-600 dark:text-gray-400">{item.desc}</p>
+                  <h3 className="mb-3 text-xl font-bold text-foreground dark:text-foreground">{item.title}</h3>
+                  <p className="leading-relaxed text-muted-foreground dark:text-muted-foreground">{item.desc}</p>
                 </motion.div>
               </FloatUp>
             ))}
@@ -253,7 +253,7 @@ export default function LandingVariantA() {
           <FadeInUp>
             <div className="mb-16 text-center">
               <span className="badge-shiny inline-block mb-4">Built different</span>
-              <h2 className="text-4xl font-black text-gray-900 sm:text-5xl dark:text-white">
+              <h2 className="text-4xl font-black text-foreground sm:text-5xl dark:text-foreground">
                 Designed around <span className="text-gradient-pink">trust</span>
               </h2>
             </div>
@@ -275,8 +275,8 @@ export default function LandingVariantA() {
                   <div className={`mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${item.color} shadow-lg group-hover:scale-110 transition-transform`}>
                     <item.icon className="h-5 w-5 text-white" />
                   </div>
-                  <h3 className="mb-1.5 font-bold text-gray-900 dark:text-white text-sm">{item.title}</h3>
-                  <p className="text-xs leading-relaxed text-gray-600 dark:text-gray-400">{item.desc}</p>
+                  <h3 className="mb-1.5 font-bold text-foreground dark:text-foreground text-sm">{item.title}</h3>
+                  <p className="text-xs leading-relaxed text-muted-foreground dark:text-muted-foreground">{item.desc}</p>
                 </motion.div>
               </FloatUp>
             ))}
@@ -294,10 +294,10 @@ export default function LandingVariantA() {
               className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-green-400 to-emerald-500 shadow-lg shadow-green-500/30">
               <Shield className="h-8 w-8 text-white" />
             </motion.div>
-            <h2 className="mb-4 text-4xl font-black text-gray-900 sm:text-5xl dark:text-white">
+            <h2 className="mb-4 text-4xl font-black text-foreground sm:text-5xl dark:text-foreground">
               Your safety comes <span className="text-gradient-gold">first</span>
             </h2>
-            <p className="mx-auto mb-12 max-w-2xl text-lg leading-relaxed text-gray-600 dark:text-gray-400">
+            <p className="mx-auto mb-12 max-w-2xl text-lg leading-relaxed text-muted-foreground dark:text-muted-foreground">
               We built fwber because we believe dating apps should protect you, not exploit you.
             </p>
           </FadeInUp>
@@ -315,8 +315,8 @@ export default function LandingVariantA() {
                     <item.icon className="h-4 w-4 text-white" />
                   </div>
                   <div>
-                    <h4 className="mb-0.5 text-sm font-bold text-gray-900 dark:text-white">{item.title}</h4>
-                    <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">{item.desc}</p>
+                    <h4 className="mb-0.5 text-sm font-bold text-foreground dark:text-foreground">{item.title}</h4>
+                    <p className="text-sm leading-relaxed text-muted-foreground dark:text-muted-foreground">{item.desc}</p>
                   </div>
                 </motion.div>
               </FloatUp>
@@ -325,10 +325,10 @@ export default function LandingVariantA() {
           <FadeInUp delay={0.2}>
             <motion.div whileHover={{ y: -4 }}
               className="glass rounded-2xl p-8 sm:p-10 shadow-premium-lg border border-white/20 dark:border-white/5">
-              <h3 className="mb-3 text-2xl font-bold text-gray-900 dark:text-white">
+              <h3 className="mb-3 text-2xl font-bold text-foreground dark:text-foreground">
                 Ready to try a different kind of dating app?
               </h3>
-              <p className="mb-6 text-gray-600 dark:text-gray-400">Free to join. No credit card required.</p>
+              <p className="mb-6 text-muted-foreground dark:text-muted-foreground">Free to join. No credit card required.</p>
               <Link href="/register" onClick={() => trackCTAClick('bottom_cta_a')}
                 className="btn-shiny inline-block rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 bg-[length:200%_auto] animate-gradient-x px-8 py-4 font-bold text-white shadow-lg hover:shadow-xl hover:shadow-purple-500/30 active:scale-[0.97] transition-all duration-300">
                 Create your account <ArrowRight className="inline h-4 w-4 ml-2" />
@@ -344,9 +344,9 @@ export default function LandingVariantA() {
           <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
             <div className="flex items-center gap-4">
               <Logo className="text-2xl" />
-              <span className="text-sm text-gray-500">© 2026 fwber</span>
+              <span className="text-sm text-muted-foreground">© 2026 fwber</span>
             </div>
-            <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-500">
+            <div className="flex flex-wrap justify-center gap-6 text-sm text-muted-foreground">
               {[{ href: '/privacy', label: 'Privacy' }, { href: '/terms', label: 'Terms' }, { href: '/contact', label: 'Contact' }, { href: 'https://github.com/FWBerLLC/fwber', label: 'GitHub' }].map((link) => (
                 <Link key={link.label} href={link.href} {...(link.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                   className="transition-all hover:text-purple-500 dark:hover:text-purple-400">{link.label}</Link>
@@ -367,7 +367,7 @@ export default function LandingVariantA() {
             { href: '/register', icon: UserPlus, label: 'Join', highlight: true },
           ].map((item) => (
             <Link key={item.label} href={item.href}
-              className={`flex h-full w-full flex-col items-center justify-center transition-all duration-200 ${item.active || item.highlight ? 'text-purple-600 dark:text-purple-400' : 'text-gray-400 dark:text-gray-500'} ${item.highlight ? 'font-bold' : ''}`}>
+              className={`flex h-full w-full flex-col items-center justify-center transition-all duration-200 ${item.active || item.highlight ? 'text-purple-600 dark:text-purple-400' : 'text-muted-foreground dark:text-muted-foreground'} ${item.highlight ? 'font-bold' : ''}`}>
               <item.icon className={`h-5 w-5 ${item.active || item.highlight ? 'drop-shadow-[0_0_6px_rgba(168,85,247,0.5)]' : ''}`} />
               <span className="mt-0.5 text-[10px] font-medium">{item.label}</span>
             </Link>

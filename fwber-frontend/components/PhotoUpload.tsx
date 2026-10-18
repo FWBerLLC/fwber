@@ -488,15 +488,15 @@ export default function PhotoUpload({
           className="fixed inset-0 z-50 flex items-center justify-center bg-primary/10 backdrop-blur-sm pointer-events-auto"
         >
           <input {...getInputProps()} />
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-8 shadow-2xl border-4 border-dashed border-primary">
+          <div className="bg-card dark:bg-card rounded-lg p-8 shadow-2xl border-4 border-dashed border-primary">
             <div className="flex flex-col items-center space-y-4">
               <div className="p-6 rounded-full bg-primary/20">
                 <Upload className="w-16 h-16 text-primary" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
+              <h3 className="text-2xl font-bold text-foreground dark:text-foreground">
                 Drop photos here
               </h3>
-              <p className="text-gray-600 dark:text-gray-400">
+              <p className="text-muted-foreground dark:text-muted-foreground">
                 Release to upload (max {maxPhotos - totalPhotos} more)
               </p>
             </div>
@@ -582,7 +582,7 @@ export default function PhotoUpload({
                 type="checkbox"
                 checked={uploadAsPrivate}
                 onChange={(e) => setUploadAsPrivate(e.target.checked)}
-                className="rounded border-gray-300 dark:border-gray-600 text-primary focus:ring-primary"
+                className="rounded border-border dark:border-border text-primary focus:ring-primary"
               />
               <span className="flex items-center gap-1">
                 {uploadAsPrivate ? <Lock className="w-3 h-3" /> : <Unlock className="w-3 h-3" />}
@@ -845,7 +845,7 @@ export default function PhotoUpload({
                               setComparisonPreviewId(preview.id)
                               setComparisonSliderValue(50)
                             }}
-                            className="p-2 bg-white dark:bg-gray-800/80 text-gray-900 dark:text-white rounded-full hover:bg-white transition-colors"
+                            className="p-2 bg-card dark:bg-gray-800/80 text-foreground dark:text-foreground rounded-full hover:bg-card transition-colors"
                             title="Compare blur"
                           >
                             <Eye className="w-4 h-4" />
@@ -885,7 +885,7 @@ export default function PhotoUpload({
                         type="button"
                         aria-pressed={preview.activeView === 'processed'}
                         className={`px-2 py-0.5 rounded-full transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 ${preview.activeView === 'processed'
-                            ? 'bg-white text-black'
+                            ? 'bg-card text-black'
                             : 'text-white/80 hover:text-white'
                           }`}
                         onClick={(event) => {
@@ -899,7 +899,7 @@ export default function PhotoUpload({
                         type="button"
                         aria-pressed={preview.activeView === 'original'}
                         className={`px-2 py-0.5 rounded-full transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 ${preview.activeView === 'original'
-                            ? 'bg-white text-black'
+                            ? 'bg-card text-black'
                             : 'text-white/80 hover:text-white'
                           }`}
                         onClick={(event) => {
@@ -968,8 +968,8 @@ export default function PhotoUpload({
                     className="pointer-events-none absolute inset-y-0"
                     style={{ left: `calc(${comparisonSliderValue}% - 1px)` }}
                   >
-                    <div className="relative h-full w-px bg-white dark:bg-gray-800/70">
-                      <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center gap-1 rounded-full bg-white dark:bg-gray-800/90 px-2 py-1 text-xs font-medium text-gray-900 dark:text-white">
+                    <div className="relative h-full w-px bg-card dark:bg-gray-800/70">
+                      <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center gap-1 rounded-full bg-card dark:bg-gray-800/90 px-2 py-1 text-xs font-medium text-foreground dark:text-foreground">
                         <ChevronLeft className="h-4 w-4" />
                         <span>Drag</span>
                         <ChevronRight className="h-4 w-4" />

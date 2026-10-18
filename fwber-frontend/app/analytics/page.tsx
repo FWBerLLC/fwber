@@ -38,9 +38,9 @@ function AnalyticsSkeleton() {
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
       {Array.from({ length: 4 }).map((_, index) => (
-        <div key={`analytics-skeleton-${index}`} className="rounded-lg bg-white dark:bg-gray-800 p-6 shadow-sm">
-          <div className="h-4 w-24 animate-pulse rounded bg-gray-200" />
-          <div className="mt-4 h-8 w-32 animate-pulse rounded bg-gray-200" />
+        <div key={`analytics-skeleton-${index}`} className="rounded-lg bg-card dark:bg-card p-6 shadow-sm">
+          <div className="h-4 w-24 animate-pulse rounded bg-muted" />
+          <div className="mt-4 h-8 w-32 animate-pulse rounded bg-muted" />
         </div>
       ))}
     </div>
@@ -105,14 +105,14 @@ export default function AnalyticsPage() {
     <div className="space-y-8 p-4 md:p-8">
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
-          <p className="text-sm uppercase tracking-wide text-gray-500">Admin Observatory</p>
-          <h1 className="text-3xl font-semibold text-gray-900 dark:text-white">Platform Analytics</h1>
-          <p className="mt-1 text-sm text-gray-600">
+          <p className="text-sm uppercase tracking-wide text-muted-foreground">Admin Observatory</p>
+          <h1 className="text-3xl font-semibold text-foreground dark:text-foreground">Platform Analytics</h1>
+          <p className="mt-1 text-sm text-muted-foreground">
             Unified snapshot of growth, engagement, and operational health.
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-3">
-          <div className="inline-flex rounded-full bg-gray-100 dark:bg-gray-800 p-1 text-sm font-medium">
+          <div className="inline-flex rounded-full bg-muted dark:bg-card p-1 text-sm font-medium">
             {RANGE_OPTIONS.map((option) => (
               <button
                 key={option.value}
@@ -120,8 +120,8 @@ export default function AnalyticsPage() {
                 onClick={() => setRange(option.value)}
                 className={`rounded-full px-3 py-1 ${
                   option.value === range
-                    ? 'bg-white text-gray-900 dark:text-white shadow-sm'
-                    : 'text-gray-600 hover:text-gray-900 dark:text-white'
+                    ? 'bg-card text-foreground dark:text-foreground shadow-sm'
+                    : 'text-muted-foreground hover:text-foreground dark:text-foreground'
                 }`}
               >
                 {option.label}
@@ -132,7 +132,7 @@ export default function AnalyticsPage() {
             type="button"
             onClick={() => platformQuery.refetch()}
             disabled={platformQuery.isFetching}
-            className="rounded-md border border-gray-300 dark:border-gray-600 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:bg-gray-900 disabled:cursor-not-allowed disabled:opacity-60"
+            className="rounded-md border border-border dark:border-border px-4 py-2 text-sm font-medium text-foreground dark:text-muted-foreground hover:bg-muted dark:bg-background disabled:cursor-not-allowed disabled:opacity-60"
           >
             {platformQuery.isFetching ? 'Refreshing…' : 'Refresh data'}
           </button>
@@ -172,13 +172,13 @@ export default function AnalyticsPage() {
       <SlowRequestAnalysis />
 
       {/* System Health Status */}
-      <div className="rounded-lg bg-white dark:bg-gray-800 p-6 shadow-sm">
+      <div className="rounded-lg bg-card dark:bg-card p-6 shadow-sm">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">🩺 System Health</h2>
-            <p className="text-sm text-gray-500">Backend services and infrastructure status</p>
+            <h2 className="text-xl font-semibold text-foreground dark:text-foreground">🩺 System Health</h2>
+            <p className="text-sm text-muted-foreground">Backend services and infrastructure status</p>
           </div>
-          {healthQuery.isFetching && <span className="text-xs text-gray-500">Checking…</span>}
+          {healthQuery.isFetching && <span className="text-xs text-muted-foreground">Checking…</span>}
         </div>
         {systemHealth ? (
           <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -212,7 +212,7 @@ export default function AnalyticsPage() {
               }`}>
                 {systemHealth.services?.database === 'up' ? '✓ Connected' : '✕ Down'}
               </p>
-              <p className="mt-1 text-xs text-gray-500">MySQL/PostgreSQL</p>
+              <p className="mt-1 text-xs text-muted-foreground">MySQL/PostgreSQL</p>
             </div>
 
             {/* Cache */}
@@ -227,37 +227,37 @@ export default function AnalyticsPage() {
               }`}>
                 {systemHealth.services?.cache === 'up' ? '✓ Connected' : '⚠ Unavailable'}
               </p>
-              <p className="mt-1 text-xs text-gray-500">Redis</p>
+              <p className="mt-1 text-xs text-muted-foreground">Redis</p>
             </div>
 
             {/* Mercure */}
             <div className={`rounded-lg p-4 text-center ${
               systemHealth.services?.reverb === 'up' ? 'bg-green-50' : 
-              systemHealth.services?.reverb === 'down' ? 'bg-red-50' : 'bg-gray-50'
+              systemHealth.services?.reverb === 'down' ? 'bg-red-50' : 'bg-muted'
             }`}>
               <p className={`text-sm ${
                 systemHealth.services?.reverb === 'up' ? 'text-green-600' : 
-                systemHealth.services?.reverb === 'down' ? 'text-red-600' : 'text-gray-600'
+                systemHealth.services?.reverb === 'down' ? 'text-red-600' : 'text-muted-foreground'
               }`}>Reverb Hub</p>
               <p className={`mt-2 text-2xl font-semibold ${
                 systemHealth.services?.reverb === 'up' ? 'text-green-900' : 
-                systemHealth.services?.reverb === 'down' ? 'text-red-900' : 'text-gray-900 dark:text-white'
+                systemHealth.services?.reverb === 'down' ? 'text-red-900' : 'text-foreground dark:text-foreground'
               }`}>
                 {systemHealth.services?.reverb === 'up' ? '✓ Connected' : 
                  systemHealth.services?.reverb === 'down' ? '✕ Down' : '— N/A'}
               </p>
-              <p className="mt-1 text-xs text-gray-500">Real-time events</p>
+              <p className="mt-1 text-xs text-muted-foreground">Real-time events</p>
             </div>
           </div>
         ) : healthQuery.isLoading ? (
           <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
             {Array.from({ length: 4 }).map((_, i) => (
-              <div key={`health-skeleton-${i}`} className="h-24 animate-pulse rounded-lg bg-gray-100 dark:bg-gray-800" />
+              <div key={`health-skeleton-${i}`} className="h-24 animate-pulse rounded-lg bg-muted dark:bg-card" />
             ))}
           </div>
         ) : (
-          <div className="mt-4 rounded-lg bg-gray-50 dark:bg-gray-900 p-4 text-center">
-            <p className="text-sm text-gray-500">Health data unavailable.</p>
+          <div className="mt-4 rounded-lg bg-muted dark:bg-background p-4 text-center">
+            <p className="text-sm text-muted-foreground">Health data unavailable.</p>
             <button type="button"
               onClick={() => healthQuery.refetch()}
               className="mt-2 text-sm text-blue-600 hover:underline"
@@ -270,13 +270,13 @@ export default function AnalyticsPage() {
 
       <FailedJobsTable />
 
-      <div className="rounded-lg bg-white dark:bg-gray-800 p-6 shadow-sm">
+      <div className="rounded-lg bg-card dark:bg-card p-6 shadow-sm">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">🔌 Live System Signals</h2>
-            <p className="text-sm text-gray-500">Real-time Reverb + infra health</p>
+            <h2 className="text-xl font-semibold text-foreground dark:text-foreground">🔌 Live System Signals</h2>
+            <p className="text-sm text-muted-foreground">Real-time Reverb + infra health</p>
           </div>
-          {realtimeQuery.isFetching && <span className="text-xs text-gray-500">Refreshing…</span>}
+          {realtimeQuery.isFetching && <span className="text-xs text-muted-foreground">Refreshing…</span>}
         </div>
         {realtimeMetrics ? (
           <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -303,16 +303,16 @@ export default function AnalyticsPage() {
             </div>
           </div>
         ) : (
-          <p className="mt-4 text-sm text-gray-500">
+          <p className="mt-4 text-sm text-muted-foreground">
                 Realtime metrics unavailable. Check Reverb/API health.
           </p>
         )}
       </div>
 
-      <div className="rounded-lg bg-white dark:bg-gray-800 p-6 shadow-sm">
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white">🧹 Moderation Insights</h2>
+      <div className="rounded-lg bg-card dark:bg-card p-6 shadow-sm">
+        <h2 className="text-xl font-semibold text-foreground dark:text-foreground">🧹 Moderation Insights</h2>
         {moderationQuery.isLoading && !moderationInsights ? (
-          <div className="mt-4 h-24 animate-pulse rounded-lg bg-gray-100 dark:bg-gray-800" />
+          <div className="mt-4 h-24 animate-pulse rounded-lg bg-muted dark:bg-card" />
         ) : moderationInsights ? (
           <div className="mt-6 space-y-6">
             <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
@@ -342,22 +342,22 @@ export default function AnalyticsPage() {
               </div>
             </div>
             <div>
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white">Top flagged categories</h3>
+              <h3 className="text-lg font-medium text-foreground dark:text-foreground">Top flagged categories</h3>
               <div className="mt-3 space-y-2">
                 {moderationInsights.top_flagged_categories.map((item) => (
                   <div
                     key={item.category}
-                    className="flex items-center justify-between rounded-lg bg-gray-50 dark:bg-gray-900 px-4 py-2"
+                    className="flex items-center justify-between rounded-lg bg-muted dark:bg-background px-4 py-2"
                   >
-                    <span className="text-sm text-gray-600">{item.category}</span>
-                    <span className="text-sm font-medium text-gray-900 dark:text-white">{item.count}</span>
+                    <span className="text-sm text-muted-foreground">{item.category}</span>
+                    <span className="text-sm font-medium text-foreground dark:text-foreground">{item.count}</span>
                   </div>
                 ))}
               </div>
             </div>
           </div>
         ) : (
-          <p className="mt-4 text-sm text-gray-500">
+          <p className="mt-4 text-sm text-muted-foreground">
             Moderation insights will appear once the backend exposes data.
           </p>
         )}
@@ -407,52 +407,52 @@ function AnalyticsOverview({
   return (
     <>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <div className="rounded-lg bg-white dark:bg-gray-800 p-6 shadow-sm">
-          <p className="text-sm font-medium text-gray-500">Total Users</p>
-          <p className="mt-3 text-3xl font-semibold text-gray-900 dark:text-white">
+        <div className="rounded-lg bg-card dark:bg-card p-6 shadow-sm">
+          <p className="text-sm font-medium text-muted-foreground">Total Users</p>
+          <p className="mt-3 text-3xl font-semibold text-foreground dark:text-foreground">
             {formatNumber(analytics.users.total)}
           </p>
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="mt-1 text-sm text-muted-foreground">
             {formatPercent(analytics.users.growth_rate)} vs prior period
           </p>
         </div>
-        <div className="rounded-lg bg-white dark:bg-gray-800 p-6 shadow-sm">
-          <p className="text-sm font-medium text-gray-500">Active Users</p>
-          <p className="mt-3 text-3xl font-semibold text-gray-900 dark:text-white">
+        <div className="rounded-lg bg-card dark:bg-card p-6 shadow-sm">
+          <p className="text-sm font-medium text-muted-foreground">Active Users</p>
+          <p className="mt-3 text-3xl font-semibold text-foreground dark:text-foreground">
             {formatNumber(analytics.users.active)}
           </p>
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="mt-1 text-sm text-muted-foreground">
             {formatNumber(analytics.users.new_today)} new in last 24h
           </p>
         </div>
-        <div className="rounded-lg bg-white dark:bg-gray-800 p-6 shadow-sm">
-          <p className="text-sm font-medium text-gray-500">Messages</p>
-          <p className="mt-3 text-3xl font-semibold text-gray-900 dark:text-white">
+        <div className="rounded-lg bg-card dark:bg-card p-6 shadow-sm">
+          <p className="text-sm font-medium text-muted-foreground">Messages</p>
+          <p className="mt-3 text-3xl font-semibold text-foreground dark:text-foreground">
             {formatNumber(analytics.messages.total)}
           </p>
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="mt-1 text-sm text-muted-foreground">
             {formatNumber(analytics.messages.average_per_user)} per user
           </p>
         </div>
-        <div className="rounded-lg bg-white dark:bg-gray-800 p-6 shadow-sm">
-          <p className="text-sm font-medium text-gray-500">Flagged Content</p>
-          <p className="mt-3 text-3xl font-semibold text-gray-900 dark:text-white">
+        <div className="rounded-lg bg-card dark:bg-card p-6 shadow-sm">
+          <p className="text-sm font-medium text-muted-foreground">Flagged Content</p>
+          <p className="mt-3 text-3xl font-semibold text-foreground dark:text-foreground">
             {formatNumber(analytics.messages.moderation_stats.flagged)}
           </p>
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="mt-1 text-sm text-muted-foreground">
             Pending {formatNumber(analytics.messages.moderation_stats.pending_review)}
           </p>
         </div>
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <div className="rounded-lg bg-white dark:bg-gray-800 p-6 shadow-sm">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">User Activity</h2>
+        <div className="rounded-lg bg-card dark:bg-card p-6 shadow-sm">
+          <h2 className="text-xl font-semibold text-foreground dark:text-foreground">User Activity</h2>
           <div className="mt-4 space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-500">Active vs Total</p>
-                <p className="text-lg font-medium text-gray-900 dark:text-white">
+                <p className="text-sm text-muted-foreground">Active vs Total</p>
+                <p className="text-lg font-medium text-foreground dark:text-foreground">
                   {formatNumber(analytics.users.active)} / {formatNumber(analytics.users.total)}
                 </p>
               </div>
@@ -461,7 +461,7 @@ function AnalyticsOverview({
               </span>
             </div>
             <div>
-              <p className="text-sm text-gray-500">New users today</p>
+              <p className="text-sm text-muted-foreground">New users today</p>
               <div className="mt-2">
                 <ValueProgress
                   value={analytics.users.new_today}
@@ -470,20 +470,20 @@ function AnalyticsOverview({
                   label="New users today"
                 />
               </div>
-              <p className="mt-1 text-sm font-medium text-gray-700 dark:text-gray-300">
+              <p className="mt-1 text-sm font-medium text-foreground dark:text-muted-foreground">
                 {formatNumber(analytics.users.new_today)} joined
               </p>
             </div>
           </div>
         </div>
 
-        <div className="rounded-lg bg-white dark:bg-gray-800 p-6 shadow-sm">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Moderation Stats</h2>
+        <div className="rounded-lg bg-card dark:bg-card p-6 shadow-sm">
+          <h2 className="text-xl font-semibold text-foreground dark:text-foreground">Moderation Stats</h2>
           <div className="mt-4 grid grid-cols-2 gap-4">
             {moderationKeys.map((key) => (
-              <div key={key} className="rounded-lg bg-gray-50 dark:bg-gray-900 p-4">
-                <p className="text-sm text-gray-500 capitalize">{key.replace('_', ' ')}</p>
-                <p className="text-2xl font-semibold text-gray-900 dark:text-white">
+              <div key={key} className="rounded-lg bg-muted dark:bg-background p-4">
+                <p className="text-sm text-muted-foreground capitalize">{key.replace('_', ' ')}</p>
+                <p className="text-2xl font-semibold text-foreground dark:text-foreground">
                   {formatNumber(analytics.messages.moderation_stats[key])}
                 </p>
               </div>
@@ -493,15 +493,15 @@ function AnalyticsOverview({
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <div className="rounded-lg bg-white dark:bg-gray-800 p-6 shadow-sm">
+        <div className="rounded-lg bg-card dark:bg-card p-6 shadow-sm">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">📈 Hourly Activity</h2>
-            <span className="text-xs text-gray-500">UTC</span>
+            <h2 className="text-xl font-semibold text-foreground dark:text-foreground">📈 Hourly Activity</h2>
+            <span className="text-xs text-muted-foreground">UTC</span>
           </div>
           <div className="mt-4 space-y-2">
             {analytics.trends.hourly_activity.map((hour) => (
               <div key={`hour-${hour.hour}`} className="flex items-center gap-4">
-                <span className="w-12 text-sm text-gray-600">{hour.hour}:00</span>
+                <span className="w-12 text-sm text-muted-foreground">{hour.hour}:00</span>
                 <div className="flex-1">
                   <ValueProgress
                     value={hour.messages}
@@ -510,18 +510,18 @@ function AnalyticsOverview({
                     label={`Messages at ${hour.hour}:00`}
                   />
                 </div>
-                <span className="w-12 text-right text-sm font-medium text-gray-900 dark:text-white">{hour.messages}</span>
+                <span className="w-12 text-right text-sm font-medium text-foreground dark:text-foreground">{hour.messages}</span>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="rounded-lg bg-white dark:bg-gray-800 p-6 shadow-sm">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">🏷️ Top Categories</h2>
+        <div className="rounded-lg bg-card dark:bg-card p-6 shadow-sm">
+          <h2 className="text-xl font-semibold text-foreground dark:text-foreground">🏷️ Top Categories</h2>
           <div className="mt-4 space-y-3">
             {analytics.trends.top_categories.map((category) => (
               <div key={category.category} className="flex items-center justify-between gap-4">
-                <span className="text-sm text-gray-600">{category.category}</span>
+                <span className="text-sm text-muted-foreground">{category.category}</span>
                 <div className="flex flex-1 items-center gap-3">
                   <ValueProgress
                     value={category.count}
@@ -529,7 +529,7 @@ function AnalyticsOverview({
                     color="green"
                     label={`${category.category} share`}
                   />
-                  <span className="text-sm font-medium text-gray-900 dark:text-white">{category.count}</span>
+                  <span className="text-sm font-medium text-foreground dark:text-foreground">{category.count}</span>
                 </div>
               </div>
             ))}
@@ -538,27 +538,27 @@ function AnalyticsOverview({
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <div className="rounded-lg bg-white dark:bg-gray-800 p-6 shadow-sm">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">🌍 Active Areas</h2>
-          <p className="mt-1 text-sm text-gray-500">
+        <div className="rounded-lg bg-card dark:bg-card p-6 shadow-sm">
+          <h2 className="text-xl font-semibold text-foreground dark:text-foreground">🌍 Active Areas</h2>
+          <p className="mt-1 text-sm text-muted-foreground">
             {analytics.locations.active_areas} hot zones · coverage radius {analytics.locations.coverage_radius}km
           </p>
           <div className="mt-4 space-y-3">
             {mostActiveAreas.length === 0 ? (
-              <p className="text-sm text-gray-500">No active areas detected for this range.</p>
+              <p className="text-sm text-muted-foreground">No active areas detected for this range.</p>
             ) : (
               mostActiveAreas.map((area, index) => (
                 <div
                   key={`${area.name}-${index}`}
-                  className="flex items-center justify-between rounded-lg bg-gray-50 dark:bg-gray-900 p-4"
+                  className="flex items-center justify-between rounded-lg bg-muted dark:bg-background p-4"
                 >
                   <div>
-                    <p className="font-medium text-gray-900 dark:text-white">{area.name}</p>
-                    <p className="text-sm text-gray-600">{area.active_users} active users</p>
+                    <p className="font-medium text-foreground dark:text-foreground">{area.name}</p>
+                    <p className="text-sm text-muted-foreground">{area.active_users} active users</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-lg font-semibold text-gray-900 dark:text-white">{area.message_count}</p>
-                    <p className="text-xs text-gray-500">messages</p>
+                    <p className="text-lg font-semibold text-foreground dark:text-foreground">{area.message_count}</p>
+                    <p className="text-xs text-muted-foreground">messages</p>
                   </div>
                 </div>
               ))
@@ -566,8 +566,8 @@ function AnalyticsOverview({
           </div>
         </div>
 
-        <div className="rounded-lg bg-white dark:bg-gray-800 p-6 shadow-sm">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">⚙️ Performance</h2>
+        <div className="rounded-lg bg-card dark:bg-card p-6 shadow-sm">
+          <h2 className="text-xl font-semibold text-foreground dark:text-foreground">⚙️ Performance</h2>
           <div className="mt-4 grid grid-cols-2 gap-4">
             <div className="rounded-lg bg-blue-50 p-4">
               <p className="text-sm text-blue-600">API Latency</p>

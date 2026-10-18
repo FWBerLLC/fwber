@@ -62,21 +62,21 @@ export default function VenueDashboard() {
       <main className="max-w-7xl mx-auto p-6">
         <div className="mb-8">
           <h2 className="text-2xl font-bold">Dashboard</h2>
-          <p className="text-gray-400">Welcome back to your partner portal.</p>
+          <p className="text-muted-foreground">Welcome back to your partner portal.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Stats Card */}
           <div className="bg-slate-800 p-6 rounded-lg border border-slate-700">
-            <h3 className="text-gray-400 text-sm font-medium uppercase tracking-wider">Active Events</h3>
+            <h3 className="text-muted-foreground text-sm font-medium uppercase tracking-wider">Active Events</h3>
             <p className="text-3xl font-bold mt-2 text-purple-400">0</p>
-            <p className="text-xs text-gray-500 mt-1">No active events</p>
+            <p className="text-xs text-muted-foreground mt-1">No active events</p>
           </div>
 
           <div className="bg-slate-800 p-6 rounded-lg border border-slate-700">
-            <h3 className="text-gray-400 text-sm font-medium uppercase tracking-wider">Total Check-ins</h3>
+            <h3 className="text-muted-foreground text-sm font-medium uppercase tracking-wider">Total Check-ins</h3>
             <p className="text-3xl font-bold mt-2 text-blue-400">0</p>
-            <p className="text-xs text-gray-500 mt-1">Lifetime check-ins</p>
+            <p className="text-xs text-muted-foreground mt-1">Lifetime check-ins</p>
           </div>
           
           {/* Profile Card */}
@@ -87,12 +87,12 @@ export default function VenueDashboard() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <p><span className="text-gray-400 block text-xs uppercase">Address</span> {venue?.address}</p>
-                <p><span className="text-gray-400 block text-xs uppercase">Type</span> <span className="capitalize">{venue?.business_type}</span></p>
+                <p><span className="text-muted-foreground block text-xs uppercase">Address</span> {venue?.address}</p>
+                <p><span className="text-muted-foreground block text-xs uppercase">Type</span> <span className="capitalize">{venue?.business_type}</span></p>
               </div>
               <div className="space-y-2">
-                <p><span className="text-gray-400 block text-xs uppercase">Capacity</span> {venue?.capacity || 'Not set'}</p>
-                <p><span className="text-gray-400 block text-xs uppercase">Status</span> <span className="text-green-400">Active</span></p>
+                <p><span className="text-muted-foreground block text-xs uppercase">Capacity</span> {venue?.capacity || 'Not set'}</p>
+                <p><span className="text-muted-foreground block text-xs uppercase">Status</span> <span className="text-green-400">Active</span></p>
               </div>
             </div>
           </div>

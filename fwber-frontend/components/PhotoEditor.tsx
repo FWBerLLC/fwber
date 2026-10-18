@@ -370,14 +370,14 @@ export default function PhotoEditor({ src, fileName, onSave, onCancel }: PhotoEd
           <button type="button" onClick={onCancel} className="p-2 hover:bg-gray-800 rounded-lg transition" title="Cancel (Esc)">
             <X className="w-5 h-5" />
           </button>
-          <span className="text-sm font-medium text-gray-400">Photo Editor</span>
+          <span className="text-sm font-medium text-muted-foreground">Photo Editor</span>
         </div>
 
         <div className="flex items-center gap-1">
           <button type="button" onClick={undo} disabled={historyIndex <= 0} className="p-2 hover:bg-gray-800 rounded-lg transition disabled:opacity-30" title="Undo (Ctrl+Z)">
             <Undo2 className="w-4 h-4" />
           </button>
-          <button type="button" onClick={resetAdjustments} className="px-3 py-1.5 text-xs hover:bg-gray-800 rounded-lg transition text-gray-400">
+          <button type="button" onClick={resetAdjustments} className="px-3 py-1.5 text-xs hover:bg-gray-800 rounded-lg transition text-muted-foreground">
             Reset All
           </button>
         </div>
@@ -473,7 +473,7 @@ export default function PhotoEditor({ src, fileName, onSave, onCancel }: PhotoEd
           {/* ── Adjust Panel ─────────────────────────────────────────── */}
           {activeTool === 'adjust' && (
             <div className="p-4 space-y-4">
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-500">Adjustments</h3>
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Adjustments</h3>
               <SliderControl label="Brightness" icon={<Sun className="w-4 h-4" />} value={adjustments.brightness} min={0} max={200} defaultValue={100} onChange={v => setAdjustment('brightness', v)} />
               <SliderControl label="Contrast" icon={<Contrast className="w-4 h-4" />} value={adjustments.contrast} min={0} max={200} defaultValue={100} onChange={v => setAdjustment('contrast', v)} />
               <SliderControl label="Saturation" icon={<Droplets className="w-4 h-4" />} value={adjustments.saturation} min={0} max={200} defaultValue={100} onChange={v => setAdjustment('saturation', v)} />
@@ -486,11 +486,11 @@ export default function PhotoEditor({ src, fileName, onSave, onCancel }: PhotoEd
           {/* ── Crop Panel ──────────────────────────────────────────── */}
           {activeTool === 'crop' && (
             <div className="p-4 space-y-4">
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-500">Crop</h3>
-              <p className="text-xs text-gray-400">Click and drag on the image to select crop area</p>
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Crop</h3>
+              <p className="text-xs text-muted-foreground">Click and drag on the image to select crop area</p>
               {crop && crop.width > 2 && crop.height > 2 && (
                 <div className="space-y-3">
-                  <div className="text-xs text-gray-400">
+                  <div className="text-xs text-muted-foreground">
                     Selection: {Math.round(crop.width)}% × {Math.round(crop.height)}%
                   </div>
                   <div className="grid grid-cols-2 gap-2">
@@ -505,7 +505,7 @@ export default function PhotoEditor({ src, fileName, onSave, onCancel }: PhotoEd
                 </div>
               )}
               {!crop && (
-                <p className="text-xs text-gray-500 italic">No crop selected. Drag on the image to create one.</p>
+                <p className="text-xs text-muted-foreground italic">No crop selected. Drag on the image to create one.</p>
               )}
             </div>
           )}
@@ -513,7 +513,7 @@ export default function PhotoEditor({ src, fileName, onSave, onCancel }: PhotoEd
           {/* ── Filter Panel ────────────────────────────────────────── */}
           {activeTool === 'filter' && (
             <div className="p-4 space-y-3">
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-500">Filters</h3>
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Filters</h3>
               <div className="grid grid-cols-3 gap-2">
                 {Object.entries(FILTER_THUMBNAILS).map(([key, { label, css }]) => (
                   <button type="button"
@@ -529,7 +529,7 @@ export default function PhotoEditor({ src, fileName, onSave, onCancel }: PhotoEd
                         style={{ filter: css || 'none' }}
                       />
                     </div>
-                    <span className="text-[10px] text-gray-400">{label}</span>
+                    <span className="text-[10px] text-muted-foreground">{label}</span>
                   </button>
                 ))}
               </div>
@@ -539,8 +539,8 @@ export default function PhotoEditor({ src, fileName, onSave, onCancel }: PhotoEd
           {/* ── Blur Brush Panel ────────────────────────────────────── */}
           {activeTool === 'blur-brush' && (
             <div className="p-4 space-y-4">
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-500">Blur Brush</h3>
-              <p className="text-xs text-gray-400">Paint over areas to blur them (faces, tattoos, etc.)</p>
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Blur Brush</h3>
+              <p className="text-xs text-muted-foreground">Paint over areas to blur them (faces, tattoos, etc.)</p>
               <SliderControl label="Brush Size" icon={<CircleDot className="w-4 h-4" />} value={blurBrushSize} min={5} max={100} defaultValue={30} onChange={setBlurBrushSize} />
             </div>
           )}
@@ -565,7 +565,7 @@ function ToolButton({ icon, label, active, onClick }: {
     <button type="button"
       onClick={onClick}
       title={label}
-      className={`p-2.5 rounded-lg transition-colors ${active ? 'bg-purple-600 text-white' : 'text-gray-400 hover:bg-gray-800 hover:text-white'}`}
+      className={`p-2.5 rounded-lg transition-colors ${active ? 'bg-purple-600 text-white' : 'text-muted-foreground hover:bg-gray-800 hover:text-white'}`}
     >
       {icon}
     </button>
@@ -584,12 +584,12 @@ function SliderControl({ label, icon, value, min, max, defaultValue, onChange }:
   return (
     <div className="space-y-1.5">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-1.5 text-xs text-gray-400">
+        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
           {icon}
           {label}
         </div>
         <div className="flex items-center gap-1">
-          <span className="text-xs text-gray-500 w-8 text-right">{value}</span>
+          <span className="text-xs text-muted-foreground w-8 text-right">{value}</span>
           {value !== defaultValue && (
             <button type="button"
               onClick={() => onChange(defaultValue)}

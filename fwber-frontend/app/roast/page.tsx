@@ -186,7 +186,7 @@ export default function RoastPage() {
                   
                   <div className="flex flex-col gap-4">
                      <div className="flex gap-4 justify-center">
-                        <Button onClick={copyToClipboard} variant="outline" className="border-white/20 hover:bg-white dark:bg-gray-800/10 text-white hover:text-black">
+                        <Button onClick={copyToClipboard} variant="outline" className="border-white/20 hover:bg-card dark:bg-gray-800/10 text-white hover:text-black">
                         Copy Text
                         </Button>
                         <Button onClick={handleShare} className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white">
@@ -213,7 +213,7 @@ export default function RoastPage() {
                   className="w-full max-w-md mx-auto space-y-6"
                 >
                   {isGuest ? (
-                      <div className="space-y-4 bg-white dark:bg-gray-800/5 p-6 rounded-lg border border-white/10">
+                      <div className="space-y-4 bg-card dark:bg-gray-800/5 p-6 rounded-lg border border-white/10">
                           <div className="flex items-center gap-2 text-orange-300 mb-2">
                               <AlertCircle className="w-5 h-5" />
                               <span className="text-sm font-bold uppercase tracking-wider">Guest Mode</span>
@@ -260,7 +260,7 @@ export default function RoastPage() {
                       </div>
                   ) : (
                     <div className="text-center">
-                        <div className="w-24 h-24 bg-white dark:bg-gray-800/5 rounded-full flex items-center justify-center mx-auto mb-4 border border-white/10">
+                        <div className="w-24 h-24 bg-card dark:bg-gray-800/5 rounded-full flex items-center justify-center mx-auto mb-4 border border-white/10">
                             {mode === 'roast' ? (
                             <Flame className="w-12 h-12 text-red-500/50" />
                             ) : (
@@ -307,7 +307,7 @@ export default function RoastPage() {
                <Button 
                variant="ghost" 
                onClick={() => { setResult(null); setShareId(null); }}
-               className="text-white/50 hover:text-white hover:bg-white dark:bg-gray-800/10 hover:text-black"
+               className="text-white/50 hover:text-white hover:bg-card dark:bg-gray-800/10 hover:text-black"
              >
                Go Again
              </Button>

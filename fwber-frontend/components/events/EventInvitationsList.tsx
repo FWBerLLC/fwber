@@ -56,8 +56,8 @@ export default function EventInvitationsList() {
   if (invitations.length === 0) return null;
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 mb-6">
-      <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+    <div className="bg-card dark:bg-card rounded-lg shadow-sm border border-border dark:border-border mb-6">
+      <div className="p-4 border-b border-border dark:border-border">
         <h2 className="text-lg font-semibold flex items-center gap-2">
           <Calendar className="w-5 h-5 text-purple-600" />
           Event Invitations
@@ -70,13 +70,13 @@ export default function EventInvitationsList() {
         {(Array.isArray(invitations) ? invitations : []).map((invitation) => (
           <div key={invitation.id} className="p-4 flex items-center justify-between">
             <div>
-              <p className="font-medium text-gray-900 dark:text-white">
+              <p className="font-medium text-foreground dark:text-foreground">
                 <span className="font-bold">{invitation.inviter.name}</span> invited you to{' '}
                 <Link href={`/events/${invitation.event.id}`} className="text-purple-600 hover:underline">
                   {invitation.event.title}
                 </Link>
               </p>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+              <p className="text-sm text-muted-foreground dark:text-muted-foreground mt-1">
                 {new Date(invitation.event.starts_at).toLocaleDateString()} • {invitation.event.location_name}
               </p>
             </div>

@@ -21,16 +21,16 @@ export default function ProfileCompletenessWidget() {
   const isComplete = completeness.required_complete;
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+    <div className="bg-card dark:bg-card rounded-xl border border-border dark:border-border p-6">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+        <h3 className="font-semibold text-foreground dark:text-foreground flex items-center gap-2">
           <Zap className="w-4 h-4 text-yellow-500 fill-yellow-500" />
           Profile Power
         </h3>
         <span className="text-sm font-bold text-purple-600 dark:text-purple-400">{percentage}%</span>
       </div>
 
-      <div className="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-2 mb-4">
+      <div className="w-full bg-muted dark:bg-gray-700 rounded-full h-2 mb-4">
         <div
           className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full transition-all duration-500"
           style={{ width: `${percentage}%` }}
@@ -43,14 +43,14 @@ export default function ProfileCompletenessWidget() {
           Profile is mission-ready
         </div>
       ) : (
-        <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+        <p className="text-sm text-muted-foreground dark:text-muted-foreground mb-4">
           Complete your profile to increase visibility and trust.
         </p>
       )}
 
       <Link
         href="/identity"
-        className="flex items-center justify-center w-full py-2 px-4 bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg text-sm font-semibold text-gray-700 dark:text-gray-200 transition-colors group"
+        className="flex items-center justify-center w-full py-2 px-4 bg-muted dark:bg-gray-700 hover:bg-muted dark:hover:bg-gray-600 rounded-lg text-sm font-semibold text-foreground dark:text-foreground transition-colors group"
       >
         Boost Profile
         <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-0.5 transition-transform" />

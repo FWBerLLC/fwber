@@ -79,7 +79,7 @@ export function NemesisFinder({ userId }: NemesisFinderProps) {
           </div>
           <div>
             <h3 className="text-lg font-semibold text-white">Scientific Nemesis</h3>
-            <p className="text-sm text-gray-400 mt-1">
+            <p className="text-sm text-muted-foreground mt-1">
               Use advanced &quot;science&quot; to find your absolute worst match.
             </p>
           </div>
@@ -100,7 +100,7 @@ export function NemesisFinder({ userId }: NemesisFinderProps) {
       <Card className="bg-gray-900 border-gray-800">
         <CardContent className="p-8 flex flex-col items-center justify-center space-y-4">
           <Loader2 className="w-8 h-8 animate-spin text-emerald-500" />
-          <p className="text-gray-400 animate-pulse">
+          <p className="text-muted-foreground animate-pulse">
             Calculating incompatibility vectors...
           </p>
         </CardContent>
@@ -118,10 +118,10 @@ export function NemesisFinder({ userId }: NemesisFinderProps) {
           </CardTitle>
           <div className="flex gap-2">
             <Button variant="ghost" size="icon" onClick={handleCopy} title="Copy">
-              <Copy className="w-4 h-4 text-gray-400 hover:text-white" />
+              <Copy className="w-4 h-4 text-muted-foreground hover:text-white" />
             </Button>
             <Button variant="ghost" size="icon" onClick={handleShare} title="Share">
-              <Share2 className="w-4 h-4 text-gray-400 hover:text-white" />
+              <Share2 className="w-4 h-4 text-muted-foreground hover:text-white" />
             </Button>
           </div>
         </div>
@@ -139,7 +139,7 @@ export function NemesisFinder({ userId }: NemesisFinderProps) {
 
             {/* Clashing Traits */}
             <div className="bg-gray-800/50 rounded-lg p-3 border border-gray-700">
-                <h4 className="text-xs font-semibold text-gray-400 uppercase mb-2 flex items-center gap-1">
+                <h4 className="text-xs font-semibold text-muted-foreground uppercase mb-2 flex items-center gap-1">
                     <Zap className="w-3 h-3" /> Incompatible Traits
                 </h4>
                 <div className="flex flex-wrap gap-2">
@@ -171,12 +171,12 @@ export function NemesisFinder({ userId }: NemesisFinderProps) {
                         
                         <div className="opacity-30 blur-sm pointer-events-none select-none">
                             <h4 className="text-emerald-300 font-medium text-sm mb-1">Hypothesis:</h4>
-                            <p className="text-sm text-gray-300 italic">
+                            <p className="text-sm text-muted-foreground italic">
                                 &quot;You will fight over the thermostat setting until one of you leaves.&quot;
                             </p>
                             <div className="mt-3">
                                 <h4 className="text-blue-300 font-medium text-sm mb-1">Scientific Basis:</h4>
-                                <p className="text-sm text-gray-300">
+                                <p className="text-sm text-muted-foreground">
                                     Thermodynamic incompatibility suggests a 99% failure rate.
                                 </p>
                             </div>
@@ -188,13 +188,13 @@ export function NemesisFinder({ userId }: NemesisFinderProps) {
                 <div className="space-y-3 animate-in fade-in duration-500">
                     <div className="bg-emerald-900/10 rounded-lg p-3 border border-emerald-500/20">
                         <h4 className="text-emerald-300 font-medium text-sm mb-1">Hypothesis:</h4>
-                        <p className="text-sm text-gray-300 italic">
+                        <p className="text-sm text-muted-foreground italic">
                             &quot;{result?.why_it_would_fail}&quot;
                         </p>
                     </div>
                     <div className="bg-blue-900/10 rounded-lg p-3 border border-blue-500/20">
                         <h4 className="text-blue-300 font-medium text-sm mb-1">Scientific Basis:</h4>
-                        <p className="text-sm text-gray-300">
+                        <p className="text-sm text-muted-foreground">
                             {result?.scientific_explanation}
                         </p>
                     </div>

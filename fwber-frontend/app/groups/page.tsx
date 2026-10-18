@@ -40,7 +40,7 @@ export default function GroupsPage() {
 
   if (isLoadingGroups || isLoadingMyGroups) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+      <div className="min-h-screen bg-muted dark:bg-background">
         {isAuthenticated && <AppHeader title="Groups" />}
         <div className="p-8 text-center">Loading groups...</div>
       </div>
@@ -48,7 +48,7 @@ export default function GroupsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+    <div className="min-h-screen bg-muted dark:bg-background">
       {isAuthenticated && <AppHeader title="Groups" />}
 
       <div className="container mx-auto px-4 py-8">

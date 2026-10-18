@@ -76,7 +76,7 @@ export function AchievementsList() {
     return (
       <div className="animate-pulse space-y-4">
         {[1, 2, 3].map((i) => (
-          <div key={i} className="h-16 rounded-lg bg-gray-100 dark:bg-gray-800" />
+          <div key={i} className="h-16 rounded-lg bg-muted dark:bg-card" />
         ))}
       </div>
     )
@@ -97,14 +97,14 @@ export function AchievementsList() {
             className={`flex items-start gap-3 rounded-lg border p-3 transition-all duration-300 ${
               achievement.is_unlocked
                 ? 'border-yellow-200 bg-yellow-50 dark:border-yellow-800 dark:bg-yellow-900/10'
-                : 'border-gray-200 bg-gray-50 opacity-70 dark:border-gray-700 dark:bg-gray-800'
+                : 'border-border bg-muted opacity-70 dark:border-border dark:bg-card'
             }`}
           >
             <div
               className={`rounded-full p-2 ${
                 achievement.is_unlocked
                   ? 'bg-yellow-100 text-yellow-600 dark:bg-yellow-900/30 dark:text-yellow-400'
-                  : 'bg-gray-200 text-gray-400 dark:bg-gray-700 dark:text-gray-500'
+                  : 'bg-muted text-muted-foreground dark:bg-gray-700 dark:text-muted-foreground'
               }`}
             >
               {achievement.is_unlocked ? (
@@ -119,8 +119,8 @@ export function AchievementsList() {
                 <h4
                   className={`text-sm font-semibold ${
                     achievement.is_unlocked
-                      ? 'text-gray-900 dark:text-gray-100'
-                      : 'text-gray-500 dark:text-gray-400'
+                      ? 'text-foreground dark:text-foreground'
+                      : 'text-muted-foreground dark:text-muted-foreground'
                   }`}
                 >
                   {achievement.name}
@@ -132,7 +132,7 @@ export function AchievementsList() {
                   </span>
                 )}
               </div>
-              <p className="mt-0.5 text-xs text-gray-600 dark:text-gray-400">
+              <p className="mt-0.5 text-xs text-muted-foreground dark:text-muted-foreground">
                 {achievement.description}
               </p>
               {achievement.reward_tokens > 0 && (

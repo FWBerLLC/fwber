@@ -70,15 +70,15 @@ export default function ApiTestPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 p-8">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-100 mb-8">🔌 Backend API Test</h1>
+        <h1 className="text-4xl font-bold text-foreground dark:text-foreground mb-8">🔌 Backend API Test</h1>
         
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-6">
+        <div className="bg-card dark:bg-card rounded-lg shadow-lg p-6 mb-6">
           <h2 className="text-2xl font-semibold mb-4">Connection Status</h2>
           
           <div className="space-y-4">
             <div className="p-4 bg-purple-50 rounded-lg">
               <p className="font-semibold">API Base URL:</p>
-              <p className="text-sm text-gray-600">{process.env.NEXT_PUBLIC_API_URL || 'https://api.fwber.online/api'}</p>
+              <p className="text-sm text-muted-foreground">{process.env.NEXT_PUBLIC_API_URL || 'https://api.fwber.online/api'}</p>
             </div>
           </div>
           
@@ -92,7 +92,7 @@ export default function ApiTestPage() {
         </div>
         
         {testResults.length > 0 && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+          <div className="bg-card dark:bg-card rounded-lg shadow-lg p-6">
             <h2 className="text-2xl font-semibold mb-4">Test Results</h2>
             <div className="bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-sm overflow-auto max-h-96">
               {testResults.map((result, index) => (

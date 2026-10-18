@@ -19,12 +19,12 @@ export default function RateLimitStats() {
 
   if (loading && !stats) {
     return (
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 animate-pulse">
-        <div className="h-6 bg-gray-200 rounded w-1/3 mb-4"></div>
+      <div className="bg-card dark:bg-card rounded-lg shadow-sm p-6 animate-pulse">
+        <div className="h-6 bg-muted rounded w-1/3 mb-4"></div>
         <div className="space-y-3">
-          <div className="h-4 bg-gray-200 rounded w-full"></div>
-          <div className="h-4 bg-gray-200 rounded w-full"></div>
-          <div className="h-4 bg-gray-200 rounded w-full"></div>
+          <div className="h-4 bg-muted rounded w-full"></div>
+          <div className="h-4 bg-muted rounded w-full"></div>
+          <div className="h-4 bg-muted rounded w-full"></div>
         </div>
       </div>
     );
@@ -32,7 +32,7 @@ export default function RateLimitStats() {
 
   if (error) {
     return (
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
+      <div className="bg-card dark:bg-card rounded-lg shadow-sm p-6">
         <div className="text-red-600 flex items-center space-x-2">
           <span>⚠️</span>
           <span>{error}</span>
@@ -50,18 +50,18 @@ export default function RateLimitStats() {
   if (!stats) return null;
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
+    <div className="bg-card dark:bg-card rounded-lg shadow-sm p-6">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">🚦 Rate Limit Statistics</h2>
-          <p className="text-sm text-gray-500">System-wide rate limiting metrics</p>
+          <h2 className="text-xl font-semibold text-foreground dark:text-foreground">🚦 Rate Limit Statistics</h2>
+          <p className="text-sm text-muted-foreground">System-wide rate limiting metrics</p>
         </div>
         <div className="flex items-center space-x-2">
           <select
             aria-label="Select timeframe"
             value={timeframe}
             onChange={(e) => setTimeframe(e.target.value as RateLimitTimeframe)}
-            className="text-sm border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            className="text-sm border-border dark:border-border rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500"
           >
             <option value="1h">Last Hour</option>
             <option value="24h">Last 24 Hours</option>
@@ -75,7 +75,7 @@ export default function RateLimitStats() {
           </button>
           <button type="button"
             onClick={() => fetchStats()}
-            className="p-2 text-gray-400 hover:text-gray-600"
+            className="p-2 text-muted-foreground hover:text-muted-foreground"
             title="Refresh"
           >
             🔄
@@ -103,33 +103,33 @@ export default function RateLimitStats() {
 
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50 dark:bg-gray-900">
+          <thead className="bg-muted dark:bg-background">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Active Users</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Capacity</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Refill Rate</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Burst</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Action</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Active Users</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Capacity</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Refill Rate</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Burst</th>
             </tr>
           </thead>
-          <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200">
+          <tbody className="bg-card dark:bg-card divide-y divide-gray-200">
             {Object.entries(stats.actions).map(([action, data]) => (
               <tr key={action}>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-muted dark:bg-card text-foreground dark:text-foreground">
                     {action}
                   </span>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground dark:text-foreground">
                   {data.active_buckets}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-muted-foreground">
                   {data.config.capacity} reqs
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-muted-foreground">
                   {data.config.refill_rate}/sec
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-muted-foreground">
                   {data.config.burst_allowance}
                 </td>
               </tr>

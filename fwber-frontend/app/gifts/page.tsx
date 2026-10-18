@@ -18,14 +18,14 @@ export default function GiftsPage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+      <div className="min-h-screen bg-muted dark:bg-background">
         <AppHeader title="Gifts" />
         <main className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8 space-y-6">
-          <section className="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
+          <section className="rounded-2xl border border-border dark:border-border bg-card p-6 shadow-sm dark:border-gray-800 dark:bg-background">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Gift Shop</h1>
-                <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                <h1 className="text-3xl font-bold text-foreground dark:text-foreground">Gift Shop</h1>
+                <p className="mt-2 text-sm text-muted-foreground dark:text-muted-foreground">
                   A dedicated gifts surface so token-based gifts are reachable outside chat/profile-only entry points.
                 </p>
               </div>
@@ -34,13 +34,13 @@ export default function GiftsPage() {
                   value={receiverId}
                   onChange={(event) => setReceiverId(event.target.value)}
                   placeholder="Recipient user ID"
-                  className="rounded-xl border border-gray-300 px-4 py-3 text-sm dark:border-gray-700 dark:bg-gray-950 dark:text-white"
+                  className="rounded-xl border border-border px-4 py-3 text-sm dark:border-border dark:bg-background dark:text-foreground"
                 />
                 <input
                   value={receiverName}
                   onChange={(event) => setReceiverName(event.target.value)}
                   placeholder="Recipient name"
-                  className="rounded-xl border border-gray-300 px-4 py-3 text-sm dark:border-gray-700 dark:bg-gray-950 dark:text-white"
+                  className="rounded-xl border border-border px-4 py-3 text-sm dark:border-border dark:bg-background dark:text-foreground"
                 />
               </div>
             </div>
@@ -56,29 +56,29 @@ export default function GiftsPage() {
             </div>
           </section>
 
-          <section className="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
-            <div className="mb-4 flex items-center gap-2 text-gray-700 dark:text-gray-300 dark:text-gray-200">
+          <section className="rounded-2xl border border-border dark:border-border bg-card p-6 shadow-sm dark:border-gray-800 dark:bg-background">
+            <div className="mb-4 flex items-center gap-2 text-foreground dark:text-muted-foreground dark:text-foreground">
               <Inbox className="h-5 w-5" />
               <h2 className="text-lg font-semibold">Received Gifts</h2>
             </div>
             {isLoading ? (
-              <p className="text-sm text-gray-500">Loading gifts…</p>
+              <p className="text-sm text-muted-foreground">Loading gifts…</p>
             ) : !receivedGifts || receivedGifts.length === 0 ? (
-              <p className="text-sm text-gray-500 dark:text-gray-400">No gifts received yet.</p>
+              <p className="text-sm text-muted-foreground dark:text-muted-foreground">No gifts received yet.</p>
             ) : (
               <div className="space-y-3">
                 {receivedGifts.map((gift) => (
-                  <div key={gift.id} className="rounded-xl border border-gray-200 dark:border-gray-700 p-4 dark:border-gray-800">
+                  <div key={gift.id} className="rounded-xl border border-border dark:border-border p-4 dark:border-gray-800">
                     <div className="flex items-center gap-3">
                       <div className="rounded-full bg-pink-100 p-2 text-pink-600 dark:bg-pink-900/30 dark:text-pink-300">
                         <Gift className="h-5 w-5" />
                       </div>
                       <div className="min-w-0 flex-1">
-                        <div className="font-medium text-gray-900 dark:text-white">{gift.gift.name}</div>
-                        <div className="text-sm text-gray-600 dark:text-gray-300">From {gift.sender?.name ?? 'Someone'} · {gift.cost_at_time} tokens</div>
-                        {gift.message ? <div className="mt-1 text-sm text-gray-500">“{gift.message}”</div> : null}
+                        <div className="font-medium text-foreground dark:text-foreground">{gift.gift.name}</div>
+                        <div className="text-sm text-muted-foreground dark:text-muted-foreground">From {gift.sender?.name ?? 'Someone'} · {gift.cost_at_time} tokens</div>
+                        {gift.message ? <div className="mt-1 text-sm text-muted-foreground">“{gift.message}”</div> : null}
                       </div>
-                      <div className="text-xs text-gray-500">{new Date(gift.created_at).toLocaleDateString()}</div>
+                      <div className="text-xs text-muted-foreground">{new Date(gift.created_at).toLocaleDateString()}</div>
                     </div>
                   </div>
                 ))}

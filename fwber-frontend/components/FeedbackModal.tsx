@@ -61,16 +61,16 @@ export default function FeedbackModal() {
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md relative">
+      <div className="bg-card dark:bg-card rounded-lg shadow-xl w-full max-w-md relative">
         <button type="button"
           onClick={() => setIsOpen(false)}
-          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+          className="absolute top-4 right-4 text-muted-foreground hover:text-muted-foreground"
         >
           <X className="h-5 w-5" />
         </button>
 
         <div className="p-6">
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Send Feedback</h2>
+          <h2 className="text-xl font-bold text-foreground dark:text-foreground mb-4">Send Feedback</h2>
 
           {success ? (
             <div className="text-center py-8 text-green-600">
@@ -85,13 +85,13 @@ export default function FeedbackModal() {
               )}
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-1">
                   Category
                 </label>
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value as any)}
-                  className="w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full border-border dark:border-border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                 >
                   <option value="general">General Feedback</option>
                   <option value="bug">Report a Bug</option>
@@ -101,7 +101,7 @@ export default function FeedbackModal() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-1">
                   Message
                 </label>
                 <textarea
@@ -109,7 +109,7 @@ export default function FeedbackModal() {
                   onChange={(e) => setMessage(e.target.value)}
                   required
                   rows={4}
-                  className="w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full border-border dark:border-border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Tell us what you think..."
                 />
               </div>
@@ -118,7 +118,7 @@ export default function FeedbackModal() {
                 <button
                   type="button"
                   onClick={() => setIsOpen(false)}
-                  className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:bg-gray-800 rounded-md transition-colors"
+                  className="px-4 py-2 text-foreground dark:text-muted-foreground hover:bg-muted dark:bg-card rounded-md transition-colors"
                 >
                   Cancel
                 </button>

@@ -155,13 +155,13 @@ function RegisterForm() {
   return (
     <div className="w-full max-w-md space-y-8">
       <div>
-        <h2 className="mt-6 text-center text-2xl font-bold text-gray-900 dark:text-white">
+        <h2 className="mt-6 text-center text-2xl font-bold text-foreground dark:text-foreground">
           Join fwber
         </h2>
-        <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
+        <p className="mt-2 text-center text-sm text-muted-foreground dark:text-muted-foreground">
           Free to join. Your privacy is built in from day one.
         </p>
-        <p className="mt-1 text-center text-xs text-gray-500 dark:text-gray-500">
+        <p className="mt-1 text-center text-xs text-muted-foreground dark:text-muted-foreground">
           Already have an account?{' '}
           <Link
             href="/login"
@@ -204,7 +204,7 @@ function RegisterForm() {
           <div>
             <label
               htmlFor="name"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+              className="block text-sm font-medium text-foreground dark:text-muted-foreground"
             >
               Nickname (or first name)
             </label>
@@ -214,7 +214,7 @@ function RegisterForm() {
               type="text"
               autoComplete="given-name"
               required
-              className="relative mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400"
+              className="relative mt-1 block w-full appearance-none rounded-md border border-border px-3 py-2 text-foreground placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm dark:border-border dark:bg-card dark:text-foreground dark:placeholder-gray-400"
               placeholder="What should we call you?"
               value={formData.name}
               onChange={handleChange}
@@ -224,7 +224,7 @@ function RegisterForm() {
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+              className="block text-sm font-medium text-foreground dark:text-muted-foreground"
             >
               Email Address
             </label>
@@ -234,7 +234,7 @@ function RegisterForm() {
               type="email"
               autoComplete="email"
               required
-              className="relative mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400"
+              className="relative mt-1 block w-full appearance-none rounded-md border border-border px-3 py-2 text-foreground placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm dark:border-border dark:bg-card dark:text-foreground dark:placeholder-gray-400"
               placeholder="Enter your email"
               value={formData.email}
               onChange={handleChange}
@@ -244,10 +244,10 @@ function RegisterForm() {
           <div>
             <label
               htmlFor="avatar"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+              className="block text-sm font-medium text-foreground dark:text-muted-foreground"
             >
               Profile Photo{' '}
-              <span className="font-normal text-gray-400 dark:text-gray-500">
+              <span className="font-normal text-muted-foreground dark:text-muted-foreground">
                 (optional — you can stay anonymous)
               </span>
             </label>
@@ -256,19 +256,19 @@ function RegisterForm() {
               name="avatar"
               type="file"
               accept="image/*"
-              className="mt-1 block w-full text-sm text-gray-500 file:mr-4
+              className="mt-1 block w-full text-sm text-muted-foreground file:mr-4
                 file:rounded-full file:border-0 file:bg-blue-50
                 file:px-4 file:py-2
                 file:text-sm file:font-semibold
                 file:text-blue-700 hover:file:bg-blue-100
-                dark:text-gray-400 dark:file:bg-blue-900/20
+                dark:text-muted-foreground dark:file:bg-blue-900/20
                 dark:file:text-blue-400 dark:hover:file:bg-blue-900/30"
               onChange={handleFileChange}
             />
             {previewUrl && (
               <div className="mt-4">
-                <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">Preview:</p>
-                <div className="relative h-32 w-32 overflow-hidden rounded-full border-2 border-gray-200 dark:border-gray-700">
+                <p className="mb-2 text-sm text-muted-foreground dark:text-muted-foreground">Preview:</p>
+                <div className="relative h-32 w-32 overflow-hidden rounded-full border-2 border-border dark:border-border">
                   <Image src={previewUrl} alt="Avatar preview" fill className="object-cover" />
                 </div>
               </div>
@@ -278,7 +278,7 @@ function RegisterForm() {
           <div>
             <label
               htmlFor="referralCode"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+              className="block text-sm font-medium text-foreground dark:text-muted-foreground"
             >
               Referral Code (Optional)
             </label>
@@ -286,12 +286,12 @@ function RegisterForm() {
               id="referralCode"
               name="referralCode"
               type="text"
-              className="relative mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400"
+              className="relative mt-1 block w-full appearance-none rounded-md border border-border px-3 py-2 text-foreground placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm dark:border-border dark:bg-card dark:text-foreground dark:placeholder-gray-400"
               placeholder="Enter referral code if you have one"
               value={formData.referralCode}
               onChange={handleChange}
             />
-            <p className="mt-1.5 text-xs text-gray-500 dark:text-gray-400">
+            <p className="mt-1.5 text-xs text-muted-foreground dark:text-muted-foreground">
               Invite a friend and you&apos;ll both earn bonus tokens. Find your referral link in
               Settings after signing up.
             </p>
@@ -300,7 +300,7 @@ function RegisterForm() {
           <div>
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+              className="block text-sm font-medium text-foreground dark:text-muted-foreground"
             >
               Password
             </label>
@@ -310,7 +310,7 @@ function RegisterForm() {
               type="password"
               autoComplete="new-password"
               required
-              className="relative mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400"
+              className="relative mt-1 block w-full appearance-none rounded-md border border-border px-3 py-2 text-foreground placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm dark:border-border dark:bg-card dark:text-foreground dark:placeholder-gray-400"
               placeholder="Create a password"
               value={formData.password}
               onChange={handleChange}
@@ -320,7 +320,7 @@ function RegisterForm() {
           <div>
             <label
               htmlFor="passwordConfirmation"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+              className="block text-sm font-medium text-foreground dark:text-muted-foreground"
             >
               Confirm Password
             </label>
@@ -330,7 +330,7 @@ function RegisterForm() {
               type="password"
               autoComplete="new-password"
               required
-              className="relative mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400"
+              className="relative mt-1 block w-full appearance-none rounded-md border border-border px-3 py-2 text-foreground placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm dark:border-border dark:bg-card dark:text-foreground dark:placeholder-gray-400"
               placeholder="Confirm your password"
               value={formData.passwordConfirmation}
               onChange={handleChange}
@@ -370,7 +370,7 @@ function RegisterForm() {
 
 export default function RegisterPage() {
   return (
-    <div className="relative flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8 dark:bg-gray-900">
+    <div className="relative flex min-h-screen items-center justify-center bg-muted px-4 py-12 sm:px-6 lg:px-8 dark:bg-background">
       <div className="absolute right-4 top-4">
         <ThemeToggle />
       </div>
@@ -378,7 +378,7 @@ export default function RegisterPage() {
         fallback={
           <div className="flex flex-col items-center justify-center space-y-4">
             <Loader2 className="h-8 w-8 animate-spin text-blue-500" />
-            <p className="text-sm text-gray-500">Loading registration...</p>
+            <p className="text-sm text-muted-foreground">Loading registration...</p>
           </div>
         }
       >

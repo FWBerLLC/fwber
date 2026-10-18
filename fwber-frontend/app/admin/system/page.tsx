@@ -91,7 +91,7 @@ export default function SystemDashboardPage() {
   if (loading || !info) {
       return (
         <ProtectedRoute>
-            <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+            <div className="min-h-screen bg-muted dark:bg-background flex items-center justify-center">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
             </div>
         </ProtectedRoute>
@@ -104,22 +104,22 @@ export default function SystemDashboardPage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <div className="min-h-screen bg-muted dark:bg-background">
         <AppHeader />
 
         <main className="max-w-7xl mx-auto px-4 py-8">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+              <h1 className="text-3xl font-bold text-foreground dark:text-foreground flex items-center gap-2">
                 <Cpu className="w-8 h-8 text-blue-600" />
                 System Dashboard
               </h1>
-              <p className="text-gray-500 dark:text-gray-400 mt-1">
+              <p className="text-muted-foreground dark:text-muted-foreground mt-1">
                 Monitor system health, versions, and engagement metrics.
               </p>
             </div>
             <div className="flex items-center gap-3">
-              <Badge variant="outline" className="px-3 py-1 text-sm bg-white dark:bg-gray-800">
+              <Badge variant="outline" className="px-3 py-1 text-sm bg-card dark:bg-card">
                 v{info.version}
               </Badge>
               <Badge className={info.backend_status === "online" ? "bg-green-500" : "bg-red-500"}>
@@ -170,8 +170,8 @@ export default function SystemDashboardPage() {
                 </CardHeader>
                 <CardContent>
                   <div className="relative overflow-x-auto">
-                    <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                      <thead className="text-xs text-gray-700 dark:text-gray-300 uppercase bg-gray-50 dark:bg-gray-900 dark:bg-gray-700 dark:text-gray-400">
+                    <table className="w-full text-sm text-left text-muted-foreground dark:text-muted-foreground">
+                      <thead className="text-xs text-foreground dark:text-muted-foreground uppercase bg-muted dark:bg-background dark:bg-gray-700 dark:text-muted-foreground">
                         <tr>
                           <th scope="col" className="px-6 py-3">Module Name</th>
                           <th scope="col" className="px-6 py-3">Path</th>
@@ -181,8 +181,8 @@ export default function SystemDashboardPage() {
                       </thead>
                       <tbody>
                         {info.submodules.map((mod, i) => (
-                          <tr key={i} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                            <th scope="row" className="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap dark:text-white flex items-center gap-2">
+                          <tr key={i} className="bg-card border-b dark:bg-card dark:border-border">
+                            <th scope="row" className="px-6 py-4 font-medium text-foreground dark:text-foreground whitespace-nowrap dark:text-foreground flex items-center gap-2">
                               <FolderGit2 className="w-4 h-4" />
                               {mod.name}
                             </th>
@@ -257,7 +257,7 @@ export default function SystemDashboardPage() {
                             </div>
                             <span className="font-bold">{Math.round((analytics.feedback.sentiment.positive / sentimentTotal) * 100)}%</span>
                           </div>
-                          <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+                          <div className="w-full bg-muted dark:bg-gray-700 rounded-full h-2.5">
                             <div className="bg-green-500 h-2.5 rounded-full" style={{ width: `${(analytics.feedback.sentiment.positive / sentimentTotal) * 100}%` }}></div>
                           </div>
 
@@ -268,7 +268,7 @@ export default function SystemDashboardPage() {
                             </div>
                             <span className="font-bold">{Math.round((analytics.feedback.sentiment.neutral / sentimentTotal) * 100)}%</span>
                           </div>
-                          <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+                          <div className="w-full bg-muted dark:bg-gray-700 rounded-full h-2.5">
                             <div className="bg-yellow-500 h-2.5 rounded-full" style={{ width: `${(analytics.feedback.sentiment.neutral / sentimentTotal) * 100}%` }}></div>
                           </div>
 
@@ -279,7 +279,7 @@ export default function SystemDashboardPage() {
                             </div>
                             <span className="font-bold">{Math.round((analytics.feedback.sentiment.negative / sentimentTotal) * 100)}%</span>
                           </div>
-                          <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+                          <div className="w-full bg-muted dark:bg-gray-700 rounded-full h-2.5">
                             <div className="bg-red-500 h-2.5 rounded-full" style={{ width: `${(analytics.feedback.sentiment.negative / sentimentTotal) * 100}%` }}></div>
                           </div>
                         </div>
@@ -293,20 +293,20 @@ export default function SystemDashboardPage() {
                       </CardHeader>
                       <CardContent>
                         <div className="space-y-4">
-                          <div className="flex justify-between border-b dark:border-gray-700 pb-2">
-                            <span className="text-gray-500 dark:text-gray-400">Avg API Response</span>
+                          <div className="flex justify-between border-b dark:border-border pb-2">
+                            <span className="text-muted-foreground dark:text-muted-foreground">Avg API Response</span>
                             <span className="font-mono font-medium">{analytics.performance.api_response_time}ms</span>
                           </div>
-                          <div className="flex justify-between border-b dark:border-gray-700 pb-2">
-                            <span className="text-gray-500 dark:text-gray-400">Cache Hit Rate</span>
+                          <div className="flex justify-between border-b dark:border-border pb-2">
+                            <span className="text-muted-foreground dark:text-muted-foreground">Cache Hit Rate</span>
                             <span className="font-mono font-medium text-green-500">{analytics.performance.cache_hit_rate}%</span>
                           </div>
-                          <div className="flex justify-between border-b dark:border-gray-700 pb-2">
-                            <span className="text-gray-500 dark:text-gray-400">Error Rate</span>
+                          <div className="flex justify-between border-b dark:border-border pb-2">
+                            <span className="text-muted-foreground dark:text-muted-foreground">Error Rate</span>
                             <span className="font-mono font-medium">{analytics.performance.error_rate}%</span>
                           </div>
                           <div className="flex justify-between pb-2">
-                            <span className="text-gray-500 dark:text-gray-400">Active WebSocket Conns</span>
+                            <span className="text-muted-foreground dark:text-muted-foreground">Active WebSocket Conns</span>
                             <span className="font-mono font-medium text-blue-500">{analytics.performance.sse_connections}</span>
                           </div>
                         </div>
@@ -315,7 +315,7 @@ export default function SystemDashboardPage() {
                   </div>
                 </>
               ) : (
-                <div className="text-center py-12 text-gray-500">
+                <div className="text-center py-12 text-muted-foreground">
                   <p>Loading analytics data...</p>
                 </div>
               )}
@@ -326,7 +326,7 @@ export default function SystemDashboardPage() {
                 <CardHeader>
                   <CardTitle>Project Directory Structure</CardTitle>
                 </CardHeader>
-                <CardContent className="font-mono text-sm bg-gray-900 text-gray-300 p-6 rounded-lg overflow-x-auto">
+                <CardContent className="font-mono text-sm bg-gray-900 text-muted-foreground p-6 rounded-lg overflow-x-auto">
                   <pre>{`
 / (Project Root)
 ├── fwber-backend/          # Laravel API Source
@@ -396,8 +396,8 @@ function StatusCard({ title, status, icon, detail }: { title: string, status: st
         </div>
         <div className="space-y-1">
           <h3 className="font-semibold text-lg">{title}</h3>
-          <p className="text-sm text-gray-500 capitalize">{status}</p>
-          <p className="text-xs text-gray-400 font-mono mt-2">{detail}</p>
+          <p className="text-sm text-muted-foreground capitalize">{status}</p>
+          <p className="text-xs text-muted-foreground font-mono mt-2">{detail}</p>
         </div>
       </CardContent>
     </Card>

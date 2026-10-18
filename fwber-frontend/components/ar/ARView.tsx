@@ -204,7 +204,7 @@ export default function ARView({ artifacts, candidates, userLocation, onClose }:
                 <Navigation className="w-5 h-5 text-blue-400" style={{ transform: `rotate(${deviceHeading}deg)` }} />
                 <span className="font-mono text-sm">{Math.round(deviceHeading)}°</span>
             </div>
-            <p className="text-xs text-gray-300 mt-1">
+            <p className="text-xs text-muted-foreground mt-1">
                 {points.length} points nearby
             </p>
           </div>
@@ -223,7 +223,7 @@ export default function ARView({ artifacts, candidates, userLocation, onClose }:
                 <p className="mb-4">{error}</p>
                 <button type="button" 
                     onClick={onClose}
-                    className="bg-white dark:bg-gray-800 text-red-900 px-4 py-2 rounded font-semibold"
+                    className="bg-card dark:bg-card text-red-900 px-4 py-2 rounded font-semibold"
                 >
                     Close AR View
                 </button>

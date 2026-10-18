@@ -50,7 +50,7 @@ export default function PhysicalStep({ formData, setFormData }: PhysicalStepProp
           className={`px-3 py-2 text-sm rounded-lg border transition-all ${
             selected === opt.toLowerCase().replace(/ /g, '_')
               ? 'bg-blue-600 text-white border-blue-600'
-              : 'bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 hover:border-blue-400'
+              : 'bg-card dark:bg-card border-border dark:border-border hover:border-blue-400'
           }`}
         >
           {opt}
@@ -77,9 +77,9 @@ export default function PhysicalStep({ formData, setFormData }: PhysicalStepProp
             min={120}
             max={220}
             step={1}
-            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+            className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-blue-600"
           />
-          <div className="flex justify-between text-xs text-gray-500">
+          <div className="flex justify-between text-xs text-muted-foreground">
             <span>120cm (3&apos;11&quot;)</span>
             <span>220cm (7&apos;3&quot;)</span>
           </div>

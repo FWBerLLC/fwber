@@ -89,14 +89,14 @@ function PhotoRevealsContent() {
                 href="/home"
                 className="p-2 -ml-2 hover:bg-purple-800/30 rounded-lg transition"
               >
-                <ArrowLeft className="w-5 h-5 text-gray-400" />
+                <ArrowLeft className="w-5 h-5 text-muted-foreground" />
               </Link>
               <div>
                 <h1 className="text-2xl font-bold text-white flex items-center gap-2">
                   <Eye className="w-7 h-7 text-pink-500" />
                   Photo Reveals
                 </h1>
-                <p className="text-sm text-gray-400">
+                <p className="text-sm text-muted-foreground">
                   Photos you&apos;ve unlocked from your matches
                 </p>
               </div>
@@ -106,7 +106,7 @@ function PhotoRevealsContent() {
               className="p-2 hover:bg-purple-800/30 rounded-lg transition"
               title="Refresh"
             >
-              <RefreshCw className={`w-5 h-5 text-gray-400 ${loading ? 'animate-spin' : ''}`} />
+              <RefreshCw className={`w-5 h-5 text-muted-foreground ${loading ? 'animate-spin' : ''}`} />
             </button>
           </div>
 
@@ -115,7 +115,7 @@ function PhotoRevealsContent() {
               <Unlock className="w-6 h-6 text-pink-400 flex-shrink-0 mt-0.5" />
               <div>
                 <h3 className="font-semibold text-white mb-1">How Photo Reveals Work</h3>
-                <p className="text-sm text-gray-300">
+                <p className="text-sm text-muted-foreground">
                   When you match with someone, you can unlock their hidden photos.
                   Revealed photos appear here for easy access. Some photos may require tokens to unlock.
                 </p>
@@ -123,7 +123,7 @@ function PhotoRevealsContent() {
             </div>
           </div>
 
-          <div className="flex items-center gap-4 mb-6 text-sm text-gray-400">
+          <div className="flex items-center gap-4 mb-6 text-sm text-muted-foreground">
             <span className="flex items-center gap-1">
               <Eye className="w-4 h-4" />
               {reveals.length} revealed photos
@@ -158,7 +158,7 @@ function PhotoRevealsContent() {
                 <Lock className="w-10 h-10 text-purple-500/50" />
               </div>
               <h3 className="text-lg font-semibold text-white mb-2">No Revealed Photos Yet</h3>
-              <p className="text-gray-400 mb-6 max-w-md mx-auto">
+              <p className="text-muted-foreground mb-6 max-w-md mx-auto">
                 When you unlock hidden photos from your matches, they&apos;ll appear here.
               </p>
               <Link
@@ -190,7 +190,7 @@ function PhotoRevealsContent() {
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center">
-                          <ImageOff className="w-12 h-12 text-gray-600" />
+                          <ImageOff className="w-12 h-12 text-muted-foreground" />
                         </div>
                       )}
                       <div className="absolute top-2 right-2 bg-green-500/90 backdrop-blur-sm px-2 py-1 rounded-full flex items-center gap-1">
@@ -202,7 +202,7 @@ function PhotoRevealsContent() {
                     <div className="p-4">
                       <div className="flex items-center gap-2 mb-2">
                         <div className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center">
-                          <User className="w-4 h-4 text-gray-400" />
+                          <User className="w-4 h-4 text-muted-foreground" />
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="font-medium text-white truncate">
@@ -211,7 +211,7 @@ function PhotoRevealsContent() {
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-1 text-xs text-gray-500">
+                      <div className="flex items-center gap-1 text-xs text-muted-foreground">
                         <Calendar className="w-3.5 h-3.5" />
                         Revealed {formatDate(reveal.created_at)}
                       </div>
@@ -238,7 +238,7 @@ function PhotoRevealsContent() {
               </div>
               <Link
                 href="/matches"
-                className="px-4 py-2 bg-white dark:bg-gray-800 text-purple-600 rounded-lg font-medium hover:bg-purple-50 transition"
+                className="px-4 py-2 bg-card dark:bg-card text-purple-600 rounded-lg font-medium hover:bg-purple-50 transition"
               >
                 My Matches
               </Link>

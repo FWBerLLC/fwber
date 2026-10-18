@@ -237,7 +237,7 @@ export default function FederationSettingsPage() {
                         </Button>
                     </Link>
                     <div>
-                        <h1 className="text-2xl font-black italic uppercase tracking-tighter text-zinc-900 dark:text-white">
+                        <h1 className="text-2xl font-black italic uppercase tracking-tighter text-zinc-900 dark:text-foreground">
                             Global Federation
                         </h1>
                         <p className="text-xs font-bold text-blue-600 uppercase tracking-widest flex items-center gap-1">
@@ -279,9 +279,9 @@ export default function FederationSettingsPage() {
                             </CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-4">
-                            <div className="flex items-center justify-between gap-4 rounded-xl border border-zinc-200 bg-white dark:bg-gray-800 p-4 dark:border-zinc-800 dark:bg-zinc-900">
+                            <div className="flex items-center justify-between gap-4 rounded-xl border border-zinc-200 bg-card dark:bg-card p-4 dark:border-zinc-800 dark:bg-zinc-900">
                                 <div className="space-y-1">
-                                    <Label htmlFor="federation-visibility-toggle" className="font-semibold text-sm text-zinc-900 dark:text-white">
+                                    <Label htmlFor="federation-visibility-toggle" className="font-semibold text-sm text-zinc-900 dark:text-foreground">
                                         ActivityPub broadcasting
                                     </Label>
                                     <p className="text-xs text-zinc-500">
@@ -353,7 +353,7 @@ export default function FederationSettingsPage() {
                                         {results.map((actor) => {
                                             const isFollowing = followedActorIds.has(actor.id);
                                             return (
-                                                <div key={actor.id} className="p-4 border rounded-xl flex items-center justify-between bg-white dark:bg-gray-800 dark:bg-zinc-900 shadow-sm transition-all hover:shadow-md">
+                                                <div key={actor.id} className="p-4 border rounded-xl flex items-center justify-between bg-card dark:bg-card dark:bg-zinc-900 shadow-sm transition-all hover:shadow-md">
                                                     <div className="flex items-center gap-3">
                                                         <div className="w-10 h-10 rounded-full bg-zinc-100 dark:bg-zinc-800 overflow-hidden border border-zinc-200 dark:border-zinc-700 relative">
                                                             {actor.icon && <Image src={actor.icon.url} alt="" fill sizes="40px" className="object-cover" />}
@@ -425,7 +425,7 @@ export default function FederationSettingsPage() {
                                 <p className="text-center py-12 text-zinc-500 italic">You aren&apos;t following anyone yet.</p>
                             ) : (
                                 following.map((f) => (
-                                    <div key={f.id} className="p-4 border rounded-xl flex items-center justify-between bg-white dark:bg-gray-800 dark:bg-zinc-900 shadow-sm">
+                                    <div key={f.id} className="p-4 border rounded-xl flex items-center justify-between bg-card dark:bg-card dark:bg-zinc-900 shadow-sm">
                                         <div className="flex items-center gap-3">
                                             <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold">
                                                 {f.username?.[0].toUpperCase()}
@@ -466,7 +466,7 @@ export default function FederationSettingsPage() {
                                 <p className="text-center py-12 text-zinc-500 italic">No one is following you yet.</p>
                             ) : (
                                 followers.map((f) => (
-                                    <div key={f.id} className="p-4 border rounded-xl flex items-center justify-between bg-white dark:bg-gray-800 dark:bg-zinc-900 shadow-sm">
+                                    <div key={f.id} className="p-4 border rounded-xl flex items-center justify-between bg-card dark:bg-card dark:bg-zinc-900 shadow-sm">
                                         <div className="flex items-center gap-3">
                                             <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 font-bold">
                                                 {f.username?.[0].toUpperCase()}
@@ -572,7 +572,7 @@ export default function FederationSettingsPage() {
                             <div className="space-y-4">
                                 <div className="rounded-xl border border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-800 dark:bg-zinc-900/60">
                                     <p className="text-xs font-semibold uppercase tracking-[0.2em] text-zinc-500">Server</p>
-                                    <p className="mt-1 text-sm text-zinc-900 dark:text-white">{selectedActor.server}</p>
+                                    <p className="mt-1 text-sm text-zinc-900 dark:text-foreground">{selectedActor.server}</p>
                                 </div>
 
                                 <div className="rounded-xl border border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-800 dark:bg-zinc-900/60">

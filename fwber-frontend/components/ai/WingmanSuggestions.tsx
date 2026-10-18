@@ -71,12 +71,12 @@ export function WingmanSuggestions({
 								</Button>
 							))
 						) : (
-							<p className="text-xs text-gray-500">No suggestions available.</p>
+							<p className="text-xs text-muted-foreground">No suggestions available.</p>
 						)}
 						<Button
 							variant="ghost"
 							size="sm"
-							className="w-full text-xs text-gray-400 hover:text-white"
+							className="w-full text-xs text-muted-foreground hover:text-white"
 							onClick={handleGenerate}
 						>
 							Refresh

@@ -119,7 +119,7 @@ export default function NearbyPage() {
   if (loading) {
     return (
       <ProtectedRoute>
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+        <div className="min-h-screen bg-muted dark:bg-background">
           <AppHeader title="Nearby" />
           <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center">
             <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500"></div>
@@ -132,7 +132,7 @@ export default function NearbyPage() {
   if (error) {
     return (
       <ProtectedRoute>
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+        <div className="min-h-screen bg-muted dark:bg-background">
           <AppHeader title="Nearby" />
           <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center text-red-500">
             <div className="text-center">
@@ -152,11 +152,11 @@ export default function NearbyPage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+      <div className="min-h-screen bg-muted dark:bg-background">
         <AppHeader title="Nearby" />
         <div className="p-8">
           <div className="max-w-6xl mx-auto">
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-8 mb-6">
+          <div className="bg-card dark:bg-card rounded-lg shadow-md p-8 mb-6">
             {/* Header with Real-time Status */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
               <div className="flex items-center gap-3">
@@ -164,11 +164,11 @@ export default function NearbyPage() {
                   <MapPin className="h-6 w-6 text-orange-600 dark:text-orange-400" />
                 </div>
                 <div>
-                  <h1 className="text-3xl font-bold text-gray-900 dark:text-white">People Nearby</h1>
+                  <h1 className="text-3xl font-bold text-foreground dark:text-foreground">People Nearby</h1>
                   <div className="flex items-center gap-2 mt-1">
                     <ConnectionStatusBadge />
-                    <span className="text-sm text-gray-500 dark:text-gray-400">•</span>
-                    <span className="text-sm text-gray-500 dark:text-gray-400">{nearbyUsers.length} found</span>
+                    <span className="text-sm text-muted-foreground dark:text-muted-foreground">•</span>
+                    <span className="text-sm text-muted-foreground dark:text-muted-foreground">{nearbyUsers.length} found</span>
                   </div>
                 </div>
               </div>
@@ -176,21 +176,21 @@ export default function NearbyPage() {
                 <button type="button"
                   onClick={handleRefresh}
                   disabled={isRefreshing}
-                  className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 rounded-lg text-gray-700 dark:text-gray-300 transition-colors disabled:opacity-50"
+                  className="flex items-center gap-2 px-4 py-2 bg-muted dark:bg-card hover:bg-muted rounded-lg text-foreground dark:text-muted-foreground transition-colors disabled:opacity-50"
                 >
                   <RefreshCw className={`h-4 w-4 ${isRefreshing ? 'animate-spin' : ''}`} />
                   Refresh
                 </button>
-                <div className="flex border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                <div className="flex border border-border dark:border-border rounded-lg overflow-hidden">
                   <button type="button"
                     onClick={() => setViewMode('grid')}
-                    className={`px-3 py-2 text-sm ${viewMode === 'grid' ? 'bg-blue-600 text-white' : 'bg-white dark:bg-gray-800 text-gray-600 hover:bg-gray-50 dark:bg-gray-900'}`}
+                    className={`px-3 py-2 text-sm ${viewMode === 'grid' ? 'bg-blue-600 text-white' : 'bg-card dark:bg-card text-muted-foreground hover:bg-muted dark:bg-background'}`}
                   >
                     Grid
                   </button>
                   <button type="button"
                     onClick={() => setViewMode('list')}
-                    className={`px-3 py-2 text-sm ${viewMode === 'list' ? 'bg-blue-600 text-white' : 'bg-white dark:bg-gray-800 text-gray-600 hover:bg-gray-50 dark:bg-gray-900'}`}
+                    className={`px-3 py-2 text-sm ${viewMode === 'list' ? 'bg-blue-600 text-white' : 'bg-card dark:bg-card text-muted-foreground hover:bg-muted dark:bg-background'}`}
                   >
                     List
                   </button>
@@ -207,7 +207,7 @@ export default function NearbyPage() {
             )}
 
             <div className="mb-6">
-              <label htmlFor="radius" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label htmlFor="radius" className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-2">
                 Search Radius: {(radius / 1609.34).toFixed(1)}mi
               </label>
               <input
@@ -218,9 +218,9 @@ export default function NearbyPage() {
                 step="100"
                 value={radius}
                 onChange={(e) => handleRadiusChange(parseInt(e.target.value))}
-                className="w-full h-2 bg-gray-200 dark:bg-gray-600 rounded-lg appearance-none cursor-pointer"
+                className="w-full h-2 bg-muted dark:bg-gray-600 rounded-lg appearance-none cursor-pointer"
               />
-              <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
+              <div className="flex justify-between text-xs text-muted-foreground dark:text-muted-foreground mt-1">
                 <span>100m</span>
                 <span>5km</span>
                 <span>10km</span>
@@ -239,9 +239,9 @@ export default function NearbyPage() {
 
             {nearbyUsers.length === 0 ? (
               <div className="text-center py-12">
-                <div className="text-gray-400 text-6xl mb-4">📍</div>
-                <h3 className="text-xl font-semibold text-gray-600 mb-2">No one nearby</h3>
-                <p className="text-gray-500 dark:text-gray-400">
+                <div className="text-muted-foreground text-6xl mb-4">📍</div>
+                <h3 className="text-xl font-semibold text-muted-foreground mb-2">No one nearby</h3>
+                <p className="text-muted-foreground dark:text-muted-foreground">
                   Try increasing your search radius or check back later!
                 </p>
               </div>
@@ -264,7 +264,7 @@ export default function NearbyPage() {
                 {nearbyUsers.map((user) => (
                   <div 
                     key={user.id} 
-                    className={`border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow ${
+                    className={`border border-border dark:border-border bg-card dark:bg-card rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow ${
                       viewMode === 'list' ? 'flex items-center justify-between' : ''
                     }`}
                   >
@@ -280,7 +280,7 @@ export default function NearbyPage() {
                             </div>
                           </div>
                           <div>
-                            <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100">
+                            <h3 className="text-xl font-semibold text-foreground dark:text-foreground">
                               {user.display_name}
                             </h3>
                             <PresenceIndicator userId={String(user.id)} showLabel size="sm" />
@@ -328,7 +328,7 @@ export default function NearbyPage() {
                         </div>
                       ) : null}
 
-                      <div className={`space-y-2 text-sm text-gray-600 dark:text-gray-300 ${viewMode === 'list' ? 'flex gap-4' : ''}`}>
+                      <div className={`space-y-2 text-sm text-muted-foreground dark:text-muted-foreground ${viewMode === 'list' ? 'flex gap-4' : ''}`}>
                         {user.age && (
                           <p><strong>Age:</strong> {user.age}</p>
                         )}
@@ -358,7 +358,7 @@ export default function NearbyPage() {
             )}
 
             <div className="mt-8 text-center">
-              <p className="text-sm text-gray-500 dark:text-gray-400">
+              <p className="text-sm text-muted-foreground dark:text-muted-foreground">
                 Found {nearbyUsers.length} people within {(radius / 1609.34).toFixed(1)}mi of your location
               </p>
             </div>

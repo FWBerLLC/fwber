@@ -92,7 +92,7 @@ export const PremiumUpgradeModal = ({ isOpen, onClose }: PremiumUpgradeModalProp
                 </div>
                 <div>
                   <h4 className="font-semibold">See Who Likes You</h4>
-                  <p className="text-sm text-gray-500">Reveal your secret admirers instantly.</p>
+                  <p className="text-sm text-muted-foreground">Reveal your secret admirers instantly.</p>
                 </div>
               </div>
               
@@ -102,18 +102,18 @@ export const PremiumUpgradeModal = ({ isOpen, onClose }: PremiumUpgradeModalProp
                 </div>
                 <div>
                   <h4 className="font-semibold">Unlimited Swipes</h4>
-                  <p className="text-sm text-gray-500">No more daily limits. Swipe as much as you want.</p>
+                  <p className="text-sm text-muted-foreground">No more daily limits. Swipe as much as you want.</p>
                 </div>
               </div>
 
               {/* Payment Method Selector */}
-              <div className="flex gap-2 p-1 bg-gray-100 dark:bg-gray-800 rounded-lg mt-4">
+              <div className="flex gap-2 p-1 bg-muted dark:bg-card rounded-lg mt-4">
                 <button type="button"
                   onClick={() => setPaymentMethod('token')}
                   className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-md text-sm font-medium transition-all ${
                     paymentMethod === 'token'
-                      ? 'bg-white dark:bg-gray-700 shadow-sm text-purple-600 dark:text-purple-400'
-                      : 'text-gray-500 hover:text-gray-700 dark:text-gray-400'
+                      ? 'bg-card dark:bg-gray-700 shadow-sm text-purple-600 dark:text-purple-400'
+                      : 'text-muted-foreground hover:text-foreground dark:text-muted-foreground'
                   }`}
                 >
                   <Coins className="w-4 h-4" />
@@ -124,8 +124,8 @@ export const PremiumUpgradeModal = ({ isOpen, onClose }: PremiumUpgradeModalProp
                   disabled={!stripeEnabled}
                   className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-md text-sm font-medium transition-all ${
                     paymentMethod === 'stripe'
-                      ? 'bg-white dark:bg-gray-700 shadow-sm text-purple-600 dark:text-purple-400'
-                      : 'text-gray-500 hover:text-gray-700 dark:text-gray-400'
+                      ? 'bg-card dark:bg-gray-700 shadow-sm text-purple-600 dark:text-purple-400'
+                      : 'text-muted-foreground hover:text-foreground dark:text-muted-foreground'
                   } ${!stripeEnabled ? 'cursor-not-allowed opacity-50' : ''}`}
                 >
                   <CreditCard className="w-4 h-4" />

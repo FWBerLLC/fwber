@@ -23,7 +23,7 @@ export default function LookingFor({ formData, handleLookingForChange }: Looking
                 onChange={(e) => handleLookingForChange(option, e.target.checked)}
                 className="h-5 w-5 rounded border-2 border-gray-400 text-blue-600 accent-blue-600 cursor-pointer"
               />
-              <span className="ml-2 text-sm text-gray-700 dark:text-gray-300 capitalize select-none">{option}</span>
+              <span className="ml-2 text-sm text-foreground dark:text-muted-foreground capitalize select-none">{option}</span>
             </label>
           ))}
         </div>

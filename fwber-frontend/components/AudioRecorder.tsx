@@ -170,9 +170,9 @@ export default function AudioRecorder({
 
   if (audioBlob) {
     return (
-      <div className="flex items-center gap-2 bg-gray-100 dark:bg-gray-800 dark:bg-gray-700 p-2 rounded-lg w-full animate-in fade-in slide-in-from-bottom-2">
+      <div className="flex items-center gap-2 bg-muted dark:bg-card dark:bg-gray-700 p-2 rounded-lg w-full animate-in fade-in slide-in-from-bottom-2">
         <div className="flex-1 flex items-center gap-2">
-          <span className="text-sm font-medium text-gray-600 dark:text-gray-300 w-10">{formatDuration(duration)}</span>
+          <span className="text-sm font-medium text-muted-foreground dark:text-muted-foreground w-10">{formatDuration(duration)}</span>
           <audio src={URL.createObjectURL(audioBlob)} controls className="h-8 w-40 md:w-48" />
         </div>
         <button type="button"
@@ -211,7 +211,7 @@ export default function AudioRecorder({
         </div>
         <button
           onClick={cancelRecording}
-          className="p-2 text-gray-500 hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-600 rounded-full transition-colors"
+          className="p-2 text-muted-foreground hover:bg-muted dark:text-muted-foreground dark:hover:bg-gray-600 rounded-full transition-colors"
           title="Cancel"
           type="button"
         >
@@ -232,7 +232,7 @@ export default function AudioRecorder({
   return (
     <button
       onClick={startRecording}
-      className="p-2 text-gray-400 hover:text-white hover:bg-gray-700 rounded-full transition-colors"
+      className="p-2 text-muted-foreground hover:text-white hover:bg-gray-700 rounded-full transition-colors"
       title="Record Voice Message"
       type="button"
     >

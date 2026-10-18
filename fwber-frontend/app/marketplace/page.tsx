@@ -60,7 +60,7 @@ export default function MarketplacePage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+      <div className="min-h-screen bg-muted dark:bg-background">
         <AppHeader title="Marketplace" />
         
         <main className="max-w-6xl mx-auto px-4 py-8">
@@ -69,14 +69,14 @@ export default function MarketplacePage() {
               <div className="p-2 bg-amber-100 dark:bg-amber-900/30 rounded-xl">
                 <ShoppingBag className="w-6 h-6 text-amber-600 dark:text-amber-400" />
               </div>
-              <h1 className="text-3xl font-black italic tracking-tighter text-gray-900 dark:text-white uppercase">
+              <h1 className="text-3xl font-black italic tracking-tighter text-foreground dark:text-foreground uppercase">
                 Nearby Marketplace
               </h1>
             </div>
             <button type="button" 
               onClick={() => fetchItems(true)}
               disabled={loading || refreshing}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 dark:bg-zinc-900 border border-gray-200 dark:border-gray-700 dark:border-zinc-800 rounded-full font-bold hover:bg-gray-50 dark:bg-gray-900 dark:hover:bg-zinc-800 transition disabled:opacity-50"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-card dark:bg-card dark:bg-zinc-900 border border-border dark:border-border dark:border-zinc-800 rounded-full font-bold hover:bg-muted dark:bg-background dark:hover:bg-zinc-800 transition disabled:opacity-50"
             >
               <RefreshCw className={`w-4 h-4 ${(loading || refreshing) ? 'animate-spin' : ''}`} />
               Refresh
@@ -86,14 +86,14 @@ export default function MarketplacePage() {
           {loading ? (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {[...Array(6)].map((_, i) => (
-                <div key={i} className="bg-white dark:bg-gray-800 dark:bg-zinc-900 rounded-3xl h-64 animate-pulse" />
+                <div key={i} className="bg-card dark:bg-card dark:bg-zinc-900 rounded-3xl h-64 animate-pulse" />
               ))}
             </div>
           ) : items.length === 0 ? (
-            <div className="text-center py-20 bg-white dark:bg-gray-800 dark:bg-zinc-900 rounded-[3rem] border border-gray-100 dark:border-zinc-800">
-              <Store className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">No items found nearby</h2>
-              <p className="text-gray-500 max-w-sm mx-auto mb-8">
+            <div className="text-center py-20 bg-card dark:bg-card dark:bg-zinc-900 rounded-[3rem] border border-gray-100 dark:border-zinc-800">
+              <Store className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+              <h2 className="text-2xl font-bold text-foreground dark:text-foreground mb-2">No items found nearby</h2>
+              <p className="text-muted-foreground max-w-sm mx-auto mb-8">
                 Local merchants haven&apos;t listed any items in your immediate area yet.
               </p>
               <Link 
@@ -109,9 +109,9 @@ export default function MarketplacePage() {
                 <Link 
                   key={item.id} 
                   href={`/marketplace/${item.merchant_profile_id}`}
-                  className="bg-white dark:bg-gray-800 dark:bg-zinc-900 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition group border border-gray-100 dark:border-zinc-800"
+                  className="bg-card dark:bg-card dark:bg-zinc-900 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition group border border-gray-100 dark:border-zinc-800"
                 >
-                  <div className="relative h-48 bg-gray-100 dark:bg-gray-800 dark:bg-zinc-800">
+                  <div className="relative h-48 bg-muted dark:bg-card dark:bg-zinc-800">
                     {item.image_url ? (
                       <Image 
                         src={item.image_url} 
@@ -121,7 +121,7 @@ export default function MarketplacePage() {
                       />
                     ) : (
                       <div className="flex items-center justify-center h-full">
-                        <ShoppingBag className="w-12 h-12 text-gray-300" />
+                        <ShoppingBag className="w-12 h-12 text-muted-foreground" />
                       </div>
                     )}
                     <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full text-white font-black text-sm border border-white/10">
@@ -129,8 +129,8 @@ export default function MarketplacePage() {
                     </div>
                   </div>
                   <div className="p-6">
-                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 truncate">{item.name}</h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mb-4">
+                    <h3 className="text-xl font-bold text-foreground dark:text-foreground mb-2 truncate">{item.name}</h3>
+                    <p className="text-sm text-muted-foreground dark:text-muted-foreground line-clamp-2 mb-4">
                       {item.description}
                     </p>
                     <div className="flex items-center justify-between">
@@ -138,7 +138,7 @@ export default function MarketplacePage() {
                         <Store className="w-3.5 h-3.5" />
                         Visit Store
                       </div>
-                      <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-amber-600 transition" />
+                      <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-amber-600 transition" />
                     </div>
                   </div>
                 </Link>
@@ -159,7 +159,7 @@ export default function MarketplacePage() {
               <div className="flex flex-wrap gap-4">
                 <Link
                   href="/economy"
-                  className="px-8 py-4 bg-white dark:bg-gray-800 text-orange-600 font-black rounded-2xl hover:scale-105 transition active:scale-95 shadow-xl"
+                  className="px-8 py-4 bg-card dark:bg-card text-orange-600 font-black rounded-2xl hover:scale-105 transition active:scale-95 shadow-xl"
                 >
                   Get Tokens
                 </Link>

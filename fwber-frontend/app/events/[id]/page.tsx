@@ -12,7 +12,7 @@ import dynamic from 'next/dynamic';
 
 const EventMap = dynamic(() => import('@/components/EventMap').then(mod => mod.EventMap), {
   ssr: false,
-  loading: () => <div className="h-[400px] w-full bg-gray-100 dark:bg-gray-800 animate-pulse rounded-lg flex items-center justify-center">Loading Map...</div>
+  loading: () => <div className="h-[400px] w-full bg-muted dark:bg-card animate-pulse rounded-lg flex items-center justify-center">Loading Map...</div>
 });
 
 
@@ -46,7 +46,7 @@ export default function EventDetailPage() {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+      <div className="bg-card dark:bg-card rounded-lg shadow-lg overflow-hidden">
         <div className="p-6">
           <div className="flex justify-between items-start mb-4">
             <h1 className="text-3xl font-bold">{event.title}</h1>
@@ -59,7 +59,7 @@ export default function EventDetailPage() {
                 Invite
               </button>
               <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                event.status === 'upcoming' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+                event.status === 'upcoming' ? 'bg-green-100 text-green-800' : 'bg-muted text-foreground'
               }`}>
                 {event.status.toUpperCase()}
               </span>
@@ -68,29 +68,29 @@ export default function EventDetailPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div className="space-y-3">
-              <div className="flex items-center text-gray-600 dark:text-gray-300">
+              <div className="flex items-center text-muted-foreground dark:text-muted-foreground">
                 <Calendar className="w-5 h-5 mr-3" />
                 <div>
                   <p className="font-medium">Starts: {new Date(event.starts_at).toLocaleString()}</p>
                   <p className="text-sm">Ends: {new Date(event.ends_at).toLocaleString()}</p>
                 </div>
               </div>
-              <div className="flex items-center text-gray-600 dark:text-gray-300">
+              <div className="flex items-center text-muted-foreground dark:text-muted-foreground">
                 <MapPin className="w-5 h-5 mr-3" />
                 <span>{event.location_name}</span>
               </div>
-              <div className="flex items-center text-gray-600 dark:text-gray-300">
+              <div className="flex items-center text-muted-foreground dark:text-muted-foreground">
                 <Users className="w-5 h-5 mr-3" />
                 <span>{event.attendees_count} {event.max_attendees ? `/ ${event.max_attendees}` : ''} attending</span>
               </div>
               {event.price && Number(event.price) > 0 && (
-                <div className="flex items-center text-gray-600 dark:text-gray-300">
+                <div className="flex items-center text-muted-foreground dark:text-muted-foreground">
                   <DollarSign className="w-5 h-5 mr-3" />
                   <span>${Number(event.price).toFixed(2)}</span>
                 </div>
               )}
               {event.token_cost && Number(event.token_cost) > 0 && (
-                <div className="flex items-center text-gray-600 dark:text-gray-300">
+                <div className="flex items-center text-muted-foreground dark:text-muted-foreground">
                   <Coins className="w-5 h-5 mr-3 text-purple-500" />
                   <span className="text-purple-600 font-semibold">{Number(event.token_cost)} Tokens</span>
                 </div>
@@ -129,7 +129,7 @@ export default function EventDetailPage() {
               
               <TabsContent value="about" className="pt-6">
                  <div className="prose dark:prose-invert max-w-none">
-                    <p className="text-gray-600 dark:text-gray-300 whitespace-pre-wrap">{event.description}</p>
+                    <p className="text-muted-foreground dark:text-muted-foreground whitespace-pre-wrap">{event.description}</p>
                  </div>
               </TabsContent>
               

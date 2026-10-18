@@ -60,17 +60,17 @@ const studioSurfaces = [
 export default function StudioPage() {
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+      <div className="min-h-screen bg-muted dark:bg-background">
         <AppHeader title="Studio & AI" />
         <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8 space-y-6">
-          <section className="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
+          <section className="rounded-2xl border border-border dark:border-border bg-card p-6 shadow-sm dark:border-gray-800 dark:bg-background">
             <div className="flex items-start gap-3">
               <div className="rounded-2xl bg-violet-100 p-3 text-violet-600 dark:bg-violet-900/30 dark:text-violet-300">
                 <Zap className="h-6 w-6" />
               </div>
               <div>
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Studio & AI</h1>
-                <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                <h1 className="text-3xl font-bold text-foreground dark:text-foreground">Studio & AI</h1>
+                <p className="mt-2 text-sm text-muted-foreground dark:text-muted-foreground">
                   A central hub for the branch’s AI, creative, viral, and playful content-generation surfaces so they are reachable as one intentional product area instead of scattered routes.
                 </p>
               </div>
@@ -82,12 +82,12 @@ export default function StudioPage() {
               const Icon = surface.icon
               return (
                 <Link key={surface.href} href={surface.href} prefetch={false} className="block">
-                  <div className="h-full rounded-2xl border border-gray-200 dark:border-gray-700 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-gray-800 dark:bg-gray-900">
+                  <div className="h-full rounded-2xl border border-border dark:border-border bg-card p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-gray-800 dark:bg-background">
                     <div className={`mb-4 inline-flex rounded-xl bg-gradient-to-br ${surface.accent} p-3 text-white`}>
                       <Icon className="h-5 w-5" />
                     </div>
-                    <h2 className="text-lg font-semibold text-gray-900 dark:text-white">{surface.title}</h2>
-                    <p className="mt-2 text-sm leading-6 text-gray-600 dark:text-gray-300">{surface.description}</p>
+                    <h2 className="text-lg font-semibold text-foreground dark:text-foreground">{surface.title}</h2>
+                    <p className="mt-2 text-sm leading-6 text-muted-foreground dark:text-muted-foreground">{surface.description}</p>
                   </div>
                 </Link>
               )

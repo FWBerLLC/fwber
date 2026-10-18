@@ -16,10 +16,10 @@ export default function Physical() {
             <User className="w-8 h-8 text-purple-500" />
             <Palette className="w-8 h-8 text-pink-500" />
           </div>
-          <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+          <h3 className="text-xl font-bold text-foreground dark:text-foreground">
             Physical Attributes
           </h3>
-          <p className="text-gray-600 dark:text-gray-400 max-w-md mx-auto">
+          <p className="text-muted-foreground dark:text-muted-foreground max-w-md mx-auto">
             Height, body type, ethnicity, hair &amp; eye color, fitness level, clothing style, tattoos, piercings, and more.
           </p>
           <button type="button"

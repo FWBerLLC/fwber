@@ -49,7 +49,7 @@ export default function ReferralBanner() {
       <div className="max-w-7xl mx-auto px-4 py-3 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-white dark:bg-gray-800/20 rounded-full animate-pulse">
+            <div className="p-2 bg-card dark:bg-gray-800/20 rounded-full animate-pulse">
               <Sparkles className="w-5 h-5 text-yellow-300" />
             </div>
             <div className="text-center sm:text-left">
@@ -60,13 +60,13 @@ export default function ReferralBanner() {
           <div className="flex items-center gap-3">
             <Link
               href={`/register?ref=${refCode}`}
-              className="bg-white dark:bg-gray-800 text-purple-600 px-6 py-2 rounded-full font-bold hover:bg-purple-50 transition-all shadow-lg hover:scale-105 whitespace-nowrap"
+              className="bg-card dark:bg-card text-purple-600 px-6 py-2 rounded-full font-bold hover:bg-purple-50 transition-all shadow-lg hover:scale-105 whitespace-nowrap"
             >
               Claim Reward
             </Link>
             <button type="button"
                 onClick={() => setIsVisible(false)}
-                className="p-1 hover:bg-white dark:bg-gray-800/20 rounded-full transition-colors"
+                className="p-1 hover:bg-card dark:bg-gray-800/20 rounded-full transition-colors"
             >
                 <X className="w-5 h-5" />
             </button>

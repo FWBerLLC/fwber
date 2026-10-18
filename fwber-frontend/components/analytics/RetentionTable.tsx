@@ -54,7 +54,7 @@ export function RetentionTable() {
     if (percentage >= 40) return 'bg-green-300 text-black';
     if (percentage >= 20) return 'bg-green-200 text-black';
     if (percentage > 0) return 'bg-green-100 text-black';
-    return 'bg-gray-50 text-gray-400';
+    return 'bg-muted text-muted-foreground';
   };
 
   return (
@@ -70,10 +70,10 @@ export function RetentionTable() {
           <table className="w-full text-sm text-left">
             <thead>
               <tr className="border-b">
-                <th className="py-2 px-2 font-medium text-gray-500 w-32">Cohort</th>
-                <th className="py-2 px-2 font-medium text-gray-500 w-24">Users</th>
+                <th className="py-2 px-2 font-medium text-muted-foreground w-32">Cohort</th>
+                <th className="py-2 px-2 font-medium text-muted-foreground w-24">Users</th>
                 {Array.from({ length: maxMonths }).map((_, i) => (
-                  <th key={i} className="py-2 px-2 font-medium text-gray-500 text-center w-16">
+                  <th key={i} className="py-2 px-2 font-medium text-muted-foreground text-center w-16">
                     {i === 0 ? 'Month 0' : `+${i}`}
                   </th>
                 ))}
@@ -81,9 +81,9 @@ export function RetentionTable() {
             </thead>
             <tbody>
               {cohorts.map((cohort) => (
-                <tr key={cohort.month} className="border-b last:border-0 hover:bg-gray-50 dark:bg-gray-900/50">
+                <tr key={cohort.month} className="border-b last:border-0 hover:bg-muted dark:bg-gray-900/50">
                   <td className="py-2 px-2 font-medium">{cohort.month}</td>
-                  <td className="py-2 px-2 text-gray-500">{cohort.size}</td>
+                  <td className="py-2 px-2 text-muted-foreground">{cohort.size}</td>
                   {Array.from({ length: maxMonths }).map((_, i) => {
                     const retentionData = cohort.retention.find((r) => r.month_offset === i);
                     
@@ -106,7 +106,7 @@ export function RetentionTable() {
               ))}
               {cohorts.length === 0 && (
                 <tr>
-                  <td colSpan={maxMonths + 2} className="py-8 text-center text-gray-500">
+                  <td colSpan={maxMonths + 2} className="py-8 text-center text-muted-foreground">
                     No retention data available yet.
                   </td>
                 </tr>

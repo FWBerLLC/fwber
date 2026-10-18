@@ -68,13 +68,13 @@ export default function NotificationsPage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+      <div className="min-h-screen bg-muted dark:bg-background">
         <AppHeader title="Notifications" />
         <main className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
-          <div className="mb-8 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
+          <div className="mb-8 rounded-2xl border border-border dark:border-border bg-card p-6 shadow-sm dark:border-gray-800 dark:bg-background">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Notifications</h1>
+                <h1 className="text-3xl font-bold text-foreground dark:text-foreground">Notifications</h1>
               </div>
               <button type="button"
                 onClick={markAllAsRead}
@@ -86,12 +86,12 @@ export default function NotificationsPage() {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900">
+          <div className="rounded-2xl border border-border dark:border-border bg-card shadow-sm dark:border-gray-800 dark:bg-background">
             {isLoading ? (
-              <div className="p-8 text-sm text-gray-500">Loading notifications…</div>
+              <div className="p-8 text-sm text-muted-foreground">Loading notifications…</div>
             ) : notifications.length === 0 ? (
-              <div className="p-8 text-center text-sm text-gray-500">
-                <Bell className="mx-auto mb-3 h-8 w-8 text-gray-300" />
+              <div className="p-8 text-center text-sm text-muted-foreground">
+                <Bell className="mx-auto mb-3 h-8 w-8 text-muted-foreground" />
                 No notifications yet.
               </div>
             ) : (
@@ -105,19 +105,19 @@ export default function NotificationsPage() {
                         void markAsRead(notification.id)
                       }
                     }}
-                    className={`block p-4 transition hover:bg-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800/50 ${notification.read ? '' : 'bg-blue-50/70 dark:bg-blue-950/20'}`}
+                    className={`block p-4 transition hover:bg-muted dark:bg-background dark:hover:bg-gray-800/50 ${notification.read ? '' : 'bg-blue-50/70 dark:bg-blue-950/20'}`}
                   >
                     <div className="flex items-start gap-3">
-                      <div className="mt-1 rounded-full bg-gray-100 p-2 dark:bg-gray-800">
+                      <div className="mt-1 rounded-full bg-muted p-2 dark:bg-card">
                         {getIcon(notification.type)}
                       </div>
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-2">
-                          <h2 className="font-medium text-gray-900 dark:text-white">{notification.title}</h2>
+                          <h2 className="font-medium text-foreground dark:text-foreground">{notification.title}</h2>
                           {!notification.read ? <span className="rounded-full bg-blue-600 px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.18em] text-white">New</span> : null}
                         </div>
-                        <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">{notification.body}</p>
-                        <p className="mt-2 text-xs text-gray-500">{new Date(notification.timestamp).toLocaleString()}</p>
+                        <p className="mt-1 text-sm text-muted-foreground dark:text-muted-foreground">{notification.body}</p>
+                        <p className="mt-2 text-xs text-muted-foreground">{new Date(notification.timestamp).toLocaleString()}</p>
                       </div>
                     </div>
                   </Link>

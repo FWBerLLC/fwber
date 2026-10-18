@@ -137,16 +137,16 @@ const ArtifactCard = ({
         <div className="flex flex-col items-center justify-start space-y-1 w-8 flex-shrink-0">
           <button type="button"
             onClick={() => onVote(artifact.id, userVote === 1 ? 0 : 1)}
-            className={`p-1 rounded hover:bg-black/5 transition-colors ${userVote === 1 ? 'text-orange-600' : 'text-gray-500'}`}
+            className={`p-1 rounded hover:bg-black/5 transition-colors ${userVote === 1 ? 'text-orange-600' : 'text-muted-foreground'}`}
           >
             <ChevronUp className="w-6 h-6" />
           </button>
-          <span className={`font-bold text-sm ${userVote === 1 ? 'text-orange-600' : userVote === -1 ? 'text-blue-600' : 'text-gray-700 dark:text-gray-300'}`}>
+          <span className={`font-bold text-sm ${userVote === 1 ? 'text-orange-600' : userVote === -1 ? 'text-blue-600' : 'text-foreground dark:text-muted-foreground'}`}>
             {score}
           </span>
           <button type="button"
             onClick={() => onVote(artifact.id, userVote === -1 ? 0 : -1)}
-            className={`p-1 rounded hover:bg-black/5 transition-colors ${userVote === -1 ? 'text-blue-600' : 'text-gray-500'}`}
+            className={`p-1 rounded hover:bg-black/5 transition-colors ${userVote === -1 ? 'text-blue-600' : 'text-muted-foreground'}`}
           >
             <ChevronDown className="w-6 h-6" />
           </button>
@@ -172,7 +172,7 @@ const ArtifactCard = ({
           </div>
           <button type="button"
             onClick={() => onFlag(artifact.id)}
-            className="text-gray-400 hover:text-red-600 transition-colors"
+            className="text-muted-foreground hover:text-red-600 transition-colors"
             title="Flag for review"
           >
             <Flag className="h-4 w-4" />
@@ -188,13 +188,13 @@ const ArtifactCard = ({
         <p className="text-sm mb-3 font-medium">{artifact.content}</p>
 
         {artifact.scene_signals && (
-          <div className="mb-3 rounded-xl border border-black/10 bg-white dark:bg-gray-800/50 p-3">
+          <div className="mb-3 rounded-xl border border-black/10 bg-card dark:bg-gray-800/50 p-3">
             <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-purple-700">
               <Tag className="h-3.5 w-3.5" />
               <span>Scene aligned +{Math.round(artifact.scene_signals.score_boost * 100)} pts</span>
             </div>
             {artifact.scene_signals.headline && (
-              <p className="mb-2 text-sm text-gray-700 dark:text-gray-300">{artifact.scene_signals.headline}</p>
+              <p className="mb-2 text-sm text-foreground dark:text-muted-foreground">{artifact.scene_signals.headline}</p>
             )}
             <div className="flex flex-wrap gap-2">
               {(Array.isArray(artifact.scene_signals.matched_topics) ? artifact.scene_signals.matched_topics : []).map((topic) => (
@@ -208,7 +208,7 @@ const ArtifactCard = ({
               {(Array.isArray(artifact.scene_signals.matched_tags) ? artifact.scene_signals.matched_tags : []).map((tag) => (
                 <span
                   key={`scene-tag-${artifact.id}-${tag}`}
-                  className="rounded-full bg-gray-900/5 px-2.5 py-1 text-xs font-medium text-gray-700 dark:text-gray-300"
+                  className="rounded-full bg-gray-900/5 px-2.5 py-1 text-xs font-medium text-foreground dark:text-muted-foreground"
                 >
                   #{tag}
                 </span>
@@ -218,7 +218,7 @@ const ArtifactCard = ({
         )}
 
         {isPromotion && artifact.meta?.promo_code && (
-          <div className="mb-3 bg-white dark:bg-gray-800/50 p-2 rounded border border-amber-200 border-dashed text-center">
+          <div className="mb-3 bg-card dark:bg-gray-800/50 p-2 rounded border border-amber-200 border-dashed text-center">
             <span className="text-xs text-amber-800 block mb-1">PROMO CODE</span>
             <span className="font-mono font-bold text-lg tracking-wider select-all">
               {artifact.meta.promo_code}
@@ -239,17 +239,17 @@ const ArtifactCard = ({
         )}
 
         {artifact.type === 'token_drop' && isClaimed && (
-          <div className="mb-3 text-center text-xs font-bold text-gray-500 bg-gray-100 dark:bg-gray-800 py-2 rounded">
+          <div className="mb-3 text-center text-xs font-bold text-muted-foreground bg-muted dark:bg-card py-2 rounded">
             CLAIMED
           </div>
         )}
 
-        <div className="flex flex-wrap items-center justify-between gap-y-2 text-xs text-gray-600">
+        <div className="flex flex-wrap items-center justify-between gap-y-2 text-xs text-muted-foreground">
           <div className="flex space-x-3">
             {hasVoting && (
               <button type="button"
                 onClick={() => setShowComments(!showComments)}
-                className="flex items-center space-x-1 hover:text-gray-900 dark:text-white transition-colors p-1 rounded hover:bg-black/5"
+                className="flex items-center space-x-1 hover:text-foreground dark:text-foreground transition-colors p-1 rounded hover:bg-black/5"
               >
                 <MessageCircle className="h-3 w-3" />
                 <span className="font-medium">{artifact.comments_count ?? 0} Comments</span>
@@ -297,7 +297,7 @@ const ArtifactCard = ({
                           value={replyText}
                           onChange={(e) => setReplyText(e.target.value)}
                           placeholder="Write a reply..."
-                          className="flex-1 px-2 py-1 text-xs bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded focus:outline-none"
+                          className="flex-1 px-2 py-1 text-xs bg-card dark:bg-card border border-border dark:border-border rounded focus:outline-none"
                           autoFocus
                         />
                         <button
@@ -320,7 +320,7 @@ const ArtifactCard = ({
                 value={commentText}
                 onChange={(e) => setCommentText(e.target.value)}
                 placeholder="Add a comment..."
-                className="flex-1 px-3 py-1.5 text-sm bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
+                className="flex-1 px-3 py-1.5 text-sm bg-card dark:bg-card border border-border dark:border-border rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
                 maxLength={500}
               />
               <button
@@ -347,11 +347,11 @@ const CandidateCard = ({ candidate }: { candidate: MatchCandidate }) => {
       active_locally: { label: 'Active Nearby', color: 'bg-green-100 text-green-800' },
     };
 
-    return indicators.map(indicator => badges[indicator] || { label: indicator, color: 'bg-gray-100 text-gray-800' });
+    return indicators.map(indicator => badges[indicator] || { label: indicator, color: 'bg-muted text-foreground' });
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 hover:shadow-md transition-shadow">
+    <div className="bg-card dark:bg-card rounded-lg border border-border dark:border-border p-4 hover:shadow-md transition-shadow">
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-3">
           <EvolvingAvatar
@@ -368,10 +368,10 @@ const CandidateCard = ({ candidate }: { candidate: MatchCandidate }) => {
           <div>
             <div className="flex items-center space-x-2 mb-1">
               <span className="text-lg font-semibold">{candidate.age}</span>
-              <span className="text-gray-500">•</span>
-              <span className="text-sm text-gray-600 capitalize">{candidate.gender}</span>
+              <span className="text-muted-foreground">•</span>
+              <span className="text-sm text-muted-foreground capitalize">{candidate.gender}</span>
             </div>
-            <div className="flex items-center space-x-1 text-sm text-gray-500">
+            <div className="flex items-center space-x-1 text-sm text-muted-foreground">
               <MapPin className="h-3 w-3" />
               <span>{candidate.distance_miles.toFixed(1)} miles away</span>
             </div>
@@ -405,7 +405,7 @@ const CandidateCard = ({ candidate }: { candidate: MatchCandidate }) => {
       )}
 
       {candidate.last_seen && (
-        <div className="mt-2 text-xs text-gray-500">
+        <div className="mt-2 text-xs text-muted-foreground">
           Last seen {candidate.last_seen}
         </div>
       )}
@@ -582,9 +582,9 @@ export default function LocalPulse({ initialTopicSlug, compact = false }: LocalP
   if (!token) {
     return (
       <div className="text-center py-12">
-        <AlertCircle className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-        <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Authentication Required</h3>
-        <p className="text-gray-600">Please log in to view Local Pulse</p>
+        <AlertCircle className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+        <h3 className="text-lg font-medium text-foreground dark:text-foreground mb-2">Authentication Required</h3>
+        <p className="text-muted-foreground">Please log in to view Local Pulse</p>
       </div>
     );
   }
@@ -599,8 +599,8 @@ export default function LocalPulse({ initialTopicSlug, compact = false }: LocalP
             <div className="flex items-center space-x-3">
               <Sparkles className="h-8 w-8 text-purple-600" />
               <div>
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Local Pulse</h1>
-                <p className="text-gray-600">
+                <h1 className="text-3xl font-bold text-foreground dark:text-foreground">Local Pulse</h1>
+                <p className="text-muted-foreground">
                   {selectedTopic ? `Discover nearby people and conversations around ${selectedTopic.label}.` : 'Discover nearby people and conversations'}
                 </p>
               </div>
@@ -627,15 +627,15 @@ export default function LocalPulse({ initialTopicSlug, compact = false }: LocalP
         </div>
 
         {/* Radius Selector */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border p-4">
+        <div className="bg-card dark:bg-card rounded-lg shadow-sm border p-4">
           <div className={`grid gap-4 ${compact ? 'md:grid-cols-1' : 'md:grid-cols-2'}`}>
             <label htmlFor="radius-select" className="block">
-              <span className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Search Radius</span>
+              <span className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-2">Search Radius</span>
               <select
                 id="radius-select"
                 value={radius}
                 onChange={(e) => setRadius(Number(e.target.value))}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-border dark:border-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value={500}>500m (~0.3 miles)</option>
                 <option value={1000}>1km (~0.6 miles)</option>
@@ -644,11 +644,11 @@ export default function LocalPulse({ initialTopicSlug, compact = false }: LocalP
               </select>
             </label>
             <label className="block">
-              <span className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Topic Filter</span>
+              <span className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-2">Topic Filter</span>
               <select
                 value={selectedTopicSlug}
                 onChange={(e) => setSelectedTopicSlug(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-border dark:border-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="">All scenes</option>
                 {topics.map((topic) => (
@@ -689,12 +689,12 @@ export default function LocalPulse({ initialTopicSlug, compact = false }: LocalP
 
       {/* Create Artifact Form */}
       {showCreateForm && (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border p-6 mb-6">
+        <div className="bg-card dark:bg-card rounded-lg shadow-sm border p-6 mb-6">
           <h3 className="text-lg font-semibold mb-4">Create Proximity Post</h3>
 
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Type</label>
+              <label className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-2">Type</label>
               <div className="grid grid-cols-4 gap-2">
                 {(['chat', 'board_post', 'announce', 'token_drop'] as const).map((type) => (
                   <button type="button"
@@ -702,7 +702,7 @@ export default function LocalPulse({ initialTopicSlug, compact = false }: LocalP
                     onClick={() => setNewArtifact({ ...newArtifact, type })}
                     className={`p-3 rounded-lg border-2 transition-colors flex flex-col items-center justify-center ${newArtifact.type === type
                       ? 'border-blue-600 bg-blue-50'
-                      : 'border-gray-200 hover:border-gray-300'
+                      : 'border-border hover:border-border'
                       }`}
                   >
                     <ArtifactTypeIcon type={type} />
@@ -714,39 +714,39 @@ export default function LocalPulse({ initialTopicSlug, compact = false }: LocalP
 
             {newArtifact.type === 'token_drop' && (
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Amount (FWB)</label>
+                <label className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-2">Amount (FWB)</label>
                 <input
                   type="number"
                   min="1"
                   value={dropAmount}
                   onChange={(e) => setDropAmount(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-border dark:border-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="How many tokens to drop?"
                 />
               </div>
             )}
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Content</label>
+              <label className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-2">Content</label>
               <textarea
                 value={newArtifact.content}
                 onChange={(e) => setNewArtifact({ ...newArtifact, content: e.target.value })}
                 rows={3}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-border dark:border-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder={newArtifact.type === 'token_drop' ? "Message for the finder..." : "What's happening nearby?"}
                 maxLength={500}
               />
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-muted-foreground mt-1">
                 {newArtifact.content.length}/500 characters
               </p>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Attach to topic</label>
+              <label className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-2">Attach to topic</label>
               <select
                 value={selectedTopicSlug}
                 onChange={(e) => setSelectedTopicSlug(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-border dark:border-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="">No topic</option>
                 {topics.map((topic) => (
@@ -760,7 +760,7 @@ export default function LocalPulse({ initialTopicSlug, compact = false }: LocalP
             <div className="flex space-x-3">
               <button type="button"
                 onClick={() => setShowCreateForm(false)}
-                className="flex-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-lg hover:bg-gray-200"
+                className="flex-1 bg-muted dark:bg-card text-foreground dark:text-muted-foreground px-4 py-2 rounded-lg hover:bg-muted"
               >
                 Cancel
               </button>
@@ -780,7 +780,7 @@ export default function LocalPulse({ initialTopicSlug, compact = false }: LocalP
       {isLoading && (
         <div className="text-center py-12">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="text-gray-600 mt-4">Loading Local Pulse...</p>
+          <p className="text-muted-foreground mt-4">Loading Local Pulse...</p>
         </div>
       )}
 
@@ -801,7 +801,7 @@ export default function LocalPulse({ initialTopicSlug, compact = false }: LocalP
             <div className="mb-6 space-y-3">
               <div className="flex items-center space-x-2 mb-2">
                 <Target className="h-5 w-5 text-indigo-600" />
-                <h3 className="font-semibold text-gray-900 dark:text-white">Active Neighborhood Quests</h3>
+                <h3 className="font-semibold text-foreground dark:text-foreground">Active Neighborhood Quests</h3>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {activeQuests.map((quest: any) => {
@@ -847,11 +847,11 @@ export default function LocalPulse({ initialTopicSlug, compact = false }: LocalP
           {/* Proximity Artifacts (2 columns on large screens) */}
           <div className={`${compact ? '' : 'lg:col-span-2'} space-y-4`}>
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center space-x-2">
+              <h2 className="text-xl font-semibold text-foreground dark:text-foreground flex items-center space-x-2">
                 <MessageCircle className="h-6 w-6" />
                 <span>{selectedTopic ? `${selectedTopic.label} Activity` : 'Nearby Activity'}</span>
                 {localPulse?.meta && (
-                  <span className="text-sm font-normal text-gray-500">
+                  <span className="text-sm font-normal text-muted-foreground">
                     ({localPulse.meta.artifacts_count || 0})
                   </span>
                 )}
@@ -865,10 +865,10 @@ export default function LocalPulse({ initialTopicSlug, compact = false }: LocalP
             )}
 
             {localPulse.artifacts.length === 0 ? (
-              <div className="text-center py-12 bg-gray-50 dark:bg-gray-900 rounded-lg">
-                <MessageCircle className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">No nearby activity</h3>
-                <p className="text-gray-600 mb-4">
+              <div className="text-center py-12 bg-muted dark:bg-background rounded-lg">
+                <MessageCircle className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                <h3 className="text-lg font-medium text-foreground dark:text-foreground mb-2">No nearby activity</h3>
+                <p className="text-muted-foreground mb-4">
                   Be the first to post something in your area!
                 </p>
                 <button type="button"
@@ -897,19 +897,19 @@ export default function LocalPulse({ initialTopicSlug, compact = false }: LocalP
           {/* Match Candidates (1 column on large screens) */}
           {!compact && <div className="space-y-4">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center space-x-2">
+              <h2 className="text-xl font-semibold text-foreground dark:text-foreground flex items-center space-x-2">
                 <Users className="h-6 w-6" />
                 <span>Nearby Matches</span>
-                <span className="text-sm font-normal text-gray-500">
+                <span className="text-sm font-normal text-muted-foreground">
                   ({localPulse.meta.candidates_count})
                 </span>
               </h2>
             </div>
 
             {localPulse.candidates.length === 0 ? (
-              <div className="text-center py-8 bg-gray-50 dark:bg-gray-900 rounded-lg">
-                <Users className="h-10 w-10 text-gray-400 mx-auto mb-3" />
-                <p className="text-sm text-gray-600">
+              <div className="text-center py-8 bg-muted dark:bg-background rounded-lg">
+                <Users className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
+                <p className="text-sm text-muted-foreground">
                   No compatible matches nearby
                 </p>
               </div>
@@ -939,25 +939,25 @@ export default function LocalPulse({ initialTopicSlug, compact = false }: LocalP
 
       {/* Meta Info */}
       {localPulse && localPulse.meta && (
-        <div className="mt-8 bg-gray-50 dark:bg-gray-900 rounded-lg p-4">
+        <div className="mt-8 bg-muted dark:bg-background rounded-lg p-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center text-sm">
             <div>
-              <div className="font-semibold text-gray-900 dark:text-white">{localPulse.meta.artifacts_count || 0}</div>
-              <div className="text-gray-600">Posts</div>
+              <div className="font-semibold text-foreground dark:text-foreground">{localPulse.meta.artifacts_count || 0}</div>
+              <div className="text-muted-foreground">Posts</div>
             </div>
             <div>
-              <div className="font-semibold text-gray-900 dark:text-white">{localPulse.meta.candidates_count || 0}</div>
-              <div className="text-gray-600">Matches</div>
+              <div className="font-semibold text-foreground dark:text-foreground">{localPulse.meta.candidates_count || 0}</div>
+              <div className="text-muted-foreground">Matches</div>
             </div>
             <div>
-              <div className="font-semibold text-gray-900 dark:text-white">{(radius / 1000).toFixed(1)}km</div>
-              <div className="text-gray-600">Radius</div>
+              <div className="font-semibold text-foreground dark:text-foreground">{(radius / 1000).toFixed(1)}km</div>
+              <div className="text-muted-foreground">Radius</div>
             </div>
             <div>
-              <div className="font-semibold text-gray-900 dark:text-white">
+              <div className="font-semibold text-foreground dark:text-foreground">
                 {location.latitude?.toFixed(3)}, {location.longitude?.toFixed(3)}
               </div>
-              <div className="text-gray-600">Location</div>
+              <div className="text-muted-foreground">Location</div>
             </div>
           </div>
         </div>
@@ -976,7 +976,7 @@ function LiveStatusBanner() {
     );
   }
   return (
-    <div className="mb-4 flex items-center space-x-2 text-sm text-gray-600">
+    <div className="mb-4 flex items-center space-x-2 text-sm text-muted-foreground">
       <span className={`inline-block h-2 w-2 rounded-full ${isConnected ? 'bg-green-500' : 'bg-gray-400'}`} />
       <span>{isConnected ? 'Live updates on' : 'Live updates connecting...'}</span>
     </div>

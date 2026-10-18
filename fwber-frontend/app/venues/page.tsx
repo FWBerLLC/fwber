@@ -106,7 +106,7 @@ export default function VenuesPage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-8">
+      <div className="min-h-screen bg-muted dark:bg-background p-8">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-3xl font-bold mb-8">Venues Nearby</h1>
 
@@ -137,15 +137,15 @@ export default function VenuesPage() {
 
           <div className="grid gap-6 md:grid-cols-2">
             {venues.map(venue => (
-              <div key={venue.id} className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+              <div key={venue.id} className="bg-card dark:bg-card rounded-lg shadow-md p-6">
                 <div className="flex justify-between items-start mb-4">
                   <div>
                     <h2 className="text-xl font-semibold">{venue.name}</h2>
-                    <p className="text-gray-600 flex items-center mt-1">
+                    <p className="text-muted-foreground flex items-center mt-1">
                       <MapPin className="h-4 w-4 mr-1" /> {venue.city}, {venue.state}
                     </p>
                     {(venue.distance_meters ?? venue.distance) && (
-                       <p className="text-xs text-gray-500 mt-1">
+                       <p className="text-xs text-muted-foreground mt-1">
                           {Math.round(((venue.distance_meters ?? venue.distance ?? 0) / 100)) / 10} km away
                         </p>
                      )}
@@ -178,11 +178,11 @@ export default function VenuesPage() {
                     </button>
                   )}
                 </div>
-                <p className="text-gray-700 dark:text-gray-300 mb-4">{venue.description}</p>
+                <p className="text-foreground dark:text-muted-foreground mb-4">{venue.description}</p>
               </div>
             ))}
             {venues.length === 0 && (
-                <div className="col-span-2 text-center text-gray-500 py-8">
+                <div className="col-span-2 text-center text-muted-foreground py-8">
                     No venues found nearby.
                 </div>
             )}

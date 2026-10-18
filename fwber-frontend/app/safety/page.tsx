@@ -161,7 +161,7 @@ export default function SafetyPage() {
 
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 border-t-8 border-red-500">
+        <div className="min-h-screen bg-muted dark:bg-background border-t-8 border-red-500">
             <AppHeader />
 
             <main className="max-w-3xl mx-auto px-4 py-8">
@@ -170,8 +170,8 @@ export default function SafetyPage() {
                     <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 mb-4">
                         <ShieldCheck className="w-8 h-8" />
                     </div>
-                    <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Safety Center</h1>
-                    <p className="text-gray-500 dark:text-gray-400 mt-2 max-w-lg mx-auto">
+                    <h1 className="text-3xl font-bold text-foreground dark:text-foreground">Safety Center</h1>
+                    <p className="text-muted-foreground dark:text-muted-foreground mt-2 max-w-lg mx-auto">
                         Your safety is our absolute priority. Manage emergency contacts, start tracked walks, and trigger panic alerts.
                     </p>
                 </div>
@@ -226,7 +226,7 @@ export default function SafetyPage() {
                                 <Label htmlFor="destination">Where are you going?</Label>
                                 <div className="flex gap-3">
                                     <div className="relative flex-1">
-                                        <MapPin className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
+                                        <MapPin className="absolute left-3 top-3 w-4 h-4 text-muted-foreground" />
                                         <Input
                                             id="destination"
                                             placeholder="e.g. Home, Nearest Subway Station..."
@@ -262,7 +262,7 @@ export default function SafetyPage() {
                         <CardContent className="space-y-6">
 
                             {/* Add New Contact Form */}
-                            <div className="bg-gray-50 dark:bg-gray-900 dark:bg-gray-800 p-4 rounded-lg flex flex-col sm:flex-row gap-3 items-end border border-gray-200 dark:border-gray-700">
+                            <div className="bg-muted dark:bg-background dark:bg-card p-4 rounded-lg flex flex-col sm:flex-row gap-3 items-end border border-border dark:border-border">
                                 <div className="space-y-1 w-full flex-1">
                                     <Label className="text-xs">Contact Name</Label>
                                     <Input
@@ -289,24 +289,24 @@ export default function SafetyPage() {
                             {/* Contacts List */}
                             <div className="space-y-3">
                                 {isLoadingContacts ? (
-                                    <p className="text-center text-sm text-gray-500 py-4">Loading contacts...</p>
+                                    <p className="text-center text-sm text-muted-foreground py-4">Loading contacts...</p>
                                 ) : contacts.length === 0 ? (
-                                    <div className="text-center p-6 border-2 border-dashed border-gray-200 dark:border-gray-700 dark:border-gray-800 rounded-lg">
-                                        <p className="text-gray-500 dark:text-gray-400">No emergency contacts set up yet. Please add one for your safety.</p>
+                                    <div className="text-center p-6 border-2 border-dashed border-border dark:border-border dark:border-gray-800 rounded-lg">
+                                        <p className="text-muted-foreground dark:text-muted-foreground">No emergency contacts set up yet. Please add one for your safety.</p>
                                     </div>
                                 ) : (
                                     contacts.map(contact => (
-                                        <div key={contact.id} className="flex items-center justify-between p-3 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900">
+                                        <div key={contact.id} className="flex items-center justify-between p-3 border border-border dark:border-border rounded-lg bg-card dark:bg-background">
                                             <div>
                                                 <div className="flex items-center gap-2">
-                                                    <p className="font-medium text-gray-900 dark:text-white">{contact.name}</p>
+                                                    <p className="font-medium text-foreground dark:text-foreground">{contact.name}</p>
                                                     {contact.is_primary && (
                                                         <span className="bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">
                                                             Primary
                                                         </span>
                                                     )}
                                                 </div>
-                                                <p className="text-sm text-gray-500 font-mono">{contact.phone}</p>
+                                                <p className="text-sm text-muted-foreground font-mono">{contact.phone}</p>
                                             </div>
                                             <Button variant="ghost" size="icon" className="text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20" onClick={() => handleDeleteContact(contact.id)}>
                                                 <Trash2 className="w-4 h-4" />

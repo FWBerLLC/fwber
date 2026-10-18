@@ -140,7 +140,7 @@ export default function PhysicalProfileEditor() {
   if (isLoading) return <div className="p-4 text-center">Loading physical profile...</div>;
 
   return (
-    <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
+    <div className="bg-card dark:bg-card shadow rounded-lg p-6">
       <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
         <User className="h-6 w-6 text-blue-600" /> Physical Attributes
       </h2>
@@ -155,16 +155,16 @@ export default function PhysicalProfileEditor() {
         {/* Basic Stats */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label htmlFor="height_cm" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Height</label>
+            <label htmlFor="height_cm" className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-1">Height</label>
             <div className="relative rounded-md shadow-sm">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Ruler className="h-4 w-4 text-gray-400" />
+                <Ruler className="h-4 w-4 text-muted-foreground" />
               </div>
               <select
                 id="height_cm"
                 value={profile.height_cm || ''}
                 onChange={(e) => handleChange('height_cm', parseInt(e.target.value) || undefined)}
-                className="focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 sm:text-sm border-gray-300 dark:border-gray-600 rounded-md"
+                className="focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 sm:text-sm border-border dark:border-border rounded-md"
               >
                 <option value="">Select height...</option>
                 {heightOptions.map(opt => (
@@ -175,12 +175,12 @@ export default function PhysicalProfileEditor() {
           </div>
 
           <div>
-            <label htmlFor="body_type" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Body Type</label>
+            <label htmlFor="body_type" className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-1">Body Type</label>
             <select
               id="body_type"
               value={profile.body_type || ''}
               onChange={(e) => handleChange('body_type', e.target.value)}
-              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-border dark:border-border focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
             >
               <option value="">Select...</option>
               <option value="slim">Slim</option>
@@ -196,33 +196,33 @@ export default function PhysicalProfileEditor() {
         {/* Appearance Details */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
-            <label htmlFor="hair_color" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Hair Color</label>
+            <label htmlFor="hair_color" className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-1">Hair Color</label>
             <input
               type="text"
               id="hair_color"
               value={profile.hair_color || ''}
               onChange={(e) => handleChange('hair_color', e.target.value)}
-              className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 dark:border-gray-600 rounded-md"
+              className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-border dark:border-border rounded-md"
             />
           </div>
           <div>
-            <label htmlFor="eye_color" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Eye Color</label>
+            <label htmlFor="eye_color" className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-1">Eye Color</label>
             <input
               type="text"
               id="eye_color"
               value={profile.eye_color || ''}
               onChange={(e) => handleChange('eye_color', e.target.value)}
-              className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 dark:border-gray-600 rounded-md"
+              className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-border dark:border-border rounded-md"
             />
           </div>
           <div>
-            <label htmlFor="skin_tone" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Skin Tone</label>
+            <label htmlFor="skin_tone" className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-1">Skin Tone</label>
             <input
               type="text"
               id="skin_tone"
               value={profile.skin_tone || ''}
               onChange={(e) => handleChange('skin_tone', e.target.value)}
-              className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 dark:border-gray-600 rounded-md"
+              className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-border dark:border-border rounded-md"
             />
           </div>
         </div>
@@ -230,24 +230,24 @@ export default function PhysicalProfileEditor() {
         {/* Features */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label htmlFor="facial_hair" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Facial Hair</label>
+            <label htmlFor="facial_hair" className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-1">Facial Hair</label>
             <input
               type="text"
               id="facial_hair"
               value={profile.facial_hair || ''}
               onChange={(e) => handleChange('facial_hair', e.target.value)}
-              className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 dark:border-gray-600 rounded-md"
+              className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-border dark:border-border rounded-md"
               placeholder="e.g. Beard, Mustache, None"
             />
           </div>
           <div>
-            <label htmlFor="ethnicity" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Ethnicity</label>
+            <label htmlFor="ethnicity" className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-1">Ethnicity</label>
             <input
               type="text"
               id="ethnicity"
               value={profile.ethnicity || ''}
               onChange={(e) => handleChange('ethnicity', e.target.value)}
-              className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 dark:border-gray-600 rounded-md"
+              className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-border dark:border-border rounded-md"
             />
           </div>
         </div>
@@ -260,9 +260,9 @@ export default function PhysicalProfileEditor() {
               type="checkbox"
               checked={profile.tattoos || false}
               onChange={(e) => handleChange('tattoos', e.target.checked)}
-              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded"
+              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-border dark:border-border rounded"
             />
-            <label htmlFor="tattoos" className="ml-2 block text-sm text-gray-900 dark:text-white">Has Tattoos</label>
+            <label htmlFor="tattoos" className="ml-2 block text-sm text-foreground dark:text-foreground">Has Tattoos</label>
           </div>
           <div className="flex items-center">
             <input
@@ -270,23 +270,23 @@ export default function PhysicalProfileEditor() {
               type="checkbox"
               checked={profile.piercings || false}
               onChange={(e) => handleChange('piercings', e.target.checked)}
-              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded"
+              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-border dark:border-border rounded"
             />
-            <label htmlFor="piercings" className="ml-2 block text-sm text-gray-900 dark:text-white">Has Piercings</label>
+            <label htmlFor="piercings" className="ml-2 block text-sm text-foreground dark:text-foreground">Has Piercings</label>
           </div>
         </div>
 
         {/* Lifestyle & Style */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
-            <label htmlFor="fitness_level" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label htmlFor="fitness_level" className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-1">
               <div className="flex items-center gap-1"><Activity className="h-4 w-4" /> Fitness Level</div>
             </label>
             <select
               id="fitness_level"
               value={profile.fitness_level || ''}
               onChange={(e) => handleChange('fitness_level', e.target.value)}
-              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-border dark:border-border focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
             >
               <option value="">Select...</option>
               <option value="low">Low</option>
@@ -296,12 +296,12 @@ export default function PhysicalProfileEditor() {
             </select>
           </div>
           <div>
-            <label htmlFor="dominant_hand" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Dominant Hand</label>
+            <label htmlFor="dominant_hand" className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-1">Dominant Hand</label>
             <select
               id="dominant_hand"
               value={profile.dominant_hand || ''}
               onChange={(e) => handleChange('dominant_hand', e.target.value)}
-              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-border dark:border-border focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
             >
               <option value="">Select...</option>
               <option value="right">Right</option>
@@ -310,7 +310,7 @@ export default function PhysicalProfileEditor() {
             </select>
           </div>
           <div>
-            <label htmlFor="clothing_style" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label htmlFor="clothing_style" className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-1">
               <div className="flex items-center gap-1"><Shirt className="h-4 w-4" /> Clothing Style</div>
             </label>
             <input
@@ -318,7 +318,7 @@ export default function PhysicalProfileEditor() {
               id="clothing_style"
               value={profile.clothing_style || ''}
               onChange={(e) => handleChange('clothing_style', e.target.value)}
-              className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 dark:border-gray-600 rounded-md"
+              className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-border dark:border-border rounded-md"
               placeholder="e.g. Casual, Formal, Streetwear"
             />
           </div>
@@ -326,7 +326,7 @@ export default function PhysicalProfileEditor() {
 
         {/* Avatar Generation Section */}
         <div className="border-t pt-6 mt-6">
-          <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+          <h3 className="text-lg font-medium text-foreground dark:text-foreground mb-4 flex items-center gap-2">
             <Wand2 className="h-5 w-5 text-purple-600" /> AI Avatar Generation
           </h3>
           
@@ -354,12 +354,12 @@ export default function PhysicalProfileEditor() {
 
           <div className="flex items-end gap-4">
             <div className="flex-grow">
-              <label htmlFor="avatar_style" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Art Style</label>
+              <label htmlFor="avatar_style" className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-1">Art Style</label>
               <select
                 id="avatar_style"
                 value={avatarStyle}
                 onChange={(e) => setAvatarStyle(e.target.value)}
-                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm rounded-md"
+                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-border dark:border-border focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm rounded-md"
               >
                 <option value="realistic">Realistic</option>
                 <option value="anime">Anime</option>
@@ -380,7 +380,7 @@ export default function PhysicalProfileEditor() {
                     sexyBoost ? 'bg-pink-500' : 'bg-gray-300'
                     }`}
                 >
-                    <span className={`inline-block h-4 w-4 transform rounded-full bg-white shadow-sm transition-transform ${
+                    <span className={`inline-block h-4 w-4 transform rounded-full bg-card shadow-sm transition-transform ${
                     sexyBoost ? 'translate-x-6' : 'translate-x-1'
                     }`} />
                 </button>
@@ -395,7 +395,7 @@ export default function PhysicalProfileEditor() {
             </button>
           </div>
           {profile.avatar_status && (
-            <p className="mt-2 text-sm text-gray-500">Status: <span className="font-medium capitalize">{profile.avatar_status}</span></p>
+            <p className="mt-2 text-sm text-muted-foreground">Status: <span className="font-medium capitalize">{profile.avatar_status}</span></p>
           )}
         </div>
 

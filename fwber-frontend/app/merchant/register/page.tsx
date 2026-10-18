@@ -84,25 +84,25 @@ export default function MerchantRegisterPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-muted dark:bg-background py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-12">
           <div className="inline-flex items-center justify-center p-3 bg-amber-100 dark:bg-amber-900/30 rounded-2xl mb-6 shadow-sm border border-amber-200 dark:border-amber-800">
             <Store className="w-10 h-10 text-amber-600 dark:text-amber-400" />
           </div>
-          <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">
+          <h1 className="text-4xl font-extrabold text-foreground dark:text-foreground tracking-tight">
             Claim Your Local Presence
           </h1>
-          <p className="mt-4 text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+          <p className="mt-4 text-xl text-muted-foreground dark:text-muted-foreground max-w-2xl mx-auto">
             Join the fwber ecosystem to connect directly with the community around you.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           {/* Form Column */}
-          <div className="lg:col-span-7 bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-800 overflow-hidden">
+          <div className="lg:col-span-7 bg-card dark:bg-card rounded-2xl shadow-xl border border-gray-100 dark:border-gray-800 overflow-hidden">
             <div className="p-8 sm:p-10">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Business Details</h2>
+              <h2 className="text-2xl font-bold text-foreground dark:text-foreground mb-6">Business Details</h2>
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                 <div className="space-y-2">
                   <Label htmlFor="business_name" className="text-sm font-semibold">Business Name *</Label>
@@ -144,7 +144,7 @@ export default function MerchantRegisterPage() {
                     className="h-11"
                     {...register('address')} 
                   />
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                  <p className="text-xs text-muted-foreground dark:text-muted-foreground mt-1">
                     This helps local users discover you through proximity search.
                   </p>
                 </div>
@@ -170,7 +170,7 @@ export default function MerchantRegisterPage() {
                       'Create Merchant Profile'
                     )}
                   </Button>
-                  <p className="text-center text-xs text-gray-500 mt-4">
+                  <p className="text-center text-xs text-muted-foreground mt-4">
                     By registering, you agree to our Merchant Terms of Service and Privacy Policy.
                   </p>
                 </div>
@@ -207,28 +207,28 @@ export default function MerchantRegisterPage() {
               </ul>
             </div>
 
-            <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-sm border border-gray-100 dark:border-gray-800">
-              <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-4">What happens next?</h4>
+            <div className="bg-card dark:bg-card rounded-2xl p-8 shadow-sm border border-gray-100 dark:border-gray-800">
+              <h4 className="text-lg font-bold text-foreground dark:text-foreground mb-4">What happens next?</h4>
               <div className="space-y-4">
                 <div className="flex gap-4">
                   <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold flex-shrink-0">1</div>
                   <div>
-                    <p className="font-semibold text-gray-900 dark:text-white">Create Profile</p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Fill out your basic business details.</p>
+                    <p className="font-semibold text-foreground dark:text-foreground">Create Profile</p>
+                    <p className="text-sm text-muted-foreground dark:text-muted-foreground">Fill out your basic business details.</p>
                   </div>
                 </div>
                 <div className="flex gap-4">
                   <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold flex-shrink-0">2</div>
                   <div>
-                    <p className="font-semibold text-gray-900 dark:text-white">Access Dashboard</p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Instantly get access to the Merchant Hub.</p>
+                    <p className="font-semibold text-foreground dark:text-foreground">Access Dashboard</p>
+                    <p className="text-sm text-muted-foreground dark:text-muted-foreground">Instantly get access to the Merchant Hub.</p>
                   </div>
                 </div>
                 <div className="flex gap-4">
                   <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold flex-shrink-0">3</div>
                   <div>
-                    <p className="font-semibold text-gray-900 dark:text-white">Verification Review</p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Keep your profile accurate while your merchant account is reviewed before promotions go live.</p>
+                    <p className="font-semibold text-foreground dark:text-foreground">Verification Review</p>
+                    <p className="text-sm text-muted-foreground dark:text-muted-foreground">Keep your profile accurate while your merchant account is reviewed before promotions go live.</p>
                   </div>
                 </div>
               </div>

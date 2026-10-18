@@ -90,7 +90,7 @@ export default function ProfileTabs({
           <button
             type="button"
             onClick={() => scroll('left')}
-            className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors z-10"
+            className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-muted dark:bg-gray-700 hover:bg-muted dark:hover:bg-gray-600 transition-colors z-10"
             aria-label="Scroll tabs left"
           >
             <ChevronLeft className="w-4 h-4" />
@@ -101,13 +101,13 @@ export default function ProfileTabs({
             className="flex-1 overflow-x-auto scrollbar-hide"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
-            <TabsList className="inline-flex w-max bg-gray-100 dark:bg-gray-800 p-1 rounded-lg gap-1">
+            <TabsList className="inline-flex w-max bg-muted dark:bg-card p-1 rounded-lg gap-1">
               {TAB_ITEMS.map(tab => (
                 <TabsTrigger
                   key={tab.value}
                   value={tab.value}
                   data-tab={tab.value}
-                  className="px-4 py-2 text-sm font-medium whitespace-nowrap rounded-md data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-blue-600"
+                  className="px-4 py-2 text-sm font-medium whitespace-nowrap rounded-md data-[state=active]:bg-card data-[state=active]:shadow-sm data-[state=active]:text-blue-600"
                 >
                   {tab.label}
                 </TabsTrigger>
@@ -118,7 +118,7 @@ export default function ProfileTabs({
           <button
             type="button"
             onClick={() => scroll('right')}
-            className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors z-10"
+            className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-muted dark:bg-gray-700 hover:bg-muted dark:hover:bg-gray-600 transition-colors z-10"
             aria-label="Scroll tabs right"
           >
             <ChevronRight className="w-4 h-4" />

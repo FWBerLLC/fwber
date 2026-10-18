@@ -15,7 +15,7 @@ const STATUS_CONFIG: Record<AutoSaveStatus, { label: string; icon: React.Element
   idle: {
     label: 'Changes auto-save',
     icon: Cloud,
-    className: 'text-gray-400 dark:text-gray-500',
+    className: 'text-muted-foreground dark:text-muted-foreground',
   },
   saving: {
     label: 'Saving...',
@@ -69,7 +69,7 @@ export default function AutoSaveIndicator({ status, isDirty, compact }: AutoSave
         ${status === 'saved' ? 'bg-emerald-50 dark:bg-emerald-900/30 scale-105' : ''}
         ${status === 'error' ? 'bg-red-50 dark:bg-red-900/30' : ''}
         ${status === 'idle' && isDirty ? 'bg-amber-50 dark:bg-amber-900/20' : ''}
-        ${status === 'idle' && !isDirty ? 'bg-gray-50 dark:bg-gray-800/50' : ''}
+        ${status === 'idle' && !isDirty ? 'bg-muted dark:bg-gray-800/50' : ''}
         ${config.className}
       `}
     >

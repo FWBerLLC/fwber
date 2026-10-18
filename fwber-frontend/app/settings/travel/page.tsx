@@ -111,7 +111,7 @@ export default function TravelModePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+      <div className="min-h-screen flex items-center justify-center bg-muted dark:bg-background">
         <Loader2 className="w-8 h-8 animate-spin text-purple-600" />
       </div>
     );
@@ -119,28 +119,28 @@ export default function TravelModePage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen bg-muted dark:bg-background py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl mx-auto">
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+          <div className="bg-card dark:bg-card rounded-xl shadow-sm border border-border dark:border-border overflow-hidden">
             {/* Header */}
-            <div className="p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-purple-50 to-white">
+            <div className="p-6 border-b border-border dark:border-border bg-gradient-to-r from-purple-50 to-white">
               <div className="flex items-center gap-3 mb-2">
                 <div className="p-2 bg-purple-100 rounded-lg text-purple-600">
                   <Plane className="w-6 h-6" />
                 </div>
-                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Travel Mode</h1>
+                <h1 className="text-2xl font-bold text-foreground dark:text-foreground">Travel Mode</h1>
               </div>
-              <p className="text-gray-600">
+              <p className="text-muted-foreground">
                 Change your location to match with people in other cities before you arrive.
               </p>
             </div>
 
             <div className="p-6 space-y-8">
               {/* Toggle */}
-              <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
+              <div className="flex items-center justify-between p-4 bg-muted dark:bg-background rounded-lg border border-border dark:border-border">
                 <div>
-                  <h3 className="font-medium text-gray-900 dark:text-white">Enable Travel Mode</h3>
-                  <p className="text-sm text-gray-500">Your profile will be shown in the selected location</p>
+                  <h3 className="font-medium text-foreground dark:text-foreground">Enable Travel Mode</h3>
+                  <p className="text-sm text-muted-foreground">Your profile will be shown in the selected location</p>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input
@@ -149,32 +149,32 @@ export default function TravelModePage() {
                     checked={isTravelMode}
                     onChange={(e) => setIsTravelMode(e.target.checked)}
                   />
-                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white dark:bg-gray-800 after:border-gray-300 dark:border-gray-600 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+                  <div className="w-11 h-6 bg-muted peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-card dark:bg-card after:border-border dark:border-border after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
                 </label>
               </div>
 
               {/* Location Search */}
               <div className={`space-y-4 transition-opacity duration-200 ${!isTravelMode ? 'opacity-50 pointer-events-none' : ''}`}>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                <label className="block text-sm font-medium text-foreground dark:text-muted-foreground">
                   Where are you going?
                 </label>
                 <div className="relative">
                   <div className="flex gap-2">
                     <div className="relative flex-1">
-                      <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+                      <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-5 h-5" />
                       <input
                         type="text"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
                         placeholder="Search for a city (e.g. London, UK)"
-                        className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        className="w-full pl-10 pr-4 py-2 border border-border dark:border-border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                       />
                     </div>
                     <button type="button"
                       onClick={handleSearch}
                       disabled={searching || !searchQuery.trim()}
-                      className="px-4 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 disabled:opacity-50 font-medium flex items-center gap-2"
+                      className="px-4 py-2 bg-muted dark:bg-card text-foreground dark:text-muted-foreground rounded-lg hover:bg-muted disabled:opacity-50 font-medium flex items-center gap-2"
                     >
                       {searching ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
                       Search
@@ -183,15 +183,15 @@ export default function TravelModePage() {
 
                   {/* Search Results */}
                   {searchResults.length > 0 && (
-                    <div className="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                    <div className="absolute z-10 w-full mt-1 bg-card dark:bg-card border border-border dark:border-border rounded-lg shadow-lg max-h-60 overflow-y-auto">
                       {searchResults.map((result) => (
                         <button type="button"
                           key={result.place_id}
                           onClick={() => selectLocation(result)}
                           className="w-full text-left px-4 py-3 hover:bg-purple-50 transition-colors border-b border-gray-100 last:border-0"
                         >
-                          <div className="font-medium text-gray-900 dark:text-white truncate">{result.display_name}</div>
-                          <div className="text-xs text-gray-500 mt-0.5">
+                          <div className="font-medium text-foreground dark:text-foreground truncate">{result.display_name}</div>
+                          <div className="text-xs text-muted-foreground mt-0.5">
                             {parseFloat(result.lat).toFixed(4)}, {parseFloat(result.lon).toFixed(4)}
                           </div>
                         </button>
@@ -231,7 +231,7 @@ export default function TravelModePage() {
               )}
 
               {/* Save Button */}
-              <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
+              <div className="pt-4 border-t border-border dark:border-border">
                 <button type="button"
                   onClick={handleSave}
                   disabled={saving}

@@ -100,7 +100,7 @@ export function ActivityFeed({
       case 'gift':
         return <Gift className="w-4 h-4 text-orange-500" />;
       default:
-        return <Sparkles className="w-4 h-4 text-gray-500" />;
+        return <Sparkles className="w-4 h-4 text-muted-foreground" />;
     }
   };
 
@@ -154,23 +154,23 @@ export function ActivityFeed({
       case 'message':
         return 'bg-blue-50 dark:bg-blue-900/10 border-blue-200 dark:border-blue-800';
       default:
-        return 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700';
+        return 'bg-card dark:bg-card border-border dark:border-border';
     }
   };
 
   if (isLoading) {
     return (
-      <div className={`bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 ${className}`}>
+      <div className={`bg-card dark:bg-card rounded-xl border border-border dark:border-border p-6 ${className}`}>
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Recent Activity</h3>
+          <h3 className="text-lg font-semibold text-foreground dark:text-foreground">Recent Activity</h3>
         </div>
         <div className="space-y-3">
           {[...Array(3)].map((_, i) => (
             <div key={i} className="animate-pulse flex items-center gap-3 p-3">
-              <div className="w-10 h-10 bg-gray-200 dark:bg-gray-700 rounded-full" />
+              <div className="w-10 h-10 bg-muted dark:bg-gray-700 rounded-full" />
               <div className="flex-1 space-y-2">
-                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4" />
-                <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded w-1/2" />
+                <div className="h-4 bg-muted dark:bg-gray-700 rounded w-3/4" />
+                <div className="h-3 bg-muted dark:bg-gray-700 rounded w-1/2" />
               </div>
             </div>
           ))}
@@ -180,10 +180,10 @@ export function ActivityFeed({
   }
 
   return (
-    <div className={`bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden ${className}`}>
+    <div className={`bg-card dark:bg-card rounded-xl border border-border dark:border-border overflow-hidden ${className}`}>
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+      <div className="flex items-center justify-between p-4 border-b border-border dark:border-border">
+        <h3 className="text-lg font-semibold text-foreground dark:text-foreground flex items-center gap-2">
           <Sparkles className="w-5 h-5 text-orange-500" />
           Recent Activity
         </h3>
@@ -191,7 +191,7 @@ export function ActivityFeed({
           <button type="button"
             onClick={() => fetchActivities(true)}
             disabled={isRefreshing}
-            className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 transition-colors disabled:opacity-50"
+            className="p-2 text-muted-foreground hover:text-foreground dark:text-muted-foreground dark:hover:text-muted-foreground rounded-lg hover:bg-muted dark:bg-card dark:hover:bg-gray-700 transition-colors disabled:opacity-50"
             title="Refresh"
           >
             <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
@@ -203,7 +203,7 @@ export function ActivityFeed({
       <div className="divide-y divide-gray-100 dark:divide-gray-700 max-h-96 overflow-y-auto">
         {error ? (
           <div className="text-center py-8">
-            <p className="text-gray-500 dark:text-gray-400 text-sm">{error}</p>
+            <p className="text-muted-foreground dark:text-muted-foreground text-sm">{error}</p>
             <button type="button"
               onClick={() => fetchActivities()}
               className="mt-2 text-blue-600 hover:text-blue-700 text-sm font-medium"
@@ -213,9 +213,9 @@ export function ActivityFeed({
           </div>
         ) : activities.length === 0 ? (
           <div className="text-center py-8">
-            <Sparkles className="mx-auto h-10 w-10 text-gray-300 dark:text-gray-600 mb-2" />
-            <p className="text-gray-500 dark:text-gray-400 text-sm">No recent activity</p>
-            <p className="text-gray-400 dark:text-gray-500 text-xs mt-1">
+            <Sparkles className="mx-auto h-10 w-10 text-muted-foreground dark:text-muted-foreground mb-2" />
+            <p className="text-muted-foreground dark:text-muted-foreground text-sm">No recent activity</p>
+            <p className="text-muted-foreground dark:text-muted-foreground text-xs mt-1">
               Your activity will appear here
             </p>
           </div>
@@ -234,7 +234,7 @@ export function ActivityFeed({
                       ? `/friends`
                       : `/profile/${activity.user.id}`
               }
-              className={`flex items-start gap-3 p-4 hover:bg-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700/50 transition-colors ${getActivityBgStyle(activity.type)} border-l-4`}
+              className={`flex items-start gap-3 p-4 hover:bg-muted dark:bg-background dark:hover:bg-gray-700/50 transition-colors ${getActivityBgStyle(activity.type)} border-l-4`}
             >
               {/* User Avatar with Presence */}
               <div className="relative flex-shrink-0">
@@ -258,7 +258,7 @@ export function ActivityFeed({
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-0.5">
                   {getActivityIcon(activity.type)}
-                  <span className="font-medium text-gray-900 dark:text-white truncate">
+                  <span className="font-medium text-foreground dark:text-foreground truncate">
                     {activity.user?.name || 'Anonymous User'}
                   </span>
                   {activity.user?.id && onlineUserIds.has(String(activity.user.id)) && (
@@ -267,12 +267,12 @@ export function ActivityFeed({
                     </span>
                   )}
                 </div>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
+                <p className="text-sm text-muted-foreground dark:text-muted-foreground">
                   {getActivityDescription(activity)}
                 </p>
                 <div className="flex items-center gap-2 mt-1">
-                  <Clock className="w-3 h-3 text-gray-400" />
-                  <span className="text-xs text-gray-500 dark:text-gray-500">
+                  <Clock className="w-3 h-3 text-muted-foreground" />
+                  <span className="text-xs text-muted-foreground dark:text-muted-foreground">
                     {formatRelativeTime(activity.timestamp)}
                   </span>
                   {activity.matchScore && (
@@ -289,7 +289,7 @@ export function ActivityFeed({
 
       {/* View All Link */}
       {activities.length > 0 && (
-        <div className="p-3 bg-gray-50 dark:bg-gray-900 dark:bg-gray-700/50 border-t border-gray-200 dark:border-gray-700 text-center">
+        <div className="p-3 bg-muted dark:bg-background dark:bg-gray-700/50 border-t border-border dark:border-border text-center">
           <Link 
             href="/activity"
             className="text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400 font-medium"

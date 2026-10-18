@@ -16,7 +16,7 @@ export function ProfileAnalysis() {
           </div>
           <div>
             <h3 className="text-lg font-semibold text-white">AI Profile Review</h3>
-            <p className="text-sm text-gray-400 mt-1">
+            <p className="text-sm text-muted-foreground mt-1">
               Get instant feedback on your profile from our AI Wingman. Find out what&apos;s working and how to get more matches.
             </p>
           </div>
@@ -36,7 +36,7 @@ export function ProfileAnalysis() {
       <Card className="bg-gray-900 border-gray-800">
         <CardContent className="p-8 flex flex-col items-center justify-center space-y-4">
           <Loader2 className="w-8 h-8 text-purple-500 animate-spin" />
-          <p className="text-gray-400 animate-pulse">Analyzing your profile...</p>
+          <p className="text-muted-foreground animate-pulse">Analyzing your profile...</p>
         </CardContent>
       </Card>
     );
@@ -76,7 +76,7 @@ export function ProfileAnalysis() {
             Profile Analysis
           </CardTitle>
           <div className="flex items-center gap-2">
-            <span className="text-sm text-gray-400">Score:</span>
+            <span className="text-sm text-muted-foreground">Score:</span>
             <span className={`text-2xl font-bold ${getScoreColor(data.score)}`}>
               {data.score}/100
             </span>
@@ -92,7 +92,7 @@ export function ProfileAnalysis() {
           </h4>
           <ul className="space-y-2">
             {data.strengths.map((item, i) => (
-              <li key={i} className="text-sm text-gray-300 flex items-start gap-2">
+              <li key={i} className="text-sm text-muted-foreground flex items-start gap-2">
                 <span className="block w-1.5 h-1.5 mt-1.5 rounded-full bg-green-500/50 shrink-0" />
                 {item}
               </li>
@@ -108,7 +108,7 @@ export function ProfileAnalysis() {
           </h4>
           <ul className="space-y-2">
             {data.weaknesses.map((item, i) => (
-              <li key={i} className="text-sm text-gray-300 flex items-start gap-2">
+              <li key={i} className="text-sm text-muted-foreground flex items-start gap-2">
                 <span className="block w-1.5 h-1.5 mt-1.5 rounded-full bg-orange-500/50 shrink-0" />
                 {item}
               </li>
@@ -139,7 +139,7 @@ export function ProfileAnalysis() {
                 variant="ghost" 
                 size="sm" 
                 onClick={() => refetch()}
-                className="text-gray-500 hover:text-white"
+                className="text-muted-foreground hover:text-white"
             >
                 Refresh Analysis
             </Button>

@@ -95,20 +95,20 @@ export default function WalletDashboard() {
     };
 
     return (
-        <div className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md space-y-6">
+        <div className="p-6 bg-card dark:bg-card rounded-lg shadow-md space-y-6">
             <div className="flex justify-between items-center">
                 <h2 className="text-2xl font-bold">Wallet & Crypto</h2>
                 <div className="text-xs px-2 py-1 bg-blue-100 text-blue-800 rounded">Devnet</div>
             </div>
 
-            <div className="flex space-x-1 p-1 bg-gray-100 dark:bg-gray-800 dark:bg-gray-700/50 rounded-lg overflow-x-auto">
+            <div className="flex space-x-1 p-1 bg-muted dark:bg-card dark:bg-gray-700/50 rounded-lg overflow-x-auto">
                 {(['wallet', 'requests', 'merchant', 'bridge'] as const).map(tab => (
                     <button type="button"
                         key={tab}
                         onClick={() => setActiveTab(tab)}
                         className={`flex-1 py-2 px-4 text-sm font-medium rounded-md transition-all whitespace-nowrap capitalize ${activeTab === tab
-                            ? 'bg-white dark:bg-gray-700 shadow text-gray-900 dark:text-white'
-                            : 'text-gray-500 hover:text-gray-700 dark:text-gray-400'
+                            ? 'bg-card dark:bg-gray-700 shadow text-foreground dark:text-foreground'
+                            : 'text-muted-foreground hover:text-foreground dark:text-muted-foreground'
                             }`}
                     >
                         {tab}
@@ -140,7 +140,7 @@ export default function WalletDashboard() {
                                 <p className="text-3xl font-bold text-purple-600 dark:text-purple-400">
                                     {internalWallet?.balance || '0.00'} FWB
                                 </p>
-                                <p className="text-xs text-gray-500 mt-1">Use for instant tips and boosts.</p>
+                                <p className="text-xs text-muted-foreground mt-1">Use for instant tips and boosts.</p>
                             </div>
                             <div className="flex gap-2">
                                 <button type="button"
@@ -168,7 +168,7 @@ export default function WalletDashboard() {
 
                     {publicKey ? (
                         <div className="grid md:grid-cols-2 gap-4">
-                            <div className="p-4 border rounded-xl space-y-4 dark:border-gray-700 bg-white dark:bg-gray-800">
+                            <div className="p-4 border rounded-xl space-y-4 dark:border-border bg-card dark:bg-card">
                                 <div className="flex items-center gap-2 text-red-600 dark:text-red-400 font-medium">
                                     <ArrowUpCircle className="w-5 h-5" /> Withdraw
                                 </div>
@@ -177,7 +177,7 @@ export default function WalletDashboard() {
                                         type="number"
                                         value={withdrawAmount}
                                         onChange={e => setWithdrawAmount(e.target.value)}
-                                        className="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600"
+                                        className="w-full p-2 border rounded dark:bg-gray-700 dark:border-border"
                                         placeholder="Amount (FWB)"
                                     />
                                     <button type="button"
@@ -189,10 +189,10 @@ export default function WalletDashboard() {
                                         Withdraw to Wallet
                                     </button>
                                 </div>
-                                <p className="text-xs text-gray-500">To: {publicKey.toBase58().slice(0, 4)}...{publicKey.toBase58().slice(-4)}</p>
+                                <p className="text-xs text-muted-foreground">To: {publicKey.toBase58().slice(0, 4)}...{publicKey.toBase58().slice(-4)}</p>
                             </div>
 
-                            <div className="p-4 border rounded-xl space-y-4 dark:border-gray-700 bg-white dark:bg-gray-800">
+                            <div className="p-4 border rounded-xl space-y-4 dark:border-border bg-card dark:bg-card">
                                 <div className="flex items-center gap-2 text-green-600 dark:text-green-400 font-medium">
                                     <ArrowDownCircle className="w-5 h-5" /> Deposit
                                 </div>
@@ -201,7 +201,7 @@ export default function WalletDashboard() {
                                         type="number"
                                         value={depositAmount}
                                         onChange={e => setDepositAmount(e.target.value)}
-                                        className="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600"
+                                        className="w-full p-2 border rounded dark:bg-gray-700 dark:border-border"
                                         placeholder="Amount (FWB)"
                                     />
                                     <button type="button"
@@ -214,13 +214,13 @@ export default function WalletDashboard() {
                                     </button>
                                 </div>
                                 <div className="flex justify-center">
-                                    <QRCodeSVG value={internalWallet?.treasury_address || ''} size={64} className="p-1 bg-white dark:bg-gray-800 rounded border" />
+                                    <QRCodeSVG value={internalWallet?.treasury_address || ''} size={64} className="p-1 bg-card dark:bg-card rounded border" />
                                 </div>
                             </div>
                         </div>
                     ) : (
-                        <div className="p-4 bg-gray-50 dark:bg-gray-900 rounded-xl text-center">
-                            <p className="text-sm text-gray-500 mb-2">Connect your wallet to deposit or withdraw tokens.</p>
+                        <div className="p-4 bg-muted dark:bg-background rounded-xl text-center">
+                            <p className="text-sm text-muted-foreground mb-2">Connect your wallet to deposit or withdraw tokens.</p>
                         </div>
                     )}
 
@@ -236,13 +236,13 @@ export default function WalletDashboard() {
                         <div className="space-y-2">
                             {internalWallet?.transactions?.length ? (
                                 internalWallet.transactions.map((tx: any) => (
-                                    <div key={tx.id} className="flex justify-between items-center p-3 border rounded dark:border-gray-700 text-sm bg-gray-50 dark:bg-gray-900/50">
+                                    <div key={tx.id} className="flex justify-between items-center p-3 border rounded dark:border-border text-sm bg-muted dark:bg-gray-900/50">
                                         <div>
                                             <p className="font-medium">{tx.description}</p>
                                             {tx.metadata?.message && (
-                                                <p className="text-xs text-gray-500 italic">&quot;{tx.metadata.message}&quot;</p>
+                                                <p className="text-xs text-muted-foreground italic">&quot;{tx.metadata.message}&quot;</p>
                                             )}
-                                            <p className="text-gray-500 text-xs">{new Date(tx.created_at).toLocaleDateString()}</p>
+                                            <p className="text-muted-foreground text-xs">{new Date(tx.created_at).toLocaleDateString()}</p>
                                         </div>
                                         <span className={`font-bold ${parseFloat(tx.amount) > 0 ? 'text-green-600' : 'text-red-600'}`}>
                                             {parseFloat(tx.amount) > 0 ? '+' : ''}{tx.amount} FWB
@@ -250,7 +250,7 @@ export default function WalletDashboard() {
                                     </div>
                                 ))
                             ) : (
-                                <p className="text-gray-500 text-sm">No transactions yet.</p>
+                                <p className="text-muted-foreground text-sm">No transactions yet.</p>
                             )}
                         </div>
                     </div>
@@ -276,23 +276,23 @@ export default function WalletDashboard() {
                             <Key className="w-5 h-5" />
                             Merchant API
                         </h3>
-                        <p className="text-gray-300 text-sm mb-4">
+                        <p className="text-muted-foreground text-sm mb-4">
                             Accept FWB tokens on your website or app. Generate a secret key to use the fwber Merchant API.
                         </p>
 
                         {!merchantKeys ? (
                             <button type="button"
                                 onClick={generateMerchantKeys}
-                                className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white px-4 py-2 rounded-lg font-bold hover:bg-gray-100 transition-colors"
+                                className="bg-card dark:bg-card text-foreground dark:text-foreground px-4 py-2 rounded-lg font-bold hover:bg-muted transition-colors"
                             >
                                 Generate API Keys
                             </button>
                         ) : (
                             <div className="bg-black/30 p-4 rounded-lg space-y-2">
-                                <p className="text-xs text-gray-400 uppercase font-bold">Secret Key (Keep Safe)</p>
+                                <p className="text-xs text-muted-foreground uppercase font-bold">Secret Key (Keep Safe)</p>
                                 <div className="flex items-center gap-2">
                                     <code className="font-mono text-green-400 break-all">{merchantKeys.merchant_secret}</code>
-                                    <button type="button" onClick={() => navigator.clipboard.writeText(merchantKeys.merchant_secret)} className="text-gray-400 hover:text-white">
+                                    <button type="button" onClick={() => navigator.clipboard.writeText(merchantKeys.merchant_secret)} className="text-muted-foreground hover:text-white">
                                         <Copy className="w-4 h-4" />
                                     </button>
                                 </div>
@@ -301,12 +301,12 @@ export default function WalletDashboard() {
                         )}
                     </div>
 
-                    <div className="border dark:border-gray-700 rounded-lg p-4">
+                    <div className="border dark:border-border rounded-lg p-4">
                         <h4 className="font-bold mb-2">Integration Guide</h4>
-                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                        <p className="text-sm text-muted-foreground dark:text-muted-foreground mb-2">
                             1. Create a payment intent via API:
                         </p>
-                        <pre className="bg-gray-100 dark:bg-gray-800 dark:bg-gray-900 p-2 rounded text-xs overflow-x-auto">
+                        <pre className="bg-muted dark:bg-card dark:bg-background p-2 rounded text-xs overflow-x-auto">
                             {`POST /api/merchant/checkout
 Headers: { "X-Merchant-Secret": "sk_..." }
 Body: {
@@ -315,7 +315,7 @@ Body: {
   "redirect_url": "https://yoursite.com/success"
 }`}
                         </pre>
-                        <p className="text-sm text-gray-600 dark:text-gray-400 my-2">
+                        <p className="text-sm text-muted-foreground dark:text-muted-foreground my-2">
                             2. Redirect user to the returned \`checkout_url\`.
                         </p>
                     </div>

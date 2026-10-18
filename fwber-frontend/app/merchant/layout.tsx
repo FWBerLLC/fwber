@@ -36,7 +36,7 @@ export default function MerchantLayout({
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-muted dark:bg-background flex items-center justify-center">
         <Loader2 className="w-8 h-8 animate-spin text-amber-500" />
       </div>
     )
@@ -50,7 +50,7 @@ export default function MerchantLayout({
   const showNav = user?.role === 'merchant' && pathname !== '/merchant/register'
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-muted dark:bg-background">
       <MerchantHeader showNav={showNav} />
       <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         {children}

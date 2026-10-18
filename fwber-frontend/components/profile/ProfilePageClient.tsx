@@ -679,14 +679,14 @@ export default function ProfilePage() {
 	}
 
 	return (
-		<div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 overflow-x-hidden">
+		<div className="min-h-screen bg-muted dark:bg-background py-8 overflow-x-hidden">
 			<div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 min-w-0">
 				{/* Header */}
 				<div className="mb-8">
-					<h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+					<h1 className="text-3xl font-bold text-foreground dark:text-foreground">
 						Complete Your Profile
 					</h1>
-					<p className="mt-2 text-gray-600 dark:text-gray-300">
+					<p className="mt-2 text-muted-foreground dark:text-muted-foreground">
 						Help others get to know you better. Complete your profile to find
 						better matches.
 					</p>
@@ -808,7 +808,7 @@ export default function ProfilePage() {
 				</Card>
 
 				{/* Profile Form */}
-				<div className="bg-white dark:bg-gray-800 shadow rounded-lg mb-24">
+				<div className="bg-card dark:bg-card shadow rounded-lg mb-24">
 					<form onSubmit={handleSubmit} className="p-6 space-y-6">
 						<ProfileTabs
 							activeTab={activeTab}
@@ -849,7 +849,7 @@ export default function ProfilePage() {
 							</p>
 							<a
 								href="/roast"
-								className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-white dark:bg-gray-800 text-orange-900 hover:bg-orange-100 h-10 px-4 py-2 w-full"
+								className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-card dark:bg-card text-orange-900 hover:bg-orange-100 h-10 px-4 py-2 w-full"
 							>
 								Go to Roast Page
 							</a>
@@ -863,7 +863,7 @@ export default function ProfilePage() {
 				</div>
 
 				{/* Sticky Auto-Save Bar */}
-				<div className="fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur border-t border-gray-200 dark:border-gray-700 shadow-lg z-50">
+				<div className="fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur border-t border-border dark:border-border shadow-lg z-50">
 					<div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
 						<div className="flex items-center gap-3">
 							<AutoSaveIndicator
@@ -878,7 +878,7 @@ export default function ProfilePage() {
 							)}
 						</div>
 						<div className="flex items-center gap-4">
-							<span className="text-xs text-gray-400 dark:text-gray-500 hidden sm:block">
+							<span className="text-xs text-muted-foreground dark:text-muted-foreground hidden sm:block">
 								{currentCompleteness.percentage}% complete
 							</span>
 							<button

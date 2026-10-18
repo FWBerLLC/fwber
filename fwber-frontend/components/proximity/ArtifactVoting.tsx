@@ -47,20 +47,20 @@ export default function ArtifactVoting({ artifactId, initialScore, initialUserVo
     };
 
     return (
-        <div className="flex flex-col items-center justify-center bg-gray-50 dark:bg-gray-900 rounded-lg p-1 mr-3 border border-gray-100">
+        <div className="flex flex-col items-center justify-center bg-muted dark:bg-background rounded-lg p-1 mr-3 border border-gray-100">
             <button type="button"
                 onClick={() => handleVote(1)}
                 disabled={isVoting || !token}
                 className={`p-1 rounded transition-colors ${userVote === 1
                         ? 'text-orange-600 bg-orange-100'
-                        : 'text-gray-400 hover:text-orange-500 hover:bg-orange-50'
+                        : 'text-muted-foreground hover:text-orange-500 hover:bg-orange-50'
                     }`}
                 aria-label="Upvote"
             >
                 <ChevronUp className="h-5 w-5 stroke-[2.5]" />
             </button>
 
-            <span className={`text-sm font-bold my-1 ${userVote === 1 ? 'text-orange-600' : userVote === -1 ? 'text-purple-600' : 'text-gray-700 dark:text-gray-300'
+            <span className={`text-sm font-bold my-1 ${userVote === 1 ? 'text-orange-600' : userVote === -1 ? 'text-purple-600' : 'text-foreground dark:text-muted-foreground'
                 }`}>
                 {score}
             </span>
@@ -70,7 +70,7 @@ export default function ArtifactVoting({ artifactId, initialScore, initialUserVo
                 disabled={isVoting || !token}
                 className={`p-1 rounded transition-colors ${userVote === -1
                         ? 'text-purple-600 bg-purple-100'
-                        : 'text-gray-400 hover:text-purple-500 hover:bg-purple-50'
+                        : 'text-muted-foreground hover:text-purple-500 hover:bg-purple-50'
                     }`}
                 aria-label="Downvote"
             >

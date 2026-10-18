@@ -67,7 +67,7 @@ export default function PersonalityStep({ formData, setFormData }: PersonalitySt
               className={`px-3 py-2 text-sm rounded-lg border transition-all ${
                 isSelected
                   ? `${colorClasses[color].active} text-white`
-                  : `bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 ${colorClasses[color].hover}`
+                  : `bg-card dark:bg-card border-border dark:border-border ${colorClasses[color].hover}`
               }`}
             >
               {opt}
@@ -94,7 +94,7 @@ export default function PersonalityStep({ formData, setFormData }: PersonalitySt
             className="w-full min-h-[100px]"
             maxLength={500}
           />
-          <p className="text-xs text-gray-500 text-right">{(formData.bio || '').length}/500</p>
+          <p className="text-xs text-muted-foreground text-right">{(formData.bio || '').length}/500</p>
         </div>
 
         <div className="space-y-2">

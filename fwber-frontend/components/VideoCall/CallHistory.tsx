@@ -18,11 +18,11 @@ export function CallHistory() {
   }, [token]);
 
   if (loading) {
-    return <div className="p-4 text-center text-gray-500">Loading history...</div>;
+    return <div className="p-4 text-center text-muted-foreground">Loading history...</div>;
   }
 
   if (!Array.isArray(history) || history.length === 0) {
-    return <div className="p-4 text-center text-gray-500">No call history yet.</div>;
+    return <div className="p-4 text-center text-muted-foreground">No call history yet.</div>;
   }
 
   return (
@@ -33,7 +33,7 @@ export function CallHistory() {
         const date = new Date(call.started_at || call.created_at); // Fallback to created_at if started_at is null
 
         let Icon = Phone;
-        let color = 'text-gray-500';
+        let color = 'text-muted-foreground';
 
         if (call.status === 'missed') {
           Icon = PhoneMissed;
@@ -47,14 +47,14 @@ export function CallHistory() {
         }
 
         return (
-          <div key={call.id} className="flex items-center justify-between p-3 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-100">
+          <div key={call.id} className="flex items-center justify-between p-3 bg-card dark:bg-card rounded-lg shadow-sm border border-gray-100">
             <div className="flex items-center gap-3">
-              <div className={`p-2 rounded-full bg-gray-50 dark:bg-gray-900 ${color}`}>
+              <div className={`p-2 rounded-full bg-muted dark:bg-background ${color}`}>
                 <Icon className="w-5 h-5" />
               </div>
               <div>
-                <div className="font-medium text-gray-900 dark:text-white">{otherUser?.name || 'Unknown User'}</div>
-                <div className="text-xs text-gray-500 flex items-center gap-1">
+                <div className="font-medium text-foreground dark:text-foreground">{otherUser?.name || 'Unknown User'}</div>
+                <div className="text-xs text-muted-foreground flex items-center gap-1">
                   {date.toLocaleDateString()} {date.toLocaleTimeString()}
                   {call.duration && (
                     <>
@@ -66,7 +66,7 @@ export function CallHistory() {
                 </div>
               </div>
             </div>
-            <div className="text-sm font-medium capitalize text-gray-600">
+            <div className="text-sm font-medium capitalize text-muted-foreground">
               {call.status}
             </div>
           </div>

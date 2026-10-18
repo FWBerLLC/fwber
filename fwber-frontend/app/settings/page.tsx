@@ -43,20 +43,20 @@ interface SettingsLinkProps {
 function SettingsLink({ href, icon, title, description, badge, disabled }: SettingsLinkProps) {
   if (disabled) {
     return (
-      <div className="flex items-center gap-4 p-4 bg-gray-50 dark:bg-gray-900 rounded-lg opacity-50 cursor-not-allowed">
-        <div className="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-lg flex items-center justify-center text-gray-400">
+      <div className="flex items-center gap-4 p-4 bg-muted dark:bg-background rounded-lg opacity-50 cursor-not-allowed">
+        <div className="flex-shrink-0 w-10 h-10 bg-muted rounded-lg flex items-center justify-center text-muted-foreground">
           {icon}
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
-            <h3 className="text-sm font-medium text-gray-500">{title}</h3>
+            <h3 className="text-sm font-medium text-muted-foreground">{title}</h3>
             {badge && (
-              <span className="px-2 py-0.5 text-xs font-medium bg-gray-200 text-gray-500 rounded-full">
+              <span className="px-2 py-0.5 text-xs font-medium bg-muted text-muted-foreground rounded-full">
                 {badge}
               </span>
             )}
           </div>
-          <p className="dark:text-gray-300 text-sm text-gray-400">{description}</p>
+          <p className="dark:text-muted-foreground text-sm text-muted-foreground">{description}</p>
         </div>
       </div>
     );
@@ -66,23 +66,23 @@ function SettingsLink({ href, icon, title, description, badge, disabled }: Setti
     <Link
       href={href}
       prefetch={false}
-      className="flex items-center gap-4 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-purple-300 hover:shadow-sm transition-all group"
+      className="flex items-center gap-4 p-4 bg-card dark:bg-card rounded-lg border border-border dark:border-border hover:border-purple-300 hover:shadow-sm transition-all group"
     >
       <div className="flex-shrink-0 w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 group-hover:bg-purple-200 transition-colors">
         {icon}
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">
-          <h3 className="text-sm font-medium text-gray-900 dark:text-white">{title}</h3>
+          <h3 className="text-sm font-medium text-foreground dark:text-foreground">{title}</h3>
           {badge && (
             <span className="px-2 py-0.5 text-xs font-medium bg-purple-100 text-purple-700 rounded-full">
               {badge}
             </span>
           )}
         </div>
-        <p className="dark:text-gray-300 text-sm text-gray-500">{description}</p>
+        <p className="dark:text-muted-foreground text-sm text-muted-foreground">{description}</p>
       </div>
-      <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-purple-600 transition-colors" />
+      <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-purple-600 transition-colors" />
     </Link>
   );
 }
@@ -99,20 +99,20 @@ interface SettingsToggleProps {
 
 function SettingsToggle({ icon, title, description, checked, onChange, disabled, badge }: SettingsToggleProps) {
   return (
-    <div className="flex items-center gap-4 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-purple-300 hover:shadow-sm transition-all group">
+    <div className="flex items-center gap-4 p-4 bg-card dark:bg-card rounded-lg border border-border dark:border-border hover:border-purple-300 hover:shadow-sm transition-all group">
       <div className="flex-shrink-0 w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 group-hover:bg-purple-200 transition-colors">
         {icon}
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">
-          <h3 className="text-sm font-medium text-gray-900 dark:text-white">{title}</h3>
+          <h3 className="text-sm font-medium text-foreground dark:text-foreground">{title}</h3>
           {badge && (
             <span className="px-2 py-0.5 text-xs font-medium bg-purple-100 text-purple-700 rounded-full">
               {badge}
             </span>
           )}
         </div>
-        <p className="dark:text-gray-300 text-sm text-gray-500">{description}</p>
+        <p className="dark:text-muted-foreground text-sm text-muted-foreground">{description}</p>
       </div>
       <Switch checked={checked} onCheckedChange={onChange} disabled={disabled} />
     </div>
@@ -132,18 +132,18 @@ function SettingsButton({ onClick, icon, title, description, disabled }: Setting
     <button type="button"
       onClick={onClick}
       disabled={disabled}
-      className="w-full flex items-center gap-4 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-purple-300 hover:shadow-sm transition-all group text-left disabled:opacity-50 disabled:cursor-not-allowed"
+      className="w-full flex items-center gap-4 p-4 bg-card dark:bg-card rounded-lg border border-border dark:border-border hover:border-purple-300 hover:shadow-sm transition-all group text-left disabled:opacity-50 disabled:cursor-not-allowed"
     >
       <div className="flex-shrink-0 w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 group-hover:bg-purple-200 transition-colors">
         {icon}
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">
-          <h3 className="text-sm font-medium text-gray-900 dark:text-white">{title}</h3>
+          <h3 className="text-sm font-medium text-foreground dark:text-foreground">{title}</h3>
         </div>
-        <p className="dark:text-gray-300 text-sm text-gray-500">{description}</p>
+        <p className="dark:text-muted-foreground text-sm text-muted-foreground">{description}</p>
       </div>
-      <Download className="w-5 h-5 text-gray-400 group-hover:text-purple-600 transition-colors" />
+      <Download className="w-5 h-5 text-muted-foreground group-hover:text-purple-600 transition-colors" />
     </button>
   );
 }
@@ -260,21 +260,21 @@ export default function SettingsPage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+      <div className="min-h-screen bg-muted dark:bg-background">
         {/* Header */}
-        <header className="bg-white dark:bg-gray-900 shadow-sm">
+        <header className="bg-card dark:bg-background shadow-sm">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-3">
-                <Settings className="h-8 w-8 text-gray-600" />
+                <Settings className="h-8 w-8 text-muted-foreground" />
                 <div>
-                  <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Settings</h1>
-                  <p className="dark:text-gray-300 text-sm text-gray-500">Manage your account and preferences</p>
+                  <h1 className="text-2xl font-bold text-foreground dark:text-foreground">Settings</h1>
+                  <p className="dark:text-muted-foreground text-sm text-muted-foreground">Manage your account and preferences</p>
                 </div>
               </div>
               <Link
                 href="/dashboard"
-                className="inline-flex items-center gap-2 rounded-full border border-gray-200 dark:border-gray-700 px-3 py-2 text-sm font-medium text-gray-600 transition-colors hover:border-purple-300 hover:text-purple-600"
+                className="inline-flex items-center gap-2 rounded-full border border-border dark:border-border px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:border-purple-300 hover:text-purple-600"
               >
                 <ArrowLeft className="h-4 w-4" />
                 <div>
@@ -291,7 +291,7 @@ export default function SettingsPage() {
           {verifiedMessage && (
             <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center gap-3">
               <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-              <p className="dark:text-gray-300 text-sm font-medium text-green-800">{verifiedMessage}</p>
+              <p className="dark:text-muted-foreground text-sm font-medium text-green-800">{verifiedMessage}</p>
               <button type="button" onClick={() => setVerifiedMessage(null)} className="ml-auto text-green-600 hover:text-green-800">✕</button>
             </div>
           )}
@@ -320,7 +320,7 @@ export default function SettingsPage() {
           )}
 
           <section className="mb-8">
-            <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">
+            <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4">
               Account
             </h2>
             <div className="space-y-3">
@@ -360,7 +360,7 @@ export default function SettingsPage() {
 
           {/* Subscription Section */}
           <section className="mb-8">
-            <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">
+            <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4">
               Subscription & Billing
             </h2>
             <div className="space-y-3">
@@ -375,7 +375,7 @@ export default function SettingsPage() {
 
           {/* Privacy & Security Section */}
           <section className="mb-8">
-            <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">
+            <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4">
               Privacy & Security
             </h2>
             <div className="space-y-3">
@@ -442,7 +442,7 @@ export default function SettingsPage() {
 
           {/* Notifications Section */}
           <section className="mb-8">
-            <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">
+            <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4">
               Notifications
             </h2>
             <div className="space-y-3">
@@ -457,23 +457,23 @@ export default function SettingsPage() {
 
           {/* Appearance Section */}
           <section className="mb-8">
-            <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">
+            <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4">
               Appearance
             </h2>
             <div className="space-y-3">
-              <div className="flex items-center gap-4 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+              <div className="flex items-center gap-4 p-4 bg-card dark:bg-card rounded-lg border border-border dark:border-border">
                 <div className="flex-shrink-0 w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600">
                   <Palette className="w-5 h-5" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="text-sm font-medium text-gray-900 dark:text-white">Theme</h3>
-                  <p className="dark:text-gray-300 text-sm text-gray-500">Choose your preferred color scheme</p>
+                  <h3 className="text-sm font-medium text-foreground dark:text-foreground">Theme</h3>
+                  <p className="dark:text-muted-foreground text-sm text-muted-foreground">Choose your preferred color scheme</p>
                 </div>
                 <select
                   aria-label="Theme selection"
                   value={theme ?? 'system'}
                   onChange={(e) => setTheme(e.target.value)}
-                  className="text-sm border border-gray-300 dark:border-gray-600 rounded-md px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="text-sm border border-border dark:border-border rounded-md px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-purple-500"
                 >
                   <option value="system">System</option>
                   <option value="light">Light</option>
@@ -485,7 +485,7 @@ export default function SettingsPage() {
 
           {/* Support Section */}
           <section className="mb-8">
-            <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">
+            <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4">
               Support
             </h2>
             <div className="space-y-3">

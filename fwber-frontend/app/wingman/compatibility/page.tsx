@@ -53,14 +53,14 @@ export default function CompatibilityPage() {
         <main className="max-w-2xl mx-auto px-4 py-6">
           <div className="flex items-center gap-3 mb-8">
             <Link href="/wingman" className="p-2 -ml-2 hover:bg-pink-800/30 rounded-lg transition">
-              <ArrowLeft className="w-5 h-5 text-gray-400" />
+              <ArrowLeft className="w-5 h-5 text-muted-foreground" />
             </Link>
             <div>
               <h1 className="text-2xl font-bold text-white flex items-center gap-2">
                 <Heart className="w-7 h-7 text-pink-400" />
                 Compatibility Audit
               </h1>
-              <p className="text-sm text-gray-400">AI-powered dating profile analysis</p>
+              <p className="text-sm text-muted-foreground">AI-powered dating profile analysis</p>
             </div>
           </div>
 
@@ -77,7 +77,7 @@ export default function CompatibilityPage() {
                 {!result && !loading && (
                   <div className="space-y-4">
                     <h2 className="text-xl font-semibold text-white">How dateable is your profile?</h2>
-                    <p className="text-gray-400 max-w-md mx-auto">
+                    <p className="text-muted-foreground max-w-md mx-auto">
                       Our AI analyzes your profile for strengths, weaknesses, and actionable dating tips.
                     </p>
                   </div>
@@ -93,7 +93,7 @@ export default function CompatibilityPage() {
                 {result && !loading && (
                   <div className="space-y-6">
                     <div className="bg-gradient-to-br from-pink-500/20 to-rose-500/10 border border-pink-500/30 rounded-2xl p-6">
-                      <div className="text-5xl font-bold text-white mb-2">{result.score}<span className="text-2xl text-gray-400">/100</span></div>
+                      <div className="text-5xl font-bold text-white mb-2">{result.score}<span className="text-2xl text-muted-foreground">/100</span></div>
                       <p className="text-pink-300">Compatibility Score</p>
                     </div>
 

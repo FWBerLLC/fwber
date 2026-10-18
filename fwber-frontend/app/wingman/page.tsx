@@ -84,7 +84,7 @@ export default function WingmanArcadePage() {
                                 repeat: Infinity,
                                 delay: Math.random() * 5
                             }}
-                            className="absolute bg-white dark:bg-gray-800 rounded-full"
+                            className="absolute bg-card dark:bg-card rounded-full"
                             style={{
                                 width: Math.random() * 2 + 1 + 'px',
                                 height: Math.random() * 2 + 1 + 'px',
@@ -125,7 +125,7 @@ export default function WingmanArcadePage() {
                             initial={{ y: 20, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             transition={{ delay: 0.2 }}
-                            className="text-gray-400 text-lg max-w-2xl mx-auto"
+                            className="text-muted-foreground text-lg max-w-2xl mx-auto"
                         >
                             Play games, share roasts, and consult the spirits.
                             The most playful way to discover your dating destiny.
@@ -157,7 +157,7 @@ export default function WingmanArcadePage() {
                                                 <ArrowRight className="w-5 h-5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-purple-400 font-bold" />
                                             </h3>
 
-                                            <p className="text-gray-400 leading-relaxed mb-8 flex-grow">
+                                            <p className="text-muted-foreground leading-relaxed mb-8 flex-grow">
                                                 {game.description}
                                             </p>
 
@@ -191,11 +191,11 @@ export default function WingmanArcadePage() {
                             className="relative group h-full bg-slate-900/20 backdrop-blur-sm rounded-3xl border border-white/5 p-8 border-dashed"
                         >
                             <div className="h-full flex flex-col items-center justify-center text-center py-10">
-                                <div className="w-16 h-16 rounded-2xl bg-slate-800 flex items-center justify-center text-gray-500 mb-6">
+                                <div className="w-16 h-16 rounded-2xl bg-slate-800 flex items-center justify-center text-muted-foreground mb-6">
                                     <Gamepad2 className="w-8 h-8" />
                                 </div>
-                                <h3 className="text-xl font-bold text-gray-400 mb-2 italic">Coming Soon</h3>
-                                <p className="text-gray-600 text-sm italic">
+                                <h3 className="text-xl font-bold text-muted-foreground mb-2 italic">Coming Soon</h3>
+                                <p className="text-muted-foreground text-sm italic">
                                     More AI chaos is currently in development...
                                 </p>
                             </div>
@@ -214,13 +214,13 @@ export default function WingmanArcadePage() {
                         </div>
                         <div className="flex-grow">
                             <h4 className="text-xl font-bold text-white mb-2">How it works</h4>
-                            <p className="text-gray-400 leading-relaxed">
+                            <p className="text-muted-foreground leading-relaxed">
                                 The Arcade games use our proprietary <strong>Roast & Hype Engine</strong> to analyze your profile attributes against local dating trends and cosmic alignments. None of your data is shared during these games—it&apos;s all performed within your private session.
                             </p>
                         </div>
                         <Link
                             href="/help"
-                            className="px-6 py-3 rounded-xl bg-white dark:bg-gray-800/5 hover:bg-white/10 text-white text-sm font-semibold transition"
+                            className="px-6 py-3 rounded-xl bg-card dark:bg-gray-800/5 hover:bg-white/10 text-white text-sm font-semibold transition"
                         >
                             Learn More
                         </Link>

@@ -218,7 +218,7 @@ export default function ProfileViewModal({ isOpen, onClose, user, messagesExchan
   const SimplePhotoGrid = () => (
     <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
       {user.profile?.photos?.map((photo) => (
-        <div key={photo.id} className="relative aspect-square rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-800">
+        <div key={photo.id} className="relative aspect-square rounded-lg overflow-hidden bg-muted dark:bg-card">
           <Image
             src={photo.url}
             alt="Photo"
@@ -234,7 +234,7 @@ export default function ProfileViewModal({ isOpen, onClose, user, messagesExchan
         </div>
       ))}
       {(!user.profile?.photos || user.profile.photos.length === 0) && (
-        <div className="col-span-full text-center py-8 text-gray-500">
+        <div className="col-span-full text-center py-8 text-muted-foreground">
           No photos available
         </div>
       )}
@@ -250,10 +250,10 @@ export default function ProfileViewModal({ isOpen, onClose, user, messagesExchan
       />
 
       {/* Modal Content */}
-      <div className={`relative w-full max-w-2xl bg-white dark:bg-gray-900 rounded-xl shadow-2xl overflow-hidden transform transition-all duration-300 ${isOpen ? 'scale-100 translate-y-0' : 'scale-95 translate-y-8'}`}>
+      <div className={`relative w-full max-w-2xl bg-card dark:bg-background rounded-xl shadow-2xl overflow-hidden transform transition-all duration-300 ${isOpen ? 'scale-100 translate-y-0' : 'scale-95 translate-y-8'}`}>
         
         {/* Header */}
-        <div className="p-4 border-b border-gray-200 dark:border-gray-700 dark:border-gray-800 flex justify-between items-center">
+        <div className="p-4 border-b border-border dark:border-border dark:border-gray-800 flex justify-between items-center">
           <div className="flex items-center gap-3">
             {/* Presence Indicator */}
             <PresenceIndicator 
@@ -263,10 +263,10 @@ export default function ProfileViewModal({ isOpen, onClose, user, messagesExchan
               className="flex-shrink-0"
             />
             <div>
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+              <h2 className="text-xl font-bold text-foreground dark:text-foreground">
                 {user.profile?.display_name || 'User'}
               </h2>
-              <div className="flex items-center gap-2 text-sm text-gray-500">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 {user.profile?.age && (
                   <span>{user.profile.age} years old</span>
                 )}
@@ -284,7 +284,7 @@ export default function ProfileViewModal({ isOpen, onClose, user, messagesExchan
             </button>
             <button type="button" 
               onClick={onClose}
-              className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-300 rounded-full hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-800"
+              className="p-2 text-muted-foreground hover:text-foreground dark:text-muted-foreground dark:hover:text-muted-foreground rounded-full hover:bg-muted dark:bg-card dark:hover:bg-gray-800"
               aria-label="Close profile view"
               title="Close"
             >
@@ -319,8 +319,8 @@ export default function ProfileViewModal({ isOpen, onClose, user, messagesExchan
 
           {user.profile?.bio && (
             <div className="mb-6">
-              <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">About</h3>
-              <p className="text-gray-800 dark:text-gray-100 dark:text-gray-200">{user.profile.bio}</p>
+              <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-2">About</h3>
+              <p className="text-foreground dark:text-foreground dark:text-foreground">{user.profile.bio}</p>
             </div>
           )}
 
@@ -332,18 +332,18 @@ export default function ProfileViewModal({ isOpen, onClose, user, messagesExchan
             </h3>
 
             {insightLoading ? (
-               <div className="animate-pulse h-20 bg-gray-200 dark:bg-gray-700 rounded-lg"></div>
+               <div className="animate-pulse h-20 bg-muted dark:bg-gray-700 rounded-lg"></div>
             ) : insights ? (
                <div className="space-y-4">
                   {/* Score */}
                   <div className="flex items-center justify-between">
-                    <span className="text-gray-600 dark:text-gray-400 text-sm">Overall Match Score</span>
+                    <span className="text-muted-foreground dark:text-muted-foreground text-sm">Overall Match Score</span>
                     <span className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">{insights.total_score}%</span>
                   </div>
 
                   {insights.is_locked && !isSubscribed ? (
-                    <div className="bg-white dark:bg-gray-800/50 dark:bg-black/20 p-4 rounded-lg backdrop-blur-sm border border-white/20 text-center">
-                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 filter blur-[3px]">
+                    <div className="bg-card dark:bg-gray-800/50 dark:bg-black/20 p-4 rounded-lg backdrop-blur-sm border border-white/20 text-center">
+                        <p className="text-sm text-muted-foreground dark:text-muted-foreground mb-3 filter blur-[3px]">
                            Based on your lifestyle and preferences, we found that you are highly compatible in...
                         </p>
                         <button type="button"
@@ -356,25 +356,25 @@ export default function ProfileViewModal({ isOpen, onClose, user, messagesExchan
                     </div>
                   ) : (
                     <div className="space-y-3">
-                        <div className="text-sm text-gray-800 dark:text-gray-100 dark:text-gray-200 italic">
+                        <div className="text-sm text-foreground dark:text-foreground dark:text-foreground italic">
                            &ldquo;{insights.ai_explanation}&rdquo;
                         </div>
                         {insights.breakdown && (
                             <div className="grid grid-cols-2 gap-2 text-xs">
-                                <div className="bg-white dark:bg-gray-800 p-2 rounded">
-                                   <span className="text-gray-500 block">Base</span>
+                                <div className="bg-card dark:bg-card p-2 rounded">
+                                   <span className="text-muted-foreground block">Base</span>
                                    <span className="font-bold">{insights.breakdown.base}%</span>
                                 </div>
-                                <div className="bg-white dark:bg-gray-800 p-2 rounded">
-                                   <span className="text-gray-500 block">Lifestyle</span>
+                                <div className="bg-card dark:bg-card p-2 rounded">
+                                   <span className="text-muted-foreground block">Lifestyle</span>
                                    <span className="font-bold">{insights.breakdown.preferences}%</span>
                                 </div>
-                                <div className="bg-white dark:bg-gray-800 p-2 rounded">
-                                   <span className="text-gray-500 block">Communication</span>
+                                <div className="bg-card dark:bg-card p-2 rounded">
+                                   <span className="text-muted-foreground block">Communication</span>
                                    <span className="font-bold">{insights.breakdown.communication}%</span>
                                 </div>
-                                <div className="bg-white dark:bg-gray-800 p-2 rounded">
-                                   <span className="text-gray-500 block">Mutual</span>
+                                <div className="bg-card dark:bg-card p-2 rounded">
+                                   <span className="text-muted-foreground block">Mutual</span>
                                    <span className="font-bold">{insights.breakdown.mutual}%</span>
                                 </div>
                             </div>
@@ -383,7 +383,7 @@ export default function ProfileViewModal({ isOpen, onClose, user, messagesExchan
                   )}
                </div>
             ) : (
-                <p className="text-xs text-gray-500">Analysis unavailable.</p>
+                <p className="text-xs text-muted-foreground">Analysis unavailable.</p>
             )}
           </div>
 
@@ -421,7 +421,7 @@ export default function ProfileViewModal({ isOpen, onClose, user, messagesExchan
                 <div className={`flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border ${
                   otherUserConfirmedMeeting
                     ? 'bg-green-50 text-green-700 border-green-200 dark:bg-green-900/20 dark:border-green-800 dark:text-green-300'
-                    : 'bg-gray-50 text-gray-500 border-gray-200 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400'
+                    : 'bg-muted text-muted-foreground border-border dark:bg-card dark:border-border dark:text-muted-foreground'
                 }`}>
                   {otherUserConfirmedMeeting ? (
                     <>
@@ -440,7 +440,7 @@ export default function ProfileViewModal({ isOpen, onClose, user, messagesExchan
           )}
 
           <div className="mb-6">
-            <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">Photos</h3>
+            <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4">Photos</h3>
             {faceRevealEnabled ? (
               <PhotoRevealGate
                 photos={photos}
@@ -459,7 +459,7 @@ export default function ProfileViewModal({ isOpen, onClose, user, messagesExchan
           {onAction && (
             <div className="sticky bottom-0 left-0 right-0 py-4 bg-gradient-to-t from-white dark:from-gray-900 via-white dark:via-gray-900 flex justify-center gap-6 z-30">
               <button type="button"
-                className="h-14 w-14 rounded-full border-2 border-red-500 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center justify-center shadow-lg transition-transform hover:scale-110 active:scale-95 bg-white dark:bg-gray-800"
+                className="h-14 w-14 rounded-full border-2 border-red-500 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center justify-center shadow-lg transition-transform hover:scale-110 active:scale-95 bg-card dark:bg-card"
                 onClick={() => {
                   onAction('pass');
                   onClose();
@@ -469,7 +469,7 @@ export default function ProfileViewModal({ isOpen, onClose, user, messagesExchan
               </button>
 
               <button type="button"
-                className="h-10 w-10 rounded-full border-2 border-blue-400 text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 flex items-center justify-center mt-2 shadow-lg transition-transform hover:scale-110 active:scale-95 bg-white dark:bg-gray-800"
+                className="h-10 w-10 rounded-full border-2 border-blue-400 text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 flex items-center justify-center mt-2 shadow-lg transition-transform hover:scale-110 active:scale-95 bg-card dark:bg-card"
                 onClick={() => {
                   onAction('super_like');
                   onClose();
@@ -479,7 +479,7 @@ export default function ProfileViewModal({ isOpen, onClose, user, messagesExchan
               </button>
 
               <button type="button"
-                className="h-14 w-14 rounded-full border-2 border-green-500 text-green-500 hover:bg-green-50 dark:hover:bg-green-900/20 flex items-center justify-center shadow-lg transition-transform hover:scale-110 active:scale-95 bg-white dark:bg-gray-800"
+                className="h-14 w-14 rounded-full border-2 border-green-500 text-green-500 hover:bg-green-50 dark:hover:bg-green-900/20 flex items-center justify-center shadow-lg transition-transform hover:scale-110 active:scale-95 bg-card dark:bg-card"
                 onClick={() => {
                   onAction('like');
                   onClose();

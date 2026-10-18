@@ -146,7 +146,7 @@ export default function Chatroom({ chatroomId }: ChatroomProps) {
       case 'contemplative': return 'bg-blue-50/30 dark:bg-blue-900/10 border-blue-200 dark:border-blue-800';
       case 'noir': return 'bg-purple-50/30 dark:bg-purple-900/10 border-purple-200 dark:border-purple-800';
       case 'moody': return 'bg-indigo-50/30 dark:bg-indigo-900/10 border-indigo-200 dark:border-indigo-800';
-      default: return 'bg-gray-50 dark:bg-gray-900 border-transparent';
+      default: return 'bg-muted dark:bg-background border-transparent';
     }
   }, [chatroom?.group_aura]);
 
@@ -157,10 +157,10 @@ export default function Chatroom({ chatroomId }: ChatroomProps) {
 
   if (chatroomLoading) {
     return (
-      <div className="min-h-[400px] bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-[400px] bg-muted dark:bg-background flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading chatroom...</p>
+          <p className="mt-4 text-muted-foreground">Loading chatroom...</p>
         </div>
       </div>
     );
@@ -168,10 +168,10 @@ export default function Chatroom({ chatroomId }: ChatroomProps) {
 
   if (!chatroom) {
     return (
-      <div className="min-h-[400px] bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-[400px] bg-muted dark:bg-background flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Chatroom not found</h1>
-          <p className="text-gray-600 mb-4">The chatroom you&apos;re looking for doesn&apos;t exist or you don&apos;t have access to it.</p>
+          <h1 className="text-2xl font-bold text-foreground dark:text-foreground mb-4">Chatroom not found</h1>
+          <p className="text-muted-foreground mb-4">The chatroom you&apos;re looking for doesn&apos;t exist or you don&apos;t have access to it.</p>
         </div>
       </div>
     );
@@ -181,14 +181,14 @@ export default function Chatroom({ chatroomId }: ChatroomProps) {
     <div className={`min-h-[600px] rounded-lg border transition-colors duration-500 ${auraTheme}`}>
       <div className="flex flex-col h-[600px]">
         {/* Chatroom Header */}
-        <div className="bg-white dark:bg-gray-800 rounded-t-lg shadow-sm border-b border-gray-200 dark:border-gray-700 p-4">
+        <div className="bg-card dark:bg-card rounded-t-lg shadow-sm border-b border-border dark:border-border p-4">
           <div className="flex items-start justify-between">
             <div>
               <div className="flex items-center gap-3 mb-1">
-                <h1 className="text-xl font-bold text-gray-900 dark:text-white">{chatroom.display_name || chatroom.name}</h1>
+                <h1 className="text-xl font-bold text-foreground dark:text-foreground">{chatroom.display_name || chatroom.name}</h1>
                 <ConnectionStatusBadge />
               </div>
-              <div className="flex items-center gap-4 text-sm text-gray-500">
+              <div className="flex items-center gap-4 text-sm text-muted-foreground">
                 {chatroom?.group_aura && (
                   <TooltipProvider>
                     <Tooltip>
@@ -212,7 +212,7 @@ export default function Chatroom({ chatroomId }: ChatroomProps) {
 
               {/* Online Users Panel */}
               {showOnlineUsers && (
-                <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-900 rounded-lg absolute z-20 shadow-lg border">
+                <div className="mt-4 p-4 bg-muted dark:bg-background rounded-lg absolute z-20 shadow-lg border">
                   <OnlineUsersList userIds={memberIds} maxDisplay={8} />
                 </div>
               )}
@@ -221,17 +221,17 @@ export default function Chatroom({ chatroomId }: ChatroomProps) {
         </div>
 
         {/* Chat Interface */}
-        <div className="bg-white dark:bg-gray-800 flex-1 flex flex-col relative rounded-b-lg">
+        <div className="bg-card dark:bg-card flex-1 flex flex-col relative rounded-b-lg">
 
           {/* Preview Mode Overlay */}
           {(chatroomData?.preview_mode) && (
-            <div className="absolute inset-0 z-10 bg-white dark:bg-gray-800/80 backdrop-blur-sm flex items-center justify-center rounded-lg">
-              <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 max-w-md w-full text-center">
+            <div className="absolute inset-0 z-10 bg-card dark:bg-gray-800/80 backdrop-blur-sm flex items-center justify-center rounded-lg">
+              <div className="bg-card dark:bg-card p-8 rounded-xl shadow-2xl border border-border dark:border-border max-w-md w-full text-center">
                 <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span className="text-3xl">🔒</span>
                 </div>
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Join to Chat</h2>
-                <p className="text-gray-600 mb-6">
+                <h2 className="text-2xl font-bold text-foreground dark:text-foreground mb-2">Join to Chat</h2>
+                <p className="text-muted-foreground mb-6">
                   {chatroom?.token_entry_fee && chatroom.token_entry_fee > 0
                     ? `This chatroom requires an entry fee of ${chatroom.token_entry_fee} tokens.`
                     : "You need to join this chatroom to view messages and participate."}
@@ -261,7 +261,7 @@ export default function Chatroom({ chatroomId }: ChatroomProps) {
             {messagesLoading ? (
               <div className="text-center py-8">
                 <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600 mx-auto"></div>
-                <p className="mt-2 text-gray-600">Loading messages...</p>
+                <p className="mt-2 text-muted-foreground">Loading messages...</p>
               </div>
             ) : messages.length > 0 ? (
               messages.map((message: any) => (
@@ -276,17 +276,17 @@ export default function Chatroom({ chatroomId }: ChatroomProps) {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center space-x-2 mb-1">
-                      <span className="text-sm font-medium text-gray-900 dark:text-white">
+                      <span className="text-sm font-medium text-foreground dark:text-foreground">
                         {message.display_user}
                       </span>
-                      <span className="text-xs text-gray-500">
+                      <span className="text-xs text-muted-foreground">
                         {formatTime(message.created_at)}
                       </span>
                       {message.is_edited && (
-                        <span className="text-xs text-gray-400">(edited)</span>
+                        <span className="text-xs text-muted-foreground">(edited)</span>
                       )}
                     </div>
-                    <p className="text-gray-900 dark:text-white whitespace-pre-wrap">{message.display_content}</p>
+                    <p className="text-foreground dark:text-foreground whitespace-pre-wrap">{message.display_content}</p>
 
                     {/* Reactions */}
                     {Array.isArray(message.reactions) && message.reactions.length > 0 && (
@@ -295,7 +295,7 @@ export default function Chatroom({ chatroomId }: ChatroomProps) {
                           <button type="button"
                             key={emoji}
                             onClick={() => handleReaction(message.id, emoji)}
-                            className="inline-flex items-center px-2 py-1 text-xs bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 rounded-full transition-colors"
+                            className="inline-flex items-center px-2 py-1 text-xs bg-muted dark:bg-card hover:bg-muted rounded-full transition-colors"
                           >
                             <span className="mr-1">{emoji}</span>
                             <span>{count as number}</span>
@@ -308,20 +308,20 @@ export default function Chatroom({ chatroomId }: ChatroomProps) {
               ))
             ) : (
               <div className="text-center py-8">
-                <div className="text-gray-400 mb-4">
+                <div className="text-muted-foreground mb-4">
                   <svg className="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                   </svg>
                 </div>
-                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">No messages yet</h3>
-                <p className="text-gray-600">Start the conversation by sending the first message!</p>
+                <h3 className="text-lg font-medium text-foreground dark:text-foreground mb-2">No messages yet</h3>
+                <p className="text-muted-foreground">Start the conversation by sending the first message!</p>
               </div>
             )}
             <div ref={messagesEndRef} />
           </div>
 
           {/* Message Input */}
-          <div className="border-t border-gray-200 dark:border-gray-700 p-4">
+          <div className="border-t border-border dark:border-border p-4">
             <form onSubmit={handleSendMessage} className="flex space-x-3">
               <div className="flex-1">
                 <textarea
@@ -332,7 +332,7 @@ export default function Chatroom({ chatroomId }: ChatroomProps) {
                   }}
                   placeholder="Type your message..."
                   rows={2}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none text-black"
+                  className="w-full px-3 py-2 border border-border dark:border-border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none text-black"
                   disabled={isSending}
                 />
               </div>
@@ -348,7 +348,7 @@ export default function Chatroom({ chatroomId }: ChatroomProps) {
             {/* Typing Indicator - Real-time from WebSocket or local state */}
             <TypingIndicator contextId={String(chatroomId)} contextType="chatroom" className="mt-2" />
             {isTyping && (
-              <div className="mt-2 text-sm text-gray-500">
+              <div className="mt-2 text-sm text-muted-foreground">
                 <span className="animate-pulse">You are typing...</span>
               </div>
             )}
@@ -356,8 +356,8 @@ export default function Chatroom({ chatroomId }: ChatroomProps) {
         </div>
 
         {/* Quick Reactions */}
-        <div className="bg-gray-50 dark:bg-gray-900 p-2 flex items-center space-x-2 rounded-b-lg">
-          <span className="text-sm text-gray-500">Quick reactions:</span>
+        <div className="bg-muted dark:bg-background p-2 flex items-center space-x-2 rounded-b-lg">
+          <span className="text-sm text-muted-foreground">Quick reactions:</span>
           {['👍', '❤️', '😂', '😮', '😢', '😡'].map((emoji) => (
             <button type="button"
               key={emoji}

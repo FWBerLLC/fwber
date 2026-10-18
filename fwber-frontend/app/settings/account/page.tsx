@@ -97,14 +97,14 @@ export default function AccountSettingsPage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
-        <header className="bg-white dark:bg-gray-900 shadow-sm sticky top-0 z-10">
+      <div className="min-h-screen bg-muted dark:bg-background">
+        <header className="bg-card dark:bg-background shadow-sm sticky top-0 z-10">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div className="flex items-center gap-4">
-              <Link href="/settings" className="p-2 -ml-2 hover:bg-gray-100 dark:bg-gray-800 rounded-full transition-colors">
-                <ArrowLeft className="w-5 h-5 text-gray-600" />
+              <Link href="/settings" className="p-2 -ml-2 hover:bg-muted dark:bg-card rounded-full transition-colors">
+                <ArrowLeft className="w-5 h-5 text-muted-foreground" />
               </Link>
-              <h1 className="text-xl font-bold text-gray-900 dark:text-white">Account Settings</h1>
+              <h1 className="text-xl font-bold text-foreground dark:text-foreground">Account Settings</h1>
             </div>
           </div>
         </header>
@@ -117,23 +117,23 @@ export default function AccountSettingsPage() {
           )}
 
           {/* Email Section */}
-          <section className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
-            <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+          <section className="bg-card dark:bg-card rounded-lg shadow-sm border border-border dark:border-border overflow-hidden">
+            <div className="p-6 border-b border-border dark:border-border">
               <div className="flex items-center gap-3 mb-4">
                 <div className="p-2 bg-blue-100 dark:bg-blue-900 rounded-lg text-blue-600 dark:text-blue-400">
                   <Mail className="w-5 h-5" />
                 </div>
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Email Address</h2>
+                <h2 className="text-lg font-semibold text-foreground dark:text-foreground">Email Address</h2>
               </div>
               <form onSubmit={handleUpdateEmail} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
+                  <label className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-1">Email</label>
                   <input
                     type="email"
                     name="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-border dark:border-border dark:bg-gray-700 dark:text-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required
                   />
                 </div>
@@ -149,46 +149,46 @@ export default function AccountSettingsPage() {
           </section>
 
           {/* Password Section */}
-          <section className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
-            <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+          <section className="bg-card dark:bg-card rounded-lg shadow-sm border border-border dark:border-border overflow-hidden">
+            <div className="p-6 border-b border-border dark:border-border">
               <div className="flex items-center gap-3 mb-4">
                 <div className="p-2 bg-purple-100 rounded-lg text-purple-600">
                   <Lock className="w-5 h-5" />
                 </div>
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Change Password</h2>
+                <h2 className="text-lg font-semibold text-foreground dark:text-foreground">Change Password</h2>
               </div>
               <form onSubmit={handleUpdatePassword} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Current Password</label>
+                  <label className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-1">Current Password</label>
                   <input
                     type="password"
                     name="current_password"
                     value={currentPassword}
                     onChange={(e) => setCurrentPassword(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full px-3 py-2 border border-border dark:border-border dark:bg-gray-700 dark:text-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">New Password</label>
+                  <label className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-1">New Password</label>
                   <input
                     type="password"
                     name="password"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full px-3 py-2 border border-border dark:border-border dark:bg-gray-700 dark:text-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
                     required
                     minLength={8}
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Confirm New Password</label>
+                  <label className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-1">Confirm New Password</label>
                   <input
                     type="password"
                     name="password_confirmation"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full px-3 py-2 border border-border dark:border-border dark:bg-gray-700 dark:text-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
                     required
                     minLength={8}
                   />
@@ -205,15 +205,15 @@ export default function AccountSettingsPage() {
           </section>
 
           {/* Data Export Section (GDPR) */}
-          <section className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+          <section className="bg-card dark:bg-card rounded-lg shadow-sm border border-border dark:border-border overflow-hidden">
             <div className="p-6">
               <div className="flex items-center gap-3 mb-4">
                 <div className="p-2 bg-blue-100 dark:bg-blue-900 rounded-lg text-blue-600 dark:text-blue-400">
                   <Download className="w-5 h-5" />
                 </div>
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Export Your Data</h2>
+                <h2 className="text-lg font-semibold text-foreground dark:text-foreground">Export Your Data</h2>
               </div>
-              <p className="text-gray-600 dark:text-gray-400 mb-4">
+              <p className="text-muted-foreground dark:text-muted-foreground mb-4">
                 Download a copy of all your data including profile, messages, matches, and photos. We&apos;ll email you when your export is ready.
               </p>
               <button type="button"
@@ -227,15 +227,15 @@ export default function AccountSettingsPage() {
           </section>
 
           {/* Privacy & Security Info */}
-          <section className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+          <section className="bg-card dark:bg-card rounded-lg shadow-sm border border-border dark:border-border overflow-hidden">
             <div className="p-6">
               <div className="flex items-center gap-3 mb-4">
                 <div className="p-2 bg-green-100 dark:bg-green-900 rounded-lg text-green-600 dark:text-green-400">
                   <Shield className="w-5 h-5" />
                 </div>
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Your Privacy Rights</h2>
+                <h2 className="text-lg font-semibold text-foreground dark:text-foreground">Your Privacy Rights</h2>
               </div>
-              <ul className="text-gray-600 text-sm space-y-2">
+              <ul className="text-muted-foreground text-sm space-y-2">
                 <li>&bull; <strong>Right to Access:</strong> Export all your personal data above.</li>
                 <li>&bull; <strong>Right to Erasure:</strong> Delete your account below to remove all data.</li>
                 <li>&bull; <strong>Right to Rectification:</strong> Update your profile information anytime.</li>
@@ -250,7 +250,7 @@ export default function AccountSettingsPage() {
           </section>
 
           {/* Delete Account Section */}
-          <section className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-red-200 overflow-hidden">
+          <section className="bg-card dark:bg-card rounded-lg shadow-sm border border-red-200 overflow-hidden">
             <div className="p-6">
               <div className="flex items-center gap-3 mb-4">
                 <div className="p-2 bg-red-100 rounded-lg text-red-600">
@@ -261,7 +261,7 @@ export default function AccountSettingsPage() {
               
               {!showDeleteConfirm ? (
                 <div>
-                  <p className="text-gray-600 dark:text-gray-400 mb-4">
+                  <p className="text-muted-foreground dark:text-muted-foreground mb-4">
                     Permanently delete your account and all of your content. This action cannot be undone.
                   </p>
                   <button type="button"
@@ -289,7 +289,7 @@ export default function AccountSettingsPage() {
                       placeholder="Enter your password"
                       value={deletePassword}
                       onChange={(e) => setDeletePassword(e.target.value)}
-                      className="w-full px-3 py-2 border border-red-300 dark:border-red-800 dark:bg-gray-700 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+                      className="w-full px-3 py-2 border border-red-300 dark:border-red-800 dark:bg-gray-700 dark:text-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                       required
                     />
                     <div className="flex gap-3">
@@ -306,7 +306,7 @@ export default function AccountSettingsPage() {
                           setShowDeleteConfirm(false);
                           setDeletePassword('');
                         }}
-                        className="px-4 py-2 text-gray-600 hover:text-gray-800 dark:text-gray-100"
+                        className="px-4 py-2 text-muted-foreground hover:text-foreground dark:text-foreground"
                       >
                         Cancel
                       </button>

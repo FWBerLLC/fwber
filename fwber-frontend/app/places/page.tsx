@@ -53,17 +53,17 @@ const placeSurfaces = [
 export default function PlacesPage() {
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+      <div className="min-h-screen bg-muted dark:bg-background">
         <AppHeader title="Places & Nearby" />
         <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8 space-y-6">
-          <section className="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
+          <section className="rounded-2xl border border-border dark:border-border bg-card p-6 shadow-sm dark:border-gray-800 dark:bg-background">
             <div className="flex items-start gap-3">
               <div className="rounded-2xl bg-emerald-100 p-3 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-300">
                 <Map className="h-6 w-6" />
               </div>
               <div>
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Places & Nearby</h1>
-                <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                <h1 className="text-3xl font-bold text-foreground dark:text-foreground">Places & Nearby</h1>
+                <p className="mt-2 text-sm text-muted-foreground dark:text-muted-foreground">
                   A central destination for the branch’s place-aware discovery surfaces so nearby people, venues, deals, date planning, and location controls are easier to navigate as one local-discovery cluster.
                 </p>
               </div>
@@ -75,12 +75,12 @@ export default function PlacesPage() {
               const Icon = surface.icon
               return (
                 <Link key={surface.href} href={surface.href} prefetch={false} className="block">
-                  <div className="h-full rounded-2xl border border-gray-200 dark:border-gray-700 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-gray-800 dark:bg-gray-900">
+                  <div className="h-full rounded-2xl border border-border dark:border-border bg-card p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-gray-800 dark:bg-background">
                     <div className={`mb-4 inline-flex rounded-xl bg-gradient-to-br ${surface.accent} p-3 text-white`}>
                       <Icon className="h-5 w-5" />
                     </div>
-                    <h2 className="text-lg font-semibold text-gray-900 dark:text-white">{surface.title}</h2>
-                    <p className="mt-2 text-sm leading-6 text-gray-600 dark:text-gray-300">{surface.description}</p>
+                    <h2 className="text-lg font-semibold text-foreground dark:text-foreground">{surface.title}</h2>
+                    <p className="mt-2 text-sm leading-6 text-muted-foreground dark:text-muted-foreground">{surface.description}</p>
                   </div>
                 </Link>
               )

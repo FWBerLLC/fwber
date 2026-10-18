@@ -37,31 +37,31 @@ export default function BoostPurchaseModal({ isOpen, onClose }: BoostPurchaseMod
     <Dialog.Root open={isOpen} onOpenChange={onClose}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-black/50 z-50" />
-        <Dialog.Content className="fixed left-[50%] top-[50%] max-h-[85vh] w-[90vw] max-w-[500px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-white p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none z-50 dark:bg-gray-900 dark:text-white">
+        <Dialog.Content className="fixed left-[50%] top-[50%] max-h-[85vh] w-[90vw] max-w-[500px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-card p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none z-50 dark:bg-background dark:text-foreground">
           <div className="flex justify-between items-center mb-4">
             <Dialog.Title className="text-xl font-bold flex items-center gap-2">
               <Rocket className="w-6 h-6 text-purple-600" />
               Boost Your Profile
             </Dialog.Title>
             <Dialog.Close asChild>
-              <button className="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
+              <button className="text-muted-foreground hover:text-muted-foreground dark:hover:text-muted-foreground">
                 <X className="w-5 h-5" />
               </button>
             </Dialog.Close>
           </div>
 
-          <Dialog.Description className="text-gray-600 dark:text-gray-300 mb-6">
+          <Dialog.Description className="text-muted-foreground dark:text-muted-foreground mb-6">
             Get up to 10x more profile views by being a top profile in your area.
           </Dialog.Description>
 
           {/* Payment Method Selector */}
-          <div className="flex gap-2 mb-6 p-1 bg-gray-100 dark:bg-gray-800 rounded-lg">
+          <div className="flex gap-2 mb-6 p-1 bg-muted dark:bg-card rounded-lg">
             <button type="button"
               onClick={() => setPaymentMethod('token')}
               className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-md text-sm font-medium transition-all ${
                 paymentMethod === 'token'
-                  ? 'bg-white dark:bg-gray-700 shadow-sm text-purple-600 dark:text-purple-400'
-                  : 'text-gray-500 hover:text-gray-700 dark:text-gray-400'
+                  ? 'bg-card dark:bg-gray-700 shadow-sm text-purple-600 dark:text-purple-400'
+                  : 'text-muted-foreground hover:text-foreground dark:text-muted-foreground'
               }`}
             >
               <Coins className="w-4 h-4" />
@@ -71,8 +71,8 @@ export default function BoostPurchaseModal({ isOpen, onClose }: BoostPurchaseMod
               onClick={() => setPaymentMethod('stripe')}
               className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-md text-sm font-medium transition-all ${
                 paymentMethod === 'stripe'
-                  ? 'bg-white dark:bg-gray-700 shadow-sm text-purple-600 dark:text-purple-400'
-                  : 'text-gray-500 hover:text-gray-700 dark:text-gray-400'
+                  ? 'bg-card dark:bg-gray-700 shadow-sm text-purple-600 dark:text-purple-400'
+                  : 'text-muted-foreground hover:text-foreground dark:text-muted-foreground'
               }`}
             >
               <CreditCard className="w-4 h-4" />
@@ -87,7 +87,7 @@ export default function BoostPurchaseModal({ isOpen, onClose }: BoostPurchaseMod
               disabled={isPending || (paymentMethod === 'token' && tokenBalance < 50)}
               className={`w-full p-4 border-2 rounded-xl transition-all group text-left relative overflow-hidden ${
                 paymentMethod === 'token' && tokenBalance < 50
-                  ? 'opacity-50 cursor-not-allowed border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-900'
+                  ? 'opacity-50 cursor-not-allowed border-border bg-muted dark:border-gray-800 dark:bg-background'
                   : 'border-purple-100 hover:border-purple-500 bg-purple-50/50 dark:bg-purple-900/20 dark:border-purple-800'
               }`}
             >
@@ -97,15 +97,15 @@ export default function BoostPurchaseModal({ isOpen, onClose }: BoostPurchaseMod
                     <Zap className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-gray-900 dark:text-white">Standard Boost</h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">30 Minutes</p>
+                    <h3 className="font-bold text-foreground dark:text-foreground">Standard Boost</h3>
+                    <p className="text-sm text-muted-foreground dark:text-muted-foreground">30 Minutes</p>
                   </div>
                 </div>
                 <span className="text-lg font-bold text-purple-600 dark:text-purple-400">
                   {paymentMethod === 'token' ? '50 Tokens' : '$4.99'}
                 </span>
               </div>
-              <p className="text-sm text-gray-600 dark:text-gray-300 pl-[52px]">
+              <p className="text-sm text-muted-foreground dark:text-muted-foreground pl-[52px]">
                 Be the top profile in your area for 30 minutes.
               </p>
             </button>
@@ -116,7 +116,7 @@ export default function BoostPurchaseModal({ isOpen, onClose }: BoostPurchaseMod
               disabled={isPending || (paymentMethod === 'token' && tokenBalance < 100)}
               className={`w-full p-4 border-2 rounded-xl transition-all group text-left relative overflow-hidden ${
                 paymentMethod === 'token' && tokenBalance < 100
-                  ? 'opacity-50 cursor-not-allowed border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-900'
+                  ? 'opacity-50 cursor-not-allowed border-border bg-muted dark:border-gray-800 dark:bg-background'
                   : 'border-amber-100 hover:border-amber-500 bg-amber-50/50 dark:bg-amber-900/20 dark:border-amber-800'
               }`}
             >
@@ -129,21 +129,21 @@ export default function BoostPurchaseModal({ isOpen, onClose }: BoostPurchaseMod
                     <Rocket className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-gray-900 dark:text-white">Super Boost</h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">2 Hours</p>
+                    <h3 className="font-bold text-foreground dark:text-foreground">Super Boost</h3>
+                    <p className="text-sm text-muted-foreground dark:text-muted-foreground">2 Hours</p>
                   </div>
                 </div>
                 <span className="text-lg font-bold text-amber-600 dark:text-amber-400">
                   {paymentMethod === 'token' ? '100 Tokens' : '$9.99'}
                 </span>
               </div>
-              <p className="text-sm text-gray-600 dark:text-gray-300 pl-[52px]">
+              <p className="text-sm text-muted-foreground dark:text-muted-foreground pl-[52px]">
                 Maximize your visibility for 2 full hours.
               </p>
             </button>
           </div>
 
-          <div className="mt-6 text-center text-xs text-gray-400">
+          <div className="mt-6 text-center text-xs text-muted-foreground">
             By purchasing, you agree to our Terms of Service.
           </div>
         </Dialog.Content>

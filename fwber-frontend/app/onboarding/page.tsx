@@ -401,10 +401,10 @@ export default function OnboardingPage() {
               </div>
             </div>
             <h2 className="text-2xl font-bold">Welcome to <span className="text-transparent bg-clip-text bg-gradient-to-br from-pink-500 via-purple-500 to-cyan-500 animate-gradient-chaos">FWBer</span>!</h2>
-            <p className="text-gray-600">
+            <p className="text-muted-foreground">
               We&apos;re excited to have you here. Let&apos;s take a moment to set up your profile so you can start meeting people.
             </p>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-muted-foreground">
               This will only take a minute.
             </p>
           </div>
@@ -522,7 +522,7 @@ export default function OnboardingPage() {
           <div className="space-y-4">
             <div className="text-center mb-4">
               <h3 className="text-lg font-medium">Add your best photos</h3>
-              <p className="text-sm text-gray-500">Upload now or skip and add photos later from your profile.</p>
+              <p className="text-sm text-muted-foreground">Upload now or skip and add photos later from your profile.</p>
             </div>
             <PhotoUpload 
               photos={photos} 
@@ -567,7 +567,7 @@ export default function OnboardingPage() {
               <CheckCircle2 className="h-24 w-24 text-green-500" />
             </div>
             <h2 className="text-2xl font-bold">You&apos;re All Set!</h2>
-            <p className="text-gray-600">
+            <p className="text-muted-foreground">
               Your profile is ready. Start exploring and meeting new people.
             </p>
           </div>
@@ -576,15 +576,15 @@ export default function OnboardingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col items-center justify-center p-4">
+    <div className="min-h-screen bg-muted dark:bg-background flex flex-col items-center justify-center p-4">
       <Card className="w-full max-w-lg">
         <CardHeader>
           <div className="flex justify-between items-center mb-4 gap-1 w-full">
             {STEPS.map((step, idx) => (
-              <div key={step.id} className={`h-2 flex-1 rounded-full ${idx <= currentStep ? 'bg-blue-600' : 'bg-gray-200'}`} />
+              <div key={step.id} className={`h-2 flex-1 rounded-full ${idx <= currentStep ? 'bg-blue-600' : 'bg-muted'}`} />
             ))}
           </div>
-          <CardTitle>{STEPS[currentStep].title} {saving && <span className="text-xs font-normal text-gray-400 ml-2">Saving...</span>}</CardTitle>
+          <CardTitle>{STEPS[currentStep].title} {saving && <span className="text-xs font-normal text-muted-foreground ml-2">Saving...</span>}</CardTitle>
         </CardHeader>
         <CardContent>
           {error && (

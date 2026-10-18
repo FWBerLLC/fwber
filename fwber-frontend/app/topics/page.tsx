@@ -25,11 +25,11 @@ export default function TopicsPage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <div className="min-h-screen bg-muted dark:bg-background">
         <AppHeader title="Topic Hubs" />
         <main className="px-4 py-8 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl space-y-8">
-            <section className="rounded-3xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 shadow-sm">
+            <section className="rounded-3xl border border-border dark:border-border bg-card dark:bg-card p-6 shadow-sm">
               <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
                 <div className="max-w-3xl">
                   <div className="mb-4 flex items-center gap-3">
@@ -37,15 +37,15 @@ export default function TopicsPage() {
                       <Compass className="h-6 w-6" />
                     </div>
                     <div>
-                      <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Structured topic hubs</h1>
+                      <h1 className="text-2xl font-bold text-foreground dark:text-foreground">Structured topic hubs</h1>
                     </div>
                   </div>
-                  <p className="mt-2 text-sm text-gray-600">
+                  <p className="mt-2 text-sm text-muted-foreground">
                     Browse the scenes forming across interests, Local Pulse posts, public groups, and visible field notes.
                   </p>
-                  <div className="flex flex-wrap gap-2 text-xs text-gray-500 mt-4">
+                  <div className="flex flex-wrap gap-2 text-xs text-muted-foreground mt-4">
                     {categories.map((category) => (
-                      <span key={category} className="rounded-full bg-gray-100 dark:bg-gray-800 px-3 py-1 font-medium uppercase tracking-wide">
+                      <span key={category} className="rounded-full bg-muted dark:bg-card px-3 py-1 font-medium uppercase tracking-wide">
                         {category}
                       </span>
                     ))}
@@ -54,12 +54,12 @@ export default function TopicsPage() {
 
                 <div className="w-full max-w-xl space-y-3">
                   <label className="relative block">
-                    <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                    <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                     <input
                       value={search}
                       onChange={(event) => setSearch(event.target.value)}
                       placeholder="Search music, wellness, nightlife..."
-                      className="w-full rounded-2xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 py-3 pl-11 pr-4 text-sm outline-none transition focus:border-purple-500 focus:ring-2 focus:ring-purple-100"
+                      className="w-full rounded-2xl border border-border dark:border-border bg-card dark:bg-card py-3 pl-11 pr-4 text-sm outline-none transition focus:border-purple-500 focus:ring-2 focus:ring-purple-100"
                     />
                   </label>
                   <div className="flex flex-wrap gap-2">
@@ -67,7 +67,7 @@ export default function TopicsPage() {
                       type="button"
                       onClick={() => setFeaturedOnly((value) => !value)}
                       className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
-                        featuredOnly ? 'bg-purple-600 text-white' : 'bg-gray-100 text-gray-700'
+                        featuredOnly ? 'bg-purple-600 text-white' : 'bg-muted text-foreground'
                       }`}
                     >
                       Featured
@@ -76,7 +76,7 @@ export default function TopicsPage() {
                       type="button"
                       onClick={() => setFollowedOnly((value) => !value)}
                       className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
-                        followedOnly ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-700'
+                        followedOnly ? 'bg-gray-900 text-white' : 'bg-muted text-foreground'
                       }`}
                     >
                       Following
@@ -93,13 +93,13 @@ export default function TopicsPage() {
             </section>
 
             {isLoading ? (
-              <div className="rounded-3xl border border-dashed border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-6 py-16 text-center text-sm text-gray-500">
+              <div className="rounded-3xl border border-dashed border-border dark:border-border bg-card dark:bg-card px-6 py-16 text-center text-sm text-muted-foreground">
                 Loading topic hubs...
               </div>
             ) : topics.length === 0 ? (
-              <div className="rounded-3xl border border-dashed border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-6 py-16 text-center">
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">No topics matched that filter.</h2>
-                <p className="mt-1 text-sm text-gray-500">Try a broader scene name or clear one of the pills above.</p>
+              <div className="rounded-3xl border border-dashed border-border dark:border-border bg-card dark:bg-card px-6 py-16 text-center">
+                <h2 className="text-lg font-semibold text-foreground dark:text-foreground">No topics matched that filter.</h2>
+                <p className="mt-1 text-sm text-muted-foreground">Try a broader scene name or clear one of the pills above.</p>
               </div>
             ) : (
               <section className="grid gap-6 xl:grid-cols-2">

@@ -13,7 +13,7 @@ export function WingmanDashboardModal({ matchId, matchName }: { matchId: string,
     if (activeTab === 'fortune') {
       return (
         <div className="space-y-4">
-          <p className="text-sm text-gray-400">Let the stars predict the fate of your connection with {matchName}.</p>
+          <p className="text-sm text-muted-foreground">Let the stars predict the fate of your connection with {matchName}.</p>
           {!predictFortune.data ? (
             <Button 
               className="w-full bg-purple-600 hover:bg-purple-700" 
@@ -36,7 +36,7 @@ export function WingmanDashboardModal({ matchId, matchName }: { matchId: string,
     if (activeTab === 'nemesis') {
       return (
         <div className="space-y-4">
-          <p className="text-sm text-gray-400">Could {matchName} actually be your sworn enemy? Let's check the clashing traits.</p>
+          <p className="text-sm text-muted-foreground">Could {matchName} actually be your sworn enemy? Let's check the clashing traits.</p>
           {!findNemesis.data ? (
             <Button 
               className="w-full bg-red-900 hover:bg-red-800 text-red-100" 
@@ -66,7 +66,7 @@ export function WingmanDashboardModal({ matchId, matchName }: { matchId: string,
     if (activeTab === 'audit') {
       return (
         <div className="space-y-4">
-          <p className="text-sm text-gray-400">A brutal, honest compatibility audit. Are you two actually going to make it?</p>
+          <p className="text-sm text-muted-foreground">A brutal, honest compatibility audit. Are you two actually going to make it?</p>
           {!getCompatibilityAudit.data ? (
             <Button 
               className="w-full bg-blue-600 hover:bg-blue-700" 
@@ -113,7 +113,7 @@ export function WingmanDashboardModal({ matchId, matchName }: { matchId: string,
     <Dialog>
       <DialogTrigger asChild>
         <button
-          className="p-2 hover:bg-gray-700 rounded-full text-gray-400 hover:text-indigo-400 transition-colors"
+          className="p-2 hover:bg-gray-700 rounded-full text-muted-foreground hover:text-indigo-400 transition-colors"
           title="AI Wingman Tools"
         >
           <ScrollText className="w-5 h-5" />
@@ -129,19 +129,19 @@ export function WingmanDashboardModal({ matchId, matchName }: { matchId: string,
         
         <div className="flex bg-gray-800 p-1 rounded-lg mb-4">
           <button type="button" 
-            className={`flex-1 py-1.5 text-xs font-semibold rounded-md transition-colors ${activeTab === 'fortune' ? 'bg-purple-600 text-white' : 'text-gray-400 hover:text-white hover:bg-gray-700'}`}
+            className={`flex-1 py-1.5 text-xs font-semibold rounded-md transition-colors ${activeTab === 'fortune' ? 'bg-purple-600 text-white' : 'text-muted-foreground hover:text-white hover:bg-gray-700'}`}
             onClick={() => setActiveTab('fortune')}
           >
             Fortune
           </button>
           <button type="button" 
-            className={`flex-1 py-1.5 text-xs font-semibold rounded-md transition-colors ${activeTab === 'audit' ? 'bg-blue-600 text-white' : 'text-gray-400 hover:text-white hover:bg-gray-700'}`}
+            className={`flex-1 py-1.5 text-xs font-semibold rounded-md transition-colors ${activeTab === 'audit' ? 'bg-blue-600 text-white' : 'text-muted-foreground hover:text-white hover:bg-gray-700'}`}
             onClick={() => setActiveTab('audit')}
           >
             Audit
           </button>
           <button type="button" 
-            className={`flex-1 py-1.5 text-xs font-semibold rounded-md transition-colors ${activeTab === 'nemesis' ? 'bg-red-800 text-white' : 'text-gray-400 hover:text-white hover:bg-gray-700'}`}
+            className={`flex-1 py-1.5 text-xs font-semibold rounded-md transition-colors ${activeTab === 'nemesis' ? 'bg-red-800 text-white' : 'text-muted-foreground hover:text-white hover:bg-gray-700'}`}
             onClick={() => setActiveTab('nemesis')}
           >
             Nemesis

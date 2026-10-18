@@ -125,7 +125,7 @@ export default function PhotoRevealGate({
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
         {/* AI Photos - Always visible */}
         {aiPhotos.map((photo) => (
-          <div key={photo.id} className="relative aspect-square rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-800">
+          <div key={photo.id} className="relative aspect-square rounded-lg overflow-hidden bg-muted dark:bg-card">
             <Image
               src={photo.url}
               alt="AI generated photo"
@@ -141,7 +141,7 @@ export default function PhotoRevealGate({
 
         {/* Private Photos - Handled separately */}
         {privatePhotos.map((photo) => (
-          <div key={photo.id} className="relative aspect-square rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-800 group">
+          <div key={photo.id} className="relative aspect-square rounded-lg overflow-hidden bg-muted dark:bg-card group">
             <Image
               src={photo.url}
               alt="Private Photo"
@@ -171,7 +171,7 @@ export default function PhotoRevealGate({
 
         {/* Visible Real Photos */}
         {visibleRealPhotos.map((photo) => (
-          <div key={photo.id} className="relative aspect-square rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-800">
+          <div key={photo.id} className="relative aspect-square rounded-lg overflow-hidden bg-muted dark:bg-card">
             <Image
               src={photo.url}
               alt="Photo"
@@ -191,7 +191,7 @@ export default function PhotoRevealGate({
         {blurredRealPhotos.map((photo, index) => (
           <div 
             key={photo.id} 
-            className="relative w-full pb-[100%] rounded-lg overflow-hidden cursor-pointer group bg-gray-200 dark:bg-gray-800"
+            className="relative w-full pb-[100%] rounded-lg overflow-hidden cursor-pointer group bg-muted dark:bg-card"
             onClick={onUnlockClick}
           >
             <FaceReveal
@@ -215,7 +215,7 @@ export default function PhotoRevealGate({
             className="relative aspect-square rounded-lg bg-gray-800 flex items-center justify-center cursor-pointer group"
             onClick={onUnlockClick}
           >
-            <div className="text-center text-gray-400">
+            <div className="text-center text-muted-foreground">
               <Lock className="w-8 h-8 mx-auto mb-2 group-hover:scale-110 transition-transform" />
               <p className="text-xs font-semibold">Locked</p>
             </div>

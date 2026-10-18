@@ -100,22 +100,22 @@ export default function AIProfileBuilder({
   return (
     <div className="max-w-4xl mx-auto p-6">
       <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">AI-Powered Profile Builder</h1>
-        <p className="text-gray-600">Let AI help you create an engaging and authentic profile</p>
+        <h1 className="text-4xl font-bold text-foreground dark:text-foreground mb-2">AI-Powered Profile Builder</h1>
+        <p className="text-muted-foreground">Let AI help you create an engaging and authentic profile</p>
       </div>
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Preferences Form */}
         <div className="space-y-6">
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-100">Tell us about yourself</h2>
+          <div className="bg-card dark:bg-card p-6 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold mb-4 text-foreground dark:text-foreground">Tell us about yourself</h2>
             
             {/* Personality Type */}
             <div className="mb-6">
-              <label className="block text-sm font-medium mb-3 text-gray-700 dark:text-gray-300">Personality Type</label>
+              <label className="block text-sm font-medium mb-3 text-foreground dark:text-muted-foreground">Personality Type</label>
               <div className="grid grid-cols-1 gap-3">
                 {personalityTypes.map(type => (
-                  <label key={type.value} className="flex items-start space-x-3 p-3 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer hover:bg-gray-50 dark:bg-gray-900">
+                  <label key={type.value} className="flex items-start space-x-3 p-3 border border-border dark:border-border rounded-lg cursor-pointer hover:bg-muted dark:bg-background">
                     <input
                       type="radio"
                       name="personality"
@@ -126,8 +126,8 @@ export default function AIProfileBuilder({
                       className="mt-1"
                     />
                     <div>
-                      <div className="font-medium text-gray-900 dark:text-white">{type.label}</div>
-                      <div className="text-sm text-gray-600">{type.description}</div>
+                      <div className="font-medium text-foreground dark:text-foreground">{type.label}</div>
+                      <div className="text-sm text-muted-foreground">{type.description}</div>
                     </div>
                   </label>
                 ))}
@@ -136,10 +136,10 @@ export default function AIProfileBuilder({
 
             {/* Interests */}
             <div className="mb-6">
-              <label className="block text-sm font-medium mb-3 text-gray-700 dark:text-gray-300">Interests</label>
+              <label className="block text-sm font-medium mb-3 text-foreground dark:text-muted-foreground">Interests</label>
               <div className="grid grid-cols-2 gap-2">
                 {interestOptions.map(interest => (
-                  <label key={interest} className="flex items-center space-x-2 p-2 border border-gray-200 dark:border-gray-700 rounded cursor-pointer hover:bg-gray-50 dark:bg-gray-900">
+                  <label key={interest} className="flex items-center space-x-2 p-2 border border-border dark:border-border rounded cursor-pointer hover:bg-muted dark:bg-background">
                     <input
                       type="checkbox"
                       data-testid={`interest-${interest.toLowerCase().replace(/\s+/g, '-')}`}
@@ -158,7 +158,7 @@ export default function AIProfileBuilder({
                         }
                       }}
                     />
-                    <span className="text-sm text-gray-700 dark:text-gray-300">{interest}</span>
+                    <span className="text-sm text-foreground dark:text-muted-foreground">{interest}</span>
                   </label>
                 ))}
               </div>
@@ -166,23 +166,23 @@ export default function AIProfileBuilder({
 
             {/* Goals */}
             <div className="mb-6">
-              <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">What are you looking for?</label>
+              <label className="block text-sm font-medium mb-2 text-foreground dark:text-muted-foreground">What are you looking for?</label>
               <textarea
                 value={preferences.goals}
                 onChange={(e) => setPreferences(prev => ({ ...prev, goals: e.target.value }))}
                 placeholder="Describe what you're looking for in a relationship..."
                 data-testid="goals-textarea"
-                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full p-3 border border-border dark:border-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 rows={3}
               />
             </div>
 
             {/* Writing Style */}
             <div className="mb-6">
-              <label className="block text-sm font-medium mb-3 text-gray-700 dark:text-gray-300">Writing Style</label>
+              <label className="block text-sm font-medium mb-3 text-foreground dark:text-muted-foreground">Writing Style</label>
               <div className="grid grid-cols-2 gap-3">
                 {styleOptions.map(style => (
-                  <label key={style.value} className="flex items-start space-x-3 p-3 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer hover:bg-gray-50 dark:bg-gray-900">
+                  <label key={style.value} className="flex items-start space-x-3 p-3 border border-border dark:border-border rounded-lg cursor-pointer hover:bg-muted dark:bg-background">
                     <input
                       type="radio"
                       name="style"
@@ -193,8 +193,8 @@ export default function AIProfileBuilder({
                       className="mt-1"
                     />
                     <div>
-                      <div className="font-medium text-gray-900 dark:text-white">{style.label}</div>
-                      <div className="text-sm text-gray-600">{style.description}</div>
+                      <div className="font-medium text-foreground dark:text-foreground">{style.label}</div>
+                      <div className="text-sm text-muted-foreground">{style.description}</div>
                     </div>
                   </label>
                 ))}
@@ -203,14 +203,14 @@ export default function AIProfileBuilder({
 
             {/* Target Audience */}
             <div className="mb-6">
-              <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Target Audience</label>
+              <label className="block text-sm font-medium mb-2 text-foreground dark:text-muted-foreground">Target Audience</label>
               <input
                 type="text"
                 value={preferences.target_audience}
                 onChange={(e) => setPreferences(prev => ({ ...prev, target_audience: e.target.value }))}
                 placeholder="Who do you want to attract?"
                 data-testid="target-audience-input"
-                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full p-3 border border-border dark:border-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
 
@@ -225,7 +225,7 @@ export default function AIProfileBuilder({
                 <span data-testid="generation-loading">Generating Profile...</span>
               ) : 'Generate AI Profile (20 🪙)'}
             </button>
-            <p className="text-xs text-center text-gray-500 mt-2">
+            <p className="text-xs text-center text-muted-foreground mt-2">
                 Generating an AI profile costs 20 tokens.
             </p>
           </div>
@@ -244,17 +244,17 @@ export default function AIProfileBuilder({
           )}
 
           {generatedContent && (
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-              <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-100">Generated Profile Content</h2>
+            <div className="bg-card dark:bg-card p-6 rounded-lg shadow-md">
+              <h2 className="text-xl font-semibold mb-4 text-foreground dark:text-foreground">Generated Profile Content</h2>
               <div className="space-y-4">
                 {generatedContent.data?.suggestions?.map((suggestion: any, index: number) => (
-                  <div key={index} className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg" data-testid="suggestion-item">
+                  <div key={index} className="p-4 border border-border dark:border-border rounded-lg" data-testid="suggestion-item">
                     <div className="flex justify-between items-start mb-2">
                       <div className="flex items-center space-x-2">
-                        <span className="text-sm font-medium text-gray-600" data-testid="provider-badge">
+                        <span className="text-sm font-medium text-muted-foreground" data-testid="provider-badge">
                           {suggestion.provider === 'openai' ? 'OpenAI' : 'Gemini'}
                         </span>
-                        <span className="text-xs text-gray-500" data-testid="confidence-score">
+                        <span className="text-xs text-muted-foreground" data-testid="confidence-score">
                           Confidence: {Math.round(suggestion.confidence * 100)}%
                         </span>
                         <span className="text-xs text-green-600" data-testid="safety-score">
@@ -266,13 +266,13 @@ export default function AIProfileBuilder({
                         className={`px-3 py-1 text-sm rounded ${
                           selectedContent === suggestion.content
                             ? 'bg-blue-500 text-white'
-                            : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                            : 'bg-muted text-foreground hover:bg-gray-300'
                         }`}
                       >
                         {selectedContent === suggestion.content ? 'Selected' : 'Select'}
                       </button>
                     </div>
-                    <p className="text-sm text-gray-700 dark:text-gray-300 mb-3" data-testid="suggestion-content">{suggestion.content}</p>
+                    <p className="text-sm text-foreground dark:text-muted-foreground mb-3" data-testid="suggestion-content">{suggestion.content}</p>
                     <div className="flex space-x-2">
                       {[1, 2, 3, 4, 5].map(rating => (
                         <button type="button"

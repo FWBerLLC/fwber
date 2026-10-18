@@ -172,7 +172,7 @@ export function SwapInterface() {
                         <p className="text-sm text-zinc-500 italic py-4">No swap history found.</p>
                     ) : (
                         history.map(tx => (
-                            <div key={tx.id} className="p-4 border border-zinc-100 dark:border-zinc-800 rounded-xl flex items-center justify-between bg-white dark:bg-gray-800 dark:bg-zinc-900/50">
+                            <div key={tx.id} className="p-4 border border-zinc-100 dark:border-zinc-800 rounded-xl flex items-center justify-between bg-card dark:bg-card dark:bg-zinc-900/50">
                                 <div className="flex items-center gap-3">
                                     <div className="p-2 bg-zinc-100 dark:bg-zinc-800 rounded-lg">
                                         <ArrowRightLeft className="w-4 h-4 text-zinc-500" />

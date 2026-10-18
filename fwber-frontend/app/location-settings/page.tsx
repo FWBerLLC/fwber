@@ -147,9 +147,9 @@ export default function LocationSettingsPage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-8">
-        <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md p-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">Location Settings</h1>
+      <div className="min-h-screen bg-muted dark:bg-background p-8">
+        <div className="max-w-4xl mx-auto bg-card dark:bg-card rounded-lg shadow-md p-8">
+          <h1 className="text-3xl font-bold text-foreground dark:text-foreground mb-6">Location Settings</h1>
 
           {error && (
             <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
@@ -161,7 +161,7 @@ export default function LocationSettingsPage() {
             <div className="space-y-6">
               {/* Current Location Info */}
               <div className="p-6 bg-blue-50 rounded-lg">
-                <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4">Current Location</h2>
+                <h2 className="text-xl font-semibold text-foreground dark:text-foreground mb-4">Current Location</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                   <div>
                     <p><strong>Latitude:</strong> {location.latitude}</p>
@@ -193,11 +193,11 @@ export default function LocationSettingsPage() {
               </div>
 
               {/* Privacy Settings */}
-              <div className="p-6 bg-gray-50 dark:bg-gray-900 rounded-lg">
-                <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4">Privacy Settings</h2>
+              <div className="p-6 bg-muted dark:bg-background rounded-lg">
+                <h2 className="text-xl font-semibold text-foreground dark:text-foreground mb-4">Privacy Settings</h2>
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-2">
                       Who can see your location?
                     </label>
                     <div className="space-y-2">
@@ -217,8 +217,8 @@ export default function LocationSettingsPage() {
                             disabled={isUpdating}
                           />
                           <div>
-                            <div className="font-medium text-gray-800 dark:text-gray-100">{option.label}</div>
-                            <div className="text-sm text-gray-600">{option.description}</div>
+                            <div className="font-medium text-foreground dark:text-foreground">{option.label}</div>
+                            <div className="text-sm text-muted-foreground">{option.description}</div>
                           </div>
                         </label>
                       ))}
@@ -248,9 +248,9 @@ export default function LocationSettingsPage() {
             </div>
           ) : (
             <div className="text-center py-12">
-              <div className="text-gray-400 text-6xl mb-4">📍</div>
-              <h3 className="text-xl font-semibold text-gray-600 mb-2">No Location Data</h3>
-              <p className="text-gray-500 mb-6">
+              <div className="text-muted-foreground text-6xl mb-4">📍</div>
+              <h3 className="text-xl font-semibold text-muted-foreground mb-2">No Location Data</h3>
+              <p className="text-muted-foreground mb-6">
                 You haven&apos;t shared your location yet. Enable location sharing to discover people nearby!
               </p>
               <button type="button"
@@ -265,8 +265,8 @@ export default function LocationSettingsPage() {
 
           {/* Help Section */}
           <div className="mt-8 p-6 bg-yellow-50 rounded-lg">
-            <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">About Location Sharing</h3>
-            <ul className="text-sm text-gray-600 space-y-1">
+            <h3 className="text-lg font-semibold text-foreground dark:text-foreground mb-2">About Location Sharing</h3>
+            <ul className="text-sm text-muted-foreground space-y-1">
               <li>• Your location is only shared when you&apos;re actively using the app</li>
               <li>• You can change your privacy settings at any time</li>
               <li>• Location data is encrypted and stored securely</li>

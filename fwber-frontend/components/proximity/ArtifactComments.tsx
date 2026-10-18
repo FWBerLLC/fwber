@@ -77,7 +77,7 @@ export default function ArtifactComments({ artifactId, isOpen }: ArtifactComment
 
     return (
         <div className="mt-4 pt-4 border-t border-gray-100">
-            <h4 className="flex items-center gap-2 font-semibold text-gray-800 dark:text-gray-100 mb-4 whitespace-nowrap">
+            <h4 className="flex items-center gap-2 font-semibold text-foreground dark:text-foreground mb-4 whitespace-nowrap">
                 <MessageSquare className="h-4 w-4" /> Discussion
             </h4>
 
@@ -88,7 +88,7 @@ export default function ArtifactComments({ artifactId, isOpen }: ArtifactComment
                     value={newComment}
                     onChange={(e) => setNewComment(e.target.value)}
                     placeholder="Add a comment..."
-                    className="flex-1 rounded-full border-gray-300 dark:border-gray-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm py-2 px-4"
+                    className="flex-1 rounded-full border-border dark:border-border shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm py-2 px-4"
                     disabled={isSubmitting}
                 />
                 <button
@@ -103,9 +103,9 @@ export default function ArtifactComments({ artifactId, isOpen }: ArtifactComment
             {/* List */}
             <div className="space-y-4">
                 {isLoading ? (
-                    <div className="flex justify-center p-4"><Loader2 className="h-6 w-6 animate-spin text-gray-400" /></div>
+                    <div className="flex justify-center p-4"><Loader2 className="h-6 w-6 animate-spin text-muted-foreground" /></div>
                 ) : comments.length === 0 ? (
-                    <p className="text-sm text-center text-gray-500 py-4">No comments yet. Be the first to start the conversation!</p>
+                    <p className="text-sm text-center text-muted-foreground py-4">No comments yet. Be the first to start the conversation!</p>
                 ) : (
                     comments.map((comment) => (
                         <div key={comment.id} className="flex gap-3">
@@ -113,17 +113,17 @@ export default function ArtifactComments({ artifactId, isOpen }: ArtifactComment
                                 {comment.user?.avatar_url ? (
                                     <Image src={getAvatarUrl(comment.user.avatar_url, comment.user.name)} alt={comment.user.name} fill sizes="32px" className="object-cover" />
                                 ) : (
-                                    <div className="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center">
-                                        <User className="h-4 w-4 text-gray-500" />
+                                    <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center">
+                                        <User className="h-4 w-4 text-muted-foreground" />
                                     </div>
                                 )}
                             </div>
                             <div className="flex-1 min-w-0">
                                 <div className="flex items-end gap-2 mb-1">
-                                    <span className="font-semibold text-sm text-gray-900 dark:text-white">{comment.user?.name || `User #${comment.user_id}`}</span>
-                                    <span className="text-xs text-gray-500">{formatDistanceToNow(new Date(comment.created_at), { addSuffix: true })}</span>
+                                    <span className="font-semibold text-sm text-foreground dark:text-foreground">{comment.user?.name || `User #${comment.user_id}`}</span>
+                                    <span className="text-xs text-muted-foreground">{formatDistanceToNow(new Date(comment.created_at), { addSuffix: true })}</span>
                                 </div>
-                                <p className="text-sm text-gray-800 dark:text-gray-100 break-words">{comment.content}</p>
+                                <p className="text-sm text-foreground dark:text-foreground break-words">{comment.content}</p>
 
                                 {/* Nested Replies (1 level deep) */}
                                 {comment.replies && comment.replies.length > 0 && (
@@ -131,16 +131,16 @@ export default function ArtifactComments({ artifactId, isOpen }: ArtifactComment
                                         {comment.replies.map(reply => (
                                             <div key={reply.id} className="flex gap-2">
                                                 <div className="flex-shrink-0">
-                                                    <div className="h-6 w-6 rounded-full bg-gray-200 flex items-center justify-center">
-                                                        <User className="h-3 w-3 text-gray-500" />
+                                                    <div className="h-6 w-6 rounded-full bg-muted flex items-center justify-center">
+                                                        <User className="h-3 w-3 text-muted-foreground" />
                                                     </div>
                                                 </div>
                                                 <div className="flex-1 min-w-0">
                                                     <div className="flex items-end gap-2">
-                                                        <span className="font-semibold text-xs text-gray-900 dark:text-white">{reply.user?.name || `User #${reply.user_id}`}</span>
-                                                        <span className="text-[10px] text-gray-500">{formatDistanceToNow(new Date(reply.created_at), { addSuffix: true })}</span>
+                                                        <span className="font-semibold text-xs text-foreground dark:text-foreground">{reply.user?.name || `User #${reply.user_id}`}</span>
+                                                        <span className="text-[10px] text-muted-foreground">{formatDistanceToNow(new Date(reply.created_at), { addSuffix: true })}</span>
                                                     </div>
-                                                    <p className="text-xs text-gray-800 dark:text-gray-100">{reply.content}</p>
+                                                    <p className="text-xs text-foreground dark:text-foreground">{reply.content}</p>
                                                 </div>
                                             </div>
                                         ))}

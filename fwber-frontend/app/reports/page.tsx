@@ -30,21 +30,21 @@ export default function ReportsPage() {
     return (
         <div className="container mx-auto p-4 md:p-8 max-w-5xl space-y-6">
             <div className="flex justify-between items-center">
-                <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-2">
+                <h1 className="text-3xl font-bold text-foreground flex items-center gap-2">
                     <ShieldAlert className="w-8 h-8 text-primary" />
                     My Reports
                 </h1>
                 <Button variant="destructive">File New Report</Button>
             </div>
 
-            <Card className="bg-white shadow-sm border border-gray-100 mb-8">
+            <Card className="bg-card shadow-sm border border-gray-100 mb-8">
                 <CardHeader>
                     <CardTitle className="text-xl flex items-center gap-2">
                         Safety Center
                         <TooltipProvider>
                             <Tooltip>
                                 <TooltipTrigger asChild>
-                                    <Info className="w-4 h-4 text-gray-400 cursor-help" />
+                                    <Info className="w-4 h-4 text-muted-foreground cursor-help" />
                                 </TooltipTrigger>
                                 <TooltipContent>
                                     <p>Track the status of reports you have filed against other users or content.</p>
@@ -61,10 +61,10 @@ export default function ReportsPage() {
             {loading ? (
                 <div className="flex justify-center p-12"><div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" /></div>
             ) : reports.length === 0 ? (
-                <div className="text-center p-12 bg-gray-50 rounded-lg border border-gray-200">
-                    <FileText className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                    <h3 className="text-lg font-medium text-gray-700">No reports filed</h3>
-                    <p className="text-gray-500">You have not submitted any moderation reports.</p>
+                <div className="text-center p-12 bg-muted rounded-lg border border-border">
+                    <FileText className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+                    <h3 className="text-lg font-medium text-foreground">No reports filed</h3>
+                    <p className="text-muted-foreground">You have not submitted any moderation reports.</p>
                 </div>
             ) : (
                 <div className="space-y-4">
@@ -77,13 +77,13 @@ export default function ReportsPage() {
                                         <span className={`text-xs px-2 py-1 rounded-full font-medium ${
                                             report.status === 'pending' ? 'bg-amber-100 text-amber-800' :
                                             report.status === 'resolved' ? 'bg-green-100 text-green-800' :
-                                            'bg-gray-100 text-gray-800'
+                                            'bg-muted text-foreground'
                                         }`}>
                                             {report.status.toUpperCase()}
                                         </span>
                                     </div>
-                                    <p className="text-gray-600 text-sm mb-1"><span className="font-semibold">Reason:</span> {report.reason}</p>
-                                    <p className="text-gray-500 text-xs">Filed on: {new Date(report.createdAt).toLocaleDateString()}</p>
+                                    <p className="text-muted-foreground text-sm mb-1"><span className="font-semibold">Reason:</span> {report.reason}</p>
+                                    <p className="text-muted-foreground text-xs">Filed on: {new Date(report.createdAt).toLocaleDateString()}</p>
                                 </div>
                                 <Button variant="outline" size="sm">View Details</Button>
                             </CardContent>

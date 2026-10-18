@@ -178,7 +178,7 @@ export default function SwipeableCard({ user, onSwipe, onAction }: SwipeableCard
                         <audio ref={audioRef} src={user.voice_intro_url} onEnded={() => setIsPlaying(false)} className="hidden" />
                         <button type="button"
                             onClick={toggleAudio}
-                            className="w-full py-4 bg-white dark:bg-gray-800 text-black rounded-2xl font-black flex items-center justify-center gap-3 hover:scale-[1.02] transition active:scale-95"
+                            className="w-full py-4 bg-card dark:bg-card text-black rounded-2xl font-black flex items-center justify-center gap-3 hover:scale-[1.02] transition active:scale-95"
                         >
                             {isPlaying ? <Pause className="w-5 h-5 fill-current" /> : <Play className="w-5 h-5 fill-current" />}
                             {isPlaying ? 'PAUSE INTRO' : 'HEAR MY VOICE'}
@@ -198,7 +198,7 @@ export default function SwipeableCard({ user, onSwipe, onAction }: SwipeableCard
                     priority
                   />
                 ) : (
-                  <span className="text-4xl font-semibold text-gray-600">
+                  <span className="text-4xl font-semibold text-muted-foreground">
                     {user.name.charAt(0).toUpperCase()}
                   </span>
                 )}
@@ -212,10 +212,10 @@ export default function SwipeableCard({ user, onSwipe, onAction }: SwipeableCard
             <div className="absolute bottom-0 left-0 p-6 w-full">
                 <CardTitle className="text-2xl font-bold text-white">
                     {user.name}
-                    {user.age && <span className="text-gray-300 ml-2 font-medium">({user.age})</span>}
+                    {user.age && <span className="text-muted-foreground ml-2 font-medium">({user.age})</span>}
                 </CardTitle>
                 {user.distance !== undefined && (
-                    <p className="text-sm text-gray-300 flex items-center gap-1 mt-1">
+                    <p className="text-sm text-muted-foreground flex items-center gap-1 mt-1">
                         <MapPin className="w-3.5 h-3.5" />
                         {user.distance.toFixed(1)} miles away
                     </p>
@@ -239,7 +239,7 @@ export default function SwipeableCard({ user, onSwipe, onAction }: SwipeableCard
           ) : (
             <>
                 {user.bio && (
-                    <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-3 leading-relaxed">
+                    <p className="text-sm text-muted-foreground dark:text-muted-foreground line-clamp-3 leading-relaxed">
                     {user.bio}
                     </p>
                 )}
@@ -250,7 +250,7 @@ export default function SwipeableCard({ user, onSwipe, onAction }: SwipeableCard
                         <span className="text-sm font-bold uppercase tracking-tighter text-blue-600">AI Compatibility</span>
                         <span className="text-sm font-black text-blue-600">{user.compatibility_score}%</span>
                     </div>
-                    <div className="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-1.5">
+                    <div className="w-full bg-muted dark:bg-card rounded-full h-1.5">
                         <div 
                         className="bg-blue-600 h-1.5 rounded-full transition-all duration-1000" 
                         style={{ width: `${user.compatibility_score}%` }}

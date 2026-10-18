@@ -55,7 +55,7 @@ function AchievementCard({ achievement }: { achievement: Achievement }) {
   return (
     <Card className={`relative overflow-hidden transition-all duration-300 ${achievement.earned ? 'border-primary/50 bg-primary/5' : 'opacity-70 grayscale'}`}>
       <CardHeader className="flex flex-row items-center gap-4 pb-2">
-        <div className={`p-3 rounded-full ${achievement.earned ? 'bg-primary/20 text-primary' : 'bg-gray-100 dark:bg-gray-800 text-gray-400'}`}>
+        <div className={`p-3 rounded-full ${achievement.earned ? 'bg-primary/20 text-primary' : 'bg-muted dark:bg-card text-muted-foreground'}`}>
           {achievement.is_hidden ? <Lock className="w-6 h-6" /> : <Icon className="w-6 h-6" />}
         </div>
         <div className="flex-1">
@@ -136,21 +136,21 @@ export default function AchievementsPage() {
   const totalCount = achievements?.length || 0
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-12">
+    <div className="min-h-screen bg-muted dark:bg-background pb-12">
       <AppHeader />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Achievements</h1>
-            <p className="text-gray-600 dark:text-gray-400 mt-1">
+            <h1 className="text-3xl font-bold tracking-tight text-foreground dark:text-foreground">Achievements</h1>
+            <p className="text-muted-foreground dark:text-muted-foreground mt-1">
               Track your progress and earn rewards.
             </p>
           </div>
 
           {/* Stats Summary */}
           <div className="flex gap-4">
-             <Card className="bg-white dark:bg-gray-800 shadow-sm">
+             <Card className="bg-card dark:bg-card shadow-sm">
                 <CardContent className="p-4 flex items-center gap-3">
                     <div className="p-2 bg-amber-100 text-amber-600 rounded-lg">
                         <Zap className="w-5 h-5" />
@@ -161,7 +161,7 @@ export default function AchievementsPage() {
                     </div>
                 </CardContent>
              </Card>
-             <Card className="bg-white dark:bg-gray-800 shadow-sm">
+             <Card className="bg-card dark:bg-card shadow-sm">
                 <CardContent className="p-4 flex items-center gap-3">
                     <div className="p-2 bg-blue-100 text-blue-600 rounded-lg">
                         <Trophy className="w-5 h-5" />
@@ -187,7 +187,7 @@ export default function AchievementsPage() {
               <section key={category}>
                 <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
                   {category}
-                  <span className="text-sm font-normal text-muted-foreground bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded-full">
+                  <span className="text-sm font-normal text-muted-foreground bg-muted dark:bg-card px-2 py-0.5 rounded-full">
                     {items.filter(i => i.is_unlocked).length}/{items.length}
                   </span>
                 </h2>
@@ -201,9 +201,9 @@ export default function AchievementsPage() {
 
             {(!achievements || achievements.length === 0) && (
               <div className="text-center py-12">
-                <Trophy className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 dark:text-white">No achievements found</h3>
-                <p className="text-gray-500">Check back later for new challenges!</p>
+                <Trophy className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+                <h3 className="text-lg font-medium text-foreground dark:text-foreground">No achievements found</h3>
+                <p className="text-muted-foreground">Check back later for new challenges!</p>
               </div>
             )}
           </div>

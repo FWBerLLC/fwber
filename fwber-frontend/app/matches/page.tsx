@@ -120,10 +120,10 @@ export default function MatchesPage() {
 	if (loading) {
 		return (
 			<ProtectedRoute>
-				<div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+				<div className="min-h-screen bg-muted dark:bg-background">
 					<AppHeader />
 					<div className="flex min-h-[calc(100vh-4rem)] items-center justify-center">
-						<div className="text-sm text-gray-500 dark:text-gray-400">
+						<div className="text-sm text-muted-foreground dark:text-muted-foreground">
 							Loading matches...
 						</div>
 					</div>
@@ -135,14 +135,14 @@ export default function MatchesPage() {
 	if (matches.length === 0 || currentIndex >= matches.length) {
 		return (
 			<ProtectedRoute>
-				<div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+				<div className="min-h-screen bg-muted dark:bg-background">
 					<AppHeader />
 					<div className="mx-auto max-w-md px-4 py-8 text-center">
 						<ToastContainer />
-						<h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-white">
+						<h2 className="mb-4 text-2xl font-bold text-foreground dark:text-foreground">
 							No more matches
 						</h2>
-						<p className="mb-6 text-gray-500">
+						<p className="mb-6 text-muted-foreground">
 							Check back later or adjust your filters.
 						</p>
 						<Button onClick={() => fetchMatches()}>Refresh</Button>
@@ -157,7 +157,7 @@ export default function MatchesPage() {
 
 	return (
 		<ProtectedRoute>
-			<div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+			<div className="min-h-screen bg-muted dark:bg-background">
 				<AppHeader />
 				<div className="mx-auto max-w-md px-4 py-8">
 					<ToastContainer />
@@ -254,7 +254,7 @@ export default function MatchesPage() {
 												? "Voice Only Profile"
 												: currentMatch.name}
 											{!isConfessional && currentMatch.age && (
-												<span className="text-gray-300">
+												<span className="text-muted-foreground">
 													, {currentMatch.age}
 												</span>
 											)}
@@ -357,7 +357,7 @@ export default function MatchesPage() {
 								<Button
 									size="icon"
 									variant="outline"
-									className="h-14 w-14 rounded-full border-2 border-red-500 text-red-500 hover:bg-red-50 shadow-lg hover:scale-110 transition-transform bg-white dark:bg-gray-800/10 backdrop-blur-md"
+									className="h-14 w-14 rounded-full border-2 border-red-500 text-red-500 hover:bg-red-50 shadow-lg hover:scale-110 transition-transform bg-card dark:bg-gray-800/10 backdrop-blur-md"
 									onClick={() => handleAction("pass")}
 								>
 									<X className="h-8 w-8" />
@@ -366,7 +366,7 @@ export default function MatchesPage() {
 								<Button
 									size="icon"
 									variant="outline"
-									className="h-10 w-10 rounded-full border-2 border-blue-400 text-blue-400 hover:bg-blue-50 mt-2 shadow-lg hover:scale-110 transition-transform bg-white dark:bg-gray-800/10 backdrop-blur-md"
+									className="h-10 w-10 rounded-full border-2 border-blue-400 text-blue-400 hover:bg-blue-50 mt-2 shadow-lg hover:scale-110 transition-transform bg-card dark:bg-gray-800/10 backdrop-blur-md"
 									onClick={() => handleAction("super_like")}
 								>
 									<Star className="h-5 w-5" />
@@ -375,7 +375,7 @@ export default function MatchesPage() {
 								<Button
 									size="icon"
 									variant="outline"
-									className="h-14 w-14 rounded-full border-2 border-green-500 text-green-500 hover:bg-green-50 shadow-lg hover:scale-110 transition-transform bg-white dark:bg-gray-800/10 backdrop-blur-md"
+									className="h-14 w-14 rounded-full border-2 border-green-500 text-green-500 hover:bg-green-50 shadow-lg hover:scale-110 transition-transform bg-card dark:bg-gray-800/10 backdrop-blur-md"
 									onClick={() => handleAction("like")}
 								>
 									<Heart className="h-8 w-8" />

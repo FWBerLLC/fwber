@@ -53,7 +53,7 @@ export default function AppealsPage() {
                     <div className="mx-auto w-16 h-16 bg-red-500/10 rounded-full flex items-center justify-center mb-4">
                         <AlertOctagon className="w-10 h-10 text-red-600" />
                     </div>
-                    <h1 className="text-3xl font-black italic uppercase tracking-tighter text-zinc-900 dark:text-white">Account Restricted</h1>
+                    <h1 className="text-3xl font-black italic uppercase tracking-tighter text-zinc-900 dark:text-foreground">Account Restricted</h1>
                     <p className="text-zinc-500 font-bold uppercase tracking-widest text-xs mt-2">Global Ban enforced by the community council</p>
                 </div>
 

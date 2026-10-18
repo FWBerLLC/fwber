@@ -129,7 +129,7 @@ export const ZKProver: React.FC<ZKProverProps> = ({
                 </div>
                 <div>
                     <h3 className="font-semibold text-lg">ZK-Proximity Proof</h3>
-                    <p className="text-xs text-gray-400">Cryptographic privacy-first verification</p>
+                    <p className="text-xs text-muted-foreground">Cryptographic privacy-first verification</p>
                 </div>
             </div>
 
@@ -191,7 +191,7 @@ export const ZKProver: React.FC<ZKProverProps> = ({
             )}
 
             {/* Info Notice */}
-            <p className="mt-4 text-[10px] text-gray-500 text-center leading-relaxed">
+            <p className="mt-4 text-[10px] text-muted-foreground text-center leading-relaxed">
                 Your raw GPS coordinates never leave your device. Only a mathematical zero-knowledge proof (SNARK) is submitted to our servers verifying proximity against the target radius constraint.
             </p>
         </div>

@@ -33,7 +33,7 @@ function SelectGrid({ options, selected, onSelect, cols = 4 }: {
             className={`px-3 py-2.5 text-sm rounded-lg border transition-all font-medium ${
               selected === val
                 ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
-                : 'bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 hover:border-blue-400'
+                : 'bg-card dark:bg-card border-border dark:border-border hover:border-blue-400'
             }`}
           >
             {opt}
@@ -150,19 +150,19 @@ export default function PhysicalProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-24">
+    <div className="min-h-screen bg-muted dark:bg-background pb-24">
       <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8">
         {/* Header */}
         <button type="button"
           onClick={() => router.push('/profile')}
-          className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white mb-6 transition-colors"
+          className="flex items-center gap-2 text-muted-foreground dark:text-muted-foreground hover:text-foreground dark:hover:text-white mb-6 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           <span className="text-sm font-medium">Back to Profile</span>
         </button>
 
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Physical Attributes</h1>
-        <p className="text-gray-600 dark:text-gray-400 mb-8">
+        <h1 className="text-3xl font-bold text-foreground dark:text-foreground mb-2">Physical Attributes</h1>
+        <p className="text-muted-foreground dark:text-muted-foreground mb-8">
           Define your physical traits for better matching and AI avatar generation.
         </p>
 
@@ -179,18 +179,18 @@ export default function PhysicalProfilePage() {
 
         <div className="space-y-8">
           {/* Measurements */}
-          <section className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+          <section className="bg-card dark:bg-card rounded-xl shadow-sm border border-border dark:border-border p-6">
+            <h2 className="text-lg font-semibold text-foreground dark:text-foreground mb-4 flex items-center gap-2">
               <Ruler className="w-5 h-5 text-blue-500" /> Measurements & Build
             </h2>
 
             <div className="space-y-6">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Your Height</label>
+                <label className="block text-sm font-semibold text-foreground dark:text-muted-foreground mb-2">Your Height</label>
                 <select
                   value={data.height_cm || ''}
                   onChange={e => update('height_cm', e.target.value ? parseInt(e.target.value) : null)}
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                  className="w-full px-4 py-3 border border-border dark:border-border rounded-lg bg-card dark:bg-card text-foreground dark:text-foreground focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                 >
                   <option value="">Select your height</option>
                   {Array.from({ length: 42 }, (_, i) => {
@@ -206,70 +206,70 @@ export default function PhysicalProfilePage() {
                   })}
                 </select>
                 {data.height_cm && (
-                  <p className="mt-1 text-sm text-gray-500">{data.height_cm} cm &middot; {cmToFeetInches(data.height_cm)}</p>
+                  <p className="mt-1 text-sm text-muted-foreground">{data.height_cm} cm &middot; {cmToFeetInches(data.height_cm)}</p>
                 )}
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Body Type</label>
+                <label className="block text-sm font-semibold text-foreground dark:text-muted-foreground mb-2">Body Type</label>
                 <SelectGrid options={BODY_TYPES} selected={data.body_type} onSelect={v => update('body_type', v)} />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Fitness Level</label>
+                <label className="block text-sm font-semibold text-foreground dark:text-muted-foreground mb-2">Fitness Level</label>
                 <SelectGrid options={FITNESS_LEVELS} selected={data.fitness_level} onSelect={v => update('fitness_level', v)} cols={3} />
               </div>
             </div>
           </section>
 
           {/* Appearance */}
-          <section className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+          <section className="bg-card dark:bg-card rounded-xl shadow-sm border border-border dark:border-border p-6">
+            <h2 className="text-lg font-semibold text-foreground dark:text-foreground mb-4 flex items-center gap-2">
               <User className="w-5 h-5 text-purple-500" /> Appearance
             </h2>
 
             <div className="space-y-6">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Ethnicity</label>
+                <label className="block text-sm font-semibold text-foreground dark:text-muted-foreground mb-2">Ethnicity</label>
                 <SelectGrid options={ETHNICITIES} selected={data.ethnicity} onSelect={v => update('ethnicity', v)} cols={3} />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Hair Color</label>
+                <label className="block text-sm font-semibold text-foreground dark:text-muted-foreground mb-2">Hair Color</label>
                 <SelectGrid options={HAIR_COLORS} selected={data.hair_color} onSelect={v => update('hair_color', v)} />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Eye Color</label>
+                <label className="block text-sm font-semibold text-foreground dark:text-muted-foreground mb-2">Eye Color</label>
                 <SelectGrid options={EYE_COLORS} selected={data.eye_color} onSelect={v => update('eye_color', v)} />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Skin Tone</label>
+                <label className="block text-sm font-semibold text-foreground dark:text-muted-foreground mb-2">Skin Tone</label>
                 <SelectGrid options={SKIN_TONES} selected={data.skin_tone} onSelect={v => update('skin_tone', v)} cols={3} />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Facial Hair</label>
+                <label className="block text-sm font-semibold text-foreground dark:text-muted-foreground mb-2">Facial Hair</label>
                 <SelectGrid options={FACIAL_HAIR} selected={data.facial_hair} onSelect={v => update('facial_hair', v)} cols={3} />
               </div>
             </div>
           </section>
 
           {/* Style & Details */}
-          <section className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+          <section className="bg-card dark:bg-card rounded-xl shadow-sm border border-border dark:border-border p-6">
+            <h2 className="text-lg font-semibold text-foreground dark:text-foreground mb-4 flex items-center gap-2">
               <Palette className="w-5 h-5 text-pink-500" /> Style & Details
             </h2>
 
             <div className="space-y-6">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Clothing Style</label>
+                <label className="block text-sm font-semibold text-foreground dark:text-muted-foreground mb-2">Clothing Style</label>
                 <SelectGrid options={CLOTHING_STYLES} selected={data.clothing_style} onSelect={v => update('clothing_style', v)} cols={3} />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Dominant Hand</label>
+                <label className="block text-sm font-semibold text-foreground dark:text-muted-foreground mb-2">Dominant Hand</label>
                 <div className="grid grid-cols-3 gap-2">
                   {['Left', 'Right', 'Ambidextrous'].map(opt => {
                     const val = opt.toLowerCase().replace(/ /g, '_');
@@ -281,7 +281,7 @@ export default function PhysicalProfilePage() {
                         className={`px-3 py-2.5 text-sm rounded-lg border transition-all font-medium ${
                           data.dominant_hand === val
                             ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
-                            : 'bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 hover:border-blue-400'
+                            : 'bg-card dark:bg-card border-border dark:border-border hover:border-blue-400'
                         }`}
                       >
                         {opt}
@@ -317,14 +317,14 @@ export default function PhysicalProfilePage() {
       </div>
 
       {/* Sticky Save Bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur border-t border-gray-200 dark:border-gray-700 shadow-lg z-50">
+      <div className="fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur border-t border-border dark:border-border shadow-lg z-50">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
           {message ? (
             <span className={`text-sm font-medium ${message.type === 'success' ? 'text-green-600' : 'text-red-600'}`}>
               {message.text}
             </span>
           ) : (
-            <span className="text-sm text-gray-500">Changes save to your profile</span>
+            <span className="text-sm text-muted-foreground">Changes save to your profile</span>
           )}
           <button type="button"
             onClick={handleSave}

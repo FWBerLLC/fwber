@@ -27,14 +27,14 @@ export default function Dating({ formData, handlePreferenceChange }: DatingProps
       </CardHeader>
       <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div>
-          <label htmlFor="height_min" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label htmlFor="height_min" className="block text-sm font-medium text-foreground dark:text-muted-foreground">
             Partner Height (minimum)
           </label>
           <select
             id="height_min"
             value={formData.preferences.height_min || ''}
             onChange={(e) => handlePreferenceChange('height_min', e.target.value)}
-            className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           >
             <option value="">No preference</option>
             {HEIGHT_OPTIONS.map(h => (
@@ -44,14 +44,14 @@ export default function Dating({ formData, handlePreferenceChange }: DatingProps
         </div>
 
         <div>
-          <label htmlFor="height_max" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label htmlFor="height_max" className="block text-sm font-medium text-foreground dark:text-muted-foreground">
             Partner Height (maximum)
           </label>
           <select
             id="height_max"
             value={formData.preferences.height_max || ''}
             onChange={(e) => handlePreferenceChange('height_max', e.target.value)}
-            className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           >
             <option value="">No preference</option>
             {HEIGHT_OPTIONS.map(h => (
@@ -61,7 +61,7 @@ export default function Dating({ formData, handlePreferenceChange }: DatingProps
         </div>
 
         <div>
-          <label htmlFor="age_range_min" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label htmlFor="age_range_min" className="block text-sm font-medium text-foreground dark:text-muted-foreground">
             Minimum Age
           </label>
           <input
@@ -71,12 +71,12 @@ export default function Dating({ formData, handlePreferenceChange }: DatingProps
             max="99"
             value={formData.preferences.age_range_min}
             onChange={(e) => handlePreferenceChange('age_range_min', parseInt(e.target.value))}
-            className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           />
         </div>
 
         <div>
-          <label htmlFor="age_range_max" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label htmlFor="age_range_max" className="block text-sm font-medium text-foreground dark:text-muted-foreground">
             Maximum Age
           </label>
           <input
@@ -86,19 +86,19 @@ export default function Dating({ formData, handlePreferenceChange }: DatingProps
             max="99"
             value={formData.preferences.age_range_max}
             onChange={(e) => handlePreferenceChange('age_range_max', parseInt(e.target.value))}
-            className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           />
         </div>
 
         <div>
-          <label htmlFor="body_type" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label htmlFor="body_type" className="block text-sm font-medium text-foreground dark:text-muted-foreground">
             Partner Body Type Preference
           </label>
           <select
             id="body_type"
             value={formData.preferences.body_type}
             onChange={(e) => handlePreferenceChange('body_type', e.target.value)}
-            className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           >
             <option value="">No preference</option>
             <option value="slim">Slim</option>
@@ -111,14 +111,14 @@ export default function Dating({ formData, handlePreferenceChange }: DatingProps
         </div>
 
         <div>
-          <label htmlFor="religion" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label htmlFor="religion" className="block text-sm font-medium text-foreground dark:text-muted-foreground">
             Partner Religion Preference
           </label>
           <select
             id="religion"
             value={formData.preferences.religion}
             onChange={(e) => handlePreferenceChange('religion', e.target.value)}
-            className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           >
             <option value="">No preference</option>
             <option value="christian">Christian</option>
@@ -135,14 +135,14 @@ export default function Dating({ formData, handlePreferenceChange }: DatingProps
         </div>
 
         <div>
-          <label htmlFor="politics" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label htmlFor="politics" className="block text-sm font-medium text-foreground dark:text-muted-foreground">
             Partner Politics Preference
           </label>
           <select
             id="politics"
             value={formData.preferences.politics}
             onChange={(e) => handlePreferenceChange('politics', e.target.value)}
-            className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           >
             <option value="">No preference</option>
             <option value="liberal">Liberal</option>
@@ -155,14 +155,14 @@ export default function Dating({ formData, handlePreferenceChange }: DatingProps
         </div>
 
         <div>
-          <label htmlFor="education" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label htmlFor="education" className="block text-sm font-medium text-foreground dark:text-muted-foreground">
             Education Level
           </label>
           <select
             id="education"
             value={formData.preferences.education}
             onChange={(e) => handlePreferenceChange('education', e.target.value)}
-            className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           >
             <option value="">Select education</option>
             <option value="high-school">High School</option>

@@ -186,7 +186,7 @@ export default function MerchantLoyaltyPage() {
                             <div className="w-32 h-32 rounded-xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 mb-4 shadow-lg animate-pulse" />
                             <h4 className="font-bold text-sm">Vibe NFT #492</h4>
                             <p className="text-xs text-muted-foreground">Certified Loyal Customer</p>
-                            <div className="mt-4 w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+                            <div className="mt-4 w-full h-2 bg-muted rounded-full overflow-hidden">
                                 <div className="w-4/5 h-full bg-primary" />
                             </div>
                             <p className="mt-2 text-[10px] text-muted-foreground uppercase tracking-widest font-bold">80% to next mint</p>

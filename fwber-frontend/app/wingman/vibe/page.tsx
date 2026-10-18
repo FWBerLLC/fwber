@@ -72,14 +72,14 @@ export default function VibeCheckPage() {
               href="/wingman"
               className="p-2 -ml-2 hover:bg-teal-800/30 rounded-lg transition"
             >
-              <ArrowLeft className="w-5 h-5 text-gray-400" />
+              <ArrowLeft className="w-5 h-5 text-muted-foreground" />
             </Link>
             <div>
               <h1 className="text-2xl font-bold text-white flex items-center gap-2">
                 <Zap className="w-7 h-7 text-yellow-400" />
                 Vibe Check
               </h1>
-              <p className="text-sm text-gray-400">
+              <p className="text-sm text-muted-foreground">
                 Discover your dating green flags and red flags
               </p>
             </div>
@@ -101,7 +101,7 @@ export default function VibeCheckPage() {
                     <h2 className="text-xl font-semibold text-white">
                       What are your dating red and green flags?
                     </h2>
-                    <p className="text-gray-400 max-w-md mx-auto">
+                    <p className="text-muted-foreground max-w-md mx-auto">
                       Based on your profile, we&apos;ll analyze your personality
                       to reveal your dating strengths and areas to work on.
                     </p>
@@ -158,7 +158,7 @@ export default function VibeCheckPage() {
                       </div>
                     </div>
 
-                    <p className="text-xs text-gray-500 italic">
+                    <p className="text-xs text-muted-foreground italic">
                       Remember: Everyone has room to grow. These are just for fun!
                     </p>
                   </div>
@@ -204,14 +204,14 @@ export default function VibeCheckPage() {
               className="p-4 bg-slate-800/50 rounded-xl border border-purple-500/20 hover:border-purple-500/40 transition text-center"
             >
               <Sparkles className="w-8 h-8 mx-auto text-orange-400 mb-2" />
-              <span className="text-sm text-gray-300">Roast Me</span>
+              <span className="text-sm text-muted-foreground">Roast Me</span>
             </Link>
             <Link
               href="/wingman/cosmic"
               className="p-4 bg-slate-800/50 rounded-xl border border-purple-500/20 hover:border-purple-500/40 transition text-center"
             >
               <Sparkles className="w-8 h-8 mx-auto text-violet-400 mb-2" />
-              <span className="text-sm text-gray-300">Cosmic Match</span>
+              <span className="text-sm text-muted-foreground">Cosmic Match</span>
             </Link>
           </div>
         </main>

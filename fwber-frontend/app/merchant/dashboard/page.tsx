@@ -59,8 +59,8 @@ export default function MerchantDashboard() {
         {/* Welcome Section */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-                <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white uppercase italic tracking-tighter">Merchant Portal</h1>
-                <p className="text-gray-500 dark:text-gray-400">
+                <h1 className="text-3xl font-bold tracking-tight text-foreground dark:text-foreground uppercase italic tracking-tighter">Merchant Portal</h1>
+                <p className="text-muted-foreground dark:text-muted-foreground">
                     {profile?.business_name} — B2B Local Intelligence
                 </p>
             </div>
@@ -93,7 +93,7 @@ export default function MerchantDashboard() {
         <Card className="border-amber-200 dark:border-amber-900/40">
             <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                    <CardTitle className="text-lg text-gray-900 dark:text-white">Verification Status</CardTitle>
+                    <CardTitle className="text-lg text-foreground dark:text-foreground">Verification Status</CardTitle>
                     <CardDescription>
                         Merchants must be verified before promotions can go live.
                     </CardDescription>
@@ -101,7 +101,7 @@ export default function MerchantDashboard() {
                 <Badge className={statusClasses}>{statusLabel}</Badge>
             </CardHeader>
             <CardContent className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <p className="text-sm text-gray-600 dark:text-gray-300">
+                <p className="text-sm text-muted-foreground dark:text-muted-foreground">
                     {isVerified
                       ? 'Your merchant profile is verified and ready to publish promotions.'
                       : 'Review your business details and keep them current while verification is pending.'}
@@ -150,17 +150,17 @@ export default function MerchantDashboard() {
         {/* Recent Promotions */}
         <div>
             <div className="flex items-center justify-between mb-4">
-                 <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Recent Promotions</h2>
+                 <h2 className="text-xl font-semibold text-foreground dark:text-foreground">Recent Promotions</h2>
                  <Link href="/merchant/promotions" className="text-sm text-amber-600 hover:underline">
                     View all
                  </Link>
             </div>
              {promotions.length === 0 ? (
-                <Card className="bg-gray-50 dark:bg-gray-900 dark:bg-gray-800/50 border-dashed">
+                <Card className="bg-muted dark:bg-background dark:bg-gray-800/50 border-dashed">
                     <CardContent className="flex flex-col items-center justify-center py-10 text-center">
-                        <Tag className="h-10 w-10 text-gray-400 mb-4" />
-                        <h3 className="text-lg font-medium text-gray-900 dark:text-white dark:text-gray-100">No promotions yet</h3>
-                        <p className="text-gray-500 dark:text-gray-400 mb-4 max-w-sm">
+                        <Tag className="h-10 w-10 text-muted-foreground mb-4" />
+                        <h3 className="text-lg font-medium text-foreground dark:text-foreground dark:text-foreground">No promotions yet</h3>
+                        <p className="text-muted-foreground dark:text-muted-foreground mb-4 max-w-sm">
                             {isVerified
                               ? 'Create your first promotion to start attracting customers to your business.'
                               : 'Finish your merchant profile and wait for verification before publishing your first promotion.'}
@@ -181,7 +181,7 @@ export default function MerchantDashboard() {
                              <CardContent>
                                  <div className="flex justify-between items-center text-sm">
                                      <span className="font-bold text-green-600 dark:text-green-400">{promo.discount_value}</span>
-                                     <span className={`px-2 py-1 rounded-full text-xs ${promo.is_active ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300' : 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300'}`}>
+                                     <span className={`px-2 py-1 rounded-full text-xs ${promo.is_active ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300' : 'bg-muted text-foreground dark:bg-card dark:text-muted-foreground'}`}>
                                          {promo.is_active ? 'Active' : 'Inactive'}
                                      </span>
                                  </div>
@@ -203,7 +203,7 @@ export default function MerchantDashboard() {
 function DashboardSkeleton() {
     return (
         <div className="space-y-6">
-            <div className="h-16 w-1/3 bg-gray-200 dark:bg-gray-800 rounded animate-pulse" />
+            <div className="h-16 w-1/3 bg-muted dark:bg-card rounded animate-pulse" />
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                 {[1,2,3,4].map(i => <Skeleton key={i} className="h-24" />)}
             </div>

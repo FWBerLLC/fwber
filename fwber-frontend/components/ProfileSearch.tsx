@@ -61,11 +61,11 @@ export function ProfileSearch() {
     <div className="relative flex-1 max-w-md" ref={dropdownRef}>
       <div className="relative">
         <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-          <Search className="h-4 w-4 text-gray-400" />
+          <Search className="h-4 w-4 text-muted-foreground" />
         </div>
         <input
           type="text"
-          className="block w-full pl-10 pr-10 py-2 border border-gray-200 dark:border-gray-700 rounded-xl bg-gray-50 dark:bg-gray-800 focus:ring-2 focus:ring-pink-500 focus:border-transparent text-sm transition-all dark:text-white"
+          className="block w-full pl-10 pr-10 py-2 border border-border dark:border-border rounded-xl bg-muted dark:bg-card focus:ring-2 focus:ring-pink-500 focus:border-transparent text-sm transition-all dark:text-foreground"
           placeholder="Search profiles..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
@@ -76,13 +76,13 @@ export function ProfileSearch() {
             onClick={() => setQuery('')}
             className="absolute inset-y-0 right-0 flex items-center pr-3"
           >
-            <X className="h-4 w-4 text-gray-400 hover:text-gray-600" />
+            <X className="h-4 w-4 text-muted-foreground hover:text-muted-foreground" />
           </button>
         )}
       </div>
 
       {isOpen && (
-        <div className="absolute mt-2 w-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl z-50 overflow-hidden max-h-96 overflow-y-auto animate-in fade-in slide-in-from-top-2">
+        <div className="absolute mt-2 w-full bg-card dark:bg-background border border-border dark:border-border rounded-2xl shadow-xl z-50 overflow-hidden max-h-96 overflow-y-auto animate-in fade-in slide-in-from-top-2">
           {isSearching ? (
             <div className="p-4 flex items-center justify-center">
               <Loader2 className="h-5 w-5 animate-spin text-pink-500" />
@@ -94,7 +94,7 @@ export function ProfileSearch() {
                   key={result.id}
                   href={`/profile/${result.id}`}
                   onClick={() => setIsOpen(false)}
-                  className="flex items-center gap-3 p-3 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                  className="flex items-center gap-3 p-3 hover:bg-muted dark:hover:bg-gray-800 transition-colors"
                 >
                   <div className="relative h-10 w-10 flex-shrink-0">
                     <UserAvatar
@@ -106,11 +106,11 @@ export function ProfileSearch() {
                     />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">
+                    <p className="text-sm font-semibold text-foreground dark:text-foreground truncate">
                       {result.profile.display_name}
                     </p>
                     {result.profile.location?.city && (
-                      <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                      <p className="text-xs text-muted-foreground dark:text-muted-foreground truncate">
                         {result.profile.location.city}
                       </p>
                     )}
@@ -119,7 +119,7 @@ export function ProfileSearch() {
               ))}
             </div>
           ) : (
-            <div className="p-4 text-center text-sm text-gray-500">
+            <div className="p-4 text-center text-sm text-muted-foreground">
               No profiles found
             </div>
           )}

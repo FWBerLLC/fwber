@@ -178,7 +178,7 @@ function FederationActorExplorerContent() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-muted dark:bg-background">
       <AppHeader />
       <main className="max-w-5xl mx-auto px-4 py-8 space-y-8">
         <div className="flex flex-col gap-4">
@@ -190,11 +190,11 @@ function FederationActorExplorerContent() {
                 </Link>
               </Button>
               <div>
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                <h1 className="text-3xl font-bold text-foreground dark:text-foreground flex items-center gap-2">
                   <Globe className="w-8 h-8 text-blue-500" />
                   Federated Actor Explorer
                 </h1>
-                <p className="text-gray-500 dark:text-gray-400 mt-1">
+                <p className="text-muted-foreground dark:text-muted-foreground mt-1">
                   Inspect a remote profile using real cached posts and the actor data fwber can resolve today.
                 </p>
               </div>
@@ -245,7 +245,7 @@ function FederationActorExplorerContent() {
                       )}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <CardTitle className="text-2xl text-gray-900 dark:text-white">
+                      <CardTitle className="text-2xl text-foreground dark:text-foreground">
                         {actor.name || actor.preferredUsername}
                       </CardTitle>
                       <CardDescription className="mt-1 break-all">
@@ -261,7 +261,7 @@ function FederationActorExplorerContent() {
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div className="rounded-xl border bg-white dark:bg-gray-800 p-4 text-sm text-gray-700 dark:bg-gray-950/30 dark:text-gray-300">
+                  <div className="rounded-xl border bg-card dark:bg-card p-4 text-sm text-foreground dark:bg-gray-950/30 dark:text-muted-foreground">
                     {actor.summary || 'This remote actor has not published a summary yet.'}
                   </div>
                   <div className="flex flex-wrap gap-3">
@@ -360,7 +360,7 @@ function FederationActorExplorerContent() {
                     const authorName = post.metadata?.name || post.actor_username || actor.name || 'Federated User'
 
                     return (
-                      <article key={post.id} className="rounded-xl border bg-white dark:bg-gray-800 p-4 shadow-sm dark:bg-gray-950/30">
+                      <article key={post.id} className="rounded-xl border bg-card dark:bg-card p-4 shadow-sm dark:bg-gray-950/30">
                         <div className="flex items-start justify-between gap-3">
                           <div className="flex items-center gap-3 min-w-0">
                             <div className="relative h-10 w-10 overflow-hidden rounded-full bg-blue-100">
@@ -373,7 +373,7 @@ function FederationActorExplorerContent() {
                               )}
                             </div>
                             <div className="min-w-0">
-                              <p className="truncate text-sm font-semibold text-gray-900 dark:text-white">{authorName}</p>
+                              <p className="truncate text-sm font-semibold text-foreground dark:text-foreground">{authorName}</p>
                               <p className="truncate text-xs text-muted-foreground">
                                 {formatFederationHandle(post.actor_username, post.actor_domain, post.actor_uri)}
                               </p>
@@ -384,7 +384,7 @@ function FederationActorExplorerContent() {
                           </time>
                         </div>
                         <div
-                          className="mt-4 prose max-w-none text-sm text-gray-700 dark:prose-invert dark:text-gray-300"
+                          className="mt-4 prose max-w-none text-sm text-foreground dark:prose-invert dark:text-muted-foreground"
                           dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }}
                         />
                         <div className="mt-4 flex flex-wrap gap-3">
@@ -415,7 +415,7 @@ function FederationActorExplorerContent() {
 
 function FederationActorExplorerFallback() {
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-muted dark:bg-background">
       <AppHeader />
       <main className="max-w-5xl mx-auto px-4 py-8">
         <div className="flex items-center justify-center py-20">

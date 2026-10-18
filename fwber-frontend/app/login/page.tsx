@@ -134,16 +134,16 @@ export default function LoginPage() {
 
   if (requiresTwoFactor) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8 relative">
+      <div className="min-h-screen flex items-center justify-center bg-muted dark:bg-background py-12 px-4 sm:px-6 lg:px-8 relative">
         <div className="absolute top-4 right-4">
           <ThemeToggle />
         </div>
         <div className="max-w-md w-full space-y-8">
           <div>
-            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
+            <h2 className="mt-6 text-center text-3xl font-extrabold text-foreground dark:text-foreground">
               Two-Factor Authentication
             </h2>
-            <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
+            <p className="mt-2 text-center text-sm text-muted-foreground dark:text-muted-foreground">
               Please confirm access to your account by entering the authentication code provided by your authenticator application.
             </p>
           </div>
@@ -162,7 +162,7 @@ export default function LoginPage() {
                     inputMode="numeric"
                     autoComplete="one-time-code"
                     required
-                    className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white dark:bg-gray-800 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                    className="appearance-none rounded-md relative block w-full px-3 py-2 border border-border dark:border-border placeholder-gray-500 dark:placeholder-gray-400 text-foreground dark:text-foreground dark:bg-card focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                     placeholder="Authentication Code"
                     value={twoFactorCode}
                     onChange={(e) => setTwoFactorCode(e.target.value)}
@@ -179,7 +179,7 @@ export default function LoginPage() {
                     type="text"
                     autoComplete="off"
                     required
-                    className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white dark:bg-gray-800 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                    className="appearance-none rounded-md relative block w-full px-3 py-2 border border-border dark:border-border placeholder-gray-500 dark:placeholder-gray-400 text-foreground dark:text-foreground dark:bg-card focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                     placeholder="Recovery Code"
                     value={recoveryCode}
                     onChange={(e) => setRecoveryCode(e.target.value)}
@@ -228,16 +228,16 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8 relative">
+    <div className="min-h-screen flex items-center justify-center bg-muted dark:bg-background py-12 px-4 sm:px-6 lg:px-8 relative">
       <div className="absolute top-4 right-4">
         <ThemeToggle />
       </div>
       <div className="max-w-md w-full space-y-8">
         <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-foreground dark:text-foreground">
             Sign in to <span className="text-transparent bg-clip-text bg-gradient-to-br from-pink-500 via-purple-500 to-cyan-500 animate-gradient-chaos">FWBer</span>
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
+          <p className="mt-2 text-center text-sm text-muted-foreground dark:text-muted-foreground">
             Or{' '}
             <Link
               href="/register"
@@ -261,7 +261,7 @@ export default function LoginPage() {
                 type="email"
                 autoComplete="email"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white dark:bg-gray-800 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-border dark:border-border placeholder-gray-500 dark:placeholder-gray-400 text-foreground dark:text-foreground dark:bg-card rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                 placeholder="Email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -277,7 +277,7 @@ export default function LoginPage() {
                 type="password"
                 autoComplete="current-password"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white dark:bg-gray-800 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-border dark:border-border placeholder-gray-500 dark:placeholder-gray-400 text-foreground dark:text-foreground dark:bg-card rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -310,7 +310,7 @@ export default function LoginPage() {
             <Link
               href="/test-auth"
               prefetch={false}
-              className="text-sm text-gray-600 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300"
+              className="text-sm text-muted-foreground hover:text-muted-foreground dark:text-muted-foreground dark:hover:text-muted-foreground"
             >
               API Test Page
             </Link>
@@ -318,10 +318,10 @@ export default function LoginPage() {
 
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300 dark:border-gray-700"></div>
+              <div className="w-full border-t border-border dark:border-border"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-gray-50 dark:bg-gray-900 text-gray-500">
+              <span className="px-2 bg-muted dark:bg-background text-muted-foreground">
                 Or continue with
               </span>
             </div>
@@ -331,7 +331,7 @@ export default function LoginPage() {
             <button
               type="button"
               onClick={() => setIsFedModalOpen(true)}
-              className="group relative w-full flex justify-center py-2 px-4 border border-zinc-200 dark:border-zinc-800 text-sm font-bold rounded-md text-zinc-900 dark:text-white bg-white dark:bg-gray-800 dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-all shadow-sm"
+              className="group relative w-full flex justify-center py-2 px-4 border border-zinc-200 dark:border-zinc-800 text-sm font-bold rounded-md text-zinc-900 dark:text-foreground bg-card dark:bg-card dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-all shadow-sm"
             >
               <Globe className="w-4 h-4 mr-2 text-purple-500" />
               Sign in with ActivityPub

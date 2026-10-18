@@ -51,9 +51,9 @@ export default function WhoLikesYouPage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
+      <div className="min-h-screen bg-muted dark:bg-background py-8">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">People who liked you</h1>
+          <h1 className="text-3xl font-bold text-foreground dark:text-foreground mb-6">People who liked you</h1>
           
           {isLoading ? (
             <div className="flex justify-center py-12">
@@ -62,7 +62,7 @@ export default function WhoLikesYouPage() {
           ) : likedUsers.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {Array.isArray(likedUsers) && likedUsers.map((user) => (
-                <div key={user.id} className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+                <div key={user.id} className="bg-card dark:bg-card rounded-lg shadow overflow-hidden">
                   <div className="relative h-48 w-full">
                     <Image
                       src={getAvatarUrl(user.photo_url || user.avatarUrl, user.display_name || user.name)}
@@ -77,18 +77,18 @@ export default function WhoLikesYouPage() {
                     </div>
                   </div>
                   <div className="p-4">
-                    <h3 className="font-semibold text-gray-900 dark:text-white">
+                    <h3 className="font-semibold text-foreground dark:text-foreground">
                       {user.display_name || user.name || 'User'}
                       {user.age ? `, ${user.age}` : ''}
                     </h3>
-                    <p className="text-sm text-gray-500">Liked you recently</p>
+                    <p className="text-sm text-muted-foreground">Liked you recently</p>
                   </div>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="text-center py-12 bg-white dark:bg-gray-800 rounded-lg shadow">
-              <p className="text-gray-500 text-lg">No new likes yet. Keep your profile updated!</p>
+            <div className="text-center py-12 bg-card dark:bg-card rounded-lg shadow">
+              <p className="text-muted-foreground text-lg">No new likes yet. Keep your profile updated!</p>
             </div>
           )}
         </div>

@@ -78,7 +78,7 @@ export default function GlobalSubpageNav() {
         whileTap={{ scale: 0.95 }}
         type="button"
         onClick={handleBack}
-        className="rounded-full p-2 text-gray-700 transition-colors hover:bg-white/20 dark:text-gray-300 dark:hover:bg-white/10"
+        className="rounded-full p-2 text-foreground transition-colors hover:bg-white/20 dark:text-muted-foreground dark:hover:bg-white/10"
         aria-label="Go back"
         title="Go back"
       >

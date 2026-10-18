@@ -32,20 +32,20 @@ export default function IntegrationsPage() {
     return (
         <div className="container mx-auto p-4 md:p-8 max-w-4xl space-y-6">
             <div className="flex justify-between items-center">
-                <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-2">
+                <h1 className="text-3xl font-bold text-foreground flex items-center gap-2">
                     <LinkIcon className="w-8 h-8 text-primary" />
                     Connected Accounts
                 </h1>
             </div>
 
-            <Card className="bg-white shadow-sm border border-gray-100 mb-8">
+            <Card className="bg-card shadow-sm border border-gray-100 mb-8">
                 <CardHeader>
                     <CardTitle className="text-xl flex items-center gap-2">
                         Contact Synchronization
                         <TooltipProvider>
                             <Tooltip>
                                 <TooltipTrigger asChild>
-                                    <Info className="w-4 h-4 text-gray-400 cursor-help" />
+                                    <Info className="w-4 h-4 text-muted-foreground cursor-help" />
                                 </TooltipTrigger>
                                 <TooltipContent>
                                     <p>Sync your contacts to find friends already on the platform. We never message anyone without your permission.</p>
@@ -68,7 +68,7 @@ export default function IntegrationsPage() {
                             {integrations.google ? (
                                 <span className="flex items-center gap-1 text-xs font-semibold text-green-600 bg-green-50 px-2 py-1 rounded-full"><CheckCircle2 className="w-3 h-3" /> Connected</span>
                             ) : (
-                                <span className="flex items-center gap-1 text-xs font-semibold text-gray-500 bg-gray-100 px-2 py-1 rounded-full">Not Connected</span>
+                                <span className="flex items-center gap-1 text-xs font-semibold text-muted-foreground bg-muted px-2 py-1 rounded-full">Not Connected</span>
                             )}
                         </div>
                         <CardTitle className="text-lg">Google Contacts</CardTitle>
@@ -94,7 +94,7 @@ export default function IntegrationsPage() {
                             {integrations.microsoft ? (
                                 <span className="flex items-center gap-1 text-xs font-semibold text-green-600 bg-green-50 px-2 py-1 rounded-full"><CheckCircle2 className="w-3 h-3" /> Connected</span>
                             ) : (
-                                <span className="flex items-center gap-1 text-xs font-semibold text-gray-500 bg-gray-100 px-2 py-1 rounded-full">Not Connected</span>
+                                <span className="flex items-center gap-1 text-xs font-semibold text-muted-foreground bg-muted px-2 py-1 rounded-full">Not Connected</span>
                             )}
                         </div>
                         <CardTitle className="text-lg">Outlook / Microsoft 365</CardTitle>
@@ -120,7 +120,7 @@ export default function IntegrationsPage() {
                             {integrations.facebook ? (
                                 <span className="flex items-center gap-1 text-xs font-semibold text-green-600 bg-green-50 px-2 py-1 rounded-full border border-green-200"><CheckCircle2 className="w-3 h-3" /> Connected</span>
                             ) : (
-                                <span className="flex items-center gap-1 text-xs font-semibold text-gray-500 bg-gray-100 px-2 py-1 rounded-full">Not Connected</span>
+                                <span className="flex items-center gap-1 text-xs font-semibold text-muted-foreground bg-muted px-2 py-1 rounded-full">Not Connected</span>
                             )}
                         </div>
                         <CardTitle className="text-lg">Facebook Friends</CardTitle>

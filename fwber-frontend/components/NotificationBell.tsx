@@ -124,7 +124,7 @@ export function NotificationBell({ className = '' }: NotificationBellProps) {
       case 'gift': return <Gift className="h-4 w-4 text-pink-400" />;
       case 'event': return <Calendar className="h-4 w-4 text-blue-400" />;
       case 'system': return <AlertCircle className="h-4 w-4 text-yellow-500" />;
-      default: return <Bell className="h-4 w-4 text-gray-500" />;
+      default: return <Bell className="h-4 w-4 text-muted-foreground" />;
     }
   };
 
@@ -168,10 +168,10 @@ export function NotificationBell({ className = '' }: NotificationBellProps) {
     <div className={`notification-bell relative ${className}`}>
       <button type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="relative p-2 rounded-full hover:bg-gray-100 dark:bg-gray-800 transition-colors"
+        className="relative p-2 rounded-full hover:bg-muted dark:bg-card transition-colors"
         aria-label="Notifications"
       >
-        <Bell className="h-6 w-6 text-gray-600" />
+        <Bell className="h-6 w-6 text-muted-foreground" />
         {unreadCount > 0 && (
           <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white ring-2 ring-white">
             {unreadCount > 9 ? '9+' : unreadCount}
@@ -180,9 +180,9 @@ export function NotificationBell({ className = '' }: NotificationBellProps) {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 z-50 overflow-hidden">
-          <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 bg-gray-50 dark:bg-gray-900">
-            <h3 className="font-semibold text-gray-900 dark:text-white">Notifications</h3>
+        <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-card dark:bg-card rounded-xl shadow-xl border border-border dark:border-border z-50 overflow-hidden">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 bg-muted dark:bg-background">
+            <h3 className="font-semibold text-foreground dark:text-foreground">Notifications</h3>
             <div className="flex items-center gap-2">
               {unreadCount > 0 && (
                 <button type="button"
@@ -194,11 +194,11 @@ export function NotificationBell({ className = '' }: NotificationBellProps) {
               )}
               <button type="button"
                 onClick={() => setIsOpen(false)}
-                className="p-1 rounded hover:bg-gray-200"
+                className="p-1 rounded hover:bg-muted"
                 aria-label="Close notifications"
                 title="Close"
               >
-                <X className="h-4 w-4 text-gray-500" />
+                <X className="h-4 w-4 text-muted-foreground" />
               </button>
             </div>
           </div>
@@ -210,8 +210,8 @@ export function NotificationBell({ className = '' }: NotificationBellProps) {
               </div>
             ) : notifications.length === 0 ? (
               <div className="text-center py-8">
-                <Bell className="mx-auto h-10 w-10 text-gray-300 mb-2" />
-                <p className="text-gray-500 text-sm">No notifications yet</p>
+                <Bell className="mx-auto h-10 w-10 text-muted-foreground mb-2" />
+                <p className="text-muted-foreground text-sm">No notifications yet</p>
               </div>
             ) : (
               <div className="divide-y divide-gray-100">
@@ -223,7 +223,7 @@ export function NotificationBell({ className = '' }: NotificationBellProps) {
                       if (!notification.read) markAsRead(notification.id);
                       setIsOpen(false);
                     }}
-                    className={`flex items-start gap-3 p-4 hover:bg-gray-50 dark:bg-gray-900 transition-colors ${!notification.read ? 'bg-blue-50' : ''}`}
+                    className={`flex items-start gap-3 p-4 hover:bg-muted dark:bg-background transition-colors ${!notification.read ? 'bg-blue-50' : ''}`}
                   >
                     <div className="flex-shrink-0 mt-0.5">
                       {notification.data?.user_id ? (
@@ -239,20 +239,20 @@ export function NotificationBell({ className = '' }: NotificationBellProps) {
                           </div>
                         </div>
                       ) : (
-                        <div className="w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center">
+                        <div className="w-10 h-10 bg-muted dark:bg-card rounded-full flex items-center justify-center">
                           {getNotificationIcon(notification.type)}
                         </div>
                       )}
                     </div>
 
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
+                      <p className="text-sm font-medium text-foreground dark:text-foreground truncate">
                         {notification.title}
                       </p>
-                      <p className="text-sm text-gray-500 line-clamp-2">
+                      <p className="text-sm text-muted-foreground line-clamp-2">
                         {notification.body}
                       </p>
-                      <p className="text-xs text-gray-400 mt-1">
+                      <p className="text-xs text-muted-foreground mt-1">
                         {formatTime(notification.timestamp)}
                       </p>
                     </div>
@@ -269,7 +269,7 @@ export function NotificationBell({ className = '' }: NotificationBellProps) {
           </div>
 
           {notifications.length > 0 && (
-            <div className="border-t border-gray-100 px-4 py-3 bg-gray-50 dark:bg-gray-900">
+            <div className="border-t border-gray-100 px-4 py-3 bg-muted dark:bg-background">
               <Link
                 href="/notifications"
                 onClick={() => setIsOpen(false)}

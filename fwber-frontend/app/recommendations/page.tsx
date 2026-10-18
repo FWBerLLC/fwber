@@ -267,7 +267,7 @@ export default function RecommendationsPage() {
     const contentId = String(recommendation.content.id || recommendation.id);
 
     return (
-      <Card key={recommendation.id || `${activeTab}-${index}`} className="h-full border-gray-200 dark:border-gray-700 bg-white dark:border-gray-800 dark:bg-gray-900 overflow-hidden">
+      <Card key={recommendation.id || `${activeTab}-${index}`} className="h-full border-border dark:border-border bg-card dark:border-gray-800 dark:bg-background overflow-hidden">
         {(recommendation as any).compatibility_score && (
           <div className="bg-purple-600/10 border-b border-purple-500/20 py-2 px-4 flex items-center justify-between">
             <span className="text-xs font-bold text-purple-400 flex items-center gap-1">
@@ -285,13 +285,13 @@ export default function RecommendationsPage() {
               <Badge variant="outline" className="border-purple-200 bg-purple-50 text-purple-700 dark:border-purple-900 dark:bg-purple-950 dark:text-purple-200">
                 {recommendation.type.toUpperCase()}
               </Badge>
-              <CardTitle className="text-xl text-gray-900 dark:text-white">{title}</CardTitle>
+              <CardTitle className="text-xl text-foreground dark:text-foreground">{title}</CardTitle>
             </div>
             <Badge variant="secondary" className="shrink-0">
               {Math.round(recommendation.score)}%
             </Badge>
           </div>
-          <CardDescription className="text-sm text-gray-600 dark:text-gray-300">
+          <CardDescription className="text-sm text-muted-foreground dark:text-muted-foreground">
             {description}
           </CardDescription>
         </CardHeader>
@@ -303,11 +303,11 @@ export default function RecommendationsPage() {
                 Scene-aligned +{Math.round(recommendation.scene_signals.score_boost * 100)} pts
               </div>
               {recommendation.scene_signals.headline && (
-                <p className="mb-2 text-sm text-gray-700 dark:text-gray-300 dark:text-gray-200">{recommendation.scene_signals.headline}</p>
+                <p className="mb-2 text-sm text-foreground dark:text-muted-foreground dark:text-foreground">{recommendation.scene_signals.headline}</p>
               )}
               <div className="flex flex-wrap gap-2">
                 {(Array.isArray(recommendation.scene_signals.matched_topics) ? recommendation.scene_signals.matched_topics : []).map((topic: any) => (
-                  <Badge key={topic.slug} variant="outline" className="border-cyan-300 bg-white dark:bg-gray-800 text-cyan-700 dark:border-cyan-800 dark:bg-cyan-950/20 dark:text-cyan-200">
+                  <Badge key={topic.slug} variant="outline" className="border-cyan-300 bg-card dark:bg-card text-cyan-700 dark:border-cyan-800 dark:bg-cyan-950/20 dark:text-cyan-200">
                     {topic.emoji ? `${topic.emoji} ` : ''}{topic.label}
                   </Badge>
                 ))}
@@ -354,29 +354,29 @@ export default function RecommendationsPage() {
   };
 
   const renderTrendingCard = (item: TrendingContent, index: number) => (
-    <Card key={item.id || `${activeTab}-${index}`} className="h-full border-gray-200 dark:border-gray-700 bg-white dark:border-gray-800 dark:bg-gray-900">
+    <Card key={item.id || `${activeTab}-${index}`} className="h-full border-border dark:border-border bg-card dark:border-gray-800 dark:bg-background">
       <CardHeader className="space-y-3">
         <div className="flex items-start justify-between gap-3">
           <div className="space-y-2">
             <Badge variant="outline" className="border-blue-200 bg-blue-50 text-blue-700 dark:border-blue-900 dark:bg-blue-950 dark:text-blue-200">
               {item.type}
             </Badge>
-            <CardTitle className="text-xl text-gray-900 dark:text-white">{item.title}</CardTitle>
+            <CardTitle className="text-xl text-foreground dark:text-foreground">{item.title}</CardTitle>
           </div>
           <Badge variant="secondary">#{index + 1}</Badge>
         </div>
-        <CardDescription className="text-sm text-gray-600 dark:text-gray-300">
+        <CardDescription className="text-sm text-muted-foreground dark:text-muted-foreground">
           {item.description}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-3 text-sm text-muted-foreground">
         <div className="flex items-center justify-between gap-3">
           <span>Engagement score</span>
-          <span className="font-medium text-gray-900 dark:text-white">{item.engagement_score.toFixed(1)}</span>
+          <span className="font-medium text-foreground dark:text-foreground">{item.engagement_score.toFixed(1)}</span>
         </div>
         <div className="flex items-center justify-between gap-3">
           <span>Trending since</span>
-          <span className="font-medium text-gray-900 dark:text-white">{new Date(item.trending_since).toLocaleString()}</span>
+          <span className="font-medium text-foreground dark:text-foreground">{new Date(item.trending_since).toLocaleString()}</span>
         </div>
       </CardContent>
     </Card>
@@ -387,18 +387,18 @@ export default function RecommendationsPage() {
     const description = item.reason || item.content?.description || 'Personalized recommendation item';
 
     return (
-      <Card key={item.id || `${activeTab}-${index}`} className="h-full border-gray-200 dark:border-gray-700 bg-white dark:border-gray-800 dark:bg-gray-900">
+      <Card key={item.id || `${activeTab}-${index}`} className="h-full border-border dark:border-border bg-card dark:border-gray-800 dark:bg-background">
         <CardHeader className="space-y-3">
           <div className="flex items-start justify-between gap-3">
             <div className="space-y-2">
               <Badge variant="outline" className="border-green-200 bg-green-50 text-green-700 dark:border-green-900 dark:bg-green-950 dark:text-green-200">
                 {item.type}
               </Badge>
-              <CardTitle className="text-xl text-gray-900 dark:text-white">{title}</CardTitle>
+              <CardTitle className="text-xl text-foreground dark:text-foreground">{title}</CardTitle>
             </div>
             {typeof item.score === 'number' ? <Badge variant="secondary">{Math.round(item.score)}%</Badge> : null}
           </div>
-          <CardDescription className="text-sm text-gray-600 dark:text-gray-300">
+          <CardDescription className="text-sm text-muted-foreground dark:text-muted-foreground">
             {description}
           </CardDescription>
         </CardHeader>
@@ -410,11 +410,11 @@ export default function RecommendationsPage() {
                 Scene cue
               </div>
               {item.scene_signals.headline && (
-                <p className="mb-2 text-sm text-gray-700 dark:text-gray-300 dark:text-gray-200">{item.scene_signals.headline}</p>
+                <p className="mb-2 text-sm text-foreground dark:text-muted-foreground dark:text-foreground">{item.scene_signals.headline}</p>
               )}
               <div className="flex flex-wrap gap-2">
                 {(Array.isArray(item.scene_signals.matched_topics) ? item.scene_signals.matched_topics : []).map((topic: any) => (
-                  <Badge key={topic.slug} variant="outline" className="border-cyan-300 bg-white dark:bg-gray-800 text-cyan-700 dark:border-cyan-800 dark:bg-cyan-950/20 dark:text-cyan-200">
+                  <Badge key={topic.slug} variant="outline" className="border-cyan-300 bg-card dark:bg-card text-cyan-700 dark:border-cyan-800 dark:bg-cyan-950/20 dark:text-cyan-200">
                     {topic.emoji ? `${topic.emoji} ` : ''}{topic.label}
                   </Badge>
                 ))}
@@ -427,7 +427,7 @@ export default function RecommendationsPage() {
           {item.timestamp ? (
             <div className="flex items-center justify-between gap-3">
               <span>Updated</span>
-              <span className="font-medium text-gray-900 dark:text-white">{new Date(item.timestamp).toLocaleString()}</span>
+              <span className="font-medium text-foreground dark:text-foreground">{new Date(item.timestamp).toLocaleString()}</span>
             </div>
           ) : null}
         </CardContent>
@@ -449,17 +449,17 @@ export default function RecommendationsPage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+      <div className="min-h-screen bg-muted dark:bg-background">
         <AppHeader />
         <main className="mx-auto max-w-6xl px-4 py-8 space-y-8">
           <div className="flex flex-col gap-4">
             <div className="flex items-center justify-between gap-4 flex-wrap">
               <div>
-                <h1 className="flex items-center gap-3 text-3xl font-bold text-gray-900 dark:text-white">
+                <h1 className="flex items-center gap-3 text-3xl font-bold text-foreground dark:text-foreground">
                   <Sparkles className="h-8 w-8 text-purple-500" />
                   Recommendations
                 </h1>
-                <p className="mt-1 text-gray-500 dark:text-gray-400">
+                <p className="mt-1 text-muted-foreground dark:text-muted-foreground">
                   Personalized discovery across AI, collaborative, nearby, and trending signals.
                 </p>
               </div>
@@ -493,9 +493,9 @@ export default function RecommendationsPage() {
             </div>
           </div>
 
-          <Card className="border-gray-200 dark:border-gray-700 bg-white dark:border-gray-800 dark:bg-gray-900">
+          <Card className="border-border dark:border-border bg-card dark:border-gray-800 dark:bg-background">
             <CardHeader>
-              <CardTitle className="text-lg text-gray-900 dark:text-white">Context</CardTitle>
+              <CardTitle className="text-lg text-foreground dark:text-foreground">Context</CardTitle>
               <CardDescription>
                 Recommendation quality improves when location and recent activity are available.
               </CardDescription>
@@ -526,7 +526,7 @@ export default function RecommendationsPage() {
                   className={`rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
                     isActive
                       ? 'border-purple-200 bg-purple-50 text-purple-700 dark:border-purple-900 dark:bg-purple-950 dark:text-purple-200'
-                      : 'border-gray-200 bg-white text-gray-600 hover:border-purple-200 hover:text-purple-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-purple-900 dark:hover:text-purple-200'
+                      : 'border-border bg-card text-muted-foreground hover:border-purple-200 hover:text-purple-700 dark:border-gray-800 dark:bg-background dark:text-muted-foreground dark:hover:border-purple-900 dark:hover:text-purple-200'
                   }`}
                   title={tab.description}
                 >
@@ -547,7 +547,7 @@ export default function RecommendationsPage() {
                     <Compass className="h-4 w-4" />
                     Ranking strategy
                   </div>
-                  <p className="text-sm text-gray-700 dark:text-gray-300 dark:text-gray-200">{currentRankingStrategy.summary}</p>
+                  <p className="text-sm text-foreground dark:text-muted-foreground dark:text-foreground">{currentRankingStrategy.summary}</p>
                   <div className="flex flex-wrap gap-2">
                     {currentRankingStrategy.base_relevance ? <Badge variant="outline">Base relevance</Badge> : null}
                     {currentRankingStrategy.trusted_connections ? <Badge variant="outline">Trusted connections</Badge> : null}
@@ -566,12 +566,12 @@ export default function RecommendationsPage() {
                 {currentItems.map((item, index) => renderCurrentCard(item, index))}
               </div>
             ) : (
-              <Card className="border-dashed border-2 border-gray-300 bg-white dark:border-gray-700 dark:bg-gray-900">
+              <Card className="border-dashed border-2 border-border bg-card dark:border-border dark:bg-background">
                 <CardContent className="py-12 text-center">
-                  <p className="text-lg font-medium text-gray-900 dark:text-white">
+                  <p className="text-lg font-medium text-foreground dark:text-foreground">
                     No recommendations available for this category yet.
                   </p>
-                  <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                  <p className="mt-2 text-sm text-muted-foreground dark:text-muted-foreground">
                     Try refreshing, enabling location, or checking back after more activity.
                   </p>
                 </CardContent>
@@ -580,25 +580,25 @@ export default function RecommendationsPage() {
           </section>
 
           {mixedMetadata ? (
-            <Card className="border-gray-200 dark:border-gray-700 bg-white dark:border-gray-800 dark:bg-gray-900">
+            <Card className="border-border dark:border-border bg-card dark:border-gray-800 dark:bg-background">
               <CardHeader>
-                <CardTitle className="text-lg text-gray-900 dark:text-white">Mixed recommendation metadata</CardTitle>
+                <CardTitle className="text-lg text-foreground dark:text-foreground">Mixed recommendation metadata</CardTitle>
                 <CardDescription>Live details for the current combined recommendation batch.</CardDescription>
               </CardHeader>
               <CardContent className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
                 <div className="rounded-lg border p-4">
                   <p className="text-sm text-muted-foreground">Total</p>
-                  <p className="mt-1 text-lg font-semibold text-gray-900 dark:text-white">{mixedMetadata.total}</p>
+                  <p className="mt-1 text-lg font-semibold text-foreground dark:text-foreground">{mixedMetadata.total}</p>
                 </div>
                 <div className="rounded-lg border p-4">
                   <p className="text-sm text-muted-foreground">Types</p>
-                  <p className="mt-1 text-sm font-medium text-gray-900 dark:text-white">
+                  <p className="mt-1 text-sm font-medium text-foreground dark:text-foreground">
                     {Array.isArray(mixedMetadata.types) ? mixedMetadata.types.join(', ') : ''}
                   </p>
                 </div>
                 <div className="rounded-lg border p-4">
                   <p className="text-sm text-muted-foreground">Generated</p>
-                  <p className="mt-1 text-sm font-medium text-gray-900 dark:text-white">
+                  <p className="mt-1 text-sm font-medium text-foreground dark:text-foreground">
                     {new Date(mixedMetadata.generated_at).toLocaleTimeString()}
                   </p>
                 </div>

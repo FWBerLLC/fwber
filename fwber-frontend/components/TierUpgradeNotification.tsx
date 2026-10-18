@@ -64,13 +64,13 @@ export default function TierUpgradeNotification({
       />
 
       {/* Modal */}
-      <div className={`relative bg-white dark:bg-gray-900 rounded-2xl shadow-2xl max-w-md w-full p-6 transform transition-all duration-300 ${
+      <div className={`relative bg-card dark:bg-background rounded-2xl shadow-2xl max-w-md w-full p-6 transform transition-all duration-300 ${
         isVisible ? 'scale-100' : 'scale-95'
       }`}>
         {/* Close button */}
         <button type="button"
           onClick={handleClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+          className="absolute top-4 right-4 text-muted-foreground hover:text-muted-foreground dark:hover:text-gray-200"
           aria-label="Close notification"
           title="Close"
         >
@@ -95,7 +95,7 @@ export default function TierUpgradeNotification({
           </div>
 
           {/* Title */}
-          <h2 className="text-2xl font-bold mb-2 text-gray-900 dark:text-white">
+          <h2 className="text-2xl font-bold mb-2 text-foreground dark:text-foreground">
             Relationship Upgraded!
           </h2>
 
@@ -107,20 +107,20 @@ export default function TierUpgradeNotification({
           </div>
 
           {/* Description */}
-          <p className="text-gray-600 dark:text-gray-300 mb-6">
+          <p className="text-muted-foreground dark:text-muted-foreground mb-6">
             {tierInfo.description}
           </p>
 
           {/* New unlocks */}
-          <div className="bg-gray-50 dark:bg-gray-900 dark:bg-gray-800 rounded-lg p-4 mb-6">
-            <h3 className="font-semibold text-sm mb-3 text-gray-700 dark:text-gray-300">
+          <div className="bg-muted dark:bg-background dark:bg-card rounded-lg p-4 mb-6">
+            <h3 className="font-semibold text-sm mb-3 text-foreground dark:text-muted-foreground">
               What&apos;s new:
             </h3>
             <ul className="space-y-2">
               {tierInfo.unlocks.map((unlock, i) => (
                 <li key={i} className="flex items-start gap-2 text-sm text-left">
                   <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0 text-green-600 dark:text-green-400" />
-                  <span className="text-gray-700 dark:text-gray-300">{unlock}</span>
+                  <span className="text-foreground dark:text-muted-foreground">{unlock}</span>
                 </li>
               ))}
             </ul>

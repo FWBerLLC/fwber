@@ -32,7 +32,7 @@ export default function VouchPage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+      <div className="min-h-screen bg-muted dark:bg-background">
         <AppHeader title="Vouches" />
         <main className="max-w-2xl mx-auto px-4 py-8 space-y-8">
           <section>
@@ -43,8 +43,8 @@ export default function VouchPage() {
                 </svg>
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Vouches</h1>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
+                <h1 className="text-2xl font-bold text-foreground dark:text-foreground">Vouches</h1>
+                <p className="text-sm text-muted-foreground dark:text-muted-foreground">
                   Community endorsements that boost trust scores
                 </p>
               </div>
@@ -53,18 +53,18 @@ export default function VouchPage() {
             {isLoading ? (
               <div className="animate-pulse space-y-3">
                 {[1, 2, 3].map(i => (
-                  <div key={i} className="h-20 bg-gray-200 dark:bg-gray-800 rounded-lg" />
+                  <div key={i} className="h-20 bg-muted dark:bg-card rounded-lg" />
                 ))}
               </div>
             ) : (
               <>
                 {/* Received Vouches */}
                 <div className="mb-8">
-                  <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+                  <h2 className="text-lg font-semibold text-foreground dark:text-foreground mb-3">
                     Received ({received.length})
                   </h2>
                   {received.length === 0 ? (
-                    <p className="text-gray-500 dark:text-gray-400 text-sm py-4">
+                    <p className="text-muted-foreground dark:text-muted-foreground text-sm py-4">
                       No vouches received yet. Keep being awesome!
                     </p>
                   ) : (
@@ -72,7 +72,7 @@ export default function VouchPage() {
                       {received.map((v: Vouch) => (
                         <div
                           key={v.id}
-                          className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4"
+                          className="bg-card dark:bg-card rounded-xl border border-border dark:border-border p-4"
                         >
                           <div className="flex items-center gap-3 mb-2">
                             <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
@@ -84,13 +84,13 @@ export default function VouchPage() {
                             }`}>
                               {v.type}
                             </span>
-                            <span className="text-xs text-gray-500 dark:text-gray-400">
+                            <span className="text-xs text-muted-foreground dark:text-muted-foreground">
                               {new Date(v.created_at).toLocaleDateString()}
                             </span>
                           </div>
-                          <p className="text-gray-700 dark:text-gray-300 text-sm">{v.comment}</p>
+                          <p className="text-foreground dark:text-muted-foreground text-sm">{v.comment}</p>
                           {v.vouch_from && (
-                            <p className="text-xs text-gray-400 dark:text-gray-500 mt-2">
+                            <p className="text-xs text-muted-foreground dark:text-muted-foreground mt-2">
                               from {v.vouch_from.display_name || v.vouch_from.name}
                             </p>
                           )}
@@ -102,11 +102,11 @@ export default function VouchPage() {
 
                 {/* Given Vouches */}
                 <div>
-                  <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+                  <h2 className="text-lg font-semibold text-foreground dark:text-foreground mb-3">
                     Given ({given.length})
                   </h2>
                   {given.length === 0 ? (
-                    <p className="text-gray-500 dark:text-gray-400 text-sm py-4">
+                    <p className="text-muted-foreground dark:text-muted-foreground text-sm py-4">
                       You haven&apos;t vouched for anyone yet.
                     </p>
                   ) : (
@@ -114,7 +114,7 @@ export default function VouchPage() {
                       {given.map((v: Vouch) => (
                         <div
                           key={v.id}
-                          className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4"
+                          className="bg-card dark:bg-card rounded-xl border border-border dark:border-border p-4"
                         >
                           <div className="flex items-center gap-3 mb-2">
                             <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
@@ -126,13 +126,13 @@ export default function VouchPage() {
                             }`}>
                               {v.type}
                             </span>
-                            <span className="text-xs text-gray-500 dark:text-gray-400">
+                            <span className="text-xs text-muted-foreground dark:text-muted-foreground">
                               {new Date(v.created_at).toLocaleDateString()}
                             </span>
                           </div>
-                          <p className="text-gray-700 dark:text-gray-300 text-sm">{v.comment}</p>
+                          <p className="text-foreground dark:text-muted-foreground text-sm">{v.comment}</p>
                           {v.vouch_to && (
-                            <p className="text-xs text-gray-400 dark:text-gray-500 mt-2">
+                            <p className="text-xs text-muted-foreground dark:text-muted-foreground mt-2">
                               for {v.vouch_to.display_name || v.vouch_to.name}
                             </p>
                           )}

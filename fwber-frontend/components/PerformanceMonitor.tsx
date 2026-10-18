@@ -121,7 +121,7 @@ export default function PerformanceMonitor() {
   if (process.env.NODE_ENV !== 'development') return null
 
   const getScoreColor = (value: number | null, thresholds: { good: number; poor: number }) => {
-    if (value === null) return 'text-gray-500'
+    if (value === null) return 'text-muted-foreground'
     if (value <= thresholds.good) return 'text-green-600'
     if (value <= thresholds.poor) return 'text-yellow-600'
     return 'text-red-600'

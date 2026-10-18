@@ -75,7 +75,7 @@ export function DatePlanner({ matchId, matchName, open, onOpenChange, hideTrigge
         <div className="space-y-4 py-4">
           {ideas.length === 0 && !getDateIdeas.isPending && (
             <div className="text-center py-8">
-              <p className="text-gray-500 mb-4">
+              <p className="text-muted-foreground mb-4">
                 Let AI suggest personalized date ideas based on your shared interests.
               </p>
               <Button onClick={handleGenerate} className="w-full">
@@ -87,16 +87,16 @@ export function DatePlanner({ matchId, matchName, open, onOpenChange, hideTrigge
           {getDateIdeas.isPending && (
             <div className="flex flex-col items-center justify-center py-8 space-y-4">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-pink-500" />
-              <p className="text-sm text-gray-500">Consulting Cupid...</p>
+              <p className="text-sm text-muted-foreground">Consulting Cupid...</p>
             </div>
           )}
 
           {ideas.length > 0 && (
             <div className="space-y-4">
               {ideas.map((idea, index) => (
-                <div key={index} className="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg border border-gray-100 hover:border-pink-200 transition-colors">
+                <div key={index} className="bg-muted dark:bg-background p-4 rounded-lg border border-gray-100 hover:border-pink-200 transition-colors">
                   <div className="flex justify-between items-start mb-2">
-                    <h3 className="font-semibold text-gray-900 dark:text-white">{idea.title}</h3>
+                    <h3 className="font-semibold text-foreground dark:text-foreground">{idea.title}</h3>
                     <Button
                       variant="ghost"
                       size="icon"
@@ -106,17 +106,17 @@ export function DatePlanner({ matchId, matchName, open, onOpenChange, hideTrigge
                       {copiedIndex === index ? (
                         <Check className="w-3 h-3 text-green-500" />
                       ) : (
-                        <Copy className="w-3 h-3 text-gray-400" />
+                        <Copy className="w-3 h-3 text-muted-foreground" />
                       )}
                     </Button>
                   </div>
-                  <p className="text-sm text-gray-600 mb-2">{idea.description}</p>
+                  <p className="text-sm text-muted-foreground mb-2">{idea.description}</p>
                   <div className="flex items-center gap-1.5 text-xs text-pink-600 bg-pink-50 px-2 py-1 rounded-full w-fit">
                     <Sparkles className="w-3 h-3" />
                     {idea.reason || idea.vibe || 'Great idea'}
                   </div>
                   {(idea as any).estimated_cost && (
-                    <span className="text-xs text-gray-400 ml-2">{(idea as any).estimated_cost}</span>
+                    <span className="text-xs text-muted-foreground ml-2">{(idea as any).estimated_cost}</span>
                   )}
                 </div>
               ))}

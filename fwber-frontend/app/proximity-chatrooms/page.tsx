@@ -22,7 +22,7 @@ interface LocationState {
       case 'noir': return 'border-gray-500 dark:border-gray-600/50 bg-gray-500/10 hover:shadow-gray-500/10';
       case 'moody': return 'border-indigo-300 dark:border-indigo-800/50 bg-indigo-50/10 hover:shadow-indigo-500/10';
       case 'shadowy': return 'border-violet-300 dark:border-violet-800/50 bg-violet-50/10 hover:shadow-violet-500/10';
-      default: return 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800';
+      default: return 'border-border dark:border-border bg-card dark:bg-card';
     }
   };
 
@@ -115,10 +115,10 @@ export default function ProximityChatroomsPage() {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-muted dark:bg-background flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Authentication Required</h1>
-          <p className="text-gray-600 mb-6">Please log in to access proximity chatrooms.</p>
+          <h1 className="text-2xl font-bold text-foreground dark:text-foreground mb-4">Authentication Required</h1>
+          <p className="text-muted-foreground mb-6">Please log in to access proximity chatrooms.</p>
           <button type="button"
             onClick={() => router.push('/login')}
             className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700"
@@ -131,18 +131,18 @@ export default function ProximityChatroomsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-muted dark:bg-background">
       <AppHeader title="Proximity Chatrooms" />
 
       {/* Header */}
-      <div className="bg-white dark:bg-gray-800 shadow-sm border-b">
+      <div className="bg-card dark:bg-card shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-3">
               <MapPin className="h-8 w-8 text-blue-600" />
               <div>
-                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Proximity Chatrooms</h1>
-                <p className="text-gray-600">Connect with people nearby for networking and social interaction</p>
+                <h1 className="text-2xl font-bold text-foreground dark:text-foreground">Proximity Chatrooms</h1>
+                <p className="text-muted-foreground">Connect with people nearby for networking and social interaction</p>
               </div>
             </div>
             <button type="button"
@@ -185,30 +185,30 @@ export default function ProximityChatroomsPage() {
         )}
 
         {/* Filters */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border p-6 mb-6">
+        <div className="bg-card dark:bg-card rounded-lg shadow-sm border p-6 mb-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             {/* Search */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Search</label>
+              <label className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-2">Search</label>
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <input
                   type="text"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Search chatrooms..."
-                  className="w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full pl-10 pr-3 py-2 border border-border dark:border-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
             </div>
 
             {/* Type Filter */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Type</label>
+              <label className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-2">Type</label>
               <select
                 value={selectedType}
                 onChange={(e) => setSelectedType(e.target.value as any)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-border dark:border-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="all">All Types</option>
                 <option value="networking">Networking</option>
@@ -221,11 +221,11 @@ export default function ProximityChatroomsPage() {
 
             {/* Radius */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Radius (meters)</label>
+              <label className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-2">Radius (meters)</label>
               <select
                 value={radius}
                 onChange={(e) => setRadius(Number(e.target.value))}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-border dark:border-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value={500}>500m</option>
                 <option value={1000}>1km</option>
@@ -237,7 +237,7 @@ export default function ProximityChatroomsPage() {
 
             {/* Filter Button */}
             <div className="flex items-end">
-              <button className="w-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-lg hover:bg-gray-200 flex items-center justify-center space-x-2">
+              <button className="w-full bg-muted dark:bg-card text-foreground dark:text-muted-foreground px-4 py-2 rounded-lg hover:bg-muted flex items-center justify-center space-x-2">
                 <Filter className="h-4 w-4" />
                 <span>Filter</span>
               </button>
@@ -253,10 +253,10 @@ export default function ProximityChatroomsPage() {
             </div>
             <p className="text-sm text-cyan-900 mb-3">{rankingStrategy.summary}</p>
             <div className="flex flex-wrap gap-2 text-xs">
-              {rankingStrategy.trusted_connections && <span className="px-2 py-1 rounded-full bg-white dark:bg-gray-800 border border-cyan-200 text-cyan-700">Trusted creators</span>}
-              {rankingStrategy.scene_alignment && <span className="px-2 py-1 rounded-full bg-white dark:bg-gray-800 border border-cyan-200 text-cyan-700">Scene alignment</span>}
-              {rankingStrategy.freshness && <span className="px-2 py-1 rounded-full bg-white dark:bg-gray-800 border border-cyan-200 text-cyan-700">Recent activity</span>}
-              {rankingStrategy.distance && <span className="px-2 py-1 rounded-full bg-white dark:bg-gray-800 border border-cyan-200 text-cyan-700">Distance</span>}
+              {rankingStrategy.trusted_connections && <span className="px-2 py-1 rounded-full bg-card dark:bg-card border border-cyan-200 text-cyan-700">Trusted creators</span>}
+              {rankingStrategy.scene_alignment && <span className="px-2 py-1 rounded-full bg-card dark:bg-card border border-cyan-200 text-cyan-700">Scene alignment</span>}
+              {rankingStrategy.freshness && <span className="px-2 py-1 rounded-full bg-card dark:bg-card border border-cyan-200 text-cyan-700">Recent activity</span>}
+              {rankingStrategy.distance && <span className="px-2 py-1 rounded-full bg-card dark:bg-card border border-cyan-200 text-cyan-700">Distance</span>}
             </div>
           </div>
         )}
@@ -266,7 +266,7 @@ export default function ProximityChatroomsPage() {
           {isLoading && (
             <div className="text-center py-8">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-              <p className="text-gray-600 mt-2">Finding nearby chatrooms...</p>
+              <p className="text-muted-foreground mt-2">Finding nearby chatrooms...</p>
             </div>
           )}
 
@@ -279,9 +279,9 @@ export default function ProximityChatroomsPage() {
 
           {chatroomResults.length === 0 && !isLoading && (
             <div className="text-center py-12">
-              <MapPin className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">No nearby chatrooms found</h3>
-              <p className="text-gray-600 mb-4">
+              <MapPin className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-foreground dark:text-foreground mb-2">No nearby chatrooms found</h3>
+              <p className="text-muted-foreground mb-4">
                 Be the first to create a proximity chatroom in your area!
               </p>
               <button type="button"
@@ -294,16 +294,16 @@ export default function ProximityChatroomsPage() {
           )}
 
           {(Array.isArray(chatroomResults) ? chatroomResults : []).map((chatroom) => (
-            <div key={chatroom.id} className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border p-6 hover:shadow-md transition-shadow">
+            <div key={chatroom.id} className="bg-card dark:bg-card rounded-lg shadow-sm border p-6 hover:shadow-md transition-shadow">
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <div className="flex items-center space-x-3 mb-2">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{chatroom.name}</h3>
+                    <h3 className="text-lg font-semibold text-foreground dark:text-foreground">{chatroom.name}</h3>
                     <span className={`px-2 py-1 text-xs font-medium rounded-full ${
                       chatroom.is_networking ? 'bg-blue-100 text-blue-800' :
                       chatroom.is_social ? 'bg-green-100 text-green-800' :
                       chatroom.tags?.includes('dating') ? 'bg-pink-100 text-pink-800' :
-                      'bg-gray-100 text-gray-800'
+                      'bg-muted text-foreground'
                     }`}>
                       {chatroom.type}
                     </span>
@@ -319,7 +319,7 @@ export default function ProximityChatroomsPage() {
                     )}
                   </div>
                    
-                  <p className="text-gray-600 mb-3">{chatroom.description}</p>
+                  <p className="text-muted-foreground mb-3">{chatroom.description}</p>
 
                   {chatroom.scene_signals?.headline && (
                     <div className="rounded-lg border border-cyan-200 bg-cyan-50 px-3 py-2 mb-3">
@@ -327,7 +327,7 @@ export default function ProximityChatroomsPage() {
                     </div>
                   )}
                    
-                  <div className="flex items-center space-x-6 text-sm text-gray-500">
+                  <div className="flex items-center space-x-6 text-sm text-muted-foreground">
                     <div className="flex items-center space-x-1">
                       <Users className="h-4 w-4" />
                       <span>{chatroom.member_count} members</span>
@@ -358,13 +358,13 @@ export default function ProximityChatroomsPage() {
       {/* Create Chatroom Modal */}
       {showCreateForm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+          <div className="bg-card dark:bg-card rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Create Proximity Chatroom</h2>
+                <h2 className="text-xl font-semibold text-foreground dark:text-foreground">Create Proximity Chatroom</h2>
                 <button type="button"
                   onClick={() => setShowCreateForm(false)}
-                  className="text-gray-400 hover:text-gray-600"
+                  className="text-muted-foreground hover:text-muted-foreground"
                 >
                   <span className="sr-only">Close</span>
                   <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -387,33 +387,33 @@ export default function ProximityChatroomsPage() {
                 });
               }} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Name</label>
+                  <label className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-2">Name</label>
                   <input
                     type="text"
                     name="name"
                     required
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-border dark:border-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="Enter chatroom name"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Description</label>
+                  <label className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-2">Description</label>
                   <textarea
                     name="description"
                     required
                     rows={3}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-border dark:border-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="Describe the purpose of this chatroom"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Type</label>
+                  <label className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-2">Type</label>
                   <select
                     name="type"
                     required
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-border dark:border-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   >
                     <option value="social">Social</option>
                     <option value="networking">Networking</option>
@@ -424,10 +424,10 @@ export default function ProximityChatroomsPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Radius (meters)</label>
+                  <label className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-2">Radius (meters)</label>
                   <select
                     name="radius_meters"
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-border dark:border-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   >
                     <option value={500}>500m</option>
                     <option value={1000}>1km</option>
@@ -437,16 +437,16 @@ export default function ProximityChatroomsPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Entry Fee (Tokens)</label>
+                  <label className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-2">Entry Fee (Tokens)</label>
                   <input
                     type="number"
                     name="token_entry_fee"
                     min="0"
                     defaultValue="0"
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-border dark:border-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="0 for free"
                   />
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className="text-xs text-muted-foreground mt-1">
                     Charge tokens for entry. You will earn a commission on every join.
                   </p>
                 </div>
@@ -456,16 +456,16 @@ export default function ProximityChatroomsPage() {
                     type="checkbox"
                     name="is_public"
                     defaultChecked
-                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded"
+                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-border dark:border-border rounded"
                   />
-                  <label className="ml-2 text-sm text-gray-700 dark:text-gray-300">Make this chatroom public</label>
+                  <label className="ml-2 text-sm text-foreground dark:text-muted-foreground">Make this chatroom public</label>
                 </div>
 
                 <div className="flex space-x-3 pt-4">
                   <button
                     type="button"
                     onClick={() => setShowCreateForm(false)}
-                    className="flex-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-lg hover:bg-gray-200"
+                    className="flex-1 bg-muted dark:bg-card text-foreground dark:text-muted-foreground px-4 py-2 rounded-lg hover:bg-muted"
                   >
                     Cancel
                   </button>

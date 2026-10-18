@@ -56,7 +56,7 @@ export function CreateProposalModal({ onSuccess }: { onSuccess: () => void }) {
                     New Proposal
                 </Button>
             </DialogTrigger>
-            <DialogContent className="bg-white dark:bg-gray-800 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 sm:max-w-lg">
+            <DialogContent className="bg-card dark:bg-card dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 sm:max-w-lg">
                 <DialogHeader>
                     <DialogTitle className="text-xl font-black italic uppercase tracking-tighter">Submit Council Proposal</DialogTitle>
                 </DialogHeader>
@@ -121,7 +121,7 @@ export function CreateProposalModal({ onSuccess }: { onSuccess: () => void }) {
                         </div>
                     </div>
 
-                    <Button type="submit" className="w-full h-12 bg-zinc-900 dark:bg-white dark:bg-gray-800 text-white dark:text-zinc-900 font-black uppercase italic" disabled={loading}>
+                    <Button type="submit" className="w-full h-12 bg-zinc-900 dark:bg-card dark:bg-card text-white dark:text-zinc-900 font-black uppercase italic" disabled={loading}>
                         {loading ? <Loader2 className="animate-spin" /> : 'Launch Proposal'}
                     </Button>
                 </form>

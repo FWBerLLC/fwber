@@ -43,14 +43,14 @@ export default function VerifyEmailPage() {
           <div className="w-16 h-16 mx-auto bg-blue-600 rounded-2xl flex items-center justify-center mb-4 shadow-lg">
             <Mail className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Email Verification</h1>
+          <h1 className="text-2xl font-bold text-foreground dark:text-foreground">Email Verification</h1>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-8 shadow-sm">
+        <div className="bg-card dark:bg-card rounded-2xl border border-border dark:border-border p-8 shadow-sm">
           {status === 'loading' && (
             <div className="text-center py-8">
               <Loader2 className="w-12 h-12 mx-auto text-blue-500 animate-spin mb-4" />
-              <p className="text-gray-600 dark:text-gray-400">Verifying your email address...</p>
+              <p className="text-muted-foreground dark:text-muted-foreground">Verifying your email address...</p>
             </div>
           )}
 
@@ -60,7 +60,7 @@ export default function VerifyEmailPage() {
                 <CheckCircle2 className="w-10 h-10 text-green-600 dark:text-green-400" />
               </div>
               <h2 className="text-xl font-bold text-green-700 dark:text-green-400 mb-2">Verified!</h2>
-              <p className="text-gray-600 dark:text-gray-400 mb-6">{message}</p>
+              <p className="text-muted-foreground dark:text-muted-foreground mb-6">{message}</p>
               <button type="button"
                 onClick={() => router.push('/dashboard')}
                 className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition shadow-lg"
@@ -76,7 +76,7 @@ export default function VerifyEmailPage() {
                 <XCircle className="w-10 h-10 text-red-600 dark:text-red-400" />
               </div>
               <h2 className="text-xl font-bold text-red-700 dark:text-red-400 mb-2">Verification Failed</h2>
-              <p className="text-gray-600 dark:text-gray-400 mb-6">{message}</p>
+              <p className="text-muted-foreground dark:text-muted-foreground mb-6">{message}</p>
               <div className="space-y-3">
                 <Link
                   href="/settings"
@@ -86,7 +86,7 @@ export default function VerifyEmailPage() {
                 </Link>
                 <Link
                   href="/login"
-                  className="w-full flex items-center justify-center gap-2 px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-semibold rounded-xl transition hover:bg-gray-50 dark:hover:bg-gray-700"
+                  className="w-full flex items-center justify-center gap-2 px-6 py-3 border border-border dark:border-border text-foreground dark:text-muted-foreground font-semibold rounded-xl transition hover:bg-muted dark:hover:bg-gray-700"
                 >
                   Back to Login
                 </Link>
