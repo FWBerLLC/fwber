@@ -57,4 +57,64 @@ describe('AutonomousTaskExecutor', () => {
 
     expect(mockLogAction).toHaveBeenCalledWith('Failing Task', 'Failed', expect.objectContaining({ error: 'Task failed' }));
   });
+
+  // --- Regression tests for the transient-login-401 root cause (v2.3.39) ---
+
+  it('should return the result even if the Completed audit log fails', async () => {
+    // Before the fix the "Completed" logAction ran inside the try block: a
+    // failed ledger write fell into catch and RE-THREW, turning an
+    // already-successful login into a 401.
+    mockEvaluateAction.mockResolvedValue({ decision: 'Allow' });
+    mockLogAction.mockImplementation(async (_type: string, status: string) => {
+      if (status === 'Completed') throw new Error('ledger table locked');
+    });
+    const task = jest.fn().mockResolvedValue('logged-in');
+
+    const result = await AutonomousTaskExecutor.execute(
+      { type: 'User Login', impact: 'low', module: 'Auth' },
+      task,
+      { failOpen: true }
+    );
+
+    expect(result).toBe('logged-in');
+  });
+
+  it('should run the task with failOpen when the decision delegates', async () => {
+    mockEvaluateAction.mockResolvedValue({ decision: 'Delegate', reason: 'low health score' });
+    const task = jest.fn().mockResolvedValue('ok');
+
+    const result = await AutonomousTaskExecutor.execute(
+      { type: 'User Login', impact: 'low', module: 'Auth' },
+      task,
+      { failOpen: true }
+    );
+
+    expect(result).toBe('ok');
+    expect(task).toHaveBeenCalled();
+  });
+
+  it('should run the task with failOpen when the decision engine throws', async () => {
+    mockEvaluateAction.mockRejectedValue(new Error('governance db down'));
+    const task = jest.fn().mockResolvedValue('ok');
+
+    const result = await AutonomousTaskExecutor.execute(
+      { type: 'User Login', impact: 'low', module: 'Auth' },
+      task,
+      { failOpen: true }
+    );
+
+    expect(result).toBe('ok');
+  });
+
+  it('should still throw on Delegate without failOpen (governance preserved)', async () => {
+    mockEvaluateAction.mockResolvedValue({ decision: 'Delegate', reason: 'needs oversight' });
+    const task = jest.fn();
+
+    await expect(AutonomousTaskExecutor.execute(
+      { type: 'Schema Change', impact: 'high', module: 'DB' },
+      task
+    )).rejects.toThrow('Action Delegated: needs oversight');
+
+    expect(task).not.toHaveBeenCalled();
+  });
 });

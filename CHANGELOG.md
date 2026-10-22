@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.3.39] - 2026-10-22
+
+### Fixed
+
+- **Transient login 401s — root-caused and fixed** (the long-standing "login 401s then succeeds" mystery). Chain: `AutonomousDecisionEngine` runs a system-health audit on every action and, when the score drops ≤70 (formula: `100 - danglingTasks*5 - flappingSettings*10`), returns **`Delegate`** for *all* actions — including user login. `AutonomousTaskExecutor` throws on `Delegate`, and `AuthController` mapped **every** error to `401 Invalid credentials`. Net effect: 3+ dangling admin tasks made every valid login fail until health recovered. Fixed in depth:
+  - **Decision engine**: low-impact routine actions (login/register) are now always `Allow`, even under degraded health; delegation is reserved for medium/high impact where oversight matters. The health audit itself now degrades gracefully instead of propagating exceptions.
+  - **Executor**: audit-ledger writes are best-effort — a failed `Completed` log write previously fell into the catch block and re-threw, **turning a successful login into a 401**. New `failOpen` mode lets routine auth run even when governance delegates.
+  - **Controller**: new `AuthError` class — only deliberate auth failures return 401; infrastructure faults now return a generic 500 with the real cause logged server-side (no more internals or "bad credentials" disguises). `forgotPassword` no longer leaks internals and keeps its response identical to success.
+  - **AuthService**: guards accounts without a local password hash (bcryptjs throws on null) and uses typed `AuthError` for `User already exists` / `Invalid or expired reset token`.
+- **13 tests passing** (7 new regression tests across `AutonomousDecisionEngine.test.ts` + `AutonomousTaskExecutor.test.ts` covering fail-open, degraded-health allow, and audit-log-failure resilience).
+
+### Added
+
+- **Monthly backup restore drill** (`/usr/local/bin/fwber-restore-drill.sh`, cron `0 4 1 * *`): restores the latest backup archive into a scratch DB and compares exact row counts of every table against production. **First run PASSED — 134/134 tables consistent.** Backups are now proven restorable, not just written.
+
 ## [2.3.38] - 2026-10-22
 
 ### Added

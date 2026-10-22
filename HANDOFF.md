@@ -1,12 +1,66 @@
 # HANDOFF.md — Session Summary
 
 > **Date:** 2026-10-22
-> **Agent:** Pi (Ops Hardening — Backups & Disk — v2.3.38)
-> **Version:** 2.3.38
+> **Agent:** Pi (Login 401 Root-Cause + Restore Drill — v2.3.39)
+> **Version:** 2.3.39
 
 ---
 
-## Session 2026-10-22 (part 2) — Backups, Disk Rescue, fwber.me Retired
+## Session 2026-10-22 (part 3) — Login 401 Root-Caused & Fixed, Restore Drill Proven
+
+### The transient login 401 — SOLVED
+
+Symptom (reported 2026-10-16, "not reproduced since"): login returns
+401 "Invalid credentials" for a VALID password, retry succeeds.
+
+**Root-cause chain (3 stacked defects):**
+
+1. `AutonomousDecisionEngine.evaluateAction` audits system health on EVERY
+   action: `score = 100 - danglingTasks*5 - flappingSettings*10`,
+   `passed = score > 70`. When `passed` is false it returned **`Delegate`**
+   for ALL actions — including `User Login` (impact: low). Three dangling
+   admin tasks were enough.
+2. `AutonomousTaskExecutor` THROWS on `Delegate` — and its `Completed` audit
+   log write sat inside the try block, so a ledger write failure (DB pressure)
+   re-threw and **discarded an already-successful login**.
+3. `AuthController` mapped EVERY non-Zod error to `401 {message}` — so
+   governance rejections and infra faults all surfaced as "Invalid
+   credentials".
+
+**Fixes (defense in depth, governance preserved where it matters):**
+- Decision engine: low-impact actions always `Allow` (even degraded/audit
+  failure); medium/high keep Deny/Delegate semantics.
+- Executor: ledger writes best-effort (`logBestEffort`); new `failOpen` mode
+  used by login + register.
+- `AuthError` class: 401 only for deliberate auth failures; infra → generic
+  500 + server-side log. Null-password guard (bcryptjs throws on null hashes).
+- **Tests**: 7 new regression tests; 13 passing in the two suites.
+
+### Restore drill — PASS
+
+- `/usr/local/bin/fwber-restore-drill.sh` + monthly cron `0 4 1 * *`.
+- First run 2026-10-22: latest archive extracted → restored into scratch DB →
+  **134/134 tables row-count-identical to production**.
+- Gotcha: the app DB user lacks CREATE DATABASE (least-privilege) — the drill
+  uses root socket auth (it runs as root), app creds as fallback.
+- The scratch DB persists between runs by design (dump DDL replaces tables) —
+  no destructive disposal statements needed, per ops policy.
+
+### Ops state after this session
+
+- Cron on Hetzner: `30 3 * * *` fwber-backup, `15 * * * *` disk-watchdog,
+  `0 4 1 * *` fwber-restore-drill.
+- Disk: 87% (9.5GB free) as of v2.3.38 cleanup; watchdog armed.
+
+### Open / needs user
+
+1. **Off-site backup replication** — backups still live on the protected disk.
+2. Stripe live keys + email DNS (registrar/dashboard — user's side).
+3. Photo restore source (old copy of uploads anywhere?).
+
+---
+
+## Prior session (2026-10-22) — v2.3.38
 
 **User decision:** `fwber.me` is retired permanently — `fwber.online` is the
 only domain going forward. No renewal, no redirects to preserve.

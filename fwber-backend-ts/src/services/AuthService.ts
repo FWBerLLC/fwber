@@ -5,6 +5,7 @@ import prisma, { serialize, sanitizeUser } from '../lib/prisma.js';
 import { sendVerificationEmail, sendPasswordResetEmail } from '../lib/email.js';
 import { createVerificationToken } from '../lib/verification-store.js';
 import { AutonomousTaskExecutor } from './AutonomousTaskExecutor.js';
+import { AuthError } from '../lib/AuthError.js';
 
 export class AuthService {
   generateToken(user: { id: bigint; email: string; role: string }) {
@@ -36,7 +37,7 @@ export class AuthService {
         });
 
         if (existingUser) {
-          throw new Error('User already exists');
+          throw new AuthError('User already exists', 400);
         }
 
         const hashedPassword = await bcrypt.hash(validatedData.password, 10);
@@ -121,7 +122,10 @@ export class AuthService {
         const hydrated = await this.hydrateUser(freshUser || user);
 
         return { token, user: hydrated };
-      }
+      },
+      // failOpen: routine registration must never be blocked by the
+      // autonomous governance layer (see AuthError/executor docs).
+      { failOpen: true }
     );
   }
 
@@ -134,8 +138,11 @@ export class AuthService {
           include: { user_profiles: true }
         });
 
-        if (!user) {
-          throw new Error('Invalid credentials');
+        // Unknown account OR account without a local password (OAuth-only /
+        // migrated rows): bcryptjs throws on a null hash, so guard explicitly
+        // and answer with the same generic 401 (no account enumeration).
+        if (!user || !user.password) {
+          throw new AuthError('Invalid credentials');
         }
 
         const isPasswordValid = await bcrypt.compare(validatedData.password, user.password);
@@ -147,7 +154,7 @@ export class AuthService {
           await bcrypt.compare(validatedData.password, user.decoy_password!);
 
         if (!isPasswordValid && !isDecoyAuth) {
-          throw new Error('Invalid credentials');
+          throw new AuthError('Invalid credentials');
         }
 
         let finalUser = user;
@@ -165,7 +172,10 @@ export class AuthService {
         const hydrated = await this.hydrateUser(finalUser);
 
         return { token, user: hydrated };
-      }
+      },
+      // failOpen: user login must never be gated by system-health state —
+      // this was the transient-401 root cause (see CHANGELOG 2.3.39).
+      { failOpen: true }
     );
   }
 
@@ -214,7 +224,7 @@ export class AuthService {
           where: { email_user_id: { email: resetRecord.email, user_id: resetRecord.user_id } },
         }).catch(() => {});
       }
-      throw new Error('Invalid or expired reset token');
+      throw new AuthError('Invalid or expired reset token', 400);
     }
 
     const hashedPassword = await bcrypt.hash(resetData.password, 10);

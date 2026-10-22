@@ -31,6 +31,13 @@
 - [x] **Prisma `matching_options` fix**: Corrected to `chosen_option` in `NarrativeService`
 - [x] **Tools cleanup**: Archived 19 stale scripts/configs to `tools/archive/`
 
+## 🟢 Recently Completed: Login Reliability & Restore Proof (v2.3.39, 2026-10-22)
+- [x] **Transient 401 root cause fixed**: decision engine delegates low-impact actions under degraded health (3+ dangling tasks = score ≤70 = every login rejected); executor audit-log failures killed successful logins; controller dressed every error as "Invalid credentials".
+- [x] **AuthError typed errors**: 401 only for deliberate auth failures; infra → generic 500 + server log.
+- [x] **failOpen auth**: login/register never gated by the autonomous governance layer.
+- [x] **7 new regression tests** (13 passing across decision engine + executor suites).
+- [x] **Restore drill PASSED**: latest backup restored into scratch DB, 134/134 tables row-count consistent with production.
+
 ## 🟢 Recently Completed: Ops Hardening (v2.3.38, 2026-10-22)
 - [x] **Automated fwber backups**: nightly 03:30 → `/var/backups/fwber/` (DB dump + uploads + envs + nginx configs, 14-day retention). First archive verified.
 - [x] **Disk reclamation**: 93% → 87% root filesystem (stale `/tmp` backup copies, Docker cache, 2.4GB Next.js build cache).
@@ -97,7 +104,8 @@
 - [x] **Group Aura**: Aggregate emotions of group chat participants to determine group-wide mood and theme.
 - [ ] **Photo Migration**: 157 photos in DB but files missing from uploads directory — need backup restore. *Mitigations shipped in v2.3.37: backend serves a placeholder PNG for any missing `/uploads/` image (no more optimizer 500s), avatar URLs to missing files cleared to NULL (DiceBear fallback), and all nulled references journaled in `fwber-backend-ts/image-url-migration-journal.json` for easy re-pointing after restore. `fwber-backend-ts/scripts/migrate-image-urls.mjs` re-checks existence on demand.*
 - [ ] **Off-site backup replication**: `/var/backups/fwber/` is on the same disk as production — sync nightly to object storage or another box for real disaster recovery.
-- [ ] **Backup restore drill**: periodically restore a backup archive into a scratch DB to prove the backups actually work.
+- [x] ~~**Backup restore drill**~~ — DONE (2026-10-22): `/usr/local/bin/fwber-restore-drill.sh`, monthly cron, first run PASSED (134/134 tables consistent).
+- [x] ~~**Transient login 401s**~~ — ROOT-CAUSED & FIXED (2026-10-22, v2.3.39): autonomous governance layer was delegating/dropping valid logins when system health score ≤70; also audit-ledger write failures killed successful logins. Auth now fail-open + typed 401s. See CHANGELOG 2.3.39.
 - [x] ~~**fwber.me domain renewal**~~ — RESOLVED (2026-10-22): user retired the domain permanently; `fwber.online` is canonical. Stale nginx `api.fwber.me` server block is harmless (DNS dead) but can be deleted whenever nginx is next touched.
 - [ ] **Stripe Live Keys**: Transition from test to live mode for production payments.
 - [ ] **Email DNS**: Configure Resend MX/SPF/DKIM/DMARC records for production email.

@@ -1,6 +1,6 @@
 @echo off
 REM ==========================================================================
-REM  FWBer Unified Build Script (v2.3.38)
+REM  FWBer Unified Build Script (v2.3.39)
 REM  Installs dependencies and builds every component in the monorepo.
 REM  Usage: build.bat [backend|frontend|mobile|all]
 REM  Default target is "all". Does NOT clean or purge built binaries.
