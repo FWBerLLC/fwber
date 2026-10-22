@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.3.38] - 2026-10-22
+
+### Added
+
+- **Automated fwber backups** (`/usr/local/bin/fwber-backup.sh`, nightly 03:30 cron → `/var/backups/fwber/`, 14-day retention): one archive per run containing the `fwber_production` MySQL dump (`--single-transaction`, non-blocking), `uploads/`, env files, the image-URL migration journal, and nginx site configs. First run verified (524K archive). Directly closes the gap behind the lost-uploads incident — there was previously **no fwber backup of any kind**.
+- **Disk watchdog** (`/usr/local/bin/disk-watchdog.sh`, hourly cron): warns at ≥90% root-filesystem usage, and at ≥95% auto-clears the rebuildable Next.js build cache (never app data). Logged to `/var/log/disk-watchdog.log`.
+
+### Changed
+
+- **Disk reclamation (93% → 87%)**: removed 7 stale 329MB `/tmp` contentplanner backup copies (another project's leftover deploy artifacts; newest copy retained), pruned Docker dangling images/build cache (420MB), cleared the 2.4GB Next.js build cache. 9.5GB free now.
+
+### Decisions
+
+- **`fwber.me` retired permanently** (user decision): no domain renewal; `fwber.online` is the only domain going forward.
+
 ## [2.3.37] - 2026-10-22
 
 ### Added

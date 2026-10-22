@@ -31,6 +31,12 @@
 - [x] **Prisma `matching_options` fix**: Corrected to `chosen_option` in `NarrativeService`
 - [x] **Tools cleanup**: Archived 19 stale scripts/configs to `tools/archive/`
 
+## 🟢 Recently Completed: Ops Hardening (v2.3.38, 2026-10-22)
+- [x] **Automated fwber backups**: nightly 03:30 → `/var/backups/fwber/` (DB dump + uploads + envs + nginx configs, 14-day retention). First archive verified.
+- [x] **Disk reclamation**: 93% → 87% root filesystem (stale `/tmp` backup copies, Docker cache, 2.4GB Next.js build cache).
+- [x] **Disk watchdog**: hourly cron — warns ≥90%, auto-clears rebuildable build cache ≥95%.
+- [x] **fwber.me retired permanently** (user decision 2026-10-22) — `fwber.online` is the only domain.
+
 ## 🟢 Recently Completed: Image Resilience & Cleanup (v2.3.37, 2026-10-22)
 - [x] **Missing-upload placeholder**: backend serves neutral gray PNG (HTTP 200) for any missing `/uploads/` image — kills the `_next/image` 500 class permanently.
 - [x] **Image-URL migration tool**: `fwber-backend-ts/scripts/migrate-image-urls.mjs` — canonicalizes legacy upload hosts (`fwber.me`/`fwber.site`/`api.*` spellings) → `api.fwber.online/uploads/`, journals every change, dry-run by default.
@@ -90,7 +96,9 @@
 - [x] **Quest Verification**: Use ZK-proofs or NFC tags to verify quest completion tasks.
 - [x] **Group Aura**: Aggregate emotions of group chat participants to determine group-wide mood and theme.
 - [ ] **Photo Migration**: 157 photos in DB but files missing from uploads directory — need backup restore. *Mitigations shipped in v2.3.37: backend serves a placeholder PNG for any missing `/uploads/` image (no more optimizer 500s), avatar URLs to missing files cleared to NULL (DiceBear fallback), and all nulled references journaled in `fwber-backend-ts/image-url-migration-journal.json` for easy re-pointing after restore. `fwber-backend-ts/scripts/migrate-image-urls.mjs` re-checks existence on demand.*
-- [ ] **fwber.me domain renewal**: DNS is NXDOMAIN (2026-10-22) so the nginx `fwber.me`→`fwber.online` 301 can never fire. Renew the registration or accept legacy links as lost.
+- [ ] **Off-site backup replication**: `/var/backups/fwber/` is on the same disk as production — sync nightly to object storage or another box for real disaster recovery.
+- [ ] **Backup restore drill**: periodically restore a backup archive into a scratch DB to prove the backups actually work.
+- [x] ~~**fwber.me domain renewal**~~ — RESOLVED (2026-10-22): user retired the domain permanently; `fwber.online` is canonical. Stale nginx `api.fwber.me` server block is harmless (DNS dead) but can be deleted whenever nginx is next touched.
 - [ ] **Stripe Live Keys**: Transition from test to live mode for production payments.
 - [ ] **Email DNS**: Configure Resend MX/SPF/DKIM/DMARC records for production email.
 
