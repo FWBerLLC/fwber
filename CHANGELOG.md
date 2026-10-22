@@ -1,10 +1,43 @@
 # Changelog
 
+## [2.3.37] - 2026-10-22
+
+### Added
+
+- **Missing-upload placeholder** (`fwber-backend-ts/src/lib/missingUploadPlaceholder.ts` + fallback handler in `src/index.ts`): any missing image under `/uploads/` now serves a neutral gray "camera glyph" PNG with HTTP 200 instead of falling through to the JSON catch-all (`[]`, HTTP 200) or a 404. Permanently eliminates the `_next/image` optimizer 500s caused by lost upload files. `express.static` still takes precedence, so a future backup restore needs no code change. Non-image files (e.g. voice intros) correctly fall through to a real 404.
+- **Image-URL migration tool** (`fwber-backend-ts/scripts/migrate-image-urls.mjs`): idempotent, journaled DB migration normalizing legacy upload URLs to `https://api.fwber.online/uploads/` and clearing avatar references to missing files. Dry-run by default; `--apply` to execute. Every touched row journaled to `fwber-backend-ts/image-url-migration-journal.json` — no reference silently lost.
+- **Reusable UI-audit tools tracked**: `check_nav_coverage.py`, `check_remaining_routes.py`, `scan_unguarded_map.py` moved into `tools/` and version-controlled.
+
+### Changed
+
+- **Dead-host interception broadened**: `DEAD_HOSTS` regexes in `fwber-frontend/lib/utils/avatar.ts` and `components/OptimizedImage.tsx` now cover every retired domain spelling (`fwber.me`, `www.fwber.me`, `api.fwber.me`, `fwber.site`, `api.fwber.site`) while deliberately excluding live `fwber.online`.
+- **Theme token migration finished**: last hardcoded color (`border-gray-900` in `SecurePhotoReveal.tsx`) converted to `border-foreground`. Only intentional `text-white` on colored buttons remains.
+- **Workspace cleanup**: root scripts organized — reusable audit tools in `tools/`, one-time migration/fix scripts tracked in `tools/migrations/`; `tools/README.md` refreshed.
+
+### Known issues / ops notes
+
+- **`fwber.me` DNS is NXDOMAIN** (verified 2026-10-22): the nginx `fwber.me` → `fwber.online` redirect can never fire. Legacy `fwber.me` links in the wild are dead until renewal (or accepted as lost).
+- **Upload files remain missing** on production (see `TODO.md` "Photo Migration"): placeholder + avatar fallback make the UI whole; recovering originals still needs a backup restore.
+
 ## [2.3.36] - 2026-10-12
 
 ### Added
 
 - **Upstream sync**: Executed intelligent upstream merge and branch reconciliation from `robertpelloni/fwber` into `main`.
+
+### Production Fixes & UI Audit (2026-10-16 → 2026-10-18, same version train)
+
+- **Socket.io**: fixed `ws://localhost:4000` via `.env.production` + nginx `/socket.io/` WebSocket proxy + frontend rebuild (bakes `NEXT_PUBLIC_*`).
+- **`_next/image` 500s** for dead `api.fwber.me` upload URLs: `images.remotePatterns` + dead-host interception in `getAvatarUrl`/`OptimizedImage` (13+ components).
+- **PWA install banner warning** removed (`preventDefault()` cleanup).
+- **`api is not defined`** on `/messages` (missing named import) + **event list flicker** (`placeholderData: keepPreviousData`).
+- **Prisma `matching_options` → `chosen_option`** fix in `NarrativeService`.
+- **Loading/error states** generated for all 180 routes; **452 buttons** got `type="button"`.
+- **Dashboard nav coverage** 88 → 104/180 routes (admin panel links, chatrooms, 20+ feature tiles).
+- **Theme token migration**: 9,646 → 910 hardcoded colors (825 files, 4,863 replacements).
+- **Unguarded `.map()` guards**: 79 API-response props got `|| []`.
+- **Tools cleanup**: 19 stale scripts archived; `tools/README.md` added.
+- **Domain**: canonical production domain is `fwber.online` (user correction; rename completed across 123 files).
 
 ## [2.3.35] - 2026-10-11
 

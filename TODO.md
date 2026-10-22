@@ -31,6 +31,14 @@
 - [x] **Prisma `matching_options` fix**: Corrected to `chosen_option` in `NarrativeService`
 - [x] **Tools cleanup**: Archived 19 stale scripts/configs to `tools/archive/`
 
+## 🟢 Recently Completed: Image Resilience & Cleanup (v2.3.37, 2026-10-22)
+- [x] **Missing-upload placeholder**: backend serves neutral gray PNG (HTTP 200) for any missing `/uploads/` image — kills the `_next/image` 500 class permanently.
+- [x] **Image-URL migration tool**: `fwber-backend-ts/scripts/migrate-image-urls.mjs` — canonicalizes legacy upload hosts (`fwber.me`/`fwber.site`/`api.*` spellings) → `api.fwber.online/uploads/`, journals every change, dry-run by default.
+- [x] **Avatar dead-file cleanup**: avatar URLs pointing at missing files → NULL → DiceBear deterministic avatars (journaled).
+- [x] **DEAD_HOSTS regex broadened**: all retired domain spellings intercepted; live `fwber.online` excluded.
+- [x] **Theme tokens 100% done**: last `border-gray-900` → `border-foreground`.
+- [x] **Root script cleanup**: reusable audit tools tracked in `tools/`, one-time migration/fix scripts tracked in `tools/migrations/` (all retained).
+
 ## 🟢 Recently Completed: Phase 9 - Social Velocity & Federation (v2.2.5)
 - [x] **WebFinger Discovery**: Implement real handle-to-URI resolution in `FederationService`.
 - [x] **ActivityPub Inbound**: Implement `handleCreate` to ingest remote posts.
@@ -81,7 +89,8 @@
 ## 🟢 Recently Completed: Phase 10 - Dynamic Identity & Proximity Forum (v2.3.9)
 - [x] **Quest Verification**: Use ZK-proofs or NFC tags to verify quest completion tasks.
 - [x] **Group Aura**: Aggregate emotions of group chat participants to determine group-wide mood and theme.
-- [ ] **Photo Migration**: 157 photos in DB but files missing from uploads directory — need backup restore.
+- [ ] **Photo Migration**: 157 photos in DB but files missing from uploads directory — need backup restore. *Mitigations shipped in v2.3.37: backend serves a placeholder PNG for any missing `/uploads/` image (no more optimizer 500s), avatar URLs to missing files cleared to NULL (DiceBear fallback), and all nulled references journaled in `fwber-backend-ts/image-url-migration-journal.json` for easy re-pointing after restore. `fwber-backend-ts/scripts/migrate-image-urls.mjs` re-checks existence on demand.*
+- [ ] **fwber.me domain renewal**: DNS is NXDOMAIN (2026-10-22) so the nginx `fwber.me`→`fwber.online` 301 can never fire. Renew the registration or accept legacy links as lost.
 - [ ] **Stripe Live Keys**: Transition from test to live mode for production payments.
 - [ ] **Email DNS**: Configure Resend MX/SPF/DKIM/DMARC records for production email.
 

@@ -11,8 +11,10 @@ const DICEBEAR_BASE = 'https://api.dicebear.com/7.x/avataaars/svg';
  * @param seed - A unique identifier for the user (name, id, email, etc.)
  * @returns A valid URL string
  */
-// Legacy upload URLs pointing to decommissioned hosts — skip these entirely
-const DEAD_HOSTS = /https?:\/\/api\.fwber\.me\//;
+// Legacy upload URLs pointing to decommissioned hosts — skip these entirely.
+// Covers every retired spelling (api.fwber.me, fwber.me, fwber.site, …) but
+// deliberately NOT fwber.online (the live canonical domain).
+const DEAD_HOSTS = /https?:\/\/(?:www\.)?(?:api\.)?fwber\.(?:me|site)\//;
 
 export function getAvatarUrl(avatarUrl: string | null | undefined, seed?: string | number): string {
   if (avatarUrl && avatarUrl.trim() !== '' && !DEAD_HOSTS.test(avatarUrl)) {

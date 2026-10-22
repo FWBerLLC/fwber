@@ -1,12 +1,92 @@
 # HANDOFF.md — Session Summary
 
-> **Date:** 2026-10-16
-> **Agent:** MiMoCode (Production Bug Fixes & UI Audit — v2.3.36)
-> **Version:** 2.3.36
+> **Date:** 2026-10-22
+> **Agent:** Pi (Image-URL Migration & Upload Resilience — v2.3.37)
+> **Version:** 2.3.37
 
 ---
 
-## 🚀 Session Actions & State (2026-10-16)
+## Session 2026-10-22 — Image-URL Migration, Upload Resilience, Cleanup
+
+### Context (read from latest MiMoCode session `ses_ffe5eed4…`, 2026-10-06 → 2026-10-18)
+
+The previous sessions moved all work to Hetzner (user: "i don't want to run it
+locally at all"), renamed the domain to **fwber.online** (canonical), fixed all
+reported production bugs, and completed the UI audit (theme tokens, `.map()`
+guards, nav coverage 104/180). User scoped out full dashboard consolidation
+("dont need to consolidate all"). Top remaining item: **image URL migration**.
+
+### What this session did
+
+1. **Missing-upload placeholder (backend)** — `src/lib/missingUploadPlaceholder.ts`
+   embeds a generated 256x256 gray "camera glyph" PNG (966 bytes). New fallback
+   handler in `src/index.ts` after `express.static` serves it with HTTP 200 for
+   any missing image under `/uploads/`.
+   - Root cause insight: missing uploads previously hit the JSON catch-all
+     (`[]` HTTP 200!) or 404 → the `/_next/image` optimizer 500'd every dead
+     image. This fix is permanent and works for any future file loss too.
+   - Non-image requests (voice intros) still 404 honestly.
+   - `express.static` precedence preserved → backup restore needs no code change.
+
+2. **DB migration tool** — `fwber-backend-ts/scripts/migrate-image-urls.mjs`
+   (Prisma-based, dry-run default, `--apply` to execute, journaling):
+   - Canonicalizes legacy upload URLs (`api.fwber.me`, `fwber.me`,
+     `fwber.site`, `fwber.online/api/...` spellings + relative `/uploads/`)
+     → `https://api.fwber.online/uploads/…` — matching production
+     `API_BASE_URL` and `next.config.js` remotePatterns. Filenames preserved
+     verbatim for future backup recovery.
+   - Avatar columns (`users.avatar_url`, `user_profiles.avatar_url`,
+     `user_physical_profiles.avatar_image_url`, `attendees.avatar_url`): rows
+     NULLED when the target file is missing → `UserAvatar` renders deterministic
+     DiceBear avatars (good UX) instead of gray boxes. All nulled values go to
+     `fwber-backend-ts/image-url-migration-journal.json`.
+   - Media columns keep canonicalized URLs even when files are missing
+     (placeholder covers display; reference stays valid for restore).
+   - External URLs (Stripe, OAuth, etc.) and historical tables
+     (`clickstream_events`, `feedback`, `slow_requests`) are never touched.
+
+3. **Frontend dead-host regex broadened** — `avatar.ts` + `OptimizedImage.tsx`
+   `DEAD_HOSTS` now matches every retired spelling (`fwber.me`, `www.fwber.me`,
+   `api.fwber.me`, `fwber.site`, `api.fwber.site`) but NOT live `fwber.online`.
+
+4. **Theme tokens: final leftover fixed** — `border-gray-900` →
+   `border-foreground` in `SecurePhotoReveal.tsx`. Only intentional `text-white`
+   remains project-wide.
+
+5. **Workspace cleanup** — root scripts organized (all tracked, history preserved):
+   - Reusable UI audit in `tools/`: `check_nav_coverage.py`,
+     `check_remaining_routes.py`, `scan_unguarded_map.py`.
+   - One-time migration/fix provenance in `tools/migrations/`:
+     `migrate_theme_tokens.py`, `migrate_theme_tokens2.py`, `count_colors.py`,
+     `fix_button_types.py`, `fix_unguarded_map.py`, `gen_loading_error.py`.
+   - `tools/README.md` updated. CHANGELOG backfilled for the Oct 16–18 work.
+
+### New knowledge
+
+- **`fwber.me` DNS is NXDOMAIN** (verified 2026-10-22). The nginx 301 redirect
+  chain can never fire. Decision needed: renew the registration or accept that
+  old links are lost.
+- **`https://fwber.online/api/uploads/<missing>` returns HTTP 200 `[]`** (JSON
+  catch-all) — that's why missing images 500'd through the optimizer. The real
+  upload mount is `/uploads/` on the backend, best reached via
+  `https://api.fwber.online/uploads/…` (production `API_BASE_URL`).
+- **PM2 `fwber-frontend` restarts (31) are deploy restarts, not a crash loop**
+  (`unstable restarts: 0`, 3-day uptime).
+- **Deployed code lags local only by DB/memory-tracking commits** — Hetzner runs
+  `04606018c` (v2.3.36 code). Everything else matched.
+
+### Carried forward
+
+1. **Backup restore of lost upload files** (TODO "Photo Migration") — the
+   placeholder/avatars make the UI whole, but the originals still need restore.
+   The migration journal preserves every nulled avatar reference.
+2. **`fwber.me` domain renewal decision** (see above).
+3. Transient login 401s (unreproduced).
+4. Full dashboard consolidation — explicitly scoped out by user.
+
+---
+
+## Prior session (2026-10-16) — v2.3.36
 
 ### Production Bugs Fixed & Deployed to fwber.online
 1. **Socket.io `ws://localhost:4000`**: Created `.env.production` on Hetzner + nginx `/socket.io/` WebSocket proxy + frontend rebuild to bake `NEXT_PUBLIC_*` vars.

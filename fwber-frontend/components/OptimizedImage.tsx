@@ -34,8 +34,9 @@ export default function OptimizedImage({
   onLoad,
   onError,
 }: OptimizedImageProps) {
-  // Legacy upload URLs pointing to decommissioned hosts — skip the network request entirely
-  const isDeadHost = /https?:\/\/api\.fwber\.me\//.test(src)
+  // Legacy upload URLs pointing to decommissioned hosts — skip the network
+  // request entirely. Covers all retired domain spellings; fwber.online is live.
+  const isDeadHost = /https?:\/\/(?:www\.)?(?:api\.)?fwber\.(?:me|site)\//.test(src)
   const [isLoading, setIsLoading] = useState(!isDeadHost)
   const [hasError, setHasError] = useState(isDeadHost)
 

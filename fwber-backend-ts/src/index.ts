@@ -129,6 +129,26 @@ import path from 'path';
 const UPLOAD_DIR = path.resolve(process.env.UPLOAD_DIR || 'uploads');
 app.use('/uploads', express.static(UPLOAD_DIR));
 
+// Missing-upload fallback (v2.3.37): production lost upload files (TODO.md
+// "Photo Migration"), but historical DB rows still reference /uploads/<file>.
+// Without this handler those requests fell through to the JSON catch-all
+// (HTTP 200 `[]`) or 404, which made the Next.js /_next/image optimizer return
+// 500s and surfaced broken images everywhere. Serving a valid placeholder PNG
+// with HTTP 200 keeps the whole image pipeline healthy regardless of file
+// state. express.static (above) takes precedence whenever a real file exists,
+// so a future backup restore needs no code change. Non-image requests (e.g.
+// voice_intro audio) fall through to a normal 404 instead of a bogus PNG.
+import { MISSING_UPLOAD_PNG, shouldServeUploadPlaceholder } from './lib/missingUploadPlaceholder.js';
+app.use('/uploads', (req, res, next) => {
+  if (req.method !== 'GET' && req.method !== 'HEAD') return next();
+  if (!shouldServeUploadPlaceholder(req.path)) return next();
+  // Short cache so restored files replace placeholders quickly.
+  res.setHeader('Cache-Control', 'public, max-age=300');
+  res.setHeader('X-Upload-Missing', '1');
+  res.type('png');
+  res.send(MISSING_UPLOAD_PNG);
+});
+
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/integrations/contacts/data', contactsIntegrationSyncRoutes);
