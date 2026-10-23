@@ -16,7 +16,15 @@ if (process.env.RESEND_API_KEY) {
 
 // SMTP transporter (legacy fallback)
 // Supports both authenticated SMTP and local relay (no auth needed)
-let transporter: nodemailer.Transporter | null = null;
+// Typed MINIMALLY and structurally on purpose: nodemailer's full Transporter
+// generics disagree between the bundled v10 types and the legacy
+// @types/nodemailer v8 package (TS2503/TS2375 depending on which is present).
+// We only ever call sendMail() and read messageId — so we type exactly that
+// surface. Version-proof across nodemailer majors (v2.3.40).
+type MailTransporter = {
+  sendMail(options: Record<string, unknown>): Promise<{ messageId?: string }>;
+};
+let transporter: MailTransporter | null = null;
 if (process.env.MAIL_HOST) {
   const smtpConfig: any = {
     host: process.env.MAIL_HOST,
@@ -32,7 +40,7 @@ if (process.env.MAIL_HOST) {
       pass: process.env.MAIL_PASS,
     };
   }
-  transporter = nodemailer.createTransport(smtpConfig);
+  transporter = nodemailer.createTransport(smtpConfig) as MailTransporter;
   console.log('[Email] SMTP transporter configured for', process.env.MAIL_HOST, process.env.MAIL_USER ? '(authenticated)' : '(no auth / local relay)');
 } else {
   console.log('[Email] No SMTP configured, relying on Resend or console fallback');

@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import type { Request, Response } from 'express';
 import { AuthController } from '../controllers/AuthController.js';
 import { authenticate } from '../middleware/auth.js';
 import prisma from '../lib/prisma.js';
@@ -22,7 +23,7 @@ router.get('/me', authenticate, authController.me);
 router.post('/forgot-password', forgotLimiter, authController.forgotPassword);
 router.post('/reset-password', resetLimiter, authController.resetPassword);
 
-router.get('/referral/:code', referralLimiter, async (req, res) => {
+router.get('/referral/:code', referralLimiter, async (req: Request<{ code: string }>, res: Response) => {
   try {
     const { code } = req.params;
     const user = await prisma.users.findFirst({

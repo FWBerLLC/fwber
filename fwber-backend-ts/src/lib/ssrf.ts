@@ -75,8 +75,8 @@ export function isPrivateIp(addr: ipaddr.IPv4 | ipaddr.IPv6): boolean {
     }
 
     // Transition tunnels that smuggle an IPv4 inside an IPv6 literal.
-    // (ipaddr.js names the NAT64 range "rfc6052".)
-    if (range === '6to4' || range === 'teredo' || range === 'rfc6052') {
+    // (ipaddr.js names the NAT64 ranges "rfc6052" and "rfc6145".)
+    if (range === '6to4' || range === 'teredo' || range === 'rfc6052' || range === 'rfc6145') {
         return true;
     }
 
