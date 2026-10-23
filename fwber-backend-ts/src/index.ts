@@ -87,6 +87,12 @@ import { setupSocketIO } from './socket.js';
 dotenv.config();
 
 const app = express();
+
+// The app sits behind local nginx (same box). Trusting only the loopback proxy
+// makes `req.ip` reflect the REAL client (nginx appends it to X-Forwarded-For)
+// instead of 127.0.0.1 — essential for per-IP rate limiting to work at all.
+// 'loopback' is deliberately narrow: direct connections cannot spoof headers.
+app.set('trust proxy', 'loopback');
 const port = process.env.PORT || 4003;
 const httpServer = createServer(app);
 
