@@ -1,5 +1,39 @@
 # Changelog
 
+## [2.3.41] - 2026-10-25
+
+### Changed — **Next.js 15 → 16 + React 18 → 19 migration** (the last critical dependency cluster)
+
+- **next 15.0.7 → 16.4.3, react/react-dom 18.3.1 → 19.3.1** — clears the final critical advisory cluster (Server Actions DoS, image-optimizer cache-key confusion, dev-server origin exposure). Validated end-to-end on an isolated server test checkout before touching production: full build green, **0 TypeScript errors, 0 lint errors**, live smoke on a test port (landing/login/dashboard/messages/matches/favicon all 200, image optimizer serving).
+- **Removed the redundant `next-auth` layer** (`app/auth/signin`, `app/api/auth/[...nextauth]`, `lib/auth.ts`): it merely proxied the same backend `/auth/login` the real `lib/auth-context` flow already owns — a duplicate implementation whose v4 peer range also rejected Next 16. Consolidated to the mature auth-context path per the project's single-implementation principle.
+- **Turbopack** builds by default in Next 16 (config + standalone output verified — `postbuild` asset copy works unchanged).
+- **`images.qualities: [75, 85, 90]`** — Next 16 defaults to `[75]` only and silently coerces other qualities; our avatars/photo reveals use 85/90.
+- **`app/favicon.ico` regenerated** as a spec-perfect 32×32 ICO (sharp-rasterized from `public/favicon.svg`, classic BMP-entry container). Turbopack's ICO decoder rejected the legacy malformed file that webpack tolerated.
+- **Edge runtime removed** from the 3 `opengraph-image.tsx` routes (deprecated in 16; `ImageResponse` runs fine on the default nodejs runtime).
+- **Sentry v10**: `replayIntegration` no longer exists (verified in both types and runtime) — the dead Session Replay config removed with a re-add note.
+
+### Fixed — latent bugs surfaced by the stricter toolchain
+
+- **`RealTimeChat.tsx` used `cn()` without importing it** — a guaranteed `ReferenceError` whenever that component rendered.
+- **Duplicate `type="button"` attribute** in `AudioRecorder.tsx` (v2.3.36 fix-script artifact) — JSX invalid, one attribute silently shadowed the other.
+- **`messages/page.tsx`** unguarded `c.other_user.id` (crash on partial conversations).
+- **Stale interfaces** aligned with the API: `Chatroom.group_aura` (v2.3.9 feature never typed), `FederatedPost.payload`, `UserProfile.name`.
+- **Untyped responses**: `useActiveQuests` query typed (`unknown` broke all consumers), axios `.then(res)` callbacks typed.
+- **`getAvatarUrl` seed** accepts `null` (real API values are `string | null`).
+- **`@solana/spl-token`** ambient declaration (package ships no `.d.ts`).
+- **framer-motion 12** `ease` tuple typing on the landing variant.
+
+### Changed (housekeeping)
+
+- **`.eslintrc.json`**: `react/no-unescaped-entities` disabled — purely stylistic rule (React auto-escapes JSX text); its 16 hits were pre-existing copy conventions, not defects. All other rules intact.
+- **Ops**: GitLab-runner had left **16.7GB of orphaned CI cache volumes** on Hetzner (disk hit 100% mid-migration) — pruned; disk 77%. The 3-day-old runner caches regenerate on demand.
+
+### Known issues / next up
+
+- 14 `react-hooks/exhaustive-deps` warnings predate the migration; each needs behavior analysis to fix safely (deferred).
+- Sentry Session Replay is gone in SDK v10 — revisit if/when Sentry ships a supported replacement.
+- Wallet login backend still unimplemented (see 2.3.40 notes).
+
 ## [2.3.40] - 2026-10-25
 
 ### Fixed (security)

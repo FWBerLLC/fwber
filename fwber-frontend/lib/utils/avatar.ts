@@ -16,7 +16,7 @@ const DICEBEAR_BASE = 'https://api.dicebear.com/7.x/avataaars/svg';
 // deliberately NOT fwber.online (the live canonical domain).
 const DEAD_HOSTS = /https?:\/\/(?:www\.)?(?:api\.)?fwber\.(?:me|site)\//;
 
-export function getAvatarUrl(avatarUrl: string | null | undefined, seed?: string | number): string {
+export function getAvatarUrl(avatarUrl: string | null | undefined, seed?: string | number | null): string {
   if (avatarUrl && avatarUrl.trim() !== '' && !DEAD_HOSTS.test(avatarUrl)) {
     return avatarUrl;
   }

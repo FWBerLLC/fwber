@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og';
 
-export const runtime = 'edge';
+// Next 16: edge runtime deprecated; nodejs is the default and runs ImageResponse fine
 export const alt = 'fwber — AI Profile Analysis';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';

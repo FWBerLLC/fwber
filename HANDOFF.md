@@ -1,12 +1,74 @@
 # HANDOFF.md — Session Summary
 
 > **Date:** 2026-10-25
-> **Agent:** Pi (Security & Dependency Pass — v2.3.40)
-> **Version:** 2.3.40
+> **Agent:** Pi (Next 16 + React 19 Migration — v2.3.41)
+> **Version:** 2.3.41
 
 ---
 
-## Session 2026-10-25 — SSRF Bypasses, Auth Throttling, Dependency Audit
+## Session 2026-10-25 (part 2) — Next.js 16 + React 19 Migration (validated, then deployed)
+
+### Approach (why production never wobbled)
+
+Work was done entirely on an ISOLATED server checkout at
+`/var/www/fwber/next16-test` (branch `feat/next16-react19`), validated, and
+only then applied to production. The test checkout remains on the box for
+future framework tests.
+
+Validation chain before touching prod:
+1. `npm run build` green (Turbopack) — all ~170 routes compiled
+2. `npx tsc --noEmit` — 0 errors (24 fixed, see below)
+3. `npm run lint` — 0 errors (14 pre-existing hook warnings)
+4. Standalone booted on :3999 — `/`, `/login`, `/dashboard`, `/messages`,
+   `/matches`, `/favicon.ico` all 200; login page renders real content;
+   `/_next/image` optimizer serves the upload placeholder (200)
+
+### What changed (high level — CHANGELOG 2.3.41 has the full list)
+
+- next 15.0.7 → **16.4.3**, react/react-dom 18.3.1 → **19.3.1** (last critical
+  dependency cluster: Server Actions DoS + image-optimizer cache-key issues).
+- **next-auth REMOVED** — it only proxied the same backend /auth/login that
+  `lib/auth-context` owns; duplicate implementation + its v4 peers reject
+  Next 16. Files deleted: `app/auth/signin/`, `app/api/auth/[...nextauth]/`,
+  `lib/auth.ts`.
+- `images.qualities: [75, 85, 90]` (Next 16 coerces to [75] otherwise).
+- **`app/favicon.ico` regenerated** via sharp + hand-built ICO container —
+  Turbopack's decoder REJECTS the legacy malformed ICO webpack tolerated.
+- 3 `opengraph-image.tsx` routes: edge runtime → default nodejs (deprecated).
+- Sentry v10 dropped `replayIntegration` (verified types+runtime) — dead
+  config removed.
+- 24 type errors fixed (12 files) incl. REAL BUGS: `RealTimeChat.tsx` used
+  `cn()` without import (guaranteed ReferenceError), duplicate JSX attribute
+  in AudioRecorder (v2.3.36 script artifact), unguarded `c.other_user.id`.
+- `.eslintrc.json`: `react/no-unescaped-entities` off (cosmetic rule; React
+  auto-escapes JSX text — its 16 hits were copy style, not defects).
+
+### Ops incident during the migration
+
+- Disk hit **100%** mid-work: `docker system df` revealed **16.7GB of
+  orphaned GitLab-runner cache volumes** (a runner arrived 3 days ago;
+  `docker volume prune` initially reclaimed 0B — targeted
+  `docker volume rm runner-*` on the 8 named caches freed it). Disk now 77%.
+- Lesson for successors: `docker system df` → "Local Volumes" is the first
+  place to look on this box; runner caches accumulate fast.
+
+### Muse coordination (user request)
+
+- `muse.ai` now redirects to **Meta AI** (CSP/gateway headers all meta.ai);
+  `/api` returns 401 without a Meta session; no stored credentials anywhere.
+  Could not converse with it autonomously (browser-login service). A
+  ready-to-paste coordination brief was provided to the user instead; the
+  migration proceeded against the official Next.js 16 upgrade guide.
+
+### Next up
+
+1. Wallet login backend (`/api/auth/login-wallet` — still unimplemented).
+2. Sentry Replay replacement if Sentry ships one.
+3. Off-site backup target (user must provision) + Stripe/email DNS (user side).
+
+---
+
+## Prior session (2026-10-25) — v2.3.40
 
 ### What shipped (all deployed to fwber.online + 78/78 tests green)
 

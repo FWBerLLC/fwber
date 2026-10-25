@@ -227,7 +227,7 @@ export default function MessagesPage() {
 										key={match.user_id}
 										className="flex-shrink-0 flex flex-col items-center gap-2 cursor-pointer group"
 										onClick={() => {
-											const conv = conversations.find(c => String(c.other_user.id) === String(match.user_id));
+											const conv = conversations.find(c => String(c.other_user?.id) === String(match.user_id));
 											if (conv) setSelectedConversation(conv);
 										}}
 									>

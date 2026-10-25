@@ -31,6 +31,12 @@
 - [x] **Prisma `matching_options` fix**: Corrected to `chosen_option` in `NarrativeService`
 - [x] **Tools cleanup**: Archived 19 stale scripts/configs to `tools/archive/`
 
+## 🟢 Recently Completed: Next.js 16 + React 19 Migration (v2.3.41, 2026-10-25)
+- [x] **next 15→16.4.3, react 18→19.3.1** — last critical dependency cluster cleared. Validated on isolated server test checkout first: build green, 0 TS errors, 0 lint errors, smoke 200s on test port.
+- [x] **Redundant next-auth layer removed** (duplicate of the real auth-context flow; its v4 peers rejected Next 16).
+- [x] **Turbopack default**, `images.qualities` configured, malformed `favicon.ico` regenerated (Turbopack rejects it), edge runtime dropped from OG-image routes, dead Sentry replay config removed.
+- [x] **6 latent bugs fixed**: missing `cn` import (guaranteed crash), duplicate JSX attr, unguarded `other_user`, 3 stale interfaces, untyped query/axios results.
+
 ## 🟢 Recently Completed: Security & Dependency Pass (v2.3.40, 2026-10-25)
 - [x] **SSRF bypasses closed**: IPv4-mapped IPv6 smuggling, fail-open DNS, redirect-pivot connections; blocklist extended (CGNAT, tunnels); 18 tests incl. regressions.
 - [x] **Auth rate limiting**: zero-dep sliding-window limiter on all auth routes (was: none); trust-proxy fix for real client IPs; live-verified 429s.
@@ -109,7 +115,9 @@
 - [x] **Quest Verification**: Use ZK-proofs or NFC tags to verify quest completion tasks.
 - [x] **Group Aura**: Aggregate emotions of group chat participants to determine group-wide mood and theme.
 - [ ] **Photo Migration**: 157 photos in DB but files missing from uploads directory — need backup restore. *Mitigations shipped in v2.3.37: backend serves a placeholder PNG for any missing `/uploads/` image (no more optimizer 500s), avatar URLs to missing files cleared to NULL (DiceBear fallback), and all nulled references journaled in `fwber-backend-ts/image-url-migration-journal.json` for easy re-pointing after restore. `fwber-backend-ts/scripts/migrate-image-urls.mjs` re-checks existence on demand.*
-- [ ] **Next.js 15 → 16 major migration**: the last critical advisory cluster (Server Actions DoS, image-optimizer cache-key confusion) needs Next 16 — dedicated session with test coverage, not a drive-by bump.
+- [x] ~~**Next.js 15 → 16 major migration**~~ — DONE (2026-10-25, v2.3.41).
+- [ ] **Sentry Session Replay**: removed with SDK v10 (integration no longer exists) — re-add if Sentry ships a supported replacement.
+- [ ] **react-hooks/exhaustive-deps** (14 warnings, pre-existing): each needs behavior analysis to fix safely.
 - [ ] **Wallet login backend**: `POST /api/auth/login-wallet` has no server route (frontend calls it). Needs wallet-signature verification design; `wallet.ts` is token payments only.
 - [ ] **Off-site backup replication**: `/var/backups/fwber/` is on the same disk as production — sync nightly to object storage or another box. Needs a target credential (Storage Box / S3 / second host). DreamHost SSH exists as an interim option.
 - [x] ~~**Backup restore drill**~~ — DONE (2026-10-22): `/usr/local/bin/fwber-restore-drill.sh`, monthly cron, first run PASSED (134/134 tables consistent).

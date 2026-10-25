@@ -1,6 +1,9 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+// cn() is used in the atmosphere style join below — was missing entirely,
+// a latent ReferenceError whenever this component rendered (v2.3.41 fix).
+import { cn } from "@/lib/utils";
 import {
 	useWebSocketChat,
 	ChatMessage,
@@ -233,7 +236,7 @@ export default function RealTimeChat({
 	useEffect(() => {
 		if (recipientId && user?.id) {
 			setLoadingHistory(true);
-			api.get(`/messages/${recipientId}`).then(res => {
+			api.get(`/messages/${recipientId}`).then((res: any) => {
 				if (res.atmosphere) setAtmosphere(res.atmosphere);
 				setLoadingHistory(false);
 			}).catch(() => setLoadingHistory(false));

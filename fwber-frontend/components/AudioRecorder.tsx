@@ -183,7 +183,6 @@ export default function AudioRecorder({
           }}
           className="p-2 text-red-500 hover:bg-red-100 dark:hover:bg-red-900/30 rounded-full transition-colors"
           title="Delete"
-          type="button"
         >
           <Trash2 className="h-5 w-5" />
         </button>

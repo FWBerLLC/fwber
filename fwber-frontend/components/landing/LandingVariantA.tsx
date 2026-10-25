@@ -46,7 +46,7 @@ function StaggerGrid({ children, className = '' }: { children: React.ReactNode; 
 
 const staggerItem = {
   hidden: { opacity: 0, y: 24, scale: 0.96 },
-  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
+  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] } },
 }
 
 function FloatUp({ children }: { children: React.ReactNode }) {
