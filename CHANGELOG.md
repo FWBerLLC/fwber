@@ -1,5 +1,34 @@
 # Changelog
 
+## [2.3.40] - 2026-10-25
+
+### Fixed (security)
+
+- **SSRF hardening (`src/lib/ssrf.ts`)** — real bypasses closed in the federation guard:
+  - **IPv4-mapped IPv6 smuggling** (`http://[::ffff:127.0.0.1]/`): classified as range `ipv4Mapped`, which was not blocklisted — loopback/metadata reachable. Now converted to the embedded IPv4 and re-checked.
+  - **Fail-open on DNS failure**: `validateFederationUrl` returned `true` when a host resolved to nothing. Now fails closed (unverifiable = blocked).
+  - **Redirect-pivot SSRF**: the pinned agent's fallback `dns.lookup` (used for redirect targets) connected to whatever it resolved — a `Location: http://169.254.169.254/` redirect could reach internal services. Every connection through the agent now refuses private addresses.
+  - Blocklist extended: CGNAT (100.64/10), multicast, broadcast, benchmarking, and IPv6 transition tunnels that embed IPv4 (6to4, Teredo, NAT64 rfc6052/rfc6145).
+  - IPv6 bracket-literal normalization (`url.hostname` keeps `[::1]`).
+- **Auth brute-force protection (new `src/lib/rateLimit.ts`)** — the auth endpoints had **no rate limiting at all**. Zero-dependency sliding-window limiter (npm-free by design): `login` 10/min, `register` 5/min, `forgot-password` 5/min, `reset-password` 10/min, `referral` 30/min per client IP. `trust proxy = loopback` so limits key on real client IPs behind nginx (spoof-resistant single-proxy topology). Live-verified: 10×401 then 429 + `Retry-After`.
+- **Dependency audit** (backend **18 → 0 vulnerabilities**; frontend **155 → 112**):
+  - `nodemailer` 8 → **10.2.1** (mail-level file-read/SSRF, IDN + recipient-domain bypasses, TLS `servername` credential disclosure) — used only via `createTransport`/`sendMail`; typing made version-proof.
+  - `sharp` 0.34 → **0.35.5** (libvips/libheif/librsvg CVEs — sharp processes **user-uploaded photos**, live attack surface).
+  - `ws` advisories (public Socket.io endpoint) + assorted transitives via `npm audit fix`.
+  - `protobufjs` pinned to **7.6.5** via `overrides` (arbitrary code execution; transitive via Solana wallet-adapter → Trezor).
+
+### Verified
+
+- **78/78 tests passing** (18 new: ssrf bypass/fail-closed + rate-limiter suites) on both local and server trees.
+- Full production smoke after deploy: home/dashboard/messages/matches/health all 200.
+- `@reown/appkit-ui` flagged by `tools/audit-entry-points.cjs` — investigated: the **official npm tarball ships no `dist/esm/index.js`** (its `main` is wrong upstream). Not our truncation; bundlers use its `exports` map. False positive, documented.
+
+### Known issues / next up
+
+- **Next.js 15.0.7 carries 1 remaining critical advisory cluster** (Server Actions DoS, image-optimizer cache-key confusion, dev-server origin exposure). Fix requires the **Next 15 → 16 major migration** — deliberately deferred to a dedicated session with real test coverage, not a drive-by upgrade.
+- **Wallet login is unimplemented server-side**: `POST /api/auth/login-wallet` has no backend route (frontend calls it; `wallet.ts` is token payments only). Needs a signature-verification design.
+- Backend jest run on the server hangs after completion (pre-existing open handles) — run with output redirect or `--forceExit`.
+
 ## [2.3.39] - 2026-10-22
 
 ### Fixed

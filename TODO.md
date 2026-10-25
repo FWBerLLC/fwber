@@ -31,6 +31,12 @@
 - [x] **Prisma `matching_options` fix**: Corrected to `chosen_option` in `NarrativeService`
 - [x] **Tools cleanup**: Archived 19 stale scripts/configs to `tools/archive/`
 
+## 🟢 Recently Completed: Security & Dependency Pass (v2.3.40, 2026-10-25)
+- [x] **SSRF bypasses closed**: IPv4-mapped IPv6 smuggling, fail-open DNS, redirect-pivot connections; blocklist extended (CGNAT, tunnels); 18 tests incl. regressions.
+- [x] **Auth rate limiting**: zero-dep sliding-window limiter on all auth routes (was: none); trust-proxy fix for real client IPs; live-verified 429s.
+- [x] **Dependency audit**: backend 18 → **0 vulns** (nodemailer 10.2.1, sharp 0.35.5, ws et al.); frontend 155 → **112** (protobufjs 7.6.5 override; criticals 2 → 1).
+- [x] **78/78 tests** passing locally and on the server.
+
 ## 🟢 Recently Completed: Login Reliability & Restore Proof (v2.3.39, 2026-10-22)
 - [x] **Transient 401 root cause fixed**: decision engine delegates low-impact actions under degraded health (3+ dangling tasks = score ≤70 = every login rejected); executor audit-log failures killed successful logins; controller dressed every error as "Invalid credentials".
 - [x] **AuthError typed errors**: 401 only for deliberate auth failures; infra → generic 500 + server log.
@@ -103,7 +109,9 @@
 - [x] **Quest Verification**: Use ZK-proofs or NFC tags to verify quest completion tasks.
 - [x] **Group Aura**: Aggregate emotions of group chat participants to determine group-wide mood and theme.
 - [ ] **Photo Migration**: 157 photos in DB but files missing from uploads directory — need backup restore. *Mitigations shipped in v2.3.37: backend serves a placeholder PNG for any missing `/uploads/` image (no more optimizer 500s), avatar URLs to missing files cleared to NULL (DiceBear fallback), and all nulled references journaled in `fwber-backend-ts/image-url-migration-journal.json` for easy re-pointing after restore. `fwber-backend-ts/scripts/migrate-image-urls.mjs` re-checks existence on demand.*
-- [ ] **Off-site backup replication**: `/var/backups/fwber/` is on the same disk as production — sync nightly to object storage or another box for real disaster recovery.
+- [ ] **Next.js 15 → 16 major migration**: the last critical advisory cluster (Server Actions DoS, image-optimizer cache-key confusion) needs Next 16 — dedicated session with test coverage, not a drive-by bump.
+- [ ] **Wallet login backend**: `POST /api/auth/login-wallet` has no server route (frontend calls it). Needs wallet-signature verification design; `wallet.ts` is token payments only.
+- [ ] **Off-site backup replication**: `/var/backups/fwber/` is on the same disk as production — sync nightly to object storage or another box. Needs a target credential (Storage Box / S3 / second host). DreamHost SSH exists as an interim option.
 - [x] ~~**Backup restore drill**~~ — DONE (2026-10-22): `/usr/local/bin/fwber-restore-drill.sh`, monthly cron, first run PASSED (134/134 tables consistent).
 - [x] ~~**Transient login 401s**~~ — ROOT-CAUSED & FIXED (2026-10-22, v2.3.39): autonomous governance layer was delegating/dropping valid logins when system health score ≤70; also audit-ledger write failures killed successful logins. Auth now fail-open + typed 401s. See CHANGELOG 2.3.39.
 - [x] ~~**fwber.me domain renewal**~~ — RESOLVED (2026-10-22): user retired the domain permanently; `fwber.online` is canonical. Stale nginx `api.fwber.me` server block is harmless (DNS dead) but can be deleted whenever nginx is next touched.
