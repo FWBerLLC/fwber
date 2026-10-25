@@ -83,7 +83,7 @@ const ArtifactCard = ({
     if (showComments) {
       apiClient.get(`/proximity/artifacts/${artifact.id}/comments`, {
         headers: { Authorization: `Bearer ${token}` }
-      }).then(res => setComments(res.data.data || []));
+      }).then((res: any) => setComments(res.data.data || []));
     }
   }, [showComments, artifact.id, token]);
 

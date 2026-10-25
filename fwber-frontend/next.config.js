@@ -105,6 +105,10 @@ const nextConfig = {
     ],
     formats: ['image/webp', 'image/avif'],
     minimumCacheTTL: 60,
+    // Next 16 defaults qualities to [75] only — any other quality prop is
+    // silently coerced. We render 85/90 for avatars & photo reveals
+    // (OptimizedImage.tsx), so declare the full set explicitly (v2.3.41).
+    qualities: [75, 85, 90],
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     unoptimized: process.env.NODE_ENV === 'development',
