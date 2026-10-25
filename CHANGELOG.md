@@ -25,12 +25,14 @@
 
 ### Changed (housekeeping)
 
+- **`.npmrc` added with `legacy-peer-deps=true`**: several sub-deps (`react-leaflet@4.2.1`, `@radix-ui/react-tooltip@1.0.7`) declare `react <=18` peers though they run correctly on 19 (the validated tree proves it). Documented transitional policy; TODO lists the native-19 major bumps to remove it.
 - **`.eslintrc.json`**: `react/no-unescaped-entities` disabled — purely stylistic rule (React auto-escapes JSX text); its 16 hits were pre-existing copy conventions, not defects. All other rules intact.
 - **Ops**: GitLab-runner had left **16.7GB of orphaned CI cache volumes** on Hetzner (disk hit 100% mid-migration) — pruned; disk 77%. The 3-day-old runner caches regenerate on demand.
 
 ### Known issues / next up
 
 - 14 `react-hooks/exhaustive-deps` warnings predate the migration; each needs behavior analysis to fix safely (deferred).
+- **`legacy-peer-deps` removal**: bump `react-leaflet` → 5.x and `@radix-ui/react-tooltip` → 1.2.x (React-19-native majors), then delete `.npmrc`.
 - Sentry Session Replay is gone in SDK v10 — revisit if/when Sentry ships a supported replacement.
 - Wallet login backend still unimplemented (see 2.3.40 notes).
 

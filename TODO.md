@@ -116,6 +116,7 @@
 - [x] **Group Aura**: Aggregate emotions of group chat participants to determine group-wide mood and theme.
 - [ ] **Photo Migration**: 157 photos in DB but files missing from uploads directory — need backup restore. *Mitigations shipped in v2.3.37: backend serves a placeholder PNG for any missing `/uploads/` image (no more optimizer 500s), avatar URLs to missing files cleared to NULL (DiceBear fallback), and all nulled references journaled in `fwber-backend-ts/image-url-migration-journal.json` for easy re-pointing after restore. `fwber-backend-ts/scripts/migrate-image-urls.mjs` re-checks existence on demand.*
 - [x] ~~**Next.js 15 → 16 major migration**~~ — DONE (2026-10-25, v2.3.41).
+- [ ] **React-19-native majors**: bump `react-leaflet` → 5.x and `@radix-ui/react-tooltip` → 1.2.x, then remove `fwber-frontend/.npmrc` (`legacy-peer-deps` transitional policy).
 - [ ] **Sentry Session Replay**: removed with SDK v10 (integration no longer exists) — re-add if Sentry ships a supported replacement.
 - [ ] **react-hooks/exhaustive-deps** (14 warnings, pre-existing): each needs behavior analysis to fix safely.
 - [ ] **Wallet login backend**: `POST /api/auth/login-wallet` has no server route (frontend calls it). Needs wallet-signature verification design; `wallet.ts` is token payments only.
