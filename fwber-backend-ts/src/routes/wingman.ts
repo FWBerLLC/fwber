@@ -4,20 +4,32 @@ import * as ai from '../lib/wingman-ai.js';
 import prisma from '../lib/prisma.js';
 import OpenAI from 'openai';
 import { WingmanService } from '../services/WingmanService.js';
+import { getLocalLlm, localLlmModel } from '../lib/ai-local.js';
 
 // Lazy client construction: `new OpenAI()` throws at import time when no
 // credential is configured, which used to crash the entire API on boot just
 // because an optional AI integration was unconfigured. Deferring creation to
 // first use lets the server start and lets only this feature fail, with a
 // clear 503 telling the operator which variable to set.
+//
+// v2.3.42: when no cloud key exists but the shared on-box Ollama service is
+// configured (OLLAMA_BASE_URL), the local model serves these endpoints too —
+// the wingman features work with zero cloud configuration.
 let openaiClient: OpenAI | null = null;
+let usingLocalClient = false;
 
 function getOpenAI(): OpenAI {
   if (openaiClient) return openaiClient;
   const apiKey = process.env.OPENROUTER_API_KEY || process.env.OPENAI_API_KEY;
   if (!apiKey) {
+    const local = getLocalLlm();
+    if (local) {
+      openaiClient = local;
+      usingLocalClient = true;
+      return openaiClient;
+    }
     throw new Error(
-      'AI wingman is not configured: set OPENROUTER_API_KEY or OPENAI_API_KEY to enable this endpoint.'
+      'AI wingman is not configured: set OPENROUTER_API_KEY or OPENAI_API_KEY, or OLLAMA_BASE_URL for the local model.'
     );
   }
   openaiClient = new OpenAI({
@@ -30,6 +42,15 @@ function getOpenAI(): OpenAI {
     } : undefined
   });
   return openaiClient;
+}
+
+/**
+ * Map a cloud model name to the active client's model. When serving from the
+ * local Ollama model, the cloud tags (gpt-4o-mini etc.) don't exist there —
+ * requests must carry the local model tag instead.
+ */
+function modelFor(cloudModel: string): string {
+  return usingLocalClient ? localLlmModel() : cloudModel;
 }
 
 const router = Router();
@@ -223,7 +244,7 @@ router.get('/profile-analysis', async (req: any, res) => {
 // ─── Date Ideas ─────────────────────────────────────────────────────────────
 
 router.get('/date-ideas/general', async (req: any, res) => {
-  const model = process.env.OPENROUTER_API_KEY ? 'google/gemini-2.0-flash-lite-preview-02-05:free' : 'gpt-4o-mini';
+  const model = modelFor(process.env.OPENROUTER_API_KEY ? 'google/gemini-2.0-flash-lite-preview-02-05:free' : 'gpt-4o-mini');
   try {
     const result = await getOpenAI().chat.completions.create({
       model: model,
@@ -252,7 +273,7 @@ router.get('/date-ideas/general', async (req: any, res) => {
 router.get('/date-ideas/:matchId', async (req: any, res) => {
   try {
     const result = await getOpenAI().chat.completions.create({
-      model: 'gpt-4o-mini',
+      model: modelFor('gpt-4o-mini'),
       messages: [{
         role: 'user',
         content: `Generate 5 creative date ideas for a couple in the Detroit metro area. Each should have a title, short description (1 sentence), vibe (one word), and estimated cost ($ to $$$). Respond in JSON: { "ideas": [{ "title": "...", "description": "...", "vibe": "...", "estimated_cost": "..." }] }`
@@ -297,7 +318,7 @@ router.post('/assist', async (req: any, res) => {
 // ─── Ice Breakers (general — no match required) ─────────────────────────────
 router.get('/ice-breaker', async (req: any, res) => {
   try {
-    const model = process.env.OPENROUTER_API_KEY ? 'google/gemini-2.0-flash-lite-preview-02-05:free' : 'gpt-4o-mini';
+    const model = modelFor(process.env.OPENROUTER_API_KEY ? 'google/gemini-2.0-flash-lite-preview-02-05:free' : 'gpt-4o-mini');
     const suggestion = await getOpenAI().chat.completions.create({
       model, messages: [{ role: 'user', content: 'Generate three clever, unique dating ice breaker messages. Be specific and creative — avoid clichés. Format as a JSON array of strings: ["suggestion1", "suggestion2", "suggestion3"]' }],
       temperature: 0.95, max_tokens: 300,
@@ -392,7 +413,7 @@ router.post('/compatibility-audit/:targetId', async (req: any, res) => {
     const theirSummary = buildProfileText(theirProfile);
 
     const result = await getOpenAI().chat.completions.create({
-      model: 'gpt-4o-mini',
+      model: modelFor('gpt-4o-mini'),
       messages: [{
         role: 'user',
         content: `You are an expert relationship compatibility analyst. Compare these two dating profiles and produce a deep compatibility audit.
@@ -452,7 +473,7 @@ router.post('/message-feedback/:matchId', async (req: any, res) => {
     if (!draft) return res.status(400).json({ message: 'No draft provided' });
 
     const result = await getOpenAI().chat.completions.create({
-      model: 'gpt-4o-mini',
+      model: modelFor('gpt-4o-mini'),
       messages: [{
         role: 'user',
         content: `You are a professional dating wingman coach. Analyze this draft message for a dating app match: "${draft}"

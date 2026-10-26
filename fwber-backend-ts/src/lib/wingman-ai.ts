@@ -7,6 +7,7 @@ import OpenAI from 'openai';
 import Replicate from 'replicate';
 import * as fal from "@fal-ai/serverless-client";
 import prisma from './prisma.js';
+import { getLocalLlm, localLlmModel, localChatCompletion, isLocalLlmConfigured } from './ai-local.js';
 
 /**
  * Configure AI Providers
@@ -111,6 +112,13 @@ export async function generateText(system: string, user: string, temperature = 0
   const TIMEOUT_MS = 10000; // 10 second overall timeout
   const NVIDIA_TIMEOUT = 5000; // NVIDIA free tier is slow, shorter timeout
 
+  // 0. Optional: local model first (AI_PREFER_LOCAL=true) — zero-cost/privacy
+  //    mode using the shared on-box Ollama service (see ai-local.ts).
+  if (process.env.AI_PREFER_LOCAL === 'true' && isLocalLlmConfigured()) {
+    const local = await localChatCompletion(system, user, { temperature });
+    if (local) return local;
+  }
+
   // 1. Try NVIDIA NIM (Meta Llama 3.1 8B Instruct)
   if (nvidia && providerAvailable('nvidia')) {
     try {
@@ -149,7 +157,7 @@ export async function generateText(system: string, user: string, temperature = 0
     }
   }
 
-  // 3. Last Resort: Legacy OpenAI Key
+  // 3. Last cloud resort: Legacy OpenAI Key
   if (legacyOpenai && providerAvailable('openai')) {
     try {
       const resp = await withTimeout(legacyOpenai.chat.completions.create({
@@ -166,6 +174,13 @@ export async function generateText(system: string, user: string, temperature = 0
       console.error('[AI] Legacy OpenAI failed.', err.message);
       markProviderFailed('openai');
     }
+  }
+
+  // 4. Final fallback: local on-box LLM (Ollama) — keeps every AI feature
+  //    working even with NO cloud keys configured and during cloud outages.
+  if (isLocalLlmConfigured()) {
+    const local = await localChatCompletion(system, user, { temperature });
+    if (local) return local;
   }
 
   return '';

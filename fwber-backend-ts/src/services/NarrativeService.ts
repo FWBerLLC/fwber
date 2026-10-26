@@ -1,5 +1,6 @@
 import prisma from "../lib/prisma.js";
 import OpenAI from "openai";
+import { getLocalLlm, localLlmModel } from "../lib/ai-local.js";
 
 /**
  * NarrativeService
@@ -8,6 +9,9 @@ import OpenAI from "openai";
  */
 export class NarrativeService {
 	private openai: OpenAI | null = null;
+	// True when the client is bound to the local Ollama model (no cloud key) —
+	// request models must use the local tag in that case (v2.3.42).
+	private usingLocal = false;
 
 	constructor() {
 		if (
@@ -17,6 +21,11 @@ export class NarrativeService {
 			this.openai = new OpenAI({
 				apiKey: process.env.OPENAI_API_KEY,
 			});
+		} else {
+			// v2.3.42: fall back to the shared on-box LLM so narrative reports
+			// still work with no cloud keys (see lib/ai-local.ts).
+			this.openai = getLocalLlm();
+			this.usingLocal = Boolean(this.openai);
 		}
 	}
 
@@ -85,7 +94,7 @@ export class NarrativeService {
 			}
 
 			const response = await this.openai.chat.completions.create({
-				model: "gpt-3.5-turbo",
+				model: this.usingLocal ? localLlmModel() : "gpt-3.5-turbo",
 				messages: [
 					{
 						role: "system",
