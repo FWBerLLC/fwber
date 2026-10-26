@@ -1,5 +1,26 @@
 # Changelog
 
+## [2.3.47] - 2026-10-26
+
+### Added / Fixed (Robert-authorized: deploy + wallet hardening + Muse review)
+
+- **Wallet login v2 — `POST /api/auth/login-wallet` (new) + `GET /api/auth/wallet-nonce` (new).** ed25519 signature verification over the deployed Solana frontend's message contract, zero new deps (Node native crypto + in-tree base58). **Muse-hardened design**: server-issued single-use nonces (16-byte hex, SHA-256 at rest, 10-min TTL, atomic `deleteMany` consumption = race-safe replay defense), required `Nonce:` line in the signed message (legacy format rejected), timestamp freshness as a second bound, in-memory replay cache kept as defense-in-depth. Auto-provision mirrors `registerUser` (profile + 50-token welcome bonus + notification prefs; random unguessable password — no password-login path). Rate-limited with `loginLimiter`.
+- **`users.wallet_address` UNIQUE KEY `users_wallet_address_unique`** (was nullable + non-unique → `findFirst` semantics). Pre-migration duplicate scan: zero duplicates. New `wallet_login_nonces` table.
+- **Tooltip hover-out quirk FIXED** (`disableHoverableContent` at Root — Radix 1.4.x moved the prop from Content to Root): the popper renders ~28px above the trigger, so exiting upward entered the hoverable content and kept it open. Verified live: upward-out now closes.
+- **Leaflet marker icons self-hosted** (`public/images/leaflet/` — the path was referenced but never existed, so markers silently fell back to unpkg.com). Verified live: 0 unpkg requests, marker loads from `/images/leaflet/`.
+- Tests: 15 wallet tests (real keypairs, nonce reuse/expiry/legacy-format/malformed-nonce rejection, hashed storage proof); full suite **93/93**; tsc **0**.
+
+### Smoke (actual outcomes)
+
+- **Wallet E2E on production** (fresh keypair against the live API): nonce 200 + hex32 ✓ · login 200 with token + auto-provisioned user `wallet_HqvHr9kp` ✓ · **identical-body replay → 401 "Nonce invalid, expired, or already used"** ✓ · legacy nonce-less message → 401 ✓ · forged signature → 401 ✓.
+- Tooltip battery on live: opens on hover ✓ · **upward exit through the old trap zone closes** ✓ · downward exit closes ✓.
+- Map on live: marker `src=/images/leaflet/marker-icon.png`, visible ✓ · **unpkg requests: 0** ✓.
+- Visual browser pass: 10 surfaces reviewed by eye (onboarding, dashboard, event Live Map, discover, messages, tooltip hover, profile, economy, settings, achievements) — all render correctly. Open finding: header socket badge shows "Disconnected" persistently on several surfaces (investigation item in TODO — affects the realtime layer).
+
+### Operational
+
+- `origin` remote switched HTTPS → SSH for this workspace (Git Credential Manager lost its cache and stalled pushes; SSH key auth verified as `robertpelloni`).
+
 ## [2.3.46] - 2026-10-26
 
 ### Changed (Robert-authorized deploy — "run it")

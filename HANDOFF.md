@@ -1,8 +1,57 @@
 # HANDOFF.md — Session Summary
 
 > **Date:** 2026-10-26
-> **Agent:** Pi (react-leaflet 5 Deploy — v2.3.46)
-> **Version:** 2.3.46
+> **Agent:** Pi (Wallet v2 + Hardening Deploy — v2.3.47)
+> **Version:** 2.3.47
+
+---
+
+## Session 2026-10-26 (part 5) — Wallet Login v2, Muse-Hardened, Deployed
+
+**Robert authorized** ("1 and 2 and 4"): deploy the branches, build the Muse
+nonce hardening, direct the Muse review. Item 3 (backup target) NOT authorized
+— backup replication stays blocked on his credential choice.
+
+### What shipped (v2.3.47)
+
+- `POST /api/auth/login-wallet` + `GET /api/auth/wallet-nonce` — ed25519
+  wallet login (zero new deps), with Muse's design: single-use hashed nonces
+  (10-min TTL, atomic deleteMany consumption), required Nonce line, timestamp
+  freshness, replay cache as defense-in-depth, registerUser-parity
+  auto-provision. `users.wallet_address` now UNIQUE (dup-scanned first:
+  zero). New `wallet_login_nonces` table. 15 wallet tests; suite 93/93.
+- Tooltip hover-out quirk fixed (`disableHoverableContent` at Root).
+- Leaflet marker icons self-hosted (0 unpkg requests live).
+
+### Smoke (actual outcomes)
+
+- Wallet E2E on prod: nonce 200, login 200 (user `wallet_HqvHr9kp`
+  auto-provisioned), **replay 401 "Nonce invalid, expired, or already used"**,
+  legacy 401, forged 401. PASS.
+- Tooltip live: upward-out (old trap path) closes ✓, downward closes ✓.
+- Icons live: markerSrc=/images/leaflet/marker-icon.png, unpkg requests **0** ✓.
+- Visual pass 2: profile/economy/settings/achievements reviewed — clean.
+- **Open finding: header socket badge shows "Disconnected" persistently** on
+  several surfaces while other states show "Connected" — real defect candidate
+  for the realtime layer (chat/notifications/proximity). In TODO.
+
+### Operational notes
+
+- Workspace `origin` switched to **SSH** (GCM lost its cache, stalls pushes).
+  SSH auth = `robertpelloni` (id_ed25519).
+- CDP quirk confirmed again: commands stall while a Radix popper is open;
+  `Page.captureScreenshot` survives. Radix Tabs need real mousedown.
+- DB migration applied live: `users_wallet_address_unique` +
+  `wallet_login_nonces` (ALTER_EXIT=0, indexed+verified).
+
+### Open items
+
+- **Backup replication: BLOCKED on Robert** (needs DreamHost creds / Storage
+  Box / S3 / second host; box has no DreamHost key — Muse's caution validated).
+- Socket "Disconnected" badge investigation.
+- Muse's artifact review of the two evidence files is directed (in flight).
+- Portfolio decisions remain Robert's (pricing, HyperNexus-first vs
+  FWBer-first, umbrella mapping, okgame tree, unitedbeats.org).
 
 ---
 
