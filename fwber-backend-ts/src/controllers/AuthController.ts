@@ -74,6 +74,21 @@ export class AuthController {
   };
 
   /**
+   * GET /api/auth/wallet-nonce — issue a single-use nonce for wallet login.
+   * The nonce is signed into the login message so replays die even inside the
+   * timestamp freshness window (Muse hardening review).
+   */
+  walletNonce = async (_req: Request, res: Response) => {
+    try {
+      const nonce = await this.authService.issueWalletLoginNonce();
+      res.json({ nonce, expires_in: 600 });
+    } catch (error: any) {
+      console.error('[Auth] wallet-nonce infrastructure error:', error);
+      res.status(500).json({ message: 'Could not issue wallet login nonce.' });
+    }
+  };
+
+  /**
    * POST /api/auth/login-wallet — ed25519 wallet signature login.
    * Mirrors login's response shape ({ access_token, token_type, user }) which
    * is exactly what fwber-frontend lib/auth-context.tsx consumes.

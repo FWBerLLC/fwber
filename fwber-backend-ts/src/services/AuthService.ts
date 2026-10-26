@@ -18,6 +18,8 @@ const WALLET_LOGIN_PREFIX = 'Sign this message to login to fwber.';
 const WALLET_LOGIN_MAX_AGE_MS = 5 * 60 * 1000; // signed timestamp freshness
 const WALLET_LOGIN_MAX_FUTURE_SKEW_MS = 60 * 1000; // clock-skew tolerance
 const WALLET_REPLAY_TTL_MS = WALLET_LOGIN_MAX_AGE_MS + 60 * 1000;
+/** Server-issued single-use nonce TTL (Muse's spec: 5-10 min, deleted on use). */
+const WALLET_NONCE_TTL_MS = 10 * 60 * 1000;
 
 /** One-time-use cache for consumed signatures (replay protection). */
 const walletLoginReplays = new Map<string, number>();
@@ -29,11 +31,11 @@ function pruneWalletReplays(now: number) {
 }
 
 /** Strict parser for the signed login message. Null on any structural drift. */
-export function parseWalletLoginMessage(message: string): { address: string; timestamp: number } | null {
+export function parseWalletLoginMessage(message: string): { address: string; timestamp: number; nonce: string } | null {
   const lines = message.split('\n');
-  // Exactly 4 lines (allow one trailing newline).
-  if (lines.length !== 4 && !(lines.length === 5 && lines[4] === '')) return null;
-  const [line0, line1, line2, line3] = lines;
+  // Exactly 5 lines (allow one trailing newline).
+  if (lines.length !== 5 && !(lines.length === 6 && lines[5] === '')) return null;
+  const [line0, line1, line2, line3, line4] = lines;
   if (line0 !== WALLET_LOGIN_PREFIX) return null;
   if (line1 !== '') return null;
   if (!line2?.startsWith('Wallet: ')) return null;
@@ -42,7 +44,11 @@ export function parseWalletLoginMessage(message: string): { address: string; tim
   if (!line3?.startsWith('Timestamp: ')) return null;
   const tsRaw = line3.slice('Timestamp: '.length);
   if (!/^\d{1,15}$/.test(tsRaw)) return null;
-  return { address, timestamp: Number(tsRaw) };
+  // Nonce line is REQUIRED (server-issued, single-use) - no nonce, no login.
+  if (!line4?.startsWith('Nonce: ')) return null;
+  const nonce = line4.slice('Nonce: '.length);
+  if (!/^[a-f0-9]{32}$/.test(nonce)) return null;
+  return { address, timestamp: Number(tsRaw), nonce };
 }
 
 /** Verify an ed25519 signature with Node's native crypto (no deps). */
@@ -231,19 +237,36 @@ export class AuthService {
   }
 
   /**
+   * Issue a single-use login nonce (Muse's design): 16 random bytes, hex;
+   * only the SHA-256 is stored, TTL 10 minutes, deleted on use. Expired rows
+   * are pruned opportunistically on each issuance.
+   */
+  async issueWalletLoginNonce(): Promise<string> {
+    const nonce = crypto.randomBytes(16).toString('hex');
+    const nonceHash = crypto.createHash('sha256').update(nonce).digest('hex');
+    const now = Date.now();
+    await prisma.wallet_login_nonces.deleteMany({
+      where: { expires_at: { lt: new Date(now) } },
+    });
+    await prisma.wallet_login_nonces.create({
+      data: { nonce_hash: nonceHash, expires_at: new Date(now + WALLET_NONCE_TTL_MS) },
+    });
+    return nonce;
+  }
+
+  /**
    * Wallet login: verify an ed25519 signature over the standard login message,
    * then find-or-create the account bound to that wallet address.
    *
-   * Security model:
+   * Security model (v2 - nonce-based, per Muse review):
    *  - The signature proves control of the private key (the address is the id).
-   *  - The signed Timestamp bounds replay to a 5-minute window.
-   *  - Each signature is single-use (in-memory replay cache; single PM2
-   *    worker — revisit with a DB table if we ever shard auth horizontally).
+   *  - The message embeds a server-issued SINGLE-USE nonce (10-min TTL,
+   *    deleted atomically on use) - kills replay even inside the freshness
+   *    window. Timestamp freshness stays as a second, independent bound.
+   *  - The in-memory signature replay cache remains as defense-in-depth behind
+   *    the nonce (and is what protects if the nonce table is ever bypassed).
    *  - Auto-provisioned wallet users get a random unguessable password so the
    *    account can never be logged into via the password flow.
-   *
-   * Follow-up (documented in TODO): move to server-issued nonces so replay is
-   * impossible even inside the freshness window.
    */
   async loginUserWithWallet(validatedData: { wallet_address: string; signature: string; message: string }) {
     return AutonomousTaskExecutor.execute(
@@ -274,7 +297,20 @@ export class AuthService {
           throw new AuthError('Invalid signature', 401);
         }
 
-        // Replay protection: a signed message is a one-time login ticket.
+        // Consume the server-issued nonce ATOMICALLY: deleteMany with the
+        // expiry predicate succeeds for exactly one caller (count === 1);
+        // reused/expired/unknown nonces get count === 0 -> 401. This is the
+        // primary replay defense (race-safe via the DB row lock).
+        const nonceHash = crypto.createHash('sha256').update(parsed.nonce).digest('hex');
+        const consumed = await prisma.wallet_login_nonces.deleteMany({
+          where: { nonce_hash: nonceHash, expires_at: { gt: new Date() } },
+        });
+        if (consumed.count !== 1) {
+          throw new AuthError('Nonce invalid, expired, or already used', 401);
+        }
+
+        // Defense-in-depth replay cache (pre-nonce layer, kept behind the
+        // nonce per review).
         const sigHash = crypto.createHash('sha256').update(validatedData.signature).digest('hex');
         pruneWalletReplays(now);
         if (walletLoginReplays.has(sigHash)) {

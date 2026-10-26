@@ -98,7 +98,14 @@ export default function LoginPage() {
     clearError()
 
     try {
-      const message = `Sign this message to login to fwber.\n\nWallet: ${publicKey.toBase58()}\nTimestamp: ${Date.now()}`
+      // Server-issued single-use nonce - signed into the message so the
+      // backend can reject replays even within the freshness window.
+      const nonce = await fetchWalletNonce()
+      const message = `Sign this message to login to fwber.
+
+Wallet: ${publicKey.toBase58()}
+Timestamp: ${Date.now()}
+Nonce: ${nonce}`
       const encodedMessage = new TextEncoder().encode(message)
       const signature = await signMessage(encodedMessage)
 

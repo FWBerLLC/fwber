@@ -40,8 +40,8 @@ function makeWallet() {
       const sig = crypto.sign(null, Buffer.from(message, 'utf8'), privateKey);
       return base58Encode(sig);
     },
-    makeMessage(ts: number = Date.now()): string {
-      return `Sign this message to login to fwber.\n\nWallet: ${base58Encode(pubRaw)}\nTimestamp: ${ts}`;
+    makeMessage(ts: number = Date.now(), nonce: string = crypto.randomBytes(16).toString('hex')): string {
+      return `Sign this message to login to fwber.\n\nWallet: ${base58Encode(pubRaw)}\nTimestamp: ${ts}\nNonce: ${nonce}`;
     },
   };
 }
@@ -65,6 +65,10 @@ const mockPrisma = {
   },
   user_profiles: { create: jest.fn() },
   wallet_transactions: { create: jest.fn() },
+  wallet_login_nonces: {
+    create: jest.fn().mockResolvedValue({}),
+    deleteMany: jest.fn().mockResolvedValue({ count: 1 }),
+  },
   notification_preferences: { createMany: jest.fn() },
   password_reset_tokens: {
     upsert: jest.fn(), deleteMany: jest.fn(), delete: jest.fn().mockResolvedValue({}), findFirst: mockFindFirst,
@@ -125,8 +129,8 @@ describe('base58', () => {
 describe('parseWalletLoginMessage', () => {
   it('parses a well-formed message', () => {
     const w = makeWallet();
-    const parsed = parseWalletLoginMessage(w.makeMessage(1700000000000));
-    expect(parsed).toEqual({ address: w.address, timestamp: 1700000000000 });
+    const parsed = parseWalletLoginMessage(w.makeMessage(1700000000000, 'a'.repeat(32)));
+    expect(parsed).toEqual({ address: w.address, timestamp: 1700000000000, nonce: 'a'.repeat(32) });
   });
 
   it('rejects wrong prefix, extra lines, bad timestamp, missing blank line', () => {
@@ -136,6 +140,17 @@ describe('parseWalletLoginMessage', () => {
     expect(parseWalletLoginMessage(w.makeMessage().replace(/Timestamp: \d+/, 'Timestamp: soon'))).toBeNull();
     expect(parseWalletLoginMessage(w.makeMessage().replace('\n\nWallet', '\nWallet'))).toBeNull();
     expect(parseWalletLoginMessage('')).toBeNull();
+  });
+
+  it('REQUIRES a well-formed Nonce line (v2 nonce design)', () => {
+    const w = makeWallet();
+    // Legacy 4-line message (pre-nonce) must be rejected.
+    const legacy = `Sign this message to login to fwber.\n\nWallet: ${w.address}\nTimestamp: ${Date.now()}`;
+    expect(parseWalletLoginMessage(legacy)).toBeNull();
+    // Malformed nonces must be rejected.
+    expect(parseWalletLoginMessage(w.makeMessage(Date.now(), 'XYZ-not-hex'))).toBeNull();
+    expect(parseWalletLoginMessage(w.makeMessage(Date.now(), 'ab'))).toBeNull();
+    expect(parseWalletLoginMessage(w.makeMessage(Date.now(), 'A'.repeat(32)))).toBeNull(); // uppercase
   });
 });
 
@@ -214,6 +229,38 @@ describe('AuthService.loginUserWithWallet', () => {
 
     await authService.loginUserWithWallet(body);
     await expect(authService.loginUserWithWallet(body)).rejects.toThrow(/already used/i);
+  });
+
+  it('rejects when the nonce is already consumed/expired (atomic deleteMany count=0)', async () => {
+    const w = makeWallet();
+    const msg = w.makeMessage();
+    primeExistingUser({ ...EXISTING_USER, wallet_address: w.address });
+    // Nonce row gone (used, expired, or unknown).
+    (mockPrisma.wallet_login_nonces.deleteMany as any).mockResolvedValue({ count: 0 });
+
+    await expect(authService.loginUserWithWallet({
+      wallet_address: w.address, signature: w.sign(msg), message: msg,
+    })).rejects.toThrow(/Nonce invalid/i);
+  });
+
+  it('rejects the legacy nonce-less message at the service layer', async () => {
+    const w = makeWallet();
+    const legacy = `Sign this message to login to fwber.\n\nWallet: ${w.address}\nTimestamp: ${Date.now()}`;
+    await expect(authService.loginUserWithWallet({
+      wallet_address: w.address, signature: w.sign(legacy), message: legacy,
+    })).rejects.toThrow(/Invalid signature message/i);
+  });
+
+  it('issues nonces as 32-hex with hashed storage and pruning', async () => {
+    const nonce = await authService.issueWalletLoginNonce();
+    expect(nonce).toMatch(/^[a-f0-9]{32}$/);
+    // Prune called (expired rows) + create stores only the SHA-256 hash.
+    expect(mockPrisma.wallet_login_nonces.deleteMany).toHaveBeenCalledWith({
+      where: { expires_at: { lt: expect.any(Date) } },
+    });
+    const created = (mockPrisma.wallet_login_nonces.create.mock.calls[0] as any[])[0].data;
+    expect(created.nonce_hash).toMatch(/^[a-f0-9]{64}$/);
+    expect(created.nonce_hash).not.toContain(nonce); // raw nonce never stored
   });
 
   it('rejects stale and future timestamps', async () => {

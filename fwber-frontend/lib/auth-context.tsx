@@ -498,6 +498,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [API_BASE_URL]);
 
   // Login with Wallet function
+  // Fetch a single-use server-issued nonce for wallet login signing.
+  // The nonce is embedded in the signed message so the backend can reject
+  // replays even inside the timestamp freshness window (Muse hardening).
+  const fetchWalletNonce = useCallback(async (): Promise<string> => {
+    const response = await fetch(`${API_BASE_URL}/auth/wallet-nonce`, {
+      headers: { 'Accept': 'application/json' },
+    })
+    const data = await response.json()
+    if (!response.ok) {
+      throw new Error(data.message || 'Could not fetch wallet login nonce')
+    }
+    return data.nonce
+  }, [API_BASE_URL]);
+
   const loginWithWallet = useCallback(async (walletAddress: string, signature: string, message: string) => {
     dispatch({ type: 'AUTH_START' })
 
@@ -664,12 +678,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     ...state,
     login,
     loginWithWallet,
+    fetchWalletNonce,
     verifyTwoFactor,
     register,
     logout,
     clearError,
     updateUser,
-  }), [state, login, loginWithWallet, verifyTwoFactor, register, logout, clearError, updateUser]);
+  }), [state, login, loginWithWallet, fetchWalletNonce, verifyTwoFactor, register, logout, clearError, updateUser]);
 
   return (
     <AuthContext.Provider value={value}>
