@@ -16,6 +16,12 @@ const loginSchema = z.object({
   password: z.string(),
 });
 
+const walletLoginSchema = z.object({
+  wallet_address: z.string().min(32).max(128),
+  signature: z.string().min(64).max(128),
+  message: z.string().min(1).max(1024),
+});
+
 export class AuthController {
   private authService = new AuthService();
 
@@ -64,6 +70,48 @@ export class AuthController {
       // never dressed up as "bad credentials" (see AuthError docs).
       console.error('[Auth] login infrastructure error:', error);
       res.status(500).json({ message: 'Login is temporarily unavailable. Please try again.' });
+    }
+  };
+
+  /**
+   * GET /api/auth/wallet-nonce — issue a single-use nonce for wallet login.
+   * The nonce is signed into the login message so replays die even inside the
+   * timestamp freshness window (Muse hardening review).
+   */
+  walletNonce = async (_req: Request, res: Response) => {
+    try {
+      const nonce = await this.authService.issueWalletLoginNonce();
+      res.json({ nonce, expires_in: 600 });
+    } catch (error: any) {
+      console.error('[Auth] wallet-nonce infrastructure error:', error);
+      res.status(500).json({ message: 'Could not issue wallet login nonce.' });
+    }
+  };
+
+  /**
+   * POST /api/auth/login-wallet — ed25519 wallet signature login.
+   * Mirrors login's response shape ({ access_token, token_type, user }) which
+   * is exactly what fwber-frontend lib/auth-context.tsx consumes.
+   */
+  loginWallet = async (req: Request, res: Response) => {
+    try {
+      const validated = walletLoginSchema.parse(req.body);
+      const result = await this.authService.loginUserWithWallet(validated);
+
+      res.json({
+        access_token: result.token,
+        token_type: 'Bearer',
+        user: result.user,
+      });
+    } catch (error: any) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ errors: error.issues });
+      }
+      if (error instanceof AuthError) {
+        return res.status(error.status).json({ message: error.message });
+      }
+      console.error('[Auth] wallet-login infrastructure error:', error);
+      res.status(500).json({ message: 'Wallet login is temporarily unavailable. Please try again.' });
     }
   };
 
