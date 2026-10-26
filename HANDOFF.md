@@ -1,12 +1,66 @@
 # HANDOFF.md — Session Summary
 
-> **Date:** 2026-10-25
-> **Agent:** Pi (Next 16 + React 19 Migration — v2.3.41)
-> **Version:** 2.3.41
+> **Date:** 2026-10-26
+> **Agent:** Pi (Local LLM Integration — v2.3.42)
+> **Version:** 2.3.42
 
 ---
 
-## Session 2026-10-25 (part 2) — Next.js 16 + React 19 Migration (validated, then deployed)
+## Session 2026-10-26 — fwber wired into the shared on-box LLM
+
+### Context (from the concurrent ops session's report)
+
+Another session recovered disk (100% → 76%, ~18.5GB — more Docker runner
+caches + logs + an old TinyLLama model) and deployed a **shared Ollama LLM**
+on the box: `127.0.0.1:11434`, model `gemma-4-heretic:latest` (2.9GB GGUF,
+keep-alive 24h), clients in `/opt/shared-models/` (llm_client.py /
+llm-client.js / llm-env.sh via /etc/profile.d). Sibling projects
+(aimoneymachine, marketing_agent, tormentnexus) were wired — **fwber was not**.
+
+### What this session did
+
+- **`src/lib/ai-local.ts`** — OpenAI-SDK client against Ollama's `/v1`
+  endpoint, timeout-guarded, opt-in via `OLLAMA_BASE_URL`.
+- **Wired all three AI call sites**:
+  1. `lib/wingman-ai.ts generateText` — local is step 0 when
+     `AI_PREFER_LOCAL=true`, else the FINAL fallback after NVIDIA/OpenRouter/
+     OpenAI. Every roast/icebreaker/wingman feature now works keyless.
+  2. `services/NarrativeService.ts` — local fallback before the canned
+     template (was: canned text whenever OPENAI_API_KEY missing).
+  3. `routes/wingman.ts` — `getOpenAI()` falls back to local instead of 503;
+     `modelFor()` remaps cloud model tags to the local tag (Ollama would 404
+     on `gpt-4o-mini`).
+- **Server `.env` wired**: `OLLAMA_BASE_URL`, `OLLAMA_MODEL=gemma-4-heretic`,
+  `AI_PREFER_LOCAL=true` (matches the box's "centralized Gemma" policy).
+- **E2E verified on Hetzner**: direct local call ✅ + full chain ✅. With
+  prefer-local the chain serves locally with zero dead-provider noise.
+
+### Discovered along the way
+
+- **Dead cloud credentials in fwber's production `.env`**: NVIDIA key gets
+  **410 Gone** (`integrate.api.nvidia.com` free tier looks retired — the
+  hardcoded endpoint in wingman-ai.ts may need updating if that tier returns)
+  and `OPENAI_API_KEY` is **401-invalid**. They cost a one-time failure per
+  circuit-breaker window; recommend removal/replacement (TODO).
+- **Next 16 auto-edits `tsconfig.json`** (`jsx: preserve` → `react-jsx`) on
+  every build — the repo now carries the toolchain's own value so builds stop
+  dirtying the tree.
+- **The silent `git pull` abort AGAIN** (3rd time): npm rewrote
+  `fwber-frontend/package-lock.json` during the last install + an untracked
+  `.npmrc` collided with the incoming commit. Checklist before pulls on the
+  server: `git status --short`, restore manifests, delete untracked colliders.
+
+### Open / next
+
+1. Dead cloud AI creds cleanup (TODO) — or live keys if cloud quality wanted.
+2. `AI_PREFER_LOCAL` stays local-first on this box; unset it (or remove
+   `OLLAMA_BASE_URL`) to prefer cloud when keys are live again.
+3. Wallet login backend; Sentry Replay replacement; user-side items
+   (Stripe live keys, email DNS, off-site backup target, lost-upload source).
+
+---
+
+## Prior session (2026-10-25) — v2.3.41
 
 ### Approach (why production never wobbled)
 

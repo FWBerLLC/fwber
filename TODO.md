@@ -31,6 +31,10 @@
 - [x] **Prisma `matching_options` fix**: Corrected to `chosen_option` in `NarrativeService`
 - [x] **Tools cleanup**: Archived 19 stale scripts/configs to `tools/archive/`
 
+## 🟢 Recently Completed: Local LLM Integration (v2.3.42, 2026-10-26)
+- [x] **Shared on-box Ollama (`gemma-4-heretic`) wired into fwber** — all AI features (wingman, roasts, icebreakers, narrative reports) now work with ZERO cloud keys and survive cloud outages. `AI_PREFER_LOCAL=true` in production per the box's centralized-LLM policy.
+- [x] E2E verified on Hetzner (direct + full fallback chain).
+
 ## 🟢 Recently Completed: Next.js 16 + React 19 Migration (v2.3.41, 2026-10-25)
 - [x] **next 15→16.4.3, react 18→19.3.1** — last critical dependency cluster cleared. Validated on isolated server test checkout first: build green, 0 TS errors, 0 lint errors, smoke 200s on test port.
 - [x] **Redundant next-auth layer removed** (duplicate of the real auth-context flow; its v4 peers rejected Next 16).
@@ -116,6 +120,7 @@
 - [x] **Group Aura**: Aggregate emotions of group chat participants to determine group-wide mood and theme.
 - [ ] **Photo Migration**: 157 photos in DB but files missing from uploads directory — need backup restore. *Mitigations shipped in v2.3.37: backend serves a placeholder PNG for any missing `/uploads/` image (no more optimizer 500s), avatar URLs to missing files cleared to NULL (DiceBear fallback), and all nulled references journaled in `fwber-backend-ts/image-url-migration-journal.json` for easy re-pointing after restore. `fwber-backend-ts/scripts/migrate-image-urls.mjs` re-checks existence on demand.*
 - [x] ~~**Next.js 15 → 16 major migration**~~ — DONE (2026-10-25, v2.3.41).
+- [ ] **Dead cloud AI credentials**: production `.env` holds a 410-dead NVIDIA key and a 401-invalid OpenAI key — remove or replace with live keys (bypassed while `AI_PREFER_LOCAL=true`).
 - [ ] **React-19-native majors**: bump `react-leaflet` → 5.x and `@radix-ui/react-tooltip` → 1.2.x, then remove `fwber-frontend/.npmrc` (`legacy-peer-deps` transitional policy).
 - [ ] **Sentry Session Replay**: removed with SDK v10 (integration no longer exists) — re-add if Sentry ships a supported replacement.
 - [ ] **react-hooks/exhaustive-deps** (14 warnings, pre-existing): each needs behavior analysis to fix safely.

@@ -1,5 +1,25 @@
 # Changelog
 
+## [2.3.42] - 2026-10-26
+
+### Added — **Local LLM fallback via the shared on-box Ollama service**
+
+- **`src/lib/ai-local.ts`**: OpenAI-SDK client bound to the shared Ollama service (`127.0.0.1:11434`, `gemma-4-heretic`) that sibling projects on the Hetzner box already use. Timeout-guarded, graceful failure, opt-in via `OLLAMA_BASE_URL`.
+- **Every AI feature now works with ZERO cloud keys** — wingman/roasts/icebreakers (`generateText` chain), narrative compatibility reports (`NarrativeService`), and the wingman routes all fall back to the local model when cloud providers are absent or failing. Previously these features simply died without keys.
+- **`AI_PREFER_LOCAL=true`** puts the local model first (zero-cost/privacy mode) — enabled on the fwber production env per the box's "all LLM calls route through the centralized Gemma" policy.
+- **`modelFor()` mapping** in the wingman routes: cloud model tags (`gpt-4o-mini` etc.) are remapped to the local model tag when serving locally — Ollama has no such models.
+- E2E verified on Hetzner: direct local call + full fallback chain both return model output; with `AI_PREFER_LOCAL` the chain serves locally with no dead-provider noise.
+
+### Found during verification
+
+- **Dead cloud credentials in production `.env`**: `NVIDIA_API_KEY` returns **410 Gone** (the `integrate.api.nvidia.com` NIM free endpoint appears retired) and `OPENAI_API_KEY` is **401-invalid** (`sk-proj-…yyUA`). They now cost a one-time failure per circuit-breaker window. Recommend removing them or replacing with live keys — with `AI_PREFER_LOCAL=true` they're bypassed anyway.
+- **Next 16 auto-mutates `tsconfig.json`** (`jsx: preserve` → `react-jsx`) during builds — adopted into the repo so the tree stays clean across builds.
+
+### Changed
+
+- `.env.example` documents `OLLAMA_BASE_URL` / `OLLAMA_MODEL` / `OLLAMA_API_KEY` / `AI_PREFER_LOCAL`.
+- Backend tests: 78/78 passing after the integration.
+
 ## [2.3.41] - 2026-10-25
 
 ### Changed — **Next.js 15 → 16 + React 18 → 19 migration** (the last critical dependency cluster)
