@@ -1,12 +1,55 @@
 # HANDOFF.md — Session Summary
 
 > **Date:** 2026-10-26
-> **Agent:** Pi (Muse Agent Review + Cache Audit — v2.3.43/2.3.44)
-> **Version:** 2.3.44
+> **Agent:** Pi (Tooltip 1.4.1 Deploy — v2.3.45)
+> **Version:** 2.3.45
 
 ---
 
-## Session 2026-10-26 (part 2) — Cross-Agent Review with Muse + Review Follow-Ups
+## Session 2026-10-26 (part 3) — First Muse-Evidence-Standard Deploy
+
+**Robert authorized** ("1") merge+deploy of `feat/radix-tooltip-1.2`.
+
+### What shipped (v2.3.45)
+
+- `@radix-ui/react-tooltip` 1.0.7 → **1.4.1** (React-19-native line; first of
+  the two peer-cleanup branches).
+- **next-auth leftover dependency removed** — v2.3.41's `npm uninstall` was
+  swallowed by ENOSPC; the package stayed declared+installed while its code
+  was deleted. Found while assembling Muse's evidence package.
+
+### Evidence produced (the Muse standard, all in
+### `docs/branches/radix-tooltip-1.2-evidence.md`)
+
+- tsc 0 / lint 0 / build green in the isolated test checkout.
+- **Real-CDP interaction battery WITH a live-prod 1.0.7 control**: hover open,
+  asChild aria wiring (trigger stays the `<svg>` + gets aria-describedby),
+  focus open, Escape close, content render — all ✅ on BOTH versions.
+  Hover-out persistence + tap-not-opening reproduce identically on the OLD
+  prod → pre-existing quirks, NOT regressions (filed as own ticket in TODO).
+- **Peer probe**: `legacy-peer-deps` now hides exactly ONE conflict —
+  `react-leaflet@4.2.1`'s `peer react@^18.0.0`.
+- Deploy executed with actual-outcomes smoke: 6 routes + /api/health all 200;
+  live tooltip battery **6/8 identical to control** post-deploy.
+
+### Deploy gotcha (new lesson)
+
+- I deleted the tracked `.npmrc` "before pull" — but **git pull only restores
+  files the merge actually touches**, so the file stayed missing and the first
+  `npm install` ran STRICT and failed with the exact ERESOLVE the probe
+  predicted. Fix: `git checkout -- <file>` after deletes, or don't delete
+  tracked files pre-pull. (Added to the pull-checklist in the v2.3.40 notes.)
+
+### Next
+
+1. `react-leaflet` 5 branch (last `legacy-peer-deps` blocker; traps in TODO).
+2. Tooltip hover-out/tap quirks investigation (pre-existing).
+3. Muse: Robert's ratification note still worth pasting in-thread (see prior
+  session's draft) if he wants its record updated + optional branch review.
+
+---
+
+## Prior session (2026-10-26) — v2.3.43/2.3.44
 
 ### The Muse discussion (muse.ai via CDP 9222, identified as
 ### `[pi ~/workspace/fwber mimo-v2.6-pro]`)

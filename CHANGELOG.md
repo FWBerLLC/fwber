@@ -1,5 +1,22 @@
 # Changelog
 
+## [2.3.45] - 2026-10-26
+
+### Changed (Robert-authorized deploy)
+
+- **`@radix-ui/react-tooltip` 1.0.7 → 1.4.1** — React-19-native line (first of the two Muse-planned peer-cleanups). Validated with a full evidence package (`docs/branches/radix-tooltip-1.2-evidence.md`): tsc 0 / lint 0 / build green, **real-CDP interaction battery with a live-prod 1.0.7 control** proving behavior parity (hover/focus/Escape/asChild aria all pass; hover-out + tap quirks pre-existing), and the peer probe showing `legacy-peer-deps` now hides exactly ONE conflict (`react-leaflet@4.2.1`).
+- **Removed the leftover `next-auth` dependency** — v2.3.41 deleted its code but its `npm uninstall` was swallowed by an ENOSPC failure, leaving the package declared and installed (dead weight + vuln surface). Properly uninstalled and re-validated.
+
+### Deploy record (actual outcomes)
+
+- Merged `--no-ff` (`8f1e26572`); deployed to fwber.online; live tooltip battery **6/8 identical to control**; all routes 200 (/, /login, /dashboard, /bounties, /matches, /messages, /api/health).
+- Deploy gotcha (documented): an initial `npm install` ran without `.npmrc` (deleted pre-pull — git only restores merge-touched files) and failed with the exact react-leaflet ERESOLVE the probe predicted; restored and reinstalled clean.
+
+### Known issues
+
+- Tooltip hover-out persistence + tap-not-opening: **pre-existing** (reproduces identically on the old prod), version-independent — own investigation ticket.
+- `react-leaflet@4.2.1` peer conflict remains the sole `legacy-peer-deps` blocker (next branch).
+
 ## [2.3.44] - 2026-10-26
 
 ### Fixed

@@ -77,7 +77,23 @@ Still present (`legacy-peer-deps=true`) — **required**, solely by
 `react-leaflet@4.2.1` (probe above). Target remains: delete after the
 react-leaflet 5 branch.
 
-## Deploy
+## Deploy — AUTHORIZED BY ROBERT, EXECUTED 2026-10-26 (v2.3.45)
 
-**Not deployed.** Branch is pushed (`feat/radix-tooltip-1.2`); merge + deploy
-await Robert's explicit go.
+Robert's go: "1" (merge + deploy). Merged `--no-ff` to main (`8f1e26572`),
+deployed to fwber.online. Deploy notes: an initial `npm install` ran WITHOUT
+the `.npmrc` flag (my sequencing error: deleting the tracked file pre-pull —
+git pull only restores files the merge touches) and failed with the exact
+react-leaflet ERESOLVE the probe predicted; restored `.npmrc`, reinstalled
+(clean), rebuilt, restarted. Final live state: tooltip **1.4.1** installed,
+next-auth absent from both manifests.
+
+### Prod smoke — ACTUAL OUTCOMES (post-deploy)
+
+| Check | Outcome |
+|---|---|
+| `/`, `/login`, `/dashboard`, `/bounties`, `/matches`, `/messages` | **200 × 6** |
+| `/api/health` | **200** |
+| Live tooltip battery (CDP, QA account id 186) | **6/8 — identical to pre-deploy candidate AND the 1.0.7 control**: hover open ✅, asChild aria ✅, focus open ✅, Escape close ✅, content ✅; hover-out ⚠️ + tap ⚠️ pre-existing (reproduce on the old prod) |
+
+**Verdict: behavior-parity confirmed LIVE post-deploy.** The two ⚠️ quirks
+are filed as their own investigation item (pre-existing, version-independent).
