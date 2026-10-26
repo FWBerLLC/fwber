@@ -76,9 +76,11 @@ of its review of the v2.3.41 Next 16 migration:
 
 ### Awaiting Robert
 
-1. **Ratify or reject runner-volume auto-prune** (`AUTO_PRUNE_RUNNER_VOLUMES=1`)
-   — tradeoff: full CI rebuilds when caches are pruned vs disk-full crashes
-   when they aren't (box hit 100% three times this week).
+1. ~~**Ratify or reject runner-volume auto-prune**~~ — **RATIFIED 2026-10-26
+   ("enable it")**. Cron now runs `AUTO_PRUNE_RUNNER_VOLUMES=1`; the 6
+   regenerated runner volumes were pruned immediately (disk 88%/9.1GB at the
+   time — other projects grow it continuously). The hourly watchdog now owns
+   the runner-cache pattern.
 2. Direct any further Muse-coordinated work (leaflet branch review, wallet
    login) — Muse starts nothing without his direction.
 
