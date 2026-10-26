@@ -80,9 +80,17 @@ of its review of the v2.3.41 Next 16 migration:
    ("enable it")**. Cron now runs `AUTO_PRUNE_RUNNER_VOLUMES=1`; the 6
    regenerated runner volumes were pruned immediately (disk 88%/9.1GB at the
    time — other projects grow it continuously). The hourly watchdog now owns
-   the runner-cache pattern.
+   the runner-cache pattern. NOTE (Muse's framing, accepted): in Muse's thread
+   this stays "Pi-reported" until Robert speaks there himself; and the 95%
+   auto-prune is **mitigation, not a fix** — the growth root cause is other
+   projects (CI caches + /opt). A **rebuild-churn watch** is committed: if
+   HyperNexus CI shows rebuild impact from pruned caches, report MEASURED
+   numbers with timestamps (see TODO).
 2. Direct any further Muse-coordinated work (leaflet branch review, wallet
-   login) — Muse starts nothing without his direction.
+   login) — Muse starts nothing without his direction. **Branch builds are
+   ours; DEPLOY is Robert's.** Muse's required evidence package for any branch
+   review is recorded in TODO (interaction results, npm ci log, .npmrc status,
+   rollback commit, prod smoke outcomes, no secrets).
 
 ---
 
