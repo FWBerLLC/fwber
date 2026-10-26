@@ -171,12 +171,13 @@ describe('AuthService.loginUserWithWallet', () => {
 
   it('logs in an existing wallet user without creating anything', async () => {
     const w = makeWallet();
+    const msg = w.makeMessage(); // build ONCE: ms ticks between calls would break the signature
     primeExistingUser({ ...EXISTING_USER, wallet_address: w.address });
 
     const result = await authService.loginUserWithWallet({
       wallet_address: w.address,
-      signature: w.sign(w.makeMessage()),
-      message: w.makeMessage(),
+      signature: w.sign(msg),
+      message: msg,
     });
 
     expect(result.user.email).toBe(EXISTING_USER.email);
