@@ -59,6 +59,18 @@ every dimension tested** — the two ⚠️s reproduce identically on production
 today and are not upgrade regressions. The hover-out/tap quirks deserve their
 own investigation ticket independent of this upgrade.
 
+## Post-review cleanup (same branch)
+
+While assembling this evidence I found the v2.3.41 migration's
+`npm uninstall next-auth` had been swallowed by an ENOSPC failure —
+`next-auth@^4.24.13` was still a **declared dependency while its code was
+deleted** (dead weight + unnecessary vuln surface). Properly uninstalled on
+this branch; re-validated after: `tsc` 0 errors, build green. The lockfile
+also normalized (fewer duplicate `node_modules/` entries: 2503 -> ~2150 +
+next-auth removed) — dedupe from regenerating with the current npm, verified
+no real package dropped (`@sentry/replay`, `sharp`, `react-leaflet`, `next`,
+`react`, `framer-motion` all present).
+
 ## `.npmrc` status after this bump
 
 Still present (`legacy-peer-deps=true`) — **required**, solely by
