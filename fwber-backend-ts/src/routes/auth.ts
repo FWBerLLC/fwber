@@ -19,6 +19,7 @@ const referralLimiter = createRateLimiter({ name: 'auth-referral', windowMs: 60_
 
 router.post('/register', registerLimiter, authController.register);
 router.post('/login', loginLimiter, authController.login);
+router.post('/login-wallet', loginLimiter, authController.loginWallet);
 router.get('/me', authenticate, authController.me);
 router.post('/forgot-password', forgotLimiter, authController.forgotPassword);
 router.post('/reset-password', resetLimiter, authController.resetPassword);

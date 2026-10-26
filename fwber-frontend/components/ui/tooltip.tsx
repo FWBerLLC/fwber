@@ -7,7 +7,21 @@ import { cn } from "@/lib/utils"
 
 const TooltipProvider = TooltipPrimitive.Provider
 
-const Tooltip = TooltipPrimitive.Root
+const Tooltip: React.FC<
+  React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Root>
+> = ({ ...props }) => (
+  // disableHoverableContent (Root-level in Radix 1.4.x): the popper renders
+  // ~28px ABOVE the trigger, so a cursor leaving the trigger upward entered
+  // the hoverable content and kept the tooltip open (the "won't close on
+  // hover-out" quirk, present since 1.0.7). Plain-text info tooltips have
+  // nothing worth hovering, so we close the moment the pointer leaves the
+  // trigger. Per-usage opt-out: <Tooltip disableHoverableContent={false}>.
+  // (Findings: TODO tooltip ticket.)
+  <TooltipPrimitive.Root
+    {...props}
+    disableHoverableContent={props.disableHoverableContent ?? true}
+  />
+)
 
 const TooltipTrigger = TooltipPrimitive.Trigger
 
@@ -15,15 +29,9 @@ const TooltipContent = React.forwardRef<
   React.ElementRef<typeof TooltipPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>
 >(({ className, sideOffset = 4, ...props }, ref) => (
-  // disableHoverableContent: the popper renders ~28px ABOVE the trigger, so a
-  // cursor leaving the trigger upward entered the hoverable content and kept
-  // the tooltip open (the "won't close on hover-out" quirk, present since
-  // 1.0.7). Plain-text info tooltips have nothing worth hovering, so we close
-  // the moment the pointer leaves the trigger. (Findings: TODO tooltip ticket.)
   <TooltipPrimitive.Content
     ref={ref}
     sideOffset={sideOffset}
-    disableHoverableContent
     className={cn(
       "z-50 overflow-hidden rounded-md bg-primary px-3 py-1.5 text-xs text-primary-foreground animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
       className

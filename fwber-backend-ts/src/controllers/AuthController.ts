@@ -16,6 +16,12 @@ const loginSchema = z.object({
   password: z.string(),
 });
 
+const walletLoginSchema = z.object({
+  wallet_address: z.string().min(32).max(128),
+  signature: z.string().min(64).max(128),
+  message: z.string().min(1).max(1024),
+});
+
 export class AuthController {
   private authService = new AuthService();
 
@@ -64,6 +70,33 @@ export class AuthController {
       // never dressed up as "bad credentials" (see AuthError docs).
       console.error('[Auth] login infrastructure error:', error);
       res.status(500).json({ message: 'Login is temporarily unavailable. Please try again.' });
+    }
+  };
+
+  /**
+   * POST /api/auth/login-wallet — ed25519 wallet signature login.
+   * Mirrors login's response shape ({ access_token, token_type, user }) which
+   * is exactly what fwber-frontend lib/auth-context.tsx consumes.
+   */
+  loginWallet = async (req: Request, res: Response) => {
+    try {
+      const validated = walletLoginSchema.parse(req.body);
+      const result = await this.authService.loginUserWithWallet(validated);
+
+      res.json({
+        access_token: result.token,
+        token_type: 'Bearer',
+        user: result.user,
+      });
+    } catch (error: any) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ errors: error.issues });
+      }
+      if (error instanceof AuthError) {
+        return res.status(error.status).json({ message: error.message });
+      }
+      console.error('[Auth] wallet-login infrastructure error:', error);
+      res.status(500).json({ message: 'Wallet login is temporarily unavailable. Please try again.' });
     }
   };
 
