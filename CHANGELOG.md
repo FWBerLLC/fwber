@@ -1,5 +1,23 @@
 # Changelog
 
+## [2.3.44] - 2026-10-26
+
+### Fixed
+
+- **Next-16 cache-semantics audit (39 `fetch()` call sites) — Muse-review follow-up**: classified every call — 16 client-component (no Next cache semantics), 10 route-handler (inherently per-request), 3 server-component. Two server fetches already had explicit `revalidate` (public share/vouch data); the third (`share/[id]/page.tsx`, public viral-content) had NO policy — under Next 16 that silently means `no-store`. Now `revalidate: 3600`, matching its opengraph sibling. **Zero authenticated server-component fetches exist**, so no data-leak risk from caching; `cacheComponents` stays disabled by policy.
+
+### Documented (agent review integration)
+
+- **Muse agent review** (muse.ai, via CDP) of the v2.3.41 migration — full findings in `HANDOFF.md`. Key accepted points: timebox `legacy-peer-deps` → upgrade `@radix-ui/react-tooltip` 1.2 + `react-leaflet` 5 in dedicated branches; separate auth-layer changes from framework upgrades in future; "verified" must mean rollback artifact + interactive prod checklist, not test-port smoke.
+- **Wallet login design adopted** (from review): single-use 5–10min domain-bound nonce, `signMessage` only, server-side ed25519 verification, 15min JWT + rotating hashed refresh cookie, link/unlink require existing JWT + fresh signature, fresh-JWT + notify + revoke for linking, optional TOTP (never mandatory SMS 2FA on a privacy-first app).
+- **Package-name ambiguity resolved**: the pinned tooltip is `@radix-ui/react-tooltip@1.0.7` (Radix) — upgrade path 1.2.x.
+
+## [2.3.43] - 2026-10-26
+
+### Fixed
+
+- **Sentry Session Replay restored** (`instrumentation-client.ts`): v2.3.41 wrongly concluded "Replay removed in Sentry v10" — that was verified against a **partial** node_modules tree in the migration test checkout. On a clean install `@sentry/replay@10.76.2` ships and exports `replayIntegration()`; it simply moved out of the `@sentry/nextjs` re-exports. Restored via `import { replayIntegration } from '@sentry/replay'` with the privacy posture for a dating app: `maskAllText`, `maskAllInputs`, `blockAllMedia`, session sample 0.1 / on-error 1.0. Caught by the Muse agent review.
+
 ## [2.3.42] - 2026-10-26
 
 ### Added — **Local LLM fallback via the shared on-box Ollama service**

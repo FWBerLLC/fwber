@@ -31,6 +31,11 @@
 - [x] **Prisma `matching_options` fix**: Corrected to `chosen_option` in `NarrativeService`
 - [x] **Tools cleanup**: Archived 19 stale scripts/configs to `tools/archive/`
 
+## 🟢 Recently Completed: Muse Agent Review Integration (v2.3.43-44, 2026-10-26)
+- [x] **Sentry Replay restored** — the "removed in v10" conclusion came from a partial node_modules tree; `@sentry/replay` exists, import path fixed, privacy masking on (Muse caught it).
+- [x] **Next-16 fetch/cache audit** (39 sites): 0 authenticated server-component fetches; 1 public fetch missing cache policy fixed to `revalidate: 3600`.
+- [x] **Wallet login design adopted** from review (nonce + dual-proof linking, no mandatory SMS 2FA).
+
 ## 🟢 Recently Completed: Local LLM Integration (v2.3.42, 2026-10-26)
 - [x] **Shared on-box Ollama (`gemma-4-heretic`) wired into fwber** — all AI features (wingman, roasts, icebreakers, narrative reports) now work with ZERO cloud keys and survive cloud outages. `AI_PREFER_LOCAL=true` in production per the box's centralized-LLM policy.
 - [x] E2E verified on Hetzner (direct + full fallback chain).
@@ -120,8 +125,10 @@
 - [x] **Group Aura**: Aggregate emotions of group chat participants to determine group-wide mood and theme.
 - [ ] **Photo Migration**: 157 photos in DB but files missing from uploads directory — need backup restore. *Mitigations shipped in v2.3.37: backend serves a placeholder PNG for any missing `/uploads/` image (no more optimizer 500s), avatar URLs to missing files cleared to NULL (DiceBear fallback), and all nulled references journaled in `fwber-backend-ts/image-url-migration-journal.json` for easy re-pointing after restore. `fwber-backend-ts/scripts/migrate-image-urls.mjs` re-checks existence on demand.*
 - [x] ~~**Next.js 15 → 16 major migration**~~ — DONE (2026-10-25, v2.3.41).
+- [ ] **Wallet login backend (Muse design)**: single-use 5–10min domain-bound nonce; `signMessage` (never signTransaction) with domain+address+nonce+issued-time; server-side `@solana/web3.js` ed25519 verify + nonce consume; 15min JWT + rotating hashed refresh in httpOnly/Secure/SameSite cookie; link/unlink/replace require existing JWT (fresh, ≤15min) + fresh signature; log + notify + instant revoke; rate-limit linking; lost-wallet recovery path; optional TOTP only (mandatory SMS 2FA rejected — privacy harm).
+- [ ] **"Verified" standard (Muse process)**: future deploys = preserved rollback artifact + interactive prod checklist (login, map, matching, messages, upload, image optimizer) + error/log watch — not just test-port smoke. Framework upgrades and auth-layer changes ship as SEPARATE deploys.
 - [ ] **Dead cloud AI credentials**: production `.env` holds a 410-dead NVIDIA key and a 401-invalid OpenAI key — remove or replace with live keys (bypassed while `AI_PREFER_LOCAL=true`).
-- [ ] **React-19-native majors**: bump `react-leaflet` → 5.x and `@radix-ui/react-tooltip` → 1.2.x, then remove `fwber-frontend/.npmrc` (`legacy-peer-deps` transitional policy).
+- [ ] **React-19-native majors (Muse-reviewed plan)**: dedicated branch each — `@radix-ui/react-tooltip` 1.0.7→1.2.x (drop-in; check `asChild` ref handling) and `react-leaflet` 4.2.1→5.x STRICTLY (breaking: no LeafletProvider/MapConsumer/useMapElement/whenCreated; ref callbacks + eventHandlers; ESM-only). Traps to test: MapContainer ref-callback + `useMap()` in children, Popup/Tooltip open-close via eventHandlers, memoized tile-layer options, client-only dynamic import (`ssr:false`) + client-side Leaflet CSS + explicit MapContainer height, default marker icons under Turbopack (set icon URLs or divIcon — test marker VISIBILITY), StrictMode double-mount cleanup ("Map container is already initialized"). Then delete `fwber-frontend/.npmrc`. If v5 blocks, use SCOPED npm overrides (not the global legacy flag) as a documented hold.
 - [ ] **Sentry Session Replay**: removed with SDK v10 (integration no longer exists) — re-add if Sentry ships a supported replacement.
 - [ ] **react-hooks/exhaustive-deps** (14 warnings, pre-existing): each needs behavior analysis to fix safely.
 - [ ] **Wallet login backend**: `POST /api/auth/login-wallet` has no server route (frontend calls it). Needs wallet-signature verification design; `wallet.ts` is token payments only.

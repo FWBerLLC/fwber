@@ -1,12 +1,80 @@
 # HANDOFF.md — Session Summary
 
 > **Date:** 2026-10-26
-> **Agent:** Pi (Local LLM Integration — v2.3.42)
-> **Version:** 2.3.42
+> **Agent:** Pi (Muse Agent Review + Cache Audit — v2.3.43/2.3.44)
+> **Version:** 2.3.44
 
 ---
 
-## Session 2026-10-26 — fwber wired into the shared on-box LLM
+## Session 2026-10-26 (part 2) — Cross-Agent Review with Muse + Review Follow-Ups
+
+### The Muse discussion (muse.ai via CDP 9222, identified as
+### `[pi ~/workspace/fwber mimo-v2.6-pro]`)
+
+Two full exchanges with Muse ("Bobbi") in the shared muse.ai thread. Summary
+of its review of the v2.3.41 Next 16 migration:
+
+1. **Peers**: `legacy-peer-deps` = acceptable unblock, NOT a permanent state.
+   Timebox it; upgrade react-leaflet 5 + radix tooltip 1.2 in dedicated
+   branches; if blocked use SCOPED npm overrides (auditable in package.json)
+   not the global flag; run a clean `npm ci` to see what the flag hides.
+   Detailed react-leaflet 5 traps recorded in TODO.
+2. **Sentry Replay — it caught a REAL bug**: "don't drop it on the import
+   error, fix the import." Correct: my "removed in v10" conclusion came from a
+   PARTIAL node_modules tree in the migration test checkout. On clean install
+   `@sentry/replay@10.76.2` ships and exports `replayIntegration()` — it just
+   moved out of the `@sentry/nextjs` re-exports. RESTORED (v2.3.43) with the
+   privacy posture it prescribed (maskAllText/maskAllInputs/blockAllMedia).
+3. **Wallet login design** (adopted verbatim into TODO): single-use domain-
+   bound nonce, signMessage never signTransaction, server-side ed25519,
+   short JWT + rotating hashed refresh cookie, dual-proof link/unlink,
+   fresh-JWT + notify + revoke for linking, optional TOTP only — mandatory
+   SMS 2FA rejected as privacy harm for a dating app.
+4. **Next 16 pitfalls**: standalone asset shipping + PM2 cwd/PORT (already
+   correct via postbuild), sharp-in-standalone (verified present), image cache
+   persistence (single PM2 instance — verified not cluster), and the BIG one:
+   **fetch cache semantics** — unqualified fetch() defaults to no-store in 16.
+   Audited all 39 call sites (v2.3.44): 16 client, 10 route-handler, 3 server-
+   component. Zero AUTHENTICATED server fetches (no cache-leak risk); 2 of 3
+   public fetches already had revalidate; the third fixed to revalidate 3600.
+   `cacheComponents` stays disabled.
+5. **Process critique accepted**: (a) next-auth removal should have been a
+   SEPARATE deploy after the framework upgrade; (b) "verified" must mean a
+   preserved rollback artifact + interactive prod checklist (login, map,
+   matching, messages, upload, optimizer) + error/log watch — not test-port
+   smoke alone. Both adopted into TODO as standing standards.
+
+### Muse's governance boundaries (important for successors)
+
+- Muse will NOT check prod or verify fwber migrations **without Robert's
+  direct go** — current status is "Pi-reported migration with process
+  correction, not Muse-verified prod state." To get verification: Robert's go
+  + the fetch-audit results + a live repo/branch check.
+- Muse's own open blockers (HyperNexus live proof + Stripe billing) are NOT
+  box work and NOT fwber's to clear — do NOT touch Stripe, marketing_agent
+  checkout, or HyperNexus prod on Muse's behalf.
+- Shared-box health observations (disk after builds, PM2 instance count,
+  image cache growth) should be reported to Robert as **fwber health**.
+- Ambiguity resolved back to Muse: the pinned package is
+  `@radix-ui/react-tooltip@1.0.7` (Radix) — upgrade path 1.2.x.
+
+### Shipped this half-session
+
+- v2.3.43: Sentry Replay restored via `@sentry/replay` import (deployed).
+- v2.3.44: share/[id] public fetch given `revalidate: 3600`; full fetch/cache
+  audit documented; Muse's designs/process adopted into TODO.
+
+### Open / next
+
+1. react-leaflet 5 + tooltip 1.2 branches (traps in TODO).
+2. Wallet login backend (Muse design in TODO).
+3. Robert's go for Muse verification (optional).
+4. User-side: Stripe live keys, email DNS, off-site backup target,
+   lost-upload restore source, dead cloud AI creds cleanup.
+
+---
+
+## Prior session (2026-10-26) — v2.3.42
 
 ### Context (from the concurrent ops session's report)
 
