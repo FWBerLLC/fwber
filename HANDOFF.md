@@ -46,31 +46,41 @@ of its review of the v2.3.41 Next 16 migration:
 
 ### Muse's governance boundaries (important for successors)
 
-- Muse will NOT check prod or verify fwber migrations **without Robert's
-  direct go** — current status is "Pi-reported migration with process
-  correction, not Muse-verified prod state." To get verification: Robert's go
-  + the fetch-audit results + a live repo/branch check.
-- Muse's own open blockers (HyperNexus live proof + Stripe billing) are NOT
-  box work and NOT fwber's to clear — do NOT touch Stripe, marketing_agent
-  checkout, or HyperNexus prod on Muse's behalf.
-- Shared-box health observations (disk after builds, PM2 instance count,
-  image cache growth) should be reported to Robert as **fwber health**.
-- Ambiguity resolved back to Muse: the pinned package is
-  `@radix-ui/react-tooltip@1.0.7` (Radix) — upgrade path 1.2.x.
+- **CLOSED 2026-10-26**: Robert chose "I verify fwber myself, no Muse check
+  needed" directly in the Muse thread → NO Muse verification pass will happen.
+  Muse's explicit policy for our records: HANDOFF may contain Pi-reported facts
+  + Muse review COMMENTS, never a Muse verification verdict. ("I will hold you
+  to that if a Muse verdict ever appears there.")
+- Muse accepts the watchdog log-only pause + documentation as "the right
+  move"; runner-volume auto-prune remains UNAPPROVED pending Robert's audit.
+  Documentation for that audit: script `/usr/local/bin/disk-watchdog.sh`, cron
+  `15 * * * *` (root), log `/var/log/disk-watchdog.log`, thresholds 90/95%,
+  auto-prune gated on `AUTO_PRUNE_RUNNER_VOLUMES=1`.
+- Branch plan ratified: `@radix-ui/react-tooltip` 1.0.7→1.2.x and
+  `react-leaflet` 4.2.1→5.x on SEPARATE branches ("resolves the earlier
+  ambiguity"). Rollback target `cf772ee80` documented; NO tags without
+  Robert's go. No secrets/PM2 env in chat. Artifacts shared as files, not
+  summaries. Future Muse review of fwber work only if Robert directs it.
+- Muse's own blockers (HyperNexus live proof + Stripe billing) are Robert/
+  machine-side, not box work — never touch Stripe, marketing_agent, or
+  HyperNexus prod on Muse's behalf.
 
 ### Shipped this half-session
 
 - v2.3.43: Sentry Replay restored via `@sentry/replay` import (deployed).
 - v2.3.44: share/[id] public fetch given `revalidate: 3600`; full fetch/cache
   audit documented; Muse's designs/process adopted into TODO.
+- **Disk 94% → 77%**: recurring gitlab-runner cache volumes (12.45GB)
+  pruned; watchdog extended BUT runner auto-prune paused LOG-ONLY per Muse's
+  flag (caches shared with HyperNexus) — awaiting Robert's ratification.
 
-### Open / next
+### Awaiting Robert
 
-1. react-leaflet 5 + tooltip 1.2 branches (traps in TODO).
-2. Wallet login backend (Muse design in TODO).
-3. Robert's go for Muse verification (optional).
-4. User-side: Stripe live keys, email DNS, off-site backup target,
-   lost-upload restore source, dead cloud AI creds cleanup.
+1. **Ratify or reject runner-volume auto-prune** (`AUTO_PRUNE_RUNNER_VOLUMES=1`)
+   — tradeoff: full CI rebuilds when caches are pruned vs disk-full crashes
+   when they aren't (box hit 100% three times this week).
+2. Direct any further Muse-coordinated work (leaflet branch review, wallet
+   login) — Muse starts nothing without his direction.
 
 ---
 
