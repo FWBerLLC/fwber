@@ -1,8 +1,62 @@
 # HANDOFF.md — Session Summary
 
 > **Date:** 2026-10-26
-> **Agent:** Pi (Tooltip 1.4.1 Deploy — v2.3.45)
-> **Version:** 2.3.45
+> **Agent:** Pi (react-leaflet 5 Deploy — v2.3.46)
+> **Version:** 2.3.46
+
+---
+
+## Session 2026-10-26 (part 4) — react-leaflet 5 + legacy-peer-deps RETIRED
+
+**Robert authorized** ("run it") merge+deploy of `feat/react-leaflet-5`.
+
+### What shipped (v2.3.46)
+
+- `react-leaflet` 4.2.1 → **5.0.0** (`leaflet` 1.9.4 unchanged). **Zero source
+  changes**: only 2 map components use it (`EventMap`, `LocationPicker`) and
+  both were already v5-shaped (ref-callback, `useMapEvents`, `ssr:false`,
+  explicit heights + icons).
+- **`fwber-frontend/.npmrc` DELETED — `legacy-peer-deps` is retired.** Strict
+  `npm install` measured INSTALL=0 on the live box during this deploy. The
+  React-19 peer dependency migration is COMPLETE.
+- Evidence: `docs/branches/react-leaflet-5-evidence.md` — 6/6 CDP runtime
+  battery (nonzero height, OSM tiles 32/32, **marker visible 25×41**, click
+  handling, overlays, clean remount — no "Map container is already initialized").
+
+### Smoke with actual outcomes (Muse's standard)
+
+- Routes: / 200, /events 200, /messages 200, /login 200, /settings 200,
+  /settings/privacy 200, /achievements 200, /profile 200, /bounties 200,
+  /discover 307 (auth redirect). (/browse //quests//settings-content 404s are
+  MY checklist drift — real routes are /discover and /settings; nothing broken.)
+- Tooltip battery on live (1.4.1): hover opens ✅, aria-describedby wired on
+  the svg ✅, full text renders ✅, Escape closes ✅, hover-out hides ✅ (the
+  pre-existing quirk didn't reproduce on this trigger this run).
+- **Live map on production**: `/events/[id]` Live Map tab renders
+  `leaflet-container` at **398px, 8/8 OSM tiles loaded, event marker visible**
+  — react-leaflet 5 working on fwber.online.
+
+### Gotchas learned this session
+
+- **Radix Tabs activate on mousedown** — programmatic `.click()` on a
+  `TabsTrigger` silently does nothing; use real CDP `Input.dispatchMouseEvent`
+  press/release. (Explained the earlier "map won't mount" mystery — it was
+  never a map problem.)
+- **Hung `git` processes** silently swallow pushes (aborted pushes leave
+  credential-waiting zombies holding the lock). Symptom: empty push output +
+  remote unchanged. Fix: kill the hung git processes, retry. Verify every push
+  with `git ls-remote`.
+- Live git repo path is **`/var/www/fwber/repo`** (not `/var/www/fwber`).
+- Event map requires RSVP-less access BUT the QA RSVP endpoint is
+  `POST /api/events/:id/rsvp` `{status}`; `useEvent` + auth via localStorage.
+
+### Open items
+
+- Tooltip hover-out/tap quirks ticket (pre-existing, now in TODO).
+- Muse's portfolio draft has open calls for Robert (pricing, HyperNexus-first
+  vs FWBer-first, umbrella mapping, okgame tree, unitedbeats.org location).
+- Optional: Muse watchdog ratification paste (copy-paste provided to Robert).
+- Optional hardening: self-host leaflet marker icons (currently unpkg.com).
 
 ---
 

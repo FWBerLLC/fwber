@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.46] - 2026-10-26
+
+### Changed (Robert-authorized deploy — "run it")
+
+- **`react-leaflet` 4.2.1 → 5.0.0 + `leaflet` 1.9.4** — the second and final Muse-planned peer-cleanup. Only 2 map components use it and both were already v5-shaped (ref-callback pattern, `useMapEvents`, `ssr: false`, explicit heights/icons), so the upgrade needed **zero source changes**. Evidence (`docs/branches/react-leaflet-5-evidence.md`): tsc 0 / lint 0 / build green, strict-install probe exit 0, and a 6/6 CDP runtime battery (nonzero height, OSM tiles 32/32, **marker visible 25×41**, click handling, overlays, clean remount with no "Map container is already initialized").
+- **RETIRED `legacy-peer-deps`** — `fwber-frontend/.npmrc` deleted. Strict `npm install` now resolves clean on both the test checkout and the live box (INSTALL=0 measured during this deploy). The React-19 peer dependency migration is complete.
+- **Live proof on production:** after restart, the `/events/[id]` Live Map tab renders on fwber.online — leaflet container at 398px, 8/8 OSM tiles loaded, event marker visible. (QA harness note: Radix Tabs activate on mousedown — programmatic `.click()` silently misses; real CDP input events required.)
+
 ## [2.3.45] - 2026-10-26
 
 ### Changed (Robert-authorized deploy)
