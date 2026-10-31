@@ -1,5 +1,29 @@
 # HANDOFF.md — Session Summary
 
+## Session 2026-10-31 — Dev-Boot Fix + Dashboard Cleanup (v2.3.48)
+
+**Agent:** Muse Code (autonomous protocol turn). Continuation of the Pi v2.3.47 line.
+
+### Fixed and shipped
+
+- Backend `npm run dev` crash-loop: `nodemon src/index.ts` resolved none of the ESM `.js` imports under Node 26 (`ERR_MODULE_NOT_FOUND src/routes/email.js` first). `dev` is now `tsx watch src/index.ts`, tsx 4.23.15 added to backend devDependencies (`nodemon` left installed; uninstall follow-up in TODO). Verified: clean boot, `GET /api/health` 200 in ~12ms.
+- Wallet login UI gap (v2.3.47 leftover): `app/login/page.tsx` called `fetchWalletNonce()` but never destructured it from `useAuth`, and `AuthContextType` did not declare it (`tsc` TS2304). Both fixed; error gone. Without this, wallet login from the login page throws at click time.
+- Dashboard cleanup (`fwber-frontend/app/dashboard/page.tsx`, net -40 lines): removed 4 dead tiles (`/chat-rooms`, `/burner`, `/icebreakers`, `/travel-mode` — routes verified absent from `app/`); removed the duplicate Privacy tile (Progress section copy of the Safety-section tile; the `/privacy` policy page stays reachable via footer/docs); retitled `/recommendations` tile to "Recommendations" and `/spaces` tile to "Spaces"; every `FeatureTile` now renders its info marker via `tooltip ?? subtitle` fallback.
+- `tools/README.md` rewritten to match reality (`tools/` active tools vs `tools/scripts/` service scripts vs `tools/migrations/` vs `tools/archive/` subdirs). No scripts moved or deleted.
+
+### Verification (actual outcomes)
+
+- Backend `tsc --noEmit`: 0 errors. `npm run dev` boot: health 200.
+- Frontend `tsc --noEmit`: was blocked by truncated `node_modules/csstype/index.d.ts` (cut at line 14,335 of 21,806 — pre-existing interrupted install, untouched by any agent). Restored from registry tarball. Then 8 errors -> 7 after the login fix; all 7 in untouched files (photos dnd-kit x3 + implicit any, SolanaProvider PhantomWalletAdapter, missing `@sentry/replay` dep, laravel-echo types). Zero errors in touched files.
+- `git fetch origin`: clean, main in sync with origin/main, nothing to pull. All 5 local branches fully merged (0 unique commits each). No submodules registered.
+- Tray `tools/fwber-tray.ps1`: PowerShell parser check clean; menu confirmed from source (Open Frontend/Backend, Start/Stop All, Open Log Folder, Refresh Status, Quit Servers and Tray). GUI not launched in this headless session — the servers it manages were each verified directly instead.
+
+### Open / next (successor brief)
+
+- TODO 2026-10-31 section holds the new findings: `@sentry/replay` dep, Solana adapter drift, dnd-kit/echo types, `/journal`+`/journals` merge proposal, `nodemon` removal, carried socket-badge + backup items.
+- VERSION files were stale (2.3.45 vs deployed 2.3.47); bumped to 2.3.48 with CHANGELOG entry. Watch for the same drift after deploys.
+- `tsconfig.tsbuildinfo` gets dirtied by every `tsc` run; reverted this turn — consider gitignoring it.
+
 > **Date:** 2026-10-26
 > **Agent:** Pi (Wallet v2 + Hardening Deploy — v2.3.47)
 > **Version:** 2.3.47

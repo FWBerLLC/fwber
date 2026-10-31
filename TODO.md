@@ -1,10 +1,29 @@
 # TODO — fwber Immediate Action Items
 
-> **Version:** 2.3.36
-> **Last Updated:** 2026-10-18
+> **Version:** 2.3.48
+> **Last Updated:** 2026-10-31
 
 ---
 
+## 🔧 Open Items (2026-10-31, v2.3.48 session)
+
+### High Priority
+- [ ] **`@sentry/replay` missing from `fwber-frontend/package.json`** — `instrumentation-client.ts` imports it (v2.3.43 restore) but the dep was never declared; `tsc` TS2307. Add `"@sentry/replay"` to deps + install.
+- [ ] **Solana wallet-adapter drift** — `SolanaProvider.tsx` imports `PhantomWalletAdapter` which the installed `@solana/wallet-adapter-wallets` no longer exports (`tsc` TS2305). Pin or migrate the import.
+
+### Medium Priority
+- [ ] **dnd-kit / laravel-echo type declarations** — `tsc` TS7016 on `@dnd-kit/*` + `laravel-echo`, plus implicit-`any` `photo` in `app/photos/page.tsx(454)`. Add decls or tighten types.
+- [ ] **Duplicate journal surfaces** — `/journal` and `/journals` are both full pages; merge into one canonical page and retarget the dashboard tiles.
+- [ ] **`nodemon` now unused** — backend `dev` runs on `tsx watch`; `npm uninstall nodemon` follow-up to drop the dead dep.
+- [ ] **Socket "Disconnected" header badge** — still open from 2026-10-26 (carried).
+- [ ] **Off-site backup replication** — still BLOCKED on Robert (carried).
+
+## 🟢 Completed: Dev-Boot Fix + Dashboard Cleanup (v2.3.48, 2026-10-31)
+- [x] **Backend `npm run dev` crash-loop fixed** — `nodemon src/index.ts` could not resolve ESM `.js` imports under Node 26; now `tsx watch src/index.ts` (tsx 4.23.15). Health 200 verified.
+- [x] **Wallet login UI wiring fixed** — `fetchWalletNonce` destructured in login page + declared on `AuthContextType`; TS2304 gone.
+- [x] **Dashboard cleanup** — 4 dead tiles removed (`/chat-rooms`, `/burner`, `/icebreakers`, `/travel-mode` have no routes); Privacy dup removed; `/recommendations` + `/spaces` retitled; every tile now shows an info marker.
+- [x] **Truncated `csstype` types restored** — index.d.ts was cut at line 14,335 of 21,806; re-fetched from registry. `tsc` 8 -> 7 errors, zero in touched files.
+- [x] **`tools/README.md` corrected** — inventory now matches `tools/`, `tools/scripts/`, `tools/migrations/`, `tools/archive/` reality.
 ## 🔧 Open Items (2026-10-18)
 
 ### High Priority

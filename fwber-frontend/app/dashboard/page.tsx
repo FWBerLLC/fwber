@@ -302,7 +302,7 @@ export default function DashboardPage() {
               />
               <FeatureTile
                 href="/recommendations"
-                title="Discover"
+                title="Recommendations"
                 subtitle="Browse nearby people"
                 icon={<Compass className="h-5 w-5" />}
                 accent="purple"
@@ -403,13 +403,7 @@ export default function DashboardPage() {
                 icon={<MessageSquare className="h-5 w-5" />}
                 accent="purple"
               />
-              <FeatureTile
-                href="/icebreakers"
-                title="Icebreakers"
-                subtitle="Conversation starters"
-                icon={<Heart className="h-5 w-5" />}
-                accent="pink"
-              />
+
               <FeatureTile
                 href="/chat-themes"
                 title="Chat Themes"
@@ -424,13 +418,7 @@ export default function DashboardPage() {
                 icon={<MessageSquare className="h-5 w-5" />}
                 accent="blue"
               />
-              <FeatureTile
-                href="/chat-rooms"
-                title="Chat Rooms"
-                subtitle="Themed rooms"
-                icon={<MessageSquare className="h-5 w-5" />}
-                accent="blue"
-              />
+
               <FeatureTile
                 href="/burner-links"
                 title="Burner Links"
@@ -527,13 +515,7 @@ export default function DashboardPage() {
                 icon={<ScrollText className="h-5 w-5" />}
                 accent="purple"
               />
-              <FeatureTile
-                href="/travel-mode"
-                title="Travel Mode"
-                subtitle="Date while traveling"
-                icon={<Plane className="h-5 w-5" />}
-                accent="blue"
-              />
+
               <FeatureTile
                 href="/discover"
                 title="Discover"
@@ -569,7 +551,7 @@ export default function DashboardPage() {
             <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
               <FeatureTile
                 href="/spaces"
-                title="Chat Rooms"
+                title="Spaces"
                 subtitle="Group conversations"
                 icon={<MessageSquare className="h-5 w-5" />}
                 accent="purple"
@@ -595,13 +577,7 @@ export default function DashboardPage() {
                 icon={<Radio className="h-5 w-5" />}
                 accent="blue"
               />
-              <FeatureTile
-                href="/burner"
-                title="Burner Links"
-                subtitle="Temporary share"
-                icon={<Lock className="h-5 w-5" />}
-                accent="red"
-              />
+
               <FeatureTile
                 href="/proximity-chatrooms"
                 title="Proximity Chat"
@@ -1088,14 +1064,7 @@ export default function DashboardPage() {
                 accent="green"
                 tooltip="Control location precision, check-in history, and how your position is shared."
               />
-              <FeatureTile
-                href="/privacy"
-                title="Privacy"
-                subtitle="Visibility controls"
-                icon={<Lock className="h-5 w-5" />}
-                accent="slate"
-                tooltip="Manage who can see your profile, photos, and activity. Control data sharing preferences."
-              />
+
               <FeatureTile
                 href="/terms"
                 title="Terms"
@@ -1279,7 +1248,7 @@ function FeatureTile({
           <h4 className="text-sm font-semibold leading-tight text-foreground dark:text-foreground">
             {title}
           </h4>
-          {tooltip ? (
+          {(tooltip ?? subtitle) ? (
             <Tooltip>
               <TooltipTrigger asChild>
                 <button
@@ -1292,7 +1261,7 @@ function FeatureTile({
                 </button>
               </TooltipTrigger>
               <TooltipContent side="top" className="max-w-[220px] text-xs">
-                {tooltip}
+                {tooltip ?? subtitle}
               </TooltipContent>
             </Tooltip>
           ) : null}

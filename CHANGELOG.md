@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.3.48] - 2026-10-31
+
+### Fixed
+
+- **Backend `npm run dev` crash-loop FIXED** — `nodemon src/index.ts` resolved none of the ESM `.js`->`.ts` imports under Node 26 (`ERR_MODULE_NOT_FOUND src/routes/email.js` on boot, so the tray Start All path was broken). `dev` is now `tsx watch src/index.ts` (tsx 4.23.15 devDependency). Verified: clean boot, `GET /api/health` 200.
+- **Wallet login UI wiring fixed** — `app/login/page.tsx` called `fetchWalletNonce()` without taking it from `useAuth`, and `AuthContextType` did not declare it (v2.3.47 leftover; `tsc` TS2304). Both fixed; that error is gone.
+- **Dashboard dead tiles removed** — `/chat-rooms`, `/burner`, `/icebreakers`, `/travel-mode` tiles linked to routes that do not exist (verified against `app/`). Removed.
+- **Dashboard duplicates disambiguated** — every `FeatureTile` now renders its info marker (tooltip falls back to subtitle); removed the duplicate Privacy tile; retitled `/recommendations` tile to "Recommendations" and `/spaces` tile to "Spaces".
+
+### Ops findings (pre-existing, deferred)
+
+- `node_modules/csstype/index.d.ts` was truncated mid-file (14,335 of 21,806 lines), breaking `tsc`; restored from the registry tarball. 7 type errors remain, all in untouched files: dnd-kit declarations + implicit any (photos), `PhantomWalletAdapter` export drift (SolanaProvider), missing `@sentry/replay` dep (instrumentation-client), laravel-echo declarations.
+- All 5 local feature branches already merged into main (0 unique commits); `git fetch` clean with nothing to pull; no submodules registered.
+- Tray (`tools/fwber-tray.ps1`) menu verified from source: Open Frontend/Backend, Start/Stop All, Open Log Folder, Refresh Status, Quit Servers and Tray. GUI not launched in this session.
 ## [2.3.47] - 2026-10-26
 
 ### Added / Fixed (Robert-authorized: deploy + wallet hardening + Muse review)

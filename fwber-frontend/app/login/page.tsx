@@ -21,7 +21,7 @@ export default function LoginPage() {
   const [isRecovery, setIsRecovery] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [isFedModalOpen, setIsFedModalOpen] = useState(false)
-  const { login, loginWithWallet, verifyTwoFactor, error, clearError, isAuthenticated, requiresTwoFactor } = useAuth()
+  const { login, loginWithWallet, fetchWalletNonce, verifyTwoFactor, error, clearError, isAuthenticated, requiresTwoFactor } = useAuth()
   const router = useRouter()
   const { publicKey, signMessage, disconnect } = useWallet()
 

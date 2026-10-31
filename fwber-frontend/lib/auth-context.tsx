@@ -65,6 +65,7 @@ type AuthAction =
 interface AuthContextType extends AuthState {
   login: (email: string, password: string) => Promise<void>
   loginWithWallet: (walletAddress: string, signature: string, message: string) => Promise<void>
+  fetchWalletNonce: () => Promise<string>
   verifyTwoFactor: (code: string, recoveryCode?: string) => Promise<void>
   register: (name: string, email: string, password: string, passwordConfirmation: string, avatar?: File | null, referralCode?: string) => Promise<void>
   logout: () => void
