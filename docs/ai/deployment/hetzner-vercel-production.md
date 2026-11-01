@@ -173,3 +173,49 @@ This topology is recommended because fwber is no longer just a simple frontend +
 - phased restored feature surfaces requiring stronger backend control
 
 That makes **Vercel frontend + Hetzner VPS backend** a better operational fit than legacy shared hosting guidance.
+
+## 10. Detailed Hetzner VPS Configuration
+
+For a robust production environment, ensure the Hetzner VPS is properly tuned.
+
+### Firewall (UFW)
+Only expose necessary ports. The `bootstrap-ubuntu.sh` script handles the basics, but confirm the rules:
+```bash
+sudo ufw allow OpenSSH
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+sudo ufw --force enable
+sudo ufw status
+```
+
+### OS & Network Tuning
+For high-concurrency websocket connections (Reverb / Socket.io), optimize sysctl:
+```bash
+# Append to /etc/sysctl.conf
+fs.file-max = 2097152
+net.ipv4.ip_local_port_range = 1024 65535
+net.ipv4.tcp_tw_reuse = 1
+net.core.somaxconn = 65535
+```
+Apply with `sudo sysctl -p`.
+
+### Node.js & PM2 (TypeScript Backend)
+The TypeScript backend (`fwber-backend-ts`) utilizes PM2 for process management.
+```bash
+npm install -g pm2
+cd /var/www/fwber/repo/fwber-backend-ts
+pm2 start dist/index.js --name "fwber-backend-ts"
+pm2 startup systemd
+pm2 save
+```
+
+### Nginx Optimization
+Ensure Nginx worker processes match your vCPU count and increase worker connections:
+```nginx
+# /etc/nginx/nginx.conf
+worker_processes auto;
+events {
+    worker_connections 4096;
+    multi_accept on;
+}
+```

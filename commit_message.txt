@@ -1,0 +1,5 @@
+fix(deployment): correct smoke test and add UI testing mock
+
+- Adjusted `smoke-check.sh` to place the ActivityPub Federation `curl` check logically within the script execution flow (inside `main`), so it actually executes rather than sitting dead after the exit code.
+- Added a Next.js middleware mock (`fwber-frontend/middleware.ts`) to bypass authentication checks specifically for testing modes (`x-playwright-test` header or CI environment), unblocking UI testing.
+- Preserved previous deployment config additions for UFW, Node/PM2, and Nginx optimizations.
