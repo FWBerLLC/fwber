@@ -160,6 +160,7 @@ After cutover:
 - [ ] merchant registration works
 - [ ] storefront purchase creates receipt + redemption code
 - [ ] migrations complete cleanly with existing column/index drift guards
+- [ ] federation endpoints (`/api/federation/*`) resolve incoming ActivityPub requests and route inbox forwarding
 
 ## 9. Why This Topology
 

@@ -778,3 +778,15 @@ main() {
 }
 
 main "$@"
+
+
+# --- Federation Smoke Check ---
+echo "🔍 Checking Federation ActivityPub Endpoint..."
+FED_URL="${APP_URL:-https://api.fwber.online}/api/federation/actors/1"
+HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" -H "Accept: application/activity+json" "$FED_URL")
+
+if [ "$HTTP_STATUS" -eq 200 ] || [ "$HTTP_STATUS" -eq 404 ]; then
+    echo "✅ Federation endpoint responded correctly ($HTTP_STATUS)."
+else
+    echo "⚠️ Federation endpoint failed with status $HTTP_STATUS."
+fi

@@ -306,6 +306,7 @@ Automation support now exists in:
 5. [ ] `/roast` works against the live API
 6. [ ] `/premium` upgrade initiation works
 7. [ ] `/merchant/register` and `/merchant/dashboard` work
+8. [ ] Federation endpoints (`/api/federation/actors/:id`, `/api/federation/users/:id/inbox`) return expected WebFinger and signed JSON-LD responses
 8. [ ] `wss://ws.fwber.online` accepts websocket traffic
 9. [ ] `https://geo.fwber.online` responds successfully
 10. [ ] queue workers are processing jobs

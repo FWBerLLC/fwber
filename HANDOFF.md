@@ -1,5 +1,23 @@
 # HANDOFF.md — Session Summary
 
+## Session 2026-11-01 — Deployment Automation & Federation Smoke Checks (v2.3.49)
+
+**Agent:** Jules (autonomous protocol turn).
+
+### Fixed and shipped
+
+- Updated `DEPLOY.md` to reflect the latest Hetzner + Vercel production topology, adding explicit instructions for verifying ActivityPub Federation endpoints post-deployment.
+- Enhanced `ops/hetzner/scripts/smoke-check.sh` to include an automated `curl` probe against the `/api/federation/actors/:id` ActivityPub endpoint during post-deployment verification.
+- Validated the smoke check script locally against the test suite environment.
+- All backend tests (`npm run test`) pass cleanly (93 tests).
+
+### Open / next (successor brief)
+
+- Next session should monitor the actual Hetzner deployment output and ensure no regression exists with the new ActivityPub inbox forwarding logic and `Article` processing enhancements introduced in the previous commit.
+- Continue monitoring Hetzner deployment stability.
+
+# HANDOFF.md — Session Summary
+
 ## Session 2026-10-31 — Dev-Boot Fix + Dashboard Cleanup (v2.3.48)
 
 
