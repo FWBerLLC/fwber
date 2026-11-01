@@ -12,6 +12,8 @@ import { PresenceIndicator, usePresenceContext } from './realtime/PresenceCompon
 import { useRelationshipTier } from '@/lib/hooks/useRelationshipTier'
 import { apiClient } from '@/lib/api/client'
 import { photoAPI } from '@/lib/api/photos'
+import { MapPin } from 'lucide-react'
+
 import { useToast } from '@/components/ToastProvider'
 import { useAuth } from '@/lib/auth-context'
 
@@ -51,6 +53,7 @@ export default function ProfileViewModal({ isOpen, onClose, user, messagesExchan
   
   const [insights, setInsights] = useState<any>(null)
   const [insightLoading, setInsightLoading] = useState(false)
+  const [narrativeReport, setNarrativeReport] = useState<string | null>(null)
   const [isSubscribed, setIsSubscribed] = useState(false)
 
   const { 
@@ -81,6 +84,15 @@ export default function ProfileViewModal({ isOpen, onClose, user, messagesExchan
         .then(res => setInsights(res.data.data))
         .catch(err => console.error('Failed to load insights', err))
         .finally(() => setInsightLoading(false))
+
+      // Fetch Narrative Report
+      apiClient.get(`/matching/narrative/${user.id}`)
+        .then(res => {
+          if (res.data && res.data.report) {
+             setNarrativeReport(res.data.report)
+          }
+        })
+        .catch(err => console.error("Failed to fetch narrative", err))
 
       // Check subscription
       if (user.profile?.subscription_price && user.profile.subscription_price > 0 && currentUser?.id !== user.id) {
@@ -321,6 +333,15 @@ export default function ProfileViewModal({ isOpen, onClose, user, messagesExchan
             <div className="mb-6">
               <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-2">About</h3>
               <p className="text-foreground dark:text-foreground dark:text-foreground">{user.profile.bio}</p>
+            </div>
+          )}
+
+          {narrativeReport && (
+            <div className="mb-6 bg-purple-50 dark:bg-purple-900/10 rounded-xl p-5 border border-purple-100 dark:border-purple-800">
+              <h3 className="text-sm font-semibold text-purple-700 dark:text-purple-400 mb-2 flex items-center gap-2">
+                <MapPin className="w-4 h-4"/> Proximity Narrative
+              </h3>
+              <p className="text-sm text-muted-foreground dark:text-muted-foreground italic leading-relaxed">"{narrativeReport}"</p>
             </div>
           )}
 
