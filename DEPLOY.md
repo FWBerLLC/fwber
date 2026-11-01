@@ -361,3 +361,15 @@ The platform supports a dedicated staging environment for pre-production validat
 1. Check staging health: `https://api-staging.fwber.online/api/health`
 2. Run automated regression: `cd fwber-backend-ts && npm run test`
 3. Verify matching engine UI at `/settings/matching` on the staging frontend.
+
+---
+
+## 12. Deployment Checklist for v2.3.48 (Dynamic Identity & Proximity Forum)
+
+Before signing off on the v2.3.48 deployment, ensure the following features are fully operational:
+
+1. [ ] **Dynamic Identity Avatars:** Verify that user avatars render with the correct visual treatments (glows, blends, ring colors) mapped to their current emotional states in `EvolvingAvatar.tsx`.
+2. [ ] **Proximity Forum Activity:** Confirm that the Local Pulse feed engine properly indexes real-time geographic distance between users using the Haversine formula and displays this in the UI.
+3. [ ] **Emotional Aura Integration:** Ensure the `auras` table is accurately aggregating recent sentiment and exposing it via `/api/auras/:userId`.
+4. [ ] **AI Wingman Tone Translator:** Validate that the `POST /api/wingman/translate-tone` endpoint is functional and effectively rewrites draft messages into specified tones.
+5. [ ] **Frontend Middleware:** Ensure the test mock middleware does not inadvertently bypass authentication checks in the live production environment.

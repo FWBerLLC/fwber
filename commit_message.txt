@@ -1,5 +1,5 @@
-fix(deployment): correct smoke test and add UI testing mock
+docs: deployment checklist for version 2.3.50 (Dynamic Identity & Proximity Forum)
 
-- Adjusted `smoke-check.sh` to place the ActivityPub Federation `curl` check logically within the script execution flow (inside `main`), so it actually executes rather than sitting dead after the exit code.
-- Added a Next.js middleware mock (`fwber-frontend/middleware.ts`) to bypass authentication checks specifically for testing modes (`x-playwright-test` header or CI environment), unblocking UI testing.
-- Preserved previous deployment config additions for UFW, Node/PM2, and Nginx optimizations.
+- Appended `DEPLOY.md` with an explicit checklist validating Dynamic Identity Avatars (`EvolvingAvatar.tsx`), Local Pulse feed engine proximity calculations, Emotional Aura Integration, AI Wingman Tone Translator logic, and Frontend Middleware testing constraints to satisfy operational verification workflows.
+- Bumped `VERSION` to `2.3.50`.
+- Fixed security vulnerability in `fwber-frontend/middleware.ts` by ensuring auth bypass only checks server-side env vars.

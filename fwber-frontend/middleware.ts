@@ -1,17 +1,12 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-// Mock middleware to unblock UI testing
-// This bypasses authentication checks for specific test environments
+// Mock middleware to unblock UI testing securely
 export function middleware(request: NextRequest) {
-  // Check if we are in a test or CI environment
-  // We can look for a specific header or query parameter injected by Playwright
-  const isTestMode =
-    request.headers.get('x-playwright-test') === 'true' ||
-    request.cookies.has('e2e-test-bypass') ||
-    process.env.NODE_ENV === 'development'; // Be careful with this, maybe only allow if explicitly configured
+  // Only allow test mode if specifically configured via server-side environment variables
+  // Never trust client-provided headers or cookies for authentication bypass
+  const isTestMode = process.env.E2E_TEST_MODE === 'true';
 
-  // For UI testing, bypass auth checks on protected routes
   const protectedRoutes = ['/dashboard', '/achievements', '/messages', '/settings'];
 
   const isProtectedRoute = protectedRoutes.some(route =>
@@ -19,17 +14,15 @@ export function middleware(request: NextRequest) {
   );
 
   if (isProtectedRoute && isTestMode) {
-    // If it's a test mode and accessing a protected route, we can inject a mock token
-    // or just let it pass through
     console.log(`[Middleware] Test mode bypassing auth for: ${request.nextUrl.pathname}`);
 
-    // You could optionally attach headers to tell the backend this is a mock user
-    const response = NextResponse.next();
-    response.headers.set('x-mock-auth', 'true');
-    return response;
+    // In a real testing scenario with a secure test environment,
+    // we would inject a valid mock JWT token here or mock the session provider.
+    // For now, we allow the route to render, but downstream server actions
+    // will still require valid auth unless also mocked.
+    return NextResponse.next();
   }
 
-  // Normal processing for non-test mode or non-protected routes
   return NextResponse.next();
 }
 
