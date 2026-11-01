@@ -2,6 +2,12 @@
 
 ## Session 2026-10-31 — Dev-Boot Fix + Dashboard Cleanup (v2.3.48)
 
+
+**Addendum — frontend install blocker (same day):**
+
+- Frontend `npm install` dies silently after several minutes: 3 attempts (2 full, 1 `--ignore-scripts`), each leaving ~300 staging dirs and no `next` binary. No npm process survives; no error is captured. Local `npm run dev` for the frontend is IMPOSSIBLE until an install completes.
+- Disk C: was 5.8GB free (likely contributor); `npm cache clean --force` freed 1.6GB (now ~7.4GB) and the retry still died, so disk is not the sole cause — long-running npm appears to get reaped in this environment.
+- Decision: stopped retrying (3 strikes). Type-check remains the local frontend gate (7 pre-existing errors, none in touched files). Next: Robert runs the install himself, or a future session retries with a split install.
 **Agent:** Muse Code (autonomous protocol turn). Continuation of the Pi v2.3.47 line.
 
 ### Fixed and shipped

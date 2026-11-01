@@ -8,6 +8,7 @@
 ## 🔧 Open Items (2026-10-31, v2.3.48 session)
 
 ### High Priority
+- [ ] **Frontend local install never completes (BLOCKER for local frontend boot)** — `npm install` in `fwber-frontend` dies silently after minutes (3 attempts); staging debris left, no `next` binary. Tried after freeing 1.6GB via npm cache clean — still dies. Needs Robert or a future session (split/chunked install, or another machine).
 - [ ] **`@sentry/replay` missing from `fwber-frontend/package.json`** — `instrumentation-client.ts` imports it (v2.3.43 restore) but the dep was never declared; `tsc` TS2307. Add `"@sentry/replay"` to deps + install.
 - [ ] **Solana wallet-adapter drift** — `SolanaProvider.tsx` imports `PhantomWalletAdapter` which the installed `@solana/wallet-adapter-wallets` no longer exports (`tsc` TS2305). Pin or migrate the import.
 
