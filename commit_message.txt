@@ -1,6 +1,4 @@
-chore: update DEPLOY.md metadata and uninstall unused backend dependency
+docs: add deployment checklist for version 2.3.47
 
-- Updated `DEPLOY.md` header metadata to correctly reflect `Last Updated: 2026-11-01` and `Version: 2.3.50`.
-- Uninstalled `nodemon` from `fwber-backend-ts` as backend development runs on `tsx watch` now.
-- Updated `TODO.md` to check off the related cleanup task.
-- Fixed duplicated header in `HANDOFF.md` and added redirect logic to `middleware.ts`.
+- Appended `DEPLOY.md` with an explicit checklist for v2.3.47 to satisfy the Supervisor nudge.
+- Validates the Wallet Login v2 flow, recursive submodule syncs, dashboard layout cleanup, and the updated backend `tsx watch` development runtime.

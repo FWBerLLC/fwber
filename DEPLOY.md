@@ -307,11 +307,11 @@ Automation support now exists in:
 6. [ ] `/premium` upgrade initiation works
 7. [ ] `/merchant/register` and `/merchant/dashboard` work
 8. [ ] Federation endpoints (`/api/federation/actors/:id`, `/api/federation/users/:id/inbox`) return expected WebFinger and signed JSON-LD responses
-8. [ ] `wss://ws.fwber.online` accepts websocket traffic
-9. [ ] `https://geo.fwber.online` responds successfully
-10. [ ] queue workers are processing jobs
-11. [ ] scheduler is firing recurring tasks
-12. [ ] migrations complete without duplicate-index or missing-column drift failures
+9. [ ] `wss://ws.fwber.online` accepts websocket traffic
+10. [ ] `https://geo.fwber.online` responds successfully
+11. [ ] queue workers are processing jobs
+12. [ ] scheduler is firing recurring tasks
+13. [ ] migrations complete without duplicate-index or missing-column drift failures
 
 ---
 
@@ -373,3 +373,14 @@ Before signing off on the v2.3.48 deployment, ensure the following features are 
 3. [ ] **Emotional Aura Integration:** Ensure the `auras` table is accurately aggregating recent sentiment and exposing it via `/api/auras/:userId`.
 4. [ ] **AI Wingman Tone Translator:** Validate that the `POST /api/wingman/translate-tone` endpoint is functional and effectively rewrites draft messages into specified tones.
 5. [ ] **Frontend Middleware:** Ensure the test mock middleware does not inadvertently bypass authentication checks in the live production environment.
+
+---
+
+## 13. Deployment Checklist for v2.3.47 (Wallet Login v2 & Submodules)
+
+Before signing off on the v2.3.47 deployment, ensure the following features are fully operational:
+
+1. [ ] **Wallet Login v2:** Verify that the non-custodial wallet login flow correctly utilizes the destructured `fetchWalletNonce` and that signing a payload successfully authenticates the user without mandating SMS 2FA.
+2. [ ] **Submodule Sync:** Confirm that all nested submodules have been recursively initialized and updated to their latest commits.
+3. [ ] **Dashboard Cleanup:** Validate that dead tiles (e.g., `/chat-rooms`, `/burner`) have been removed and remaining tiles display information markers correctly.
+4. [ ] **Backend Dev Runtime:** Ensure the local backend developer experience operates on `tsx watch src/index.ts` instead of the legacy `nodemon` flow.
