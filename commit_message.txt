@@ -1,4 +1,4 @@
-docs: add Hetzner deployment verification for v2.3.47
+docs: refine Hetzner VPS setup for version 2.3.47
 
-- Updated `docs/ai/deployment/hetzner-vercel-production.md` with explicit verification steps for the v2.3.47 release (Wallet Login v2).
-- Ensures PM2/Node backend monitoring is emphasized over legacy PHP, validates Web3 signature endpoints, and checks Nginx IP forwarding headers.
+- Enhanced `docs/ai/deployment/hetzner-vercel-production.md` with explicit Prisma database migration commands to prevent production locking.
+- Added PM2 logrotate configuration instructions to ensure disk space management for the Node.js backend.

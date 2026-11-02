@@ -220,6 +220,24 @@ events {
 }
 ```
 
+
+### Prisma & Database
+Ensure Prisma migrations are applied safely without locking the production database:
+```bash
+cd /var/www/fwber/repo/fwber-backend-ts
+npx prisma migrate deploy
+npx prisma generate
+```
+
+### Log Management
+Install `pm2-logrotate` to prevent backend logs from consuming all disk space:
+```bash
+pm2 install pm2-logrotate
+pm2 set pm2-logrotate:max_size 10M
+pm2 set pm2-logrotate:retain 10
+pm2 set pm2-logrotate:compress true
+```
+
 ## 11. Deployment Verification for v2.3.47
 
 When deploying the v2.3.47 update on Hetzner, pay special attention to:
