@@ -16,8 +16,6 @@
 - Next session should monitor the actual Hetzner deployment output and ensure no regression exists with the new ActivityPub inbox forwarding logic and `Article` processing enhancements introduced in the previous commit.
 - Continue monitoring Hetzner deployment stability.
 
-# HANDOFF.md — Session Summary
-
 ## Session 2026-10-31 — Dev-Boot Fix + Dashboard Cleanup (v2.3.48)
 
 

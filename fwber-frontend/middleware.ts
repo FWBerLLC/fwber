@@ -13,14 +13,23 @@ export function middleware(request: NextRequest) {
     request.nextUrl.pathname.startsWith(route)
   );
 
-  if (isProtectedRoute && isTestMode) {
-    console.log(`[Middleware] Test mode bypassing auth for: ${request.nextUrl.pathname}`);
+  if (isProtectedRoute) {
+    if (isTestMode) {
+      console.log(`[Middleware] Test mode bypassing auth for: ${request.nextUrl.pathname}`);
 
-    // In a real testing scenario with a secure test environment,
-    // we would inject a valid mock JWT token here or mock the session provider.
-    // For now, we allow the route to render, but downstream server actions
-    // will still require valid auth unless also mocked.
-    return NextResponse.next();
+      // We inject a mock auth header to signal downstream server components that this is a mocked test user.
+      const response = NextResponse.next();
+      response.headers.set('x-mock-auth', 'true');
+      return response;
+    }
+
+    // In production/normal mode, if the user doesn't have a valid token (e.g. cookie), redirect to login
+    // Note: For full robustness, this should verify the actual JWT structure, but for this basic check
+    // we just check if a token cookie exists.
+    const hasToken = request.cookies.has('token') || request.cookies.has('fwber_auth');
+    if (!hasToken) {
+       return NextResponse.redirect(new URL('/login', request.url));
+    }
   }
 
   return NextResponse.next();

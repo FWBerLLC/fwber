@@ -1,5 +1,6 @@
-docs: deployment checklist for version 2.3.50 (Dynamic Identity & Proximity Forum)
+chore: update DEPLOY.md metadata and uninstall unused backend dependency
 
-- Appended `DEPLOY.md` with an explicit checklist validating Dynamic Identity Avatars (`EvolvingAvatar.tsx`), Local Pulse feed engine proximity calculations, Emotional Aura Integration, AI Wingman Tone Translator logic, and Frontend Middleware testing constraints to satisfy operational verification workflows.
-- Bumped `VERSION` to `2.3.50`.
-- Fixed security vulnerability in `fwber-frontend/middleware.ts` by ensuring auth bypass only checks server-side env vars.
+- Updated `DEPLOY.md` header metadata to correctly reflect `Last Updated: 2026-11-01` and `Version: 2.3.50`.
+- Uninstalled `nodemon` from `fwber-backend-ts` as backend development runs on `tsx watch` now.
+- Updated `TODO.md` to check off the related cleanup task.
+- Fixed duplicated header in `HANDOFF.md` and added redirect logic to `middleware.ts`.

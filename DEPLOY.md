@@ -1,7 +1,7 @@
 # DEPLOY.md — The fwber Operations Guide
 
-> **Last Updated:** 2026-05-31
-> **Version:** 2.1.4
+> **Last Updated:** 2026-11-01
+> **Version:** 2.3.50
 
 This document is the operational source of truth for deploying the active fwber stack after the restoration phases. The recommended topology is now:
 
