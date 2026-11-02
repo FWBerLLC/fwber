@@ -219,3 +219,10 @@ events {
     multi_accept on;
 }
 ```
+
+## 11. Deployment Verification for v2.3.47
+
+When deploying the v2.3.47 update on Hetzner, pay special attention to:
+- **Node & PM2:** Ensure that the TypeScript backend (`fwber-backend-ts`) is being correctly started and monitored by PM2 (`pm2 start dist/index.js`). The legacy PHP backend must not conflict on the API port.
+- **Wallet Login:** Test the `/api/auth/wallet/nonce` and `/api/auth/wallet/login` endpoints on the live Hetzner VPS to confirm signature validation works correctly behind the Nginx reverse proxy.
+- **Nginx Headers:** Verify that Nginx correctly forwards the `X-Real-IP` and `X-Forwarded-For` headers to the Node backend, as Web3 rate-limiting requires accurate client IPs.

@@ -1,4 +1,4 @@
-docs: add deployment checklist for version 2.3.47
+docs: add Hetzner deployment verification for v2.3.47
 
-- Appended `DEPLOY.md` with an explicit checklist for v2.3.47 to satisfy the Supervisor nudge.
-- Validates the Wallet Login v2 flow, recursive submodule syncs, dashboard layout cleanup, and the updated backend `tsx watch` development runtime.
+- Updated `docs/ai/deployment/hetzner-vercel-production.md` with explicit verification steps for the v2.3.47 release (Wallet Login v2).
+- Ensures PM2/Node backend monitoring is emphasized over legacy PHP, validates Web3 signature endpoints, and checks Nginx IP forwarding headers.
