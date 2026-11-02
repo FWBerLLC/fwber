@@ -384,3 +384,15 @@ Before signing off on the v2.3.47 deployment, ensure the following features are 
 2. [ ] **Submodule Sync:** Confirm that all nested submodules have been recursively initialized and updated to their latest commits.
 3. [ ] **Dashboard Cleanup:** Validate that dead tiles (e.g., `/chat-rooms`, `/burner`) have been removed and remaining tiles display information markers correctly.
 4. [ ] **Backend Dev Runtime:** Ensure the local backend developer experience operates on `tsx watch src/index.ts` instead of the legacy `nodemon` flow.
+
+---
+
+## 14. Deployment Checklist for v2.3.49 (Federation Stability & E2E Testing)
+
+Before signing off on the v2.3.49 deployment, ensure the following features are fully operational:
+
+1. [ ] **Federation Activity Stream:** Verify that the `FederationService` correctly ingests and processes `Article` type objects from remote nodes without crashing the queue.
+2. [ ] **E2E Test Auth Bypass:** Confirm the Next.js `middleware.ts` successfully mocks authentication tokens ONLY when `E2E_TEST_MODE=true` is set server-side.
+3. [ ] **WebSocket Reconnect Tracking:** Validate that the global header socket badge shows "Reconnecting..." during transient network drops rather than failing permanently to "Disconnected".
+4. [ ] **Solana Wallet Adapters:** Verify that Web3 wallet linking (Phantom, Solflare) still functions after migrating away from the deprecated umbrella package.
+5. [ ] **Session Replay:** Ensure Sentry Session Replays are successfully transmitting frontend telemetry securely if enabled.

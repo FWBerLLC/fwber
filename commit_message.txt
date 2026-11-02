@@ -1,5 +1,4 @@
-fix(frontend): resolve Solana wallet-adapter drift issue
+docs: add deployment checklist for version 2.3.49
 
-- Replaced the deprecated umbrella package `@solana/wallet-adapter-wallets` imports with their specific wallet adapter packages (`@solana/wallet-adapter-phantom` and `@solana/wallet-adapter-solflare`) in `SolanaProvider.tsx`.
-- Installed the specific wallet adapter packages to resolve `tsc` TS2305 compiler errors.
-- Checked off the related "High Priority" task in `TODO.md`.
+- Appended `DEPLOY.md` with an explicit checklist validating Federation Activity Stream Article ingestion, E2E Test Auth Bypass logic, WebSocket reconnect states, Solana Wallet Adapters, and Sentry Session Replay implementations.
+- Continues refining deployment verification documentation as directed.
