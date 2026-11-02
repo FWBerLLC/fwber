@@ -1,5 +1,5 @@
-refactor(frontend): merge duplicate journal surfaces
+chore(frontend): resolve missing type declarations for dnd-kit and laravel-echo
 
-- Replaced the `/journals` page with a server-side redirect to the canonical `/journal` route to eliminate fragmented user flows.
-- Updated the dashboard navigation tile to link directly to `/journal`.
-- Checked off the "Duplicate journal surfaces" task in `TODO.md`.
+- Added generic type declarations (`d.ts` files) for `@dnd-kit/*` and `laravel-echo` to resolve `tsc` TS7016 warnings.
+- Explicitly typed the `photo` parameter in `app/photos/page.tsx` line 454 to resolve implicit `any`.
+- Checked off the "dnd-kit / laravel-echo type declarations" task in `TODO.md`.
