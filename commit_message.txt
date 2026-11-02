@@ -1,5 +1,4 @@
-chore(frontend): resolve missing type declarations for dnd-kit and laravel-echo
+chore(frontend): add missing @sentry/replay dependency
 
-- Added generic type declarations (`d.ts` files) for `@dnd-kit/*` and `laravel-echo` to resolve `tsc` TS7016 warnings.
-- Explicitly typed the `photo` parameter in `app/photos/page.tsx` line 454 to resolve implicit `any`.
-- Checked off the "dnd-kit / laravel-echo type declarations" task in `TODO.md`.
+- Added missing `@sentry/replay` package to `fwber-frontend` which was causing a TS2307 compiler error.
+- Verified TS resolution and checked off the task in `TODO.md`.

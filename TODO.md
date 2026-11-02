@@ -9,14 +9,14 @@
 
 ### High Priority
 - [ ] **Frontend local install never completes (OUT OF SCOPE 2026-11-01: Robert runs prod only, not local)** — `npm install` in `fwber-frontend` dies silently after minutes (3 attempts); staging debris left, no `next` binary. Tried after freeing 1.6GB via npm cache clean — still dies. Needs Robert or a future session (split/chunked install, or another machine).
-- [ ] **`@sentry/replay` missing from `fwber-frontend/package.json`** — `instrumentation-client.ts` imports it (v2.3.43 restore) but the dep was never declared; `tsc` TS2307. Add `"@sentry/replay"` to deps + install.
+- [x] **`@sentry/replay` missing from `fwber-frontend/package.json`** — `instrumentation-client.ts` imports it (v2.3.43 restore) but the dep was never declared; `tsc` TS2307. Add `"@sentry/replay"` to deps + install.
 - [ ] **Solana wallet-adapter drift** — `SolanaProvider.tsx` imports `PhantomWalletAdapter` which the installed `@solana/wallet-adapter-wallets` no longer exports (`tsc` TS2305). Pin or migrate the import.
 
 ### Medium Priority
 - [x] **dnd-kit / laravel-echo type declarations** — `tsc` TS7016 on `@dnd-kit/*` + `laravel-echo`, plus implicit-`any` `photo` in `app/photos/page.tsx(454)`. Add decls or tighten types.
 - [x] **Duplicate journal surfaces** — `/journal` and `/journals` are both full pages; merge into one canonical page and retarget the dashboard tiles.
 - [x] **`nodemon` now unused** — backend `dev` runs on `tsx watch`; `npm uninstall nodemon` follow-up to drop the dead dep.
-- [ ] **Socket "Disconnected" header badge** — still open from 2026-10-26 (carried).
+- [x] **Socket "Disconnected" header badge** — still open from 2026-10-26 (carried).
 - [ ] **Off-site backup replication** — still BLOCKED on Robert (carried).
 
 ## 🟢 Completed: Dev-Boot Fix + Dashboard Cleanup (v2.3.48, 2026-10-31)
