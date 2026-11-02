@@ -1,4 +1,5 @@
-docs: refine Hetzner VPS setup for version 2.3.47
+refactor(frontend): merge duplicate journal surfaces
 
-- Enhanced `docs/ai/deployment/hetzner-vercel-production.md` with explicit Prisma database migration commands to prevent production locking.
-- Added PM2 logrotate configuration instructions to ensure disk space management for the Node.js backend.
+- Replaced the `/journals` page with a server-side redirect to the canonical `/journal` route to eliminate fragmented user flows.
+- Updated the dashboard navigation tile to link directly to `/journal`.
+- Checked off the "Duplicate journal surfaces" task in `TODO.md`.

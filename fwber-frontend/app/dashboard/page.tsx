@@ -654,7 +654,7 @@ export default function DashboardPage() {
                 accent="orange"
               />
               <FeatureTile
-                href="/journals"
+                href="/journal"
                 title="Journals"
                 subtitle="Private notes"
                 icon={<ScrollText className="h-5 w-5" />}
