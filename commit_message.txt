@@ -1,4 +1,5 @@
-chore(frontend): add missing @sentry/replay dependency
+fix(frontend): resolve Solana wallet-adapter drift issue
 
-- Added missing `@sentry/replay` package to `fwber-frontend` which was causing a TS2307 compiler error.
-- Verified TS resolution and checked off the task in `TODO.md`.
+- Replaced the deprecated umbrella package `@solana/wallet-adapter-wallets` imports with their specific wallet adapter packages (`@solana/wallet-adapter-phantom` and `@solana/wallet-adapter-solflare`) in `SolanaProvider.tsx`.
+- Installed the specific wallet adapter packages to resolve `tsc` TS2305 compiler errors.
+- Checked off the related "High Priority" task in `TODO.md`.
