@@ -343,6 +343,14 @@ export default function DashboardPage() {
                 accent="blue"
               />
               <FeatureTile
+                href="/groups/matching"
+                title="Group Matching"
+                subtitle="Match by interests"
+                icon={<Users className="h-5 w-5" />}
+                accent="purple"
+                tooltip="Find groups aligned with your matching profile."
+              />
+              <FeatureTile
                 href="/matching/nfc"
                 title="NFC Exchange"
                 subtitle="Tap to connect"
@@ -396,21 +404,7 @@ export default function DashboardPage() {
                 icon={<MessageSquare className="h-5 w-5" />}
                 accent="slate"
               />
-              <FeatureTile
-                href="/group-chat"
-                title="Group Chat"
-                subtitle="Multi-user rooms"
-                icon={<MessageSquare className="h-5 w-5" />}
-                accent="purple"
-              />
 
-              <FeatureTile
-                href="/chat-themes"
-                title="Chat Themes"
-                subtitle="Customize chat"
-                icon={<Palette className="h-5 w-5" />}
-                accent="slate"
-              />
               <FeatureTile
                 href="/chatrooms"
                 title="Chatrooms"
@@ -425,27 +419,6 @@ export default function DashboardPage() {
                 subtitle="Temporary links"
                 icon={<Flame className="h-5 w-5" />}
                 accent="red"
-              />
-              <FeatureTile
-                href="/friend-requests"
-                title="Friend Requests"
-                subtitle="Pending requests"
-                icon={<UserPlus className="h-5 w-5" />}
-                accent="green"
-              />
-              <FeatureTile
-                href="/mutual-friends"
-                title="Mutual Friends"
-                subtitle="Shared connections"
-                icon={<Users className="h-5 w-5" />}
-                accent="purple"
-              />
-              <FeatureTile
-                href="/guestbook"
-                title="Guestbook"
-                subtitle="Leave messages"
-                icon={<ScrollText className="h-5 w-5" />}
-                accent="slate"
               />
             </div>
 
@@ -493,27 +466,6 @@ export default function DashboardPage() {
                 subtitle="People around you"
                 icon={<MapPin className="h-5 w-5" />}
                 accent="green"
-              />
-              <FeatureTile
-                href="/meetup"
-                title="Meetup"
-                subtitle="Plan meetups"
-                icon={<MapPin className="h-5 w-5" />}
-                accent="green"
-              />
-              <FeatureTile
-                href="/date-invites"
-                title="Date Invites"
-                subtitle="Send invitations"
-                icon={<Gift className="h-5 w-5" />}
-                accent="pink"
-              />
-              <FeatureTile
-                href="/date-stories"
-                title="Date Stories"
-                subtitle="Share experiences"
-                icon={<ScrollText className="h-5 w-5" />}
-                accent="purple"
               />
 
               <FeatureTile
@@ -587,8 +539,8 @@ export default function DashboardPage() {
               />
               <FeatureTile
                 href="/burner"
-                title="Burner Links"
-                subtitle="Temporary share"
+                title="New Burner Link"
+                subtitle="Generate QR share"
                 icon={<Lock className="h-5 w-5" />}
                 accent="red"
               />
@@ -662,7 +614,7 @@ export default function DashboardPage() {
               />
               <FeatureTile
                 href="/journals"
-                title="Journals"
+                title="Field Notes"
                 subtitle="Private notes"
                 icon={<ScrollText className="h-5 w-5" />}
                 accent="slate"
@@ -832,20 +784,6 @@ export default function DashboardPage() {
                 accent="green"
               />
               <FeatureTile
-                href="/photo-guessing"
-                title="Photo Guessing"
-                subtitle="Guess who"
-                icon={<Eye className="h-5 w-5" />}
-                accent="purple"
-              />
-              <FeatureTile
-                href="/photo-reveal"
-                title="Photo Reveal"
-                subtitle="Gradual reveal"
-                icon={<Eye className="h-5 w-5" />}
-                accent="pink"
-              />
-              <FeatureTile
                 href="/profile-views"
                 title="Profile Views"
                 subtitle="Who viewed you"
@@ -963,6 +901,14 @@ export default function DashboardPage() {
                 accent="amber"
                 tooltip="View invoices, change plan, or manage your subscription."
               />
+              <FeatureTile
+                href="/settings/hardware"
+                title="Hardware Key"
+                subtitle="BLE safety token"
+                icon={<Radio className="h-5 w-5" />}
+                accent="slate"
+                tooltip="Pair a BLE safety bracelet or key for proximity alerts."
+              />
             </div>
 
             {/* Commerce & Merchant */}
@@ -1041,6 +987,14 @@ export default function DashboardPage() {
                 icon={<Radio className="h-5 w-5" />}
                 accent="green"
                 tooltip="Neighborhood sentiment and broadcast tools."
+              />
+              <FeatureTile
+                href="/merchant/profile"
+                title="Business Profile"
+                subtitle="Public storefront"
+                icon={<Store className="h-5 w-5" />}
+                accent="orange"
+                tooltip="Edit how your business appears to locals."
               />
             </div>
 
@@ -1182,6 +1136,14 @@ export default function DashboardPage() {
                 icon={<Plug className="h-5 w-5" />}
                 accent="purple"
                 tooltip="Link external accounts and services. Manage contact imports and third-party connections."
+              />
+              <FeatureTile
+                href="/settings/federation"
+                title="Federation Settings"
+                subtitle="Handles and relays"
+                icon={<Globe className="h-5 w-5" />}
+                accent="blue"
+                tooltip="Control your federated handle, relays, and cross server visibility."
               />
               <FeatureTile
                 href="/journal"

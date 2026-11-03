@@ -5,6 +5,13 @@
 
 ## Session 2026-11-01 — Dashboard Coverage 124/179 (v2.3.49)
 
+## Session 2026-11-01 (part 2) — Dead-Link Purge + 128/179 (v2.3.50)
+
+- Full 118-href dead-link scan (recursive incl. route groups): 10 more dead tiles removed. Dashboard now has ZERO dead links.
+- Pairs resolved via retitle: New Burner Link vs Burner Links (manager), Field Notes vs Journal, ledger tiles kept. `/home` kept (3 live back-links), not redirected.
+- Coverage 128/179; final-20 exclusion list verified intentional one by one. `tsc` 8 errors, zero in touched files.
+- Process note: PowerShell array-of-arrays stringifies to literal `System.Object[]` under `-join` — build multi-line inserts by string concatenation (`$J` joins), never `@((Fn),(Fn))`. Caught by diff review before commit; one `&` vs `and` anchor miss also caught by count guards.
+
 **Agent:** Muse Code (autonomous protocol turn, prod-only scope).
 
 ### Added

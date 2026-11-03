@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.3.50] - 2026-11-01
+
+### Fixed (dead-link purge + duplicate disambiguation)
+
+- Full dead-link scan of all 118 dashboard hrefs (recursive, route-group aware): removed 10 dead tiles (`/chat-themes`, `/date-invites`, `/date-stories`, `/friend-requests`, `/group-chat`, `/guestbook`, `/meetup`, `/mutual-friends`, `/photo-guessing`, `/photo-reveal`). Zero dead links remain.
+- Duplicate pairs resolved by disambiguation, not deletion: `/burner` is the QR generator vs `/burner-links` the manager (retitled "New Burner Link" / "Burner Links"); `/journals` is the Field Notes list vs `/journal` the visibility app (retitled); `/unlocks` hub vs `/premium/unlocks` ledger, `/photo-reveal` dead vs `/photos/reveals` ledger kept, `/home` secondary hub left unlinked (3 pages back-link to it).
+
+### Added (coverage 128 of 179)
+
+- 4 more tiles: Hardware Key (Safety), Federation Settings hub (Community), Business Profile (Commerce), Group Matching (Discover). Remaining 20 unlinked routes are all intentional: create-subpages (condense principle), hub subpages, entry/dev/callback/policy/redirector surfaces, federation subs (hub linked), venue trio (no dashboard section), `/rate-my-pussy` (Robert decision).
+
+### Verified
+
+- `tsc --noEmit`: 8 errors, zero in touched files (same pre-existing set as v2.3.49). `tools/check_nav_coverage.py`: 128 linked, 0 dead dashboard hrefs.
 ## [2.3.49] - 2026-11-01
 
 ### Added (dashboard coverage from nav audit)
