@@ -1,3 +1,9 @@
+## Session 2026-11-03 — DEPLOYED v2.3.54 (Hetzner, operator-authorized)
+- Server /var/www/fwber/repo: reset --hard origin/main at cdafa91ba (was c058d6806, +2 commits). No schema changes; migrate deploy: no pending migrations.
+- Backend: npm install + prisma generate + build clean, pm2 restart fwber-backend-ts. Frontend: npm install (peer warnings only; @sentry/replay + phantom/solflare present), next build compiled successfully in 26.5s, pm2 restart fwber-frontend.
+- Smoke: on-box api:200 front:200; public site:200 login:200 api-health:200.
+- Operator directives honored: local server untouched, rate-my-pussy route kept unlinked, duplicate pairs stay cross-linked (no deletions).
+
 # HANDOFF.md — Session Summary
 
 ## Session 2026-11-03 — tsc 8->0 + v2.3.54 (autonomous protocol turn)
