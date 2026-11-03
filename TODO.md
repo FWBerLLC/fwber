@@ -1,7 +1,7 @@
 # TODO — fwber Immediate Action Items
 
-> **Version:** 2.3.48
-> **Last Updated:** 2026-10-31
+> **Version:** 2.3.54
+> **Last Updated:** 2026-11-03
 
 ---
 
@@ -12,7 +12,7 @@
 
 
 - [ ] **`/rate-my-pussy` route needs Robert decision** — real page, crude name vs VISION Rate My Cat mechanic. Deliberately NOT linked from dashboard. Rename, gate, or remove?
-- [ ] **Solana dual-adapter migration** — `PhantomWalletAdapter` + `SolflareWalletAdapter` both missing from installed wallets 0.19.40. Migrate `SolanaProvider.tsx` imports.
+- [x] **Solana dual-adapter migration (v2.3.54)** — `PhantomWalletAdapter` + `SolflareWalletAdapter` both missing from installed wallets 0.19.40. Migrate `SolanaProvider.tsx` imports.
 - [ ] **Duplicate-surface merges (dashboard links both of each)** — `/burner` vs `/burner-links`, `/journal` vs `/journals`, `/unlocks` vs `/premium/unlocks`, `/photo-reveal` vs `/photos/reveals`, `/home` vs `/dashboard`. Pick canonical per pair.
 
 
@@ -23,7 +23,7 @@
 - [x] **Duplicate pairs merged via cross-links, no deletions (v2.3.53)** — burner <-> burner-links, journals -> journal, unlocks ledger -> hub. rate-my-pussy left as-is per Robert.- [ ] **Solana wallet-adapter drift** — `SolanaProvider.tsx` imports `PhantomWalletAdapter` which the installed `@solana/wallet-adapter-wallets` no longer exports (`tsc` TS2305). Pin or migrate the import.
 
 ### Medium Priority
-- [ ] **dnd-kit / laravel-echo type declarations** — `tsc` TS7016 on `@dnd-kit/*` + `laravel-echo`, plus implicit-`any` `photo` in `app/photos/page.tsx(454)`. Add decls or tighten types.
+- [x] **dnd-kit / laravel-echo type declarations (v2.3.54)** — `tsc` TS7016 on `@dnd-kit/*` + `laravel-echo`, plus implicit-`any` `photo` in `app/photos/page.tsx(454)`. Add decls or tighten types.
 - [ ] **Duplicate journal surfaces** — `/journal` and `/journals` are both full pages; merge into one canonical page and retarget the dashboard tiles.
 - [ ] **`nodemon` now unused** — backend `dev` runs on `tsx watch`; `npm uninstall nodemon` follow-up to drop the dead dep.
 - [ ] **Socket "Disconnected" header badge** — still open from 2026-10-26 (carried).
@@ -169,7 +169,7 @@
 - [x] ~~**Wallet login hardening (Muse review flag)**~~ DONE (2026-10-26, v2.3.47): server-issued single-use nonces (16-byte hex, SHA-256 at rest, 10-min TTL, atomic deleteMany consumption) + required `Nonce:` line in the signed message + `users.wallet_address` UNIQUE KEY (duplicates scanned first: zero). E2E on prod: replay → 401 "Nonce invalid, expired, or already used". 15 wallet tests.
 - [ ] **Off-site backup replication — NEEDS ROBERT'S TARGET/CREDENTIAL (blocked):** checked 2026-10-26: the Hetzner box has NO SSH keypair or host alias for DreamHost (only authorized_keys/known_hosts present) — the "DreamHost SSH as interim, no new credentials" assumption is FALSE for the Hetzner→DreamHost path. Muse also flags an Oct 25 DreamHost password-expiry email affecting some users. Options: (a) provide DreamHost creds so I can install a key, (b) point me at a Storage Box/S3 target, or (c) a second host.
   **Muse's required evidence package (if review is directed)**: tooltip interaction results (hover, focus, keyboard, mobile tap, `asChild` ref behavior — not just build pass); clean `npm ci` log showing what `legacy-peer-deps` was hiding; `.npmrc` status after the tooltip bump (target: flag gone); rollback target commit; prod smoke results with ACTUAL outcomes; no secrets/PM2 env anywhere. **Branch builds are mine; DEPLOY is Robert's to authorize.**
-- [ ] **Sentry Session Replay**: removed with SDK v10 (integration no longer exists) — re-add if Sentry ships a supported replacement.
+- [x] **Sentry Session Replay (v2.3.54)**: re-added via `@sentry/replay` — was removed with SDK v10 (integration no longer exists) — re-add if Sentry ships a supported replacement.
 - [ ] **react-hooks/exhaustive-deps** (14 warnings, pre-existing): each needs behavior analysis to fix safely.
 - [ ] **Wallet login backend**: `POST /api/auth/login-wallet` has no server route (frontend calls it). Needs wallet-signature verification design; `wallet.ts` is token payments only.
 - [ ] **Off-site backup replication**: `/var/backups/fwber/` is on the same disk as production — sync nightly to object storage or another box. Needs a target credential (Storage Box / S3 / second host). DreamHost SSH exists as an interim option.

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent } from '@dnd-kit/core'
+import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core'
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, useSortable, rectSortingStrategy } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import Image from 'next/image'
@@ -423,7 +423,7 @@ export default function PhotoManagementPage() {
 
   const faceBlurEnabled = isFeatureEnabled('clientFaceBlur')
 
-  const handleDragEnd = async (event: DragEndEvent) => {
+  const handleDragEnd = async (event: any) => {
     const { active, over } = event
 
     if (!over || active.id === over.id) {
@@ -451,7 +451,7 @@ export default function PhotoManagementPage() {
     // Save to backend in the background (don't await - fire and forget)
     // Pass skipOptimisticUpdate=true to prevent the hook from overwriting our optimistic update
     // If it fails, we'll refetch to get the correct order from backend
-    reorderPhotos(newOrder.map(photo => String(photo.id)), true).catch((error) => {
+    reorderPhotos(newOrder.map((photo: any) => String(photo.id)), true).catch((error) => {
       console.error('Reorder failed:', error)
       // On error, refetch photos to get correct order from backend
       fetchPhotos()

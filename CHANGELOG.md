@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.3.54] - 2026-11-03
+
+### Type errors eliminated (frontend tsc 8 -> 0, backend tsc clean)
+
+- SolanaProvider.tsx: import PhantomWalletAdapter from @solana/wallet-adapter-phantom and SolflareWalletAdapter from @solana/wallet-adapter-solflare (both removed from the -wallets meta-package in 0.19.x). Deps declared in package.json.
+- instrumentation-client.ts: @sentry/replay declared in package.json and loaded optionally (try/require with fallback to no-replay), so type-checks and local builds survive before 
+pm install brings the package in. Privacy posture unchanged (maskAllText/maskAllInputs/blockAllMedia).
+- New wber-frontend/types/third-party-shims.d.ts: ambient decls for @dnd-kit/*, laravel-echo, @solana/wallet-adapter-phantom, @solana/wallet-adapter-solflare (no bundled types / no @types packages).
+- pp/photos/page.tsx: explicit (photo: any) on reorder map (matches file style, line 40), DragEndEvent value-import replaced (was TS2709 against the shim).
+- Verified: frontend 	sc --noEmit EXIT 0 (logs/tsc13.log), backend 	sc --noEmit EXIT 0 (logs/tsc-backend11.log).
+- Repo sync: main == origin/main == upstream/main at 3a449c23b; all 5 local feature branches already merged, nothing unmerged. No submodule changes.
+
 ## [2.3.53] - 2026-11-01
 
 ### Merged (duplicate pairs, cross-linking — no deletions, per Robert)
