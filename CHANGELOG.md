@@ -2,6 +2,9 @@
 
 ## [2.3.54] - 2026-11-03
 
+### DEPLOYED to Hetzner live prod
+- Server reset to cdafa91ba; backend install+build+restart; frontend install + Next build OK + restart. Smoke: onbox api/front 200, public site/login/api-health 200.
+
 ### Type errors eliminated (frontend tsc 8 -> 0, backend tsc clean)
 
 - SolanaProvider.tsx: import PhantomWalletAdapter from @solana/wallet-adapter-phantom and SolflareWalletAdapter from @solana/wallet-adapter-solflare (both removed from the -wallets meta-package in 0.19.x). Deps declared in package.json.
