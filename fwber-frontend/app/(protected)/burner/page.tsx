@@ -81,6 +81,7 @@ export default function BurnerGeneratorPage() {
                         <CardDescription>
                             Show this QR code to instantly spin up a temporary 24-hour anonymous chatroom with someone IRL.
                         </CardDescription>
+<a href="/burner-links" className="mt-2 block text-center text-sm text-muted-foreground underline">Manage your burner profile links.</a>
                     </CardHeader>
                     <CardContent className="flex flex-col items-center space-y-6">
                         {loading ? (

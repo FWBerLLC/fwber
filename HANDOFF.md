@@ -11,6 +11,12 @@
 
 ## Session 2026-11-01 (part 4) — Coverage Finalized (v2.3.52)
 
+## Session 2026-11-01 (part 5) — Pair Merges + Deploy Prep (v2.3.53)
+
+- SSH to Hetzner verified; live repo at v2.3.47-part-2 with one untracked `prisma/migrations/` dir (overlap check before pull). PM2 runs `fwber-backend-ts` + `fwber-frontend` (both ~7d uptime).
+- Robert authorized deploy + merges-at-recommendation; rate-my-pussy left as-is; backup still blocked.
+- Corruption incident + recovery documented in CHANGELOG (script-file rule adopted).
+
 - Per-route verification of the last 17 (bodies read: onboarding, premium/success, websocket, venue login/register; wiring grepped: federation hub/subs, create-subpages, home back-links). Outcome: 0 new tiles — the gap is exhausted, not neglected.
 - Standing rule learned: route-group dirs (`app/(protected)/...`) hide routes from top-level checks — always verify recursively. npm remains unusable here (dies silently); tarball restore is the repair path.
 - Next unblocked UI work needs Robert (page merges/deletions, rate-my-pussy). Valid next autonomous areas: backend test suite, 8 pre-existing tsc errors (needs installs for sentry dep), socket-badge investigation.

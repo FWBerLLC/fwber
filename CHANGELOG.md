@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.3.53] - 2026-11-01
+
+### Merged (duplicate pairs, cross-linking — no deletions, per Robert)
+
+- `/burner` (QR generator) <-> `/burner-links` (manager): mutual navigation links. `/journals` (Field Notes list) -> `/journal` (full app, canonical — no backlink). `/premium/unlocks` (ledger) -> `/unlocks` hub (hub already links ledger). `/unlocks` hub, `/home` back-link target, `/rate-my-pussy` left untouched per Robert (stays unlinked).
+
+### Process incident
+
+- A PowerShell multi-edit command corrupted 4 files with `+`-fragment lines ( anchors reported ok, verify showed missing content, tsc jumped 8->16). Recovered via `git checkout` (work was uncommitted) and redid the edits with a Python exact-match script (`/tmp/crosslinks.py`, count==1 guards). Lesson: complex multi-file edits go through script files, never giant inline shell one-liners. Final `tsc`: 8 errors, zero in touched files.
 ## [2.3.52] - 2026-11-01
 
 ### Coverage finalization (131 of 179 — complete by design)

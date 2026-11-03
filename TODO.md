@@ -19,7 +19,8 @@
 - [x] **131/179 coverage + create-subpage analysis (v2.3.51)** — Appeals, Synced Contacts, Venue Dashboard tiles; all create-subpages verified reachable in-page (no action needed).- [x] **Dead-link purge + 128/179 coverage (v2.3.50)** — 10 dead tiles removed (full 118-href scan now clean); burner/journals pairs disambiguated by retitle; hardware, federation-settings, business-profile, group-matching tiles added. Final 20 unlinked all intentional and listed in CHANGELOG.- [x] **Dashboard coverage 102 -> 124 of 179 routes (v2.3.49)** — 22 tiles with tooltips; `/burner` restored after route-group miss; create/venue/dev/policy intentionally unlinked.
 
 - [x] **Coverage finalized 131/179 by design (v2.3.52)** — final 17 each verified (content read + wiring grepped); 0 tiles justified, all exclusions reasoned. Tile-level consolidation exhausted.- [ ] **`@sentry/replay` missing from `fwber-frontend/package.json`** — `instrumentation-client.ts` imports it (v2.3.43 restore) but the dep was never declared; `tsc` TS2307. Add `"@sentry/replay"` to deps + install.
-- [ ] **Solana wallet-adapter drift** — `SolanaProvider.tsx` imports `PhantomWalletAdapter` which the installed `@solana/wallet-adapter-wallets` no longer exports (`tsc` TS2305). Pin or migrate the import.
+
+- [x] **Duplicate pairs merged via cross-links, no deletions (v2.3.53)** — burner <-> burner-links, journals -> journal, unlocks ledger -> hub. rate-my-pussy left as-is per Robert.- [ ] **Solana wallet-adapter drift** — `SolanaProvider.tsx` imports `PhantomWalletAdapter` which the installed `@solana/wallet-adapter-wallets` no longer exports (`tsc` TS2305). Pin or migrate the import.
 
 ### Medium Priority
 - [ ] **dnd-kit / laravel-echo type declarations** — `tsc` TS7016 on `@dnd-kit/*` + `laravel-echo`, plus implicit-`any` `photo` in `app/photos/page.tsx(454)`. Add decls or tighten types.

@@ -26,6 +26,7 @@ export default function JournalsPage() {
         <AppHeader />
         <main className="max-w-4xl mx-auto px-4 py-8">
           <h1 className="text-2xl font-bold text-foreground dark:text-foreground mb-6">Field Notes</h1>
+<a href="/journal" className="mb-4 block text-sm text-muted-foreground underline">Open the full journal with privacy controls.</a>
           {isLoading ? (
             <div className="animate-pulse space-y-4">
               {[1, 2, 3].map(i => (
