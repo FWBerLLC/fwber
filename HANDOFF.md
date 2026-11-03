@@ -13,6 +13,13 @@
 
 ## Session 2026-11-01 (part 5) — Pair Merges + Deploy Prep (v2.3.53)
 
+## Session 2026-11-01 (part 6) — DEPLOYED v2.3.53 (Robert-authorized)
+
+- Server `/var/www/fwber/repo`: fetch + pull c058d6806 clean (untracked `prisma/migrations/0000_initial` untouched, zero overlap with incoming). No schema changes in range — no migration run.
+- Backend: `npm install` + `tsc` build clean, `pm2 restart fwber-backend-ts`. Frontend: `npm install` + Turbopack build green (postbuild standalone assets copied), `pm2 restart fwber-frontend`.
+- Smoke (actual outcomes): on-box api:200 front:200; public site:200 login:200 dashboard:200 api-health:200 wallet-nonce:200; negative login probe 401 "Invalid credentials" (first attempt 400 was probe quoting artifact, reran with file body).
+- Live prod now runs v2.3.53 (dashboard 131/179, pair cross-links, wallet v2, tooltip fix, self-hosted icons).
+
 - SSH to Hetzner verified; live repo at v2.3.47-part-2 with one untracked `prisma/migrations/` dir (overlap check before pull). PM2 runs `fwber-backend-ts` + `fwber-frontend` (both ~7d uptime).
 - Robert authorized deploy + merges-at-recommendation; rate-my-pussy left as-is; backup still blocked.
 - Corruption incident + recovery documented in CHANGELOG (script-file rule adopted).
