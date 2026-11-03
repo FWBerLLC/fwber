@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.3.52] - 2026-11-01
+
+### Coverage finalization (131 of 179 — complete by design)
+
+- Verified the final 17 unlinked routes one by one (page bodies read, in-page wiring grepped). Zero justify dashboard tiles: 4 create-subpages reachable in-page; 4 federation subs interlinked via hub + cross-links; `/premium/success` is a 3s auto-redirect interstitial; `/onboarding` pre-auth flow; `/venue/login` + `/venue/register` role-auth entry forms; `/merchant` smart redirector; `/home` secondary hub with 3 live back-links; `/privacy` policy doc; `/websocket` dev harness; `/rate-my-pussy` stays blocked on Robert.
+- Coverage objective closed: everything linkable is linked (131), everything unlinked is excluded for a stated reason. No code changes to `page.tsx` this cycle.
+
+### Verified
+
+- `tools/check_nav_coverage.py`: 131 linked / 17 excluded-with-reason / 0 dead hrefs. `tsc --noEmit`: 8 errors, zero in touched files (unchanged pre-existing set).
 ## [2.3.51] - 2026-11-01
 
 ### Added (coverage 131 of 179)

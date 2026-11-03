@@ -9,6 +9,12 @@
 
 ## Session 2026-11-01 (part 3) — 131/179 + Subpage Analysis (v2.3.51)
 
+## Session 2026-11-01 (part 4) — Coverage Finalized (v2.3.52)
+
+- Per-route verification of the last 17 (bodies read: onboarding, premium/success, websocket, venue login/register; wiring grepped: federation hub/subs, create-subpages, home back-links). Outcome: 0 new tiles — the gap is exhausted, not neglected.
+- Standing rule learned: route-group dirs (`app/(protected)/...`) hide routes from top-level checks — always verify recursively. npm remains unusable here (dies silently); tarball restore is the repair path.
+- Next unblocked UI work needs Robert (page merges/deletions, rate-my-pussy). Valid next autonomous areas: backend test suite, 8 pre-existing tsc errors (needs installs for sentry dep), socket-badge investigation.
+
 - 3 tiles (appeals/contacts/venue-dashboard), all content-verified. Coverage 131/179, 0 dead hrefs, tsc 8 (zero touched).
 - Create-subpage condense item closed by analysis: every create route is linked from its parent page/header — the consolidation the directive asks for already exists in-page. No deletions.
 - Remaining unlinked 17 all intentional; next unblocked UI work is exhausted at the tile level — further consolidation means page merges/deletions, which need Robert (prod URLs + bookmarks).

@@ -17,7 +17,8 @@
 
 
 - [x] **131/179 coverage + create-subpage analysis (v2.3.51)** — Appeals, Synced Contacts, Venue Dashboard tiles; all create-subpages verified reachable in-page (no action needed).- [x] **Dead-link purge + 128/179 coverage (v2.3.50)** — 10 dead tiles removed (full 118-href scan now clean); burner/journals pairs disambiguated by retitle; hardware, federation-settings, business-profile, group-matching tiles added. Final 20 unlinked all intentional and listed in CHANGELOG.- [x] **Dashboard coverage 102 -> 124 of 179 routes (v2.3.49)** — 22 tiles with tooltips; `/burner` restored after route-group miss; create/venue/dev/policy intentionally unlinked.
-- [ ] **`@sentry/replay` missing from `fwber-frontend/package.json`** — `instrumentation-client.ts` imports it (v2.3.43 restore) but the dep was never declared; `tsc` TS2307. Add `"@sentry/replay"` to deps + install.
+
+- [x] **Coverage finalized 131/179 by design (v2.3.52)** — final 17 each verified (content read + wiring grepped); 0 tiles justified, all exclusions reasoned. Tile-level consolidation exhausted.- [ ] **`@sentry/replay` missing from `fwber-frontend/package.json`** — `instrumentation-client.ts` imports it (v2.3.43 restore) but the dep was never declared; `tsc` TS2307. Add `"@sentry/replay"` to deps + install.
 - [ ] **Solana wallet-adapter drift** — `SolanaProvider.tsx` imports `PhantomWalletAdapter` which the installed `@solana/wallet-adapter-wallets` no longer exports (`tsc` TS2305). Pin or migrate the import.
 
 ### Medium Priority
