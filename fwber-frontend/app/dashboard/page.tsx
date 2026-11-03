@@ -996,6 +996,14 @@ export default function DashboardPage() {
                 accent="orange"
                 tooltip="Edit how your business appears to locals."
               />
+              <FeatureTile
+                href="/venue/dashboard"
+                title="Venue Dashboard"
+                subtitle="Manage your venue"
+                icon={<Store className="h-5 w-5" />}
+                accent="orange"
+                tooltip="Venue portal for events and check-ins at your spot."
+              />
             </div>
 
             {/* More */}
@@ -1122,6 +1130,14 @@ export default function DashboardPage() {
                 tooltip="Vote on community proposals and appeals. Shape the rules and culture of the platform."
               />
               <FeatureTile
+                href="/council/appeals"
+                title="Appeals"
+                subtitle="Challenge moderation"
+                icon={<Gavel className="h-5 w-5" />}
+                accent="amber"
+                tooltip="File an appeal against a moderation decision."
+              />
+              <FeatureTile
                 href="/federation"
                 title="Federation"
                 subtitle="Cross-server network"
@@ -1136,6 +1152,14 @@ export default function DashboardPage() {
                 icon={<Plug className="h-5 w-5" />}
                 accent="purple"
                 tooltip="Link external accounts and services. Manage contact imports and third-party connections."
+              />
+              <FeatureTile
+                href="/integrations/contacts"
+                title="Synced Contacts"
+                subtitle="Imported address book"
+                icon={<Users className="h-5 w-5" />}
+                accent="green"
+                tooltip="View and manage contacts imported from your device."
               />
               <FeatureTile
                 href="/settings/federation"

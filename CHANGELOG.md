@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.3.51] - 2026-11-01
+
+### Added (coverage 131 of 179)
+
+- 3 tiles with tooltips: Appeals (Community, moderation-appeal form), Synced Contacts (Community, imported address book), Venue Dashboard (Commerce, venue portal). All content-verified before linking.
+
+### Analysis (condense-subpages item closed without deletions)
+
+- All 4 create-subpages are already reachable in-page: `/events/create` from Events + Plans, `/groups/create` from Groups + Group Matching, `/chatrooms/create` from Chatrooms, `promotions/new` from Merchant Dashboard + Promotions + MerchantHeader. No dashboard tiles needed and no route deletions warranted.
+- `/merchant` is a smart redirector (dashboard or register by role); `/home` keeps 3 live back-links; both stay unlinked. Final 17 unlinked routes all intentional (see v2.3.50 list minus the 3 just linked).
+
+### Verified
+
+- `tools/check_nav_coverage.py`: 131 linked, 0 dead dashboard hrefs. `tsc --noEmit`: 8 errors, zero in touched files (unchanged pre-existing set).
 ## [2.3.50] - 2026-11-01
 
 ### Fixed (dead-link purge + duplicate disambiguation)
