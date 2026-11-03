@@ -585,6 +585,13 @@ export default function DashboardPage() {
                 icon={<MapPin className="h-5 w-5" />}
                 accent="green"
               />
+              <FeatureTile
+                href="/burner"
+                title="Burner Links"
+                subtitle="Temporary share"
+                icon={<Lock className="h-5 w-5" />}
+                accent="red"
+              />
             </div>
 
             {/* AI Wingman */}
@@ -660,6 +667,54 @@ export default function DashboardPage() {
                 icon={<ScrollText className="h-5 w-5" />}
                 accent="slate"
               />
+              <FeatureTile
+                href="/wingman/fortune"
+                title="Fortune"
+                subtitle="AI predictions"
+                icon={<Sparkles className="h-5 w-5" />}
+                accent="amber"
+                tooltip="Playful AI fortunes about your dating future."
+              />
+              <FeatureTile
+                href="/wingman/nemesis"
+                title="Nemesis Mode"
+                subtitle="Brutal honesty"
+                icon={<Flame className="h-5 w-5" />}
+                accent="red"
+                tooltip="The wingman brutally honest take on your profile."
+              />
+              <FeatureTile
+                href="/wingman/vibe-check"
+                title="Vibe Check"
+                subtitle="Read the room"
+                icon={<Activity className="h-5 w-5" />}
+                accent="blue"
+                tooltip="Analyze the vibe of a conversation before you reply."
+              />
+              <FeatureTile
+                href="/wingman/draft-analysis"
+                title="Draft Analysis"
+                subtitle="Review unsent texts"
+                icon={<ScrollText className="h-5 w-5" />}
+                accent="slate"
+                tooltip="Feedback on message drafts before you send them."
+              />
+              <FeatureTile
+                href="/wingman/ice-breaker"
+                title="Ice-Breaker"
+                subtitle="AI openers"
+                icon={<MessageSquare className="h-5 w-5" />}
+                accent="pink"
+                tooltip="Openers generated from a match profile."
+              />
+              <FeatureTile
+                href="/wingman/compatibility"
+                title="Compatibility"
+                subtitle="Deep AI analysis"
+                icon={<Star className="h-5 w-5" />}
+                accent="purple"
+                tooltip="In depth AI compatibility breakdown for any match."
+              />
             </div>
 
             {/* Economy & Premium */}
@@ -720,6 +775,14 @@ export default function DashboardPage() {
                 subtitle="Premium features"
                 icon={<Lock className="h-5 w-5" />}
                 accent="yellow"
+              />
+              <FeatureTile
+                href="/premium/unlocks"
+                title="Unlock History"
+                subtitle="Content you unlocked"
+                icon={<Lock className="h-5 w-5" />}
+                accent="yellow"
+                tooltip="Ledger of premium content you have unlocked."
               />
             </div>
 
@@ -789,6 +852,22 @@ export default function DashboardPage() {
                 icon={<Eye className="h-5 w-5" />}
                 accent="blue"
               />
+              <FeatureTile
+                href="/settings/physical-profile"
+                title="Physical Profile"
+                subtitle="Height, lifestyle, more"
+                icon={<User className="h-5 w-5" />}
+                accent="green"
+                tooltip="Physical and lifestyle details shown on your profile."
+              />
+              <FeatureTile
+                href="/photos/reveals"
+                title="Reveal History"
+                subtitle="Past photo reveals"
+                icon={<Eye className="h-5 w-5" />}
+                accent="pink"
+                tooltip="History of photos revealed to and by your matches."
+              />
             </div>
 
             {/* Safety & Settings */}
@@ -836,6 +915,54 @@ export default function DashboardPage() {
                 icon={<Plane className="h-5 w-5" />}
                 accent="blue"
               />
+              <FeatureTile
+                href="/settings/two-factor"
+                title="Two-Factor"
+                subtitle="Authenticator app codes"
+                icon={<Lock className="h-5 w-5" />}
+                accent="blue"
+                tooltip="Manage authenticator app two factor codes for your account."
+              />
+              <FeatureTile
+                href="/settings/blocked"
+                title="Blocked"
+                subtitle="Blocked users list"
+                icon={<Shield className="h-5 w-5" />}
+                accent="red"
+                tooltip="View and unblock users you have blocked."
+              />
+              <FeatureTile
+                href="/settings/vault"
+                title="Vault"
+                subtitle="Encrypted private storage"
+                icon={<Lock className="h-5 w-5" />}
+                accent="slate"
+                tooltip="Your encrypted vault for sensitive notes and recovery items."
+              />
+              <FeatureTile
+                href="/settings/verification"
+                title="Verification"
+                subtitle="Verify your identity"
+                icon={<CheckCircle2 className="h-5 w-5" />}
+                accent="green"
+                tooltip="Complete identity verification to earn trust badges."
+              />
+              <FeatureTile
+                href="/settings/identity"
+                title="Identity"
+                subtitle="IDs and handles"
+                icon={<User className="h-5 w-5" />}
+                accent="blue"
+                tooltip="Manage linked identities and profile handles."
+              />
+              <FeatureTile
+                href="/settings/subscription"
+                title="Subscription"
+                subtitle="Billing and plan"
+                icon={<Crown className="h-5 w-5" />}
+                accent="amber"
+                tooltip="View invoices, change plan, or manage your subscription."
+              />
             </div>
 
             {/* Commerce & Merchant */}
@@ -882,6 +1009,38 @@ export default function DashboardPage() {
                 subtitle="Token rankings"
                 icon={<Award className="h-5 w-5" />}
                 accent="amber"
+              />
+              <FeatureTile
+                href="/merchant/inventory"
+                title="Inventory"
+                subtitle="Products and stock"
+                icon={<Store className="h-5 w-5" />}
+                accent="orange"
+                tooltip="Manage your merchant product catalog and stock."
+              />
+              <FeatureTile
+                href="/merchant/promotions"
+                title="Promotions"
+                subtitle="Deals you run"
+                icon={<TrendingUp className="h-5 w-5" />}
+                accent="amber"
+                tooltip="Create and track merchant promotions."
+              />
+              <FeatureTile
+                href="/merchant/loyalty"
+                title="Loyalty"
+                subtitle="Repeat customer perks"
+                icon={<Gift className="h-5 w-5" />}
+                accent="pink"
+                tooltip="Loyalty rewards for your regulars."
+              />
+              <FeatureTile
+                href="/merchant/vibe"
+                title="Merchant Vibe"
+                subtitle="Local intelligence"
+                icon={<Radio className="h-5 w-5" />}
+                accent="green"
+                tooltip="Neighborhood sentiment and broadcast tools."
               />
             </div>
 
@@ -973,6 +1132,26 @@ export default function DashboardPage() {
                   subtitle="Reports & reviews"
                   icon={<Gavel className="h-5 w-5" />}
                   accent="red"
+                />
+              )}
+              {(user as any)?.is_moderator && (
+                <FeatureTile
+                  href="/admin/federation"
+                  title="Federation Admin"
+                  subtitle="Peers and relays"
+                  icon={<Globe className="h-5 w-5" />}
+                  accent="purple"
+                  tooltip="Manage federation peers, relays, and domain blocks."
+                />
+              )}
+              {(user as any)?.is_moderator && (
+                <FeatureTile
+                  href="/admin/system"
+                  title="System Admin"
+                  subtitle="Jobs and health"
+                  icon={<Settings className="h-5 w-5" />}
+                  accent="red"
+                  tooltip="System jobs, health checks, and operational controls."
                 />
               )}
             </div>

@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.3.49] - 2026-11-01
+
+### Added (dashboard coverage from nav audit)
+
+- Ran repo audit `tools/check_nav_coverage.py`: dashboard/header linked 102 of 179 page routes. Added 22 tiles with explicit tooltips: Safety (+6: two-factor, blocked, vault, verification, identity, subscription), Profile (+2: physical-profile, photo reveal history), AI Wingman (+6: fortune, nemesis, vibe-check, draft-analysis, ice-breaker, compatibility), Commerce (+4: inventory, promotions, loyalty, merchant vibe), Economy (+1: unlock history), Live Spaces (restored `/burner` tile — the route lives under `app/(protected)/burner`, top-level check missed it), More (+2 moderator-gated: federation admin, system admin). Coverage now 124 of 179.
+- Deliberately NOT linked: create-subpages (`/events/create`, `/groups/create`, `/chatrooms/create`, merchant `promotions/new`), `/council/appeals`, `/integrations/contacts` (condense-subpages principle); `/venue/*` (role-gated, no dashboard section); `/websocket`, `/home` (legacy/dev); `/privacy` (policy doc, footer surface); `/rate-my-pussy` (flagged for Robert, see TODO).
+
+### Fixed (local env damage from dead npm installs)
+
+- The three dead `npm install` runs had PRUNED `next`, `react-dom`, `@sentry/nextjs`, `@solana/spl-token`, `viem` from `node_modules` (tsc exploded to 200+ errors). `npm` cannot complete installs in this environment, so all 5 were restored from lockfile tarballs via curl+tar (same method as the csstype fix), plus type-truncated `@solana/wallet-adapter-react`, `-react-ui`, `@solana/web3.js`. Final `tsc`: 8 errors, zero in touched files.
+- Lesson: never run full `npm install` on this box; targeted tarball restore is the repair path. `tools/repair-truncated-packages.cjs` does not detect `.d.ts` truncation or pruned packages — it reported nothing useful here.
+
+### Known (pre-existing, in TODO)
+
+- 8 `tsc` errors in untouched files: dnd-kit declarations + implicit any (photos), `PhantomWalletAdapter`/`SolflareWalletAdapter` export drift (SolanaProvider — needs adapter import migration), missing `@sentry/replay` dep (instrumentation-client), laravel-echo declarations.
 ## [2.3.48] - 2026-10-31
 
 ### Fixed

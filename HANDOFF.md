@@ -3,6 +3,21 @@
 ## Session 2026-10-31 — Dev-Boot Fix + Dashboard Cleanup (v2.3.48)
 
 
+## Session 2026-11-01 — Dashboard Coverage 124/179 (v2.3.49)
+
+**Agent:** Muse Code (autonomous protocol turn, prod-only scope).
+
+### Added
+- 22 dashboard tiles from the nav-coverage audit (102 -> 124 of 179). All verified PAGE before linking; explicit tooltips on each; admin tiles reuse the existing `is_moderator` gate. Unlinked remainder is intentional (create-subpages, venue, dev, policy, flagged route).
+- `/burner` tile restored: the v2.3.48 removal verified only top-level paths and missed `app/(protected)/burner`. Owned miss — route-group dirs must be checked recursively (the audit tool already does).
+
+### Env repair (no npm — it cannot finish here)
+- Dead installs had pruned 5 packages (200+ tsc errors). Restored `next`, `react-dom`, `@sentry/nextjs`, `@solana/spl-token`, `viem` + type-truncated solana adapters + web3.js from lockfile tarballs via curl+tar. Final tsc: 8 errors, zero in `dashboard/login/auth-context`.
+- `tools/repair-truncated-packages.cjs` covers neither `.d.ts` truncation nor pruned packages — future repair sessions should go straight to tarball restore.
+
+### Open / next
+- TODO 2026-10-31 extended: `/rate-my-pussy` decision (Robert), Solana dual-adapter migration, 5 duplicate-surface merges, final-8 tsc list. Socket badge + backup replication carried.
+
 **Addendum — frontend install blocker (same day):**
 
 - Frontend `npm install` dies silently after several minutes: 3 attempts (2 full, 1 `--ignore-scripts`), each leaving ~300 staging dirs and no `next` binary. No npm process survives; no error is captured. Local `npm run dev` for the frontend is IMPOSSIBLE until an install completes.

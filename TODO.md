@@ -9,6 +9,12 @@
 
 ### High Priority
 - [ ] **Frontend local install never completes (OUT OF SCOPE 2026-11-01: Robert runs prod only, not local)** — `npm install` in `fwber-frontend` dies silently after minutes (3 attempts); staging debris left, no `next` binary. Tried after freeing 1.6GB via npm cache clean — still dies. Needs Robert or a future session (split/chunked install, or another machine).
+
+
+- [ ] **`/rate-my-pussy` route needs Robert decision** — real page, crude name vs VISION Rate My Cat mechanic. Deliberately NOT linked from dashboard. Rename, gate, or remove?
+- [ ] **Solana dual-adapter migration** — `PhantomWalletAdapter` + `SolflareWalletAdapter` both missing from installed wallets 0.19.40. Migrate `SolanaProvider.tsx` imports.
+- [ ] **Duplicate-surface merges (dashboard links both of each)** — `/burner` vs `/burner-links`, `/journal` vs `/journals`, `/unlocks` vs `/premium/unlocks`, `/photo-reveal` vs `/photos/reveals`, `/home` vs `/dashboard`. Pick canonical per pair.
+- [x] **Dashboard coverage 102 -> 124 of 179 routes (v2.3.49)** — 22 tiles with tooltips; `/burner` restored after route-group miss; create/venue/dev/policy intentionally unlinked.
 - [ ] **`@sentry/replay` missing from `fwber-frontend/package.json`** — `instrumentation-client.ts` imports it (v2.3.43 restore) but the dep was never declared; `tsc` TS2307. Add `"@sentry/replay"` to deps + install.
 - [ ] **Solana wallet-adapter drift** — `SolanaProvider.tsx` imports `PhantomWalletAdapter` which the installed `@solana/wallet-adapter-wallets` no longer exports (`tsc` TS2305). Pin or migrate the import.
 
