@@ -1,9 +1,16 @@
 # TODO — fwber Immediate Action Items
 
-> **Version:** 2.3.48
-> **Last Updated:** 2026-10-31
+> **Version:** 2.3.53
+> **Last Updated:** 2026-11-04
 
 ---
+
+## 🔧 Open Items (2026-11-04, v2.3.53 session)
+
+### High Priority
+- [x] **Dashboard UI Reorganization & High-Value Consolidation (v2.3.53)** — Redesigned into 10 high-value categories, wired all standalone hub routes, and added descriptive tooltips to 100% of FeatureTiles (131 total).
+- [x] **System Tray Controller Inspection & Status Checker (v2.3.53)** — Verified tools/fwber-tray.ps1 and tools/fwber-tray.bat, created cross-platform monitor tools/fwber-tray-check.py.
+- [x] **Script Housekeeping & Non-Destructive Archiving (v2.3.53)** — Moved duplicate migration tools into tools/legacy/ and enhanced build.bat / start.bat.
 
 ## 🔧 Open Items (2026-10-31, v2.3.48 session)
 

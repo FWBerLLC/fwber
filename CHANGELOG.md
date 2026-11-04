@@ -1,5 +1,33 @@
 # Changelog
 
+## [2.3.53] - 2026-11-04
+
+### Dashboard High-Value Redesign & Comprehensive Tooltip Wiring
+- Redesigned and restructured the dashboard into 10 high-value priority sections:
+  1. Discover & Connect (Recommendations, Matches, Admirers, Personality Preferences, Match Analytics, Group Matching, NFC Tap, Search, Scenes & Vibe Hub, Discover Feed, Rate My Cat showcase, Connections Hub)
+  2. Real-Time Chat & Social Spaces (Messages, Friends, Chatrooms, Audio Rooms, Live Spaces, Groups, Topics & Threads, Bulletins, Ephemeral QR Burner, Burner Links Hub, Notifications, Activity Stream)
+  3. Local Pulse, Outings & Meetups (Local Pulse, Places Directory, Plans & Dates Hub, Events & Meetups, Venues, Deals & Offers, Date Planner, Nearby Radar, Date Ideas, Proximity Alerts, Proximity Chatrooms, Heatmap, Conference Mode)
+  4. AI Wingman Studio & Coaching (Wingman Command Hub, Creative Studio, Content Generation, Vibe Check, Room Vibe Radar, Compatibility Deep Dive, Ice-Breakers, Draft Analyzer, AI Date Architect, Profile Roast, Community Roast, Nemesis Mode, Cosmic Alignment, Love Fortune, Roast Date, Field Notes, Openers Library)
+  5. Economy, Tokens & Premium Perks (Token Wallet, Economy Hub, Premium Membership, Subscription Plans, Tier Capabilities demo, Visibility Boosts, Virtual Gifts, Send a Gift, Gift History, Refer & Earn, Community Bounties, Feature Unlocks, Unlock Ledger, Leaderboard)
+  6. Profile, Identity & Reputation (Public Profile, Edit Profile, Photo Gallery, Photo Reveals, Profile Views, Identity Hub, Verification Portal, Reputation & Trust, Vouch for Friends, Physical Profile, Scrapbook, Achievements, Personal Analytics)
+  7. Safety, Privacy & Account Governance (Safety Center, All Settings, Account Settings, Privacy Controls, Notification Prefs, Security Hub, Two-Factor Auth, Encrypted Vault, Identity Verification, Identity & Handles, Blocked Users, Travel Mode, Location Precision, Hardware BLE Token, Subscription Billing, Safety Reports, Support & Policies, Help Center, Privacy Policy)
+  8. Commerce & Merchant Portals (Local Marketplace, Commerce Hub, Merchant Dashboard, Register as Merchant, Inventory Management, Promotions & Specials, Loyalty Program, Merchant Vibe Intel, Storefront Profile, Merchant Analytics, Venue Host Portal)
+  9. Community Governance & Federation (Community Council, Dispute Appeals, ActivityPub Federation, Federation Settings, Third-Party Integrations, Synced Contacts, Private Journal, Video Calling, Share to Unlock, Submit Feedback, Contact Support, Terms & Policies)
+  10. Operations & System Administration (Operations Command Hub, Admin Dashboard, Autonomous Monitor, Moderation Queue, Federation Admin, System Diagnostics, System Configuration, User Feedback Triage)
+- Integrated 100% of FeatureTiles (131 total) with explicit, descriptive guidance tooltips.
+- Linked previously standalone hubs: /scenes, /connections, /plans, /places, /economy, /commerce, /operations, /support, /settings/account, /tier-demo, /rate-my-pussy (Rate My Cat), /help, /privacy, /verify, /subscription, /roast, /content-generation, /wingman/vibe, /settings/identity, /settings/notifications, and /settings/verification.
+
+### System Tray & Scripts Modernization
+- Audited tools/fwber-tray.ps1 and tools/fwber-tray.bat for process spawning, port reclamation (4003, 3000), and clean exit.
+- Added cross-platform port & log monitor tools/fwber-tray-check.py.
+- Archived one-off duplicate migration tools to tools/legacy/.
+- Updated build.bat and start.bat with tray launch guidance and clean exit handling.
+
+### Verified
+- tools/check_nav_coverage.py: 135 linked routes.
+- tools/fwber-tray-check.py: Clean port inspection and diagnostics.
+- VERSION and VERSION.md bumped to 2.3.53.
+
 ## [2.3.52] - 2026-11-01
 
 ### Coverage finalization (131 of 179 — complete by design)
