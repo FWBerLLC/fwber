@@ -728,9 +728,9 @@ export default function DashboardPage() {
                 tooltip="Hilarious post-date debrief tool to catalog awkward moments and laugh off bad dates."
               />
               <FeatureTile
-                href="/journals"
-                title="Field Notes & Journal"
-                subtitle="Private dating ledger"
+                href="/journal"
+                title="Journals"
+                subtitle="Private notes"
                 icon={<ScrollText className="h-5 w-5" />}
                 accent="slate"
                 tooltip="Private dating journal to log thoughts, memorable date details, and personal growth."

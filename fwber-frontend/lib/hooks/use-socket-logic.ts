@@ -17,8 +17,11 @@ const _typingIndicators: TypingIndicator[] = [];
 type Setter<T> = (val: T | ((prev: T) => T)) => void;
 const _chatMessageSetters = new Set<Setter<ChatMessage[]>>();
 const _typingSetters = new Set<Setter<TypingIndicator[]>>();
+
 const _connectedSetters = new Set<Setter<boolean>>();
+const _reconnectAttemptsSetters = new Set<Setter<number>>();
 const _eventAttendeesSetters = new Set<Setter<Record<string, {userId: number, lat: number, lng: number, timestamp: Date}>>>();
+
 let _eventAttendeesLocations: Record<string, {userId: number, lat: number, lng: number, timestamp: Date}> = {};
 
 function attachListeners(socket: Socket, userId: string | undefined) {
@@ -30,12 +33,22 @@ function attachListeners(socket: Socket, userId: string | undefined) {
     _connectedSetters.forEach(s => s(true));
   });
 
+
   socket.on('disconnect', (reason) => {
     console.log('[Socket.io] Disconnected from server:', reason);
     _connectedSetters.forEach(s => s(false));
   });
 
+  socket.io.on('reconnect_attempt', (attempt) => {
+    _reconnectAttemptsSetters.forEach(s => s(attempt));
+  });
+
+  socket.io.on('reconnect', () => {
+    _reconnectAttemptsSetters.forEach(s => s(0));
+  });
+
   socket.on('connect_error', (error) => {
+
     console.warn('[Socket.io] Connection error:', error.message);
   });
 
@@ -100,7 +113,9 @@ function detachListeners(socket: Socket) {
 export function useSocketLogic(options: { autoConnect?: boolean } = {}) {
   const { user, isAuthenticated, token } = useAuth();
   const [connected, setConnected] = useState(() => _socket?.connected ?? false);
+  const [reconnectAttempts, setReconnectAttempts] = useState(0);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>(() => [..._chatMessages]);
+
   const [typingIndicators, setTypingIndicators] = useState<TypingIndicator[]>(() => [..._typingIndicators]);
   const [eventAttendeesLocations, setEventAttendeesLocations] = useState<Record<string, {userId: number, lat: number, lng: number, timestamp: Date}>>(() => ({..._eventAttendeesLocations}));
   const mountedRef = useRef(true);
@@ -109,12 +124,14 @@ export function useSocketLogic(options: { autoConnect?: boolean } = {}) {
   useEffect(() => {
     mountedRef.current = true;
     _connectedSetters.add(setConnected);
+    _reconnectAttemptsSetters.add(setReconnectAttempts);
     _chatMessageSetters.add(setChatMessages);
     _typingSetters.add(setTypingIndicators);
     _eventAttendeesSetters.add(setEventAttendeesLocations);
     return () => {
       mountedRef.current = false;
       _connectedSetters.delete(setConnected);
+      _reconnectAttemptsSetters.delete(setReconnectAttempts);
       _chatMessageSetters.delete(setChatMessages);
       _typingSetters.delete(setTypingIndicators);
       _eventAttendeesSetters.delete(setEventAttendeesLocations);
@@ -227,7 +244,9 @@ export function useSocketLogic(options: { autoConnect?: boolean } = {}) {
 
   return {
     connected,
+    reconnectAttempts,
     chatMessages,
+
     typingIndicators,
     sendChatMessage,
     sendTypingIndicator,

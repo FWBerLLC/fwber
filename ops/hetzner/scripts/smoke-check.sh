@@ -763,6 +763,7 @@ main() {
   run_http_check 'Invalid-login contract check' POST "${API_URL%/}/auth/login" '422' 'Invalid credentials' "$LOGIN_PAYLOAD"
   run_http_check 'Public roast preview check' POST "${API_URL%/}/public/roast" '200' '"is_preview"[[:space:]]*:[[:space:]]*true' "$ROAST_PAYLOAD"
   run_http_check 'Geo nearby endpoint' GET "$GEO_QUERY_URL" '200' '"users"'
+  run_http_check 'Federation Actor endpoint' GET "${API_URL%/}/federation/actors/1" '200 404' ''
   check_websocket_upgrade
   run_optional_authenticated_checks
   resolve_dns_targets

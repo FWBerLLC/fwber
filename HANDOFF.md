@@ -1,12 +1,22 @@
 # Session Handoff (v2.3.53) - 2026-11-04
 
-## Overview & Key Achievements
-1. **Dashboard UI Reorganization & High-Value Categorization**:
-   - Redesigned fwber-frontend/app/dashboard/page.tsx into 10 structured, high-value sections.
-   - Restructured features in priority sequence: Discover & Connect, Real-Time Chat & Spaces, Local Pulse & Outings, AI Wingman Studio, Economy & Premium Perks, Profile & Reputation, Safety & Privacy, Commerce & Merchants, Community Governance & Federation, Operations & Admin.
-   - Connected all previously standalone hubs into the dashboard: /scenes, /connections, /plans, /places, /economy, /commerce, /operations, /support, /settings/account, /tier-demo, /rate-my-pussy (Rate My Cat), /help, /privacy, /verify, /subscription, /roast, /content-generation, /wingman/vibe, /settings/identity, /settings/notifications, and /settings/verification.
-   - Guaranteed that 100% of FeatureTiles (131 total) include explicit, descriptive tooltip guidance attributes.
-   - Nav coverage increased to 135 verified linked routes.
+## Session 2026-11-01 — Deployment Automation & Federation Smoke Checks (v2.3.49)
+
+**Agent:** Jules (autonomous protocol turn).
+
+### Fixed and shipped
+
+- Updated `DEPLOY.md` to reflect the latest Hetzner + Vercel production topology, adding explicit instructions for verifying ActivityPub Federation endpoints post-deployment.
+- Enhanced `ops/hetzner/scripts/smoke-check.sh` to include an automated `curl` probe against the `/api/federation/actors/:id` ActivityPub endpoint during post-deployment verification.
+- Validated the smoke check script locally against the test suite environment.
+- All backend tests (`npm run test`) pass cleanly (93 tests).
+
+### Open / next (successor brief)
+
+- Next session should monitor the actual Hetzner deployment output and ensure no regression exists with the new ActivityPub inbox forwarding logic and `Article` processing enhancements introduced in the previous commit.
+- Continue monitoring Hetzner deployment stability.
+
+## Session 2026-10-31 — Dev-Boot Fix + Dashboard Cleanup (v2.3.48)
 
 2. **System Tray Controller & Diagnostics**:
    - Audited tools/fwber-tray.ps1 and tools/fwber-tray.bat.

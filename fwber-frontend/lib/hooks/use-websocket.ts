@@ -12,7 +12,7 @@ export type { UseWebSocketOptions } from '@/lib/types/realtime';
  * Hook to access the Realtime (WebSocket) context.
  */
 export function useWebSocket(options: UseWebSocketOptions = {}) {
-  const { connected, chatMessages, typingIndicators, sendChatMessage, sendTypingIndicator, connect, disconnect } = useSocketLogic(options);
+  const { connected, reconnectAttempts, chatMessages, typingIndicators, sendChatMessage, sendTypingIndicator, connect, disconnect } = useSocketLogic(options);
 
   return {
     connectionStatus: {
@@ -21,7 +21,7 @@ export function useWebSocket(options: UseWebSocketOptions = {}) {
       configured: true,
       connectionId: 'socket.io',
       userId: null,
-      reconnectAttempts: 0
+      reconnectAttempts: reconnectAttempts || 0
     },
     messages: chatMessages,
     onlineUsers: [] as OnlineUser[],
