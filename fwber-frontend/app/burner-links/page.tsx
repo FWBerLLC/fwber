@@ -42,6 +42,7 @@ export default function BurnerLinksPage() {
                 <Button className="flex items-center gap-2">
                     <Plus className="w-4 h-4" /> Create New Link
                 </Button>
+<a href="/burner" className="mt-2 block text-sm text-muted-foreground underline">Need a temporary chatroom QR instead? Open Burner Bridge.</a>
             </div>
 
             <Card className="bg-card shadow-sm border border-border mb-8">

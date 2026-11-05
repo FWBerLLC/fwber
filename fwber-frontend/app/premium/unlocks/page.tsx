@@ -139,6 +139,7 @@ export default function ContentUnlocksPage() {
             <p className="text-slate-400">
               Unlock exclusive content and features to enhance your dating experience
             </p>
+<Link href="/unlocks" className="mt-2 inline-block text-sm text-amber-300 underline">Back to the Unlocks hub.</Link>
           </div>
 
           {/* Token Balance Card */}
