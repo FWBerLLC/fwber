@@ -9,8 +9,6 @@ export default function PWAInstallPrompt() {
 
   useEffect(() => {
     const handler = (e: any) => {
-      // Prevent Chrome 67 and earlier from automatically showing the prompt
-      e.preventDefault()
       // Stash the event so it can be triggered later.
       setDeferredPrompt(e)
       setIsVisible(true)
@@ -31,8 +29,13 @@ export default function PWAInstallPrompt() {
 
     // Wait for the user to respond to the prompt
     await deferredPrompt.userChoice
-    
+
     // We've used the prompt, and can't use it again, throw it away
+    setDeferredPrompt(null)
+    setIsVisible(false)
+  }
+
+  const handleDismiss = () => {
     setDeferredPrompt(null)
     setIsVisible(false)
   }
@@ -40,14 +43,14 @@ export default function PWAInstallPrompt() {
   if (!isVisible) return null
 
   return (
-    <div className="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:w-96 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-blue-100 p-4 z-50 animate-in slide-in-from-bottom-10 fade-in duration-500">
+    <div className="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:w-96 bg-card dark:bg-card rounded-xl shadow-2xl border border-blue-100 p-4 z-50 animate-in slide-in-from-bottom-10 fade-in duration-500">
       <div className="flex items-start justify-between">
         <div className="flex-1">
-          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">Install Payment App</h3>
-          <p className="text-sm text-gray-600 mb-3">
+          <h3 className="text-lg font-bold text-foreground dark:text-foreground mb-1">Install Payment App</h3>
+          <p className="text-sm text-muted-foreground mb-3">
             Install fwber to enable crypto wallet features, offline access, and instant payment notifications.
           </p>
-          <button
+          <button type="button"
             onClick={handleInstallClick}
             className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold py-2 px-4 rounded-lg flex items-center transition-colors"
           >
@@ -55,9 +58,9 @@ export default function PWAInstallPrompt() {
             Install Now
           </button>
         </div>
-        <button
-          onClick={() => setIsVisible(false)}
-          className="text-gray-400 hover:text-gray-600 p-1"
+        <button type="button"
+          onClick={handleDismiss}
+          className="text-muted-foreground hover:text-muted-foreground p-1"
           title="Dismiss"
           aria-label="Dismiss"
         >

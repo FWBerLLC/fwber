@@ -1,7 +1,7 @@
 # Submodule Dashboard — fwber
 
-> **Last Updated:** 2026-07-17
-> **Root Version:** 2.3.32
+> **Last Updated:** 2026-10-11
+> **Root Version:** 2.3.36
 
 ---
 
@@ -9,7 +9,7 @@
 
 | Component | Path | Type | Remote | Status |
 |-----------|------|------|--------|--------|
-| **Root** | `.` | Monorepo | `github.com/robertpelloni/fwber` | ✅ Active |
+| **Root** | `.` | Monorepo | `github.com/FWBerLLC/fwber` | ✅ Active |
 | **Backend (TS)** | `fwber-backend-ts/` | Directory | (same repo) | ✅ Active, port 4003 |
 | **Frontend** | `fwber-frontend/` | Directory | (same repo) | ✅ Active, port 3000 (Hetzner) |
 | **Geo Service** | `fwber-geo/` | Directory | (same repo) | ✅ Active, port 8081 |
@@ -26,20 +26,20 @@
 
 | Domain | Certificate | Expires | Auto-Renew |
 |--------|-------------|---------|------------|
-| `fwber.me` + `www.fwber.me` | Let's Encrypt | Oct 15, 2026 | ✅ |
-| `api.fwber.me` | Let's Encrypt | Sep 1, 2026 | ✅ |
-| `geo.fwber.me` | Let's Encrypt | Sep 1, 2026 | ✅ |
-| `ws.fwber.me` | Let's Encrypt | Sep 1, 2026 | ✅ |
+| `fwber.online` + `www.fwber.online` | Let's Encrypt | Oct 15, 2026 | ✅ |
+| `api.fwber.online` | Let's Encrypt | Sep 1, 2026 | ✅ |
+| `geo.fwber.online` | Let's Encrypt | Sep 1, 2026 | ✅ |
+| `ws.fwber.online` | Let's Encrypt | Sep 1, 2026 | ✅ |
 
 ## DNS
 
 | Domain | Type | Value |
 |--------|------|-------|
-| `fwber.me` | A | `5.161.250.43` |
-| `www.fwber.me` | A | `5.161.250.43` |
-| `api.fwber.me` | A | `5.161.250.43` |
-| `geo.fwber.me` | A | `5.161.250.43` |
-| `ws.fwber.me` | A | `5.161.250.43` |
+| `fwber.online` | A | `5.161.250.43` |
+| `www.fwber.online` | A | `5.161.250.43` |
+| `api.fwber.online` | A | `5.161.250.43` |
+| `geo.fwber.online` | A | `5.161.250.43` |
+| `ws.fwber.online` | A | `5.161.250.43` |
 
 ## Deploy Targets
 
@@ -52,4 +52,4 @@
 
 ## Active Feature Branches
 
-All feature branches are fully merged into `main`. No unique commits outstanding.
+All feature branches are fully merged into `main`. No unique commits outstanding. Remote `FWBerLLC/fwber` and upstream `robertpelloni/fwber` both have only `main` (verified 2026-10-11 at identical commit `cacc94b7`, 0 ahead / 0 behind).

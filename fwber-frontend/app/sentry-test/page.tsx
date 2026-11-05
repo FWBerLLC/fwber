@@ -63,9 +63,9 @@ export default function SentryTestPage() {
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white p-8">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl font-bold mb-2">🔍 Sentry Test Dashboard</h1>
-        <p className="text-gray-400 mb-8">Test your error tracking integration</p>
+        <p className="text-muted-foreground mb-8">Test your error tracking integration</p>
 
-        <div className="bg-gray-800 rounded-lg p-6 mb-6 border border-gray-700">
+        <div className="dark:bg-card rounded-lg p-6 mb-6 border dark:border-border">
           <h2 className="text-xl font-semibold mb-4">📊 Configuration Status</h2>
           <div className="space-y-2 text-sm">
             <div className="flex items-center">
@@ -85,59 +85,59 @@ export default function SentryTestPage() {
           </div>
         </div>
 
-        <div className="bg-gray-800 rounded-lg p-6 mb-6 border border-gray-700">
+        <div className="dark:bg-card rounded-lg p-6 mb-6 border dark:border-border">
           <h2 className="text-xl font-semibold mb-4">🧪 Test Error Logging</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <button
+            <button type="button"
               onClick={testError}
               className="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
             >
               Test General Error
             </button>
 
-            <button
+            <button type="button"
               onClick={testWarning}
               className="bg-yellow-600 hover:bg-yellow-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
             >
               Test Warning (Breadcrumb)
             </button>
 
-            <button
+            <button type="button"
               onClick={testAuthError}
               className="bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
             >
               Test Auth Error
             </button>
 
-            <button
+            <button type="button"
               onClick={testWebSocketError}
               className="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
             >
               Test WebSocket Error
             </button>
 
-            <button
+            <button type="button"
               onClick={testLocationError}
               className="bg-pink-600 hover:bg-pink-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
             >
               Test Location Error
             </button>
 
-            <button
+            <button type="button"
               onClick={testAPIError}
               className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
             >
               Test API Error
             </button>
 
-            <button
+            <button type="button"
               onClick={testComponentError}
               className="bg-rose-600 hover:bg-rose-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
             >
               Test Component Error
             </button>
 
-            <button
+            <button type="button"
               onClick={testInfo}
               className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
             >
@@ -146,15 +146,15 @@ export default function SentryTestPage() {
           </div>
 
           {testResult && (
-            <div className="mt-6 p-4 bg-gray-900 rounded-lg border border-gray-600">
+            <div className="mt-6 p-4 dark:bg-background rounded-lg border dark:border-border">
               <p className="font-mono text-sm">{testResult}</p>
             </div>
           )}
         </div>
 
-        <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
+        <div className="dark:bg-card rounded-lg p-6 border dark:border-border">
           <h2 className="text-xl font-semibold mb-4">📖 Instructions</h2>
-          <ol className="list-decimal list-inside space-y-2 text-gray-300 text-sm">
+          <ol className="list-decimal list-inside space-y-2 text-muted-foreground text-sm">
             <li>Click any test button above</li>
             <li>Open your browser console to see local logging</li>
             <li>
@@ -182,7 +182,7 @@ export default function SentryTestPage() {
           </div>
         </div>
 
-        <div className="mt-6 text-center text-gray-500 text-sm">
+        <div className="mt-6 text-center text-muted-foreground text-sm">
           <p>Open browser DevTools Console to see all logging in real-time</p>
         </div>
       </div>

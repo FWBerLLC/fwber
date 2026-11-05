@@ -51,7 +51,7 @@ docker --version       # Should be 24+
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/yourusername/fwber.git
+git clone https://github.com/FWBerLLC/fwber.git
 cd fwber
 ```
 
@@ -367,7 +367,7 @@ sudo chown -R $USER:$USER /var/www/fwber
 
 # Clone repository
 cd /var/www
-git clone https://github.com/yourusername/fwber.git
+git clone https://github.com/FWBerLLC/fwber.git
 cd fwber
 
 # Backend setup
@@ -791,5 +791,5 @@ composer require barryvdh/laravel-debugbar --dev
 
 **Need Help?**
 - Documentation: https://docs.fwber.com
-- Issues: https://github.com/yourusername/fwber/issues
+- Issues: https://github.com/FWBerLLC/fwber/issues
 - Email: support@fwber.com

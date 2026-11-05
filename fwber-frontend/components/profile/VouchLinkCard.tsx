@@ -33,7 +33,7 @@ export function VouchLinkCard() {
       // If we already have the code locally, just construct it
       // Alternatively, we could call the API to ensure it's fresh/valid
       // Let's call the API to be safe and consistent with backend logic
-        const apiUrl = typeof window !== 'undefined' ? 'https://api.fwber.me/api' : (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000') + '/api';
+        const apiUrl = typeof window !== 'undefined' ? 'https://api.fwber.online/api' : (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000') + '/api';
         const response = await fetch(`${apiUrl}/vouch/generate-link`, {
             method: 'POST',
             headers: {
@@ -136,7 +136,7 @@ export function VouchLinkCard() {
                     <Button 
                         variant="ghost" 
                         size="icon" 
-                        className="h-8 w-8 text-indigo-300 hover:text-white hover:bg-white dark:bg-gray-800/10"
+                        className="h-8 w-8 text-indigo-300 hover:text-white hover:bg-card dark:dark:bg-card/10"
                         onClick={copyToClipboard}
                     >
                         {copied ? <span className="text-green-400 text-xs font-bold">✓</span> : <Copy className="w-4 h-4" />}
@@ -146,7 +146,7 @@ export function VouchLinkCard() {
                 <div className="flex gap-2">
                     <Button 
                         onClick={shareLink}
-                        className="flex-1 bg-white dark:bg-gray-800 text-indigo-900 hover:bg-indigo-50 font-semibold"
+                        className="flex-1 bg-card dark:bg-card text-indigo-900 hover:bg-indigo-50 font-semibold"
                     >
                         <Share2 className="w-4 h-4 mr-2" />
                         Ask a Friend

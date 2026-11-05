@@ -16,7 +16,7 @@ interface VouchLeaderboardProps {
 
 export default function VouchLeaderboard({ data }: VouchLeaderboardProps) {
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+    <div className="bg-card dark:bg-card rounded-xl shadow-sm border border-border dark:border-border overflow-hidden">
       <div className="p-6 bg-gradient-to-r from-indigo-500 to-violet-500 text-white flex items-center gap-3">
         <Star className="w-6 h-6" />
         <h2 className="text-xl font-bold">Most Vouched</h2>
@@ -27,16 +27,16 @@ export default function VouchLeaderboard({ data }: VouchLeaderboardProps) {
             <div className="flex items-center gap-3">
               <span className={`w-8 h-8 flex items-center justify-center rounded-full font-bold ${
                 index === 0 ? 'bg-yellow-100 text-yellow-700' :
-                index === 1 ? 'bg-gray-100 text-gray-700' :
+                index === 1 ? 'bg-muted text-foreground' :
                 index === 2 ? 'bg-orange-100 text-orange-700' :
-                'text-gray-500'
+                'text-muted-foreground'
               }`}>
                 {index + 1}
               </span>
-              <p className="font-medium text-gray-900 dark:text-white">{user.name}</p>
+              <p className="font-medium text-foreground dark:text-foreground">{user.name}</p>
             </div>
             <div className="flex flex-col items-end">
-              <span className="font-bold text-gray-900 dark:text-white">
+              <span className="font-bold text-foreground dark:text-foreground">
                 {user.vouches}
               </span>
               {user.breakdown && (
@@ -50,7 +50,7 @@ export default function VouchLeaderboard({ data }: VouchLeaderboardProps) {
           </div>
         ))}
         {(!data || data.length === 0) && (
-          <div className="p-8 text-center text-gray-500">
+          <div className="p-8 text-center text-muted-foreground">
             No vouches yet.
           </div>
         )}

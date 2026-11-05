@@ -83,7 +83,7 @@ export function ProfileRoast() {
           </div>
           <div>
             <h3 className="text-lg font-semibold text-white">{title}</h3>
-            <p className="text-sm text-gray-400 mt-1">
+            <p className="text-sm text-muted-foreground mt-1">
               {description}
             </p>
           </div>
@@ -101,10 +101,10 @@ export function ProfileRoast() {
 
   if (roastProfile.isPending) {
     return (
-      <Card className="bg-gray-900 border-gray-800">
+      <Card className="dark:bg-background dark:border-border">
         <CardContent className="p-8 flex flex-col items-center justify-center space-y-4">
           <Loader2 className={`w-8 h-8 animate-spin ${isRoast ? 'text-orange-500' : 'text-blue-500'}`} />
-          <p className="text-gray-400 animate-pulse">
+          <p className="text-muted-foreground animate-pulse">
             {isRoast ? 'Preparing the burn...' : 'Generating hype...'}
           </p>
         </CardContent>
@@ -113,7 +113,7 @@ export function ProfileRoast() {
   }
 
   return (
-    <Card className={`bg-gray-900 overflow-hidden shadow-[0_0_15px_rgba(0,0,0,0.3)] ${isRoast ? 'border-orange-500/50 shadow-orange-500/20' : 'border-blue-500/50 shadow-blue-500/20'}`}>
+    <Card className={`dark:bg-background overflow-hidden shadow-[0_0_15px_rgba(0,0,0,0.3)] ${isRoast ? 'border-orange-500/50 shadow-orange-500/20' : 'border-blue-500/50 shadow-blue-500/20'}`}>
       <CardHeader className={`${isRoast ? 'bg-orange-900/20 border-orange-900/30' : 'bg-blue-900/20 border-blue-900/30'} border-b pb-4`}>
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg font-semibold text-white flex items-center gap-2">
@@ -122,17 +122,17 @@ export function ProfileRoast() {
           </CardTitle>
           <div className="flex gap-2">
             <Button variant="ghost" size="icon" onClick={handleCopy} title="Copy">
-              <Copy className="w-4 h-4 text-gray-400 hover:text-white" />
+              <Copy className="w-4 h-4 text-muted-foreground hover:text-white" />
             </Button>
             <Button variant="ghost" size="icon" onClick={handleShare} title="Share">
-              <Share2 className="w-4 h-4 text-gray-400 hover:text-white" />
+              <Share2 className="w-4 h-4 text-muted-foreground hover:text-white" />
             </Button>
           </div>
         </div>
       </CardHeader>
       <CardContent className="p-6 space-y-6">
         <div className={`bg-black/40 rounded-lg p-4 border ${isRoast ? 'border-orange-500/20' : 'border-blue-500/20'}`}>
-          <p className="text-gray-200 italic leading-relaxed font-medium">
+          <p className="dark:text-foreground italic leading-relaxed font-medium">
             &quot;{content}&quot;
           </p>
         </div>
@@ -142,7 +142,7 @@ export function ProfileRoast() {
                 variant="ghost" 
                 size="sm" 
                 onClick={() => setContent(null)}
-                className="text-gray-400 hover:text-white"
+                className="text-muted-foreground hover:text-white"
             >
                 Switch Mode
             </Button>

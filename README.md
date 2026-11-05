@@ -223,10 +223,10 @@ NEXT_PUBLIC_REVERB_SCHEME=http
 
 fwber deploys to a **Hetzner VPS + Vercel** topology:
 
-- **Frontend** (`fwber.me`) → Vercel
-- **Backend API** (`api.fwber.me`) → Hetzner VPS
-- **WebSocket** (`ws.fwber.me`) → Hetzner VPS
-- **Geo Service** (`geo.fwber.me`) → Hetzner VPS
+- **Frontend** (`fwber.online`) → Vercel
+- **Backend API** (`api.fwber.online`) → Hetzner VPS
+- **WebSocket** (`ws.fwber.online`) → Hetzner VPS
+- **Geo Service** (`geo.fwber.online`) → Hetzner VPS
 
 Deployment scripts, nginx configs, and systemd service files are in `ops/hetzner/`.
 

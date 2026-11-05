@@ -20,7 +20,7 @@ import Link from 'next/link'
 // Dynamically import map component to avoid SSR issues with Leaflet
 const LocationPicker = dynamic(() => import('@/components/LocationPicker'), {
   ssr: false,
-  loading: () => <div className="h-[300px] w-full bg-gray-100 dark:bg-gray-800 animate-pulse rounded-md flex items-center justify-center text-gray-400">Loading Map...</div>
+  loading: () => <div className="h-[300px] w-full bg-muted dark:bg-card animate-pulse rounded-md flex items-center justify-center text-muted-foreground">Loading Map...</div>
 })
 
 const formSchema = z.object({
@@ -113,18 +113,18 @@ export default function NewPromotionPage() {
       <div className="mb-6">
         <Link 
           href="/merchant/dashboard" 
-          className="inline-flex items-center text-sm text-gray-500 hover:text-gray-900 dark:text-white dark:hover:text-gray-300 mb-4"
+          className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground dark:text-foreground dark:hover:text-muted-foreground mb-4"
         >
           <ArrowLeft className="w-4 h-4 mr-1" />
           Back to Dashboard
         </Link>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Create New Promotion</h1>
-        <p className="mt-2 text-gray-600 dark:text-gray-400">
+        <h1 className="text-3xl font-bold text-foreground dark:text-foreground">Create New Promotion</h1>
+        <p className="mt-2 text-muted-foreground dark:text-muted-foreground">
           Set up a new deal to attract customers nearby.
         </p>
       </div>
 
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 sm:p-8">
+      <div className="bg-card dark:bg-card rounded-xl shadow-sm border border-border dark:border-border p-6 sm:p-8">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
           
           <div className="space-y-4">
@@ -170,7 +170,7 @@ export default function NewPromotionPage() {
                   max={5000} 
                   {...register('radius')} 
                 />
-                <p className="text-xs text-gray-500">Distance from location where users can see this.</p>
+                <p className="text-xs text-muted-foreground">Distance from location where users can see this.</p>
                 {errors.radius && <p className="text-sm text-red-500">{errors.radius.message}</p>}
               </div>
               
@@ -190,7 +190,7 @@ export default function NewPromotionPage() {
              <h3 className="text-lg font-medium border-b pb-2">Location</h3>
              <div className="space-y-2">
                <Label>Pick Location</Label>
-               <p className="text-sm text-gray-500 mb-2">Click on the map to set the center of your promotion.</p>
+               <p className="text-sm text-muted-foreground mb-2">Click on the map to set the center of your promotion.</p>
                <LocationPicker 
                  value={location.lat !== 0 ? location : undefined} 
                  onChange={(val) => setValue('location', val, { shouldValidate: true })}

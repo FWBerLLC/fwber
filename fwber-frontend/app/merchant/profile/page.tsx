@@ -131,14 +131,14 @@ export default function MerchantProfilePage() {
   return (
     <div className="max-w-4xl mx-auto space-y-8 px-4 sm:px-0 pb-24">
       <div className="flex flex-col gap-4">
-        <Link href="/merchant/dashboard" className="inline-flex items-center text-sm text-gray-500 hover:text-gray-900 dark:text-white dark:hover:text-gray-300">
+        <Link href="/merchant/dashboard" className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground dark:text-foreground dark:hover:text-muted-foreground">
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back to Dashboard
         </Link>
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Merchant Profile</h1>
-            <p className="text-gray-500 dark:text-gray-400">Keep your business details current so verification can move forward.</p>
+            <h1 className="text-3xl font-bold tracking-tight text-foreground dark:text-foreground">Merchant Profile</h1>
+            <p className="text-muted-foreground dark:text-muted-foreground">Keep your business details current so verification can move forward.</p>
           </div>
           <Badge className={verificationClasses}>
             {verificationStatus.charAt(0).toUpperCase() + verificationStatus.slice(1)}
@@ -156,14 +156,14 @@ export default function MerchantProfilePage() {
             Promotions stay locked until the merchant profile is reviewed and marked verified.
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-3 text-sm text-gray-600 dark:text-gray-300">
+        <CardContent className="space-y-3 text-sm text-muted-foreground dark:text-muted-foreground">
           <p>
             {verificationStatus === 'verified'
               ? 'Your business is verified and ready to publish promotions.'
               : 'Make sure your business name, category, and address are accurate. Then contact support if verification is taking too long.'}
           </p>
           <p>
-            Current business: <span className="font-medium text-gray-900 dark:text-white">{profile?.business_name || 'Unknown merchant'}</span>
+            Current business: <span className="font-medium text-foreground dark:text-foreground">{profile?.business_name || 'Unknown merchant'}</span>
           </p>
         </CardContent>
       </Card>

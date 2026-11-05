@@ -85,9 +85,10 @@ const nextConfig = {
   // Image optimization
   images: {
     remotePatterns: [
+      { protocol: 'https', hostname: 'api.fwber.online' },
       { protocol: 'https', hostname: 'api.fwber.me' },
-      { protocol: 'https', hostname: 'fwber.me' },
-      { protocol: 'https', hostname: 'www.fwber.me' },
+      { protocol: 'https', hostname: 'fwber.online' },
+      { protocol: 'https', hostname: 'www.fwber.online' },
       { protocol: 'https', hostname: '**.amazonaws.com' },
       { protocol: 'https', hostname: '**.cloudfront.net' },
       { protocol: 'https', hostname: 'oaidalleapiprodscus.blob.core.windows.net' },
@@ -104,6 +105,10 @@ const nextConfig = {
     ],
     formats: ['image/webp', 'image/avif'],
     minimumCacheTTL: 60,
+    // Next 16 defaults qualities to [75] only — any other quality prop is
+    // silently coerced. We render 85/90 for avatars & photo reveals
+    // (OptimizedImage.tsx), so declare the full set explicitly (v2.3.41).
+    qualities: [75, 85, 90],
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     unoptimized: process.env.NODE_ENV === 'development',
@@ -144,7 +149,7 @@ const nextConfig = {
           {
             key: 'Content-Security-Policy',
             value:
-              "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' blob: https://js.stripe.com; worker-src 'self' blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https://api.fwber.me https://*.amazonaws.com https://*.cloudfront.net https://oaidalleapiprodscus.blob.core.windows.net https://*.googleapis.com; font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com; connect-src 'self' https://api.fwber.me wss://ws.fwber.me wss://ws.fwber.me/socket.io/ https://*.sentry.io https://www.fwber.me https://api.stripe.com https://nominatim.openstreetmap.org; frame-src 'self' https://js.stripe.com https://hooks.stripe.com; frame-ancestors 'self' https://fwber.me https://www.fwber.me; media-src 'self' blob:;",
+              "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' blob: https://js.stripe.com; worker-src 'self' blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https://api.fwber.online https://*.amazonaws.com https://*.cloudfront.net https://oaidalleapiprodscus.blob.core.windows.net https://*.googleapis.com; font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com; connect-src 'self' https://api.fwber.online wss://ws.fwber.online wss://ws.fwber.online/socket.io/ https://*.sentry.io https://www.fwber.online https://api.stripe.com https://nominatim.openstreetmap.org; frame-src 'self' https://js.stripe.com https://hooks.stripe.com; frame-ancestors 'self' https://fwber.online https://www.fwber.online; media-src 'self' blob:;",
           },
           { key: 'X-Content-Type-Options', value: '' }, // Neutralize legacy block
 
@@ -181,15 +186,15 @@ const nextConfig = {
     return [
       {
         source: '/api/:path((?!sentry-tunnel).*)',
-        destination: 'https://api.fwber.me/api/:path*',
+        destination: 'https://api.fwber.online/api/:path*',
       },
       {
         source: '/.well-known/webfinger',
-        destination: 'https://api.fwber.me/.well-known/webfinger',
+        destination: 'https://api.fwber.online/.well-known/webfinger',
       },
       {
         source: '/.well-known/nodeinfo',
-        destination: 'https://api.fwber.me/.well-known/nodeinfo',
+        destination: 'https://api.fwber.online/.well-known/nodeinfo',
       },
     ]
   },

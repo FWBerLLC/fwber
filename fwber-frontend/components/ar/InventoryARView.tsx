@@ -56,7 +56,7 @@ export default function InventoryARView({ onClose }: InventoryARViewProps) {
             // For now, we simulate finding the merchant's items
             marketplaceApi.getInventory(1) // Demo merchant
                 .then(res => {
-                    const enhancedItems = res.items.map(item => ({
+                    const enhancedItems = (res.items || []).map(item => ({
                         ...item,
                         // Mock location slightly north-east of user
                         lat: userLocation.latitude + 0.001,
@@ -71,7 +71,7 @@ export default function InventoryARView({ onClose }: InventoryARViewProps) {
     const renderARItems = () => {
         if (!userLocation) return null;
 
-        return items.map((item) => {
+        return (items || []).map((item) => {
             const distance = calculateDistance(
                 userLocation.latitude, userLocation.longitude,
                 item.lat, item.lng
@@ -143,7 +143,7 @@ export default function InventoryARView({ onClose }: InventoryARViewProps) {
                     </div>
                 </div>
 
-                <button 
+                <button type="button" 
                     onClick={onClose}
                     className="absolute top-6 right-6 p-2 bg-red-500 rounded-full text-white shadow-lg"
                 >
@@ -161,7 +161,7 @@ export default function InventoryARView({ onClose }: InventoryARViewProps) {
                     <span className="text-[10px] text-zinc-500 font-black uppercase mb-1">Heading</span>
                     <span className="text-white font-mono font-bold text-sm">{Math.round(heading)}°</span>
                  </div>
-                 <div className="w-px h-8 bg-white dark:bg-gray-800/10" />
+                 <div className="w-px h-8 bg-card dark:dark:bg-card/10" />
                  <div className="flex flex-col items-center text-center">
                     <p className="text-xs text-zinc-400">Point your camera towards local venues to see available FWB Token inventory.</p>
                  </div>

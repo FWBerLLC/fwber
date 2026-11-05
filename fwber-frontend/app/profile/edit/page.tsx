@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic'
 export default function ProfileEditPage() {
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+      <div className="min-h-screen bg-muted dark:bg-background">
         <AppHeader title="Edit Profile" />
         <ProfilePageClient />
       </div>

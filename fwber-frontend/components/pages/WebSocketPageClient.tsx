@@ -97,22 +97,22 @@ function WebSocketPageContent() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-8">
+    <div className="min-h-screen dark:bg-background text-white p-8">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-4xl font-bold text-red-500">WebSocket Real-Time Communication</h1>
           <div className="flex space-x-4">
-            <button
+            <button type="button"
               onClick={handleConnect}
               disabled={connectionStatus.connected || !isReady}
-              className="bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-4 py-2 rounded transition-colors"
+              className="bg-green-600 hover:bg-green-700 disabled:dark:bg-muted disabled:cursor-not-allowed text-white px-4 py-2 rounded transition-colors"
             >
               {isReady ? 'Connect' : 'Initializing...'}
             </button>
-            <button
+            <button type="button"
               onClick={handleDisconnect}
               disabled={!connectionStatus.connected}
-              className="bg-red-600 hover:bg-red-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-4 py-2 rounded transition-colors"
+              className="bg-red-600 hover:bg-red-700 disabled:dark:bg-muted disabled:cursor-not-allowed text-white px-4 py-2 rounded transition-colors"
             >
               Disconnect
             </button>
@@ -121,68 +121,68 @@ function WebSocketPageContent() {
 
         {/* Connection Status */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="bg-gray-800 p-6 rounded-lg">
+          <div className="dark:bg-card p-6 rounded-lg">
             <h3 className="text-lg font-semibold mb-2">Connection Status</h3>
             <div className="flex items-center space-x-2">
               <div className={`w-3 h-3 rounded-full ${connectionStatus.connected ? 'bg-green-500' : 'bg-red-500'}`}></div>
               <span>{connectionStatus.connected ? 'Connected' : 'Disconnected'}</span>
             </div>
             {connectionStatus.connectionId && (
-              <p className="text-sm text-gray-400 mt-2">ID: {connectionStatus.connectionId}</p>
+              <p className="text-sm text-muted-foreground mt-2">ID: {connectionStatus.connectionId}</p>
             )}
           </div>
 
-          <div className="bg-gray-800 p-6 rounded-lg">
+          <div className="dark:bg-card p-6 rounded-lg">
             <h3 className="text-lg font-semibold mb-2">Messages</h3>
             <p className="text-2xl font-bold text-red-500">{messages.length}</p>
-            <p className="text-sm text-gray-400">Total received</p>
+            <p className="text-sm text-muted-foreground">Total received</p>
           </div>
 
-          <div className="bg-gray-800 p-6 rounded-lg">
+          <div className="dark:bg-card p-6 rounded-lg">
             <h3 className="text-lg font-semibold mb-2">Online Users</h3>
             <p className="text-2xl font-bold text-green-500">{onlineUsers.length}</p>
-            <p className="text-sm text-gray-400">Currently online</p>
+            <p className="text-sm text-muted-foreground">Currently online</p>
           </div>
 
-          <div className="bg-gray-800 p-6 rounded-lg">
+          <div className="dark:bg-card p-6 rounded-lg">
             <h3 className="text-lg font-semibold mb-2">Notifications</h3>
             <p className="text-2xl font-bold text-yellow-500">{unreadCount}</p>
-            <p className="text-sm text-gray-400">Unread notifications</p>
+            <p className="text-sm text-muted-foreground">Unread notifications</p>
           </div>
         </div>
 
         {/* Presence Controls */}
-        <div className="bg-gray-800 p-6 rounded-lg mb-8">
+        <div className="dark:bg-card p-6 rounded-lg mb-8">
           <h3 className="text-lg font-semibold mb-4">Presence Status</h3>
           <div className="flex space-x-4">
-            <button
+            <button type="button"
               onClick={() => setOnline()}
               className={`px-4 py-2 rounded ${
-                currentStatus === 'online' ? 'bg-green-600 text-white' : 'bg-gray-700 text-gray-300'
+                currentStatus === 'online' ? 'bg-green-600 text-white' : 'dark:bg-muted text-muted-foreground'
               }`}
             >
               Online
             </button>
-            <button
+            <button type="button"
               onClick={() => setAway()}
               className={`px-4 py-2 rounded ${
-                currentStatus === 'away' ? 'bg-yellow-600 text-white' : 'bg-gray-700 text-gray-300'
+                currentStatus === 'away' ? 'bg-yellow-600 text-white' : 'dark:bg-muted text-muted-foreground'
               }`}
             >
               Away
             </button>
-            <button
+            <button type="button"
               onClick={() => setBusy()}
               className={`px-4 py-2 rounded ${
-                currentStatus === 'busy' ? 'bg-red-600 text-white' : 'bg-gray-700 text-gray-300'
+                currentStatus === 'busy' ? 'bg-red-600 text-white' : 'dark:bg-muted text-muted-foreground'
               }`}
             >
               Busy
             </button>
-            <button
+            <button type="button"
               onClick={() => setOffline()}
               className={`px-4 py-2 rounded ${
-                currentStatus === 'offline' ? 'bg-gray-600 text-white' : 'bg-gray-700 text-gray-300'
+                currentStatus === 'offline' ? 'dark:bg-muted text-white' : 'dark:bg-muted text-muted-foreground'
               }`}
             >
               Offline
@@ -192,7 +192,7 @@ function WebSocketPageContent() {
 
         {/* Test Controls */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          <div className="bg-gray-800 p-6 rounded-lg">
+          <div className="dark:bg-card p-6 rounded-lg">
             <h3 className="text-lg font-semibold mb-4">Test Controls</h3>
             
             <div className="space-y-4">
@@ -203,7 +203,7 @@ function WebSocketPageContent() {
                   value={selectedRecipient}
                   onChange={(e) => setSelectedRecipient(e.target.value)}
                   placeholder="Enter recipient user ID"
-                  className="w-full bg-gray-700 text-white px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-500"
+                  className="w-full dark:bg-muted text-white px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-500"
                 />
               </div>
 
@@ -214,39 +214,39 @@ function WebSocketPageContent() {
                   value={testMessage}
                   onChange={(e) => setTestMessage(e.target.value)}
                   placeholder="Enter test message"
-                  className="w-full bg-gray-700 text-white px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-500"
+                  className="w-full dark:bg-muted text-white px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-500"
                 />
               </div>
 
               <div className="flex space-x-2">
-                <button
+                <button type="button"
                   onClick={handleSendChatMessage}
                   disabled={!selectedRecipient || !testMessage.trim()}
-                  className="bg-purple-600 hover:bg-purple-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-4 py-2 rounded transition-colors"
+                  className="bg-purple-600 hover:bg-purple-700 disabled:dark:bg-muted disabled:cursor-not-allowed text-white px-4 py-2 rounded transition-colors"
                 >
                   Send Chat Message
                 </button>
               </div>
 
               <div className="flex space-x-2">
-                <button
+                <button type="button"
                   onClick={handleSendNotification}
                   disabled={!selectedRecipient}
-                  className="bg-yellow-600 hover:bg-yellow-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-4 py-2 rounded transition-colors"
+                  className="bg-yellow-600 hover:bg-yellow-700 disabled:dark:bg-muted disabled:cursor-not-allowed text-white px-4 py-2 rounded transition-colors"
                 >
                   Send Notification
                 </button>
-                <button
+                <button type="button"
                   onClick={handleStartTyping}
                   disabled={!selectedRecipient}
-                  className="bg-orange-600 hover:bg-orange-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-4 py-2 rounded transition-colors"
+                  className="bg-orange-600 hover:bg-orange-700 disabled:dark:bg-muted disabled:cursor-not-allowed text-white px-4 py-2 rounded transition-colors"
                 >
                   Start Typing
                 </button>
-                <button
+                <button type="button"
                   onClick={handleStopTyping}
                   disabled={!selectedRecipient}
-                  className="bg-gray-600 hover:bg-gray-700 disabled:bg-gray-500 disabled:cursor-not-allowed text-white px-4 py-2 rounded transition-colors"
+                  className="dark:bg-muted hover:dark:bg-muted disabled:bg-muted disabled:cursor-not-allowed text-white px-4 py-2 rounded transition-colors"
                 >
                   Stop Typing
                 </button>
@@ -254,25 +254,25 @@ function WebSocketPageContent() {
             </div>
           </div>
 
-          <div className="bg-gray-800 p-6 rounded-lg">
+          <div className="dark:bg-card p-6 rounded-lg">
             <h3 className="text-lg font-semibold mb-4">Connection Info</h3>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
-                <span className="text-gray-400">Status:</span>
+                <span className="text-muted-foreground">Status:</span>
                 <span className={connectionStatus.connected ? 'text-green-400' : 'text-red-400'}>
                   {connectionStatus.connected ? 'Connected' : 'Disconnected'}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Connection ID:</span>
+                <span className="text-muted-foreground">Connection ID:</span>
                 <span className="text-white">{connectionStatus.connectionId || 'N/A'}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">User ID:</span>
+                <span className="text-muted-foreground">User ID:</span>
                 <span className="text-white">{connectionStatus.userId || 'N/A'}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Reconnect Attempts:</span>
+                <span className="text-muted-foreground">Reconnect Attempts:</span>
                 <span className="text-white">{connectionStatus.reconnectAttempts}</span>
               </div>
             </div>
@@ -290,8 +290,8 @@ function WebSocketPageContent() {
                 className="h-96"
               />
             ) : (
-              <div className="bg-gray-800 p-8 rounded-lg text-center">
-                <p className="text-gray-400">Select a recipient to start chatting</p>
+              <div className="dark:bg-card p-8 rounded-lg text-center">
+                <p className="text-muted-foreground">Select a recipient to start chatting</p>
               </div>
             )}
           </div>
@@ -303,29 +303,29 @@ function WebSocketPageContent() {
         </div>
 
         {/* Message Log */}
-        <div className="mt-8 bg-gray-800 p-6 rounded-lg">
+        <div className="mt-8 dark:bg-card p-6 rounded-lg">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-lg font-semibold">Message Log</h3>
-            <button
+            <button type="button"
               onClick={clearMessages}
-              className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-1 rounded text-sm transition-colors"
+              className="dark:bg-muted hover:dark:bg-muted text-white px-3 py-1 rounded text-sm transition-colors"
             >
               Clear
             </button>
           </div>
           <div className="max-h-64 overflow-y-auto space-y-2">
             {messages.length === 0 ? (
-              <p className="text-gray-400 text-center py-4">No messages received</p>
+              <p className="text-muted-foreground text-center py-4">No messages received</p>
             ) : (
               messages.slice(-20).map((msg: any, index: number) => (
-                <div key={index} className="bg-gray-700 p-3 rounded text-sm">
+                <div key={index} className="dark:bg-muted p-3 rounded text-sm">
                   <div className="flex justify-between items-start mb-1">
                     <span className="text-red-400 font-medium">{msg.type}</span>
-                    <span className="text-gray-400 text-xs">
+                    <span className="text-muted-foreground text-xs">
                       {new Date(msg.timestamp).toLocaleTimeString()}
                     </span>
                   </div>
-                  <pre className="text-gray-300 text-xs overflow-x-auto">
+                  <pre className="text-muted-foreground text-xs overflow-x-auto">
                     {JSON.stringify(msg.data, null, 2)}
                   </pre>
                 </div>

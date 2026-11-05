@@ -35,7 +35,7 @@ export default function VibeIntelligence({ token }: { token: string }) {
     if (loading) return <div className="h-64 animate-pulse bg-zinc-100 dark:bg-zinc-800 rounded-xl" />;
 
     return (
-        <Card className="border-amber-200 dark:border-amber-900/50 bg-white dark:bg-zinc-950">
+        <Card className="border-amber-200 dark:border-amber-900/50 bg-card dark:bg-zinc-950">
             <CardHeader>
                 <div className="flex justify-between items-start">
                     <div>

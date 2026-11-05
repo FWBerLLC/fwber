@@ -28,10 +28,10 @@ export default function FeedbackPage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+      <div className="min-h-screen bg-muted dark:bg-background">
         <AppHeader />
         <main className="max-w-xl mx-auto px-4 py-8">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Send Feedback</h1>
+          <h1 className="text-2xl font-bold text-foreground dark:text-foreground mb-6">Send Feedback</h1>
           {sent ? (
             <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-6 text-center">
               <p className="text-green-700 dark:text-green-300 font-medium">Thank you for your feedback!</p>
@@ -44,7 +44,7 @@ export default function FeedbackPage() {
                 onChange={e => setText(e.target.value)}
                 rows={6}
                 placeholder="Tell us what you think, what could be better, or report a bug..."
-                className="w-full rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 px-4 py-3 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-none"
+                className="w-full rounded-xl border border-border dark:border-border bg-card dark:bg-card px-4 py-3 text-foreground dark:text-foreground focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-none"
               />
               <button
                 type="submit"

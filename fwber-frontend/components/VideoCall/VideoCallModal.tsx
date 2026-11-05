@@ -224,16 +224,16 @@ export function VideoCallModal({ recipientId, isOpen, onClose, isIncoming = fals
 
   return (
     <Dialog open={isOpen} onOpenChange={() => endCall()}>
-      <DialogContent className="sm:max-w-[900px] h-[80vh] bg-gray-950 border-gray-800 p-0 overflow-hidden flex flex-col">
+      <DialogContent className="sm:max-w-[900px] h-[80vh] dark:bg-background dark:border-border p-0 overflow-hidden flex flex-col">
         <div className="relative flex-1 bg-black">
           {/* Error State */}
           {error ? (
             <div className="w-full h-full flex flex-col items-center justify-center text-red-500 p-4 text-center">
               <p className="text-xl font-semibold mb-2">Camera Error</p>
               <p className="mb-4">{error}</p>
-              <button 
+              <button type="button" 
                 onClick={onClose} 
-                className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded"
+                className="dark:bg-muted hover:dark:bg-muted text-white px-4 py-2 rounded"
               >
                 Close
               </button>
@@ -249,13 +249,13 @@ export function VideoCallModal({ recipientId, isOpen, onClose, isIncoming = fals
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-gray-500">
+                <div className="w-full h-full flex items-center justify-center text-muted-foreground">
                   {callStatus === 'calling' ? 'Calling...' : 'Waiting for video...'}
                 </div>
               )}
 
               {/* Local Video (PIP) */}
-              <div className="absolute bottom-4 right-4 w-48 h-36 bg-gray-900 rounded-lg overflow-hidden border border-gray-700 shadow-xl">
+              <div className="absolute bottom-4 right-4 w-48 h-36 dark:bg-background rounded-lg overflow-hidden border dark:border-border shadow-xl">
                 <video 
                   ref={localVideoRef} 
                   autoPlay 
@@ -292,11 +292,11 @@ export function VideoCallModal({ recipientId, isOpen, onClose, isIncoming = fals
         </div>
 
         {/* Controls Bar */}
-        <div className="h-20 bg-gray-900 flex items-center justify-center gap-6 border-t border-gray-800">
+        <div className="h-20 dark:bg-background flex items-center justify-center gap-6 border-t dark:border-border">
           <Button 
             variant="ghost" 
             size="icon"
-            className={`rounded-full w-12 h-12 ${isMuted ? 'bg-red-500/20 text-red-500' : 'bg-gray-800 text-white'}`}
+            className={`rounded-full w-12 h-12 ${isMuted ? 'bg-red-500/20 text-red-500' : 'dark:bg-card text-white'}`}
             onClick={toggleMute}
           >
             {isMuted ? <MicOff /> : <Mic />}
@@ -314,7 +314,7 @@ export function VideoCallModal({ recipientId, isOpen, onClose, isIncoming = fals
           <Button 
             variant="ghost" 
             size="icon"
-            className={`rounded-full w-12 h-12 ${isVideoOff ? 'bg-red-500/20 text-red-500' : 'bg-gray-800 text-white'}`}
+            className={`rounded-full w-12 h-12 ${isVideoOff ? 'bg-red-500/20 text-red-500' : 'dark:bg-card text-white'}`}
             onClick={toggleVideo}
           >
             {isVideoOff ? <VideoOff /> : <Video />}
@@ -324,7 +324,7 @@ export function VideoCallModal({ recipientId, isOpen, onClose, isIncoming = fals
             <Button 
               variant="ghost" 
               size="icon"
-              className={`rounded-full w-12 h-12 ${isBlurEnabled ? 'bg-blue-500/20 text-blue-500' : 'bg-gray-800 text-white'}`}
+              className={`rounded-full w-12 h-12 ${isBlurEnabled ? 'bg-blue-500/20 text-blue-500' : 'dark:bg-card text-white'}`}
               onClick={toggleBlur}
               title="Toggle Face Blur"
             >

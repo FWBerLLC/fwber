@@ -74,7 +74,7 @@ export default function IdentityVerificationPage() {
       
       <main className="max-w-2xl mx-auto px-4 py-8 pb-24">
         <div className="mb-8">
-          <h1 className="text-3xl font-black italic tracking-tighter text-zinc-900 dark:text-white uppercase flex items-center gap-3">
+          <h1 className="text-3xl font-black italic tracking-tighter text-zinc-900 dark:text-foreground uppercase flex items-center gap-3">
             <ShieldCheck className="w-8 h-8 text-green-500" />
             ZK Identity
           </h1>
@@ -104,7 +104,7 @@ export default function IdentityVerificationPage() {
             </CardHeader>
             
             <CardContent className="space-y-4">
-                <div className="p-4 bg-white dark:bg-gray-800 dark:bg-zinc-900 rounded-xl border border-green-100 dark:border-green-900/30 shadow-sm">
+                <div className="p-4 bg-card dark:bg-card dark:bg-zinc-900 rounded-xl border border-green-100 dark:border-green-900/30 shadow-sm">
                     <div className="flex justify-between items-center mb-2">
                         <span className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Issuer</span>
                         <span className="font-mono text-xs font-bold text-zinc-800 dark:text-zinc-200 uppercase">{status.issuer || 'Local Authority'}</span>
@@ -154,7 +154,7 @@ export default function IdentityVerificationPage() {
                 </CardContent>
                 <CardFooter>
                     <Button 
-                        className="w-full h-12 bg-zinc-900 hover:bg-black dark:bg-white dark:bg-gray-800 dark:text-black dark:hover:bg-zinc-200 font-black uppercase italic tracking-tighter"
+                        className="w-full h-12 bg-zinc-900 hover:bg-black dark:bg-card dark:bg-card dark:text-black dark:hover:bg-zinc-200 font-black uppercase italic tracking-tighter"
                         onClick={handleSimulateZKProof}
                         disabled={isVerifying}
                     >

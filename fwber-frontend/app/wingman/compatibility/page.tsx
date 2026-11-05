@@ -36,7 +36,7 @@ export default function CompatibilityPage() {
 
   async function handleShare() {
     if (!result) return
-    const text = `My dating compatibility score: ${result.score}/100! Get yours at fwber.me`
+    const text = `My dating compatibility score: ${result.score}/100! Get yours at fwber.online`
     try {
       if (navigator.share) {
         await navigator.share({ title: 'My Compatibility Score', text })
@@ -53,14 +53,14 @@ export default function CompatibilityPage() {
         <main className="max-w-2xl mx-auto px-4 py-6">
           <div className="flex items-center gap-3 mb-8">
             <Link href="/wingman" className="p-2 -ml-2 hover:bg-pink-800/30 rounded-lg transition">
-              <ArrowLeft className="w-5 h-5 text-gray-400" />
+              <ArrowLeft className="w-5 h-5 text-muted-foreground" />
             </Link>
             <div>
               <h1 className="text-2xl font-bold text-white flex items-center gap-2">
                 <Heart className="w-7 h-7 text-pink-400" />
                 Compatibility Audit
               </h1>
-              <p className="text-sm text-gray-400">AI-powered dating profile analysis</p>
+              <p className="text-sm text-muted-foreground">AI-powered dating profile analysis</p>
             </div>
           </div>
 
@@ -77,7 +77,7 @@ export default function CompatibilityPage() {
                 {!result && !loading && (
                   <div className="space-y-4">
                     <h2 className="text-xl font-semibold text-white">How dateable is your profile?</h2>
-                    <p className="text-gray-400 max-w-md mx-auto">
+                    <p className="text-muted-foreground max-w-md mx-auto">
                       Our AI analyzes your profile for strengths, weaknesses, and actionable dating tips.
                     </p>
                   </div>
@@ -93,7 +93,7 @@ export default function CompatibilityPage() {
                 {result && !loading && (
                   <div className="space-y-6">
                     <div className="bg-gradient-to-br from-pink-500/20 to-rose-500/10 border border-pink-500/30 rounded-2xl p-6">
-                      <div className="text-5xl font-bold text-white mb-2">{result.score}<span className="text-2xl text-gray-400">/100</span></div>
+                      <div className="text-5xl font-bold text-white mb-2">{result.score}<span className="text-2xl text-muted-foreground">/100</span></div>
                       <p className="text-pink-300">Compatibility Score</p>
                     </div>
 
@@ -102,7 +102,7 @@ export default function CompatibilityPage() {
                         <h3 className="text-green-400 font-semibold mb-3">✅ Strengths</h3>
                         <ul className="space-y-2">
                           {(result.strengths || ['Profile exists']).map((s, i) => (
-                            <li key={i} className="text-sm text-gray-200">• {s}</li>
+                            <li key={i} className="text-sm dark:text-foreground">• {s}</li>
                           ))}
                         </ul>
                       </div>
@@ -110,7 +110,7 @@ export default function CompatibilityPage() {
                         <h3 className="text-amber-400 font-semibold mb-3">⚠️ Areas to Improve</h3>
                         <ul className="space-y-2">
                           {(result.weaknesses || ['AI is resting']).map((w, i) => (
-                            <li key={i} className="text-sm text-gray-200">• {w}</li>
+                            <li key={i} className="text-sm dark:text-foreground">• {w}</li>
                           ))}
                         </ul>
                       </div>
@@ -121,7 +121,7 @@ export default function CompatibilityPage() {
                         <h3 className="text-blue-400 font-semibold mb-3">💡 Tips</h3>
                         <ul className="space-y-2">
                           {result.tips.map((t, i) => (
-                            <li key={i} className="text-sm text-gray-200">• {t}</li>
+                            <li key={i} className="text-sm dark:text-foreground">• {t}</li>
                           ))}
                         </ul>
                       </div>
@@ -134,13 +134,13 @@ export default function CompatibilityPage() {
                 )}
 
                 <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-                  <button onClick={getCompatibility} disabled={loading}
+                  <button type="button" onClick={getCompatibility} disabled={loading}
                     className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-pink-500 to-rose-600 text-white font-semibold rounded-xl hover:from-pink-600 hover:to-rose-700 transition disabled:opacity-50 shadow-lg shadow-pink-500/30">
                     {loading ? <RefreshCw className="w-5 h-5 animate-spin" /> : <Sparkles className="w-5 h-5" />}
                     {result ? 'Analyze Again' : 'Analyze My Profile'}
                   </button>
                   {result && (
-                    <button onClick={handleShare}
+                    <button type="button" onClick={handleShare}
                       className="flex items-center justify-center gap-2 px-6 py-3 bg-slate-700/50 text-white font-semibold rounded-xl hover:bg-slate-700 transition border border-slate-600">
                       <Share2 className="w-5 h-5" /> Share
                     </button>

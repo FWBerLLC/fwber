@@ -78,7 +78,7 @@ export const SelectTrigger = React.forwardRef<
         aria-label={typeof selectedOption?.label === 'string' ? selectedOption.label : 'Select option'}
       >
         {!value ? <option value="">{typeof placeholder === 'string' ? placeholder : 'Select an option'}</option> : null}
-        {options.map((option) => (
+        {(options || []).map((option) => (
           <option key={option.value} value={option.value}>
             {typeof option.label === 'string' ? option.label : option.value}
           </option>

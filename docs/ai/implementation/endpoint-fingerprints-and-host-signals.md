@@ -35,9 +35,9 @@ Added an `Endpoint Fingerprints` table to `smoke-check-summary.md`.
 
 ## Current Operational Value
 This made the current live findings much sharper:
-- `api.fwber.me` health-route failures are now fingerprinted as coming from **Apache** at `75.119.202.57`
-- `geo.fwber.me` failures are now fingerprinted as coming from **Vercel** at `64.29.17.1`
-- `fwber.me` itself fingerprints as **Vercel** with a redirect to `https://www.fwber.me/`
+- `api.fwber.online` health-route failures are now fingerprinted as coming from **Apache** at `75.119.202.57`
+- `geo.fwber.online` failures are now fingerprinted as coming from **Vercel** at `64.29.17.1`
+- `fwber.online` itself fingerprints as **Vercel** with a redirect to `https://www.fwber.online/`
 
 That evidence strengthens the routing-drift interpretation substantially.
 

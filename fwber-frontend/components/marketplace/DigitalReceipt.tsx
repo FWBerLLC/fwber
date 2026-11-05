@@ -29,7 +29,7 @@ export function DigitalReceipt({ id, itemName, price, merchantName, timestamp, r
             exit={{ scale: 0.9, opacity: 0 }}
             className="fixed inset-0 bg-black/80 backdrop-blur-md z-[100] flex items-center justify-center p-4"
         >
-            <Card className="max-w-sm w-full bg-white dark:bg-gray-800 dark:bg-zinc-900 border-amber-500 shadow-[0_0_50px_rgba(245,158,11,0.3)] overflow-hidden">
+            <Card className="max-w-sm w-full bg-card dark:bg-card dark:bg-zinc-900 border-amber-500 shadow-[0_0_50px_rgba(245,158,11,0.3)] overflow-hidden">
                 <div className="bg-amber-500 h-2 w-full" />
                 
                 <CardHeader className="text-center pb-2">
@@ -46,7 +46,7 @@ export function DigitalReceipt({ id, itemName, price, merchantName, timestamp, r
                             <span className="text-zinc-500 flex items-center gap-2 font-bold uppercase text-[10px] tracking-widest">
                                 <Store className="w-3.5 h-3.5" /> Venue
                             </span>
-                            <span className="font-black dark:text-white uppercase italic">{merchantName}</span>
+                            <span className="font-black dark:text-foreground uppercase italic">{merchantName}</span>
                         </div>
                         <div className="flex justify-between items-center text-sm">
                             <span className="text-zinc-500 flex items-center gap-2 font-bold uppercase text-[10px] tracking-widest">

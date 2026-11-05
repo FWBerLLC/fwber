@@ -2,6 +2,7 @@ import type { Request, Response } from 'express';
 import { z } from 'zod';
 import { AuthService } from '../services/AuthService.js';
 import { serialize } from '../lib/prisma.js';
+import { AuthError } from '../lib/AuthError.js';
 
 const registerSchema = z.object({
   name: z.string().min(2),
@@ -13,6 +14,12 @@ const registerSchema = z.object({
 const loginSchema = z.object({
   email: z.string().email(),
   password: z.string(),
+});
+
+const walletLoginSchema = z.object({
+  wallet_address: z.string().min(32).max(128),
+  signature: z.string().min(64).max(128),
+  message: z.string().min(1).max(1024),
 });
 
 export class AuthController {
@@ -32,7 +39,12 @@ export class AuthController {
       if (error instanceof z.ZodError) {
         return res.status(400).json({ errors: error.issues });
       }
-      res.status(400).json({ message: error.message });
+      if (error instanceof AuthError) {
+        return res.status(error.status).json({ message: error.message });
+      }
+      // Infrastructure fault: log server-side, never leak internals to client.
+      console.error('[Auth] register infrastructure error:', error);
+      res.status(500).json({ message: 'Registration is temporarily unavailable. Please try again.' });
     }
   };
 
@@ -50,7 +62,56 @@ export class AuthController {
       if (error instanceof z.ZodError) {
         return res.status(400).json({ errors: error.issues });
       }
-      res.status(401).json({ message: error.message });
+      if (error instanceof AuthError) {
+        return res.status(error.status).json({ message: error.message });
+      }
+      // Infrastructure fault (DB/governance layer/unexpected): log the real
+      // cause server-side and answer with a generic 500 so infra errors are
+      // never dressed up as "bad credentials" (see AuthError docs).
+      console.error('[Auth] login infrastructure error:', error);
+      res.status(500).json({ message: 'Login is temporarily unavailable. Please try again.' });
+    }
+  };
+
+  /**
+   * GET /api/auth/wallet-nonce — issue a single-use nonce for wallet login.
+   * The nonce is signed into the login message so replays die even inside the
+   * timestamp freshness window (Muse hardening review).
+   */
+  walletNonce = async (_req: Request, res: Response) => {
+    try {
+      const nonce = await this.authService.issueWalletLoginNonce();
+      res.json({ nonce, expires_in: 600 });
+    } catch (error: any) {
+      console.error('[Auth] wallet-nonce infrastructure error:', error);
+      res.status(500).json({ message: 'Could not issue wallet login nonce.' });
+    }
+  };
+
+  /**
+   * POST /api/auth/login-wallet — ed25519 wallet signature login.
+   * Mirrors login's response shape ({ access_token, token_type, user }) which
+   * is exactly what fwber-frontend lib/auth-context.tsx consumes.
+   */
+  loginWallet = async (req: Request, res: Response) => {
+    try {
+      const validated = walletLoginSchema.parse(req.body);
+      const result = await this.authService.loginUserWithWallet(validated);
+
+      res.json({
+        access_token: result.token,
+        token_type: 'Bearer',
+        user: result.user,
+      });
+    } catch (error: any) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ errors: error.issues });
+      }
+      if (error instanceof AuthError) {
+        return res.status(error.status).json({ message: error.message });
+      }
+      console.error('[Auth] wallet-login infrastructure error:', error);
+      res.status(500).json({ message: 'Wallet login is temporarily unavailable. Please try again.' });
     }
   };
 
@@ -66,7 +127,10 @@ export class AuthController {
       await this.authService.requestPasswordReset(email);
       res.json({ message: 'If an account with that email exists, a reset link has been sent.' });
     } catch (error: any) {
-      res.status(500).json({ message: error.message });
+      console.error('[Auth] forgotPassword infrastructure error:', error);
+      // Keep the response identical to success — do not leak whether the
+      // email exists, and do not leak internals.
+      res.status(500).json({ message: 'If an account with that email exists, a reset link has been sent.' });
     }
   };
 
@@ -78,7 +142,11 @@ export class AuthController {
       await this.authService.executePasswordReset({ token, password });
       res.json({ success: true, message: 'Password has been reset successfully' });
     } catch (error: any) {
-      res.status(400).json({ message: error.message });
+      if (error instanceof AuthError) {
+        return res.status(error.status).json({ message: error.message });
+      }
+      console.error('[Auth] resetPassword infrastructure error:', error);
+      res.status(500).json({ message: 'Could not reset password. Please try again.' });
     }
   };
 }

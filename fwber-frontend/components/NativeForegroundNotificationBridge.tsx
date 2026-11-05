@@ -27,7 +27,7 @@ export default function NativeForegroundNotificationBridge() {
                 duration: 5000,
                 // If a URL is provided, allow the user to jump to it
                 action: url ? (
-                    <button 
+                    <button type="button" 
                         onClick={() => router.push(url)}
                         className="bg-primary text-primary-foreground px-3 py-1 rounded text-xs font-bold"
                     >

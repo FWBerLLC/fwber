@@ -1,13 +1,13 @@
 import { ImageResponse } from 'next/og';
 
-export const runtime = 'edge';
+// Next 16: edge runtime deprecated; nodejs is the default and runs ImageResponse fine
 export const alt = 'fwber — AI Profile Analysis';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
 export default async function Image({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.fwber.me/api';
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.fwber.online/api';
   
   let userName = 'Someone';
   let type = 'roast';
@@ -70,7 +70,7 @@ export default async function Image({ params }: { params: Promise<{ id: string }
            `${userName}'s Vibe Check`}
         </div>
         <div style={{ display: 'flex', fontSize: 24, color: 'rgba(255,255,255,0.8)' }}>
-          See what AI thinks — fwber.me
+          See what AI thinks — fwber.online
         </div>
       </div>
     ),

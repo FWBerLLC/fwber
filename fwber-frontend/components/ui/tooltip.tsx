@@ -7,7 +7,21 @@ import { cn } from "@/lib/utils"
 
 const TooltipProvider = TooltipPrimitive.Provider
 
-const Tooltip = TooltipPrimitive.Root
+const Tooltip: React.FC<
+  React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Root>
+> = ({ ...props }) => (
+  // disableHoverableContent (Root-level in Radix 1.4.x): the popper renders
+  // ~28px ABOVE the trigger, so a cursor leaving the trigger upward entered
+  // the hoverable content and kept the tooltip open (the "won't close on
+  // hover-out" quirk, present since 1.0.7). Plain-text info tooltips have
+  // nothing worth hovering, so we close the moment the pointer leaves the
+  // trigger. Per-usage opt-out: <Tooltip disableHoverableContent={false}>.
+  // (Findings: TODO tooltip ticket.)
+  <TooltipPrimitive.Root
+    {...props}
+    disableHoverableContent={props.disableHoverableContent ?? true}
+  />
+)
 
 const TooltipTrigger = TooltipPrimitive.Trigger
 

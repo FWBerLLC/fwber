@@ -91,7 +91,7 @@ export default function BurnerGeneratorPage() {
                             </div>
                         ) : burnerData ? (
                             <div className="flex flex-col items-center space-y-6">
-                                <div className="rounded-xl bg-white dark:bg-gray-800 p-4 shadow-inner">
+                                <div className="rounded-xl bg-card dark:bg-card p-4 shadow-inner">
                                     <QRCode
                                         value={burnerData.url}
                                         size={256}

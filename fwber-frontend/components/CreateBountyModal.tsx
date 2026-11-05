@@ -81,12 +81,12 @@ export default function CreateBountyModal({
           {triggerLabel}
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md bg-gray-900 border-gray-800 text-white">
+      <DialogContent className="sm:max-w-md dark:bg-background dark:border-border text-white">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-purple-500">
             Create Match Bounty
           </DialogTitle>
-          <DialogDescription className="text-gray-400">
+          <DialogDescription className="text-muted-foreground">
             Offer a token reward to friends who help you find a match!
           </DialogDescription>
         </DialogHeader>
@@ -94,7 +94,7 @@ export default function CreateBountyModal({
         {!createdBountyUrl ? (
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <Label htmlFor="amount" className="text-gray-200">
+              <Label htmlFor="amount" className="dark:text-foreground">
                 Token Reward Amount
               </Label>
               <div className="relative">
@@ -104,13 +104,13 @@ export default function CreateBountyModal({
                   min="10"
                   value={tokenAmount}
                   onChange={(e) => setTokenAmount(parseInt(e.target.value) || 0)}
-                  className="bg-gray-800 border-gray-700 text-white pl-4 pr-12"
+                  className="dark:bg-card dark:border-border text-white pl-4 pr-12"
                 />
-                <span className="absolute right-3 top-2.5 text-xs text-gray-500 uppercase font-bold">
+                <span className="absolute right-3 top-2.5 text-xs text-muted-foreground uppercase font-bold">
                   Tokens
                 </span>
               </div>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-muted-foreground">
                  Tokens move into escrow now and are only paid out when a successful match is made.
                </p>
             </div>
@@ -131,14 +131,14 @@ export default function CreateBountyModal({
                      <CheckCircle2 className="h-6 w-6 text-green-500" />
                  </div>
                  <h3 className="font-semibold text-lg text-white">Bounty Active!</h3>
-                 <p className="text-sm text-gray-400">Share this link with your friends or on social media.</p>
+                 <p className="text-sm text-muted-foreground">Share this link with your friends or on social media.</p>
              </div>
 
-            <div className="flex items-center space-x-2 bg-black/30 p-2 rounded-lg border border-gray-800">
-              <code className="flex-1 text-sm font-mono text-gray-300 truncate">
+            <div className="flex items-center space-x-2 bg-black/30 p-2 rounded-lg border dark:border-border">
+              <code className="flex-1 text-sm font-mono text-muted-foreground truncate">
                 {createdBountyUrl}
               </code>
-              <Button size="sm" variant="ghost" onClick={copyToClipboard} className="hover:bg-gray-800 text-gray-300">
+              <Button size="sm" variant="ghost" onClick={copyToClipboard} className="hover:dark:bg-card text-muted-foreground">
                 <Copy className="h-4 w-4" />
               </Button>
             </div>

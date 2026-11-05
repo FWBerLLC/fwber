@@ -40,6 +40,12 @@ export interface FederatedPost {
   content: string
   published_at: string
   url?: string | null
+  // Raw ActivityPub object envelope (federation feed resolves the canonical
+  // object URI from payload.object.id).
+  payload?: {
+    object?: { id?: string | number; [key: string]: unknown }
+    [key: string]: unknown
+  }
   metadata?: {
     name?: string
     preferredUsername?: string

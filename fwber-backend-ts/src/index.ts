@@ -87,6 +87,12 @@ import { setupSocketIO } from './socket.js';
 dotenv.config();
 
 const app = express();
+
+// The app sits behind local nginx (same box). Trusting only the loopback proxy
+// makes `req.ip` reflect the REAL client (nginx appends it to X-Forwarded-For)
+// instead of 127.0.0.1 — essential for per-IP rate limiting to work at all.
+// 'loopback' is deliberately narrow: direct connections cannot spoof headers.
+app.set('trust proxy', 'loopback');
 const port = process.env.PORT || 4003;
 const httpServer = createServer(app);
 
@@ -96,8 +102,8 @@ setupSocketIO(httpServer);
 // Middleware
 app.use(cors({
   origin: [
-    'https://www.fwber.me',
-    'https://fwber.me',
+    'https://www.fwber.online',
+    'https://fwber.online',
     'http://localhost:3000',
   ],
   credentials: true,
@@ -110,9 +116,9 @@ app.use(helmet({
       defaultSrc: ["'self'"],
       scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://unpkg.com"],
       styleSrc: ["'self'", "'unsafe-inline'", "https://unpkg.com", "https://fonts.googleapis.com"],
-      imgSrc: ["'self'", "data:", "blob:", "https://*.tile.openstreetmap.org", "https://unpkg.com", "https://*.fwber.me", "https://*.cloudinary.com"],
+      imgSrc: ["'self'", "data:", "blob:", "https://*.tile.openstreetmap.org", "https://unpkg.com", "https://*.fwber.online", "https://*.cloudinary.com"],
       fontSrc: ["'self'", "https://fonts.gstatic.com"],
-      connectSrc: ["'self'", "https://*.fwber.me", "https://openrouter.ai", "https://api.openai.com"],
+      connectSrc: ["'self'", "https://*.fwber.online", "https://openrouter.ai", "https://api.openai.com"],
     },
   },
 }));
@@ -128,6 +134,26 @@ app.use(express.json({ verify: (req, _res, buf) => {
 import path from 'path';
 const UPLOAD_DIR = path.resolve(process.env.UPLOAD_DIR || 'uploads');
 app.use('/uploads', express.static(UPLOAD_DIR));
+
+// Missing-upload fallback (v2.3.37): production lost upload files (TODO.md
+// "Photo Migration"), but historical DB rows still reference /uploads/<file>.
+// Without this handler those requests fell through to the JSON catch-all
+// (HTTP 200 `[]`) or 404, which made the Next.js /_next/image optimizer return
+// 500s and surfaced broken images everywhere. Serving a valid placeholder PNG
+// with HTTP 200 keeps the whole image pipeline healthy regardless of file
+// state. express.static (above) takes precedence whenever a real file exists,
+// so a future backup restore needs no code change. Non-image requests (e.g.
+// voice_intro audio) fall through to a normal 404 instead of a bogus PNG.
+import { MISSING_UPLOAD_PNG, shouldServeUploadPlaceholder } from './lib/missingUploadPlaceholder.js';
+app.use('/uploads', (req, res, next) => {
+  if (req.method !== 'GET' && req.method !== 'HEAD') return next();
+  if (!shouldServeUploadPlaceholder(req.path)) return next();
+  // Short cache so restored files replace placeholders quickly.
+  res.setHeader('Cache-Control', 'public, max-age=300');
+  res.setHeader('X-Upload-Missing', '1');
+  res.type('png');
+  res.send(MISSING_UPLOAD_PNG);
+});
 
 // Routes
 app.use('/api/auth', authRoutes);
@@ -232,12 +258,12 @@ app.get('/.well-known/webfinger', async (req, res) => {
     }
 
     res.json({
-      subject: `acct:${user.name}@fwber.me`,
+      subject: `acct:${user.name}@fwber.online`,
       links: [
         {
           rel: 'self',
           type: 'application/activity+json',
-          href: `https://api.fwber.me/api/federation/actors/${user.id}`
+          href: `https://api.fwber.online/api/federation/actors/${user.id}`
         }
       ]
     });

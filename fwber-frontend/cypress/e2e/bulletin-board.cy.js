@@ -1,4 +1,4 @@
-describe('fwber.me Bulletin Board System', () => {
+describe('fwber.online Bulletin Board System', () => {
   const user = {
     id: 1,
     name: 'Test User',

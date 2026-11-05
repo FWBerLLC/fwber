@@ -37,36 +37,36 @@ export default function PremiumPage() {
     {
       name: 'Incognito Mode',
       description: 'Only be shown to people you like.',
-      icon: <Ghost className="w-6 h-6 text-gray-500" />,
+      icon: <Ghost className="w-6 h-6 text-muted-foreground" />,
     },
   ];
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen bg-muted dark:bg-background py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
-            <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white sm:text-5xl sm:tracking-tight lg:text-6xl">
+            <h1 className="text-4xl font-extrabold text-foreground dark:text-foreground sm:text-5xl sm:tracking-tight lg:text-6xl">
               Upgrade to Premium
             </h1>
-            <p className="mt-5 max-w-xl mx-auto text-xl text-gray-500">
+            <p className="mt-5 max-w-xl mx-auto text-xl text-muted-foreground">
               Unlock exclusive features and supercharge your dating experience.
             </p>
           </div>
 
           <div className="mt-12 grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {features.map((feature) => (
-              <div key={feature.name} className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
+              <div key={feature.name} className="bg-card dark:bg-card rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
                 <div className="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-50 text-indigo-600 mb-4 mx-auto">
                   {feature.icon}
                 </div>
-                <h3 className="text-lg font-medium text-gray-900 dark:text-white text-center">{feature.name}</h3>
-                <p className="mt-2 text-base text-gray-500 text-center">{feature.description}</p>
+                <h3 className="text-lg font-medium text-foreground dark:text-foreground text-center">{feature.name}</h3>
+                <p className="mt-2 text-base text-muted-foreground text-center">{feature.description}</p>
               </div>
             ))}
           </div>
 
-          <div className="mt-16 bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden lg:flex">
+          <div className="mt-16 bg-card dark:bg-card rounded-lg shadow-xl overflow-hidden lg:flex">
             <div className="flex-1 px-6 py-8 lg:p-12 bg-indigo-600">
               <h3 className="text-2xl font-extrabold text-white sm:text-3xl">Premium Membership</h3>
               <p className="mt-6 text-base text-indigo-100">
@@ -91,19 +91,19 @@ export default function PremiumPage() {
                 </ul>
               </div>
             </div>
-            <div className="py-8 px-6 text-center bg-gray-50 dark:bg-gray-900 lg:flex-shrink-0 lg:flex lg:flex-col lg:justify-center lg:p-12">
+            <div className="py-8 px-6 text-center bg-muted dark:bg-background lg:flex-shrink-0 lg:flex lg:flex-col lg:justify-center lg:p-12">
               {isPremium ? (
                 <div className="text-2xl font-bold text-green-600">Premium Active</div>
               ) : (
                 <>
-                  <p className="text-lg leading-6 font-medium text-gray-900 dark:text-white">
+                  <p className="text-lg leading-6 font-medium text-foreground dark:text-foreground">
                     Gold membership
                   </p>
-                  <div className="mt-4 flex items-center justify-center text-5xl font-extrabold text-gray-900 dark:text-white">
+                  <div className="mt-4 flex items-center justify-center text-5xl font-extrabold text-foreground dark:text-foreground">
                     <span>$19.99</span>
-                    <span className="ml-3 text-xl font-medium text-gray-500">/mo</span>
+                    <span className="ml-3 text-xl font-medium text-muted-foreground">/mo</span>
                   </div>
-                  <p className="mt-4 text-sm text-gray-500">
+                  <p className="mt-4 text-sm text-muted-foreground">
                     Secure card checkout runs through Stripe. You can also unlock Gold with 200 FWB in-app.
                   </p>
                   <div className="mt-6">

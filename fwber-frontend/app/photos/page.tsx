@@ -108,6 +108,7 @@ function SortablePhotoItem({
                <Image
                  src={photo.thumbnail_url || photo.url}
                  alt={`Photo ${index + 1}`}
+                 onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
                  style={{
                    width: '100%',
                    height: '100%',
@@ -207,7 +208,7 @@ function SortablePhotoItem({
               willChange: 'transform',
             }}
           >
-        <button
+        <button type="button"
           onClick={(e) => {
             e.stopPropagation()
             e.preventDefault()
@@ -242,7 +243,7 @@ function SortablePhotoItem({
         </button>
         
         {!isPrimary && (
-          <button
+          <button type="button"
             onClick={(e) => {
               e.stopPropagation()
               e.preventDefault()
@@ -277,7 +278,7 @@ function SortablePhotoItem({
           </button>
         )}
         
-        <button
+        <button type="button"
           onClick={(e) => {
             e.stopPropagation()
             e.preventDefault()

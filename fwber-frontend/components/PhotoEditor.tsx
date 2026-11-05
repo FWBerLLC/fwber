@@ -363,26 +363,26 @@ export default function PhotoEditor({ src, fileName, onSave, onCancel }: PhotoEd
   }
 
   return (
-    <div className="fixed inset-0 z-[70] flex flex-col bg-gray-950 text-white">
+    <div className="fixed inset-0 z-[70] flex flex-col dark:bg-background text-white">
       {/* ── Top Bar ──────────────────────────────────────────────────── */}
-      <div className="flex items-center justify-between px-4 py-2 bg-gray-900 border-b border-gray-800">
+      <div className="flex items-center justify-between px-4 py-2 dark:bg-background border-b dark:border-border">
         <div className="flex items-center gap-2">
-          <button onClick={onCancel} className="p-2 hover:bg-gray-800 rounded-lg transition" title="Cancel (Esc)">
+          <button type="button" onClick={onCancel} className="p-2 hover:dark:bg-card rounded-lg transition" title="Cancel (Esc)">
             <X className="w-5 h-5" />
           </button>
-          <span className="text-sm font-medium text-gray-400">Photo Editor</span>
+          <span className="text-sm font-medium text-muted-foreground">Photo Editor</span>
         </div>
 
         <div className="flex items-center gap-1">
-          <button onClick={undo} disabled={historyIndex <= 0} className="p-2 hover:bg-gray-800 rounded-lg transition disabled:opacity-30" title="Undo (Ctrl+Z)">
+          <button type="button" onClick={undo} disabled={historyIndex <= 0} className="p-2 hover:dark:bg-card rounded-lg transition disabled:opacity-30" title="Undo (Ctrl+Z)">
             <Undo2 className="w-4 h-4" />
           </button>
-          <button onClick={resetAdjustments} className="px-3 py-1.5 text-xs hover:bg-gray-800 rounded-lg transition text-gray-400">
+          <button type="button" onClick={resetAdjustments} className="px-3 py-1.5 text-xs hover:dark:bg-card rounded-lg transition text-muted-foreground">
             Reset All
           </button>
         </div>
 
-        <button onClick={handleSave} className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg text-sm font-medium transition">
+        <button type="button" onClick={handleSave} className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg text-sm font-medium transition">
           <Check className="w-4 h-4" />
           Save
         </button>
@@ -392,13 +392,13 @@ export default function PhotoEditor({ src, fileName, onSave, onCancel }: PhotoEd
       <div className="flex-1 flex overflow-hidden">
 
         {/* ── Left Toolbar ──────────────────────────────────────────── */}
-        <div className="w-14 bg-gray-900 border-r border-gray-800 flex flex-col items-center py-3 gap-1">
+        <div className="w-14 dark:bg-background border-r dark:border-border flex flex-col items-center py-3 gap-1">
           <ToolButton icon={<Palette className="w-5 h-5" />} label="Adjust" active={activeTool === 'adjust'} onClick={() => setActiveTool('adjust')} />
           <ToolButton icon={<Crop className="w-5 h-5" />} label="Crop" active={activeTool === 'crop'} onClick={() => setActiveTool('crop')} />
           <ToolButton icon={<Sparkles className="w-5 h-5" />} label="Filters" active={activeTool === 'filter'} onClick={() => setActiveTool('filter')} />
           <ToolButton icon={<Eraser className="w-5 h-5" />} label="Blur Brush" active={activeTool === 'blur-brush'} onClick={() => setActiveTool('blur-brush')} />
 
-          <div className="w-8 h-px bg-gray-700 my-2" />
+          <div className="w-8 h-px dark:bg-muted my-2" />
 
           <ToolButton icon={<RotateCcw className="w-5 h-5" />} label="Rotate Left" onClick={rotateLeft} />
           <ToolButton icon={<RotateCw className="w-5 h-5" />} label="Rotate Right" onClick={rotateRight} />
@@ -442,10 +442,10 @@ export default function PhotoEditor({ src, fileName, onSave, onCancel }: PhotoEd
                   >
                     {/* Grid lines */}
                     <div className="absolute inset-0">
-                      <div className="absolute left-1/3 top-0 bottom-0 w-px bg-white/40" />
-                      <div className="absolute left-2/3 top-0 bottom-0 w-px bg-white/40" />
-                      <div className="absolute top-1/3 left-0 right-0 h-px bg-white/40" />
-                      <div className="absolute top-2/3 left-0 right-0 h-px bg-white/40" />
+                      <div className="absolute left-1/3 top-0 bottom-0 w-px bg-card/40" />
+                      <div className="absolute left-2/3 top-0 bottom-0 w-px bg-card/40" />
+                      <div className="absolute top-1/3 left-0 right-0 h-px bg-card/40" />
+                      <div className="absolute top-2/3 left-0 right-0 h-px bg-card/40" />
                     </div>
                   </div>
                 </div>
@@ -468,12 +468,12 @@ export default function PhotoEditor({ src, fileName, onSave, onCancel }: PhotoEd
         </div>
 
         {/* ── Right Panel ───────────────────────────────────────────── */}
-        <div className="w-72 bg-gray-900 border-l border-gray-800 overflow-y-auto">
+        <div className="w-72 dark:bg-background border-l dark:border-border overflow-y-auto">
 
           {/* ── Adjust Panel ─────────────────────────────────────────── */}
           {activeTool === 'adjust' && (
             <div className="p-4 space-y-4">
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-500">Adjustments</h3>
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Adjustments</h3>
               <SliderControl label="Brightness" icon={<Sun className="w-4 h-4" />} value={adjustments.brightness} min={0} max={200} defaultValue={100} onChange={v => setAdjustment('brightness', v)} />
               <SliderControl label="Contrast" icon={<Contrast className="w-4 h-4" />} value={adjustments.contrast} min={0} max={200} defaultValue={100} onChange={v => setAdjustment('contrast', v)} />
               <SliderControl label="Saturation" icon={<Droplets className="w-4 h-4" />} value={adjustments.saturation} min={0} max={200} defaultValue={100} onChange={v => setAdjustment('saturation', v)} />
@@ -486,26 +486,26 @@ export default function PhotoEditor({ src, fileName, onSave, onCancel }: PhotoEd
           {/* ── Crop Panel ──────────────────────────────────────────── */}
           {activeTool === 'crop' && (
             <div className="p-4 space-y-4">
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-500">Crop</h3>
-              <p className="text-xs text-gray-400">Click and drag on the image to select crop area</p>
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Crop</h3>
+              <p className="text-xs text-muted-foreground">Click and drag on the image to select crop area</p>
               {crop && crop.width > 2 && crop.height > 2 && (
                 <div className="space-y-3">
-                  <div className="text-xs text-gray-400">
+                  <div className="text-xs text-muted-foreground">
                     Selection: {Math.round(crop.width)}% × {Math.round(crop.height)}%
                   </div>
                   <div className="grid grid-cols-2 gap-2">
-                    <button onClick={() => { setCrop({ x: 10, y: 10, width: 80, height: 80, active: true }); pushHistory(); }} className="text-xs px-3 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition">1:1</button>
-                    <button onClick={() => { setCrop({ x: 10, y: 15, width: 80, height: 70, active: true }); pushHistory(); }} className="text-xs px-3 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition">4:3</button>
-                    <button onClick={() => { setCrop({ x: 5, y: 20, width: 90, height: 60, active: true }); pushHistory(); }} className="text-xs px-3 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition">3:2</button>
-                    <button onClick={() => { setCrop({ x: 0, y: 15, width: 100, height: 56.25, active: true }); pushHistory(); }} className="text-xs px-3 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition">16:9</button>
+                    <button type="button" onClick={() => { setCrop({ x: 10, y: 10, width: 80, height: 80, active: true }); pushHistory(); }} className="text-xs px-3 py-2 dark:bg-card hover:dark:bg-muted rounded-lg transition">1:1</button>
+                    <button type="button" onClick={() => { setCrop({ x: 10, y: 15, width: 80, height: 70, active: true }); pushHistory(); }} className="text-xs px-3 py-2 dark:bg-card hover:dark:bg-muted rounded-lg transition">4:3</button>
+                    <button type="button" onClick={() => { setCrop({ x: 5, y: 20, width: 90, height: 60, active: true }); pushHistory(); }} className="text-xs px-3 py-2 dark:bg-card hover:dark:bg-muted rounded-lg transition">3:2</button>
+                    <button type="button" onClick={() => { setCrop({ x: 0, y: 15, width: 100, height: 56.25, active: true }); pushHistory(); }} className="text-xs px-3 py-2 dark:bg-card hover:dark:bg-muted rounded-lg transition">16:9</button>
                   </div>
-                  <button onClick={() => { setCrop(null); pushHistory(); }} className="w-full text-xs px-3 py-2 bg-red-900/50 hover:bg-red-800/50 rounded-lg transition text-red-300">
+                  <button type="button" onClick={() => { setCrop(null); pushHistory(); }} className="w-full text-xs px-3 py-2 bg-red-900/50 hover:bg-red-800/50 rounded-lg transition text-red-300">
                     Clear Crop
                   </button>
                 </div>
               )}
               {!crop && (
-                <p className="text-xs text-gray-500 italic">No crop selected. Drag on the image to create one.</p>
+                <p className="text-xs text-muted-foreground italic">No crop selected. Drag on the image to create one.</p>
               )}
             </div>
           )}
@@ -513,15 +513,15 @@ export default function PhotoEditor({ src, fileName, onSave, onCancel }: PhotoEd
           {/* ── Filter Panel ────────────────────────────────────────── */}
           {activeTool === 'filter' && (
             <div className="p-4 space-y-3">
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-500">Filters</h3>
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Filters</h3>
               <div className="grid grid-cols-3 gap-2">
                 {Object.entries(FILTER_THUMBNAILS).map(([key, { label, css }]) => (
-                  <button
+                  <button type="button"
                     key={key}
                     onClick={() => { setActiveFilter(key); pushHistory(); }}
-                    className={`flex flex-col items-center gap-1 p-1 rounded-lg transition ${activeFilter === key ? 'ring-2 ring-purple-500 bg-gray-800' : 'hover:bg-gray-800'}`}
+                    className={`flex flex-col items-center gap-1 p-1 rounded-lg transition ${activeFilter === key ? 'ring-2 ring-purple-500 dark:bg-card' : 'hover:dark:bg-card'}`}
                   >
-                    <div className="w-16 h-16 rounded-md overflow-hidden bg-gray-700">
+                    <div className="w-16 h-16 rounded-md overflow-hidden dark:bg-muted">
                       <img
                         src={src}
                         alt={label}
@@ -529,7 +529,7 @@ export default function PhotoEditor({ src, fileName, onSave, onCancel }: PhotoEd
                         style={{ filter: css || 'none' }}
                       />
                     </div>
-                    <span className="text-[10px] text-gray-400">{label}</span>
+                    <span className="text-[10px] text-muted-foreground">{label}</span>
                   </button>
                 ))}
               </div>
@@ -539,8 +539,8 @@ export default function PhotoEditor({ src, fileName, onSave, onCancel }: PhotoEd
           {/* ── Blur Brush Panel ────────────────────────────────────── */}
           {activeTool === 'blur-brush' && (
             <div className="p-4 space-y-4">
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-500">Blur Brush</h3>
-              <p className="text-xs text-gray-400">Paint over areas to blur them (faces, tattoos, etc.)</p>
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Blur Brush</h3>
+              <p className="text-xs text-muted-foreground">Paint over areas to blur them (faces, tattoos, etc.)</p>
               <SliderControl label="Brush Size" icon={<CircleDot className="w-4 h-4" />} value={blurBrushSize} min={5} max={100} defaultValue={30} onChange={setBlurBrushSize} />
             </div>
           )}
@@ -562,10 +562,10 @@ function ToolButton({ icon, label, active, onClick }: {
   onClick: () => void
 }) {
   return (
-    <button
+    <button type="button"
       onClick={onClick}
       title={label}
-      className={`p-2.5 rounded-lg transition-colors ${active ? 'bg-purple-600 text-white' : 'text-gray-400 hover:bg-gray-800 hover:text-white'}`}
+      className={`p-2.5 rounded-lg transition-colors ${active ? 'bg-purple-600 text-white' : 'text-muted-foreground hover:dark:bg-card hover:text-white'}`}
     >
       {icon}
     </button>
@@ -584,14 +584,14 @@ function SliderControl({ label, icon, value, min, max, defaultValue, onChange }:
   return (
     <div className="space-y-1.5">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-1.5 text-xs text-gray-400">
+        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
           {icon}
           {label}
         </div>
         <div className="flex items-center gap-1">
-          <span className="text-xs text-gray-500 w-8 text-right">{value}</span>
+          <span className="text-xs text-muted-foreground w-8 text-right">{value}</span>
           {value !== defaultValue && (
-            <button
+            <button type="button"
               onClick={() => onChange(defaultValue)}
               className="text-[10px] text-purple-400 hover:text-purple-300 px-1"
             >
@@ -607,7 +607,7 @@ function SliderControl({ label, icon, value, min, max, defaultValue, onChange }:
         value={value}
         onChange={e => onChange(Number(e.target.value))}
         onMouseUp={() => {}} // Could push history here
-        className="w-full h-1.5 bg-gray-700 rounded-full appearance-none cursor-pointer accent-purple-500"
+        className="w-full h-1.5 dark:bg-muted rounded-full appearance-none cursor-pointer accent-purple-500"
       />
     </div>
   )

@@ -14,11 +14,11 @@ L.Icon.Default.mergeOptions({
   shadowUrl: '/images/leaflet/marker-shadow.png',
 });
 
-// Fallback icon definition if assets are missing
+// Fallback icon definition if assets are missing - SELF-HOSTED (no unpkg dependency)
 const defaultIcon = new L.Icon({
-  iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-  iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
-  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+  iconUrl: '/images/leaflet/marker-icon.png',
+  iconRetinaUrl: '/images/leaflet/marker-icon-2x.png',
+  shadowUrl: '/images/leaflet/marker-shadow.png',
   iconSize: [25, 41],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
@@ -77,7 +77,7 @@ export function EventMap({ eventId, centerLat, centerLng }: EventMapProps) {
   const attendees = Object.values(eventAttendeesLocations || {});
 
   return (
-    <div className="h-[400px] w-full rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 shadow-sm z-0 relative">
+    <div className="h-[400px] w-full rounded-lg overflow-hidden border border-border dark:border-border shadow-sm z-0 relative">
       {typeof window !== 'undefined' && (
         <MapContainer center={[centerLat, centerLng]} zoom={15} className="h-full w-full">
           <TileLayer
@@ -101,7 +101,7 @@ export function EventMap({ eventId, centerLat, centerLng }: EventMapProps) {
             >
               <Popup>
                 <div className="text-sm">User ID: {attendee.userId}</div>
-                <div className="text-xs text-gray-500">Updated: {new Date(attendee.timestamp).toLocaleTimeString()}</div>
+                <div className="text-xs text-muted-foreground">Updated: {new Date(attendee.timestamp).toLocaleTimeString()}</div>
               </Popup>
             </Marker>
           ))}

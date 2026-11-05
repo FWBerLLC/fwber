@@ -33,13 +33,13 @@ function UnlockButton({ photoId, price, onUnlock }: { photoId: string, price: nu
   if (confirming) {
     return (
       <div className="flex gap-1 animate-in fade-in zoom-in duration-200" onClick={(e) => e.stopPropagation()}>
-        <button
+        <button type="button"
           onClick={(e) => { e.stopPropagation(); onUnlock(photoId) }}
           className="bg-green-500 hover:bg-green-600 text-white text-xs font-bold py-1.5 px-3 rounded-full shadow-lg"
         >
           Confirm
         </button>
-        <button
+        <button type="button"
           onClick={(e) => { e.stopPropagation(); setConfirming(false) }}
           className="bg-red-500 hover:bg-red-600 text-white text-xs font-bold py-1.5 px-2 rounded-full shadow-lg"
         >
@@ -50,7 +50,7 @@ function UnlockButton({ photoId, price, onUnlock }: { photoId: string, price: nu
   }
 
   return (
-    <button
+    <button type="button"
       onClick={(e) => { e.stopPropagation(); setConfirming(true) }}
       className="bg-yellow-500 hover:bg-yellow-600 text-black text-xs font-bold py-1.5 px-3 rounded-full transition-colors flex items-center gap-1 shadow-lg"
     >
@@ -125,12 +125,13 @@ export default function PhotoRevealGate({
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
         {/* AI Photos - Always visible */}
         {aiPhotos.map((photo) => (
-          <div key={photo.id} className="relative aspect-square rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-800">
+          <div key={photo.id} className="relative aspect-square rounded-lg overflow-hidden bg-muted dark:bg-card">
             <Image
               src={photo.url}
               alt="AI generated photo"
               fill
               className="object-cover"
+              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
             />
             <div className="absolute top-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
               AI
@@ -140,12 +141,13 @@ export default function PhotoRevealGate({
 
         {/* Private Photos - Handled separately */}
         {privatePhotos.map((photo) => (
-          <div key={photo.id} className="relative aspect-square rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-800 group">
+          <div key={photo.id} className="relative aspect-square rounded-lg overflow-hidden bg-muted dark:bg-card group">
             <Image
               src={photo.url}
               alt="Private Photo"
               fill
               className={`object-cover ${!photo.isUnlocked ? 'blur-xl' : ''}`}
+              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
             />
             {photo.isUnlocked ? (
               <div className="absolute top-2 right-2 bg-green-600 text-white text-xs px-2 py-1 rounded flex items-center gap-1">
@@ -169,12 +171,13 @@ export default function PhotoRevealGate({
 
         {/* Visible Real Photos */}
         {visibleRealPhotos.map((photo) => (
-          <div key={photo.id} className="relative aspect-square rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-800">
+          <div key={photo.id} className="relative aspect-square rounded-lg overflow-hidden bg-muted dark:bg-card">
             <Image
               src={photo.url}
               alt="Photo"
               fill
               className="object-cover"
+              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
             />
             {photo.isPrimary && (
               <div className="absolute top-2 left-2 bg-blue-600 text-white text-xs px-2 py-1 rounded">
@@ -188,7 +191,7 @@ export default function PhotoRevealGate({
         {blurredRealPhotos.map((photo, index) => (
           <div 
             key={photo.id} 
-            className="relative w-full pb-[100%] rounded-lg overflow-hidden cursor-pointer group bg-gray-200 dark:bg-gray-800"
+            className="relative w-full pb-[100%] rounded-lg overflow-hidden cursor-pointer group bg-muted dark:bg-card"
             onClick={onUnlockClick}
           >
             <FaceReveal
@@ -209,10 +212,10 @@ export default function PhotoRevealGate({
         {lockedRealPhotos.map((photo, index) => (
           <div 
             key={photo.id} 
-            className="relative aspect-square rounded-lg bg-gray-800 flex items-center justify-center cursor-pointer group"
+            className="relative aspect-square rounded-lg dark:bg-card flex items-center justify-center cursor-pointer group"
             onClick={onUnlockClick}
           >
-            <div className="text-center text-gray-400">
+            <div className="text-center text-muted-foreground">
               <Lock className="w-8 h-8 mx-auto mb-2 group-hover:scale-110 transition-transform" />
               <p className="text-xs font-semibold">Locked</p>
             </div>

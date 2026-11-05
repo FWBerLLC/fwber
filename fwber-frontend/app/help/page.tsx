@@ -118,15 +118,15 @@ export default function HelpCenter() {
     <div className="space-y-8">
       {/* Hero Section */}
       <div className="text-center space-y-4 py-8">
-        <h1 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white">
+        <h1 className="text-4xl font-bold tracking-tight text-foreground dark:text-foreground">
           How can we help you?
         </h1>
-        <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+        <p className="text-lg text-muted-foreground dark:text-muted-foreground max-w-2xl mx-auto">
           Browse our guides and documentation to get the most out of your fwber experience.
         </p>
 
         <div className="max-w-md mx-auto relative">
-          <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+          <Search className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
           <Input
             placeholder="Search for answers..."
             className="pl-10 h-12"
@@ -155,9 +155,9 @@ export default function HelpCenter() {
                   <li key={article.slug}>
                     <Link
                       href={`/help/${article.slug}`}
-                      className="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary flex items-center gap-2 group"
+                      className="text-sm font-medium text-muted-foreground dark:text-muted-foreground hover:text-primary dark:hover:text-primary flex items-center gap-2 group"
                     >
-                      <HelpCircle className="w-4 h-4 text-gray-400 group-hover:text-primary transition-colors" />
+                      <HelpCircle className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
                       {article.title}
                     </Link>
                   </li>
@@ -170,10 +170,10 @@ export default function HelpCenter() {
 
       {/* Quick Contact */}
       <div className="mt-12 p-6 bg-primary/5 rounded-2xl border border-primary/10 text-center">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+        <h3 className="text-lg font-semibold text-foreground dark:text-foreground mb-2">
           Still need help?
         </h3>
-        <p className="text-gray-600 dark:text-gray-400 mb-4">
+        <p className="text-muted-foreground dark:text-muted-foreground mb-4">
           Our support team is available 24/7 to assist you with any issues.
         </p>
         <Link

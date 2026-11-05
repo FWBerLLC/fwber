@@ -11,6 +11,7 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { getAvatarUrl } from '@/lib/utils/avatar'
 import type { Group, GroupMatchRankingStrategy } from '@/lib/api/groups'
 
 interface MatchRequest {
@@ -158,19 +159,19 @@ export default function GroupMatchingPage() {
                 href="/groups" 
                 className="p-2 -ml-2 hover:bg-purple-800/30 rounded-lg transition"
               >
-                <ArrowLeft className="w-5 h-5 text-gray-400" />
+                <ArrowLeft className="w-5 h-5 text-muted-foreground" />
               </Link>
               <div>
                 <h1 className="text-2xl font-bold text-white flex items-center gap-2">
                   <Users className="w-7 h-7 text-purple-500" />
                   Group Matching
                 </h1>
-                <p className="text-sm text-gray-400">
+                <p className="text-sm text-muted-foreground">
                   Find compatible groups for group dates
                 </p>
               </div>
             </div>
-            <button
+            <button type="button"
               onClick={() => {
                 fetchMatches()
                 fetchRequests()
@@ -178,7 +179,7 @@ export default function GroupMatchingPage() {
               }}
               className="p-2 hover:bg-purple-800/30 rounded-lg transition"
             >
-              <RefreshCw className="w-5 h-5 text-gray-400" />
+              <RefreshCw className="w-5 h-5 text-muted-foreground" />
             </button>
           </div>
 
@@ -197,7 +198,7 @@ export default function GroupMatchingPage() {
                 <Users className="w-10 h-10 text-purple-500/50" />
               </div>
               <h3 className="text-lg font-semibold text-white mb-2">No Groups Yet</h3>
-              <p className="text-gray-400 mb-6 max-w-md mx-auto">
+              <p className="text-muted-foreground mb-6 max-w-md mx-auto">
                 Join or create a group to start matching with other groups for group dates!
               </p>
               <Link
@@ -211,7 +212,7 @@ export default function GroupMatchingPage() {
           ) : (
             <>
               <div className="mb-6">
-                <label className="block text-sm text-gray-400 mb-2">Select Your Group</label>
+                <label className="block text-sm text-muted-foreground mb-2">Select Your Group</label>
                 <div className="relative">
                   <select
                     value={selectedGroup?.id || ''}
@@ -221,25 +222,25 @@ export default function GroupMatchingPage() {
                     }}
                     className="w-full appearance-none px-4 py-3 bg-slate-800/50 border border-purple-500/20 rounded-xl text-white focus:outline-none focus:border-purple-500/50 pr-10"
                   >
-                    {myGroups.map(group => (
+                    {(myGroups || []).map(group => (
                       <option key={group.id} value={group.id}>
                         {group.name} ({group.member_count} members)
                       </option>
                     ))}
                   </select>
-                  <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none" />
+                  <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none" />
                 </div>
               </div>
 
               <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
                 {(['discover', 'pending', 'connected'] as Tab[]).map(tab => (
-                  <button
+                  <button type="button"
                     key={tab}
                     onClick={() => setActiveTab(tab)}
                     className={`px-4 py-2 rounded-lg font-medium whitespace-nowrap transition ${
                       activeTab === tab
                         ? 'bg-purple-500 text-white'
-                        : 'bg-slate-800/50 text-gray-400 hover:bg-slate-700/50'
+                        : 'bg-slate-800/50 text-muted-foreground hover:bg-slate-700/50'
                     }`}
                   >
                     {tab === 'discover' && 'Discover'}
@@ -256,24 +257,24 @@ export default function GroupMatchingPage() {
                       <div className="mb-1 text-xs font-semibold uppercase tracking-wide text-purple-300">
                         Trust-aware group ranking
                       </div>
-                      <p className="text-sm text-gray-200">
+                      <p className="text-sm dark:text-foreground">
                         {rankingStrategy.summary}
                       </p>
                     </div>
                   )}
 
                   <div className="flex items-center gap-3 mb-4">
-                    <MapPin className="w-4 h-4 text-gray-500" />
-                    <span className="text-sm text-gray-400">Search radius:</span>
+                    <MapPin className="w-4 h-4 text-muted-foreground" />
+                    <span className="text-sm text-muted-foreground">Search radius:</span>
                     <div className="flex gap-1">
                       {[25, 50, 100].map(r => (
-                        <button
+                        <button type="button"
                           key={r}
                           onClick={() => setRadius(r)}
                           className={`px-3 py-1 rounded-lg text-sm transition ${
                             radius === r
                               ? 'bg-purple-500 text-white'
-                              : 'bg-slate-800/50 text-gray-400 hover:bg-slate-700/50'
+                              : 'bg-slate-800/50 text-muted-foreground hover:bg-slate-700/50'
                           }`}
                         >
                           {r}km
@@ -283,12 +284,12 @@ export default function GroupMatchingPage() {
                   </div>
 
                   {matches.length === 0 ? (
-                    <div className="text-center py-8 text-gray-400">
+                    <div className="text-center py-8 text-muted-foreground">
                       No matching groups found within {radius}km
                     </div>
                   ) : (
                     <div className="space-y-4">
-                      {matches.map(match => {
+                      {(matches || []).map(match => {
                         const matchScore = match.match_score ?? 0
 
                         return (
@@ -300,7 +301,7 @@ export default function GroupMatchingPage() {
                             <div className="w-14 h-14 rounded-xl bg-slate-700 flex items-center justify-center flex-shrink-0 relative overflow-hidden">
                               {match.group?.avatar_url ? (
                                 <Image
-                                  src={match.group.avatar_url}
+                                  src={getAvatarUrl(match.group.avatar_url, match.group?.name)}
                                   alt={match.group?.name || match.name}
                                   fill
                                   className="object-cover"
@@ -320,7 +321,7 @@ export default function GroupMatchingPage() {
                                 )}
                               </div>
 
-                              <p className="text-sm text-gray-400 mb-2">
+                              <p className="text-sm text-muted-foreground mb-2">
                                 {match.member_count} members • {match.category || 'community'}
                               </p>
 
@@ -349,7 +350,7 @@ export default function GroupMatchingPage() {
                                   </span>
                                 ))}
                                 {(match.shared_tags || []).length > 3 && (
-                                  <span className="text-xs text-gray-500">
+                                  <span className="text-xs text-muted-foreground">
                                     +{(match.shared_tags || []).length - 3} more
                                   </span>
                                 )}
@@ -363,7 +364,7 @@ export default function GroupMatchingPage() {
                                 </span>
                               </div>
 
-                              <button
+                              <button type="button"
                                 onClick={() => handleConnect(match.id)}
                                 disabled={connecting === match.id}
                                 className="flex items-center gap-1 px-3 py-1.5 bg-gradient-to-r from-pink-500 to-purple-600 text-white text-sm font-medium rounded-lg hover:from-pink-600 hover:to-purple-700 transition disabled:opacity-50"
@@ -380,7 +381,7 @@ export default function GroupMatchingPage() {
                             </div>
                           </div>
 
-                          <div className="mt-3 pt-3 border-t border-slate-700/50 flex items-center gap-4 text-xs text-gray-500">
+                          <div className="mt-3 pt-3 border-t border-slate-700/50 flex items-center gap-4 text-xs text-muted-foreground">
                             {match.category_match && (
                               <span className="flex items-center gap-1 text-green-400">
                                 <Check className="w-3.5 h-3.5" />
@@ -408,11 +409,11 @@ export default function GroupMatchingPage() {
               {activeTab === 'pending' && (
                 <div className="space-y-4">
                   {pendingRequests.length === 0 ? (
-                    <div className="text-center py-8 text-gray-400">
+                    <div className="text-center py-8 text-muted-foreground">
                       No pending requests
                     </div>
                   ) : (
-                    pendingRequests.map(request => {
+                    (pendingRequests || []).map(request => {
                       const isIncoming = request.initiator?.id !== selectedGroup?.created_by_user_id
                       const otherGroup = request.other_group
 
@@ -428,20 +429,20 @@ export default function GroupMatchingPage() {
 
                             <div className="flex-1">
                               <h3 className="font-semibold text-white">{otherGroup.name}</h3>
-                              <p className="text-sm text-gray-400">
+                              <p className="text-sm text-muted-foreground">
                                 {isIncoming ? 'Wants to connect with you' : 'Connection sent'}
                               </p>
                             </div>
 
                             {isIncoming ? (
                               <div className="flex gap-2">
-                                <button
+                                <button type="button"
                                   onClick={() => handleRequest(request.id, 'accept')}
                                   className="p-2 bg-green-500/20 text-green-400 rounded-lg hover:bg-green-500/30 transition"
                                 >
                                   <Check className="w-5 h-5" />
                                 </button>
-                                <button
+                                <button type="button"
                                   onClick={() => handleRequest(request.id, 'reject')}
                                   className="p-2 bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500/30 transition"
                                 >
@@ -465,11 +466,11 @@ export default function GroupMatchingPage() {
               {activeTab === 'connected' && (
                 <div className="space-y-4">
                   {connectedGroups.length === 0 ? (
-                    <div className="text-center py-8 text-gray-400">
+                    <div className="text-center py-8 text-muted-foreground">
                       No connected groups yet
                     </div>
                   ) : (
-                    connectedGroups.map(match => (
+                    (connectedGroups || []).map(match => (
                       <div
                         key={match.id}
                         className="bg-slate-800/50 rounded-xl border border-green-500/20 p-4"
@@ -481,7 +482,7 @@ export default function GroupMatchingPage() {
 
                           <div className="flex-1">
                             <h3 className="font-semibold text-white">{match.name}</h3>
-                            <p className="text-sm text-gray-400">
+                            <p className="text-sm text-muted-foreground">
                               {match.member_count} members
                             </p>
                           </div>
@@ -507,7 +508,7 @@ export default function GroupMatchingPage() {
               <Zap className="w-6 h-6 text-purple-400 flex-shrink-0 mt-0.5" />
               <div>
                 <h3 className="font-semibold text-white mb-1">How Group Matching Works</h3>
-                <p className="text-sm text-gray-300">
+                <p className="text-sm text-muted-foreground">
                   Our algorithm now blends compatibility, trusted members, scene alignment, member health, and distance.
                   It keeps private relationship details inside the ranking logic while surfacing group-date matches that are safer
                   and more aligned with your group&apos;s scene.

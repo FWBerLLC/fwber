@@ -79,8 +79,8 @@ export function MerchantPOS() {
                         <div className="p-8 flex justify-center"><Loader2 className="animate-spin text-amber-500" /></div>
                     ) : items.length === 0 ? (
                         <div className="p-8 text-center text-sm text-zinc-500 italic">No inventory items found. Add them in the Marketplace tab.</div>
-                    ) : items.map(item => (
-                        <button 
+                    ) : (items || []).map(item => (
+                        <button type="button" 
                             key={item.id} 
                             onClick={() => startPaymentBroadcast(item)}
                             disabled={status === 'broadcasting'}

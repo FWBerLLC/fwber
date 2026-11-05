@@ -97,15 +97,15 @@ export default function NeighborhoodVibe({ token }: { token: string }) {
             <CardContent className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {/* Atmospheric Vibe */}
-                    <div className="p-4 bg-white dark:bg-gray-800 dark:bg-zinc-900 rounded-xl border border-amber-100 dark:border-amber-900/30 shadow-sm">
+                    <div className="p-4 bg-card dark:bg-card dark:bg-zinc-900 rounded-xl border border-amber-100 dark:border-amber-900/30 shadow-sm">
                         <span className="text-[10px] font-black uppercase tracking-widest text-zinc-500 mb-1 block">Atmosphere</span>
-                        <div className="text-2xl font-black text-zinc-900 dark:text-white uppercase italic tracking-tighter">
+                        <div className="text-2xl font-black text-zinc-900 dark:text-foreground uppercase italic tracking-tighter">
                             {analysis.vibe}
                         </div>
                     </div>
 
                     {/* Sentiment */}
-                    <div className="p-4 bg-white dark:bg-gray-800 dark:bg-zinc-900 rounded-xl border border-amber-100 dark:border-amber-900/30 shadow-sm">
+                    <div className="p-4 bg-card dark:bg-card dark:bg-zinc-900 rounded-xl border border-amber-100 dark:border-amber-900/30 shadow-sm">
                         <span className="text-[10px] font-black uppercase tracking-widest text-zinc-500 mb-1 block">Community Sentiment</span>
                         <div className={`text-2xl font-black ${sentimentColor} tracking-tighter`}>
                             {Math.round(analysis.sentiment * 100)}% Positive
@@ -113,7 +113,7 @@ export default function NeighborhoodVibe({ token }: { token: string }) {
                     </div>
 
                     {/* Activity */}
-                    <div className="p-4 bg-white dark:bg-gray-800 dark:bg-zinc-900 rounded-xl border border-amber-100 dark:border-amber-900/30 shadow-sm">
+                    <div className="p-4 bg-card dark:bg-card dark:bg-zinc-900 rounded-xl border border-amber-100 dark:border-amber-900/30 shadow-sm">
                         <span className="text-[10px] font-black uppercase tracking-widest text-zinc-500 mb-1 block">Local Density</span>
                         <div className="text-2xl font-black text-blue-600 tracking-tighter flex items-center gap-2">
                             <Activity className="w-5 h-5" />

@@ -105,7 +105,7 @@ export function DateFeedbackModal({
                         <span className="text-sm font-medium text-muted-foreground">Overall Vibe</span>
                         <div className="flex gap-1" onMouseLeave={() => setHoverRating(0)}>
                             {[1, 2, 3, 4, 5].map((star) => (
-                                <button
+                                <button type="button"
                                     key={star}
                                     onClick={() => !alreadySubmitted && setRating(star)}
                                     onMouseEnter={() => !alreadySubmitted && setHoverRating(star)}

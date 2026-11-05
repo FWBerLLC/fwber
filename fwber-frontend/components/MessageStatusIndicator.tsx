@@ -26,11 +26,11 @@ export function MessageStatusIndicator({
   const getStatusIcon = () => {
     switch (status) {
       case 'sending':
-        return <Clock className={`w-4 h-4 text-gray-400 ${className}`} />;
+        return <Clock className={`w-4 h-4 text-muted-foreground ${className}`} />;
       case 'sent':
-        return <Check className={`w-4 h-4 text-gray-400 ${className}`} />;
+        return <Check className={`w-4 h-4 text-muted-foreground ${className}`} />;
       case 'delivered':
-        return <CheckCheck className={`w-4 h-4 text-gray-400 ${className}`} />;
+        return <CheckCheck className={`w-4 h-4 text-muted-foreground ${className}`} />;
       case 'read':
         return <CheckCheck className={`w-4 h-4 text-blue-500 ${className}`} />;
       case 'failed':
@@ -60,7 +60,7 @@ export function MessageStatusIndicator({
   const statusTextColor = 
     status === 'failed' ? 'text-red-500' : 
     status === 'read' ? 'text-blue-500' : 
-    'text-gray-500';
+    'text-muted-foreground';
 
   return (
     <div className="flex items-center gap-1">
@@ -121,7 +121,7 @@ export function MessageTimestamp({
   };
 
   return (
-    <span className={`text-xs text-gray-500 ${className}`} title={new Date(timestamp).toLocaleString()}>
+    <span className={`text-xs text-muted-foreground ${className}`} title={new Date(timestamp).toLocaleString()}>
       {formatTime(timestamp)}
     </span>
   );

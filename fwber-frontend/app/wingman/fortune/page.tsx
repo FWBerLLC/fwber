@@ -69,14 +69,14 @@ export default function FortunePage() {
               href="/wingman"
               className="p-2 -ml-2 hover:bg-purple-800/30 rounded-lg transition"
             >
-              <ArrowLeft className="w-5 h-5 text-gray-400" />
+              <ArrowLeft className="w-5 h-5 text-muted-foreground" />
             </Link>
             <div>
               <h1 className="text-2xl font-bold text-white flex items-center gap-2">
                 <Moon className="w-7 h-7 text-indigo-400" />
                 Dating Fortune
               </h1>
-              <p className="text-sm text-gray-400">
+              <p className="text-sm text-muted-foreground">
                 Discover what the dating spirits have in store for you
               </p>
             </div>
@@ -115,7 +115,7 @@ export default function FortunePage() {
                     <h2 className="text-xl font-semibold text-white">
                       Ready to know your dating destiny?
                     </h2>
-                    <p className="text-gray-400 max-w-md mx-auto">
+                    <p className="text-muted-foreground max-w-md mx-auto">
                       The AI spirits will reveal a personalized fortune about your love life.
                       Are you prepared for the truth?
                     </p>
@@ -149,7 +149,7 @@ export default function FortunePage() {
                 )}
 
                 <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-                  <button
+                  <button type="button"
                     onClick={getFortune}
                     disabled={loading}
                     className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold rounded-xl hover:from-indigo-600 hover:to-purple-700 transition disabled:opacity-50 shadow-lg shadow-purple-500/30"
@@ -163,7 +163,7 @@ export default function FortunePage() {
                   </button>
 
                   {fortune && (
-                    <button
+                    <button type="button"
                       onClick={handleShare}
                       className="flex items-center justify-center gap-2 px-6 py-3 bg-slate-700/50 text-white font-semibold rounded-xl hover:bg-slate-700 transition border border-slate-600"
                     >
@@ -182,14 +182,14 @@ export default function FortunePage() {
               className="p-4 bg-slate-800/50 rounded-xl border border-purple-500/20 hover:border-purple-500/40 transition text-center"
             >
               <Star className="w-8 h-8 mx-auto text-purple-400 mb-2" />
-              <span className="text-sm text-gray-300">Cosmic Match</span>
+              <span className="text-sm text-muted-foreground">Cosmic Match</span>
             </Link>
             <Link
               href="/wingman/vibe"
               className="p-4 bg-slate-800/50 rounded-xl border border-purple-500/20 hover:border-purple-500/40 transition text-center"
             >
               <Sparkles className="w-8 h-8 mx-auto text-green-400 mb-2" />
-              <span className="text-sm text-gray-300">Vibe Check</span>
+              <span className="text-sm text-muted-foreground">Vibe Check</span>
             </Link>
           </div>
         </main>

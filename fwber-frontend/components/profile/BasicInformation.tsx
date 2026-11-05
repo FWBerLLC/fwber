@@ -18,7 +18,7 @@ export default function BasicInformation({ formData, handleInputChange, handleLo
       <CardContent className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label htmlFor="display_name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label htmlFor="display_name" className="block text-sm font-medium text-foreground dark:text-muted-foreground">
               Display Name
             </label>
             <input
@@ -26,18 +26,18 @@ export default function BasicInformation({ formData, handleInputChange, handleLo
               id="display_name"
               value={formData.display_name}
               onChange={(e) => handleInputChange('display_name', e.target.value)}
-              className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               placeholder="How would you like to be called?"
             />
           </div>
 
           <div id="date_of_birth">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="block text-sm font-medium text-foreground dark:text-muted-foreground">
               Date of Birth
             </label>
             <div className="grid grid-cols-3 gap-2 mt-1">
               <select
-                className="block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className="block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 value={formData.date_of_birth ? formData.date_of_birth.split('-')[1] : ''}
                 onChange={(e) => {
                    const [y, m, d] = formData.date_of_birth ? formData.date_of_birth.split('-') : [`${new Date().getFullYear() - 18}`, '01', '01'];
@@ -50,7 +50,7 @@ export default function BasicInformation({ formData, handleInputChange, handleLo
                 ))}
               </select>
               <select
-                className="block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className="block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 value={formData.date_of_birth ? formData.date_of_birth.split('-')[2] : ''}
                 onChange={(e) => {
                   const [y, m, d] = formData.date_of_birth ? formData.date_of_birth.split('-') : [`${new Date().getFullYear() - 18}`, '01', '01'];
@@ -64,7 +64,7 @@ export default function BasicInformation({ formData, handleInputChange, handleLo
                 })}
               </select>
               <select
-                className="block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className="block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 value={formData.date_of_birth ? formData.date_of_birth.split('-')[0] : ''}
                 onChange={(e) => {
                   const [y, m, d] = formData.date_of_birth ? formData.date_of_birth.split('-') : [`${new Date().getFullYear() - 18}`, '01', '01'];
@@ -81,14 +81,14 @@ export default function BasicInformation({ formData, handleInputChange, handleLo
           </div>
 
           <div>
-            <label htmlFor="gender" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label htmlFor="gender" className="block text-sm font-medium text-foreground dark:text-muted-foreground">
               Gender
             </label>
             <select
               id="gender"
               value={formData.gender}
               onChange={(e) => handleInputChange('gender', e.target.value)}
-              className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             >
               <option value="">Select gender</option>
               <option value="male">Male</option>
@@ -102,14 +102,14 @@ export default function BasicInformation({ formData, handleInputChange, handleLo
           </div>
 
           <div>
-            <label htmlFor="pronouns" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label htmlFor="pronouns" className="block text-sm font-medium text-foreground dark:text-muted-foreground">
               Pronouns
             </label>
             <select
               id="pronouns"
               value={formData.pronouns}
               onChange={(e) => handleInputChange('pronouns', e.target.value)}
-              className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             >
               <option value="">Select pronouns</option>
               <option value="he/him">He/Him</option>
@@ -123,14 +123,14 @@ export default function BasicInformation({ formData, handleInputChange, handleLo
           </div>
 
           <div>
-            <label htmlFor="sexual_orientation" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label htmlFor="sexual_orientation" className="block text-sm font-medium text-foreground dark:text-muted-foreground">
               Sexual Orientation
             </label>
             <select
               id="sexual_orientation"
               value={formData.sexual_orientation}
               onChange={(e) => handleInputChange('sexual_orientation', e.target.value)}
-              className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             >
               <option value="">Select orientation</option>
               <option value="straight">Straight</option>
@@ -148,14 +148,14 @@ export default function BasicInformation({ formData, handleInputChange, handleLo
           </div>
 
           <div>
-            <label htmlFor="relationship_style" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label htmlFor="relationship_style" className="block text-sm font-medium text-foreground dark:text-muted-foreground">
               Relationship Style
             </label>
             <select
               id="relationship_style"
               value={formData.relationship_style}
               onChange={(e) => handleInputChange('relationship_style', e.target.value)}
-              className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             >
               <option value="">Select relationship style</option>
               <option value="monogamous">Monogamous</option>
@@ -171,14 +171,14 @@ export default function BasicInformation({ formData, handleInputChange, handleLo
           <LocationMatcher formData={formData} handleLocationChange={handleLocationChange} />
 
           <div>
-            <label htmlFor="zodiac_sign" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label htmlFor="zodiac_sign" className="block text-sm font-medium text-foreground dark:text-muted-foreground">
               Zodiac Sign
             </label>
             <select
               id="zodiac_sign"
               value={formData.zodiac_sign}
               onChange={(e) => handleInputChange('zodiac_sign', e.target.value)}
-              className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             >
               <option value="">Select sign</option>
               <option value="aries">Aries</option>
@@ -197,14 +197,14 @@ export default function BasicInformation({ formData, handleInputChange, handleLo
           </div>
 
           <div>
-            <label htmlFor="blood_type" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label htmlFor="blood_type" className="block text-sm font-medium text-foreground dark:text-muted-foreground">
               Blood Type
             </label>
             <select
               id="blood_type"
               value={formData.blood_type}
               onChange={(e) => handleInputChange('blood_type', e.target.value)}
-              className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             >
               <option value="">Select blood type</option>
               <option value="A+">A+</option>
@@ -219,14 +219,14 @@ export default function BasicInformation({ formData, handleInputChange, handleLo
           </div>
 
           <div>
-            <label htmlFor="personality_type" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label htmlFor="personality_type" className="block text-sm font-medium text-foreground dark:text-muted-foreground">
               Personality Type (MBTI)
             </label>
             <select
               id="personality_type"
               value={formData.personality_type}
               onChange={(e) => handleInputChange('personality_type', e.target.value)}
-              className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             >
               <option value="">Select type</option>
               <option value="INTJ">INTJ</option>
@@ -249,14 +249,14 @@ export default function BasicInformation({ formData, handleInputChange, handleLo
           </div>
 
           <div>
-            <label htmlFor="chronotype" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label htmlFor="chronotype" className="block text-sm font-medium text-foreground dark:text-muted-foreground">
               Chronotype
             </label>
             <select
               id="chronotype"
               value={formData.chronotype}
               onChange={(e) => handleInputChange('chronotype', e.target.value)}
-              className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             >
               <option value="">Select chronotype</option>
               <option value="early_bird">Early Bird</option>
@@ -266,14 +266,14 @@ export default function BasicInformation({ formData, handleInputChange, handleLo
           </div>
 
           <div>
-            <label htmlFor="love_language" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label htmlFor="love_language" className="block text-sm font-medium text-foreground dark:text-muted-foreground">
               Love Language
             </label>
             <select
               id="love_language"
               value={formData.love_language}
               onChange={(e) => handleInputChange('love_language', e.target.value)}
-              className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             >
               <option value="">Select love language</option>
               <option value="words_of_affirmation">Words of Affirmation</option>
@@ -285,14 +285,14 @@ export default function BasicInformation({ formData, handleInputChange, handleLo
           </div>
 
           <div>
-            <label htmlFor="religion" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label htmlFor="religion" className="block text-sm font-medium text-foreground dark:text-muted-foreground">
               Religion
             </label>
             <select
               id="religion"
               value={formData.religion}
               onChange={(e) => handleInputChange('religion', e.target.value)}
-              className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             >
               <option value="">Select religion</option>
               <option value="christian">Christian</option>
@@ -309,14 +309,14 @@ export default function BasicInformation({ formData, handleInputChange, handleLo
           </div>
 
           <div>
-            <label htmlFor="political_views" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label htmlFor="political_views" className="block text-sm font-medium text-foreground dark:text-muted-foreground">
               Political Views
             </label>
             <select
               id="political_views"
               value={formData.political_views}
               onChange={(e) => handleInputChange('political_views', e.target.value)}
-              className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              className="mt-1 block w-full border-border dark:border-border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             >
               <option value="">Select views</option>
               <option value="liberal">Liberal</option>

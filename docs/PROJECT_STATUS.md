@@ -10,9 +10,9 @@
 
 | Environment | Version | Status | URL |
 | :--- | :--- | :--- | :--- |
-| **Production (Web)** | 1.0.2 | 🟢 Active | https://www.fwber.me |
-| **Production (API)** | 1.0.2 | 🟢 Healthy | https://api.fwber.me |
-| **Real-time (WS)** | 1.0.2 | 🟢 Connected | wss://ws.fwber.me |
+| **Production (Web)** | 1.0.2 | 🟢 Active | https://www.fwber.online |
+| **Production (API)** | 1.0.2 | 🟢 Healthy | https://api.fwber.online |
+| **Real-time (WS)** | 1.0.2 | 🟢 Connected | wss://ws.fwber.online |
 | **Geo-Screener** | 1.0.2 | 🟢 Online | Internal (Rust) |
 
 ---

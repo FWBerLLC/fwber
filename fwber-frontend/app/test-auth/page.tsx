@@ -88,7 +88,7 @@ export default function TestAuthPage() {
           />
         </div>
         
-        <button
+        <button type="button"
           onClick={testLogin}
           disabled={loading}
           className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 disabled:opacity-50"
@@ -97,7 +97,7 @@ export default function TestAuthPage() {
         </button>
         
         {result && (
-          <div className="mt-4 p-4 bg-gray-100 dark:bg-gray-800 rounded">
+          <div className="mt-4 p-4 bg-muted dark:bg-card rounded">
             <pre className="whitespace-pre-wrap text-sm">{result}</pre>
           </div>
         )}

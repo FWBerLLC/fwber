@@ -14,11 +14,11 @@ export default function BoostAnalytics() {
 
   if (isLoading) {
     return (
-      <div className="rounded-lg bg-white dark:bg-gray-800 p-6 shadow-sm">
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white">🚀 Boost Analytics</h2>
+      <div className="rounded-lg bg-card dark:bg-card p-6 shadow-sm">
+        <h2 className="text-xl font-semibold text-foreground dark:text-foreground">🚀 Boost Analytics</h2>
         <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-3">
           {Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="h-24 animate-pulse rounded-lg bg-gray-100 dark:bg-gray-800" />
+            <div key={i} className="h-24 animate-pulse rounded-lg bg-muted dark:bg-card" />
           ))}
         </div>
       </div>
@@ -27,16 +27,16 @@ export default function BoostAnalytics() {
 
   if (error || !stats) {
     return (
-      <div className="rounded-lg bg-white dark:bg-gray-800 p-6 shadow-sm">
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white">🚀 Boost Analytics</h2>
+      <div className="rounded-lg bg-card dark:bg-card p-6 shadow-sm">
+        <h2 className="text-xl font-semibold text-foreground dark:text-foreground">🚀 Boost Analytics</h2>
         <p className="mt-4 text-sm text-red-600">Failed to load boost analytics.</p>
       </div>
     );
   }
 
   return (
-    <div className="rounded-lg bg-white dark:bg-gray-800 p-6 shadow-sm">
-      <h2 className="text-xl font-semibold text-gray-900 dark:text-white">🚀 Boost Analytics</h2>
+    <div className="rounded-lg bg-card dark:bg-card p-6 shadow-sm">
+      <h2 className="text-xl font-semibold text-foreground dark:text-foreground">🚀 Boost Analytics</h2>
       
       <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
         <div className="rounded-lg bg-indigo-50 p-4">
@@ -66,31 +66,31 @@ export default function BoostAnalytics() {
       </div>
 
       <div className="mt-8">
-        <h3 className="text-lg font-medium text-gray-900 dark:text-white">Recent Purchases</h3>
-        <div className="mt-4 overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700">
+        <h3 className="text-lg font-medium text-foreground dark:text-foreground">Recent Purchases</h3>
+        <div className="mt-4 overflow-hidden rounded-lg border border-border dark:border-border">
           <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50 dark:bg-gray-900">
+            <thead className="bg-muted dark:bg-background">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">User</th>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Amount</th>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Status</th>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Date</th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">User</th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">Amount</th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">Status</th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">Date</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200 bg-white dark:bg-gray-800">
+            <tbody className="divide-y divide-gray-200 bg-card dark:bg-card">
               {stats.recent_purchases.length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="px-6 py-4 text-center text-sm text-gray-500">
+                  <td colSpan={4} className="px-6 py-4 text-center text-sm text-muted-foreground">
                     No recent purchases found.
                   </td>
                 </tr>
               ) : (
                 stats.recent_purchases.map((purchase) => (
                   <tr key={purchase.id}>
-                    <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">
+                    <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-foreground dark:text-foreground">
                       {purchase.user?.name || 'Unknown User'}
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
+                    <td className="whitespace-nowrap px-6 py-4 text-sm text-muted-foreground">
                       {formatCurrency(purchase.amount)} {purchase.currency}
                     </td>
                     <td className="whitespace-nowrap px-6 py-4">
@@ -100,7 +100,7 @@ export default function BoostAnalytics() {
                         {purchase.status}
                       </span>
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
+                    <td className="whitespace-nowrap px-6 py-4 text-sm text-muted-foreground">
                       {new Date(purchase.created_at).toLocaleString()}
                     </td>
                   </tr>

@@ -1,3 +1,3 @@
 #!/bin/bash
-curl -I https://api.fwber.me/
-curl -I https://geo.fwber.me/
+curl -I https://api.fwber.site/
+curl -I https://geo.fwber.site/

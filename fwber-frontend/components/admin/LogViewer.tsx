@@ -90,7 +90,7 @@ export function LogViewer() {
         <CardContent className="flex-1 overflow-hidden p-0">
           <ScrollArea className="h-full">
             <div className="flex flex-col p-2 gap-1">
-              {logs.map((log) => (
+              {(logs || []).map((log) => (
                 <Button
                   key={log.name}
                   variant={selectedLog === log.name ? 'secondary' : 'ghost'}

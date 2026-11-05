@@ -33,6 +33,9 @@ const API_BASE_URL = typeof window !== 'undefined' ? '/api' : (process.env.NEXT_
 export interface UserProfile {
   id: number;
   email: string;
+  // Top-level display name as returned by the public-profile endpoint
+  // (profile/[id]/page.tsx renders `profile.name` for federated handles).
+  name?: string | null;
   email_verified: boolean;
   created_at: string;
   last_online: string;

@@ -51,7 +51,7 @@ export function ShareContent({ id }: { id: string }) {
     return (
       <div className="min-h-screen bg-black flex flex-col items-center justify-center p-4 text-center">
         <h1 className="text-2xl font-bold text-white mb-4">Oops!</h1>
-        <p className="text-gray-400 mb-8">{error || 'Content not found'}</p>
+        <p className="text-muted-foreground mb-8">{error || 'Content not found'}</p>
         <Link href="/">
           <Button>Go Home</Button>
         </Link>
@@ -74,7 +74,7 @@ export function ShareContent({ id }: { id: string }) {
               {data.user_name ? `Roast of ${data.user_name} 🔥` : 'Profile Roast 🔥'}
             </h2>
             <div className="bg-orange-900/20 border border-orange-500/30 rounded-lg p-6">
-              <p className="text-lg text-gray-200 italic leading-relaxed">
+              <p className="text-lg dark:text-foreground italic leading-relaxed">
                 &quot;{data.content.text}&quot;
               </p>
             </div>
@@ -93,7 +93,7 @@ export function ShareContent({ id }: { id: string }) {
               {data.user_name ? `${data.user_name}'s Hype ✨` : 'Profile Hype ✨'}
             </h2>
             <div className="bg-blue-900/20 border border-blue-500/30 rounded-lg p-6">
-              <p className="text-lg text-gray-200 italic leading-relaxed">
+              <p className="text-lg dark:text-foreground italic leading-relaxed">
                 &quot;{data.content.text}&quot;
               </p>
             </div>
@@ -152,7 +152,7 @@ export function ShareContent({ id }: { id: string }) {
               {data.user_name ? `${data.user_name}'s Fortune 🔮` : 'Dating Fortune 🔮'}
             </h2>
             <div className="bg-yellow-900/20 border border-yellow-500/30 rounded-lg p-6">
-              <p className="text-lg text-gray-200 italic leading-relaxed">
+              <p className="text-lg dark:text-foreground italic leading-relaxed">
                 &quot;{data.content.text}&quot;
               </p>
             </div>
@@ -175,7 +175,7 @@ export function ShareContent({ id }: { id: string }) {
               </div>
               <div className="pt-2 border-t border-red-500/20">
                 <h3 className="text-red-400 font-semibold text-xs uppercase tracking-wider mb-2">Scientific Explanation</h3>
-                <p className="text-gray-300 text-sm leading-relaxed">{data.content.scientific_explanation}</p>
+                <p className="text-muted-foreground text-sm leading-relaxed">{data.content.scientific_explanation}</p>
               </div>
               <div className="pt-2 border-t border-red-500/20">
                 <h3 className="text-red-400 font-semibold text-xs uppercase tracking-wider mb-2">Clashing Traits</h3>
@@ -216,7 +216,7 @@ export function ShareContent({ id }: { id: string }) {
                     {data.content.flag_type}
                  </span>
               </div>
-              <p className="text-gray-300 leading-relaxed italic">
+              <p className="text-muted-foreground leading-relaxed italic">
                 {data.content.reason}
               </p>
             </div>
@@ -240,7 +240,7 @@ export function ShareContent({ id }: { id: string }) {
                   <Star className="w-3 h-3" /> Best Match
                 </h4>
                 <p className="text-white font-bold mb-1">{data.content.best_match}</p>
-                <p className="text-sm text-gray-300 italic">{data.content.best_reason}</p>
+                <p className="text-sm text-muted-foreground italic">{data.content.best_reason}</p>
               </div>
               <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-5">
                 <h4 className="text-zinc-500 text-xs font-black uppercase tracking-widest mb-2 flex items-center gap-2">
@@ -262,7 +262,7 @@ export function ShareContent({ id }: { id: string }) {
             </div>
             <div className="space-y-4">
                <div className="p-5 bg-zinc-900 border border-zinc-800 rounded-xl shadow-inner">
-                  <p className="text-gray-300 italic text-sm leading-relaxed">&quot;{data.content.narrative}&quot;</p>
+                  <p className="text-muted-foreground italic text-sm leading-relaxed">&quot;{data.content.narrative}&quot;</p>
                </div>
                <div className="grid grid-cols-1 gap-3">
                   {data.content.alignment_areas?.slice(0, 3).map((a: any, i: number) => (
@@ -270,7 +270,7 @@ export function ShareContent({ id }: { id: string }) {
                        <CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-1" />
                        <div>
                           <p className="text-xs font-black uppercase text-green-500">{a.area}</p>
-                          <p className="text-sm text-gray-300 leading-snug">{a.detail}</p>
+                          <p className="text-sm text-muted-foreground leading-snug">{a.detail}</p>
                        </div>
                     </div>
                   ))}
@@ -323,19 +323,19 @@ export function ShareContent({ id }: { id: string }) {
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col">
-      <header className="p-4 border-b border-gray-800 flex justify-between items-center">
+      <header className="p-4 border-b dark:border-border flex justify-between items-center">
         <Link href="/" className="text-xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent">
           fwber
         </Link>
         <Link href="/auth/register">
-          <Button variant="outline" className="border-gray-700 hover:bg-gray-800">
+          <Button variant="outline" className="dark:border-border hover:dark:bg-card">
             Join Now
           </Button>
         </Link>
       </header>
 
       <main className="flex-1 container max-w-2xl mx-auto p-4 flex flex-col justify-center">
-        <Card className="bg-gray-900 border-gray-800 shadow-2xl">
+        <Card className="dark:bg-background dark:border-border shadow-2xl">
           <CardContent className="p-8">
             {data.is_owner && (
               <div className="mb-6 p-4 bg-gradient-to-r from-purple-900/50 to-pink-900/50 border border-purple-500/30 rounded-lg">
@@ -347,16 +347,16 @@ export function ShareContent({ id }: { id: string }) {
                   </div>
                 ) : (
                   <div>
-                    <p className="text-gray-300 mb-2">
+                    <p className="text-muted-foreground mb-2">
                       Get 5 views on this link to unlock <strong>24h of Gold Premium</strong>!
                     </p>
-                    <div className="w-full bg-gray-700 rounded-full h-2.5 mb-1">
+                    <div className="w-full dark:bg-muted rounded-full h-2.5 mb-1">
                       <div
                         className="bg-purple-500 h-2.5 rounded-full transition-all duration-500"
                         style={{ width: `${Math.min((data.views / 5) * 100, 100)}%` }}
                       ></div>
                     </div>
-                    <p className="text-xs text-right text-gray-400">{data.views} / 5 views</p>
+                    <p className="text-xs text-right text-muted-foreground">{data.views} / 5 views</p>
                   </div>
                 )}
               </div>
@@ -364,7 +364,7 @@ export function ShareContent({ id }: { id: string }) {
 
             {renderContent()}
 
-            <div className="mt-8 pt-8 border-t border-gray-800 flex flex-col items-center">
+            <div className="mt-8 pt-8 border-t dark:border-border flex flex-col items-center">
               {data.content.profile_id && (
                 <Link href={`/profile/${data.content.profile_id}`}>
                    <Button variant="ghost" className="text-primary hover:text-primary/80 transition-colors flex items-center gap-2 group mb-4 font-bold italic uppercase tracking-tighter">
@@ -374,7 +374,7 @@ export function ShareContent({ id }: { id: string }) {
                 </Link>
               )}
               
-              <p className="text-[10px] text-gray-500 uppercase font-black tracking-widest text-center">
+              <p className="text-[10px] text-muted-foreground uppercase font-black tracking-widest text-center">
                 Strictly for Entertainment Purposes <br/>
                 Powered by fwber AI &copy; {new Date().getFullYear()}
               </p>
@@ -415,7 +415,7 @@ export function ShareContent({ id }: { id: string }) {
         </div>
       </motion.div>
 
-      <footer className="p-6 pb-28 text-center text-gray-600 text-sm">
+      <footer className="p-6 pb-28 text-center text-muted-foreground text-sm">
         &copy; {new Date().getFullYear()} fwber. All rights reserved.
       </footer>
     </div>

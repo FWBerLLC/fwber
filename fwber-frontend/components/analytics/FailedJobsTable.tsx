@@ -114,11 +114,11 @@ export default function FailedJobsTable() {
 
   if (loading && jobs.length === 0) {
     return (
-      <div className="rounded-lg bg-white dark:bg-gray-800 p-6 shadow-sm">
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white">⚠️ Failed Jobs</h2>
+      <div className="rounded-lg bg-card dark:bg-card p-6 shadow-sm">
+        <h2 className="text-xl font-semibold text-foreground dark:text-foreground">⚠️ Failed Jobs</h2>
         <div className="mt-4 space-y-2">
           {Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="h-12 animate-pulse rounded bg-gray-100 dark:bg-gray-800" />
+            <div key={i} className="h-12 animate-pulse rounded bg-muted dark:bg-card" />
           ))}
         </div>
       </div>
@@ -127,29 +127,29 @@ export default function FailedJobsTable() {
 
   if (jobs.length === 0) {
     return (
-      <div className="rounded-lg bg-white dark:bg-gray-800 p-6 shadow-sm">
+      <div className="rounded-lg bg-card dark:bg-card p-6 shadow-sm">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">⚠️ Failed Jobs</h2>
-          <button onClick={fetchJobs} className="text-sm text-blue-600 hover:underline">Refresh</button>
+          <h2 className="text-xl font-semibold text-foreground dark:text-foreground">⚠️ Failed Jobs</h2>
+          <button type="button" onClick={fetchJobs} className="text-sm text-blue-600 hover:underline">Refresh</button>
         </div>
         <div className="mt-4 flex flex-col items-center justify-center py-8 text-center">
           <CheckCircle className="h-12 w-12 text-green-500 mb-3" />
-          <p className="text-gray-900 dark:text-white font-medium">All systems operational</p>
-          <p className="text-sm text-gray-500">No failed jobs detected.</p>
+          <p className="text-foreground dark:text-foreground font-medium">All systems operational</p>
+          <p className="text-sm text-muted-foreground">No failed jobs detected.</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="rounded-lg bg-white dark:bg-gray-800 p-6 shadow-sm">
+    <div className="rounded-lg bg-card dark:bg-card p-6 shadow-sm">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
         <div>
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">⚠️ Failed Jobs</h2>
-          <p className="text-sm text-gray-500">{jobs.length} jobs require attention</p>
+          <h2 className="text-xl font-semibold text-foreground dark:text-foreground">⚠️ Failed Jobs</h2>
+          <p className="text-sm text-muted-foreground">{jobs.length} jobs require attention</p>
         </div>
         <div className="flex gap-2">
-          <button
+          <button type="button"
             onClick={handleRetryAll}
             disabled={!!processing}
             className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
@@ -157,7 +157,7 @@ export default function FailedJobsTable() {
             <RefreshCw className={`h-4 w-4 mr-2 ${processing === 'all' ? 'animate-spin' : ''}`} />
             Retry All
           </button>
-          <button
+          <button type="button"
             onClick={handleFlush}
             disabled={!!processing}
             className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50"
@@ -184,16 +184,16 @@ export default function FailedJobsTable() {
 
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50 dark:bg-gray-900">
+          <thead className="bg-muted dark:bg-background">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Job / Queue</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Failed At</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Exception</th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Job / Queue</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Failed At</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Exception</th>
+              <th className="px-6 py-3 text-right text-xs font-medium text-muted-foreground uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
-          <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200">
-            {jobs.map((job) => {
+          <tbody className="bg-card dark:bg-card divide-y divide-gray-200">
+            {(jobs || []).map((job) => {
               // Parse payload to get job name if possible
               let jobName = 'Unknown Job';
               try {
@@ -202,14 +202,14 @@ export default function FailedJobsTable() {
               } catch (e) {}
 
               return (
-                <tr key={job.uuid} className="hover:bg-gray-50 dark:bg-gray-900">
+                <tr key={job.uuid} className="hover:bg-muted dark:bg-background">
                   <td className="px-6 py-4">
-                    <div className="text-sm font-medium text-gray-900 dark:text-white truncate max-w-xs" title={jobName}>
+                    <div className="text-sm font-medium text-foreground dark:text-foreground truncate max-w-xs" title={jobName}>
                       {jobName}
                     </div>
-                    <div className="text-xs text-gray-500">{job.queue}</div>
+                    <div className="text-xs text-muted-foreground">{job.queue}</div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-muted-foreground">
                     {formatDistanceToNow(new Date(job.failed_at), { addSuffix: true })}
                   </td>
                   <td className="px-6 py-4">
@@ -218,7 +218,7 @@ export default function FailedJobsTable() {
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <button
+                    <button type="button"
                       onClick={() => handleRetry(job.uuid)}
                       disabled={!!processing}
                       className="text-blue-600 hover:text-blue-900 mr-4 disabled:opacity-50"
@@ -226,7 +226,7 @@ export default function FailedJobsTable() {
                     >
                       <RefreshCw className={`h-4 w-4 ${processing === job.uuid ? 'animate-spin' : ''}`} />
                     </button>
-                    <button
+                    <button type="button"
                       onClick={() => handleDelete(job.uuid)}
                       disabled={!!processing}
                       className="text-red-600 hover:text-red-900 disabled:opacity-50"

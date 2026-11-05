@@ -44,7 +44,7 @@ export function FederatedFeed() {
                     <p className="text-sm text-zinc-500">No federated posts yet. Follow someone on the Fediverse!</p>
                 </div>
             ) : (
-                posts.map(post => (
+                (posts || []).map(post => (
                     <Card key={post.id} className="border-zinc-200 dark:border-zinc-800 hover:border-purple-500/30 transition-colors">
                         <CardHeader className="p-4 pb-2">
                             <div className="flex justify-between items-start">

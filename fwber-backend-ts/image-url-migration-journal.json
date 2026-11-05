@@ -1,0 +1,19 @@
+{
+  "generatedAt": "2026-10-22T07:03:40.105Z",
+  "mode": "apply",
+  "uploadDir": "/var/www/fwber/repo/fwber-backend-ts/uploads",
+  "totals": {
+    "canonicalized": 0,
+    "nulled": 1
+  },
+  "entries": [
+    {
+      "table": "user_profiles",
+      "column": "avatar_url",
+      "id": "143",
+      "action": "null-file-missing",
+      "before": "https://api.fwber.me/uploads/1778007604927-zsf4wy.png",
+      "canonicalIfRestored": "https://api.fwber.online/uploads/1778007604927-zsf4wy.png"
+    }
+  ]
+}

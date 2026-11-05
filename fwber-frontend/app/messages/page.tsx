@@ -1,6 +1,7 @@
 "use client";
 import { Sparkles } from 'lucide-react';
 import { EvolvingAvatar } from '@/components/ui/avatar';
+import { getAvatarUrl } from '@/lib/utils/avatar';
 
 export const dynamic = "force-dynamic";
 
@@ -8,6 +9,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "@/lib/auth-context";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { getConversations, type Conversation } from "@/lib/api/messages";
+import { api } from "@/lib/api/client";
 import ReportModal from "@/components/ReportModal";
 import ProfileViewModal from "@/components/ProfileViewModal";
 import { blockUser, reportUser } from "@/lib/api/safety";
@@ -172,7 +174,7 @@ export default function MessagesPage() {
 	if (isLoading) {
 		return (
 			<ProtectedRoute>
-				<div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+				<div className="min-h-screen bg-muted dark:bg-background">
 					<AppHeader />
 					<div className="flex min-h-[calc(100vh-4rem)] items-center justify-center">
 						<div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500"></div>
@@ -185,12 +187,12 @@ export default function MessagesPage() {
 	if (error) {
 		return (
 			<ProtectedRoute>
-				<div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+				<div className="min-h-screen bg-muted dark:bg-background">
 					<AppHeader />
 					<div className="flex min-h-[calc(100vh-4rem)] items-center justify-center">
 						<div className="text-center">
 							<div className="text-red-500 text-xl mb-4">Error: {error}</div>
-							<button
+							<button type="button"
 								onClick={loadConversations}
 								className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
 							>
@@ -206,7 +208,7 @@ export default function MessagesPage() {
 	return (
 		<ProtectedRoute>
 			{ConfirmDialog}
-			<div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+			<div className="min-h-screen bg-muted dark:bg-background">
 				<AppHeader />
 
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -220,18 +222,18 @@ export default function MessagesPage() {
 								</h3>
 							</div>
 							<div className="flex gap-4 overflow-x-auto pb-4 px-2 scrollbar-hide">
-								{auraMatches.map((match) => (
+								{(auraMatches || []).map((match) => (
 									<div
 										key={match.user_id}
 										className="flex-shrink-0 flex flex-col items-center gap-2 cursor-pointer group"
 										onClick={() => {
-											const conv = conversations.find(c => String(c.other_user.id) === String(match.user_id));
+											const conv = conversations.find(c => String(c.other_user?.id) === String(match.user_id));
 											if (conv) setSelectedConversation(conv);
 										}}
 									>
 										<div className="relative">
 											<EvolvingAvatar
-												src={match.avatar || "/placeholder-avatar.png"}
+												src={getAvatarUrl(match.avatar, match.name)}
 												alt={match.name}
 												size="md"
 												emotion={match.emotion.toLowerCase()}
@@ -242,7 +244,7 @@ export default function MessagesPage() {
 											</div>
 										</div>
 										<div className="text-center">
-											<p className="text-[10px] font-bold text-gray-900 dark:text-white truncate max-w-[64px]">
+											<p className="text-[10px] font-bold text-foreground dark:text-foreground truncate max-w-[64px]">
 												{match.name}
 											</p>
 											<p className="text-[8px] font-medium text-purple-500 uppercase tracking-tighter">
@@ -255,27 +257,27 @@ export default function MessagesPage() {
 						</div>
 					)}
 
-					<div className="mb-8 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 shadow-sm">
+					<div className="mb-8 rounded-2xl border border-border dark:border-border bg-card dark:bg-card p-6 shadow-sm">
 						<div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
 							<div>
-								<h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+								<h1 className="text-3xl font-bold text-foreground dark:text-foreground">
 									Messages
 								</h1>
-								<p className="text-gray-600">
+								<p className="text-muted-foreground">
 									{conversations.length} conversation
 									{conversations.length !== 1 ? "s" : ""}
 								</p>
 							</div>
 							<div className="flex flex-wrap items-center gap-3">
-								<button
+								<button type="button"
 									onClick={() => setIsHistoryOpen(true)}
-									className="bg-gray-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-700"
+									className="dark:bg-muted text-white px-4 py-2 rounded-md text-sm font-medium hover:dark:bg-muted"
 								>
 									Call History
 								</button>
-								<button
+								<button type="button"
 									onClick={loadConversations}
-									className="bg-gray-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-700"
+									className="dark:bg-muted text-white px-4 py-2 rounded-md text-sm font-medium hover:dark:bg-muted"
 								>
 									Refresh
 								</button>
@@ -297,10 +299,10 @@ export default function MessagesPage() {
 
 					{conversations.length === 0 ? (
 						<div className="text-center">
-							<h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+							<h2 className="text-2xl font-bold text-foreground dark:text-foreground mb-4">
 								No Conversations Yet
 							</h2>
-							<p className="text-gray-600 mb-8">
+							<p className="text-muted-foreground mb-8">
 								Start matching with people to begin conversations!
 							</p>
 							<a
@@ -313,18 +315,18 @@ export default function MessagesPage() {
 					) : (
 						<div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[calc(100vh-200px)]">
 							{/* Conversations List */}
-							<div className="lg:col-span-1 bg-white dark:bg-gray-800 rounded-lg shadow">
+							<div className="lg:col-span-1 bg-card dark:bg-card rounded-lg shadow">
 								<div className="p-4 border-b">
-									<h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+									<h2 className="text-lg font-semibold text-foreground dark:text-foreground">
 										Conversations
 									</h2>
 								</div>
 								<div className="overflow-y-auto h-[calc(100%-80px)]">
-									{conversations.map((conversation) => (
+									{(conversations || []).map((conversation) => (
 										<div
 											key={conversation.id}
 											onClick={() => setSelectedConversation(conversation)}
-											className={`p-4 border-b cursor-pointer hover:bg-gray-50 dark:bg-gray-900 ${
+											className={`p-4 border-b cursor-pointer hover:bg-muted dark:bg-background ${
 												selectedConversation?.id === conversation.id
 													? "bg-blue-50 border-blue-200"
 													: ""
@@ -333,7 +335,7 @@ export default function MessagesPage() {
 											<div className="flex items-center space-x-3">
 												<div className="relative">
 													<EvolvingAvatar
-														src={conversation.other_user?.profile?.photos?.[0]?.url || "/placeholder-avatar.png"}
+														src={getAvatarUrl(conversation.other_user?.profile?.photos?.[0]?.url, conversation.other_user?.profile?.display_name)}
 														alt={conversation.other_user?.profile?.display_name || "User"}
 														size="md"
 														emotion={(conversation.other_user?.profile?.current_emotion as any) || "neutral"}
@@ -346,17 +348,17 @@ export default function MessagesPage() {
 													</div>
 												</div>
 												<div className="flex-1 min-w-0">
-													<p className="text-sm font-medium text-gray-900 dark:text-white truncate">
+													<p className="text-sm font-medium text-foreground dark:text-foreground truncate">
 														{conversation.other_user?.profile?.display_name ||
 															"Anonymous"}
 													</p>
-													<p className="text-sm text-gray-500 truncate">
+													<p className="text-sm text-muted-foreground truncate">
 														{conversation.last_message?.content ||
 															"No messages yet"}
 													</p>
 												</div>
 												{conversation.last_message && (
-													<div className="text-xs text-gray-400">
+													<div className="text-xs text-muted-foreground">
 														{formatMessageTime(
 															conversation.last_message.created_at,
 														)}
@@ -369,7 +371,7 @@ export default function MessagesPage() {
 							</div>
 
 							{/* Messages Area */}
-							<div className="lg:col-span-2 bg-white dark:bg-gray-800 rounded-lg shadow flex flex-col overflow-hidden">
+							<div className="lg:col-span-2 bg-card dark:bg-card rounded-lg shadow flex flex-col overflow-hidden">
 								{selectedConversation ? (
 									<ErrorBoundary>
 										<RealTimeChat
@@ -397,10 +399,10 @@ export default function MessagesPage() {
 								) : (
 									<div className="flex-1 flex items-center justify-center">
 										<div className="text-center">
-											<h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+											<h3 className="text-lg font-medium text-foreground dark:text-foreground mb-2">
 												Select a Conversation
 											</h3>
-											<p className="text-gray-500">
+											<p className="text-muted-foreground">
 												Choose a conversation from the list to start messaging
 											</p>
 										</div>

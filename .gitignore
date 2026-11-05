@@ -117,7 +117,14 @@ frontend_build.tar.gz
 
 # Build artifacts
 *.tar.gz
+*.tgz
+# npm package extraction artifacts (repair scratch dirs)
+_elliptic*/
+_hashjs/
 temp_build/
+
+# Runtime startup logs (tracked history retained; live dumps ignored)
+fwber-backend-ts/logs-*.txt
 metamcp.db
 metamcp.db*
 # Environment files with secrets
@@ -138,10 +145,7 @@ metamcp.db*
 
 fix_git_size.py
 .pi-lens/
-.jules/
-.memory/
 patch_*.py
 test_*.py
-*.txt
 *.log
 node_modules/

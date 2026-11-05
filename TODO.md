@@ -1,9 +1,113 @@
 # TODO — fwber Immediate Action Items
 
-> **Version:** 2.3.8
-> **Last Updated:** 2026-06-23
+> **Version:** 2.3.53
+> **Last Updated:** 2026-11-04
 
 ---
+
+## 🔧 Open Items (2026-11-04, v2.3.53 session)
+
+### High Priority
+- [x] **Dashboard UI Reorganization & High-Value Consolidation (v2.3.53)** — Redesigned into 10 high-value categories, wired all standalone hub routes, and added descriptive tooltips to 100% of FeatureTiles (131 total).
+- [x] **System Tray Controller Inspection & Status Checker (v2.3.53)** — Verified tools/fwber-tray.ps1 and tools/fwber-tray.bat, created cross-platform monitor tools/fwber-tray-check.py.
+- [x] **Script Housekeeping & Non-Destructive Archiving (v2.3.53)** — Moved duplicate migration tools into tools/legacy/ and enhanced build.bat / start.bat.
+
+## 🔧 Open Items (2026-10-31, v2.3.48 session)
+
+### High Priority
+- [ ] **Frontend local install never completes (OUT OF SCOPE 2026-11-01: Robert runs prod only, not local)** — `npm install` in `fwber-frontend` dies silently after minutes (3 attempts); staging debris left, no `next` binary. Tried after freeing 1.6GB via npm cache clean — still dies. Needs Robert or a future session (split/chunked install, or another machine).
+
+
+- [ ] **`/rate-my-pussy` route needs Robert decision** — real page, crude name vs VISION Rate My Cat mechanic. Deliberately NOT linked from dashboard. Rename, gate, or remove?
+- [ ] **Solana dual-adapter migration** — `PhantomWalletAdapter` + `SolflareWalletAdapter` both missing from installed wallets 0.19.40. Migrate `SolanaProvider.tsx` imports.
+- [ ] **Duplicate-surface merges (dashboard links both of each)** — `/burner` vs `/burner-links`, `/journal` vs `/journals`, `/unlocks` vs `/premium/unlocks`, `/photo-reveal` vs `/photos/reveals`, `/home` vs `/dashboard`. Pick canonical per pair.
+
+
+- [x] **131/179 coverage + create-subpage analysis (v2.3.51)** — Appeals, Synced Contacts, Venue Dashboard tiles; all create-subpages verified reachable in-page (no action needed).- [x] **Dead-link purge + 128/179 coverage (v2.3.50)** — 10 dead tiles removed (full 118-href scan now clean); burner/journals pairs disambiguated by retitle; hardware, federation-settings, business-profile, group-matching tiles added. Final 20 unlinked all intentional and listed in CHANGELOG.- [x] **Dashboard coverage 102 -> 124 of 179 routes (v2.3.49)** — 22 tiles with tooltips; `/burner` restored after route-group miss; create/venue/dev/policy intentionally unlinked.
+
+- [x] **Coverage finalized 131/179 by design (v2.3.52)** — final 17 each verified (content read + wiring grepped); 0 tiles justified, all exclusions reasoned. Tile-level consolidation exhausted.- [ ] **`@sentry/replay` missing from `fwber-frontend/package.json`** — `instrumentation-client.ts` imports it (v2.3.43 restore) but the dep was never declared; `tsc` TS2307. Add `"@sentry/replay"` to deps + install.
+- [ ] **Solana wallet-adapter drift** — `SolanaProvider.tsx` imports `PhantomWalletAdapter` which the installed `@solana/wallet-adapter-wallets` no longer exports (`tsc` TS2305). Pin or migrate the import.
+
+### Medium Priority
+- [ ] **dnd-kit / laravel-echo type declarations** — `tsc` TS7016 on `@dnd-kit/*` + `laravel-echo`, plus implicit-`any` `photo` in `app/photos/page.tsx(454)`. Add decls or tighten types.
+- [ ] **Duplicate journal surfaces** — `/journal` and `/journals` are both full pages; merge into one canonical page and retarget the dashboard tiles.
+- [ ] **`nodemon` now unused** — backend `dev` runs on `tsx watch`; `npm uninstall nodemon` follow-up to drop the dead dep.
+- [ ] **Socket "Disconnected" header badge** — still open from 2026-10-26 (carried).
+- [ ] **Off-site backup replication** — still BLOCKED on Robert (carried).
+
+## 🟢 Completed: Dev-Boot Fix + Dashboard Cleanup (v2.3.48, 2026-10-31)
+- [x] **Backend `npm run dev` crash-loop fixed** — `nodemon src/index.ts` could not resolve ESM `.js` imports under Node 26; now `tsx watch src/index.ts` (tsx 4.23.15). Health 200 verified.
+- [x] **Wallet login UI wiring fixed** — `fetchWalletNonce` destructured in login page + declared on `AuthContextType`; TS2304 gone.
+- [x] **Dashboard cleanup** — 4 dead tiles removed (`/chat-rooms`, `/burner`, `/icebreakers`, `/travel-mode` have no routes); Privacy dup removed; `/recommendations` + `/spaces` retitled; every tile now shows an info marker.
+- [x] **Truncated `csstype` types restored** — index.d.ts was cut at line 14,335 of 21,806; re-fetched from registry. `tsc` 8 -> 7 errors, zero in touched files.
+- [x] **`tools/README.md` corrected** — inventory now matches `tools/`, `tools/scripts/`, `tools/migrations/`, `tools/archive/` reality.
+## 🔧 Open Items (2026-10-18)
+
+### High Priority
+- [ ] **Image URL migration**: Rewrite `api.fwber.me/uploads/` URLs in DB to `api.fwber.online/uploads/` (currently intercepted at UI layer via `getAvatarUrl` + `OptimizedImage` dead-host check)
+- [ ] **436 unguarded `.map()` calls**: Filter to API-response props and add `Array.isArray` / `|| []` guards (many false positives — literal arrays are safe)
+
+### Medium Priority
+- [ ] **Uploads directory empty on Hetzner**: No uploaded images survived previous deployments. User avatars/photos from old deployments are permanently lost — users must re-upload.
+- [ ] **Login 401 transient failures**: Occasional "Invalid credentials" then success on retry. May be rate-limit or DB timing. Worth watching.
+- [ ] **`bigint: Failed to load bindings`**: Non-critical (pure JS fallback works). Could rebuild native bindings for performance.
+
+### Low Priority
+- [ ] **`CHANGELOG.md.new`** (182 KB): Leftover draft at repo root — historical record, leave as-is per policy.
+- [ ] **1 remaining `border-gray-900`**: Last hardcoded border color after theme migration.
+
+### Scoped Out (User Directive 2026-10-18)
+- ~~Dashboard consolidation (combine all pages into one)~~ — User: "dont need to consolidate all"
+
+## 🟢 Recently Completed (2026-10-18)
+- [x] **Theme token migration**: 4,863 replacements across 825 files — only `text-white` (intentional) remains
+- [x] **Dashboard nav coverage**: 104/180 routes directly linked (up from 88); admin panel links gated by `is_moderator`
+- [x] **Loading/error state coverage**: 180 routes now have `loading.tsx` + `error.tsx`
+- [x] **Button `type="button"`**: 452 buttons fixed across 141 files
+- [x] **Prisma `matching_options` fix**: Corrected to `chosen_option` in `NarrativeService`
+- [x] **Tools cleanup**: Archived 19 stale scripts/configs to `tools/archive/`
+
+## 🟢 Recently Completed: Muse Agent Review Integration (v2.3.43-44, 2026-10-26)
+- [x] **Sentry Replay restored** — the "removed in v10" conclusion came from a partial node_modules tree; `@sentry/replay` exists, import path fixed, privacy masking on (Muse caught it).
+- [x] **Next-16 fetch/cache audit** (39 sites): 0 authenticated server-component fetches; 1 public fetch missing cache policy fixed to `revalidate: 3600`.
+- [x] **Wallet login design adopted** from review (nonce + dual-proof linking, no mandatory SMS 2FA).
+
+## 🟢 Recently Completed: Local LLM Integration (v2.3.42, 2026-10-26)
+- [x] **Shared on-box Ollama (`gemma-4-heretic`) wired into fwber** — all AI features (wingman, roasts, icebreakers, narrative reports) now work with ZERO cloud keys and survive cloud outages. `AI_PREFER_LOCAL=true` in production per the box's centralized-LLM policy.
+- [x] E2E verified on Hetzner (direct + full fallback chain).
+
+## 🟢 Recently Completed: Next.js 16 + React 19 Migration (v2.3.41, 2026-10-25)
+- [x] **next 15→16.4.3, react 18→19.3.1** — last critical dependency cluster cleared. Validated on isolated server test checkout first: build green, 0 TS errors, 0 lint errors, smoke 200s on test port.
+- [x] **Redundant next-auth layer removed** (duplicate of the real auth-context flow; its v4 peers rejected Next 16).
+- [x] **Turbopack default**, `images.qualities` configured, malformed `favicon.ico` regenerated (Turbopack rejects it), edge runtime dropped from OG-image routes, dead Sentry replay config removed.
+- [x] **6 latent bugs fixed**: missing `cn` import (guaranteed crash), duplicate JSX attr, unguarded `other_user`, 3 stale interfaces, untyped query/axios results.
+
+## 🟢 Recently Completed: Security & Dependency Pass (v2.3.40, 2026-10-25)
+- [x] **SSRF bypasses closed**: IPv4-mapped IPv6 smuggling, fail-open DNS, redirect-pivot connections; blocklist extended (CGNAT, tunnels); 18 tests incl. regressions.
+- [x] **Auth rate limiting**: zero-dep sliding-window limiter on all auth routes (was: none); trust-proxy fix for real client IPs; live-verified 429s.
+- [x] **Dependency audit**: backend 18 → **0 vulns** (nodemailer 10.2.1, sharp 0.35.5, ws et al.); frontend 155 → **112** (protobufjs 7.6.5 override; criticals 2 → 1).
+- [x] **78/78 tests** passing locally and on the server.
+
+## 🟢 Recently Completed: Login Reliability & Restore Proof (v2.3.39, 2026-10-22)
+- [x] **Transient 401 root cause fixed**: decision engine delegates low-impact actions under degraded health (3+ dangling tasks = score ≤70 = every login rejected); executor audit-log failures killed successful logins; controller dressed every error as "Invalid credentials".
+- [x] **AuthError typed errors**: 401 only for deliberate auth failures; infra → generic 500 + server log.
+- [x] **failOpen auth**: login/register never gated by the autonomous governance layer.
+- [x] **7 new regression tests** (13 passing across decision engine + executor suites).
+- [x] **Restore drill PASSED**: latest backup restored into scratch DB, 134/134 tables row-count consistent with production.
+
+## 🟢 Recently Completed: Ops Hardening (v2.3.38, 2026-10-22)
+- [x] **Automated fwber backups**: nightly 03:30 → `/var/backups/fwber/` (DB dump + uploads + envs + nginx configs, 14-day retention). First archive verified.
+- [x] **Disk reclamation**: 93% → 87% root filesystem (stale `/tmp` backup copies, Docker cache, 2.4GB Next.js build cache).
+- [x] **Disk watchdog**: hourly cron — warns ≥90%, auto-clears rebuildable build cache ≥95%.
+- [x] **fwber.me retired permanently** (user decision 2026-10-22) — `fwber.online` is the only domain.
+
+## 🟢 Recently Completed: Image Resilience & Cleanup (v2.3.37, 2026-10-22)
+- [x] **Missing-upload placeholder**: backend serves neutral gray PNG (HTTP 200) for any missing `/uploads/` image — kills the `_next/image` 500 class permanently.
+- [x] **Image-URL migration tool**: `fwber-backend-ts/scripts/migrate-image-urls.mjs` — canonicalizes legacy upload hosts (`fwber.me`/`fwber.site`/`api.*` spellings) → `api.fwber.online/uploads/`, journals every change, dry-run by default.
+- [x] **Avatar dead-file cleanup**: avatar URLs pointing at missing files → NULL → DiceBear deterministic avatars (journaled).
+- [x] **DEAD_HOSTS regex broadened**: all retired domain spellings intercepted; live `fwber.online` excluded.
+- [x] **Theme tokens 100% done**: last `border-gray-900` → `border-foreground`.
+- [x] **Root script cleanup**: reusable audit tools tracked in `tools/`, one-time migration/fix scripts tracked in `tools/migrations/` (all retained).
 
 ## 🟢 Recently Completed: Phase 9 - Social Velocity & Federation (v2.2.5)
 - [x] **WebFinger Discovery**: Implement real handle-to-URI resolution in `FederationService`.
@@ -55,7 +159,29 @@
 ## 🟢 Recently Completed: Phase 10 - Dynamic Identity & Proximity Forum (v2.3.9)
 - [x] **Quest Verification**: Use ZK-proofs or NFC tags to verify quest completion tasks.
 - [x] **Group Aura**: Aggregate emotions of group chat participants to determine group-wide mood and theme.
-- [ ] **Photo Migration**: 157 photos in DB but files missing from uploads directory — need backup restore.
+- [ ] **Photo Migration**: 157 photos in DB but files missing from uploads directory — need backup restore. *Mitigations shipped in v2.3.37: backend serves a placeholder PNG for any missing `/uploads/` image (no more optimizer 500s), avatar URLs to missing files cleared to NULL (DiceBear fallback), and all nulled references journaled in `fwber-backend-ts/image-url-migration-journal.json` for easy re-pointing after restore. `fwber-backend-ts/scripts/migrate-image-urls.mjs` re-checks existence on demand.*
+- [x] ~~**Next.js 15 → 16 major migration**~~ — DONE (2026-10-25, v2.3.41).
+- [ ] **Wallet login backend (Muse design)**: single-use 5–10min domain-bound nonce; `signMessage` (never signTransaction) with domain+address+nonce+issued-time; server-side `@solana/web3.js` ed25519 verify + nonce consume; 15min JWT + rotating hashed refresh in httpOnly/Secure/SameSite cookie; link/unlink/replace require existing JWT (fresh, ≤15min) + fresh signature; log + notify + instant revoke; rate-limit linking; lost-wallet recovery path; optional TOTP only (mandatory SMS 2FA rejected — privacy harm).
+- [ ] **"Verified" standard (Muse process)**: future deploys = preserved rollback artifact + interactive prod checklist (login, map, matching, messages, upload, image optimizer) + error/log watch — not just test-port smoke. Framework upgrades and auth-layer changes ship as SEPARATE deploys.
+- [x] ~~**RATIFY (Robert): runner-volume auto-prune**~~ — **RATIFIED 2026-10-26 ("enable it")**. Cron runs `AUTO_PRUNE_RUNNER_VOLUMES=1`; `runner-*-cache-*` volumes auto-prune at ≥95% (in-use volumes refused by `docker volume rm`). Tradeoff accepted: occasional full CI rebuilds vs disk-full crashes.
+- [ ] **Rebuild-churn watch (commitment to Muse)**: if HyperNexus CI shows rebuild impact from pruned runner caches (job duration deltas vs baseline), report MEASURED numbers with timestamps (`/var/log/disk-watchdog.log` + docker events for correlation) — never impressions.
+- [ ] **Disk growth root cause** (box health, outside fwber): auto-prune is mitigation; growth sources are CI runner caches + /opt project growth. Report as "mitigation status vs growth sources", not prunes-as-fixes.
+- [ ] **Dead cloud AI credentials**: production `.env` holds a 410-dead NVIDIA key and a 401-invalid OpenAI key — remove or replace with live keys (bypassed while `AI_PREFER_LOCAL=true`).
+- [ ] **Tooltip hover-out + tap quirks (pre-existing, version-independent)**: tooltip stays open on pointer-leave and doesn't open on touch-tap — reproduced identically on 1.0.7 and 1.4.1 via CDP (desktop viewport). Investigate separately (likely Radix touch/pointer config or app-level skipDelayDuration).
+- [x] ~~**React-19-native majors (Muse-reviewed plan)**~~ DONE (2026-10-26, v2.3.45 + v2.3.46): `@radix-ui/react-tooltip` 1.0.7→1.4.1 (deployed v2.3.45) and `react-leaflet` 4.2.1→5.0.0 (deployed v2.3.46, zero source changes needed — components were already v5-shaped). Evidence: `docs/branches/radix-tooltip-1.2-evidence.md` + `docs/branches/react-leaflet-5-evidence.md` (6/6 runtime battery incl. marker VISIBILITY + StrictMode-remount clean; live-prod proof: `/events/[id]` Live Map at 398px, 8/8 tiles, marker visible). **`fwber-frontend/.npmrc` DELETED — `legacy-peer-deps` retired; strict `npm install` measured exit 0 on the live box during deploy.** The React-19 peer migration is complete.
+- [x] ~~**Tooltip hover-out/tap quirks ticket**~~ DONE (2026-10-26, v2.3.47): root cause = popper renders ~28px ABOVE the trigger, so a cursor exiting upward entered Radix's hoverable content. Fix: `disableHoverableContent` at Root (Radix 1.4.x moved the prop from Content to Root). Verified live: upward-out (old trap path) closes. Tap quirk = desktop-viewport CDP artifact (tooltips open on focus; taps focus on real devices) — no product change needed.
+- [ ] **Socket "Disconnected" header badge (visual-pass finding, 2026-10-26, seen 3×):** the header realtime badge shows "Disconnected" persistently on several surfaces (messages/economy/achievements) while other loads show "Connected". Either the WS layer drops without recovery or the badge state is wrong — affects the realtime layer (chat/notifications/proximity), so treat as a real defect candidate. Needs a dedicated look at the socket lifecycle + badge logic.
+- [ ] **UI polish (visual pass 2026-10-26, minor):** header action pills crowd at ~1855px viewport ("Travel Mode" + "Log out" wrap to two lines, "Connected" text clipped by its icon, search placeholder clipped to "Search profil..."); discover cards' AI-compat progress bars render empty behind their % badges; one transient "Disconnected" socket state seen in header during messages load (transient — worth a look at reconnect UX).
+- [x] ~~**Wallet login hardening (Muse review flag)**~~ DONE (2026-10-26, v2.3.47): server-issued single-use nonces (16-byte hex, SHA-256 at rest, 10-min TTL, atomic deleteMany consumption) + required `Nonce:` line in the signed message + `users.wallet_address` UNIQUE KEY (duplicates scanned first: zero). E2E on prod: replay → 401 "Nonce invalid, expired, or already used". 15 wallet tests.
+- [ ] **Off-site backup replication — NEEDS ROBERT'S TARGET/CREDENTIAL (blocked):** checked 2026-10-26: the Hetzner box has NO SSH keypair or host alias for DreamHost (only authorized_keys/known_hosts present) — the "DreamHost SSH as interim, no new credentials" assumption is FALSE for the Hetzner→DreamHost path. Muse also flags an Oct 25 DreamHost password-expiry email affecting some users. Options: (a) provide DreamHost creds so I can install a key, (b) point me at a Storage Box/S3 target, or (c) a second host.
+  **Muse's required evidence package (if review is directed)**: tooltip interaction results (hover, focus, keyboard, mobile tap, `asChild` ref behavior — not just build pass); clean `npm ci` log showing what `legacy-peer-deps` was hiding; `.npmrc` status after the tooltip bump (target: flag gone); rollback target commit; prod smoke results with ACTUAL outcomes; no secrets/PM2 env anywhere. **Branch builds are mine; DEPLOY is Robert's to authorize.**
+- [ ] **Sentry Session Replay**: removed with SDK v10 (integration no longer exists) — re-add if Sentry ships a supported replacement.
+- [ ] **react-hooks/exhaustive-deps** (14 warnings, pre-existing): each needs behavior analysis to fix safely.
+- [ ] **Wallet login backend**: `POST /api/auth/login-wallet` has no server route (frontend calls it). Needs wallet-signature verification design; `wallet.ts` is token payments only.
+- [ ] **Off-site backup replication**: `/var/backups/fwber/` is on the same disk as production — sync nightly to object storage or another box. Needs a target credential (Storage Box / S3 / second host). DreamHost SSH exists as an interim option.
+- [x] ~~**Backup restore drill**~~ — DONE (2026-10-22): `/usr/local/bin/fwber-restore-drill.sh`, monthly cron, first run PASSED (134/134 tables consistent).
+- [x] ~~**Transient login 401s**~~ — ROOT-CAUSED & FIXED (2026-10-22, v2.3.39): autonomous governance layer was delegating/dropping valid logins when system health score ≤70; also audit-ledger write failures killed successful logins. Auth now fail-open + typed 401s. See CHANGELOG 2.3.39.
+- [x] ~~**fwber.me domain renewal**~~ — RESOLVED (2026-10-22): user retired the domain permanently; `fwber.online` is canonical. Stale nginx `api.fwber.me` server block is harmless (DNS dead) but can be deleted whenever nginx is next touched.
 - [ ] **Stripe Live Keys**: Transition from test to live mode for production payments.
 - [ ] **Email DNS**: Configure Resend MX/SPF/DKIM/DMARC records for production email.
 

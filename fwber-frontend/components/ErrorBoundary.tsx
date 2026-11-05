@@ -34,9 +34,9 @@ export default class ErrorBoundary extends React.Component<Props, State> {
 		if (this.state.hasError) {
 			return (
 				this.props.fallback || (
-					<div className="p-4 text-center text-gray-500">
+					<div className="p-4 text-center text-muted-foreground">
 						<p>Something went wrong rendering this component.</p>
-						<button
+						<button type="button"
 							className="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm"
 							onClick={() => this.setState({ hasError: false, error: null })}
 						>

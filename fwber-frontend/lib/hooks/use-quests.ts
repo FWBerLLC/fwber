@@ -8,7 +8,9 @@ export function useActiveQuests() {
   return useQuery({
     queryKey: ['active-quests'],
     queryFn: async () => {
-      const { data } = await apiClient.get('/quests/active', {
+      // Typed explicitly — without the generic, `data` is `unknown` and every
+      // consumer (e.g. LocalPulse's activeQuests) fails to type-check (v2.3.41).
+      const { data } = await apiClient.get<any[]>('/quests/active', {
         headers: { Authorization: `Bearer ${token}` }
       });
       return data;

@@ -45,14 +45,14 @@ export default function DraftAnalysisPage() {
         <main className="max-w-2xl mx-auto px-4 py-6">
           <div className="flex items-center gap-3 mb-8">
             <Link href="/wingman" className="p-2 -ml-2 hover:bg-purple-800/30 rounded-lg transition">
-              <ArrowLeft className="w-5 h-5 text-gray-400" />
+              <ArrowLeft className="w-5 h-5 text-muted-foreground" />
             </Link>
             <div>
               <h1 className="text-2xl font-bold text-white flex items-center gap-2">
                 <Pencil className="w-7 h-7 text-violet-400" />
                 Draft Analysis
               </h1>
-              <p className="text-sm text-gray-400">AI-powered message coaching</p>
+              <p className="text-sm text-muted-foreground">AI-powered message coaching</p>
             </div>
           </div>
 
@@ -69,14 +69,14 @@ export default function DraftAnalysisPage() {
                 {!result && !loading && (
                   <div className="space-y-4">
                     <h2 className="text-xl font-semibold text-white">Make every message count</h2>
-                    <p className="text-gray-400 max-w-md mx-auto">
+                    <p className="text-muted-foreground max-w-md mx-auto">
                       Paste a message draft and get instant AI feedback with a score, suggestions, and an improved version.
                     </p>
                     <textarea
                       value={draft}
                       onChange={(e) => setDraft(e.target.value)}
                       placeholder="Paste your message draft here..."
-                      className="w-full bg-slate-800/50 border border-slate-600 rounded-xl p-4 text-gray-200 placeholder-gray-500 focus:outline-none focus:border-violet-500 resize-none h-32"
+                      className="w-full bg-slate-800/50 border border-slate-600 rounded-xl p-4 dark:text-foreground placeholder-gray-500 focus:outline-none focus:border-violet-500 resize-none h-32"
                     />
                   </div>
                 )}
@@ -93,11 +93,11 @@ export default function DraftAnalysisPage() {
                     <div className="grid grid-cols-2 gap-4">
                       <div className="bg-slate-800/50 border border-amber-500/30 rounded-xl p-4 text-center">
                         <p className="text-3xl font-bold text-amber-400">{result.original_score}</p>
-                        <p className="text-xs text-gray-400">Original Score</p>
+                        <p className="text-xs text-muted-foreground">Original Score</p>
                       </div>
                       <div className="bg-slate-800/50 border border-green-500/30 rounded-xl p-4 text-center">
                         <p className="text-3xl font-bold text-green-400">{result.improved_score}</p>
-                        <p className="text-xs text-gray-400">Improved Score</p>
+                        <p className="text-xs text-muted-foreground">Improved Score</p>
                       </div>
                     </div>
 
@@ -106,7 +106,7 @@ export default function DraftAnalysisPage() {
                         <h3 className="text-violet-400 font-semibold mb-3">💡 Suggestions</h3>
                         <ul className="space-y-2">
                           {result.suggestions.map((s, i) => (
-                            <li key={i} className="flex items-start gap-2 text-sm text-gray-200">
+                            <li key={i} className="flex items-start gap-2 text-sm dark:text-foreground">
                               <Check className="w-4 h-4 text-violet-400 mt-0.5 shrink-0" />
                               {s}
                             </li>
@@ -118,11 +118,11 @@ export default function DraftAnalysisPage() {
                     {result.improved_draft && (
                       <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-4">
                         <h3 className="text-green-400 font-semibold mb-2">✨ Improved Version</h3>
-                        <p className="text-gray-200 text-sm">{result.improved_draft}</p>
+                        <p className="dark:text-foreground text-sm">{result.improved_draft}</p>
                       </div>
                     )}
 
-                    <button onClick={() => { setResult(null); setDraft('') }}
+                    <button type="button" onClick={() => { setResult(null); setDraft('') }}
                       className="w-full py-2 text-violet-400 hover:text-violet-300 transition text-sm">
                       Analyze another draft →
                     </button>
@@ -137,7 +137,7 @@ export default function DraftAnalysisPage() {
 
                 {!result && (
                   <div className="mt-6">
-                    <button onClick={analyzeDraft} disabled={loading || !draft.trim()}
+                    <button type="button" onClick={analyzeDraft} disabled={loading || !draft.trim()}
                       className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-violet-500 to-purple-600 text-white font-semibold rounded-xl hover:from-violet-600 hover:to-purple-700 transition disabled:opacity-50 shadow-lg shadow-violet-500/30 mx-auto">
                       <Pencil className="w-5 h-5" /> Analyze Draft
                     </button>

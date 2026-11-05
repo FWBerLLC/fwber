@@ -12,6 +12,9 @@ export interface Chatroom {
   created_at: string;
   is_public: boolean;
   is_active: boolean;
+  // Group mood theme key (v2.3.9 "Group Aura" feature) — drives the dynamic
+  // chatroom atmosphere styles in Chatroom.tsx ('standard' when absent).
+  group_aura?: string | null;
   member_count: number;
   message_count: number;
   last_activity_at: string;

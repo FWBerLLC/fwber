@@ -36,7 +36,7 @@ export default function SecuritySettingsPage() {
     }
   }, [user]);
 
-  const federatedHandle = user?.email ? `@${user.email.split('@')[0]}@api.fwber.me` : '@loading@api.fwber.me';
+  const federatedHandle = user?.email ? `@${user.email.split('@')[0]}@api.fwber.online` : '@loading@api.fwber.online';
 
   const handleRunBenchmark = async () => {
     setIsBenchmarking(true);
@@ -152,11 +152,11 @@ export default function SecuritySettingsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-muted dark:bg-background">
       <AppHeader />
 
       <main className="max-w-2xl mx-auto px-4 py-8 pb-20">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
+        <h1 className="text-3xl font-bold text-foreground dark:text-foreground mb-6 flex items-center gap-2">
           <ShieldCheck className="w-8 h-8 text-green-500" />
           Security & Privacy
         </h1>
@@ -178,9 +178,9 @@ export default function SecuritySettingsPage() {
             <CardContent>
               <div className="flex items-center justify-between p-4 bg-purple-50 dark:bg-purple-900/10 rounded-lg border border-purple-100 dark:border-purple-900/30">
                 <div className="flex items-center gap-3">
-                  <div className={`w-3 h-3 rounded-full ${isConfessional ? 'bg-purple-500' : 'bg-gray-500'}`} />
+                  <div className={`w-3 h-3 rounded-full ${isConfessional ? 'bg-purple-500' : 'bg-muted'}`} />
                   <div>
-                    <Label htmlFor="confessional-toggle" className="font-medium text-sm text-gray-900 dark:text-white cursor-pointer">
+                    <Label htmlFor="confessional-toggle" className="font-medium text-sm text-foreground dark:text-foreground cursor-pointer">
                       Enable Confessional Mode
                     </Label>
                   </div>

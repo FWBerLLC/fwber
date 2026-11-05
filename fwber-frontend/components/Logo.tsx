@@ -38,7 +38,7 @@ export function Logo({ className = '', showDotMe = true }: LogoProps) {
           </span>
         </span>
 
-        {showDotMe && <span className="ml-0.5 text-[0.5em] font-bold text-gray-400">.me</span>}
+        {showDotMe && <span className="ml-0.5 text-[0.5em] font-bold text-muted-foreground">.me</span>}
       </div>
     </div>
   )

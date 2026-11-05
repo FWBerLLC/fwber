@@ -10,10 +10,14 @@ export default async function SharePage(props: { params: Promise<{ id: string }>
 // Generate dynamic metadata for social sharing
 export async function generateMetadata(props: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const params = await props.params;
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.fwber.me/api';
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.fwber.online/api';
   
   try {
-    const res = await fetch(`${apiUrl}/viral-content/${params.id}`);
+    // Public share content - explicit cache policy. In Next 16, fetch() with
+    // no policy defaults to no-store (v15 implicitly cached). This is public
+    // viral-content, so cache it like its opengraph sibling (revalidate 3600).
+    // Authenticated fetches elsewhere must stay dynamic/no-store by policy.
+    const res = await fetch(`${apiUrl}/viral-content/${params.id}`, { next: { revalidate: 3600 } });
     
     if (!res.ok) {
         return {

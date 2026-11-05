@@ -65,20 +65,20 @@ export default function ReportModal({ isOpen, onClose, onSubmit, userName }: Rep
       />
 
       {/* Modal Content */}
-      <div className={`relative w-full max-w-md bg-white dark:bg-gray-800 rounded-xl shadow-xl transform transition-all duration-300 ${isOpen ? 'scale-100 translate-y-0' : 'scale-95 translate-y-8'}`}>
+      <div className={`relative w-full max-w-md bg-card dark:bg-card rounded-xl shadow-xl transform transition-all duration-300 ${isOpen ? 'scale-100 translate-y-0' : 'scale-95 translate-y-8'}`}>
         <div className="p-6">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Report {userName}</h2>
+          <h2 className="text-2xl font-bold text-foreground dark:text-foreground mb-4">Report {userName}</h2>
           
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label htmlFor="report-reason" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label htmlFor="report-reason" className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-2">
                 Reason for reporting
               </label>
               <select
                 id="report-reason"
                 value={reason}
                 onChange={(e) => setReason(e.target.value)}
-                className="w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500"
+                className="w-full border-border dark:border-border rounded-md shadow-sm focus:ring-red-500 focus:border-red-500"
               >
                 {REPORT_REASONS.map((r) => (
                   <option key={r} value={r}>{r}</option>
@@ -87,7 +87,7 @@ export default function ReportModal({ isOpen, onClose, onSubmit, userName }: Rep
             </div>
 
             <div>
-              <label htmlFor="report-details" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label htmlFor="report-details" className="block text-sm font-medium text-foreground dark:text-muted-foreground mb-2">
                 Additional Details (Optional)
               </label>
               <textarea
@@ -95,7 +95,7 @@ export default function ReportModal({ isOpen, onClose, onSubmit, userName }: Rep
                 value={details}
                 onChange={(e) => setDetails(e.target.value)}
                 rows={4}
-                className="w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500"
+                className="w-full border-border dark:border-border rounded-md shadow-sm focus:ring-red-500 focus:border-red-500"
                 placeholder="Please provide more context..."
                 maxLength={2000}
               />
@@ -111,7 +111,7 @@ export default function ReportModal({ isOpen, onClose, onSubmit, userName }: Rep
               <button
                 type="button"
                 onClick={onClose}
-                className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-50 dark:bg-gray-900 font-medium"
+                className="flex-1 px-4 py-2 border border-border dark:border-border text-foreground dark:text-muted-foreground rounded-md hover:bg-muted dark:bg-background font-medium"
                 disabled={isSubmitting}
               >
                 Cancel

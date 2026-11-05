@@ -65,6 +65,7 @@ type AuthAction =
 interface AuthContextType extends AuthState {
   login: (email: string, password: string) => Promise<void>
   loginWithWallet: (walletAddress: string, signature: string, message: string) => Promise<void>
+  fetchWalletNonce: () => Promise<string>
   verifyTwoFactor: (code: string, recoveryCode?: string) => Promise<void>
   register: (name: string, email: string, password: string, passwordConfirmation: string, avatar?: File | null, referralCode?: string) => Promise<void>
   logout: () => void
@@ -72,7 +73,7 @@ interface AuthContextType extends AuthState {
   updateUser: (user: User) => void
 }
 
-const BROWSER_API_BASE_URL = 'https://api.fwber.me/api'
+const BROWSER_API_BASE_URL = 'https://api.fwber.online/api'
 
 function isTransientAuthResponse(status: number): boolean {
   return status >= 500 || status === 429
@@ -444,7 +445,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // API base URL - Ensure relative /api in browser for proxying
   const API_BASE_URL = typeof window !== 'undefined' 
     ? '/api' 
-    : (process.env.NEXT_PUBLIC_API_URL || 'https://api.fwber.me/api');
+    : (process.env.NEXT_PUBLIC_API_URL || 'https://api.fwber.online/api');
 
 
   // Login function
@@ -498,6 +499,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [API_BASE_URL]);
 
   // Login with Wallet function
+  // Fetch a single-use server-issued nonce for wallet login signing.
+  // The nonce is embedded in the signed message so the backend can reject
+  // replays even inside the timestamp freshness window (Muse hardening).
+  const fetchWalletNonce = useCallback(async (): Promise<string> => {
+    const response = await fetch(`${API_BASE_URL}/auth/wallet-nonce`, {
+      headers: { 'Accept': 'application/json' },
+    })
+    const data = await response.json()
+    if (!response.ok) {
+      throw new Error(data.message || 'Could not fetch wallet login nonce')
+    }
+    return data.nonce
+  }, [API_BASE_URL]);
+
   const loginWithWallet = useCallback(async (walletAddress: string, signature: string, message: string) => {
     dispatch({ type: 'AUTH_START' })
 
@@ -664,12 +679,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     ...state,
     login,
     loginWithWallet,
+    fetchWalletNonce,
     verifyTwoFactor,
     register,
     logout,
     clearError,
     updateUser,
-  }), [state, login, loginWithWallet, verifyTwoFactor, register, logout, clearError, updateUser]);
+  }), [state, login, loginWithWallet, fetchWalletNonce, verifyTwoFactor, register, logout, clearError, updateUser]);
 
   return (
     <AuthContext.Provider value={value}>

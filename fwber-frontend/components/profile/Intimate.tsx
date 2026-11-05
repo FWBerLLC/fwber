@@ -55,7 +55,7 @@ export default function Intimate({ formData, handleInputChange, handleArrayChang
                   className={`px-3 py-2 text-sm rounded-lg border transition-all ${
                     formData.breast_size === size.toLowerCase()
                       ? 'bg-pink-600 text-white border-pink-600'
-                      : 'bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 hover:border-pink-400'
+                      : 'bg-card dark:bg-card border-border dark:border-border hover:border-pink-400'
                   }`}
                 >
                   {size}
@@ -78,9 +78,9 @@ export default function Intimate({ formData, handleInputChange, handleArrayChang
                 min={5}
                 max={30}
                 step={0.5}
-                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-pink-600"
+                className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-pink-600"
               />
-              <div className="flex justify-between text-xs text-gray-500">
+              <div className="flex justify-between text-xs text-muted-foreground">
                 <span>5cm (2&quot;)</span>
                 <span>30cm (12&quot;)</span>
               </div>
@@ -97,9 +97,9 @@ export default function Intimate({ formData, handleInputChange, handleArrayChang
                 min={5}
                 max={20}
                 step={0.5}
-                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-pink-600"
+                className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-pink-600"
               />
-              <div className="flex justify-between text-xs text-gray-500">
+              <div className="flex justify-between text-xs text-muted-foreground">
                 <span>5cm (2&quot;)</span>
                 <span>20cm (8&quot;)</span>
               </div>
@@ -109,7 +109,7 @@ export default function Intimate({ formData, handleInputChange, handleArrayChang
 
         <div className="space-y-2">
           <Label className="text-base font-medium">Sexual Health Status</Label>
-          <p className="text-sm text-gray-500 mb-2">Select all that apply.</p>
+          <p className="text-sm text-muted-foreground mb-2">Select all that apply.</p>
           <div className="grid grid-cols-2 gap-2">
             {STI_STATUSES.map(status => {
               const val = status.toLowerCase().replace(/ /g, '_');
@@ -123,7 +123,7 @@ export default function Intimate({ formData, handleInputChange, handleArrayChang
                   className={`px-3 py-2 text-sm rounded-lg border transition-all text-left ${
                     isSelected
                       ? 'bg-green-600 text-white border-green-600'
-                      : 'bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 hover:border-green-400'
+                      : 'bg-card dark:bg-card border-border dark:border-border hover:border-green-400'
                   }`}
                 >
                   {status}
@@ -135,7 +135,7 @@ export default function Intimate({ formData, handleInputChange, handleArrayChang
 
         <div className="space-y-2">
           <Label className="text-base font-medium">Interests & Kinks</Label>
-          <p className="text-sm text-gray-500 mb-2">Select any that apply.</p>
+          <p className="text-sm text-muted-foreground mb-2">Select any that apply.</p>
           <div className="grid grid-cols-3 gap-2">
             {FETISHES.map(fetish => {
               const val = fetish.toLowerCase().replace(/ /g, '_');
@@ -148,7 +148,7 @@ export default function Intimate({ formData, handleInputChange, handleArrayChang
                   className={`px-3 py-2 text-sm rounded-lg border transition-all ${
                     isSelected
                       ? 'bg-purple-600 text-white border-purple-600'
-                      : 'bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 hover:border-purple-400'
+                      : 'bg-card dark:bg-card border-border dark:border-border hover:border-purple-400'
                   }`}
                 >
                   {fetish}

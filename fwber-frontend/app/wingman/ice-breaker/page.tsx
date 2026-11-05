@@ -39,14 +39,14 @@ export default function IceBreakerPage() {
         <main className="max-w-2xl mx-auto px-4 py-6">
           <div className="flex items-center gap-3 mb-8">
             <Link href="/wingman" className="p-2 -ml-2 hover:bg-blue-800/30 rounded-lg transition">
-              <ArrowLeft className="w-5 h-5 text-gray-400" />
+              <ArrowLeft className="w-5 h-5 text-muted-foreground" />
             </Link>
             <div>
               <h1 className="text-2xl font-bold text-white flex items-center gap-2">
                 <MessageCircle className="w-7 h-7 text-cyan-400" />
                 Ice Breakers
               </h1>
-              <p className="text-sm text-gray-400">AI-generated conversation starters</p>
+              <p className="text-sm text-muted-foreground">AI-generated conversation starters</p>
             </div>
           </div>
 
@@ -63,14 +63,14 @@ export default function IceBreakerPage() {
                 {!result && !loading && (
                   <div className="space-y-4">
                     <h2 className="text-xl font-semibold text-white">Need help starting a conversation?</h2>
-                    <p className="text-gray-400 max-w-md mx-auto">
+                    <p className="text-muted-foreground max-w-md mx-auto">
                       Tell us about your match and we&apos;ll generate creative ice breakers to get the conversation flowing.
                     </p>
                     <textarea
                       value={context}
                       onChange={(e) => setContext(e.target.value)}
                       placeholder="Describe your match or the situation (optional)..."
-                      className="w-full bg-slate-800/50 border border-slate-600 rounded-xl p-4 text-gray-200 placeholder-gray-500 focus:outline-none focus:border-cyan-500 resize-none h-24"
+                      className="w-full bg-slate-800/50 border border-slate-600 rounded-xl p-4 dark:text-foreground placeholder-gray-500 focus:outline-none focus:border-cyan-500 resize-none h-24"
                     />
                   </div>
                 )}
@@ -95,8 +95,8 @@ export default function IceBreakerPage() {
                       'What\'s your go-to karaoke song?',
                     ]).map((ib, i) => (
                       <div key={i} className="bg-slate-800/50 border border-cyan-500/20 rounded-xl p-4 hover:border-cyan-500/40 transition group">
-                        <p className="text-gray-200">{ib}</p>
-                        <button
+                        <p className="dark:text-foreground">{ib}</p>
+                        <button type="button"
                           onClick={async () => {
                             try { await navigator.clipboard.writeText(ib) } catch { /* ok */ }
                           }}
@@ -114,7 +114,7 @@ export default function IceBreakerPage() {
                 )}
 
                 <div className="mt-8">
-                  <button onClick={getIceBreakers} disabled={loading}
+                  <button type="button" onClick={getIceBreakers} disabled={loading}
                     className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-xl hover:from-cyan-600 hover:to-blue-700 transition disabled:opacity-50 shadow-lg shadow-cyan-500/30 mx-auto">
                     {loading ? <RefreshCw className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
                     {result ? 'Generate More' : 'Get Ice Breakers'}

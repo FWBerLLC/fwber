@@ -24,7 +24,7 @@ When instructed to "proceed," "keep going," or "do not stop," you must adhere to
 5. **Git Operations:** 
    - Pull from origin main to ensure no regression.
    - Update all submodules (`git submodule update --init --recursive`) and merge upstream changes (including forks). Intelligently resolve any conflicts.
-   - Intelligently and selectively merge all feature branches (especially local `robertpelloni` forks) into `main` and vice-versa, without losing progress.
+   - Intelligently and selectively merge all feature branches (especially local `FWBerLLC` forks) into `main` and vice-versa, without losing progress.
    - **Commit and Push:** After completing a feature, perform a `git add .`, `git commit -m "feat: ... (vX.Y.Z)"`, and `git push`. DO NOT LOSE PROGRESS. Erring on the side of caution.
 6. **Version Bumping:** **EVERY BUILD OR COMPLETED FEATURE MUST HAVE A NEW VERSION NUMBER.** Update the `VERSION` text file and `CHANGELOG.md`. Reference the version bump in your commit message.
 7. **Documentation Sync:** Immediately update `ROADMAP.md`, `TODO.md`, `PROJECT_STATUS.md`, `HANDOFF.md`, and `docs/SUBMODULE_DASHBOARD.md` to reflect the new reality. Clearly distinguish between what is done and what remains.

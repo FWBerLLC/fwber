@@ -94,7 +94,7 @@ export default function CouncilPage() {
                 {/* Header */}
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
                     <div>
-                        <h1 className="text-4xl font-black italic uppercase tracking-tighter text-zinc-900 dark:text-white flex items-center gap-3">
+                        <h1 className="text-4xl font-black italic uppercase tracking-tighter text-zinc-900 dark:text-foreground flex items-center gap-3">
                             <Gavel className="w-10 h-10 text-purple-600" />
                             The Council
                         </h1>
@@ -108,7 +108,7 @@ export default function CouncilPage() {
                             </div>
                             <div>
                                 <p className="text-[10px] font-black uppercase text-purple-600 tracking-widest">Your Voting Power</p>
-                                <p className="text-xl font-black dark:text-white">{user?.token_balance || 0} FWB</p>
+                                <p className="text-xl font-black dark:text-foreground">{user?.token_balance || 0} FWB</p>
                             </div>
                         </div>
                     </div>
@@ -124,7 +124,7 @@ export default function CouncilPage() {
                             <div className="grid grid-cols-1 gap-8">
                                 {activeProposals.length === 0 ? (
                                     <p className="text-sm text-zinc-500 italic">No active proposals. Create one to get started!</p>
-                                ) : activeProposals.map(proposal => {
+                                ) : (activeProposals || []).map(proposal => {
                                     const totalWeight = getTotalWeight(proposal);
                                     return (
                                         <ProposalCard 
@@ -145,7 +145,7 @@ export default function CouncilPage() {
                             <div className="space-y-8">
                                 <h2 className="text-xl font-black uppercase tracking-tighter italic border-l-4 border-zinc-500 pl-4 text-zinc-500">History & Audit</h2>
                                 <div className="grid grid-cols-1 gap-8 opacity-80">
-                                    {finalizedProposals.map(proposal => {
+                                    {(finalizedProposals || []).map(proposal => {
                                         const totalWeight = getTotalWeight(proposal);
                                         return (
                                             <div key={proposal.id} className="relative">
@@ -191,7 +191,7 @@ function ProposalCard({
     isFinalized?: boolean
 }) {
     return (
-        <Card className="border-zinc-200 dark:border-zinc-800 shadow-xl overflow-hidden bg-white dark:bg-gray-800 dark:bg-zinc-900">
+        <Card className="border-zinc-200 dark:border-zinc-800 shadow-xl overflow-hidden bg-card dark:bg-card dark:bg-zinc-900">
             <div className="flex flex-col md:flex-row">
                 <div className="flex-1 p-6 md:p-8">
                     <div className="flex items-center gap-3 mb-4">

@@ -35,7 +35,7 @@ function EntryCard({
                     <Icon size={12} /> {entry.type}
                 </div>
                 <div className="sb-card-actions">
-                    <button
+                    <button type="button"
                         className={`sb-pin-btn ${entry.is_pinned ? 'pinned' : ''}`}
                         onClick={() => onPin(entry.id)}
                         title={entry.is_pinned ? 'Unpin' : 'Pin'}
@@ -44,7 +44,7 @@ function EntryCard({
                         <Pin size={14} />
                     </button>
                     {entry.is_mine && (
-                        <button className="sb-delete-btn" onClick={() => onDelete(entry.id)}>
+                        <button type="button" className="sb-delete-btn" onClick={() => onDelete(entry.id)}>
                             <Trash2 size={14} />
                         </button>
                     )}
@@ -102,7 +102,7 @@ function AddEntryForm({
             <div className="sb-modal" onClick={(e) => e.stopPropagation()}>
                 <div className="sb-modal-header">
                     <h3>Add Memory</h3>
-                    <button onClick={onClose} className="sb-close-btn"><X size={18} /></button>
+                    <button type="button" onClick={onClose} className="sb-close-btn"><X size={18} /></button>
                 </div>
 
                 {/* Type selector */}
@@ -110,7 +110,7 @@ function AddEntryForm({
                     {(['text', 'image', 'voice', 'link'] as const).map((t) => {
                         const TIcon = TYPE_ICONS[t];
                         return (
-                            <button
+                            <button type="button"
                                 key={t}
                                 className={`sb-type-opt ${type === t ? 'active' : ''}`}
                                 onClick={() => setType(t)}
@@ -125,7 +125,7 @@ function AddEntryForm({
                 {/* Color picker */}
                 <div className="sb-color-picker">
                     {NOTE_COLORS.map((c) => (
-                        <button
+                        <button type="button"
                             key={c}
                             className={`sb-color-dot ${color === c ? 'selected' : ''}`}
                             style={{ background: c }}
@@ -154,7 +154,7 @@ function AddEntryForm({
                     rows={4}
                 />
 
-                <button
+                <button type="button"
                     className="sb-submit-btn"
                     onClick={handleSubmit}
                     disabled={addEntry.isPending || !content.trim()}
@@ -185,7 +185,7 @@ function ScrapbookContent() {
                 <BookHeart size={48} />
                 <h1>Scrapbook</h1>
                 <p>Sign in to start saving memories.</p>
-                <button onClick={() => router.push('/login')} className="sb-primary-btn">Log In</button>
+                <button type="button" onClick={() => router.push('/login')} className="sb-primary-btn">Log In</button>
             </div>
         );
     }
@@ -196,7 +196,7 @@ function ScrapbookContent() {
                 <BookHeart size={48} />
                 <h1>Scrapbook</h1>
                 <p>Open this from a match to start your shared memory board!</p>
-                <button onClick={() => router.push('/matches')} className="sb-primary-btn">Go to Matches</button>
+                <button type="button" onClick={() => router.push('/matches')} className="sb-primary-btn">Go to Matches</button>
             </div>
         );
     }
@@ -425,7 +425,7 @@ function ScrapbookContent() {
                 </div>
 
                 {/* FAB */}
-                <button className="sb-fab" onClick={() => setShowForm(true)}>
+                <button type="button" className="sb-fab" onClick={() => setShowForm(true)}>
                     <Plus size={24} />
                 </button>
 

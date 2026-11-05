@@ -58,4 +58,50 @@ describe('AutonomousDecisionEngine', () => {
 
     expect(result.decision).toBe('Allow');
   });
+
+  // --- Regression tests for the transient-login-401 root cause (v2.3.39) ---
+
+  it('should allow low impact action despite degraded health (was: Delegate)', async () => {
+    // Score 60 = passed:false. Before the fix this returned 'Delegate', the
+    // executor threw, and the auth controller turned it into a 401 — rejecting
+    // valid logins whenever 3+ admin tasks were dangling.
+    mockIsAdjustmentEnabled.mockResolvedValue(false);
+    mockVerifyProtocol.mockResolvedValue({ score: 60, passed: false });
+
+    const result = await AutonomousDecisionEngine.evaluateAction({
+      type: 'User Login',
+      impact: 'low',
+      module: 'Auth'
+    });
+
+    expect(result.decision).toBe('Allow');
+    expect(result.reason).toContain('degraded system health');
+  });
+
+  it('should allow low impact action when the health audit itself throws', async () => {
+    mockIsAdjustmentEnabled.mockResolvedValue(false);
+    mockVerifyProtocol.mockRejectedValue(new Error('db unreachable'));
+
+    const result = await AutonomousDecisionEngine.evaluateAction({
+      type: 'User Login',
+      impact: 'low',
+      module: 'Auth'
+    });
+
+    expect(result.decision).toBe('Allow');
+  });
+
+  it('should still delegate medium impact action when health is degraded', async () => {
+    // Governance must survive where oversight matters.
+    mockIsAdjustmentEnabled.mockResolvedValue(false);
+    mockVerifyProtocol.mockResolvedValue({ score: 60, passed: false });
+
+    const result = await AutonomousDecisionEngine.evaluateAction({
+      type: 'Bulk Outreach',
+      impact: 'medium',
+      module: 'Marketing'
+    });
+
+    expect(result.decision).toBe('Delegate');
+  });
 });

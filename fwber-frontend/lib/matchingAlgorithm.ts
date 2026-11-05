@@ -272,7 +272,7 @@ export function getMatchQualityLabel(score: number): {
   } else if (score >= 55) {
     return { label: 'Good Match', color: 'text-yellow-600' };
   } else {
-    return { label: 'Potential Match', color: 'text-gray-600' };
+    return { label: 'Potential Match', color: 'text-muted-foreground' };
   }
 }
 

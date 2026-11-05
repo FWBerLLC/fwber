@@ -27,7 +27,7 @@ export function WingmanSuggestions({
 	};
 
 	return (
-		<Card className="w-full bg-gray-800 border-gray-700">
+		<Card className="w-full dark:bg-card dark:border-border">
 			<CardHeader className="pb-2 pt-3 px-4">
 				<CardTitle className="text-sm font-medium flex items-center gap-2 text-white">
 					<Sparkles className="h-4 w-4 text-purple-500" />
@@ -64,19 +64,19 @@ export function WingmanSuggestions({
 								<Button
 									key={idx}
 									variant="outline"
-									className="w-full justify-start text-left h-auto whitespace-normal p-2 text-sm border-gray-600 text-gray-200 hover:bg-gray-700 hover:text-white"
+									className="w-full justify-start text-left h-auto whitespace-normal p-2 text-sm dark:border-border dark:text-foreground hover:dark:bg-muted hover:text-white"
 									onClick={() => onSelectSuggestion(suggestion)}
 								>
 									<span className="line-clamp-2">{suggestion}</span>
 								</Button>
 							))
 						) : (
-							<p className="text-xs text-gray-500">No suggestions available.</p>
+							<p className="text-xs text-muted-foreground">No suggestions available.</p>
 						)}
 						<Button
 							variant="ghost"
 							size="sm"
-							className="w-full text-xs text-gray-400 hover:text-white"
+							className="w-full text-xs text-muted-foreground hover:text-white"
 							onClick={handleGenerate}
 						>
 							Refresh

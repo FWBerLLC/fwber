@@ -113,7 +113,7 @@ interface ToastContainerProps {
 function ToastContainer({ toasts, onClose }: ToastContainerProps) {
   return (
     <div className="fixed top-4 right-4 z-50 flex flex-col gap-2 pointer-events-none">
-      {toasts.map(toast => (
+      {(toasts || []).map(toast => (
         <ToastItem key={toast.id} toast={toast} onClose={() => onClose(toast.id)} />
       ))}
     </div>
@@ -185,16 +185,16 @@ function ToastItem({ toast, onClose }: ToastItemProps) {
           {getIcon()}
         </div>
         <div className="flex-1 min-w-0">
-          <h4 className="font-semibold text-gray-900 dark:text-white">
+          <h4 className="font-semibold text-foreground dark:text-foreground">
             {toast.title}
           </h4>
           {toast.message && (
-            <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">
+            <p className="mt-1 text-sm text-muted-foreground dark:text-muted-foreground">
               {toast.message}
             </p>
           )}
           {toast.action && (
-            <button
+            <button type="button"
               onClick={() => {
                 toast.action?.onClick();
                 handleClose();
@@ -205,9 +205,9 @@ function ToastItem({ toast, onClose }: ToastItemProps) {
             </button>
           )}
         </div>
-        <button
+        <button type="button"
           onClick={handleClose}
-          className="flex-shrink-0 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
+          className="flex-shrink-0 text-muted-foreground hover:text-muted-foreground dark:hover:dark:text-foreground transition-colors"
         >
           <X className="w-4 h-4" />
         </button>
