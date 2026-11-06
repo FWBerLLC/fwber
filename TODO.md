@@ -11,20 +11,20 @@
 - [ ] **Frontend local install never completes (OUT OF SCOPE 2026-11-01: Robert runs prod only, not local)** — `npm install` in `fwber-frontend` dies silently after minutes (3 attempts); staging debris left, no `next` binary. Tried after freeing 1.6GB via npm cache clean — still dies. Needs Robert or a future session (split/chunked install, or another machine).
 
 
-- [ ] **`/rate-my-pussy` route needs Robert decision** — real page, crude name vs VISION Rate My Cat mechanic. Deliberately NOT linked from dashboard. Rename, gate, or remove?
+- [x] **`/rate-my-pussy` route — Robert decision: LEAVE AS-IS (2026-11-01)** — real page, stays unlinked from dashboard. No rename/gate/removal.
 - [x] **Solana dual-adapter migration (v2.3.54)** — `PhantomWalletAdapter` + `SolflareWalletAdapter` both missing from installed wallets 0.19.40. Migrate `SolanaProvider.tsx` imports.
-- [ ] **Duplicate-surface merges (dashboard links both of each)** — `/burner` vs `/burner-links`, `/journal` vs `/journals`, `/unlocks` vs `/premium/unlocks`, `/photo-reveal` vs `/photos/reveals`, `/home` vs `/dashboard`. Pick canonical per pair.
+- [x] **Duplicate-surface merges — resolved via cross-links, no deletions (v2.3.53, Robert-approved)** — burner <-> burner-links, journals -> journal (canonical), unlocks ledger -> hub. `/home` kept as back-link target.
 
 
 - [x] **131/179 coverage + create-subpage analysis (v2.3.51)** — Appeals, Synced Contacts, Venue Dashboard tiles; all create-subpages verified reachable in-page (no action needed).- [x] **Dead-link purge + 128/179 coverage (v2.3.50)** — 10 dead tiles removed (full 118-href scan now clean); burner/journals pairs disambiguated by retitle; hardware, federation-settings, business-profile, group-matching tiles added. Final 20 unlinked all intentional and listed in CHANGELOG.- [x] **Dashboard coverage 102 -> 124 of 179 routes (v2.3.49)** — 22 tiles with tooltips; `/burner` restored after route-group miss; create/venue/dev/policy intentionally unlinked.
 
-- [x] **Coverage finalized 131/179 by design (v2.3.52)** — final 17 each verified (content read + wiring grepped); 0 tiles justified, all exclusions reasoned. Tile-level consolidation exhausted.- [ ] **`@sentry/replay` missing from `fwber-frontend/package.json`** — `instrumentation-client.ts` imports it (v2.3.43 restore) but the dep was never declared; `tsc` TS2307. Add `"@sentry/replay"` to deps + install.
+- [x] **Coverage finalized 131/179 by design (v2.3.52)** — final 17 each verified (content read + wiring grepped); 0 tiles justified, all exclusions reasoned. Tile-level consolidation exhausted.- [x] **`@sentry/replay` declared + optional-require (v2.3.54)** — dep added to `fwber-frontend/package.json`; `tsc` TS2307 closed (frontend tsc 0 errors).
 
-- [x] **Duplicate pairs merged via cross-links, no deletions (v2.3.53)** — burner <-> burner-links, journals -> journal, unlocks ledger -> hub. rate-my-pussy left as-is per Robert.- [ ] **Solana wallet-adapter drift** — `SolanaProvider.tsx` imports `PhantomWalletAdapter` which the installed `@solana/wallet-adapter-wallets` no longer exports (`tsc` TS2305). Pin or migrate the import.
+- [x] **Duplicate pairs merged via cross-links, no deletions (v2.3.53)** — burner <-> burner-links, journals -> journal, unlocks ledger -> hub. rate-my-pussy left as-is per Robert.- [x] **Solana wallet-adapter drift — duplicate entry, closed by v2.3.54 item above** (imports moved to `-phantom`/`-solflare` packages).
 
 ### Medium Priority
 - [x] **dnd-kit / laravel-echo type declarations (v2.3.54)** — `tsc` TS7016 on `@dnd-kit/*` + `laravel-echo`, plus implicit-`any` `photo` in `app/photos/page.tsx(454)`. Add decls or tighten types.
-- [ ] **Duplicate journal surfaces** — `/journal` and `/journals` are both full pages; merge into one canonical page and retarget the dashboard tiles.
+- [x] **Duplicate journal surfaces — cross-linked (v2.3.53)** — `/journal` is canonical (full app); `/journals` (Field Notes list) links into it. No deletion per Robert-approved approach.
 - [ ] **`nodemon` now unused** — backend `dev` runs on `tsx watch`; `npm uninstall nodemon` follow-up to drop the dead dep.
 - [ ] **Socket "Disconnected" header badge** — still open from 2026-10-26 (carried).
 - [ ] **Off-site backup replication** — still BLOCKED on Robert (carried).

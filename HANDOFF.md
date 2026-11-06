@@ -1,3 +1,10 @@
+## Check-in — post-v2.3.54 coordination (Muse Code)
+- **Sync verified everywhere:** local `main` = `origin/main` = server `/var/www/fwber/repo` at `405057d88`; working tree clean (server keeps only the pre-existing untracked `prisma/migrations/` dir, zero overlap).
+- **Live prod healthy:** PM2 `fwber-backend-ts` + `fwber-frontend` both online (2D uptime, v2.3.54); public site / api-health / wallet-nonce all 200; disk 79% (16G free).
+- **HyperNexus kernel:** ok, v1.0.28 (`system_status` green).
+- **Log watch:** backend shows routine MaintenanceService health checks + 200s. Frontend error log carries Next.js "Server Reference ID did not match" entries — consistent with stale clients/bots post-deploy, no crash loop; watch item only.
+- **Doc coordination done this check-in:** TODO stale items flipped to match Robert's decisions and v2.3.54 fixes (rate-my-pussy leave-as-is, duplicate pairs cross-linked, journal canonical, `@sentry/replay` + Solana drift closed). Remaining genuinely-open: socket "Disconnected" badge, off-site backup (blocked on Robert, no target yet), Stripe live keys + email DNS (Robert-side), image-URL DB migration, unguarded `.map()` audit.
+
 ## Session 2026-11-03 — DEPLOYED v2.3.54 (Hetzner, operator-authorized)
 - Server /var/www/fwber/repo: reset --hard origin/main at cdafa91ba (was c058d6806, +2 commits). No schema changes; migrate deploy: no pending migrations.
 - Backend: npm install + prisma generate + build clean, pm2 restart fwber-backend-ts. Frontend: npm install (peer warnings only; @sentry/replay + phantom/solflare present), next build compiled successfully in 26.5s, pm2 restart fwber-frontend.
