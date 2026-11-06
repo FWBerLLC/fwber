@@ -60,6 +60,33 @@ router.post('/', async (req: any, res) => {
       data: { blocker_id: userId, blocked_id: blockedId }
     });
 
+    // Blocking severs the connection completely: remove any friendship and
+    // any pending friend requests between these users, so the blocked user
+    // disappears from the blocker's friends list and no request can linger.
+    // (Matches were already removed below; keep each cleanup independent so
+    // one failing table cannot leave the block half-applied.)
+    try {
+      await prisma.friends.deleteMany({
+        where: {
+          OR: [
+            { user_id: userId, friend_id: blockedId },
+            { user_id: blockedId, friend_id: userId },
+          ],
+        },
+      });
+    } catch (_) {}
+    try {
+      await prisma.friend_requests.deleteMany({
+        where: {
+          OR: [
+            { user_id: userId, friend_id: blockedId },
+            { user_id: blockedId, friend_id: userId },
+          ],
+          status: 'pending',
+        },
+      });
+    } catch (_) {}
+
     // Remove any active match between these users
     try {
       await prisma.user_matches.deleteMany({

@@ -24,11 +24,20 @@ import {
 interface FriendUser {
   id: number;
   name: string;
-  email: string;
+  email?: string;
   profile?: {
     display_name?: string;
     avatar_url?: string;
   };
+}
+
+// The backend wraps list responses in { data: [...] } while search
+// endpoints return a bare array. Accept both shapes so a wrapped payload
+// never silently renders as an empty list.
+function unwrapList<T>(value: unknown): T[] {
+  if (Array.isArray(value)) return value as T[];
+  const data = (value as { data?: unknown } | null)?.data;
+  return Array.isArray(data) ? (data as T[]) : [];
 }
 
 interface FriendRequest {
@@ -63,8 +72,8 @@ export default function FriendsPage() {
         getRelationshipLinks(),
         getPendingRelationshipLinkRequests(),
       ]);
-      setFriends(Array.isArray(friendsRes) ? friendsRes : []);
-      setRequests(Array.isArray(requestsRes) ? requestsRes : []);
+      setFriends(unwrapList<FriendUser>(friendsRes));
+      setRequests(unwrapList<FriendRequest>(requestsRes));
       setRelationshipLinks(Array.isArray(linksRes) ? linksRes : []);
       setRelationshipRequests(Array.isArray(linkRequestsRes) ? linkRequestsRes : []);
     } catch (err) {
@@ -88,7 +97,7 @@ export default function FriendsPage() {
       const response = await api.get<FriendUser[]>('/friends/search', {
         params: { q: searchQuery },
       });
-      setSearchResults(Array.isArray(response) ? response : []);
+      setSearchResults(unwrapList<FriendUser>(response));
       setActiveTab('search');
     } catch (err) {
       console.error('Error searching users:', err);
@@ -412,11 +421,13 @@ export default function FriendsPage() {
                         <div key={user.id} className="flex items-center justify-between rounded-lg border p-4">
                           <div className="flex items-center gap-3">
                             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted">
-                              {user.name?.charAt(0) || '?'}
+                              {(user.profile?.display_name || user.name)?.charAt(0) || '?'}
                             </div>
                             <div>
-                              <p className="font-medium">{user.name}</p>
-                              <p className="text-sm text-muted-foreground">{user.email}</p>
+                              <p className="font-medium">{user.profile?.display_name || user.name}</p>
+                              {user.email ? (
+                                <p className="text-sm text-muted-foreground">{user.email}</p>
+                              ) : null}
                             </div>
                           </div>
                           <Button size="sm" onClick={() => sendFriendRequest(user.id)}>

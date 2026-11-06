@@ -159,6 +159,86 @@ router.get('/requests', authenticate, async (req: any, res) => {
   }
 });
 
+// GET /api/friends/search — search users to add as friends.
+// NOTE: this route did not exist before; the Friends page called it and
+// Express answered 404, so the page always showed "No users found".
+// Returns a bare array (same convention as GET /api/user/search, which is
+// what the Friends page expects). Excludes the caller, users blocked in
+// either direction, existing friends, and pending requests in either
+// direction, so every result is someone a request can actually be sent to.
+router.get('/search', authenticate, async (req: any, res) => {
+  try {
+    const userId = BigInt(req.user.id);
+    const q = String(req.query.q || '').trim();
+    if (q.length < 1) return res.json([]);
+    const limit = Math.min(parseInt(String(req.query.limit || '20')) || 20, 50);
+
+    // Users blocked in either direction
+    const blocks = await prisma.blocks.findMany({
+      where: { OR: [{ blocker_id: userId }, { blocked_id: userId }] },
+      select: { blocker_id: true, blocked_id: true },
+    });
+    const excluded = new Set<string>();
+    for (const b of blocks) {
+      excluded.add(b.blocker_id.toString());
+      excluded.add(b.blocked_id.toString());
+    }
+
+    // Existing friends + pending requests (either direction)
+    const [friendships, pending] = await Promise.all([
+      prisma.friends.findMany({
+        where: { OR: [{ user_id: userId }, { friend_id: userId }] },
+        select: { user_id: true, friend_id: true },
+      }),
+      prisma.friend_requests.findMany({
+        where: {
+          OR: [{ user_id: userId }, { friend_id: userId }],
+          status: 'pending',
+        },
+        select: { user_id: true, friend_id: true },
+      }),
+    ]);
+    for (const f of [...friendships, ...pending]) {
+      excluded.add(f.user_id.toString());
+      excluded.add(f.friend_id.toString());
+    }
+    excluded.delete(userId.toString());
+
+    const users = await prisma.users.findMany({
+      where: {
+        id: {
+          not: userId,
+          notIn: [...excluded].map((s) => BigInt(s)),
+        },
+        OR: [
+          { name: { contains: q } },
+          { user_profiles: { some: { display_name: { contains: q } } } },
+          { user_profiles: { some: { bio: { contains: q } } } },
+          { user_profiles: { some: { occupation: { contains: q } } } },
+        ],
+      },
+      include: {
+        user_profiles: { select: { display_name: true, avatar_url: true }, take: 1 },
+      },
+      take: limit,
+      orderBy: { created_at: 'desc' },
+    });
+
+    res.json(serialize(users.map((u: any) => {
+      const profile = Array.isArray(u.user_profiles) ? u.user_profiles[0] : u.user_profiles;
+      return {
+        id: Number(u.id),
+        name: u.name,
+        display_name: profile?.display_name || u.name,
+        avatar_url: profile?.avatar_url || null,
+      };
+    })));
+  } catch (error: any) {
+    console.error('[Friends] Search error:', error.message);
+    res.json([]);
+  }
+});
+
 // POST /api/friends/request — send a friend request
 router.post('/request', authenticate, async (req: any, res) => {
   try {
@@ -179,6 +259,19 @@ router.post('/request', authenticate, async (req: any, res) => {
     const targetUser = await prisma.users.findUnique({ where: { id: friendId } });
     if (!targetUser) {
       return res.status(404).json({ message: 'User not found' });
+    }
+
+    // A block in either direction forbids new friend requests
+    const blocked = await prisma.blocks.findFirst({
+      where: {
+        OR: [
+          { blocker_id: userId, blocked_id: friendId },
+          { blocker_id: friendId, blocked_id: userId },
+        ],
+      },
+    });
+    if (blocked) {
+      return res.status(400).json({ message: 'Cannot send a friend request to this user' });
     }
 
     // Check if already friends or request exists
@@ -259,6 +352,17 @@ router.post('/requests', authenticate, async (req: any, res) => {
     
     const targetUser = await prisma.users.findUnique({ where: { id: friendId } });
     if (!targetUser) return res.status(404).json({ message: 'User not found' });
+
+    // A block in either direction forbids new friend requests
+    const blocked = await prisma.blocks.findFirst({
+      where: {
+        OR: [
+          { blocker_id: userId, blocked_id: friendId },
+          { blocker_id: friendId, blocked_id: userId },
+        ],
+      },
+    });
+    if (blocked) return res.status(400).json({ message: 'Cannot send a friend request to this user' });
     
     const existingFriend = await prisma.friends.findFirst({
       where: { OR: [{ user_id: userId, friend_id: friendId }, { user_id: friendId, friend_id: userId }] },

@@ -264,6 +264,14 @@ async function request<T>(
             setApiClientAuthToken(null);
             localStorage.removeItem('fwber_token');
             localStorage.removeItem('fwber_user');
+            // Also clear the dev/E2E `auth_token` flag. AuthProvider treats
+            // localStorage `auth_token === 'dev'` as an authenticated Test
+            // User session, so leaving it behind re-authenticates on the
+            // next boot while every API call still 401s — and the login
+            // page's "already authenticated, go to /onboarding" redirect
+            // plus this handler's trip back to /login?reason=session_expired
+            // looped forever between the two routes.
+            localStorage.removeItem('auth_token');
             // Check if we are already on login page to avoid redirect loops
             if (!window.location.pathname.includes('/login')) {
               window.location.href = '/login?reason=session_expired';
