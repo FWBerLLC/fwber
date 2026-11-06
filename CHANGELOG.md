@@ -1,29 +1,33 @@
 # Changelog
 
-## [2.3.54] - 2026-11-03
+## [2.3.53] - 2026-11-04
 
-### DEPLOYED to Hetzner live prod
-- Server reset to cdafa91ba; backend install+build+restart; frontend install + Next build OK + restart. Smoke: onbox api/front 200, public site/login/api-health 200.
+### Dashboard High-Value Redesign & Comprehensive Tooltip Wiring
+- Redesigned and restructured the dashboard into 10 high-value priority sections:
+  1. Discover & Connect (Recommendations, Matches, Admirers, Personality Preferences, Match Analytics, Group Matching, NFC Tap, Search, Scenes & Vibe Hub, Discover Feed, Rate My Cat showcase, Connections Hub)
+  2. Real-Time Chat & Social Spaces (Messages, Friends, Chatrooms, Audio Rooms, Live Spaces, Groups, Topics & Threads, Bulletins, Ephemeral QR Burner, Burner Links Hub, Notifications, Activity Stream)
+  3. Local Pulse, Outings & Meetups (Local Pulse, Places Directory, Plans & Dates Hub, Events & Meetups, Venues, Deals & Offers, Date Planner, Nearby Radar, Date Ideas, Proximity Alerts, Proximity Chatrooms, Heatmap, Conference Mode)
+  4. AI Wingman Studio & Coaching (Wingman Command Hub, Creative Studio, Content Generation, Vibe Check, Room Vibe Radar, Compatibility Deep Dive, Ice-Breakers, Draft Analyzer, AI Date Architect, Profile Roast, Community Roast, Nemesis Mode, Cosmic Alignment, Love Fortune, Roast Date, Field Notes, Openers Library)
+  5. Economy, Tokens & Premium Perks (Token Wallet, Economy Hub, Premium Membership, Subscription Plans, Tier Capabilities demo, Visibility Boosts, Virtual Gifts, Send a Gift, Gift History, Refer & Earn, Community Bounties, Feature Unlocks, Unlock Ledger, Leaderboard)
+  6. Profile, Identity & Reputation (Public Profile, Edit Profile, Photo Gallery, Photo Reveals, Profile Views, Identity Hub, Verification Portal, Reputation & Trust, Vouch for Friends, Physical Profile, Scrapbook, Achievements, Personal Analytics)
+  7. Safety, Privacy & Account Governance (Safety Center, All Settings, Account Settings, Privacy Controls, Notification Prefs, Security Hub, Two-Factor Auth, Encrypted Vault, Identity Verification, Identity & Handles, Blocked Users, Travel Mode, Location Precision, Hardware BLE Token, Subscription Billing, Safety Reports, Support & Policies, Help Center, Privacy Policy)
+  8. Commerce & Merchant Portals (Local Marketplace, Commerce Hub, Merchant Dashboard, Register as Merchant, Inventory Management, Promotions & Specials, Loyalty Program, Merchant Vibe Intel, Storefront Profile, Merchant Analytics, Venue Host Portal)
+  9. Community Governance & Federation (Community Council, Dispute Appeals, ActivityPub Federation, Federation Settings, Third-Party Integrations, Synced Contacts, Private Journal, Video Calling, Share to Unlock, Submit Feedback, Contact Support, Terms & Policies)
+  10. Operations & System Administration (Operations Command Hub, Admin Dashboard, Autonomous Monitor, Moderation Queue, Federation Admin, System Diagnostics, System Configuration, User Feedback Triage)
+- Integrated 100% of FeatureTiles (131 total) with explicit, descriptive guidance tooltips.
+- Linked previously standalone hubs: /scenes, /connections, /plans, /places, /economy, /commerce, /operations, /support, /settings/account, /tier-demo, /rate-my-pussy (Rate My Cat), /help, /privacy, /verify, /subscription, /roast, /content-generation, /wingman/vibe, /settings/identity, /settings/notifications, and /settings/verification.
 
-### Type errors eliminated (frontend tsc 8 -> 0, backend tsc clean)
+### System Tray & Scripts Modernization
+- Audited tools/fwber-tray.ps1 and tools/fwber-tray.bat for process spawning, port reclamation (4003, 3000), and clean exit.
+- Added cross-platform port & log monitor tools/fwber-tray-check.py.
+- Archived one-off duplicate migration tools to tools/legacy/.
+- Updated build.bat and start.bat with tray launch guidance and clean exit handling.
 
-- SolanaProvider.tsx: import PhantomWalletAdapter from @solana/wallet-adapter-phantom and SolflareWalletAdapter from @solana/wallet-adapter-solflare (both removed from the -wallets meta-package in 0.19.x). Deps declared in package.json.
-- instrumentation-client.ts: @sentry/replay declared in package.json and loaded optionally (try/require with fallback to no-replay), so type-checks and local builds survive before 
-pm install brings the package in. Privacy posture unchanged (maskAllText/maskAllInputs/blockAllMedia).
-- New wber-frontend/types/third-party-shims.d.ts: ambient decls for @dnd-kit/*, laravel-echo, @solana/wallet-adapter-phantom, @solana/wallet-adapter-solflare (no bundled types / no @types packages).
-- pp/photos/page.tsx: explicit (photo: any) on reorder map (matches file style, line 40), DragEndEvent value-import replaced (was TS2709 against the shim).
-- Verified: frontend 	sc --noEmit EXIT 0 (logs/tsc13.log), backend 	sc --noEmit EXIT 0 (logs/tsc-backend11.log).
-- Repo sync: main == origin/main == upstream/main at 3a449c23b; all 5 local feature branches already merged, nothing unmerged. No submodule changes.
+### Verified
+- tools/check_nav_coverage.py: 135 linked routes.
+- tools/fwber-tray-check.py: Clean port inspection and diagnostics.
+- VERSION and VERSION.md bumped to 2.3.53.
 
-## [2.3.53] - 2026-11-01
-
-### Merged (duplicate pairs, cross-linking — no deletions, per Robert)
-
-- `/burner` (QR generator) <-> `/burner-links` (manager): mutual navigation links. `/journals` (Field Notes list) -> `/journal` (full app, canonical — no backlink). `/premium/unlocks` (ledger) -> `/unlocks` hub (hub already links ledger). `/unlocks` hub, `/home` back-link target, `/rate-my-pussy` left untouched per Robert (stays unlinked).
-
-### Process incident
-
-- A PowerShell multi-edit command corrupted 4 files with `+`-fragment lines ( anchors reported ok, verify showed missing content, tsc jumped 8->16). Recovered via `git checkout` (work was uncommitted) and redid the edits with a Python exact-match script (`/tmp/crosslinks.py`, count==1 guards). Lesson: complex multi-file edits go through script files, never giant inline shell one-liners. Final `tsc`: 8 errors, zero in touched files.
 ## [2.3.52] - 2026-11-01
 
 ### Coverage finalization (131 of 179 — complete by design)

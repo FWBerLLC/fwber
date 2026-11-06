@@ -160,6 +160,7 @@ After cutover:
 - [ ] merchant registration works
 - [ ] storefront purchase creates receipt + redemption code
 - [ ] migrations complete cleanly with existing column/index drift guards
+- [ ] federation endpoints (`/api/federation/*`) resolve incoming ActivityPub requests and route inbox forwarding
 
 ## 9. Why This Topology
 
@@ -172,3 +173,74 @@ This topology is recommended because fwber is no longer just a simple frontend +
 - phased restored feature surfaces requiring stronger backend control
 
 That makes **Vercel frontend + Hetzner VPS backend** a better operational fit than legacy shared hosting guidance.
+
+## 10. Detailed Hetzner VPS Configuration
+
+For a robust production environment, ensure the Hetzner VPS is properly tuned.
+
+### Firewall (UFW)
+Only expose necessary ports. The `bootstrap-ubuntu.sh` script handles the basics, but confirm the rules:
+```bash
+sudo ufw allow OpenSSH
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+sudo ufw --force enable
+sudo ufw status
+```
+
+### OS & Network Tuning
+For high-concurrency websocket connections (Reverb / Socket.io), optimize sysctl:
+```bash
+# Append to /etc/sysctl.conf
+fs.file-max = 2097152
+net.ipv4.ip_local_port_range = 1024 65535
+net.ipv4.tcp_tw_reuse = 1
+net.core.somaxconn = 65535
+```
+Apply with `sudo sysctl -p`.
+
+### Node.js & PM2 (TypeScript Backend)
+The TypeScript backend (`fwber-backend-ts`) utilizes PM2 for process management.
+```bash
+npm install -g pm2
+cd /var/www/fwber/repo/fwber-backend-ts
+pm2 start dist/index.js --name "fwber-backend-ts"
+pm2 startup systemd
+pm2 save
+```
+
+### Nginx Optimization
+Ensure Nginx worker processes match your vCPU count and increase worker connections:
+```nginx
+# /etc/nginx/nginx.conf
+worker_processes auto;
+events {
+    worker_connections 4096;
+    multi_accept on;
+}
+```
+
+
+### Prisma & Database
+Ensure Prisma migrations are applied safely without locking the production database:
+```bash
+cd /var/www/fwber/repo/fwber-backend-ts
+npx prisma migrate deploy
+npx prisma generate
+```
+
+### Log Management
+Install `pm2-logrotate` to prevent backend logs from consuming all disk space:
+```bash
+pm2 install pm2-logrotate
+pm2 set pm2-logrotate:max_size 10M
+pm2 set pm2-logrotate:retain 10
+pm2 set pm2-logrotate:compress true
+```
+
+## 11. Deployment Verification for v2.3.47
+
+When deploying the v2.3.47 update on Hetzner, pay special attention to:
+- **Node & PM2:** Ensure that the TypeScript backend (`fwber-backend-ts`) is being correctly started and monitored by PM2 (`pm2 start dist/index.js`). The legacy PHP backend must not conflict on the API port.
+- **Wallet Login:** Test the `/api/auth/wallet/nonce` and `/api/auth/wallet/login` endpoints on the live Hetzner VPS to confirm signature validation works correctly behind the Nginx reverse proxy.
+- **Nginx Headers:** Verify that Nginx correctly forwards the `X-Real-IP` and `X-Forwarded-For` headers to the Node backend, as Web3 rate-limiting requires accurate client IPs.

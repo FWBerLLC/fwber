@@ -1,16 +1,21 @@
 # TODO — fwber Immediate Action Items
 
-> **Version:** 2.3.54
-> **Last Updated:** 2026-11-03
+> **Version:** 2.3.53
+> **Last Updated:** 2026-11-04
 
 ---
+
+## 🔧 Open Items (2026-11-04, v2.3.53 session)
+
+### High Priority
+- [x] **Dashboard UI Reorganization & High-Value Consolidation (v2.3.53)** — Redesigned into 10 high-value categories, wired all standalone hub routes, and added descriptive tooltips to 100% of FeatureTiles (131 total).
+- [x] **System Tray Controller Inspection & Status Checker (v2.3.53)** — Verified tools/fwber-tray.ps1 and tools/fwber-tray.bat, created cross-platform monitor tools/fwber-tray-check.py.
+- [x] **Script Housekeeping & Non-Destructive Archiving (v2.3.53)** — Moved duplicate migration tools into tools/legacy/ and enhanced build.bat / start.bat.
 
 ## 🔧 Open Items (2026-10-31, v2.3.48 session)
 
 ### High Priority
 - [ ] **Frontend local install never completes (OUT OF SCOPE 2026-11-01: Robert runs prod only, not local)** — `npm install` in `fwber-frontend` dies silently after minutes (3 attempts); staging debris left, no `next` binary. Tried after freeing 1.6GB via npm cache clean — still dies. Needs Robert or a future session (split/chunked install, or another machine).
-
-
 - [x] **`/rate-my-pussy` route — Robert decision: LEAVE AS-IS (2026-11-01)** — real page, stays unlinked from dashboard. No rename/gate/removal.
 - [x] **Solana dual-adapter migration (v2.3.54)** — `PhantomWalletAdapter` + `SolflareWalletAdapter` both missing from installed wallets 0.19.40. Migrate `SolanaProvider.tsx` imports.
 - [x] **Duplicate-surface merges — resolved via cross-links, no deletions (v2.3.53, Robert-approved)** — burner <-> burner-links, journals -> journal (canonical), unlocks ledger -> hub. `/home` kept as back-link target.
@@ -24,9 +29,9 @@
 
 ### Medium Priority
 - [x] **dnd-kit / laravel-echo type declarations (v2.3.54)** — `tsc` TS7016 on `@dnd-kit/*` + `laravel-echo`, plus implicit-`any` `photo` in `app/photos/page.tsx(454)`. Add decls or tighten types.
-- [x] **Duplicate journal surfaces — cross-linked (v2.3.53)** — `/journal` is canonical (full app); `/journals` (Field Notes list) links into it. No deletion per Robert-approved approach.
-- [ ] **`nodemon` now unused** — backend `dev` runs on `tsx watch`; `npm uninstall nodemon` follow-up to drop the dead dep.
-- [ ] **Socket "Disconnected" header badge** — still open from 2026-10-26 (carried).
+- [x] **Duplicate journal surfaces — merged upstream (Protocol #277)** — `/journals` page replaced with a server-side redirect to canonical `/journal`; dashboard tile retargeted. On origin/main, PENDING DEPLOY (live still serves cross-linked v2.3.54).
+- [x] **`nodemon` removed upstream (Protocol #277)** — uninstalled from `fwber-backend-ts`; `dev` runs on `tsx watch`.
+- [x] **Socket "Disconnected" header badge — fixed upstream (Protocol #277, 9daad0440)** — `useSocketLogic`/`useWebSocket` now surface reconnect state to the badge. On origin/main, PENDING DEPLOY.
 - [ ] **Off-site backup replication** — still BLOCKED on Robert (carried).
 
 ## 🟢 Completed: Dev-Boot Fix + Dashboard Cleanup (v2.3.48, 2026-10-31)

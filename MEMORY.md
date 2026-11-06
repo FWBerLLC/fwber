@@ -1,7 +1,13 @@
 # MEMORY.md — fwber Internal Architectural Observations
 
-## Current Version: 2.2.1 "Federated Interactions"
-**Last Updated:** 2026-06-10
+## Current Version: 2.3.53 "Federated Interactions"
+**Last Updated:** 2026-11-04
+
+### Architectural Shift: Unified High-Value Dashboard & Tooltip Standards (v2.3.53)
+- The user dashboard at fwber-frontend/app/dashboard/page.tsx serves as the consolidated single pane of glass for all 10 platform domains.
+- Every interactive FeatureTile enforces an explicit tooltip attribute explaining the workflow and purpose.
+- Legacy or duplicate migration tools are categorized in tools/legacy/, maintaining non-destructive backups.
+- Process control and server cleanup are managed through tools/fwber-tray.ps1 with port scoping (Backend 4003, Frontend 3000) and verified via tools/fwber-tray-check.py.
 
 ### Architectural Shift: Production Federation (v2.2.1)
 The ActivityPub layer is now production-ready for external discovery and real-time interaction.

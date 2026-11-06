@@ -108,6 +108,11 @@ export class FederationService {
   async processInboxActivity(activity: any, targetUserId: bigint) {
     console.log(`[Federation] Processing ${activity.type} for user ${targetUserId}`);
 
+    // ActivityPub Enhancement: Basic Inbox Forwarding check for public posts
+    if (activity.to && activity.to.includes('https://www.w3.org/ns/activitystreams#Public') && activity.type === 'Create') {
+       console.log(`[Federation] Public activity received. Ready for Inbox Forwarding expansion.`);
+       // In a full implementation, this would enqueue a job to forward this activity to local followers
+    }
     switch (activity.type) {
       case 'Follow':
         await this.handleFollow(activity, targetUserId);
@@ -158,7 +163,8 @@ export class FederationService {
 
     // Note: Persistent storage of the activity itself happens in the route handler.
     // This service method is for logic-level processing (e.g. notifications on mentions).
-    if (object.type === 'Note') {
+    if (object.type === 'Note' || object.type === 'Article') {
+        // ActivityPub Enhancement: Support for richer object types (Articles) for bulletin boards
         const content = object.content || '';
 
         // Dynamic Emotional Identity: analyze remote post to influence neighborhood sentiment locally
