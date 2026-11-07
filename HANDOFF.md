@@ -1,3 +1,8 @@
+## Session 2026-11-06 (part 2) — DEPLOYED v2.3.55 backend + live friend-flow verification
+
+- Robert: "check it out and fix it." Server pulled to `5eb724ab9` (origin had advanced again: Protocol #280 merge on top of #277 + v2.3.55). Backend `npm install` + `tsc` build clean, `pm2 restart fwber-backend-ts`, on-box health 200. Frontend NOT rebuilt — it still serves the v2.3.54-era build; Protocol #277/#280 frontend code remains undeployed.
+- **Live end-to-end verification (public API, actual outcomes):** registered temp QA user `FWBER QA TempClaude` (ID 190, 201) -> `GET /api/friends/search?q=FWBER+QA+Beta` 200 returning Beta (ID 189) -> blank query 200 `[]` -> `POST /api/friends/request {friend_id:189}` 200 "Friend request sent". The defect Bobbi found is fixed on production. A pending request from 190 now sits in Beta's Requests tab for any retest.
+- Note: request payload key is `friend_id` (frontend already sends it); a `friendId` probe returned the 400 validation message — expected, not a bug.
 ## Session 2026-11-06 — Bobbi Visual Multi-Account Test + Friends Search Fix (v2.3.55)
 
 - Coordinated with Bobbi (muse.ai) over CDP 9222 (Edge tab; CDP websocket needs the tab activated first, renderer saturates while she works — expect evaluate timeouts, wait and retry). Robert authorized the exact test in the Bobbi main chat in his own words; Bobbi initially refused the agent-relayed brief, accepted his.
