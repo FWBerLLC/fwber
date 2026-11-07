@@ -10,6 +10,8 @@
 
 - Register x2 PASS (QA Alpha ID 188, Beta ID 189; `POST /api/auth/register` 201 twice). Socket badge "Connected" both sides PASS — the old Disconnected defect did not reproduce. Profile views register.
 - Friend request FAIL (this fix), messaging FAIL (no Message/compose UI; chat match-gated), block NOT APPLICABLE (no block-creation UI exists; backend + unblock UI do). See TODO for the UI follow-ups.
+
+
 ## [2.3.53] - 2026-11-04
 
 ### Dashboard High-Value Redesign & Comprehensive Tooltip Wiring
