@@ -1,7 +1,7 @@
 # DEPLOY.md — The fwber Operations Guide
 
-> **Last Updated:** 2026-05-31
-> **Version:** 2.1.4
+> **Last Updated:** 2026-11-04
+> **Version:** 2.3.53
 
 This document is the operational source of truth for deploying the active fwber stack after the restoration phases. The recommended topology is now:
 
@@ -360,3 +360,16 @@ The platform supports a dedicated staging environment for pre-production validat
 1. Check staging health: `https://api-staging.fwber.online/api/health`
 2. Run automated regression: `cd fwber-backend-ts && npm run test`
 3. Verify matching engine UI at `/settings/matching` on the staging frontend.
+
+## 12. Local Developer Operations & System Tray Controller (v2.3.53)
+
+For local development and debugging on Windows/local servers, FWBer provides a native Windows notification area controller:
+- **Launcher**: `start.bat --tray` or `tools/fwber-tray.bat`
+- **Script**: `tools/fwber-tray.ps1`
+- **Managed Services**:
+  - Backend API: port `4003` (`fwber-backend-ts`)
+  - Frontend: port `3000` (`fwber-frontend`)
+- **Teardown**: The **"Quit Servers & Tray"** action reclaims ports 4003 and 3000 and terminates child `npm.cmd` wrappers without killing unrelated Node processes.
+- **Diagnostics Tool**: `python3 tools/fwber-tray-check.py` verifies port listeners and inspects service logs under `logs/`.
+
+---
