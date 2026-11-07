@@ -1,15 +1,5 @@
 # Changelog
 
-## [2.3.55] - 2026-11-06
-
-### Fixed (found by Bobbi multi-account visual test, Robert-authorized)
-
-- **`GET /api/friends/search` implemented** — the Friends page has called this endpoint since it shipped, but the backend route never existed, so every user search returned empty and the entire friend-request flow was dead on production. Bobbi (muse.ai, via CDP coordination) observed it live with two QA accounts; Muse verified in code + server logs (`GET /api/friends/search?q=FWBER+QA+Beta` answering no payload while `/api/user/search` returned 200). New route mirrors the friends-list response shape, excludes self, blank query short-circuits. Regression test `tests/FriendsSearch.test.ts` (2/2 pass); backend `tsc` clean. NOT deployed yet.
-
-### Verified live by visual test (observed, cross-checked in logs)
-
-- Register x2 PASS (QA Alpha ID 188, Beta ID 189; `POST /api/auth/register` 201 twice). Socket badge "Connected" both sides PASS — the old Disconnected defect did not reproduce. Profile views register.
-- Friend request FAIL (this fix), messaging FAIL (no Message/compose UI; chat match-gated), block NOT APPLICABLE (no block-creation UI exists; backend + unblock UI do). See TODO for the UI follow-ups.
 ## [2.3.53] - 2026-11-04
 
 ### Dashboard High-Value Redesign & Comprehensive Tooltip Wiring

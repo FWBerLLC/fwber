@@ -1,7 +1,7 @@
 # DEPLOY.md — The fwber Operations Guide
 
-> **Last Updated:** 2026-11-01
-> **Version:** 2.3.50
+> **Last Updated:** 2026-11-04
+> **Version:** 2.3.53
 
 This document is the operational source of truth for deploying the active fwber stack after the restoration phases. The recommended topology is now:
 
@@ -362,37 +362,15 @@ The platform supports a dedicated staging environment for pre-production validat
 2. Run automated regression: `cd fwber-backend-ts && npm run test`
 3. Verify matching engine UI at `/settings/matching` on the staging frontend.
 
----
+## 12. Local Developer Operations & System Tray Controller (v2.3.53)
 
-## 12. Deployment Checklist for v2.3.48 (Dynamic Identity & Proximity Forum)
-
-Before signing off on the v2.3.48 deployment, ensure the following features are fully operational:
-
-1. [ ] **Dynamic Identity Avatars:** Verify that user avatars render with the correct visual treatments (glows, blends, ring colors) mapped to their current emotional states in `EvolvingAvatar.tsx`.
-2. [ ] **Proximity Forum Activity:** Confirm that the Local Pulse feed engine properly indexes real-time geographic distance between users using the Haversine formula and displays this in the UI.
-3. [ ] **Emotional Aura Integration:** Ensure the `auras` table is accurately aggregating recent sentiment and exposing it via `/api/auras/:userId`.
-4. [ ] **AI Wingman Tone Translator:** Validate that the `POST /api/wingman/translate-tone` endpoint is functional and effectively rewrites draft messages into specified tones.
-5. [ ] **Frontend Middleware:** Ensure the test mock middleware does not inadvertently bypass authentication checks in the live production environment.
-
----
-
-## 13. Deployment Checklist for v2.3.47 (Wallet Login v2 & Submodules)
-
-Before signing off on the v2.3.47 deployment, ensure the following features are fully operational:
-
-1. [ ] **Wallet Login v2:** Verify that the non-custodial wallet login flow correctly utilizes the destructured `fetchWalletNonce` and that signing a payload successfully authenticates the user without mandating SMS 2FA.
-2. [ ] **Submodule Sync:** Confirm that all nested submodules have been recursively initialized and updated to their latest commits.
-3. [ ] **Dashboard Cleanup:** Validate that dead tiles (e.g., `/chat-rooms`, `/burner`) have been removed and remaining tiles display information markers correctly.
-4. [ ] **Backend Dev Runtime:** Ensure the local backend developer experience operates on `tsx watch src/index.ts` instead of the legacy `nodemon` flow.
+For local development and debugging on Windows/local servers, FWBer provides a native Windows notification area controller:
+- **Launcher**: `start.bat --tray` or `tools/fwber-tray.bat`
+- **Script**: `tools/fwber-tray.ps1`
+- **Managed Services**:
+  - Backend API: port `4003` (`fwber-backend-ts`)
+  - Frontend: port `3000` (`fwber-frontend`)
+- **Teardown**: The **"Quit Servers & Tray"** action reclaims ports 4003 and 3000 and terminates child `npm.cmd` wrappers without killing unrelated Node processes.
+- **Diagnostics Tool**: `python3 tools/fwber-tray-check.py` verifies port listeners and inspects service logs under `logs/`.
 
 ---
-
-## 14. Deployment Checklist for v2.3.49 (Federation Stability & E2E Testing)
-
-Before signing off on the v2.3.49 deployment, ensure the following features are fully operational:
-
-1. [ ] **Federation Activity Stream:** Verify that the `FederationService` correctly ingests and processes `Article` type objects from remote nodes without crashing the queue.
-2. [ ] **E2E Test Auth Bypass:** Confirm the Next.js `middleware.ts` successfully mocks authentication tokens ONLY when `E2E_TEST_MODE=true` is set server-side.
-3. [ ] **WebSocket Reconnect Tracking:** Validate that the global header socket badge shows "Reconnecting..." during transient network drops rather than failing permanently to "Disconnected".
-4. [ ] **Solana Wallet Adapters:** Verify that Web3 wallet linking (Phantom, Solflare) still functions after migrating away from the deprecated umbrella package.
-5. [ ] **Session Replay:** Ensure Sentry Session Replays are successfully transmitting frontend telemetry securely if enabled.

@@ -8,12 +8,7 @@
 ## 🔧 Open Items (2026-11-04, v2.3.53 session)
 
 ### High Priority
-
-- [ ] **Profile action buttons missing (Bobbi test 2026-11-06)** — `app/profile/[id]` renders Tip/Pass/Like/Send Gift only: no Add Friend, no Message, no Block. Backend exists for all three (`POST /friends/requests`, chat, `POST /blocks`). Add buttons wired to those APIs. Block especially: zero UI creates a block today (only Settings > Blocked list/unblock).
-- [ ] **Dashboard Network "Syncing" vs header badge "Connected" disagreement (Bobbi test)** — two connection indicators diverge on fresh accounts; unify on one socket state source.
-- [ ] **Fresh-account seeded stats** — brand-new QA accounts show "7 Chats" / "17% Compatibility" with zero activity (Bobbi test). Audit `/dashboard/stats` defaults for new users.
-- [ ] **Footer version shows v2.1.4** — frontend footer reads stale package version instead of root VERSION (2.3.55). Wire to the single source of truth.
-- [x] **Friends search endpoint missing (fixed v2.3.55, pending deploy)** — `GET /api/friends/search` implemented + regression test; was the root cause of the dead friend-request flow.- [x] **Dashboard UI Reorganization & High-Value Consolidation (v2.3.53)** — Redesigned into 10 high-value categories, wired all standalone hub routes, and added descriptive tooltips to 100% of FeatureTiles (131 total).
+- [x] **Dashboard UI Reorganization & High-Value Consolidation (v2.3.53)** — Redesigned into 10 high-value categories, wired all standalone hub routes, and added descriptive tooltips to 100% of FeatureTiles (131 total).
 - [x] **System Tray Controller Inspection & Status Checker (v2.3.53)** — Verified tools/fwber-tray.ps1 and tools/fwber-tray.bat, created cross-platform monitor tools/fwber-tray-check.py.
 - [x] **Script Housekeeping & Non-Destructive Archiving (v2.3.53)** — Moved duplicate migration tools into tools/legacy/ and enhanced build.bat / start.bat.
 
