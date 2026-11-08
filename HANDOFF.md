@@ -1,3 +1,9 @@
+## Session 2026-11-08 — DEPLOYED frontend v2.3.56 (Robert-authorized rebuild)
+- Server /var/www/fwber/repo: fetch + reset --hard origin/main 5eb724ab9 -> 33ffdafb7 (frontend component + docs only, no schema changes; untracked prisma/migrations/ untouched, no migration run). Backend untouched (still v2.3.55).
+- Frontend: nice -n 10 npm install + nice -n 10 next build green (all routes incl. /journal, postbuild standalone assets copied), pm2 restart fwber-frontend (pid 3572659). Low-priority rule honored (NI 10 on build); other tenants undisturbed.
+- Smoke: on-box front:200; public site:200 login:200 api-health:200; /journals 307 -> /journal (Protocol #277 redirect now live). v2.3.56 type gate + #277 frontend code fully deployed.
+- Operator directives honored: local stack untouched, rate-my-pussy unlinked, no deletions.
+
 ## Session 2026-11-07 — tsc 2->0 + v2.3.56 (autonomous protocol turn)
 - Repo in sync: local main == origin/main at 5f47fd872, clean; 5 local feature branches all previously merged. Server repo at 5eb724ab9 — drift is docs-only (CHANGELOG/HANDOFF/VERSION), functionally current; no redeploy needed.
 - Nav coverage re-verified: 135 linked, 15 intentionally unlinked (create-subpages, hub subs, venue, policy, entry/dev) — matches v2.3.53 design, zero dead hrefs.

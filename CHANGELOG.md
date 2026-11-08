@@ -4,6 +4,8 @@
 
 ### Fixed (frontend tsc 2 -> 0, Protocol #280 fallout)
 
+- **DEPLOYED 2026-11-08 (Robert-authorized):** server reset to 33ffdafb7, low-priority build green, pm2 restart; smoke site/login/api-health 200, /journals 307 -> /journal live.
+
 - **`ProfileViewModal.tsx` narrative-report typing** — `apiClient.get()` (generic `get<T>` with no default) left `res.data` as `{}`, so `res.data.report` failed TS2339 x2. Fix matches file convention: `apiClient.get<{ report?: string }>` alongside the neighboring typed calls (`{ unlocked: boolean }`, `{ data: any }`). Regression came in via merged #277/#280 code (file untouched since v2.3.49); backend tsc clean, frontend tsc back to EXIT 0 (logs/tsc15.log).
 - **Not deployed.** Server still runs v2.3.55 backend + v2.3.54-era frontend build; this fix only clears the type gate for the pending frontend rebuild review.
 
