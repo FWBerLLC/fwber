@@ -29,7 +29,7 @@
 - [ ] **Solana wallet-adapter drift** — `SolanaProvider.tsx` imports `PhantomWalletAdapter` which the installed `@solana/wallet-adapter-wallets` no longer exports (`tsc` TS2305). Pin or migrate the import.
 
 ### Medium Priority
-- [ ] **dnd-kit / laravel-echo type declarations** — `tsc` TS7016 on `@dnd-kit/*` + `laravel-echo`, plus implicit-`any` `photo` in `app/photos/page.tsx(454)`. Add decls or tighten types.
+- [x] **dnd-kit / laravel-echo type declarations (v2.3.53)** — Added types/dnd-kit.d.ts module declarations and typed (photo: any) in app/photos/page.tsx.
 - [ ] **Duplicate journal surfaces** — `/journal` and `/journals` are both full pages; merge into one canonical page and retarget the dashboard tiles.
 - [ ] **`nodemon` now unused** — backend `dev` runs on `tsx watch`; `npm uninstall nodemon` follow-up to drop the dead dep.
 - [ ] **Socket "Disconnected" header badge** — still open from 2026-10-26 (carried).

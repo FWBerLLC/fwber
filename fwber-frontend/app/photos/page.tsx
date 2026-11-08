@@ -451,7 +451,7 @@ export default function PhotoManagementPage() {
     // Save to backend in the background (don't await - fire and forget)
     // Pass skipOptimisticUpdate=true to prevent the hook from overwriting our optimistic update
     // If it fails, we'll refetch to get the correct order from backend
-    reorderPhotos(newOrder.map(photo => String(photo.id)), true).catch((error) => {
+    reorderPhotos(newOrder.map((photo: any) => String(photo.id)), true).catch((error) => {
       console.error('Reorder failed:', error)
       // On error, refetch photos to get correct order from backend
       fetchPhotos()
