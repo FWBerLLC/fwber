@@ -247,3 +247,5 @@
 - [x] **Stripe Live Keys**: Switch from test to live Stripe keys for production payments.
 
 [... Historical TODOs moved to ARCHIVE ...]
+
+- Messaging stays match-gated by design (2026-11-08, v2.3.57 session) - not a defect. Do not resurface as FAIL; compose UI appears only in matched conversations.

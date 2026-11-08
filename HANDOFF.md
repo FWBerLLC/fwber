@@ -1,3 +1,7 @@
+## Session 2026-11-08 - Block and Report in ProfileViewModal (v2.3.57, not deployed)
+- Patched fwber-frontend/components/ProfileViewModal.tsx: Ban and Flag lucide imports; blockUser and reportUser plus useConfirmDialog plus ReportModal imports; token from useAuth; handleBlock (confirm dialog, blockUser, toast, close) plus handleReportSubmit (reportUser, toast); Block and Report row above sticky action bar; ConfirmDialog element plus ReportModal mounted in modal body. Explicit-tap only, never pops up unprompted. Fixed comment-nesting slip plus ConfirmDialog element usage; frontend tsc EXIT 0.
+- VERSION 2.3.56 to 2.3.57; CHANGELOG plus TODO updated; tsconfig.tsbuildinfo reverted; committed plus pushed. No deploy (needs Robert authorization). Coordination tabs verified live in msedge CDP 9222: Muse at muse.ai, Gemini at gemini.google.com, ChatGPT at chatgpt.com.
+
 ## Session 2026-11-08 — DEPLOYED frontend v2.3.56 (Robert-authorized rebuild)
 - Server /var/www/fwber/repo: fetch + reset --hard origin/main 5eb724ab9 -> 33ffdafb7 (frontend component + docs only, no schema changes; untracked prisma/migrations/ untouched, no migration run). Backend untouched (still v2.3.55).
 - Frontend: nice -n 10 npm install + nice -n 10 next build green (all routes incl. /journal, postbuild standalone assets copied), pm2 restart fwber-frontend (pid 3572659). Low-priority rule honored (NI 10 on build); other tenants undisturbed.

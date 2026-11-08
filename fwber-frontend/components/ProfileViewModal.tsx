@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { X, Clock, CheckCircle, UserCheck, Share2, Brain, Lock, Crown, UserPlus } from 'lucide-react'
+import { X, Clock, CheckCircle, UserCheck, Share2, Brain, Lock, Crown, UserPlus, Ban, Flag } from 'lucide-react'
 import PhotoRevealGate from './PhotoRevealGate'
 import SecurePhotoReveal from './SecurePhotoReveal'
 import { RelationshipTier } from '@/lib/relationshipTiers'
@@ -15,6 +15,9 @@ import { photoAPI } from '@/lib/api/photos'
 import { MapPin } from 'lucide-react'
 
 import { useToast } from '@/components/ToastProvider'
+import { blockUser, reportUser } from '@/lib/api/safety'
+import { useConfirmDialog } from '@/components/ConfirmDialog'
+import ReportModal from '@/components/ReportModal'
 import { useAuth } from '@/lib/auth-context'
 
 interface ProfileViewModalProps {
@@ -43,13 +46,15 @@ interface ProfileViewModalProps {
 
 export default function ProfileViewModal({ isOpen, onClose, user, messagesExchanged, matchId, onAction }: ProfileViewModalProps) {
   const router = useRouter()
-  const { user: currentUser } = useAuth()
+  const { user: currentUser, token } = useAuth()
   const [isVisible, setIsVisible] = useState(false)
   const [isUnlockedViaShare, setIsUnlockedViaShare] = useState(false)
   const [locallyUnlockedPhotos, setLocallyUnlockedPhotos] = useState<Set<number>>(new Set())
   const { isEnabled: faceRevealEnabled } = useFeatureFlag('face_reveal')
   const { onlineUsers } = usePresenceContext()
   const { showSuccess, showError, addToast } = useToast()
+const { confirmAction, ConfirmDialog } = useConfirmDialog()
+const [isReportModalOpen, setIsReportModalOpen] = useState(false)
   
   const [insights, setInsights] = useState<any>(null)
   const [insightLoading, setInsightLoading] = useState(false)
@@ -210,7 +215,37 @@ export default function ProfileViewModal({ isOpen, onClose, user, messagesExchan
     }
   }
 
-  if (!isVisible && !isOpen) return null
+  const handleBlock = async () => {
+  if (!token) return
+  confirmAction({
+    title: 'Block User',
+    confirmLabel: 'Block',
+    variant: 'destructive',
+    message: 'Are you sure you want to block this profile? You will no longer see their content.',
+    onConfirm: async () => {
+      try {
+        await blockUser(token, user.id)
+        showSuccess('Blocked', 'User has been blocked.')
+        onClose()
+      } catch (e) {
+        showError('Block failed', 'Could not block user.')
+      }
+    },
+  })
+}
+
+const handleReportSubmit = async (reason: string, details: string) => {
+  if (!token) return
+  try {
+    await reportUser(token, user.id, reason, details)
+    setIsReportModalOpen(false)
+    showSuccess('Reported', 'Thanks, our team will review this profile.')
+  } catch (e) {
+    showError('Report failed', 'Could not submit report.')
+  }
+}
+
+if (!isVisible && !isOpen) return null
 
   // Map API photos to PhotoRevealGate format
   const photos = user.profile?.photos?.map(p => ({
@@ -477,6 +512,12 @@ export default function ProfileViewModal({ isOpen, onClose, user, messagesExchan
           </div>
 
           {/* Floating Action Buttons */}
+<div className='flex justify-center gap-3 pb-2'>
+<button type='button' onClick={handleBlock}><Ban className='w-3.5 h-3.5' /> Block</button>
+<button type='button' onClick={() => setIsReportModalOpen(true)}><Flag className='w-3.5 h-3.5' /> Report</button>
+{ConfirmDialog}
+<ReportModal isOpen={isReportModalOpen} onClose={() => setIsReportModalOpen(false)} onSubmit={handleReportSubmit} userName={user.profile?.display_name || 'User'} />
+</div>
           {onAction && (
             <div className="sticky bottom-0 left-0 right-0 py-4 bg-gradient-to-t from-white dark:from-gray-900 via-white dark:via-gray-900 flex justify-center gap-6 z-30">
               <button type="button"

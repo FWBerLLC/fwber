@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.57] - 2026-11-08
+
+### Added (ProfileViewModal safety actions, explicit-tap only)
+
+- Block + Report buttons in ProfileViewModal (Ban and Flag icons), placed above the pass, super-like and like sticky bar. Block uses the shared confirm dialog flow then blockUser with toast and close. Report opens the shared ReportModal and submits via reportUser with toast. Both open solely on button tap, no proactive prompts, per standing constraint.
+- Frontend tsc clean (EXIT 0) after fix: ConfirmDialog renders as element, plus one comment-nesting fix during patching.
+- Not deployed. Needs Robert authorization before any prod deploy.
+
 ## [2.3.56] - 2026-11-07
 
 ### Fixed (frontend tsc 2 -> 0, Protocol #280 fallout)
