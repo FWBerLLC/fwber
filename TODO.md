@@ -31,7 +31,7 @@
 ### Medium Priority
 - [x] **dnd-kit / laravel-echo type declarations (v2.3.53)** — Added types/dnd-kit.d.ts module declarations and typed (photo: any) in app/photos/page.tsx.
 - [ ] **Duplicate journal surfaces** — `/journal` and `/journals` are both full pages; merge into one canonical page and retarget the dashboard tiles.
-- [ ] **`nodemon` now unused** — backend `dev` runs on `tsx watch`; `npm uninstall nodemon` follow-up to drop the dead dep.
+- [x] **`nodemon` dropped (v2.3.53)** — backend `dev` runs on `tsx watch`; removed dead `nodemon` dependency from `fwber-backend-ts/package.json`.
 - [ ] **Socket "Disconnected" header badge** — still open from 2026-10-26 (carried).
 - [ ] **Off-site backup replication** — still BLOCKED on Robert (carried).
 
