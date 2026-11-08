@@ -86,7 +86,7 @@ export default function ProfileViewModal({ isOpen, onClose, user, messagesExchan
         .finally(() => setInsightLoading(false))
 
       // Fetch Narrative Report
-      apiClient.get(`/matching/narrative/${user.id}`)
+      apiClient.get<{ report?: string }>(`/matching/narrative/${user.id}`)
         .then(res => {
           if (res.data && res.data.report) {
              setNarrativeReport(res.data.report)
