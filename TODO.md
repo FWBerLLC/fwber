@@ -249,3 +249,5 @@
 [... Historical TODOs moved to ARCHIVE ...]
 
 - Messaging stays match-gated by design (2026-11-08, v2.3.57 session) - not a defect. Do not resurface as FAIL; compose UI appears only in matched conversations.
+
+- [x] **Blocked-users list + unblock UI (v2.3.58)** - Safety page Blocked Users card wired to GET /api/blocks; Unblock per row. Block creation already in ProfileViewModal (v2.3.57, explicit-tap only).

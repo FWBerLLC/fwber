@@ -7,18 +7,23 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
-import { ShieldCheck, Crosshair, Users, MapPin, Plus, Trash2, BellRing, Navigation } from 'lucide-react';
+import { useAuth } from '@/lib/auth-context';
+import { ShieldCheck, Crosshair, Users, MapPin, Plus, Trash2, BellRing, Navigation, Ban } from 'lucide-react';
 import {
     getContacts,
     addContact,
     deleteContact,
     triggerPanic,
     startSafeWalk,
-    EmergencyContact
+    EmergencyContact,
+    getBlockedUsers,
+    unblockUser,
+    BlockedUser
 } from '@/lib/api/safety';
 
 export default function SafetyPage() {
     const { toast } = useToast();
+    const { token } = useAuth();
 
     // Contacts State
     const [contacts, setContacts] = useState<EmergencyContact[]>([]);
@@ -26,6 +31,8 @@ export default function SafetyPage() {
     const [newContactName, setNewContactName] = useState('');
     const [newContactPhone, setNewContactPhone] = useState('');
     const [isAddingContact, setIsAddingContact] = useState(false);
+    const [blockedUsers, setBlockedUsers] = useState<BlockedUser[]>([]);
+    const [isLoadingBlocked, setIsLoadingBlocked] = useState(true);
 
     // Safe Walk State
     const [destination, setDestination] = useState('');
@@ -48,6 +55,33 @@ export default function SafetyPage() {
     useEffect(() => {
         loadContacts();
     }, [loadContacts]);
+
+    const loadBlocked = useCallback(async () => {
+        if (!token) { setIsLoadingBlocked(false); return; }
+        try {
+            const res = await getBlockedUsers(token);
+            setBlockedUsers(res.data);
+        } catch (e) {
+            toast({ title: 'Error', description: 'Failed to load blocked users.', variant: 'destructive' });
+        } finally {
+            setIsLoadingBlocked(false);
+        }
+    }, [toast, token]);
+
+    useEffect(() => {
+        loadBlocked();
+    }, [loadBlocked]);
+
+    const handleUnblock = async (blockedId: number) => {
+        if (!token) return;
+        try {
+            await unblockUser(token, blockedId);
+            setBlockedUsers((prev) => prev.filter((u) => u.blocked_id !== blockedId));
+            toast({ title: 'Unblocked', description: 'User has been unblocked.' });
+        } catch (e) {
+            toast({ title: 'Error', description: 'Could not unblock user.', variant: 'destructive' });
+        }
+    };
 
     const handleAddContact = async () => {
         if (!newContactName || !newContactPhone) {
@@ -316,6 +350,39 @@ export default function SafetyPage() {
                                 )}
                             </div>
 
+                        </CardContent>
+                    </Card>
+
+                    {/* BLOCKED USERS */}
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className='flex items-center gap-2'>
+                                <Ban className='w-5 h-5' />
+                                Blocked Users
+                            </CardTitle>
+                            <CardDescription>
+                                People you have blocked cannot message you or see your profile. Unblock anytime. They are not notified.
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent className='space-y-3'>
+                            {isLoadingBlocked ? (
+                                <p className='text-center text-sm text-muted-foreground py-4'>Loading blocked users...</p>
+                            ) : blockedUsers.length === 0 ? (
+                                <div className='text-center p-6 border-2 border-dashed rounded-lg'>
+                                    <p className='text-muted-foreground'>No blocked users. You can block someone from their profile.</p>
+                                </div>
+                            ) : (
+                                blockedUsers.map((u) => (
+                                    <div key={u.blocked_id} className='flex items-center justify-between p-3 border rounded-lg bg-card'>
+                                        <div>
+                                            <p className='font-medium'>{u.name}</p>
+                                        </div>
+                                        <Button variant='outline' size='sm' onClick={() => handleUnblock(u.blocked_id)}>
+                                            Unblock
+                                        </Button>
+                                    </div>
+                                ))
+                            )}
                         </CardContent>
                     </Card>
 

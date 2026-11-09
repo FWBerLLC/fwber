@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.58] - 2026-11-09
+
+### Added (Blocked-users management on Safety page)
+
+- Blocked Users card on Safety page: lists blocks via getBlockedUsers, per-row Unblock button (direct-tap, no confirm dialog), toasts on load/unblock failure. Empty state points to profile block action. Matches backend GET /api/blocks shape.
+- safety.ts: BlockedUser interface + getBlockedUsers(token). Frontend tsc EXIT 0.
+- Deploy authorized this turn; deploy follows commit/push.
+
 ## [2.3.57] - 2026-11-08
 
 ### Added (ProfileViewModal safety actions, explicit-tap only)
@@ -14,7 +22,7 @@
 
 - **DEPLOYED 2026-11-08 (Robert-authorized):** server reset to 33ffdafb7, low-priority build green, pm2 restart; smoke site/login/api-health 200, /journals 307 -> /journal live.
 
-- **`ProfileViewModal.tsx` narrative-report typing** — `apiClient.get()` (generic `get<T>` with no default) left `res.data` as `{}`, so `res.data.report` failed TS2339 x2. Fix matches file convention: `apiClient.get<{ report?: string }>` alongside the neighboring typed calls (`{ unlocked: boolean }`, `{ data: any }`). Regression came in via merged #277/#280 code (file untouched since v2.3.49); backend tsc clean, frontend tsc back to EXIT 0 (logs/tsc15.log).
+- **`ProfileViewModal.tsx` narrative-report typing** ï¿½ `apiClient.get()` (generic `get<T>` with no default) left `res.data` as `{}`, so `res.data.report` failed TS2339 x2. Fix matches file convention: `apiClient.get<{ report?: string }>` alongside the neighboring typed calls (`{ unlocked: boolean }`, `{ data: any }`). Regression came in via merged #277/#280 code (file untouched since v2.3.49); backend tsc clean, frontend tsc back to EXIT 0 (logs/tsc15.log).
 - **Not deployed.** Server still runs v2.3.55 backend + v2.3.54-era frontend build; this fix only clears the type gate for the pending frontend rebuild review.
 
 ## [2.3.55] - 2026-11-06

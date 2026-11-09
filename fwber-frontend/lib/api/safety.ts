@@ -60,6 +60,22 @@ export async function unblockUser(token: string, blockedId: number): Promise<{ o
   return res.data;
 }
 
+export interface BlockedUser {
+  id: number;
+  blocked_id: number;
+  name: string;
+  avatar_url: string | null;
+  created_at?: string;
+}
+
+/**
+ * List blocked users
+ */
+export async function getBlockedUsers(token: string): Promise<{ data: BlockedUser[]; total: number }> {
+  const res = await apiClient.get<{ data: BlockedUser[]; total: number }>('/blocks', { headers: { Authorization: 'Bearer ' + token } });
+  return res.data;
+}
+
 /**
  * Report a user
  */

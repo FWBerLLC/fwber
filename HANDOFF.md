@@ -1,16 +1,21 @@
+## Session 2026-11-09 - Blocked-users management on Safety page (v2.3.58)
+- Frontend-only gap close: backend GET/POST/DELETE /api/blocks already shipped; added getBlockedUsers + BlockedUser to safety.ts, Blocked Users card on Safety page with Unblock buttons + toasts. Explicit-tap only, no proactive popups. tsc EXIT 0.
+- VERSION 2.3.57 to 2.3.58. Deploy authorized this turn: Hetzner reachable (prod was v2.3.56, both pm2 online); deploy to follow commit/push.
+- Sessions check: latest pi fwber session 2026-10-11 (stale, ended WS_ERROR loops); no Claude fwber project sessions on disk; latest fwber Codex context is this thread (Nov 3-9).
+
 ## Session 2026-11-08 - Block and Report in ProfileViewModal (v2.3.57, not deployed)
 - Patched fwber-frontend/components/ProfileViewModal.tsx: Ban and Flag lucide imports; blockUser and reportUser plus useConfirmDialog plus ReportModal imports; token from useAuth; handleBlock (confirm dialog, blockUser, toast, close) plus handleReportSubmit (reportUser, toast); Block and Report row above sticky action bar; ConfirmDialog element plus ReportModal mounted in modal body. Explicit-tap only, never pops up unprompted. Fixed comment-nesting slip plus ConfirmDialog element usage; frontend tsc EXIT 0.
 - VERSION 2.3.56 to 2.3.57; CHANGELOG plus TODO updated; tsconfig.tsbuildinfo reverted; committed plus pushed. No deploy (needs Robert authorization). Coordination tabs verified live in msedge CDP 9222: Muse at muse.ai, Gemini at gemini.google.com, ChatGPT at chatgpt.com.
 
-## Session 2026-11-08 — DEPLOYED frontend v2.3.56 (Robert-authorized rebuild)
+## Session 2026-11-08 ï¿½ DEPLOYED frontend v2.3.56 (Robert-authorized rebuild)
 - Server /var/www/fwber/repo: fetch + reset --hard origin/main 5eb724ab9 -> 33ffdafb7 (frontend component + docs only, no schema changes; untracked prisma/migrations/ untouched, no migration run). Backend untouched (still v2.3.55).
 - Frontend: nice -n 10 npm install + nice -n 10 next build green (all routes incl. /journal, postbuild standalone assets copied), pm2 restart fwber-frontend (pid 3572659). Low-priority rule honored (NI 10 on build); other tenants undisturbed.
 - Smoke: on-box front:200; public site:200 login:200 api-health:200; /journals 307 -> /journal (Protocol #277 redirect now live). v2.3.56 type gate + #277 frontend code fully deployed.
 - Operator directives honored: local stack untouched, rate-my-pussy unlinked, no deletions.
 
-## Session 2026-11-07 — tsc 2->0 + v2.3.56 (autonomous protocol turn)
-- Repo in sync: local main == origin/main at 5f47fd872, clean; 5 local feature branches all previously merged. Server repo at 5eb724ab9 — drift is docs-only (CHANGELOG/HANDOFF/VERSION), functionally current; no redeploy needed.
-- Nav coverage re-verified: 135 linked, 15 intentionally unlinked (create-subpages, hub subs, venue, policy, entry/dev) — matches v2.3.53 design, zero dead hrefs.
+## Session 2026-11-07 ï¿½ tsc 2->0 + v2.3.56 (autonomous protocol turn)
+- Repo in sync: local main == origin/main at 5f47fd872, clean; 5 local feature branches all previously merged. Server repo at 5eb724ab9 ï¿½ drift is docs-only (CHANGELOG/HANDOFF/VERSION), functionally current; no redeploy needed.
+- Nav coverage re-verified: 135 linked, 15 intentionally unlinked (create-subpages, hub subs, venue, policy, entry/dev) ï¿½ matches v2.3.53 design, zero dead hrefs.
 - Backend `tsc --noEmit` EXIT 0 (logs/tsc-backend12.log empty). Frontend `tsc` had regressed 0 -> 2 errors from merged #277/#280 code: `ProfileViewModal.tsx(91,92)` TS2339 `report` on `{}`. Fixed with explicit `<{ report?: string }>` generic (file convention). Re-ran: frontend EXIT 0 (logs/tsc15.log empty).
 - Live: pm2 both online (backend 11h, frontend 4D), on-box api:200 front:200, public site:200 login:200. Known watch items only: backend DB-unreachable blips + malformed-JSON probes, frontend Next "Server Reference ID" stale-client warnings (new hash d42f1920, no crash loop).
 - Local stack untouched (tray-check: 4003/3000 not listening, per prod-only directive). tools/ tidy, no new dup scripts. rate-my-pussy untouched/unlinked. No deletions.
