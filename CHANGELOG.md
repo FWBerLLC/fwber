@@ -6,7 +6,7 @@
 
 - Blocked Users card on Safety page: lists blocks via getBlockedUsers, per-row Unblock button (direct-tap, no confirm dialog), toasts on load/unblock failure. Empty state points to profile block action. Matches backend GET /api/blocks shape.
 - safety.ts: BlockedUser interface + getBlockedUsers(token). Frontend tsc EXIT 0.
-- Deploy authorized this turn; deploy follows commit/push.
+- **DEPLOYED 2026-11-09 (authorized this turn):** server reset to a36780d83, low-priority frontend build green (compiled 30.4s, standalone assets copied), pm2 restart fwber-frontend; smoke site:200 login:200 on-box front:200 journal:200 api /api/health 200 public+onbox. Backend untouched (no backend changes in this range).
 
 ## [2.3.57] - 2026-11-08
 

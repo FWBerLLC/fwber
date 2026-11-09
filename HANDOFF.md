@@ -1,6 +1,6 @@
 ## Session 2026-11-09 - Blocked-users management on Safety page (v2.3.58)
 - Frontend-only gap close: backend GET/POST/DELETE /api/blocks already shipped; added getBlockedUsers + BlockedUser to safety.ts, Blocked Users card on Safety page with Unblock buttons + toasts. Explicit-tap only, no proactive popups. tsc EXIT 0.
-- VERSION 2.3.57 to 2.3.58. Deploy authorized this turn: Hetzner reachable (prod was v2.3.56, both pm2 online); deploy to follow commit/push.
+- VERSION 2.3.57 to 2.3.58. **DEPLOYED 2026-11-09 (authorized):** Hetzner /var/www/fwber/repo reset to a36780d83, nice -n 10 build green, pm2 restart; smoke all 200. Backend untouched.
 - Sessions check: latest pi fwber session 2026-10-11 (stale, ended WS_ERROR loops); no Claude fwber project sessions on disk; latest fwber Codex context is this thread (Nov 3-9).
 
 ## Session 2026-11-08 - Block and Report in ProfileViewModal (v2.3.57, not deployed)
