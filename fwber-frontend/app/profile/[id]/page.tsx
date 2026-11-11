@@ -15,7 +15,7 @@ import { EvolvingAvatar } from '@/components/ui/EvolvingAvatar';
 import { RelationshipTier } from '@/lib/relationshipTiers';
 import { photoAPI } from '@/lib/api/photos';
 import GiftShopModal from '@/components/gifts/GiftShopModal';
-import { BookHeart, Compass, Gift, HeartHandshake, ShieldCheck, Sparkles, Globe, Copy } from 'lucide-react';
+import { BookHeart, Compass, Gift, HeartHandshake, ShieldCheck, Sparkles, Globe, Copy, UserPlus, UserCheck, Ban } from 'lucide-react';
 import { VouchBadge } from '@/components/profile/VouchBadge';
 import { useMatchCompatibility } from '@/lib/hooks/use-compatibility';
 import { useToast } from '@/components/ToastProvider';
@@ -36,6 +36,11 @@ export default function PublicProfilePage() {
   const [error, setError] = useState<string | null>(null);
   const [actionPerformed, setActionPerformed] = useState(false);
   const [isGiftModalOpen, setIsGiftModalOpen] = useState(false);
+  // Relationship with the viewed user: 'loading' while we check.
+  const [friendStatus, setFriendStatus] = useState<'none' | 'pending' | 'friends' | 'blocked' | 'loading'>('loading');
+  const [friendBusy, setFriendBusy] = useState(false);
+  const [blockBusy, setBlockBusy] = useState(false);
+  const [confirmBlock, setConfirmBlock] = useState(false);
   const { showSuccess, showError } = useToast();
   const { data: compatibility } = useMatchCompatibility(id || '');
 
@@ -112,6 +117,97 @@ export default function PublicProfilePage() {
       }
     } catch (err) {
       showError('Action Failed', 'Failed to perform action. Please try again.');
+    }
+  };
+
+  // Relationship status with the viewed user (friend / pending / blocked).
+  // The backend wraps list responses in { data: [...] }; accept both shapes.
+  useEffect(() => {
+    if (!profile || !user || profile.id === user.id) return;
+    let cancelled = false;
+    const unwrapList = (value: unknown): any[] =>
+      Array.isArray(value) ? value : Array.isArray((value as any)?.data) ? (value as any).data : [];
+
+    setFriendStatus('loading');
+    setConfirmBlock(false);
+    Promise.all([
+      api.get('/friends').catch(() => []),
+      api.get('/friends/requests').catch(() => []),
+      api.get('/blocks').catch(() => []),
+    ])
+      .then(([friendsRes, requestsRes, blocksRes]) => {
+        if (cancelled) return;
+        const friends = unwrapList(friendsRes);
+        const requests = unwrapList(requestsRes);
+        const blocks = unwrapList(blocksRes);
+        if (blocks.some((b: any) => Number(b.blocked_id) === profile.id)) {
+          setFriendStatus('blocked');
+        } else if (friends.some((f: any) => Number(f.id) === profile.id)) {
+          setFriendStatus('friends');
+        } else if (requests.some((r: any) => Number(r.user?.id) === profile.id)) {
+          setFriendStatus('pending');
+        } else {
+          setFriendStatus('none');
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setFriendStatus('none');
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [profile, user]);
+
+  const handleAddFriend = async () => {
+    if (!profile || friendBusy) return;
+    setFriendBusy(true);
+    try {
+      await api.post('/friends/requests', { friend_id: profile.id });
+      setFriendStatus('pending');
+      showSuccess('Friend request sent', 'They will see it in their Requests tab.');
+    } catch (err: any) {
+      // The backend reports duplicates as 400s; reflect the real state
+      // instead of showing a bare error for an already-settled state.
+      const msg = String(err?.message || '');
+      if (/already friends/i.test(msg)) setFriendStatus('friends');
+      else if (/already pending/i.test(msg)) setFriendStatus('pending');
+      else showError('Request Failed', 'Failed to send friend request. Please try again.');
+    } finally {
+      setFriendBusy(false);
+    }
+  };
+
+  const handleBlock = async () => {
+    if (!profile || blockBusy) return;
+    // Two-tap confirm: the first tap arms, the second executes.
+    if (!confirmBlock) {
+      setConfirmBlock(true);
+      return;
+    }
+    setBlockBusy(true);
+    try {
+      await api.post('/blocks', { user_id: profile.id });
+      setFriendStatus('blocked');
+      setConfirmBlock(false);
+      showSuccess('User blocked', 'They can no longer see your profile or contact you. Manage blocked users in Settings > Blocked Users.');
+    } catch (err) {
+      showError('Block Failed', 'Failed to block this user. Please try again.');
+    } finally {
+      setBlockBusy(false);
+    }
+  };
+
+  const handleUnblock = async () => {
+    if (!profile || blockBusy) return;
+    setBlockBusy(true);
+    try {
+      await api.delete(`/blocks/${profile.id}`);
+      setFriendStatus('none');
+      showSuccess('User unblocked', 'They can see your profile and contact you again.');
+    } catch (err) {
+      showError('Unblock Failed', 'Failed to unblock this user. Please try again.');
+    } finally {
+      setBlockBusy(false);
     }
   };
 
@@ -453,6 +549,53 @@ export default function PublicProfilePage() {
             ) : (
               <div className="text-center text-muted-foreground italic">
                 You have already acted on this profile.
+              </div>
+            )}
+
+            {/* Friend & safety actions — always available when viewing someone else */}
+            {user && profile.id !== user.id && (
+              <div className="mt-6 flex flex-col items-center gap-3 border-t pt-6">
+                <div className="flex gap-3 justify-center flex-wrap">
+                  {friendStatus === 'friends' ? (
+                    <span className="flex items-center gap-2 px-6 py-2 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 font-medium">
+                      <UserCheck className="w-4 h-4" /> Friends
+                    </span>
+                  ) : friendStatus === 'pending' ? (
+                    <span className="flex items-center gap-2 px-6 py-2 rounded-full bg-muted text-muted-foreground font-medium">
+                      <UserPlus className="w-4 h-4" /> Friend Request Sent
+                    </span>
+                  ) : friendStatus === 'blocked' ? (
+                    <>
+                      <span className="flex items-center gap-2 px-6 py-2 rounded-full bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 font-medium">
+                        <Ban className="w-4 h-4" /> Blocked
+                      </span>
+                      <button type="button"
+                        onClick={handleUnblock}
+                        disabled={blockBusy}
+                        className="px-6 py-2 rounded-full border font-medium hover:bg-muted transition-colors disabled:opacity-50"
+                      >
+                        {blockBusy ? 'Unblocking…' : 'Unblock'}
+                      </button>
+                    </>
+                  ) : (
+                    <button type="button"
+                      onClick={handleAddFriend}
+                      disabled={friendBusy || friendStatus === 'loading'}
+                      className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-full font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
+                    >
+                      <UserPlus className="w-4 h-4" /> {friendBusy ? 'Sending…' : 'Add Friend'}
+                    </button>
+                  )}
+                </div>
+                {friendStatus !== 'blocked' && (
+                  <button type="button"
+                    onClick={handleBlock}
+                    disabled={blockBusy}
+                    className="flex items-center gap-1 text-sm text-red-600 dark:text-red-400 hover:underline disabled:opacity-50"
+                  >
+                    <Ban className="w-3 h-3" /> {confirmBlock ? 'Click again to confirm block' : 'Block user'}
+                  </button>
+                )}
               </div>
             )}
           </div>

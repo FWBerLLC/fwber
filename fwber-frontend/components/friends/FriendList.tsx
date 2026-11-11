@@ -8,7 +8,7 @@ import { MessageSquare, User, Trash2 } from 'lucide-react';
 interface Friend {
   id: number;
   name: string;
-  email: string;
+  email?: string;
   profile?: {
     display_name?: string;
     avatar_url?: string;

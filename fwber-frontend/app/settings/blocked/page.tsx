@@ -31,8 +31,25 @@ export default function BlockedUsersPage() {
 
   const fetchBlockedUsers = async () => {
     try {
-      const response = await apiClient.get<{ data: BlockedUser[] }>('/blocks');
-      setBlockedUsers(response.data.data || []);
+      const response = await apiClient.get<{ data: any[] }>('/blocks');
+      const raw = response.data.data || [];
+      // The backend returns { id (block record), blocked_id, name,
+      // avatar_url, created_at }. Map it to this page's shape, keyed by the
+      // BLOCKED USER id — that is what DELETE /blocks/:userId expects, and
+      // the old code passed the block record id (wrong user, or no-op) and
+      // left `profile` undefined, which crashed the filter below as soon as
+      // any user was blocked.
+      setBlockedUsers(
+        raw.map((b: any) => ({
+          id: Number(b.blocked_id),
+          name: b.name || 'Unknown',
+          profile: {
+            displayName: b.name || 'Unknown',
+            avatarUrl: b.avatar_url || undefined,
+          },
+          blocked_at: b.created_at || '',
+        }))
+      );
     } catch (error) {
       console.error('Failed to fetch blocked users', error);
     } finally {
