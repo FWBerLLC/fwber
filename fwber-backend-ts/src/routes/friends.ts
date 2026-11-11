@@ -91,51 +91,10 @@ router.get('/', authenticate, async (req: any, res) => {
   }
 });
 
-// GET /api/friends/search?q= — find users to send a friend request to.
-// The frontend Friends page has called this endpoint since it shipped, but
-// the route never existed server-side, so every search returned empty and
-// the whole friend-request flow was dead on production (found by the
-// 2026-11-06 Bobbi multi-account visual test, verified in server logs:
-// GET /api/friends/search answered with no user payload). Keep the response
-// shape identical to GET / (data: [{id, name, display_name, avatar_url}]).
-router.get('/search', authenticate, async (req: any, res) => {
-  try {
-    const userId = BigInt(req.user.id);
-    const q = String(req.query.q || '').trim();
-    if (!q) return res.json({ data: [] });
-
-    const users = await prisma.users.findMany({
-      where: {
-        id: { not: userId },
-        OR: [
-          { name: { contains: q } },
-          { user_profiles: { some: { display_name: { contains: q } } } },
-        ],
-      },
-      select: {
-        id: true,
-        name: true,
-        user_profiles: { select: { display_name: true, avatar_url: true }, take: 1 },
-      },
-      take: 20,
-    });
-
-    const results = users.map((u: any) => {
-      const profile = Array.isArray(u.user_profiles) ? u.user_profiles[0] : u.user_profiles;
-      return {
-        id: Number(u.id),
-        name: u.name || 'Unknown',
-        display_name: profile?.display_name || u.name || 'Unknown',
-        avatar_url: profile?.avatar_url || null,
-      };
-    });
-
-    res.json({ data: serialize(results) });
-  } catch (error: any) {
-    console.error('[Friends] Search error:', error.message);
-    res.json({ data: [] });
-  }
-});
+// NOTE (merge reconciliation 2026-11-11): the lane's v2.3.55 /search handler
+// (wrapped {data} response, no exclusions) was removed here — it duplicated
+// the handler below, and Express would have run only this first one. The
+// handler below (bare array, excludes blocked/friends/pending) is canonical.
 
 // GET /api/friends/requests — list pending friend requests
 router.get('/requests', authenticate, async (req: any, res) => {
