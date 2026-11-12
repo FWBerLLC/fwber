@@ -8,6 +8,7 @@
 - Privacy settings: data?.available_groups mapped in circle-group select -> now (data?.available_groups ?? []).
 - Audit: swept 269 unguarded .map() candidates; everything else verified guarded (Array.isArray checks, || [] / ?? [] inits, early returns). No other ?.x.map() instances remain.
 - Frontend tsc EXIT 0.
+- **DEPLOYED 2026-11-12:** server reset to df072b7a1, low-priority build green (43s), pm2 restart; smoke site/login/on-box front+journal/api /api/health all 200. Backend untouched.
 
 ## [2.3.58] - 2026-11-09
 

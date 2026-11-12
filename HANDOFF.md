@@ -1,5 +1,5 @@
 ## Session 2026-11-12 - .map() audit crash fixes (v2.3.59)
-- Fixed 2 latent TypeError crash sites: NemesisFinder result?.clashing_traits (pending-state hole) and privacy data?.available_groups; both now ?? []. Swept full 269-candidate audit; rest verified guarded. No other ?.x.map() remains. tsc EXIT 0.
+- Fixed 2 latent TypeError crash sites: NemesisFinder result?.clashing_traits (pending-state hole) and privacy data?.available_groups; both now ?? []. Swept full 269-candidate audit; rest verified guarded. No other ?.x.map() remains. tsc EXIT 0. **DEPLOYED 2026-11-12:** reset to df072b7a1, build green, pm2 restart, all smoke 200.
 - border-gray-900 TODO already resolved upstream (rg finds zero matches).
 - CDP 9222 tabs verified live read-only: Gemini, ChatGPT, Muse.
 
