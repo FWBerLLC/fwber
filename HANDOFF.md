@@ -1,3 +1,10 @@
+## Session 2026-11-12 - Executive-protocol turn: sync, prod health, coverage (no version bump)
+- Pasted PRINCIPLE DIRECTIVE read fully. Local-run parts (rebuild/restart/run tray+servers locally) deliberately NOT executed: Robert Hetzner-only rule stands.
+- Sync: merged origin/main v2.3.61 executive-protocol sync (other agent: Jules Protocol #281 + merge audit). My e749a575e docs commit confirmed ancestor (earlier quiet push had landed). Pushed merge 162e917af, now current.
+- Prod health (read-only, Hetzner): pm2 backend+frontend online v2.3.61; smoke site/login/api-health + on-box front/journal/api all 200. Backend :4000 EADDRINUSE in error log is 2026-05-03 ancient history, not live. Frontend Server-Reference-ID warnings = known stale-client watch item.
+- Nav coverage re-verified: 179 routes, 135 linked, 15 intentionally unlinked. Matches v2.3.53 design, no regression.
+- CDP 9222: muse.ai Chat-Bobbi tab live (websocket round-trip proven earlier). Gemini/ChatGPT tabs closed by user since. tools/ has no new dup scripts; tray files intact (not run, would start local servers).
+
 ## Session 2026-11-12 - Executive Protocol Synchronization, Merge Audit & Build Finalization (v2.3.61)
 - **Step 1 — Upstream & Submodule Sync:** Ran `git fetch --all --tags` across `origin` (`robertpelloni/fwber` -> `FWBerLLC/fwber`) and `upstream` (`fwber-code/fwber`); fast-forwarded `main` to `origin/main` (`162e917af`). Verified zero nested `.gitmodules` inside `fwber` (monorepo with 5 active component directories: `fwber-backend-ts`, `fwber-frontend`, `fwber-geo`, `fwber-wasm`, `mobile`).
 - **Step 1 — Tracking & `.gitignore` Hygiene:** Fixed root-only `/archive/` rule so `.tormentnexus/imported_sessions/archive/` (1,800+ compressed AI session files) is tracked; narrowed `.pi-lens/` to `.pi-lens/cache/` and `fwber-frontend/.pi-lens/cache/` so session metadata (`recent-touches.json`, `sessions/`) is tracked; un-ignored `logs/*.md` (`logs/2026-04-04-gpt-hetzner-backend-stability-repair.md`) while keeping runtime `.log` dumps, `.phpunit.result.cache`, and all `.env*` / secret files strictly ignored.
