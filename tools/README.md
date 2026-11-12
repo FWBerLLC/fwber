@@ -4,6 +4,7 @@
 | Script | Purpose |
 |--------|---------|
 | `fwber-tray.bat` / `fwber-tray.ps1` | Windows system tray — start/stop dev stack, open browser, quit |
+| `fwber-tray-check.py` | Cross-platform port health checker & log tail tool for tray services |
 | `audit-entry-points.cjs` | Audit API entry points for coverage gaps |
 | `repair-truncated-packages.cjs` | Fix npm truncation issues on Windows (`<node_modules> [--apply]`) |
 | `check_nav_coverage.py` | UI audit — finds app routes not linked from dashboard/header (reusable) |
@@ -24,7 +25,7 @@
 | `load_test.py` | Load testing for API endpoints |
 | `deployment/setup-dev.ps1` | Development environment setup |
 
-## Migrations & One-Time Fix Scripts (`tools/migrations/`, tracked)
+## Migrations & One-Time Fix Scripts (`tools/migrations/`, `tools/legacy/`, tracked)
 Historical automation kept in-repo as provenance for their respective fixes — safe to re-run where idempotent, kept for reference otherwise.
 | Script | Purpose |
 |--------|---------|

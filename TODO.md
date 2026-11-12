@@ -28,10 +28,10 @@
 - [x] **Duplicate pairs merged via cross-links, no deletions (v2.3.53)** — burner <-> burner-links, journals -> journal, unlocks ledger -> hub. rate-my-pussy left as-is per Robert.- [x] **Solana wallet-adapter drift — duplicate entry, closed by v2.3.54 item above** (imports moved to `-phantom`/`-solflare` packages).
 
 ### Medium Priority
-- [x] **dnd-kit / laravel-echo type declarations (v2.3.54)** — `tsc` TS7016 on `@dnd-kit/*` + `laravel-echo`, plus implicit-`any` `photo` in `app/photos/page.tsx(454)`. Add decls or tighten types.
-- [x] **Duplicate journal surfaces — merged upstream (Protocol #277)** — `/journals` page replaced with a server-side redirect to canonical `/journal`; dashboard tile retargeted. On origin/main, PENDING DEPLOY (live still serves cross-linked v2.3.54).
-- [x] **`nodemon` removed upstream (Protocol #277)** — uninstalled from `fwber-backend-ts`; `dev` runs on `tsx watch`.
-- [x] **Socket "Disconnected" header badge — fixed upstream (Protocol #277, 9daad0440)** — `useSocketLogic`/`useWebSocket` now surface reconnect state to the badge. On origin/main, PENDING DEPLOY.
+- [x] **dnd-kit / laravel-echo type declarations (v2.3.53)** — Added types/dnd-kit.d.ts module declarations and typed (photo: any) in app/photos/page.tsx.
+- [ ] **Duplicate journal surfaces** — `/journal` and `/journals` are both full pages; merge into one canonical page and retarget the dashboard tiles.
+- [x] **`nodemon` dropped (v2.3.53)** — backend `dev` runs on `tsx watch`; removed dead `nodemon` dependency from `fwber-backend-ts/package.json`.
+- [ ] **Socket "Disconnected" header badge** — still open from 2026-10-26 (carried).
 - [ ] **Off-site backup replication** — still BLOCKED on Robert (carried).
 
 ## 🟢 Completed: Dev-Boot Fix + Dashboard Cleanup (v2.3.48, 2026-10-31)
