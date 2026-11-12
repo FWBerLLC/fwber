@@ -92,6 +92,7 @@ function restoreCachedAuth(
   try {
     const parsedUser = JSON.parse(userStr) as User
     setApiClientAuthToken(token)
+    setSessionCookie()
 
     if (!cancelled) {
       dispatch({
@@ -121,6 +122,7 @@ function clearStoredAuth(): void {
   setApiClientAuthToken(null)
   localStorage.removeItem('fwber_token')
   localStorage.removeItem('fwber_user')
+  clearSessionCookie()
 }
 
 /** Normalize backend snake_case user to frontend camelCase */
@@ -172,6 +174,32 @@ function persistStoredAuth(user: User, token: string): void {
   setApiClientAuthToken(token)
   localStorage.setItem('fwber_token', token)
   localStorage.setItem('fwber_user', JSON.stringify(user))
+  setSessionCookie()
+}
+
+// --- Session cookie for Next.js middleware ---
+// middleware.ts gates /dashboard, /messages, /settings, /achievements on the
+// presence of a `token` or `fwber_auth` cookie. Middleware runs server-side
+// and cannot read localStorage, so auth state must also be mirrored into a
+// cookie or every logged-in user is bounced back to /login. The cookie is a
+// presence flag only (value "1") — the real credential stays the Bearer
+// token, validated by the API on every request. Never put the JWT in a cookie.
+const SESSION_COOKIE_NAME = 'fwber_auth'
+const SESSION_COOKIE_MAX_AGE = 30 * 24 * 60 * 60 // 30 days, matches token lifetime
+
+function setSessionCookie(): void {
+  if (typeof document === 'undefined') {
+    return
+  }
+  const secure = typeof window !== 'undefined' && window.location.protocol === 'https:' ? '; Secure' : ''
+  document.cookie = `${SESSION_COOKIE_NAME}=1; path=/; max-age=${SESSION_COOKIE_MAX_AGE}; SameSite=Lax${secure}`
+}
+
+function clearSessionCookie(): void {
+  if (typeof document === 'undefined') {
+    return
+  }
+  document.cookie = `${SESSION_COOKIE_NAME}=; path=/; max-age=0; SameSite=Lax`
 }
 
 // Initial state
@@ -436,6 +464,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (state.isAuthenticated && state.token && state.user) {
         localStorage.setItem('fwber_token', state.token)
         localStorage.setItem('fwber_user', JSON.stringify(state.user))
+        setSessionCookie()
       } else {
         clearStoredAuth()
       }
