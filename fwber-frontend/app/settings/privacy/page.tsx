@@ -112,7 +112,7 @@ export default function JournalPrivacyPage() {
                     className="w-full rounded-2xl border border-border dark:border-border px-4 py-3 text-sm outline-none transition focus:border-purple-500 focus:ring-2 focus:ring-purple-100"
                   >
                     <option value="">Select one of your groups</option>
-                    {data?.available_groups.map((group) => (
+                    {(data?.available_groups ?? []).map((group) => (
                       <option key={group.id} value={group.id}>
                         {group.name}
                       </option>

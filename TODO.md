@@ -43,7 +43,7 @@
 ## 🔧 Open Items (2026-10-18)
 
 ### High Priority
-- [ ] **Image URL migration**: Rewrite `api.fwber.me/uploads/` URLs in DB to `api.fwber.online/uploads/` (currently intercepted at UI layer via `getAvatarUrl` + `OptimizedImage` dead-host check)
+- [x] **Image URL migration (verified clean 2026-11-12, v2.3.60)** (currently intercepted at UI layer via `getAvatarUrl` + `OptimizedImage` dead-host check)
 - [ ] **436 unguarded `.map()` calls**: Filter to API-response props and add `Array.isArray` / `|| []` guards (many false positives — literal arrays are safe)
 
 ### Medium Priority
@@ -53,7 +53,7 @@
 
 ### Low Priority
 - [ ] **`CHANGELOG.md.new`** (182 KB): Leftover draft at repo root — historical record, leave as-is per policy.
-- [ ] **1 remaining `border-gray-900`**: Last hardcoded border color after theme migration.
+- [x] **border-gray-900 (v2.3.59)** - already resolved upstream (theme tokens 100% done); stale item closed.
 
 ### Scoped Out (User Directive 2026-10-18)
 - ~~Dashboard consolidation (combine all pages into one)~~ — User: "dont need to consolidate all"

@@ -215,11 +215,12 @@ async function main() {
     totals: { canonicalized: totalNorm, nulled: totalNull },
     entries: journalEntries,
   };
-  fs.writeFileSync(JOURNAL_PATH, JSON.stringify(journal, null, 2));
-  console.log(`journal written: ${JOURNAL_PATH} (${journalEntries.length} entries)`);
-
   if (!APPLY) {
-    console.log('\nDry run only. Re-run with --apply to perform updates.');
+    // Dry runs must never clobber the committed apply journal (v2.3.37 record).
+    console.log('\nDry run only. Journal not written; re-run with --apply to perform updates.');
+  } else {
+    fs.writeFileSync(JOURNAL_PATH, JSON.stringify(journal, null, 2));
+    console.log(`journal written: ${JOURNAL_PATH} (${journalEntries.length} entries)`);
   }
 }
 

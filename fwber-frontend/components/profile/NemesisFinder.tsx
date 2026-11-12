@@ -143,7 +143,7 @@ export function NemesisFinder({ userId }: NemesisFinderProps) {
                     <Zap className="w-3 h-3" /> Incompatible Traits
                 </h4>
                 <div className="flex flex-wrap gap-2">
-                    {result?.clashing_traits.map((trait, i) => (
+                    {(result?.clashing_traits ?? []).map((trait, i) => (
                         <span key={i} className="px-2 py-1 bg-red-900/30 text-red-300 text-xs rounded border border-red-500/20">
                             {trait}
                         </span>

@@ -1,5 +1,24 @@
 # Changelog
 
+## [2.3.60] - 2026-11-12
+
+### Fixed (image-URL migration script dry-run journal clobber)
+
+- Prod DB verified clean via Hetzner dry-run: canonicalized=0 nulled=0, no --apply needed. Migration item closed.
+- Dry-run no longer overwrites image-url-migration-journal.json (only --apply writes). Restored the v2.3.37 committed journal (1 nulled avatar record) after the dry-run clobbered the server working copy.
+- CDP 9222 verified live read-only: muse.ai Chat-Bobbi tab plus Gemini and ChatGPT tabs present.
+
+
+## [2.3.59] - 2026-11-12
+
+### Fixed (unguarded .map() crash sites)
+
+- NemesisFinder: result-state clashing_traits mapped via result?.clashing_traits with a pending-state hole (early return only when not pending) -> now (result?.clashing_traits ?? []).
+- Privacy settings: data?.available_groups mapped in circle-group select -> now (data?.available_groups ?? []).
+- Audit: swept 269 unguarded .map() candidates; everything else verified guarded (Array.isArray checks, || [] / ?? [] inits, early returns). No other ?.x.map() instances remain.
+- Frontend tsc EXIT 0.
+- **DEPLOYED 2026-11-12:** server reset to df072b7a1, low-priority build green (43s), pm2 restart; smoke site/login/on-box front+journal/api /api/health all 200. Backend untouched.
+
 ## [2.3.58] - 2026-11-09
 
 ### Added (Blocked-users management on Safety page)
