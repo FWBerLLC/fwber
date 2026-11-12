@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.3.60] - 2026-11-12
+
+### Fixed (image-URL migration script dry-run journal clobber)
+
+- Prod DB verified clean via Hetzner dry-run: canonicalized=0 nulled=0, no --apply needed. Migration item closed.
+- Dry-run no longer overwrites image-url-migration-journal.json (only --apply writes). Restored the v2.3.37 committed journal (1 nulled avatar record) after the dry-run clobbered the server working copy.
+- CDP 9222 verified live read-only: muse.ai Chat-Bobbi tab plus Gemini and ChatGPT tabs present.
+
+
 ## [2.3.59] - 2026-11-12
 
 ### Fixed (unguarded .map() crash sites)

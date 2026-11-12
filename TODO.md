@@ -43,7 +43,7 @@
 ## 🔧 Open Items (2026-10-18)
 
 ### High Priority
-- [ ] **Image URL migration**: Rewrite `api.fwber.me/uploads/` URLs in DB to `api.fwber.online/uploads/` (currently intercepted at UI layer via `getAvatarUrl` + `OptimizedImage` dead-host check)
+- [x] **Image URL migration (verified clean 2026-11-12, v2.3.60)** (currently intercepted at UI layer via `getAvatarUrl` + `OptimizedImage` dead-host check)
 - [ ] **436 unguarded `.map()` calls**: Filter to API-response props and add `Array.isArray` / `|| []` guards (many false positives — literal arrays are safe)
 
 ### Medium Priority

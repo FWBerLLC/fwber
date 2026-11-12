@@ -1,3 +1,8 @@
+## Session 2026-11-12 - Image-URL migration verified clean + dry-run journal fix (v2.3.60)
+- Hetzner dry-run (nice -n 10): canonicalized=0 nulled=0. Prod DB clean, no --apply needed. Migration TODO closed.
+- Footgun found+fixed: dry-run overwrote image-url-migration-journal.json (clobbered v2.3.37 apply record on server). Restored via git checkout; patched migrate-image-urls.mjs so only --apply writes the journal. node --check clean.
+- CDP 9222 verified live read-only: muse.ai Chat-Bobbi tab + Gemini monitoring tab + ChatGPT Hard-Truths tab present. No posting (read-only rule).
+
 ## Session 2026-11-12 - .map() audit crash fixes (v2.3.59)
 - Fixed 2 latent TypeError crash sites: NemesisFinder result?.clashing_traits (pending-state hole) and privacy data?.available_groups; both now ?? []. Swept full 269-candidate audit; rest verified guarded. No other ?.x.map() remains. tsc EXIT 0. **DEPLOYED 2026-11-12:** reset to df072b7a1, build green, pm2 restart, all smoke 200.
 - border-gray-900 TODO already resolved upstream (rg finds zero matches).
