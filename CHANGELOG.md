@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.3.59] - 2026-11-12
+
+### Fixed (unguarded .map() crash sites)
+
+- NemesisFinder: result-state clashing_traits mapped via result?.clashing_traits with a pending-state hole (early return only when not pending) -> now (result?.clashing_traits ?? []).
+- Privacy settings: data?.available_groups mapped in circle-group select -> now (data?.available_groups ?? []).
+- Audit: swept 269 unguarded .map() candidates; everything else verified guarded (Array.isArray checks, || [] / ?? [] inits, early returns). No other ?.x.map() instances remain.
+- Frontend tsc EXIT 0.
+
 ## [2.3.58] - 2026-11-09
 
 ### Added (Blocked-users management on Safety page)

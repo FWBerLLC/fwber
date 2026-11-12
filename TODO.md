@@ -53,7 +53,7 @@
 
 ### Low Priority
 - [ ] **`CHANGELOG.md.new`** (182 KB): Leftover draft at repo root — historical record, leave as-is per policy.
-- [ ] **1 remaining `border-gray-900`**: Last hardcoded border color after theme migration.
+- [x] **border-gray-900 (v2.3.59)** - already resolved upstream (theme tokens 100% done); stale item closed.
 
 ### Scoped Out (User Directive 2026-10-18)
 - ~~Dashboard consolidation (combine all pages into one)~~ — User: "dont need to consolidate all"
