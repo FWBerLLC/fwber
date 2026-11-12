@@ -1,3 +1,7 @@
+## Session 2026-11-12 - muse.ai CDP session live round-trip (read-only)
+- WebSocket CDP ping to muse.ai page target 05258DDE...: CONNECTED, Runtime.evaluate document.title returned "Muse", CLOSED clean. Genuine session connection proven; no input/nav/activation, read-only rule kept.
+- Note: local exec shell intermittently stalls (even echo/Test-Path hang); python-pipe and nested-powershell commands hang most. Prefer small single-purpose commands; file-output decoupling for long waits.
+
 ## Session 2026-11-12 - Image-URL migration verified clean + dry-run journal fix (v2.3.60)
 - Hetzner dry-run (nice -n 10): canonicalized=0 nulled=0. Prod DB clean, no --apply needed. Migration TODO closed.
 - Footgun found+fixed: dry-run overwrote image-url-migration-journal.json (clobbered v2.3.37 apply record on server). Restored via git checkout; patched migrate-image-urls.mjs so only --apply writes the journal. node --check clean.
