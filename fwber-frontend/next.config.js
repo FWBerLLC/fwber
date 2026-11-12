@@ -16,6 +16,15 @@ const getVersion = () => {
 }
 
 const getBackendVersion = () => {
+  for (const candidate of [
+    path.join(__dirname, '../fwber-backend-ts/VERSION'),
+    path.join(__dirname, '../VERSION'),
+  ]) {
+    try {
+      const v = fs.readFileSync(candidate, 'utf8').trim()
+      if (v) return v
+    } catch (e) {}
+  }
   try {
     const pkg = JSON.parse(
       fs.readFileSync(path.join(__dirname, '../fwber-backend-ts/package.json'), 'utf8')
@@ -27,6 +36,16 @@ const getBackendVersion = () => {
 }
 
 const getFrontendVersion = () => {
+  // Prefer centralized root VERSION first so footer/admin version badges never drift
+  for (const candidate of [
+    path.join(__dirname, '../VERSION'),
+    path.join(__dirname, 'VERSION'),
+  ]) {
+    try {
+      const v = fs.readFileSync(candidate, 'utf8').trim()
+      if (v) return v
+    } catch (e) {}
+  }
   try {
     const pkg = JSON.parse(fs.readFileSync(path.join(__dirname, 'package.json'), 'utf8'))
     return pkg.version

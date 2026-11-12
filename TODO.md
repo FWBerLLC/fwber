@@ -1,9 +1,22 @@
 # TODO — fwber Immediate Action Items
 
-> **Version:** 2.3.53
-> **Last Updated:** 2026-11-04
+> **Version:** 2.3.61
+> **Last Updated:** 2026-11-12
 
 ---
+
+## 🔧 Open & Recently Closed Items (2026-11-06 – 2026-11-12, v2.3.55–v2.3.61)
+
+### High Priority
+- [x] **Executive Protocol Sync, Merge Reconciliation & Version Alignment (v2.3.61)** — Audited all `-X ours`/`-X theirs` merges across Protocols #277–#281, restored dropped changelog/TODO records, fixed `.gitignore` session/archive rules, wired `build.bat` Prisma generation + `fwber-geo` build target, and synced version `2.3.61` across all manifests.
+- [x] **Friends search endpoint & reconciliation (v2.3.55 + `b13c4cf9a` / `c9ea14d6e`)** — Canonical bare-array `GET /api/friends/search` excluding self, bidirectional blocks, existing friends, and pending requests; covered by `tests/FriendsSearchBlocks.test.ts` (8/8 passing).
+- [x] **Block/Report & Profile Friend/Block UI (`v2.3.57`–`v2.3.58` + `b13c4cf9a`)** — Explicit-tap Block/Report actions in `ProfileViewModal`, Blocked Users list + Unblock on Safety page (`/safety`) and `/settings/blocked`, and Add Friend / Friend state / Block actions on `app/profile/[id]` (no proactive popups per operator directive).
+- [x] **Unguarded `.map()` crash sites swept (v2.3.59)** — Patched `NemesisFinder` (`clashing_traits`) and Privacy settings (`available_groups`); audited 269 `.map()` candidates across frontend.
+- [x] **Image-URL migration verified clean on prod + dry-run journal guard (v2.3.60)** — Hetzner dry-run reported `canonicalized=0 nulled=0`; `migrate-image-urls.mjs` fixed so dry-runs never overwrite `image-url-migration-journal.json`.
+- [x] **Footer version badge wired to centralized `VERSION` (v2.3.61)** — Fixed `app/layout.tsx` and `next.config.js` so `NEXT_PUBLIC_PROJECT_VERSION` / `NEXT_PUBLIC_FRONTEND_VERSION` read root `VERSION` first (resolving the `v2.1.4` stale footer display seen in Bobbi's Nov 6 QA).
+- [ ] **Direct messaging initiation from `app/profile/[id]` (Bobbi QA 2026-11-06)** — Chat remains match-gated (`Tip`/`Pass`/`Like`/`Gift`/`Add Friend`/`Block` present on profile, but no direct Message/compose entrypoint outside matches). Decide product policy (friends-can-message vs match-only) and wire compose flow if enabled.
+- [ ] **Dashboard Network "Syncing" vs header badge "Connected" disagreement (Bobbi QA 2026-11-06)** — Unify both indicators on a single socket connection state source.
+- [ ] **Fresh-account seeded stats (Bobbi QA 2026-11-06)** — Brand-new QA accounts display `"7 Chats"` / `"17% Compatibility"` with zero activity; audit `/dashboard/stats` fallback defaults for new users.
 
 ## 🔧 Open Items (2026-11-04, v2.3.53 session)
 
@@ -28,11 +41,11 @@
 - [x] **Duplicate pairs merged via cross-links, no deletions (v2.3.53)** — burner <-> burner-links, journals -> journal, unlocks ledger -> hub. rate-my-pussy left as-is per Robert.- [x] **Solana wallet-adapter drift — duplicate entry, closed by v2.3.54 item above** (imports moved to `-phantom`/`-solflare` packages).
 
 ### Medium Priority
-- [x] **dnd-kit / laravel-echo type declarations (v2.3.53)** — Added types/dnd-kit.d.ts module declarations and typed (photo: any) in app/photos/page.tsx.
-- [ ] **Duplicate journal surfaces** — `/journal` and `/journals` are both full pages; merge into one canonical page and retarget the dashboard tiles.
+- [x] **dnd-kit / laravel-echo type declarations (v2.3.54 / v2.3.61)** — Consolidated into canonical `fwber-frontend/types/third-party-shims.d.ts` and typed `(photo: any)` in `app/photos/page.tsx`.
+- [x] **Duplicate journal surfaces — merged upstream (Protocol #277)** — `/journals` server-side redirects to canonical `/journal`; cross-links preserved non-destructively.
 - [x] **`nodemon` dropped (v2.3.53)** — backend `dev` runs on `tsx watch`; removed dead `nodemon` dependency from `fwber-backend-ts/package.json`.
-- [ ] **Socket "Disconnected" header badge** — still open from 2026-10-26 (carried).
-- [ ] **Off-site backup replication** — still BLOCKED on Robert (carried).
+- [x] **Socket "Disconnected" header badge — fixed upstream (Protocol #277, `9daad0440`)** — `useSocketLogic`/`useWebSocket` surface reconnect state to header badge (verified Connected on both QA accounts in Nov 6 live test).
+- [ ] **Off-site backup replication** — still BLOCKED on Robert (needs Storage Box / S3 / DreamHost SSH key target).
 
 ## 🟢 Completed: Dev-Boot Fix + Dashboard Cleanup (v2.3.48, 2026-10-31)
 - [x] **Backend `npm run dev` crash-loop fixed** — `nodemon src/index.ts` could not resolve ESM `.js` imports under Node 26; now `tsx watch src/index.ts` (tsx 4.23.15). Health 200 verified.

@@ -1,5 +1,5 @@
 # ==========================================================================
-#  FWBer System Tray Controller (v2.3.34)
+#  FWBer System Tray Controller (v2.3.61)
 #  A lightweight Windows notification-area icon that owns the dev services.
 #
 #  Why this exists:

@@ -28,7 +28,7 @@ const inter = Inter({
   display: 'swap', // Optimize font loading
 })
 
-const faviconVersion = process.env.NEXT_PUBLIC_FRONTEND_VERSION || process.env.NEXT_PUBLIC_PROJECT_VERSION || '1.0.40'
+const faviconVersion = process.env.NEXT_PUBLIC_PROJECT_VERSION || process.env.NEXT_PUBLIC_FRONTEND_VERSION || '2.3.61'
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -132,9 +132,9 @@ export default function RootLayout({
                   </div>
                   <FeedbackModal />
                   <PerformanceMonitor />
-                  {/* Version badge — reads from VERSION file at build time via next.config.js */}
+                  {/* Version badge — reads from centralized root VERSION file at build time via next.config.js */}
                   <div className="fixed bottom-1 right-1 text-[10px] text-muted-foreground opacity-50 pointer-events-none z-50">
-                    v{process.env.NEXT_PUBLIC_FRONTEND_VERSION || process.env.NEXT_PUBLIC_PROJECT_VERSION || '1.0.2'}
+                    v{process.env.NEXT_PUBLIC_PROJECT_VERSION || process.env.NEXT_PUBLIC_FRONTEND_VERSION || '2.3.61'}
                   </div>
                   </AuthenticatedRealtimeProvider>
                 </ToastProvider>

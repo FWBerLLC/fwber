@@ -96,3 +96,9 @@
 ## 2026-05-24 - Future Integration Ideas
 - **Contact Match Notification**: Automatically notify users when a newly synced contact joins the platform, using a "Direct Proximity" signal.
 - **Autonomous Moderation**: Use the `AutonomousService` to automatically issue "Cool-down" periods for users with multiple high-score geo-spoof flags.
+
+## 2026-11-12 - v2.3.61 Architecture & Consolidation Insights
+- **Shared Monorepo Workspace Contracts (`packages/shared-types`)**: Extract Zod schemas and API response DTOs (such as `BlockedUser`, `FriendSearchCandidate`, and `NarrativeReport`) into a lightweight internal workspace package consumed by `fwber-backend-ts`, `fwber-frontend`, and `mobile` so contract mismatches (like `{ data: [...] }` vs bare `[...]` in `/api/friends/search`) become compile-time impossible.
+- **Consent-Tiered Friend Direct Messaging ("Handshake DM")**: Resolve the match-gated vs open-DM tension surfaced in multi-account QA by allowing accepted mutual friends (`status: 'accepted'` in `friendships`) to open a 1-on-1 conversation thread without requiring a romantic match swipe, while keeping cold non-friend DMs gated behind mutual match or single-message token-staked introductions.
+- **Unified Realtime Health Store**: Drive both the `AppHeader` realtime badge and the Dashboard Network status card from a single Zustand/Context socket state machine (`connecting` | `connected` | `reconnecting` | `degraded`) backed by Socket.io ping RTT telemetry.
+- **Build-Time Version & Commit Provenance Endpoint**: Expose root `VERSION` + short git SHA on `/api/health` (`app_version: "2.3.61"`, preserving `version: "2.0.0-ts"` for backward smoke-check compatibility) so automated deploy verifiers can assert exact commit parity between `fwber.online` and `api.fwber.online`.

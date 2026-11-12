@@ -80,9 +80,11 @@ __pycache__/
 .venv/
 venv/
 
-# Runtime / Logs
+# Runtime / Logs (keep markdown session/ops reports under logs/ tracked)
 *.log
-logs/
+/logs/*
+!/logs/*.md
+**/storage/logs/
 
 # Backup and temporary files
 *.bak
@@ -99,8 +101,8 @@ BingSiteAuth.xml
 google8a8c8ba27b27ebdc.html
 
 
-# Archive (legacy codebase)
-archive/
+# Archive (root legacy codebase only — keep nested session archives like .tormentnexus/imported_sessions/archive/ tracked)
+/archive/
 
 # Legacy one-off files (already committed to gitignore history)
 _secrets.php
@@ -144,7 +146,9 @@ metamcp.db*
 
 
 fix_git_size.py
-.pi-lens/
+.pi-lens/cache/
+fwber-frontend/.pi-lens/cache/
+.phpunit.result.cache
 patch_*.py
 test_*.py
 *.log

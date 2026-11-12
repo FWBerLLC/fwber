@@ -1,7 +1,13 @@
 # MEMORY.md — fwber Internal Architectural Observations
 
-## Current Version: 2.3.53 "Federated Interactions"
-**Last Updated:** 2026-11-04
+## Current Version: 2.3.61 "Unified Social Graph & Production Synchronization"
+**Last Updated:** 2026-11-12
+
+### Architectural Observations: All-Hetzner Topology, Social Graph Safety & Version Governance (v2.3.61)
+- **Production Hosting**: 100% hosted on Hetzner VPS `5.161.250.43` (`/var/www/fwber/repo`) serving canonical domain `fwber.online` (`api.fwber.online`, `ws.fwber.online`, `geo.fwber.online`; `fwber.me` retired 2026-10-22). Managed via PM2 (`fwber-frontend` on `:3000`, `fwber-backend-ts` on `:4003`) and `systemd` (`fwber-geo` Rust H3 service on `:8081`), plus shared local Ollama (`gemma-4-heretic`, `AI_PREFER_LOCAL=true`). All server builds use `nice -n 10` to respect co-hosted workloads.
+- **Friends & Safety Contract**: `GET /api/friends/search` returns a bare JSON array (matching `GET /api/user/search` and the Friends UI `Array.isArray` consumer) while excluding self, bidirectional blocks, existing friends, and pending friend requests (`tests/FriendsSearchBlocks.test.ts`). Safety actions (`Block` / `Report` / `Unblock`) strictly follow the explicit-tap-only UX rule (never proactive popups).
+- **Single Source of Truth Versioning**: `fwber-frontend/next.config.js` and `fwber-frontend/app/layout.tsx` read root `VERSION` first so build-time `NEXT_PUBLIC_PROJECT_VERSION` and `NEXT_PUBLIC_FRONTEND_VERSION` never drift from root `VERSION`.
+- **Local Build Nuance**: Always run `npx prisma generate` in `fwber-backend-ts` before `tsc` (`build.bat` now automates this), and avoid running `npm install` blindly inside `fwber-frontend` on Windows when `node_modules` already exists.
 
 ### Architectural Shift: Unified High-Value Dashboard & Tooltip Standards (v2.3.53)
 - The user dashboard at fwber-frontend/app/dashboard/page.tsx serves as the consolidated single pane of glass for all 10 platform domains.

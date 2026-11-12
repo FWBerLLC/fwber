@@ -1,7 +1,7 @@
 # VISION.md — The Ultimate fwber Architecture & Philosophy
 
-> **Last Updated:** 2026-11-04
-> **Version:** 2.3.53 (Social Velocity & Federation)
+> **Last Updated:** 2026-11-12
+> **Version:** 2.3.61 (Social Velocity, Dynamic Identity & Unified Hetzner Production)
 > **Goal:** To serve as the definitive North Star for all human and AI agents working on the fwber project.
 
 ---
@@ -24,12 +24,12 @@ fwber facilitates **intentional, real-world connections** through technology tha
 
 fwber is a bleeding-edge, high-performance platform capable of handling extreme concurrency in dense urban environments (festivals, conferences, downtowns).
 
-### The Modern Stack (v2.0.0-ts)
-*   **Backend**: Node.js (ESM) / Express.js / TypeScript. High-concurrency API layer with strict Zod validation and Prisma ORM.
-*   **Real-time**: Socket.io for bidirectional communication (Chat, Typing, Nudges, Pulse).
-*   **Database**: PostgreSQL/MySQL with Prisma-driven migrations.
-*   **Frontend**: Next.js 15.x (React 19) utilizing Server Components, PWA capabilities, and TailwindCSS.
-*   **Mobile**: React Native / Expo for native iOS and Android.
+### The Modern Stack (v2.3.61)
+*   **Backend**: Node.js (ESM) / Express.js 5 / TypeScript 6 (`fwber-backend-ts`, port `4003`). High-concurrency API layer with strict Zod validation, Prisma ORM, and shared on-box local LLM inference (`gemma-4-heretic` via Ollama, `AI_PREFER_LOCAL=true`) with multi-provider cloud fallback.
+*   **Real-time**: Socket.io (`ws.fwber.online`) for bidirectional communication (Chat, Typing, Nudges, Local Pulse, Emotional Auras).
+*   **Database**: MySQL + Redis on Hetzner (`5.161.250.43`) with Prisma-driven schema management and automated nightly backups (`/var/backups/fwber/`).
+*   **Frontend**: Next.js 16.4.3 (React 19.3.1, standalone output on port `3000` at `fwber.online`) utilizing App Router Server Components, PWA capabilities, glassmorphism/particle UI, and TailwindCSS.
+*   **Mobile**: React Native 0.83 / Expo 55 (`mobile/`) with Expo Router and NFC hardware tap integration.
 
 ### The Distributed Next-Gen Phase
 *   **Rust Geo-Screener Microservice**: A high-density Rust microservice utilizing H3 or S2 spatial indexing (`fwber-geo`). Calculates the Local Pulse in sub-millisecond time.

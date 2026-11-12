@@ -1,7 +1,8 @@
 @echo off
 REM ==========================================================================
-REM  FWBer Launcher (v2.3.53)
-REM  Supports direct terminal startup or GUI System Tray mode.
+REM  FWBer Launcher (v2.3.61)
+REM  Supports direct terminal startup or GUI System Tray mode (--tray).
+REM  Managed ports: Backend (4003), Frontend (3000), optional Geo (8081).
 REM ==========================================================================
 setlocal
 title FWBer

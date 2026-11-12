@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.3.61] - 2026-11-12
+
+### Executive Protocol Synchronization, Deep Merge Audit & Build Alignment
+
+- **Repository & Upstream Sync (`FWBerLLC/fwber` / `robertpelloni/fwber`):** Fetched all remotes and tags (`origin` + `upstream`), fast-forwarded `main` to `origin/main` (`162e917af`), and audited all 10 local branches, 7 `origin/*` branches, and 7 legacy `upstream/*` branches (100% of active `origin` and local feature branches confirmed merged into `main` with `0` unmerged commits; stagnant 2020–2022 `upstream/dependabot/*` legacy branches ignored per protocol).
+- **Deep Merge Conflict Audit & Restoration (`Protocol #277` / `#280` / `#281`):** Audited every two-way file diff across recent `-X ours` / `-X theirs` merges (`06088a5dc`, `f3417993b`, `5eb724ab9`, `093632f6e`, `4417a142e`, `b13c4cf9a`). Restored the dropped `## [2.3.54] - 2026-11-03` changelog entry, restored the 2026-11-06 Bobbi visual QA tracking block and Protocol #277 completion states in `TODO.md`, and consolidated duplicate ambient module shims (`fwber-frontend/types/dnd-kit.d.ts` into canonical `fwber-frontend/types/third-party-shims.d.ts` non-destructively).
+- **Session & Documentation Tracking Hygiene (`.gitignore`):** Scoped `/archive/` to the repo root so `.tormentnexus/imported_sessions/archive/` (compressed AI session records) is tracked; replaced broad `.pi-lens/` ignore with `.pi-lens/cache/` so session metadata is tracked; un-ignored `logs/*.md` operational session reports while keeping runtime `.log` dumps and `.env*` secrets strictly ignored; added `.phpunit.result.cache`.
+- **Centralized Version Governance (`2.3.61`):** Synchronized `VERSION`, `VERSION.md`, `package.json`, `fwber-backend-ts/VERSION`, `fwber-backend-ts/package.json`, `fwber-frontend/VERSION`, and `fwber-frontend/package.json` to `2.3.61`. Updated `fwber-frontend/next.config.js` and `fwber-frontend/app/layout.tsx` so the footer and favicon version badges read from centralized root `VERSION` first (resolving the stale `v2.1.4` footer discrepancy flagged in visual QA).
+- **Build & Execution Script Validation:** Updated `build.bat` (`v2.3.61`) to run `npx prisma generate` before `npm run build` in `fwber-backend-ts`, added the `geo` (`fwber-geo` `cargo build --release`) target, guarded `npm install` behind `node_modules` existence (`--install` flag to force), and preserved all built binaries. Deduplicated the redundant `fwber-geo` build block and added `nice -n 10` CPU scheduling in `ops/hetzner/scripts/deploy-backend-ts.sh`.
+- **Documentation & Submodule Map Refresh:** Synchronized `DEPLOY.md` (reflecting the live all-Hetzner `fwber.online` PM2 + systemd + shared local Ollama topology), `docs/SUBMODULE_DASHBOARD.md`, `SUBMODULE_INVENTORY.md`, `ROADMAP.md`, `TODO.md`, `VISION.md`, `MEMORY.md`, `PROJECT_STATUS.md`, `IDEAS.md`, and `HANDOFF.md`.
+- **Verified:** `fwber-backend-ts` Prisma client generated + `tsc` build clean (`0` errors); `tests/FriendsSearchBlocks.test.ts` `8/8` passing; `fwber-geo` Rust `1.99.1` release binary compiled cleanly (`target/release/fwber-geo.exe` preserved); dashboard nav audit `135` linked routes / `0` dead links.
+
 ## [2.3.60] - 2026-11-12
 
 ### Fixed (image-URL migration script dry-run journal clobber)
@@ -54,6 +66,21 @@
 
 - Register x2 PASS (QA Alpha ID 188, Beta ID 189; `POST /api/auth/register` 201 twice). Socket badge "Connected" both sides PASS — the old Disconnected defect did not reproduce. Profile views register.
 - Friend request FAIL (this fix), messaging FAIL (no Message/compose UI; chat match-gated), block NOT APPLICABLE (no block-creation UI exists; backend + unblock UI do). See TODO for the UI follow-ups.
+
+
+## [2.3.54] - 2026-11-03
+
+### DEPLOYED to Hetzner live prod
+
+- Server reset to `cdafa91ba`; backend install + build + restart; frontend install + Next build OK + restart. Smoke: on-box api/front 200, public site/login/api-health 200.
+
+### Type errors eliminated (frontend `tsc` 8 -> 0, backend `tsc` clean)
+
+- `SolanaProvider.tsx`: import `PhantomWalletAdapter` from `@solana/wallet-adapter-phantom` and `SolflareWalletAdapter` from `@solana/wallet-adapter-solflare` (both removed from the `-wallets` meta-package in 0.19.x). Dependencies declared in `package.json`.
+- `instrumentation-client.ts`: `@sentry/replay` declared in `package.json` and loaded optionally (`try`/`require` with fallback to no-replay), so type-checks and local builds survive before `npm install` brings the package in. Privacy posture unchanged (`maskAllText`/`maskAllInputs`/`blockAllMedia`).
+- New `fwber-frontend/types/third-party-shims.d.ts`: ambient declarations for `@dnd-kit/*`, `laravel-echo`, `@solana/wallet-adapter-phantom`, and `@solana/wallet-adapter-solflare` (no bundled types / no `@types` packages).
+- `app/photos/page.tsx`: explicit `(photo: any)` on reorder map, `DragEndEvent` value-import replaced (was TS2709 against the shim).
+- Verified: frontend `tsc --noEmit` EXIT 0, backend `tsc --noEmit` EXIT 0.
 
 
 ## [2.3.53] - 2026-11-04

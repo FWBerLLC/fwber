@@ -1,11 +1,19 @@
 # ROADMAP.md — fwber Project Trajectory
 
-> **Current Version:** 2.3.53
-> **Last Updated:** 2026-11-04
+> **Current Version:** 2.3.61
+> **Last Updated:** 2026-11-12
 
 ---
 
 ## 🗺️ High-Level Trajectory
+
+### Phase 13: Multi-Account Live QA Hardening, Social Graph Safety & Monorepo Synchronization (COMPLETED - v2.3.61)
+Live production verification, end-to-end friend/block workflow completion, crash-surface elimination, and repository-wide version/build synchronization on `fwber.online`.
+
+**Key Achievements:**
+- **Canonical Friend Discovery & Block Safety (`v2.3.55`–`v2.3.58`, `b13c4cf9a`, `c9ea14d6e`)**: Shipped bare-array `GET /api/friends/search` with bidirectional block/friend/pending exclusions (`FriendsSearchBlocks.test.ts` 8/8), explicit-tap Block/Report actions in `ProfileViewModal` and `/profile/[id]`, and Blocked Users management on `/safety` and `/settings/blocked`.
+- **Runtime Crash & Data Hygiene (`v2.3.59`–`v2.3.60`)**: Swept 269 `.map()` sites and guarded remaining async crash holes (`NemesisFinder`, Privacy groups); verified production image-URL cleanliness on Hetzner and protected `image-url-migration-journal.json` during dry-runs.
+- **Unified Build, Version & Session Governance (`v2.3.61`)**: Synchronized centralized `VERSION` (`2.3.61`) across root, backend, and frontend manifests + `next.config.js` / `layout.tsx` badges; upgraded `build.bat` with automatic Prisma client generation and `fwber-geo` Rust release compilation; hardened `.gitignore` to preserve `.tormentnexus`, `.pi-lens`, and operational markdown session logs.
 
 ### Phase 12: Unified High-Value Dashboard & Ecosystem Consolidation (COMPLETED - v2.3.53)
 Comprehensive reorganization of the dashboard into 10 high-value priority categories, wiring 100% of production hubs and full tooltip guidance coverage.

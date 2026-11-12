@@ -47,7 +47,7 @@ if [ ! -d "prisma/migrations" ] || [ -z "$(ls -A prisma/migrations/ 2>/dev/null)
   echo "✅ Baseline migration 0000_initial applied."
 fi
 npx prisma migrate deploy
-npm run build
+nice -n 10 npm run build
 
 # Strip dev dependencies post-build to keep the runtime lean
 npm prune --production || true
@@ -61,20 +61,11 @@ else
 	$SUDO_BIN systemctl restart fwber-backend-ts
 fi
 
-# Build and restart geo service if the directory exists
-if [ -d "$GEO_DIR" ]; then
-	echo "🔨 Building fwber-geo..."
-	cd "$GEO_DIR"
-	cargo build --release
-	$SUDO_BIN systemctl restart fwber-geo
-	cd "$BACKEND_DIR"
-fi
-
-# Build and restart geo service if the directory exists
+# Build and restart geo service if the directory exists (low CPU priority for shared host)
 if [ -d "$GEO_DIR" ]; then
   echo "🔨 Building fwber-geo..."
   cd "$GEO_DIR"
-  cargo build --release
+  nice -n 10 cargo build --release
   $SUDO_BIN systemctl restart fwber-geo
   cd "$BACKEND_DIR"
 fi
