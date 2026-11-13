@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.76] - 2026-11-13
+
+### Header Crowding Polish (No-Wrap Utility Pills)
+
+- **AppHeader (`components/AppHeader.tsx`):** Utility account pills (`Settings`, `Notifications`, `Travel Mode`, `Account`) and `Log out` are now `whitespace-nowrap shrink-0`, the right-hand cluster is `shrink-0`, and the profile search container is `min-w-0 flex-1 max-w-md` so the search field absorbs shrink instead of forcing pills to wrap/clip (visual-pass finding at ~1855px: "Travel Mode"/"Log out" wrapped, Connected text clipped, search placeholder clipped).
+- **Connection badge (`components/realtime/PresenceComponents.tsx`):** All status labels (`Connected`, `Disconnected`, `Connecting...`, `Reconnecting...`, `Offline`, `Realtime off`) are `whitespace-nowrap` so they can no longer clip against their dot icon.
+- **Verified:** ESLint exhaustive-deps 0, frontend `tsc` 0, backend 119/119 + `tsc` 0; deployed to Hetzner (always-deploy); local stack DOWN (Hetzner-only). CSS-only change — no behavior touched.
+
 ## [2.3.75] - 2026-11-13
 
 ### exhaustive-deps Cleanup: Zero Warnings

@@ -14,6 +14,10 @@
 - Verified fix against middleware.ts gate; frontend tsc --noEmit EXIT 0 (empty output, no tsc process remains).
 - Bumped 2.3.61 -> 2.3.62 with CHANGELOG. NOT deployed: Hetzner frontend still serves pre-#42 build; needs Robert-authorized rebuild + restart.
 
+## Session 2026-11-13 (cont. 14) - Header crowding polish (v2.3.76)
+- CSS-only: nowrap/shrink-0 on header utility pills + logout, right cluster shrink-0, search flexes (min-w-0), badge labels nowrap. Closes the 2026-10-26 visual-pass crowding item. Remaining code candidate: ActivityPub interop tests; rest Robert-blocked/watch.
+- CDP: Bobbi/Gemini/ChatGPT tabs open; no Bobbi send (usage resets Nov 14 18:38).
+
 ## Session 2026-11-13 (cont. 13) - exhaustive-deps zeroed (v2.3.75)
 - 9 warnings → 0 (see CHANGELOG). Pattern used: useCallback-wrap fetchers with true deps; never blanket-add object deps without checking refire semantics (profile-view kept safe via backend dedupe).
 - Remaining code candidates: header-crowding polish (line ~189), ActivityPub interop tests, TURN decision. Everything else Robert-blocked/watch.

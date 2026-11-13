@@ -1,6 +1,6 @@
 # TODO — fwber Immediate Action Items
 
-> **Version:** 2.3.75
+> **Version:** 2.3.76
 > **Last Updated:** 2026-11-12
 
 ---

@@ -183,7 +183,7 @@ function getNavLinkClasses(isActive: boolean, compact = false) {
 
 function getUtilityLinkClasses(isActive: boolean) {
   return [
-    'flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+    'flex shrink-0 items-center gap-2 whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium transition-colors',
     isActive
       ? 'dark:bg-background text-white dark:bg-card dark:text-foreground'
       : 'text-foreground hover:bg-muted dark:text-muted-foreground dark:hover:dark:bg-card',
@@ -304,7 +304,7 @@ export default function AppHeader({ title = 'FWBer', showNav = true }: AppHeader
             >
               <Logo className="text-3xl" />
             </Link>
-            <div className="ml-4 mr-2 hidden md:flex">
+            <div className="ml-4 mr-2 hidden min-w-0 max-w-md flex-1 md:flex">
               <ProfileSearch />
             </div>
             <div className="min-w-0">
@@ -319,7 +319,7 @@ export default function AppHeader({ title = 'FWBer', showNav = true }: AppHeader
             </div>
           </div>
 
-          <div className="flex items-center gap-2 lg:gap-3">
+          <div className="flex shrink-0 items-center gap-2 lg:gap-3">
             <ThemeToggle />
             <NotificationBell />
 
@@ -347,7 +347,7 @@ export default function AppHeader({ title = 'FWBer', showNav = true }: AppHeader
 
               <button type="button"
                 onClick={handleLogout}
-                className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-red-600 transition-colors hover:bg-red-50 dark:hover:bg-red-900/20"
+                className="flex shrink-0 items-center gap-2 whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium text-red-600 transition-colors hover:bg-red-50 dark:hover:bg-red-900/20"
                 aria-label="Log out"
               >
                 <LogOut className="h-4 w-4" />

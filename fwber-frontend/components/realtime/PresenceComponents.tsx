@@ -224,7 +224,7 @@ export function ConnectionStatusBadge({
     return (
       <div className={`inline-flex items-center gap-1.5 text-xs ${className}`}>
         <span className="w-2 h-2 bg-red-500 rounded-full" />
-        <span className="text-red-600 font-medium">Offline</span>
+        <span className="whitespace-nowrap text-red-600 font-medium">Offline</span>
       </div>
     );
   }
@@ -233,7 +233,7 @@ export function ConnectionStatusBadge({
     return (
       <div className={`inline-flex items-center gap-1.5 text-xs ${className}`}>
         <span className="w-2 h-2 bg-slate-400 rounded-full" />
-        <span className="text-slate-500">Realtime off</span>
+        <span className="whitespace-nowrap text-slate-500">Realtime off</span>
       </div>
     );
   }
@@ -242,7 +242,7 @@ export function ConnectionStatusBadge({
     return (
       <div className={`inline-flex items-center gap-1.5 text-xs ${className}`}>
         <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
-        <span className="text-blue-600">Connecting...</span>
+        <span className="whitespace-nowrap text-blue-600">Connecting...</span>
       </div>
     );
   }
@@ -251,7 +251,7 @@ export function ConnectionStatusBadge({
     return (
       <div className={`inline-flex items-center gap-1.5 text-xs ${className}`}>
         <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-        <span className="text-green-600">Connected</span>
+        <span className="whitespace-nowrap text-green-600">Connected</span>
       </div>
     );
   }
@@ -260,7 +260,7 @@ export function ConnectionStatusBadge({
     return (
       <div className={`inline-flex items-center gap-1.5 text-xs ${className}`}>
         <span className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse" />
-        <span className="text-yellow-600">
+        <span className="whitespace-nowrap text-yellow-600">
           Reconnecting... ({reconnectAttempts})
         </span>
       </div>
@@ -270,7 +270,7 @@ export function ConnectionStatusBadge({
   return (
     <div className={`inline-flex items-center gap-1.5 text-xs ${className}`}>
       <span className="w-2 h-2 bg-muted rounded-full" />
-      <span className="text-muted-foreground">Disconnected</span>
+      <span className="whitespace-nowrap text-muted-foreground">Disconnected</span>
     </div>
   );
 }
