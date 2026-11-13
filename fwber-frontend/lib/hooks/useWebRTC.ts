@@ -8,6 +8,27 @@ interface UseWebRTCProps {
     echoInstance: any;
 }
 
+/**
+ * ICE servers for peer connections. STUN alone fails for peers behind
+ * strict/symmetric NATs; when TURN is provisioned, set NEXT_PUBLIC_TURN_URL
+ * (plus username/credential) and relay candidates flow through it. Kept
+ * env-driven so no credentials are ever hardcoded in the bundle source.
+ */
+function buildIceServers(): RTCIceServer[] {
+    const servers: RTCIceServer[] = [
+        { urls: 'stun:stun.l.google.com:19302' },
+    ];
+    const turnUrl = process.env.NEXT_PUBLIC_TURN_URL;
+    if (turnUrl) {
+        servers.push({
+            urls: turnUrl,
+            username: process.env.NEXT_PUBLIC_TURN_USERNAME,
+            credential: process.env.NEXT_PUBLIC_TURN_CREDENTIAL,
+        });
+    }
+    return servers;
+}
+
 export function useWebRTC({ roomId, currentUserId, echoInstance }: UseWebRTCProps) {
     const [localStream, setLocalStream] = useState<MediaStream | null>(null);
     const [remoteStreams, setRemoteStreams] = useState<Record<number, MediaStream>>({});
@@ -21,9 +42,7 @@ export function useWebRTC({ roomId, currentUserId, echoInstance }: UseWebRTCProp
         }
 
         const pc = new RTCPeerConnection({
-            iceServers: [
-                { urls: 'stun:stun.l.google.com:19302' },
-            ]
+            iceServers: buildIceServers()
         });
 
         pc.onicecandidate = async (event) => {
