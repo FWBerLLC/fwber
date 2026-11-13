@@ -14,6 +14,10 @@
 - Verified fix against middleware.ts gate; frontend tsc --noEmit EXIT 0 (empty output, no tsc process remains).
 - Bumped 2.3.61 -> 2.3.62 with CHANGELOG. NOT deployed: Hetzner frontend still serves pre-#42 build; needs Robert-authorized rebuild + restart.
 
+## Session 2026-11-13 (cont. 18) - Badge finding closed, doc set synced (v2.3.80)
+- Socket-badge TODO closed (unification + audit; browser aborts were the shared Edge, not prod). QA residue on prod now users 188–197 + room 7 — see IDEAS #4 (QA cleanup) if Robert wants it bounded.
+- MEMORY/VISION/DEPLOY/IDEAS synced to 2.3.80 (rules captured in MEMORY). Open code candidates exhausted again: remaining = Robert decisions (TURN, backup, keys) + external live-node test.
+
 ## Session 2026-11-13 (cont. 17) - NodeInfo served (v2.3.79)
 - `/.well-known/nodeinfo` + `/nodeinfo/2.1` live (discovery + instance doc, counts degrade to 0 on failure). Federation discovery chain (WebFinger → actor → NodeInfo) now complete server-side.
 - Remaining federation: live Mastodon/Pleroma node test (external). Rest Robert-blocked.

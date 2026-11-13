@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.80] - 2026-11-13
+
+### Socket-Badge Finding Closed; Documentation Set Synced
+
+- **Socket "Disconnected" badge (2026-10-26 finding) closed:** state sources were unified in v2.3.63 (single `ConnectionStatusBadge` from the singleton Socket.io via `AuthenticatedRealtimeProvider`); this turn audited the socket lifecycle (setter fan-out on connect/disconnect/reconnect is correct), verified API auth end-to-end on prod (QA user 197), and found the remaining browser-login aborts trace to the shared-Edge automation session (server log shows the client-aborted POST), not a product defect. Reopen criteria documented in TODO.
+- **Doc governance sync:** `VISION.md`/`MEMORY.md` versioned to 2.3.80 with the session's architectural rules (realtime single-source, discovery-completeness, BOM-safe version writes, shared-Edge hazard, manual deploy path); `DEPLOY.md` records the standing always-deploy practice + discovery mounts; `IDEAS.md` gains the 2026-11-13 addendum (coturn TURN, live interop harness, rewrite-target CI audit, QA-account lifecycle).
+- **Gates:** backend 125/125, both `tsc` 0, ESLint 0; prod smoke 200s; local stack DOWN.
+
 ## [2.3.79] - 2026-11-13
 
 ### NodeInfo Discovery (Fediverse Instance Metadata)

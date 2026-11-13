@@ -1,5 +1,5 @@
 {
-  "version": "2.3.79",
+  "version": "2.3.80",
   "dependencies": {
     "@tanstack/react-query": "^5.90.16",
     "composer": "^4.1.0",

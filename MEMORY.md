@@ -1,5 +1,15 @@
 # MEMORY.md — fwber Internal Architectural Observations
 
+## Current Version: 2.3.80 "Federation Discovery & Realtime Unification"
+**Last Updated:** 2026-11-13
+
+### Observations (2026-11-13 session, v2.3.63–v2.3.80)
+- **Realtime single-source rule**: header + dashboard connection badges must only ever read `PresenceContext` (fed by `AuthenticatedRealtimeProvider` from the singleton Socket.io in `use-socket-logic.ts`). Any new surface that spins its own socket state will resurrect the "Disconnected vs Connected" split. Echo/Reverb listeners remain legacy fallbacks only — the TS backend emits on Socket.io (`user:{id}` rooms; events `AudioRoomSignal`, `ParticipantJoined/Left`).
+- **Discovery completeness rule**: every `next.config.js` rewrite target under `/.well-known/*` must exist in the backend. WebFinger (v2.3.78) and NodeInfo (v2.3.79) were both rewrite-to-404 until implemented; audit rewrites against `src/index.ts` mounts whenever either side changes.
+- **Version-write hazard**: PowerShell `Set-Content -Encoding UTF8` writes a BOM that breaks Node JSON parsing. All version/manifest writes must use `UTF8Encoding($false)` (learned v2.3.63, fixed same turn).
+- **Shared-Edge hazard**: Edge CDP 9222 is shared across lanes/tenants — tab focus can switch mid-automation (a click landed on another tenant's tab once). Verify the target tab's URL before every send/click batch; prefer per-target WebSocket evaluates over global active-tab drivers.
+- **Deploy**: always-deploy authorized 2026-11-13. Manual path (fetch + `reset --hard`, nice -n 10 builds, PM2 restarts) — never `deploy-backend-ts.sh` blindly (its `--include-untracked` stash endangers server-side untracked Prisma migrations). Keep repo VERSION == prod version; deploy records don't bump.
+
 ## Current Version: 2.3.61 "Unified Social Graph & Production Synchronization"
 **Last Updated:** 2026-11-12
 

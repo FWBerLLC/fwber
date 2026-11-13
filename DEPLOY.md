@@ -192,6 +192,8 @@ To manually deploy the TS backend:
 /var/www/fwber/repo/ops/hetzner/scripts/deploy-backend-ts.sh staging
 ```
 
+> **Standing practice (2026-11-13, always-deploy):** the lanes deploy manually instead — `ssh hetzner`, `git fetch && git reset --hard origin/main` in `/var/www/fwber/repo` (preserves untracked `prisma/migrations/`; the script's `git stash --include-untracked` endangers them), then per app `nice -n 10 npm install`, `npx prisma generate` (backend), `nice -n 10 npm run build`, `pm2 restart <app>`. Smoke: `fwber.online`, `/login`, `/dashboard`, `api.fwber.online/health` all 200. Federation discovery (`/.well-known/webfinger`, `/.well-known/nodeinfo`, `/nodeinfo/2.1`) is served by the backend at the root path and rewritten from the frontend domain — keep both sides mounted when touching rewrites or route mounts.
+
 #### PHP Backend (fwber-backend)
 GitHub Actions backend deployment should now target Hetzner as well, using `.github/workflows/deploy-backend.yml` plus repository secrets:
 - note: the deploy script now explicitly sources rustup Cargo from `~/.cargo/env` / `~/.cargo/bin` so `fwber-geo` builds correctly in non-login CI SSH sessions as well as manual shells
