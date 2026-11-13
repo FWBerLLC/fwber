@@ -1,4 +1,4 @@
-﻿{
+{
   "version": "2.3.63",
   "dependencies": {
     "@tanstack/react-query": "^5.90.16",
