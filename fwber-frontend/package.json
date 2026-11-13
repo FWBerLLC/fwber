@@ -1,6 +1,6 @@
-{
+﻿{
   "name": "fwber-frontend",
-  "version": "2.3.62",
+  "version": "2.3.63",
   "private": true,
   "scripts": {
     "dev": "next dev -H 0.0.0.0",
@@ -117,3 +117,4 @@
     "protobufjs": "7.6.5"
   }
 }
+
