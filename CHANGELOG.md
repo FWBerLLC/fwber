@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.3.71] - 2026-11-13
+
+### TURN-Ready ICE Config + Full Test Gate (Deployed)
+
+- **WebRTC ICE (`fwber-frontend/lib/hooks/useWebRTC.ts`):** Hardcoded STUN-only peer config replaced with `buildIceServers()` — always includes the public STUN server and appends TURN when `NEXT_PUBLIC_TURN_URL` (+ optional username/credential) is provisioned. No credentials hardcoded; strict-NAT peers can now relay once a TURN service (e.g. coturn on the box) is configured.
+- **Full backend gate:** Entire Jest suite run — **28 suites / 116 tests PASS** (was: focused suites only). Frontend `tsc` 0.
+- **Prod log watch (post-v2.3.70 deploy):** No new errors from the signaling deploy. Remaining noise is pre-existing watch items: malformed-JSON scanner probes (answered 400 by middleware) and Next.js Server-Reference stale-client warnings.
+- **Coordination:** Bobbi (muse.ai) is **out of usage until Nov 14 18:38** — coordination paused, no messages sent into a dead lane. Workspace BOBPC lane remains active on its own track.
+
 ## [2.3.70] - 2026-11-13
 
 ### Audio Rooms WebRTC Signaling Relay (Ack-Stub Replaced)

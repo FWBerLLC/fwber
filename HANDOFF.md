@@ -14,6 +14,11 @@
 - Verified fix against middleware.ts gate; frontend tsc --noEmit EXIT 0 (empty output, no tsc process remains).
 - Bumped 2.3.61 -> 2.3.62 with CHANGELOG. NOT deployed: Hetzner frontend still serves pre-#42 build; needs Robert-authorized rebuild + restart.
 
+## Session 2026-11-13 (cont. 9) - TURN-ready ICE, full 116-test gate, v2.3.71 deployed
+- `useWebRTC` ICE now env-driven (`NEXT_PUBLIC_TURN_URL/USERNAME/CREDENTIAL`); STUN default unchanged. To enable relay: provision coturn (or hosted TURN), set the three env vars on the frontend, rebuild.
+- Full backend suite: 28/116 PASS. Prod error logs watched: only scanner-noise + stale-client warnings.
+- Bobbi OUT OF USAGE until 2026-11-14 18:38 — do not send coordination messages until after reset. BOBPC workspace lane is coordinating separately (Protocol #286).
+
 ## Session 2026-11-13 (cont. 8) - v2.3.70 DEPLOYED to Hetzner; ALWAYS-DEPLOY rule set
 - Robert directive 2026-11-13: "always deploy please" — standing authorization to deploy fwber to Hetzner after push without asking each time. Saved to memory.
 - Deploy (manual precedent, NOT deploy-backend-ts.sh — its `git stash --include-untracked` would stash the server's untracked prisma/migrations): server `git fetch + reset --hard origin/main` → `0536cfa56`; backend `npm install` (nice -n 10) + `prisma generate` + `tsc` build + `pm2 restart fwber-backend-ts` (health 200); frontend `npm install` + `next build` (postbuild standalone copy OK) + `pm2 restart fwber-frontend` (on-box 200). PM2 shows both at **2.3.70 online**; other tenants untouched.
