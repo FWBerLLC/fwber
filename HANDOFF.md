@@ -14,6 +14,10 @@
 - Verified fix against middleware.ts gate; frontend tsc --noEmit EXIT 0 (empty output, no tsc process remains).
 - Bumped 2.3.61 -> 2.3.62 with CHANGELOG. NOT deployed: Hetzner frontend still serves pre-#42 build; needs Robert-authorized rebuild + restart.
 
+## Session 2026-11-13 (cont. 22) - Local build gate CLOSED as environment-only (loop iteration)
+- The restore `npm install` never completed (25+ min in peer-resolution; killed PIDs 27848/27712, proven ours). Local frontend tree stays partially pruned (`dompurify`/`jsdom` missing). Verdict: local `next build` is not a usable gate on this box — registry egress + wallet-SDK peer hell. **Prod builds on Hetzner are the operative build gate** (green on every deploy this session, incl. v2.3.81). Do not retry local install without a changed network story.
+- Other npm-cli processes seen (33760/33092) are another lane's `npm outdated` probes — left running, not ours.
+
 ## Session 2026-11-13 (cont. 21) - Local build gate probe (loop iteration, docs-only)
 - Local `next build` fails on missing `dompurify`/`jsdom` (transitive deps of declared `isomorphic-dompurify`): local `node_modules` is partially pruned; server's tree is complete (prod builds green every deploy). `npm install` to restore was still crawling after ~9 min at BelowNormal (registry egress on this box — the historic local-install sink). Left running; check `fwber-frontend/node_modules/dompurify` next iteration — if present, rerun `next build` as the local gate. If install dies again, close as environment-only: prod build remains the operative gate.
 - Skipped: QA-account deletion endpoint (new attack surface for 3 harmless QA users) and QA self-delete via known passwords (destructive, low value). Residue stands (users 188–197, room 7).
