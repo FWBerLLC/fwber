@@ -14,6 +14,10 @@
 - Verified fix against middleware.ts gate; frontend tsc --noEmit EXIT 0 (empty output, no tsc process remains).
 - Bumped 2.3.61 -> 2.3.62 with CHANGELOG. NOT deployed: Hetzner frontend still serves pre-#42 build; needs Robert-authorized rebuild + restart.
 
+## Session 2026-11-13 (cont. 12) - Stale-TODO sweep (v2.3.74)
+- Closed 4 stale duplicates (wallet login ×2, 401s, tooltip quirks) with fresh evidence (prod nonce endpoint + 15/15 wallet tests). TODO is now an honest open list — everything left needs Robert (creds/targets/keys) or is a watch/polish candidate.
+- Gates 119/119, tsc 0/0, prod 200s, local DOWN. Next candidates if Robert wants code work: exhaustive-deps behavior pass, header-crowding polish, ActivityPub interop tests, TURN provisioning decision.
+
 ## Session 2026-11-13 (cont. 11) - Tray orphan fix, prod presence proof (v2.3.73)
 - Tray CLI `-StopAll` watch-parent orphan found + fixed (parent `--watch dist/index.js` now killed on port reclaim). Local stack DOWN; do not relaunch locally.
 - Prod two-client presence proof PASSED end-to-end (users 195/196, room 7; join/leave/signal payloads captured). Residue: QA room 7 + users 195/196 on prod (no delete endpoint).

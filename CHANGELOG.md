@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.74] - 2026-11-13
+
+### Stale-TODO Sweep: Wallet Login, 401s, Tooltip Quirks Verified Done
+
+- **Four open TODOs closed as stale duplicates** (each already fixed and proven in earlier releases): wallet-login backend (shipped v2.3.47 — re-verified live: prod `GET /api/auth/wallet-nonce` returns a 32-char nonce/600s TTL, `WalletLogin.test.ts` 15/15), transient login 401s (root-caused v2.3.39), tooltip hover/tap quirks (fixed v2.3.47). TODO now contains only genuinely open work: Robert-blocked items (backup target, Stripe live keys, email DNS, AI keys, photo restore), infra watches (disk growth, rebuild churn, dead cloud creds), and polish candidates (exhaustive-deps, header crowding, ActivityPub interop testing).
+- **Gates:** full backend suite 28/119 PASS; backend + frontend `tsc` 0; prod smoke 200s; tray `-Status` all DOWN (Hetzner-only). Bobbi still out of usage (resets Nov 14 18:38); no coordination send.
+
 ## [2.3.73] - 2026-11-13
 
 ### Tray Watch-Parent Orphan Fix; Presence Proof on Prod
