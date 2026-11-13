@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.3.64] - 2026-11-13
+
+### Coverage, Tray & Coordination Re-Verification (No Behavior Change)
+
+- **Dashboard consolidation verified, not re-fragmented:** `check_nav_coverage.py` reports 179 routes / 133 linked / 17 intentionally unlinked (create-subpages, `/home` back-link, `/journals` redirect, `/rate-my-pussy` leave-as-is, venue/onboarding/success/dev pages). The v2.3.53 single-dashboard design (10 high-value categories, 100% tile tooltips) stands; the 2026-10-18 operator decision ("dont need to consolidate all") remains honored — no pages merged or deleted.
+- **Script cleanup verified:** `tools/` holds 46 files across archive/config/deployment/legacy/migrations/scripts/tasks with zero duplicate basenames; prior archival (v2.3.53) is intact. No scripts moved or deleted this pass.
+- **Tray & local stack:** `fwber-tray-check.py` exit 0 — local FWBer services stopped as intended (Hetzner-only rule); MySQL :3306 listening belongs to the shared box and was left untouched; Redis optional/absent (in-memory fallback). Tray quit path remains `-StopAll` / GUI close.
+- **Build/tests:** backend `tsc --noEmit` clean; Jest `FriendsSearchBlocks` + `DashboardAndMessaging` 14/14 (via `npm test`, VM-modules). Log watch: only expected `ExperimentalWarning` lines; no errors.
+- **Coordination:** CDP 9222 Bobbi tab re-checked with 90s timeouts — still "is working" on the Hank proposal, no DONE/BLOCKED/INFO reply yet; no duplicate follow-up sent. Prod smoke all 200 (`fwber.online`, `/login`, `api.fwber.online/health`).
+
 ## [2.3.63] - 2026-11-13
 
 ### Socket-Status Unification Verified, Tray & CDP Coordination Check
