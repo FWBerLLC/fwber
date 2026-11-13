@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { apiClient } from '../api/client';
+import { getSharedSocket } from './use-socket-logic';
 
 interface UseWebRTCProps {
     roomId: string;
@@ -152,7 +153,33 @@ export function useWebRTC({ roomId, currentUserId, echoInstance }: UseWebRTCProp
         }
     }, [currentUserId, getPeerConnection, roomId]);
 
-    // Setup Echo listeners for signaling
+    // Receive signals over the shared Socket.io connection. The backend
+    // relays `AudioRoomSignal` to the target's `user:{id}` room (REST
+    // /signal and the `audio_signal` socket event share that contract).
+    // The legacy Echo listener below stays as a fallback for any Reverb
+    // deployment, but Socket.io is the transport the TS backend serves.
+    useEffect(() => {
+        if (!currentUserId) return;
+        const socket = getSharedSocket();
+        if (!socket) return;
+
+        const handleSignal = (e: any) => {
+            if (e && e.room_id == roomId) {
+                handleReceiveSignal({
+                    sender_id: e.sender_id,
+                    type: e.type,
+                    payload: e.payload
+                });
+            }
+        };
+
+        socket.on('AudioRoomSignal', handleSignal);
+        return () => {
+            socket.off('AudioRoomSignal', handleSignal);
+        };
+    }, [currentUserId, roomId, handleReceiveSignal]);
+
+    // Setup Echo listeners for signaling (legacy fallback)
     useEffect(() => {
         if (!echoInstance || !currentUserId) return;
 

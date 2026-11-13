@@ -14,6 +14,11 @@
 - Verified fix against middleware.ts gate; frontend tsc --noEmit EXIT 0 (empty output, no tsc process remains).
 - Bumped 2.3.61 -> 2.3.62 with CHANGELOG. NOT deployed: Hetzner frontend still serves pre-#42 build; needs Robert-authorized rebuild + restart.
 
+## Session 2026-11-13 (cont. 7) - Audio Rooms signaling relay shipped (v2.3.70)
+- Replaced ack-stub `/signal` with validated, participant-checked Socket.io relay (`AudioRoomSignal` → `user:{id}`); shared pure validator in `src/lib/audio-signaling.ts` used by REST + `audio_signal` socket handler. Frontend `useWebRTC` receives via shared Socket.io (`getSharedSocket()`), Echo fallback kept.
+- Tests: `AudioSignaling.test.ts` 9 cases, total 23/23; both tsc 0. Test written failing-first (module missing → green after impl).
+- Bobbi tab returned; v2.3.70 update sent + verified via CDP. Local servers NOT started. Next: deploy to Hetzner (needs Robert's go per standing deploy practice), then two-browser prod voice check; possible TURN server for strict NATs.
+
 ## Session 2026-11-13 (cont. 6) - Backend↔UI gap audit closed (v2.3.69, Hetzner-only)
 - Audited 71 backend modules vs frontend incl. `(protected)` group: no missing UI. Audio Rooms fully wired (list/create/[id]/join). `cats`=demo, `hardware-tokens`=stub — intentional, see TODO. Voice transport (`/signal`) still ack-stub; Socket.io relay is the next real feature candidate.
 - Prod smoke 4×200. Local stack NOT started (Robert rule). CDP 9222 refused (Edge closed) — coordination paused until tabs reopen.

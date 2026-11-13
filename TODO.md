@@ -1,6 +1,6 @@
 # TODO — fwber Immediate Action Items
 
-> **Version:** 2.3.69
+> **Version:** 2.3.70
 > **Last Updated:** 2026-11-12
 
 ---
@@ -17,7 +17,7 @@
 - [x] **Footer version badge wired to centralized `VERSION` (v2.3.61)** — Fixed `app/layout.tsx` and `next.config.js` so `NEXT_PUBLIC_PROJECT_VERSION` / `NEXT_PUBLIC_FRONTEND_VERSION` read root `VERSION` first (resolving the `v2.1.4` stale footer display seen in Bobbi's Nov 6 QA).
 - [x] **Direct messaging initiation from `app/profile/[id]` (Bobbi QA 2026-11-06 — closed in v2.3.62)** — Enabled friend + mutual-match direct messaging end-to-end: `/matches/established` includes accepted friends, `/messages?user=<id>` auto-selects/bootstraps conversations, and `app/profile/[id]` exposes a prominent `Message` button (with tooltip guidance when not yet matched/friends).
 - [x] **Dashboard Network "Syncing" vs header badge "Connected" disagreement (Bobbi QA 2026-11-06 — closed v2.3.63, verified in code)** — Both `AppHeader` and `/dashboard` render the same `ConnectionStatusBadge` from `PresenceContext` (fed by `AuthenticatedRealtimeProvider` from `websocket.connectionStatus`); no second "Syncing" source remains. Verified 2026-11-13 by tracing `connectionStatus` through provider → context → badge.
-- [ ] **Audio Rooms live voice transport** — Room membership UI is complete (`(protected)/audio-rooms` + `[id]`, join/leave/create wired), but `POST /api/audio-rooms/:id/signal` is an ack-only stub; real voice needs a Socket.io (or equivalent) WebRTC signaling relay server-side. Next real feature candidate.
+- [x] **Audio Rooms live voice transport (signaling shipped v2.3.70; media needs live prod test)** — `POST /api/audio-rooms/:id/signal` now validates (`src/lib/audio-signaling.ts`), requires both users to be room participants, and relays `AudioRoomSignal` over Socket.io `user:{id}` rooms; `audio_signal` socket event mirrors the same contract; frontend `useWebRTC` receives on the shared Socket.io socket (Echo kept as legacy fallback). Covered by `tests/AudioSignaling.test.ts` (9 cases; suite total 23/23). Remaining: two-browser live voice check on prod after deploy — TURN beyond the public STUN server may be needed for strict NATs.
 - [x] **Backend-only modules audit (v2.3.69)** — `cats` (seed-data demo) and `hardware-tokens` (unimplemented stub, `enabled: false`) are intentionally dashboard-free. Do not re-flag in coverage audits.
 - [x] **Fresh-account seeded stats (Bobbi QA 2026-11-06 — closed in v2.3.62)** — Fixed `/dashboard/stats` so new accounts report `0` private conversations and `0%` compatibility until real matches/friends/messages exist.
 

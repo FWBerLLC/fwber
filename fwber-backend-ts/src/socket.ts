@@ -2,6 +2,7 @@ import { Server, Socket } from 'socket.io';
 import { createServer } from 'http';
 import jwt from 'jsonwebtoken';
 import prisma from './lib/prisma.js';
+import { validateAudioSignal, buildAudioSignalEvent, userRoomName, AUDIO_SIGNAL_EVENT } from './lib/audio-signaling.js';
 
 interface AuthenticatedSocket extends Socket {
   user?: { id: number; name: string; };
@@ -121,6 +122,39 @@ export function setupSocketIO(httpServer: any) {
     socket.on('stop_typing', (data: { receiverId: number }) => {
       if (!socket.user) return;
       io.to(`user:${data.receiverId}`).emit('user_stop_typing', { senderId: socket.user.id });
+    });
+
+    // Audio Rooms WebRTC signaling over the socket directly (the REST
+    // /signal endpoint relays the same way for clients that only POST).
+    // Same contract as REST: validate, require both users to be room
+    // participants, then deliver `AudioRoomSignal` to the target user room.
+    socket.on('audio_signal', async (data: { roomId: number; target_user_id: number; type: string; payload?: any }) => {
+      if (!socket.user) return;
+      const senderId = socket.user.id;
+      const roomId = Number(data?.roomId);
+      const validated = validateAudioSignal(
+        { target_user_id: data?.target_user_id, type: data?.type, payload: data?.payload },
+        senderId,
+      );
+      if (!Number.isInteger(roomId) || roomId <= 0 || !validated.ok) {
+        socket.emit('error', { message: 'Invalid audio signal' });
+        return;
+      }
+      try {
+        const roomKey = BigInt(roomId);
+        const [senderRow, targetRow] = await Promise.all([
+          prisma.audio_room_participants.findFirst({ where: { audio_room_id: roomKey, user_id: BigInt(senderId) } }),
+          prisma.audio_room_participants.findFirst({ where: { audio_room_id: roomKey, user_id: BigInt(validated.signal.targetUserId) } }),
+        ]);
+        if (!senderRow || !targetRow) {
+          socket.emit('error', { message: 'Both users must be room participants to signal' });
+          return;
+        }
+        io.to(userRoomName(validated.signal.targetUserId))
+          .emit(AUDIO_SIGNAL_EVENT, buildAudioSignalEvent(roomId, senderId, validated.signal));
+      } catch (err) {
+        socket.emit('error', { message: 'Failed to relay audio signal' });
+      }
     });
 
     // Handle read receipts

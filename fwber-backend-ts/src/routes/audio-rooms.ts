@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import { authenticate } from '../middleware/auth.js';
 import prisma from '../lib/prisma.js';
+import { validateAudioSignal, buildAudioSignalEvent, userRoomName, AUDIO_SIGNAL_EVENT } from '../lib/audio-signaling.js';
+import { getIO } from '../socket.js';
 
 const router = Router();
 router.use(authenticate);
@@ -233,11 +235,55 @@ router.post('/:id/leave', async (req: any, res) => {
   }
 });
 
-// POST /api/audio-rooms/:id/signal — WebRTC signaling (pass-through)
+// POST /api/audio-rooms/:id/signal — WebRTC signaling relay.
+// Validates the signal, confirms BOTH users are participants of this room
+// (signals must never leak across rooms or to non-members), then relays to
+// the target's Socket.io user room as `AudioRoomSignal`. `relayed` reports
+// whether the target currently has a live socket; when false the signal is
+// dropped honestly (WebRTC peers must re-offer on reconnect) rather than
+// pretending delivery.
 router.post('/:id/signal', async (req: any, res) => {
-  // WebRTC signaling would need Socket.io for real-time relay
-  // For now, acknowledge the signal
-  res.json({ success: true });
+  try {
+    const senderId = Number(req.user.id);
+    const roomId = Number(req.params.id);
+    if (!Number.isInteger(roomId) || roomId <= 0) {
+      return res.status(400).json({ success: false, message: 'Invalid room id' });
+    }
+
+    const validated = validateAudioSignal(req.body, senderId);
+    if (!validated.ok) {
+      return res.status(400).json({ success: false, message: validated.error });
+    }
+    const { signal } = validated;
+
+    const roomKey = BigInt(roomId);
+    const [senderRow, targetRow] = await Promise.all([
+      prisma.audio_room_participants.findFirst({ where: { audio_room_id: roomKey, user_id: BigInt(senderId) } }),
+      prisma.audio_room_participants.findFirst({ where: { audio_room_id: roomKey, user_id: BigInt(signal.targetUserId) } }),
+    ]);
+    if (!senderRow) {
+      return res.status(403).json({ success: false, message: 'You are not a participant of this room' });
+    }
+    if (!targetRow) {
+      return res.status(404).json({ success: false, message: 'Target user is not a participant of this room' });
+    }
+
+    const io = getIO();
+    const event = buildAudioSignalEvent(roomId, senderId, signal);
+    let relayed = false;
+    if (io) {
+      const room = io.sockets.adapter.rooms.get(userRoomName(signal.targetUserId));
+      relayed = !!room && room.size > 0;
+      if (relayed) {
+        io.to(userRoomName(signal.targetUserId)).emit(AUDIO_SIGNAL_EVENT, event);
+      }
+    }
+
+    return res.json({ success: true, relayed, event: AUDIO_SIGNAL_EVENT });
+  } catch (error: any) {
+    console.error('[AudioRooms] Signal error:', error.message);
+    return res.status(500).json({ success: false, message: 'Failed to relay signal' });
+  }
 });
 
 export default router;

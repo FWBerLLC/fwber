@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.3.70] - 2026-11-13
+
+### Audio Rooms WebRTC Signaling Relay (Ack-Stub Replaced)
+
+- **Backend relay (`fwber-backend-ts/src/lib/audio-signaling.ts`, `routes/audio-rooms.ts`, `socket.ts`):** New pure validator/event-builder enforcing the frontend contract (`offer`/`answer` need SDP, `ice-candidate` needs a candidate, `raise-hand` bare; unknown types, invalid/self targets rejected fail-closed). `POST /:id/signal` now requires both sender and target to be room participants (403/404 otherwise) and relays `AudioRoomSignal {room_id, sender_id, type, payload}` to the target's Socket.io `user:{id}` room, honestly reporting `relayed: false` when the target has no live socket. A mirrored `audio_signal` Socket.io handler applies the same checks for direct socket senders.
+- **Frontend receive (`lib/hooks/useWebRTC.ts`, `use-socket-logic.ts`):** New `getSharedSocket()` accessor; `useWebRTC` now subscribes to `AudioRoomSignal` on the shared authenticated Socket.io socket (the transport the TS backend actually serves), keeping the legacy Echo listener as fallback. Sends still POST to `/signal` (now really relayed).
+- **Tests:** `tests/AudioSignaling.test.ts` — 9 cases (valid offer/answer/ice/raise-hand; rejected bad type, missing/invalid/self target, SDP-less offer/answer, candidate-less ICE; event shape). Full run: **23/23 PASS** (with FriendsSearchBlocks + DashboardAndMessaging); backend + frontend `tsc` **0**.
+- **Coordination:** Edge CDP 9222 back up — Bobbi update sent as `[muse-wonder-1.0 in Muse Code in C:\Users\hyper\workspace\fwber on laptop]` and verified (composer cleared, message in thread). Prod smoke 200s. **Not locally run** (Hetzner-only rule); deploy + two-browser voice check on prod are the follow-up.
+
 ## [2.3.69] - 2026-11-13
 
 ### Backend↔UI Gap Audit Closed (Hetzner-Only)

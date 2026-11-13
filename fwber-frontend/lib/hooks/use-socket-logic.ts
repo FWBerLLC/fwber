@@ -10,6 +10,17 @@ import type {
 
 // ─── Singleton socket shared across all hook instances ───
 let _socket: Socket | null = null;
+
+/**
+ * Shared accessor for the singleton Socket.io connection.
+ * Audio Rooms signaling (useWebRTC) subscribes through here so voice
+ * signals ride the same authenticated socket as chat instead of the
+ * legacy Echo/Reverb channel the TS backend never broadcasts on.
+ * Returns null until useSocketLogic has connected.
+ */
+export function getSharedSocket(): Socket | null {
+  return _socket;
+}
 let _connectionCount = 0;
 let _listenersAttached = false;
 const _chatMessages: ChatMessage[] = [];
