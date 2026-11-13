@@ -1,6 +1,6 @@
 # TODO — fwber Immediate Action Items
 
-> **Version:** 2.3.65
+> **Version:** 2.3.66
 > **Last Updated:** 2026-11-12
 
 ---
@@ -29,7 +29,7 @@
 ## 🔧 Open Items (2026-10-31, v2.3.48 session)
 
 ### High Priority
-- [ ] **Frontend local install never completes (OUT OF SCOPE 2026-11-01: Robert runs prod only, not local)** — `npm install` in `fwber-frontend` dies silently after minutes (3 attempts); staging debris left, no `next` binary. Tried after freeing 1.6GB via npm cache clean — still dies. Needs Robert or a future session (split/chunked install, or another machine).
+- [x] **Frontend local install never completes (closed v2.3.66, verified stale)** — Toolchain now present (`node_modules/.bin/tsc`, `next` binary) and `fwber-frontend` `tsc --noEmit` exits 0 locally (2026-11-13). The Oct/Nov install failures no longer reproduce; prod-only rule still means local servers stay off by choice, not by breakage.
 - [x] **`/rate-my-pussy` route — Robert decision: LEAVE AS-IS (2026-11-01)** — real page, stays unlinked from dashboard. No rename/gate/removal.
 - [x] **Solana dual-adapter migration (v2.3.54)** — `PhantomWalletAdapter` + `SolflareWalletAdapter` both missing from installed wallets 0.19.40. Migrate `SolanaProvider.tsx` imports.
 - [x] **Duplicate-surface merges — resolved via cross-links, no deletions (v2.3.53, Robert-approved)** — burner <-> burner-links, journals -> journal (canonical), unlocks ledger -> hub. `/home` kept as back-link target.

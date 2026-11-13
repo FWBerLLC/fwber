@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.66] - 2026-11-13
+
+### Frontend Toolchain Verified Healthy; Bobbi Follow-Up Deferred
+
+- **Frontend local-install TODO closed (stale):** `fwber-frontend` toolchain is present (`tsc`, `next`) and `tsc --noEmit` exits **0** locally — the Oct/Nov silent-install failures no longer reproduce. Local servers remain off by operator choice (Hetzner-only), not breakage. `tsconfig.tsbuildinfo` churn from the check was reverted.
+- **Coordination (honest status):** Bobbi follow-up was composed but **not sent** — muse.ai currently exposes no Send/Stop control while she is mid-work (`is working`), Enter does not submit, and the draft was cleared from her composer rather than left to fire accidentally. CDP session itself is live (WebSocket open, 90s timeouts). Will retry when her turn completes.
+- **Sync:** merged parallel-lane `7cd56a89c` fast-forward; version `2.3.66` BOM-safe across manifests. Backend `tsc` 0 / Jest 14/14 unchanged.
+
 ## [2.3.65] - 2026-11-13
 
 ### `.map()` Guard Audit Closed; HyperNexus v1.0.50 Confirmed
