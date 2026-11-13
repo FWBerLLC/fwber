@@ -14,6 +14,11 @@
 - Verified fix against middleware.ts gate; frontend tsc --noEmit EXIT 0 (empty output, no tsc process remains).
 - Bumped 2.3.61 -> 2.3.62 with CHANGELOG. NOT deployed: Hetzner frontend still serves pre-#42 build; needs Robert-authorized rebuild + restart.
 
+## Session 2026-11-13 (cont. 6) - Backend↔UI gap audit closed (v2.3.69, Hetzner-only)
+- Audited 71 backend modules vs frontend incl. `(protected)` group: no missing UI. Audio Rooms fully wired (list/create/[id]/join). `cats`=demo, `hardware-tokens`=stub — intentional, see TODO. Voice transport (`/signal`) still ack-stub; Socket.io relay is the next real feature candidate.
+- Prod smoke 4×200. Local stack NOT started (Robert rule). CDP 9222 refused (Edge closed) — coordination paused until tabs reopen.
+- Lesson: always include `app/(protected)` in route scans; top-level app-dir listings undercount by design.
+
 ## Session 2026-11-13 (cont. 5) - Tray full-cycle + headless browse verified (v2.3.68)
 - Tray: launched via `.bat`, all 3 services BelowNormal + HTTP 200, `-StopAll` + `-Status` DOWN, GUI PID 51804 exited. Local stack OFF again after verification (Hetzner-only steady state preserved).
 - Browser (headless agent-browser): `/dashboard`→`/login` redirect correct; login screenshot visually inspected (clean, v2.3.67 badge); `/` 200. Errors seen are local-only (Fonts egress, Watchpack Tabby path). Dashboard itself needs an authed session to screenshot — not done (no local account creation).

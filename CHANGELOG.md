@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.3.69] - 2026-11-13
+
+### Backend↔UI Gap Audit Closed (Hetzner-Only)
+
+- **Full route inventory audited:** 71 backend route modules vs 105 frontend app sections + `(protected)` route group. Every user-facing backend feature has UI — including **Audio Rooms** (`app/(protected)/audio-rooms` list/create + `[id]` room, wired to `GET/POST /api/audio-rooms`, join/leave), which an app-dir-only scan initially missed. Dashboard tile `/audio-rooms` and `/burner` verified live (both under `(protected)`), nav coverage steady at **179 routes / 133 linked / 17 intentional**, 130/130 tiles with tooltips.
+- **Intentional non-UI backends documented:** `cats` is seed-data demo content (Detroit cat ratings) and `hardware-tokens` is an unimplemented stub (`enabled: false`) — both deliberately dashboard-free; recorded in TODO so future audits don't re-chase them. WebRTC `/signal` remains an ack-only stub server-side (needs Socket.io relay) — the room UI is membership-complete, live voice transport is the follow-up feature.
+- **Prod (Hetzner) smoke:** `fwber.online/`, `/login`, `/dashboard`, `api.fwber.online/health` all **200**. No local servers started (operator rule).
+- **Coordination:** Edge CDP 9222 unreachable this pass (connection refused — Edge closed); no Bobbi/Gemini/ChatGPT send attempted. Retry when tabs return.
+
 ## [2.3.68] - 2026-11-13
 
 ### Full Local Stack Run Verified via Tray (Start → Browse → Stop)
