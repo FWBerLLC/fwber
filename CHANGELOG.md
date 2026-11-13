@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.3.62] - 2026-11-12
+
+### Fixed (PR #42 session-cookie, merged from origin/main)
+
+- Frontend auth now mirrors login state into an fwber_auth=1 presence cookie (never the JWT) on persist/restore; cleared on logout. Next.js middleware gates on token OR fwber_auth and cannot read localStorage, so logged-in users were bounced to /login. Cookie max-age 30d matches token lifetime.
+- Middleware verified: request.cookies.has(token) || has(fwber_auth). Frontend tsc --noEmit EXIT 0 after merge.
+- NOT YET DEPLOYED: needs Robert-authorized Hetzner frontend rebuild + pm2 restart.
+
+
 ## [2.3.61] - 2026-11-12
 
 ### Executive Protocol Synchronization, Deep Merge Audit & Build Alignment

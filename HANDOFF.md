@@ -1,3 +1,8 @@
+## Session 2026-11-12 - PR #42 session-cookie fix synced, tsc clean, v2.3.62 (deploy pending)
+- muse.ai homepage/login fix = PR #42 (fwber_auth presence cookie in auth-context persist/restore/clear + README). Fast-forwarded local main to 0ac55e298.
+- Verified fix against middleware.ts gate; frontend tsc --noEmit EXIT 0 (empty output, no tsc process remains).
+- Bumped 2.3.61 -> 2.3.62 with CHANGELOG. NOT deployed: Hetzner frontend still serves pre-#42 build; needs Robert-authorized rebuild + restart.
+
 ## Session 2026-11-12 - Executive-protocol turn: sync, prod health, coverage (no version bump)
 - Pasted PRINCIPLE DIRECTIVE read fully. Local-run parts (rebuild/restart/run tray+servers locally) deliberately NOT executed: Robert Hetzner-only rule stands.
 - Sync: merged origin/main v2.3.61 executive-protocol sync (other agent: Jules Protocol #281 + merge audit). My e749a575e docs commit confirmed ancestor (earlier quiet push had landed). Pushed merge 162e917af, now current.
