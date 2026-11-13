@@ -35,7 +35,7 @@ export default function ProtectedRoute({
         router.push('/onboarding')
       }
     }
-  }, [isAuthenticated, isLoading, router, redirectTo, requireOnboarding, user])
+  }, [isAuthenticated, isLoading, router, redirectTo, requireOnboarding, user, isBanned])
 
   // Show loading while checking authentication
   if (isLoading) {

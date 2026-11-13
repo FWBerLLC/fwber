@@ -30,6 +30,10 @@ export function NFCProfileExchange() {
             processNfcData(lastScan);
             setLastScan(null);
         }
+    // processNfcData is intentionally render-scoped (it closes over the
+    // latest handleMatch/token state); the scan guard is lastScan itself,
+    // which is cleared on first handling, so stale closures cannot refire.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [lastScan, status]);
 
     const processNfcData = (data: any) => {

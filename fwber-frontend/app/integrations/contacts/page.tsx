@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Users, Search, RefreshCw, Smartphone } from 'lucide-react';
@@ -12,11 +12,7 @@ export default function SyncedContactsPage() {
     const [syncing, setSyncing] = useState(false);
     const { toast } = useToast();
 
-    useEffect(() => {
-        fetchContacts();
-    }, []);
-
-    const fetchContacts = async () => {
+    const fetchContacts = useCallback(async () => {
         try {
             setLoading(true);
             const res = await fetch('/api/integrations/contacts/data');
@@ -31,7 +27,11 @@ export default function SyncedContactsPage() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [toast]);
+
+    useEffect(() => {
+        void fetchContacts();
+    }, [fetchContacts]);
 
     const handleManualSync = async () => {
         setSyncing(true);

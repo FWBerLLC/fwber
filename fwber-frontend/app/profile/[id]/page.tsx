@@ -90,7 +90,7 @@ export default function PublicProfilePage() {
         // Silently fail — view tracking should never block UX
       });
     }
-  }, [token, numericId, user?.id]);
+  }, [token, numericId, user]);
 
   useEffect(() => {
     // Record Wingman Assist if present

@@ -1,5 +1,5 @@
 import { apiClient } from './client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useAuth } from '@/lib/auth-context'
 
 // Define local interface to avoid circular dependency with faceBlur types
@@ -235,7 +235,7 @@ export function usePhotos() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const fetchPhotos = async () => {
+  const fetchPhotos = useCallback(async () => {
     const storedToken = typeof window !== 'undefined' ? localStorage.getItem('fwber_token') : null
     if (!token && !storedToken) {
       setPhotos([])
@@ -253,7 +253,7 @@ export function usePhotos() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [token])
 
   const uploadPhotos = async (
     items: Array<{ file: File; isPrivate?: boolean; unlockPrice?: number }> | File[],
@@ -374,7 +374,7 @@ export function usePhotos() {
     }
 
     void fetchPhotos()
-  }, [authLoading, isAuthenticated, token])
+  }, [authLoading, isAuthenticated, token, fetchPhotos])
 
   return {
     photos,

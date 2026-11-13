@@ -154,7 +154,7 @@ export default function OnboardingPage() {
     }
   }
 
-  const sanitizeLocationUpdate = () => {
+  const sanitizeLocationUpdate = useCallback(() => {
     const locationUpdate: Record<string, number | string> = { ...formData.location }
 
     if (locationUpdate.latitude === 0 && locationUpdate.longitude === 0) {
@@ -166,9 +166,9 @@ export default function OnboardingPage() {
     if (!locationUpdate.state) delete locationUpdate.state
 
     return locationUpdate
-  }
+  }, [formData.location])
 
-  const persistStepUpdate = async (updates: Record<string, unknown>) => {
+  const persistStepUpdate = useCallback(async (updates: Record<string, unknown>) => {
     if (!token) {
       return
     }
@@ -185,7 +185,7 @@ export default function OnboardingPage() {
     } finally {
       setSaving(false)
     }
-  }
+  }, [token])
 
   // Debounced auto-save: saves current step data after 800ms of inactivity
   const autoSave = useCallback(() => {
@@ -259,7 +259,7 @@ export default function OnboardingPage() {
         persistStepUpdate(updates)
       }
     }, 800)
-  }, [currentStep, formData, token])
+  }, [currentStep, formData, persistStepUpdate, sanitizeLocationUpdate])
 
   // Wrapper for setFormData that triggers auto-save
   const updateFormData = useCallback((update: any | ((prev: any) => any)) => {

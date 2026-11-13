@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.75] - 2026-11-13
+
+### exhaustive-deps Cleanup: Zero Warnings
+
+- **All 9 `react-hooks/exhaustive-deps` warnings resolved** with behavior analysis per site: fetch functions wrapped in `useCallback` with their true deps and effects updated to match (admin federation peers, synced contacts, quest board, `usePhotos`, onboarding `sanitizeLocationUpdate`/`persistStepUpdate`/`autoSave` chain); missing deps added where state was genuinely read (`ProtectedRoute` `isBanned`, profile-view `user`); `ProximityPresenceView` now memoizes its guarded user array. `NFCProfileExchange` keeps one documented eslint-disable (render-scoped scan handler guarded by `lastScan` clearing — wrapping it would cascade through `handleMatch` for no behavior gain).
+- **Verified:** ESLint exhaustive-deps scan **0 warnings**, frontend `tsc` 0, backend suite 119/119, `tsc` 0. Mount-fetch semantics unchanged (same triggers: mount, token change, toast/api identity).
+
 ## [2.3.74] - 2026-11-13
 
 ### Stale-TODO Sweep: Wallet Login, 401s, Tooltip Quirks Verified Done

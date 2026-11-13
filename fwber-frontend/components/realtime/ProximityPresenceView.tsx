@@ -28,7 +28,7 @@ export function ProximityPresenceView({
   maxDisplay = 8,
   className = '',
 }: ProximityPresenceViewProps) {
-  const safeNearbyUsers = Array.isArray(nearbyUsers) ? nearbyUsers : [];
+  const safeNearbyUsers = useMemo(() => (Array.isArray(nearbyUsers) ? nearbyUsers : []), [nearbyUsers]);
   const userIds = useMemo(() => safeNearbyUsers.map(u => u.id), [safeNearbyUsers]);
   const displayUsers = safeNearbyUsers.slice(0, maxDisplay);
   const remainingCount = Math.max(0, safeNearbyUsers.length - maxDisplay);

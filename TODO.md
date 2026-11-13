@@ -1,6 +1,6 @@
 # TODO — fwber Immediate Action Items
 
-> **Version:** 2.3.74
+> **Version:** 2.3.75
 > **Last Updated:** 2026-11-12
 
 ---
@@ -191,7 +191,7 @@
 - [ ] **Off-site backup replication — NEEDS ROBERT'S TARGET/CREDENTIAL (blocked):** checked 2026-10-26: the Hetzner box has NO SSH keypair or host alias for DreamHost (only authorized_keys/known_hosts present) — the "DreamHost SSH as interim, no new credentials" assumption is FALSE for the Hetzner→DreamHost path. Muse also flags an Oct 25 DreamHost password-expiry email affecting some users. Options: (a) provide DreamHost creds so I can install a key, (b) point me at a Storage Box/S3 target, or (c) a second host.
   **Muse's required evidence package (if review is directed)**: tooltip interaction results (hover, focus, keyboard, mobile tap, `asChild` ref behavior — not just build pass); clean `npm ci` log showing what `legacy-peer-deps` was hiding; `.npmrc` status after the tooltip bump (target: flag gone); rollback target commit; prod smoke results with ACTUAL outcomes; no secrets/PM2 env anywhere. **Branch builds are mine; DEPLOY is Robert's to authorize.**
 - [x] **Sentry Session Replay (v2.3.54)**: re-added via `@sentry/replay` — was removed with SDK v10 (integration no longer exists) — re-add if Sentry ships a supported replacement.
-- [ ] **react-hooks/exhaustive-deps** (14 warnings, pre-existing): each needs behavior analysis to fix safely.
+- [x] **react-hooks/exhaustive-deps (closed v2.3.75)** — All 9 live warnings fixed with behavior-preserving `useCallback` wrapping (federation peers, synced contacts, quests, photos hook, onboarding auto-save chain) or correct dep additions (`ProtectedRoute` ban state, profile-view `user`, proximity `useMemo`). One intentional exception: `NFCProfileExchange` keeps render-scoped `processNfcData` with a documented eslint-disable (guarded by `lastScan` clearing). ESLint exhaustive-deps scan now reports **zero** warnings; frontend `tsc` 0.
 - [x] **Wallet login backend (stale duplicate — route exists)** — `POST /api/auth/login-wallet` + `GET /api/auth/wallet-nonce` are mounted in `routes/auth.ts` via `AuthController`; verified live on prod 2026-11-13. See v2.3.47 hardening entry.
 - [ ] **Off-site backup replication**: `/var/backups/fwber/` is on the same disk as production — sync nightly to object storage or another box. Needs a target credential (Storage Box / S3 / second host). DreamHost SSH exists as an interim option.
 - [x] ~~**Backup restore drill**~~ — DONE (2026-10-22): `/usr/local/bin/fwber-restore-drill.sh`, monthly cron, first run PASSED (134/134 tables consistent).

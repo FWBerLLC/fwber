@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import ProtectedRoute from '@/components/ProtectedRoute'
 import AppHeader from '@/components/AppHeader'
 import { api } from '@/lib/api/client'
@@ -22,7 +22,7 @@ export default function AdminFederationPage() {
     const [isLoading, setIsLoading] = useState(true)
     const { showSuccess, showError } = useToast()
 
-    const loadPeers = async () => {
+    const loadPeers = useCallback(async () => {
         try {
             const data = await api.get<{ peers: Peer[] }>('/federation/admin/peers')
             setPeers(data.peers || [])
@@ -31,11 +31,11 @@ export default function AdminFederationPage() {
         } finally {
             setIsLoading(false)
         }
-    }
+    }, [showError])
 
     useEffect(() => {
         void loadPeers()
-    }, [])
+    }, [loadPeers])
 
     const toggleBlock = async (peer: Peer) => {
         try {

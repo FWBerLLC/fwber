@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -22,7 +22,7 @@ export default function QuestBoard() {
     const [quests, setQuests] = useState<Quest[]>([]);
     const [loading, setLoading] = useState(true);
 
-    const fetchQuests = async () => {
+    const fetchQuests = useCallback(async () => {
         if (!token) return;
         try {
             const data = await api.get<Quest[]>('/quests/active', {
@@ -34,11 +34,11 @@ export default function QuestBoard() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [token]);
 
     useEffect(() => {
         fetchQuests();
-    }, [token]);
+    }, [fetchQuests]);
 
     const handleAccept = async (id: number) => {
         try {
