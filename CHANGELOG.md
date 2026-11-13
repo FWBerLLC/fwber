@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.67] - 2026-11-13
+
+### Dashboard Tooltip Audit; Coordination Holding Pattern
+
+- **UI quality audit (Section 5):** `app/dashboard/page.tsx` carries 130 `FeatureTile` usages with 141 `tooltip=` props (tiles + quick actions) — every dashboard entry point has descriptive guidance; nav coverage remains 179 routes / 133 linked / 17 intentional. No layout churn needed; the v2.3.53 high-value ordering stands.
+- **Coordination:** CDP 9222 re-probed with 90s timeouts — Bobbi composer empty, no Send control while she works, thread tail unchanged (Hank proposal). No further check-in sent (would be duplicate spam); awaiting her DONE/BLOCKED/INFO.
+- **Tray/scripts/builds:** unchanged and verified last turns (tray `-Status` clean with quit via `-StopAll`; `tools/` 46 files, 0 duplicate basenames; backend+frontend `tsc` 0; Jest 14/14). Version `2.3.67` synced BOM-safe.
+
 ## [2.3.66] - 2026-11-13
 
 ### Frontend Toolchain Verified Healthy; Bobbi Follow-Up Deferred

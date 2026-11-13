@@ -14,6 +14,11 @@
 - Verified fix against middleware.ts gate; frontend tsc --noEmit EXIT 0 (empty output, no tsc process remains).
 - Bumped 2.3.61 -> 2.3.62 with CHANGELOG. NOT deployed: Hetzner frontend still serves pre-#42 build; needs Robert-authorized rebuild + restart.
 
+## Session 2026-11-13 (cont. 4) - Tooltip audit, coordination holding (v2.3.67)
+- Dashboard: 130 tiles / 141 tooltips — full guidance coverage confirmed by count, not assumption. No redesign warranted.
+- Bobbi: composer empty, still working, no reply. Do NOT send more check-ins until she answers; CDP probe scripts live in `%TEMP%\cdp-bobbi-*.ps1` (read/send/clear variants, 90s timeouts).
+- fwber engineering backlog is empty. Open inputs are Robert's alone: backup target, Hank terms (salary/fee, bank account, Lykins).
+
 ## Session 2026-11-13 (cont. 3) - Frontend toolchain verified, Bobbi follow-up deferred (v2.3.66)
 - Frontend `tsc --noEmit` exit 0 locally; install TODO closed stale. All fwber engineering TODOs now closed; remainder is Robert-blocked/watch-only.
 - Bobbi: follow-up NOT sent (no Send control while she works; draft cleared). CDP live. Retry send only when her composer shows Send again.
