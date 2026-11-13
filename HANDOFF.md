@@ -14,6 +14,11 @@
 - Verified fix against middleware.ts gate; frontend tsc --noEmit EXIT 0 (empty output, no tsc process remains).
 - Bumped 2.3.61 -> 2.3.62 with CHANGELOG. NOT deployed: Hetzner frontend still serves pre-#42 build; needs Robert-authorized rebuild + restart.
 
+## Session 2026-11-13 (cont. 19) - Rewrite audit tool; 15-min loop live (v2.3.81)
+- Robert scheduled permanent cron `5b29f19a` (every 15 min, skip-if-active): "please continue to proceed as you advise". Loop iterations should keep shipping the next unblocked item + deploy (always-deploy) + concise report.
+- Added `tools/check_rewrites.py` (3/3 live). Run after any rewrite/mount change.
+- Next loop candidates: QA-account cleanup endpoint (IDEAS #4, needs design care — admin-only), disk-growth read-only report, or await Robert decisions (TURN/backup/keys).
+
 ## Session 2026-11-13 (cont. 18) - Badge finding closed, doc set synced (v2.3.80)
 - Socket-badge TODO closed (unification + audit; browser aborts were the shared Edge, not prod). QA residue on prod now users 188–197 + room 7 — see IDEAS #4 (QA cleanup) if Robert wants it bounded.
 - MEMORY/VISION/DEPLOY/IDEAS synced to 2.3.80 (rules captured in MEMORY). Open code candidates exhausted again: remaining = Robert decisions (TURN, backup, keys) + external live-node test.

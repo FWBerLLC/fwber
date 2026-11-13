@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.81] - 2026-11-13
+
+### Rewrite-Target Audit Tool (Rewrite-to-404 Made Detectable)
+
+- **New `tools/check_rewrites.py`:** Parses the `rewrites()` destinations out of `next.config.js` and probes each against prod with per-destination expectations (API health 200, NodeInfo 200, WebFinger 404-for-unknown-user proves mounted). Exit 1 if any destination stops answering. First run: **3/3 live**. This is the guard that would have caught the WebFinger/NodeInfo gaps (v2.3.78/v2.3.79) on day one; run it after any rewrite or route-mount change.
+- **Loop scheduling:** Robert set a permanent 15-minute autopilot loop (cron `5b29f19a`, skips while a run is active) — this release is its first iteration.
+- **Gates:** backend 125/125, both `tsc` 0; prod smoke + rewrite audit green; local stack DOWN.
+
 ## [2.3.80] - 2026-11-13
 
 ### Socket-Badge Finding Closed; Documentation Set Synced
