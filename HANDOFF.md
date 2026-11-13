@@ -14,6 +14,12 @@
 - Verified fix against middleware.ts gate; frontend tsc --noEmit EXIT 0 (empty output, no tsc process remains).
 - Bumped 2.3.61 -> 2.3.62 with CHANGELOG. NOT deployed: Hetzner frontend still serves pre-#42 build; needs Robert-authorized rebuild + restart.
 
+## Session 2026-11-13 (cont. 8) - v2.3.70 DEPLOYED to Hetzner; ALWAYS-DEPLOY rule set
+- Robert directive 2026-11-13: "always deploy please" — standing authorization to deploy fwber to Hetzner after push without asking each time. Saved to memory.
+- Deploy (manual precedent, NOT deploy-backend-ts.sh — its `git stash --include-untracked` would stash the server's untracked prisma/migrations): server `git fetch + reset --hard origin/main` → `0536cfa56`; backend `npm install` (nice -n 10) + `prisma generate` + `tsc` build + `pm2 restart fwber-backend-ts` (health 200); frontend `npm install` + `next build` (postbuild standalone copy OK) + `pm2 restart fwber-frontend` (on-box 200). PM2 shows both at **2.3.70 online**; other tenants untouched.
+- Public smoke: site/login/dashboard/api-health all 200; unauthenticated `POST /api/audio-rooms/1/signal` → **401** (route live, auth enforced). Authenticated relay + two-browser voice still need a live prod session to prove media.
+- Repo VERSION stays 2.3.70 (= prod). This deploy record intentionally ships without a version bump so repo and prod badges match.
+
 ## Session 2026-11-13 (cont. 7) - Audio Rooms signaling relay shipped (v2.3.70)
 - Replaced ack-stub `/signal` with validated, participant-checked Socket.io relay (`AudioRoomSignal` → `user:{id}`); shared pure validator in `src/lib/audio-signaling.ts` used by REST + `audio_signal` socket handler. Frontend `useWebRTC` receives via shared Socket.io (`getSharedSocket()`), Echo fallback kept.
 - Tests: `AudioSignaling.test.ts` 9 cases, total 23/23; both tsc 0. Test written failing-first (module missing → green after impl).
