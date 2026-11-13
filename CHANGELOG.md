@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.65] - 2026-11-13
+
+### `.map()` Guard Audit Closed; HyperNexus v1.0.50 Confirmed
+
+- **Unguarded `.map()` TODO closed by audit:** 651 `.map(` sites across frontend `app/components/lib`, 131 `Array.isArray` guards, zero `?.x.map(` crash patterns remain (last two fixed in v2.3.59). No code change needed; item now re-opens only for new unguarded API-response maps.
+- **Coordination:** HyperNexus lane shipped **v1.0.50** (`a34d414157`, dashboard lazy-loading) on its own session — confirmed read-only; its dirty tree is runtime DB/log churn, left to that lane. Bobbi (CDP 9222, 90s timeouts) still working the Hank proposal; no reply yet, no duplicate follow-up sent.
+- **Sync:** merged parallel-lane `b13e1255e` (v2.3.64 deploy record) fast-forward before bump; version `2.3.65` synced BOM-safe across all manifests.
+
 ## [2.3.64] - 2026-11-13
 
 ### Coverage, Tray & Coordination Re-Verification (No Behavior Change)

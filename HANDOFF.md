@@ -9,6 +9,11 @@
 - Verified fix against middleware.ts gate; frontend tsc --noEmit EXIT 0 (empty output, no tsc process remains).
 - Bumped 2.3.61 -> 2.3.62 with CHANGELOG. NOT deployed: Hetzner frontend still serves pre-#42 build; needs Robert-authorized rebuild + restart.
 
+## Session 2026-11-13 (cont. 2) - `.map()` closure, HyperNexus v1.0.50 confirmed (v2.3.65)
+- `.map()` audit: 651 sites / 131 guards / 0 `?.x.map(` — TODO closed by verification. Remaining fwber TODOs are Robert-blocked (backup target) or watch-only (401 transient, bigint bindings, uploads).
+- HyperNexus v1.0.50 shipped by its own lane (`a34d414157`); dirty tree there is runtime churn — do not commit from fwber lane.
+- Bobbi still no reply (3rd check). Hold follow-ups until she answers or Robert directs otherwise.
+
 ## Session 2026-11-13 (cont.) - Coverage/tray/CDP re-verification (v2.3.64)
 - Nav coverage 179/133/17 intentional; dashboard consolidation (v2.3.53) verified standing; 2026-10-18 "dont consolidate all" decision preserved. Tools: 46 files, 0 dup basenames — cleanup already done, nothing archived/moved.
 - Tray-check exit 0; local stack stopped by design; MySQL :3306 is shared-box, untouched. Tests 14/14, tsc 0. BOM regression from v2.3.63 bump fixed (`56e4f4359`); version writes now BOM-safe (`UTF8Encoding($false)`).

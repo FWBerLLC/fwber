@@ -1,6 +1,6 @@
 # TODO — fwber Immediate Action Items
 
-> **Version:** 2.3.64
+> **Version:** 2.3.65
 > **Last Updated:** 2026-11-12
 
 ---
@@ -58,7 +58,7 @@
 
 ### High Priority
 - [x] **Image URL migration (verified clean 2026-11-12, v2.3.60)** (currently intercepted at UI layer via `getAvatarUrl` + `OptimizedImage` dead-host check)
-- [ ] **436 unguarded `.map()` calls**: Filter to API-response props and add `Array.isArray` / `|| []` guards (many false positives — literal arrays are safe)
+- [x] **436 unguarded `.map()` calls (closed v2.3.65, verified)** — Full-frontend audit: 651 `.map(` sites, 131 `Array.isArray` guards, zero remaining `?.x.map(` optional-chain crash patterns (the v2.3.59 sweep fixed the last two: `NemesisFinder`, Privacy groups). Remainder are literal/state arrays. Re-open only if a new API-response `.map()` ships unguarded.
 
 ### Medium Priority
 - [ ] **Uploads directory empty on Hetzner**: No uploaded images survived previous deployments. User avatars/photos from old deployments are permanently lost — users must re-upload.
