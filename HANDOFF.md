@@ -3,6 +3,12 @@
 - Verified fix against middleware.ts gate; frontend tsc --noEmit EXIT 0 (empty output, no tsc process remains).
 - Bumped 2.3.61 -> 2.3.62 with CHANGELOG. NOT deployed: Hetzner frontend still serves pre-#42 build; needs Robert-authorized rebuild + restart.
 
+## Session 2026-11-13 (cont.) - Coverage/tray/CDP re-verification (v2.3.64)
+- Nav coverage 179/133/17 intentional; dashboard consolidation (v2.3.53) verified standing; 2026-10-18 "dont consolidate all" decision preserved. Tools: 46 files, 0 dup basenames — cleanup already done, nothing archived/moved.
+- Tray-check exit 0; local stack stopped by design; MySQL :3306 is shared-box, untouched. Tests 14/14, tsc 0. BOM regression from v2.3.63 bump fixed (`56e4f4359`); version writes now BOM-safe (`UTF8Encoding($false)`).
+- Bobbi: no reply yet (still working, Hank proposal tail). No follow-up sent — awaiting her DONE/BLOCKED/INFO. Remote moved once under parallel lane; merged clean, now 0/0.
+- Still blocked on Robert: off-site backup target; Hank proposal open questions (salary vs fee, bank account, Rob Lykins). Next: `.map()` TODO closure-by-verification candidate; HyperNexus v1.0.50 lane.
+
 ## Session 2026-11-13 - Autopilot: socket-status closure, tray/CDP verification (v2.3.63)
 - Identity: `[muse-wonder-1.0 in Muse Code in C:\Users\hyper\workspace\fwber on laptop]`. Caught up from Muse sessions `01a1aa95` (workspace) + `01a1ad49-e4ca` (HyperNexus) tails before acting.
 - Sync: `git fetch --all --tags`; `main` 0/0 vs origin; every local branch 0 unmerged; no `.gitmodules` (monorepo). Nothing to merge — no forced merges made.
