@@ -1,10 +1,11 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
 import { notFound, useParams } from 'next/navigation'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { ArrowLeft, ThumbsUp, ThumbsDown } from 'lucide-react'
+import { ArrowLeft, ThumbsUp, ThumbsDown, CheckCircle2 } from 'lucide-react'
 
 // This would typically come from a CMS or markdown files
 // For MVP, we'll store content in a const map
@@ -154,12 +155,87 @@ const HELP_ARTICLES: Record<string, { title: string, content: React.ReactNode, c
     )
   },
   'block-report': {
-    category: 'Safety & Privacy',
-    title: 'Blocking & Reporting',
+    category: 'Safety, Blocking & Hardware Beacons',
+    title: 'Bidirectional Blocking & Reporting',
     content: (
       <div className="space-y-4">
-        <p>We have zero tolerance for harassment or abusive behavior.</p>
-        <p>You can block or report any user from their profile page or chat window. Our moderation team reviews reports 24/7.</p>
+        <p>We enforce zero tolerance for harassment, spam, or boundary violations.</p>
+        <h3 className="text-lg font-semibold">What happens when you block someone?</h3>
+        <ul className="list-disc pl-5 space-y-2">
+          <li><strong>Immediate Connection Severing:</strong> Any active match, friendship, or pending friend request between you is automatically removed.</li>
+          <li><strong>Bidirectional Message Shield:</strong> Neither side can send or read direct messages, and conversations disappear from both <strong>Messages</strong> lists.</li>
+          <li><strong>Search &amp; Discovery Exclusion:</strong> Blocked accounts are excluded from Friends search, Match discovery, and Dashboard stats.</li>
+        </ul>
+        <p>You can review and unblock accounts anytime in <strong>Safety Center</strong> (<code>/safety</code>) or <strong>Settings &gt; Blocked Users</strong> (<code>/settings/blocked</code>).</p>
+      </div>
+    )
+  },
+  'dashboard-guide': {
+    category: 'Getting Started & Dashboard',
+    title: 'Navigating the Consolidated Dashboard',
+    content: (
+      <div className="space-y-4">
+        <p>The FWBer Dashboard gives you an honest, real-time overview of your activity plus instant navigation across the platform.</p>
+        <h3 className="text-lg font-semibold">Key Controls</h3>
+        <ul className="list-disc pl-5 space-y-2">
+          <li><strong>Live Network Badge:</strong> Both the top header and the Account card reflect the exact same live WebSocket connection status.</li>
+          <li><strong>Ecosystem Search &amp; Category Pills:</strong> Type any keyword (e.g., <em>gifts</em>, <em>vault</em>, <em>roast</em>, <em>federation</em>) to filter tiles immediately across all categories.</li>
+          <li><strong>Consolidated Hubs vs. All Sub-Tools:</strong> By default, sub-tools already embedded inside parent hubs (like AI Wingman games, Gift history, or Settings sub-tabs) are condensed to reduce clutter. Click <strong>Show All Sub-Tools</strong> whenever you want direct one-click tiles to every sub-route.</li>
+          <li><strong>Info Tooltips:</strong> Hover or focus the <code>(i)</code> icon on any metric card or feature tile for a plain-language explanation.</li>
+        </ul>
+      </div>
+    )
+  },
+  'friends-messaging': {
+    category: 'Matches, Friends & Real-Time Chat',
+    title: 'Friends & Direct Messaging',
+    content: (
+      <div className="space-y-4">
+        <p>Private 1-on-1 messaging on fwber is open to both <strong>mutual matches</strong> and <strong>accepted friends</strong>.</p>
+        <h3 className="text-lg font-semibold">How to start a conversation</h3>
+        <ol className="list-decimal pl-5 space-y-2">
+          <li><strong>From Matches:</strong> Mutual likes automatically unlock messaging in <strong>Messages</strong> (<code>/messages</code>).</li>
+          <li><strong>From Friends:</strong> Visit <strong>Friends</strong> (<code>/friends</code>) to search members and send a friend request. Once accepted, click <strong>Message</strong> on their friend card.</li>
+          <li><strong>From Any Public Profile:</strong> Open a member&apos;s profile card and click the <strong>Message</strong> button whenever you are matched or friends.</li>
+        </ol>
+      </div>
+    )
+  },
+  'solana-signin': {
+    category: 'Wallet, Tokens & Solana Sign-In',
+    title: 'Sign-In with Solana Wallet',
+    content: (
+      <div className="space-y-4">
+        <p>You can sign in or link a self-custody Solana wallet (Phantom or Solflare) using cryptographic nonce signatures—no seed phrases or gas fees required to authenticate.</p>
+        <ol className="list-decimal pl-5 space-y-2">
+          <li>On the Login screen (or Wallet settings), connect your Phantom or Solflare extension.</li>
+          <li>Approve the one-time nonce signature challenge in your wallet popup.</li>
+          <li>When linking a wallet to an existing email account, fwber verifies both your active session and wallet signature (dual-proof linking) so no one else can claim your address.</li>
+        </ol>
+      </div>
+    )
+  },
+  'federation-guide': {
+    category: 'ActivityPub & Fediverse',
+    title: 'ActivityPub & Fediverse Connectivity',
+    content: (
+      <div className="space-y-4">
+        <p>FWBer includes an optional ActivityPub / WebFinger gateway at <strong>Settings &gt; Global Federation</strong> (<code>/settings/federation</code>).</p>
+        <ul className="list-disc pl-5 space-y-2">
+          <li><strong>Opt-In Broadcasting:</strong> Federation is off until you toggle <em>ActivityPub broadcasting</em> on.</li>
+          <li><strong>Unified Federation Hub:</strong> Search remote Mastodon/ActivityPub handles, browse the Global Feed, manage Followers/Following, and inspect your public Outbox from a single tabbed hub.</li>
+          <li><strong>Strict Location &amp; Photo Isolation:</strong> Exact GPS coordinates and private Tiered Face Reveals never leave fwber&apos;s encrypted local layer.</li>
+        </ul>
+      </div>
+    )
+  },
+  'ble-safety-tokens': {
+    category: 'Safety, Blocking & Hardware Beacons',
+    title: 'Hardware BLE Safety Beacons',
+    content: (
+      <div className="space-y-4">
+        <p>Pair an optional Bluetooth Low Energy (BLE) wearable key or safety beacon at <strong>Settings &gt; Hardware BLE Token</strong> (<code>/settings/hardware</code>).</p>
+        <p>When paired alongside <strong>Safe Walk</strong> in the Safety Center, a physical button trigger or unexpected beacon disconnect can alert your designated trusted contacts during in-person meetups.</p>
       </div>
     )
   },
@@ -364,6 +440,7 @@ export default function HelpArticlePage() {
   const params = useParams()
   const slug = params?.slug as string
   const article = HELP_ARTICLES[slug]
+  const [feedbackVote, setFeedbackVote] = useState<'yes' | 'no' | null>(null)
 
   if (!article) {
     notFound()
@@ -374,7 +451,7 @@ export default function HelpArticlePage() {
       <div className="mb-6">
         <Link
           href="/help"
-          className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground dark:text-foreground dark:text-muted-foreground dark:hover:text-white transition-colors"
+          className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Help Center
@@ -393,19 +470,28 @@ export default function HelpArticlePage() {
         </CardContent>
 
         {/* Feedback Section */}
-        <div className="border-t border-border dark:dark:border-border mt-8 pt-6">
+        <div className="border-t border-border mt-8 pt-6 pb-6">
           <div className="flex flex-col items-center justify-center space-y-4">
-            <p className="text-sm text-muted-foreground font-medium">Was this article helpful?</p>
-            <div className="flex gap-4">
-              <Button variant="outline" size="sm" className="gap-2">
-                <ThumbsUp className="w-4 h-4" />
-                Yes
-              </Button>
-              <Button variant="outline" size="sm" className="gap-2">
-                <ThumbsDown className="w-4 h-4" />
-                No
-              </Button>
-            </div>
+            {feedbackVote ? (
+              <p className="inline-flex items-center gap-2 text-sm font-medium text-emerald-600 dark:text-emerald-400">
+                <CheckCircle2 className="w-4 h-4" />
+                Thanks for your feedback! {feedbackVote === 'no' && <Link href="/feedback" className="underline ml-1">Tell us what was missing</Link>}
+              </p>
+            ) : (
+              <>
+                <p className="text-sm text-muted-foreground font-medium">Was this article helpful?</p>
+                <div className="flex gap-4">
+                  <Button type="button" variant="outline" size="sm" className="gap-2" onClick={() => setFeedbackVote('yes')}>
+                    <ThumbsUp className="w-4 h-4" />
+                    Yes
+                  </Button>
+                  <Button type="button" variant="outline" size="sm" className="gap-2" onClick={() => setFeedbackVote('no')}>
+                    <ThumbsDown className="w-4 h-4" />
+                    No
+                  </Button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </Card>

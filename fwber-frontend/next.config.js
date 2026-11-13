@@ -67,6 +67,15 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
 
+const nextMajor = (() => {
+  try {
+    const nextPkg = require('next/package.json')
+    return parseInt(String(nextPkg.version).split('.')[0], 10) || 16
+  } catch {
+    return 16
+  }
+})()
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // outputFileTracingRoot only works in monorepo; Vercel builds fwber-frontend/ as root
@@ -93,9 +102,6 @@ const nextConfig = {
   experimental: {
     optimizeCss: false,
     optimizePackageImports: ['@tanstack/react-query', 'lucide-react'],
-  },
-  eslint: {
-    ignoreDuringBuilds: true,
   },
   typescript: {
     ignoreBuildErrors: true,
@@ -125,9 +131,9 @@ const nextConfig = {
     formats: ['image/webp', 'image/avif'],
     minimumCacheTTL: 60,
     // Next 16 defaults qualities to [75] only — any other quality prop is
-    // silently coerced. We render 85/90 for avatars & photo reveals
-    // (OptimizedImage.tsx), so declare the full set explicitly (v2.3.41).
-    qualities: [75, 85, 90],
+    // silently coerced. Guarded on nextMajor >= 16 so local Next 15 dev trees
+    // do not emit an unrecognized-key warning.
+    ...(nextMajor >= 16 ? { qualities: [75, 85, 90] } : {}),
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     unoptimized: process.env.NODE_ENV === 'development',
@@ -239,4 +245,3 @@ if (isProd && withSentryConfig !== ((c) => c)) {
 }
 
 module.exports = finalConfig
-module.exports = withSentryConfig(nextConfig, sentryWebpackPluginOptions)

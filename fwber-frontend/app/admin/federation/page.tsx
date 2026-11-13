@@ -7,7 +7,7 @@ import { api } from '@/lib/api/client'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Shield, ShieldAlert, Globe, Server, AlertTriangle } from 'lucide-react'
-import { toast } from 'react-toastify'
+import { useToast } from '@/components/ToastProvider'
 
 interface Peer {
     id: string
@@ -20,13 +20,14 @@ interface Peer {
 export default function AdminFederationPage() {
     const [peers, setPeers] = useState<Peer[]>([])
     const [isLoading, setIsLoading] = useState(true)
+    const { showSuccess, showError } = useToast()
 
     const loadPeers = async () => {
         try {
             const data = await api.get<{ peers: Peer[] }>('/federation/admin/peers')
             setPeers(data.peers || [])
         } catch (err: any) {
-            toast.error('Failed to load federation peers')
+            showError('Failed to load federation peers')
         } finally {
             setIsLoading(false)
         }
@@ -41,10 +42,10 @@ export default function AdminFederationPage() {
             const res = await api.post<{ success: boolean, is_blocked: boolean }>(`/federation/admin/peers/${peer.id}/toggle-block`)
             if (res.success) {
                 setPeers(current => current.map(p => p.id === peer.id ? { ...p, is_blocked: res.is_blocked } : p))
-                toast.success(`${peer.domain} is now ${res.is_blocked ? 'blocked' : 'unblocked'}`)
+                showSuccess(`${peer.domain} is now ${res.is_blocked ? 'blocked' : 'unblocked'}`)
             }
         } catch (err: any) {
-            toast.error('Failed to toggle block status')
+            showError('Failed to toggle block status')
         }
     }
 

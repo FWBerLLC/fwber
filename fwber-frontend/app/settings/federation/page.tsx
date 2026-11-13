@@ -42,9 +42,19 @@ import Image from 'next/image';
 import {
     buildFederationActorExplorerHref,
     formatFederationHandle,
+    getFederationOutbox,
+    type FederatedPost,
     type FederationActor,
     type FederationConnection,
+    type FederationOutboxActivity,
 } from '@/lib/api/activitypub';
+import { sanitizeHtml } from '@/lib/utils/sanitize';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 interface FederationFollowingResponse {
     following?: FederationConnection[];
@@ -67,7 +77,10 @@ export default function FederationSettingsPage() {
     const [results, setResults] = useState<FederationActor[]>([]);
     const [following, setFollowing] = useState<FederationConnection[]>([]);
     const [followers, setFollowers] = useState<FederationConnection[]>([]);
-    const [activeTab, setActiveTab] = useState<'search' | 'following' | 'followers'>('search');
+    const [feedPosts, setFeedPosts] = useState<FederatedPost[]>([]);
+    const [outboxItems, setOutboxItems] = useState<FederationOutboxActivity[]>([]);
+    const [isTabLoading, setIsTabLoading] = useState(false);
+    const [activeTab, setActiveTab] = useState<'search' | 'feed' | 'following' | 'followers' | 'outbox'>('search');
     const [selectedActor, setSelectedActor] = useState<FederationActor | null>(null);
 
     const isFederated = Boolean(user?.profile?.is_federated);
@@ -94,6 +107,41 @@ export default function FederationSettingsPage() {
     useEffect(() => {
         fetchConnections();
     }, [fetchConnections]);
+
+    useEffect(() => {
+        if (!token) return;
+        let cancelled = false;
+        if (activeTab === 'feed') {
+            setIsTabLoading(true);
+            api.get<{ posts: FederatedPost[] }>('/federation/posts', {
+                headers: { Authorization: `Bearer ${token}` },
+            })
+                .then((res) => {
+                    if (!cancelled) setFeedPosts(Array.isArray(res?.posts) ? res.posts : []);
+                })
+                .catch(() => {
+                    if (!cancelled) setFeedPosts([]);
+                })
+                .finally(() => {
+                    if (!cancelled) setIsTabLoading(false);
+                });
+        } else if (activeTab === 'outbox' && user?.id) {
+            setIsTabLoading(true);
+            getFederationOutbox(user.id, { limit: 15 })
+                .then((res) => {
+                    if (!cancelled) setOutboxItems(Array.isArray(res?.orderedItems) ? res.orderedItems : []);
+                })
+                .catch(() => {
+                    if (!cancelled) setOutboxItems([]);
+                })
+                .finally(() => {
+                    if (!cancelled) setIsTabLoading(false);
+                });
+        }
+        return () => {
+            cancelled = true;
+        };
+    }, [activeTab, token, user?.id]);
 
     const handleFederationToggle = async (checked: boolean) => {
         if (!token) {
@@ -305,24 +353,36 @@ export default function FederationSettingsPage() {
                         </CardContent>
                     </Card>
 
-                    <div className="flex border-b border-zinc-200 dark:border-zinc-800">
+                    <div className="flex flex-wrap border-b border-zinc-200 dark:border-zinc-800 gap-1">
                         <button type="button" 
                             onClick={() => setActiveTab('search')}
-                            className={`pb-2 px-4 text-sm font-bold uppercase tracking-widest transition-colors ${activeTab === 'search' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-zinc-400 hover:text-zinc-600'}`}
+                            className={`pb-2 px-3 text-xs sm:text-sm font-bold uppercase tracking-widest transition-colors ${activeTab === 'search' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-zinc-400 hover:text-zinc-600'}`}
                         >
                             Search
                         </button>
                         <button type="button" 
+                            onClick={() => setActiveTab('feed')}
+                            className={`pb-2 px-3 text-xs sm:text-sm font-bold uppercase tracking-widest transition-colors ${activeTab === 'feed' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-zinc-400 hover:text-zinc-600'}`}
+                        >
+                            Global Feed
+                        </button>
+                        <button type="button" 
                             onClick={() => setActiveTab('following')}
-                            className={`pb-2 px-4 text-sm font-bold uppercase tracking-widest transition-colors ${activeTab === 'following' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-zinc-400 hover:text-zinc-600'}`}
+                            className={`pb-2 px-3 text-xs sm:text-sm font-bold uppercase tracking-widest transition-colors ${activeTab === 'following' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-zinc-400 hover:text-zinc-600'}`}
                         >
                             Following ({following.length})
                         </button>
                         <button type="button" 
                             onClick={() => setActiveTab('followers')}
-                            className={`pb-2 px-4 text-sm font-bold uppercase tracking-widest transition-colors ${activeTab === 'followers' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-zinc-400 hover:text-zinc-600'}`}
+                            className={`pb-2 px-3 text-xs sm:text-sm font-bold uppercase tracking-widest transition-colors ${activeTab === 'followers' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-zinc-400 hover:text-zinc-600'}`}
                         >
                             Followers ({followers.length})
+                        </button>
+                        <button type="button" 
+                            onClick={() => setActiveTab('outbox')}
+                            className={`pb-2 px-3 text-xs sm:text-sm font-bold uppercase tracking-widest transition-colors ${activeTab === 'outbox' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-zinc-400 hover:text-zinc-600'}`}
+                        >
+                            Outbox
                         </button>
                     </div>
 
@@ -488,6 +548,90 @@ export default function FederationSettingsPage() {
                                 ))
                             )}
                         </div>
+                    )}
+
+                    {activeTab === 'feed' && (
+                        <Card className="border-blue-100 dark:border-blue-900/30">
+                            <CardHeader className="flex flex-row items-center justify-between">
+                                <div>
+                                    <CardTitle className="text-lg flex items-center gap-2">
+                                        <MessageSquare className="w-4 h-4 text-blue-500" /> Federated Global Feed
+                                    </CardTitle>
+                                    <CardDescription>Recent public ActivityPub posts across connected servers.</CardDescription>
+                                </div>
+                                <Button asChild variant="outline" size="sm">
+                                    <Link href="/settings/federation/feed">Full Interactive Feed</Link>
+                                </Button>
+                            </CardHeader>
+                            <CardContent>
+                                {isTabLoading ? (
+                                    <div className="flex justify-center py-10">
+                                        <Loader2 className="w-6 h-6 animate-spin text-blue-500" />
+                                    </div>
+                                ) : feedPosts.length === 0 ? (
+                                    <p className="text-center py-8 text-zinc-500 italic">No federated posts collected yet. Search and follow actors to populate your stream.</p>
+                                ) : (
+                                    <div className="space-y-4">
+                                        {feedPosts.slice(0, 10).map((post) => (
+                                            <div key={post.id} className="p-4 border rounded-xl bg-card space-y-2">
+                                                <div className="flex items-center justify-between text-xs text-muted-foreground">
+                                                    <span className="font-semibold text-foreground">
+                                                        {formatFederationHandle(post.actor_username, post.actor_domain, post.actor_uri)}
+                                                    </span>
+                                                    <span>{post.published_at ? new Date(post.published_at).toLocaleDateString() : ''}</span>
+                                                </div>
+                                                <div
+                                                    className="prose dark:prose-invert max-w-none text-sm"
+                                                    dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }}
+                                                />
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </CardContent>
+                        </Card>
+                    )}
+
+                    {activeTab === 'outbox' && (
+                        <Card className="border-indigo-100 dark:border-indigo-900/30">
+                            <CardHeader className="flex flex-row items-center justify-between">
+                                <div>
+                                    <CardTitle className="text-lg flex items-center gap-2">
+                                        <Send className="w-4 h-4 text-indigo-500" /> Public ActivityPub Outbox
+                                    </CardTitle>
+                                    <CardDescription>Activities published from your fwber identity to external servers.</CardDescription>
+                                </div>
+                                <Button asChild variant="outline" size="sm">
+                                    <Link href="/settings/federation/outbox">Full Outbox View</Link>
+                                </Button>
+                            </CardHeader>
+                            <CardContent>
+                                {isTabLoading ? (
+                                    <div className="flex justify-center py-10">
+                                        <Loader2 className="w-6 h-6 animate-spin text-indigo-500" />
+                                    </div>
+                                ) : outboxItems.length === 0 ? (
+                                    <p className="text-center py-8 text-zinc-500 italic">No public outbox entries published yet.</p>
+                                ) : (
+                                    <div className="space-y-3">
+                                        {outboxItems.map((item) => (
+                                            <div key={item.id} className="p-4 border rounded-xl bg-card space-y-2">
+                                                <div className="flex items-center justify-between text-xs">
+                                                    <Badge variant="outline">{item.type}</Badge>
+                                                    <span className="text-muted-foreground">
+                                                        {item.published ? new Date(item.published).toLocaleDateString() : ''}
+                                                    </span>
+                                                </div>
+                                                <div
+                                                    className="prose dark:prose-invert max-w-none text-sm"
+                                                    dangerouslySetInnerHTML={{ __html: sanitizeHtml(item.object?.content || '') }}
+                                                />
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </CardContent>
+                        </Card>
                     )}
 
                     <Card className="bg-zinc-50 dark:bg-zinc-900/50 border-zinc-200 dark:border-zinc-800">

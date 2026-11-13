@@ -67,25 +67,32 @@ function isBroken(pkgDir) {
 
 // ---- walk node_modules ----------------------------------------------------
 const broken = [];
-function walk(dir, labelPrefix) {
+const seenBrokenDirs = new Set();
+function recordBroken(name, dir, why) {
+  if (seenBrokenDirs.has(dir)) return;
+  seenBrokenDirs.add(dir);
+  broken.push({ name, dir, why });
+}
+
+function walk(dir) {
   let entries;
   try { entries = fs.readdirSync(dir, { withFileTypes: true }); } catch { return; }
   for (const e of entries) {
-    if (!e.isDirectory()) continue;
+    if (!e.isDirectory() || e.name.startsWith('.')) continue;
     const full = path.join(dir, e.name);
     if (e.name.startsWith('@')) {
       let scoped;
       try { scoped = fs.readdirSync(full, { withFileTypes: true }); } catch { continue; }
       for (const s of scoped) {
-        if (!s.isDirectory()) continue;
+        if (!s.isDirectory() || s.name.startsWith('.')) continue;
         const name = `${e.name}/${s.name}`;
         const why = isBroken(path.join(full, s.name));
-        if (why) broken.push({ name, dir: path.join(full, s.name), why });
+        if (why) recordBroken(name, path.join(full, s.name), why);
       }
       continue;
     }
     const why = isBroken(full);
-    if (why) broken.push({ name: e.name, dir: full, why });
+    if (why) recordBroken(e.name, full, why);
     // Nested node_modules (hoisting leftovers) — check one level down.
     const nested = path.join(full, 'node_modules');
     if (fs.existsSync(nested)) walk(nested);
@@ -93,6 +100,25 @@ function walk(dir, labelPrefix) {
 }
 
 walk(nmDir);
+
+// Also check direct dependencies declared in projectRoot/package.json that were
+// never extracted at all (missing top-level directory in node_modules).
+const rootPkgPath = path.join(projectRoot, 'package.json');
+if (fs.existsSync(rootPkgPath)) {
+  try {
+    const rootPkg = JSON.parse(fs.readFileSync(rootPkgPath, 'utf8'));
+    const declared = Object.keys({
+      ...(rootPkg.dependencies || {}),
+      ...(rootPkg.devDependencies || {}),
+    });
+    for (const depName of declared) {
+      const depDir = path.join(nmDir, depName);
+      if (!fs.existsSync(depDir) && lockEntryFor(depName)) {
+        recordBroken(depName, depDir, 'missing top-level directory');
+      }
+    }
+  } catch {}
+}
 
 console.log(`Found ${broken.length} broken package(s).`);
 if (!broken.length) process.exit(0);
