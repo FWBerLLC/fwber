@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.78] - 2026-11-13
+
+### Inbound WebFinger Discovery (ActivityPub Interop Blocker Removed)
+
+- **New endpoint (`fwber-backend-ts/src/routes/webfinger.ts`, mounted at `/.well-known`):** fwber could resolve outbound handles for years but never *served* WebFinger, so Mastodon/Pleroma servers could not discover fwber users. `GET /.well-known/webfinger?resource=acct:user@domain` now returns RFC 7033 JRD (`application/jrd+json`) with the `rel="self"` ActivityPub link to the actor document. Handles on `fwber.online`/`www`/`api.fwber.online` accepted (subject echoes the queried domain, per the long-standing `Federation.test` contract); foreign domains 404 without a DB hit; malformed resources 400; username lookup relies on MySQL's case-insensitive collation. The frontend already rewrites `fwber.online/.well-known/webfinger` to the API, completing the discovery chain.
+- **Tests:** New `tests/FederationWebFinger.test.ts` (5 cases: JRD shape/content-type, case handling, unknown user, foreign domain, malformed resource) written failing-first. The pre-existing `Federation.test.ts` WebFinger expectation — previously failing against the missing endpoint — now passes against the real implementation.
+- **Interop coverage now:** outbound broadcast + HTTP-signature suites, inbound signature-gated inbox, actor/outbox documents, and discovery. Live-node (real Mastodon/Pleroma) testing remains the external follow-up.
+
 ## [2.3.77] - 2026-11-13
 
 ### Discover Compatibility Bars (UI-Polish Item Closed)

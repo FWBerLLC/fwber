@@ -1,6 +1,6 @@
 # TODO — fwber Immediate Action Items
 
-> **Version:** 2.3.77
+> **Version:** 2.3.78
 > **Last Updated:** 2026-11-12
 
 ---
@@ -257,7 +257,7 @@
 - [x] **AI Wingman Orchestration**: Proactive conversation analysis and social nudging.
 
 ## 🔴 Upcoming: Phase 9 - Finalization
-- [ ] **ActivityPub Federation**: Complete end-to-end interop testing with local Mastodon/Pleroma nodes.
+- [ ] **ActivityPub Federation**: Inbound WebFinger discovery shipped (v2.3.78) + contract/interop suites green (broadcast, HTTP signatures, inbox, actor/outbox, discovery). Remaining: live-node interop test against a real Mastodon/Pleroma instance (external infra).
 - [x] **Email Infrastructure**: Configure Resend DNS records (MX, SPF, DKIM, DMARC) for email delivery.
 - [ ] **AI Provider Keys**: Configure OpenRouter/OpenAI API keys for Wingman AI features.
 - [x] **Stripe Live Keys**: Switch from test to live Stripe keys for production payments.

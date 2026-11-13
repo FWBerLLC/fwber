@@ -14,6 +14,11 @@
 - Verified fix against middleware.ts gate; frontend tsc --noEmit EXIT 0 (empty output, no tsc process remains).
 - Bumped 2.3.61 -> 2.3.62 with CHANGELOG. NOT deployed: Hetzner frontend still serves pre-#42 build; needs Robert-authorized rebuild + restart.
 
+## Session 2026-11-13 (cont. 16) - Inbound WebFinger shipped (v2.3.78)
+- Served `/.well-known/webfinger` (was outbound-only discovery — real interop blocker). Domains: fwber.online/www/api accepted; actor stays on api domain. Frontend rewrite already pointed at it.
+- `Federation.test.ts` had a pre-existing WebFinger contract (acct@fwber.online) that only passes with this implementation — treat it as the spec. New `FederationWebFinger.test.ts` 5 cases.
+- Remaining federation work: live Mastodon/Pleroma node test (external), TURN decision (Robert).
+
 ## Session 2026-11-13 (cont. 15) - Discover compat bars (v2.3.77, UI-polish closed)
 - Recommendations AI-Compat header gained a real progress bar (same clamped score as badge, ARIA progressbar); SwipeableCard normalizes score once for badge+bar. UI-polish TODO fully closed (header v2.3.76 + bars here; transient badge was v2.3.63 unification).
 - Next code candidate: ActivityPub interop tests. Rest Robert-blocked/watch. Bobbi usage resets Nov 14 18:38 — resume check-ins after.
