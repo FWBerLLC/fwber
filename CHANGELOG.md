@@ -12,6 +12,12 @@
 
 ## [2.3.62] - 2026-11-12
 
+### Fixed (PR #42 session-cookie, merged from origin/main)
+
+- Frontend auth now mirrors login state into an fwber_auth=1 presence cookie (never the JWT) on persist/restore; cleared on logout. Next.js middleware gates on token OR fwber_auth and cannot read localStorage, so logged-in users were bounced to /login. Cookie max-age 30d matches token lifetime.
+- Middleware verified: request.cookies.has(token) || has(fwber_auth). Frontend tsc --noEmit EXIT 0 after merge.
+- NOT YET DEPLOYED: needs Robert-authorized Hetzner frontend rebuild + pm2 restart.
+
 ### Honest Dashboard Stats, Friend/Profile Direct Messaging & Bidirectional Block Hardening
 
 - **Fresh-Account Seeded Stats Fixed (`fwber-backend-ts/src/routes/dashboard.ts`):** Replaced `prisma.chatrooms.count()` (which counted all 7 global seeded public chatrooms on brand-new accounts) with distinct unblocked 1-on-1 conversation partner counts across accepted `matches`, accepted `friends`, and direct `messages`. Replaced the fabricated `Math.round(completionPercentage * 0.8)` fallback (`17%` on zero-activity accounts) with real `prisma.matches.aggregate({ _avg: { match_score: true } })` (`0%` when `total_matches === 0`).

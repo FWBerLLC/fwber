@@ -1,3 +1,8 @@
+## Session 2026-11-12 - PR #42 session-cookie fix synced, tsc clean, v2.3.62 (deploy pending)
+- muse.ai homepage/login fix = PR #42 (fwber_auth presence cookie in auth-context persist/restore/clear + README). Fast-forwarded local main to 0ac55e298.
+- Verified fix against middleware.ts gate; frontend tsc --noEmit EXIT 0 (empty output, no tsc process remains).
+- Bumped 2.3.61 -> 2.3.62 with CHANGELOG. NOT deployed: Hetzner frontend still serves pre-#42 build; needs Robert-authorized rebuild + restart.
+
 ## Session 2026-11-13 - Autopilot: socket-status closure, tray/CDP verification (v2.3.63)
 - Identity: `[muse-wonder-1.0 in Muse Code in C:\Users\hyper\workspace\fwber on laptop]`. Caught up from Muse sessions `01a1aa95` (workspace) + `01a1ad49-e4ca` (HyperNexus) tails before acting.
 - Sync: `git fetch --all --tags`; `main` 0/0 vs origin; every local branch 0 unmerged; no `.gitmodules` (monorepo). Nothing to merge — no forced merges made.
