@@ -269,14 +269,24 @@ export default function RecommendationsPage() {
     return (
       <Card key={recommendation.id || `${activeTab}-${index}`} className="h-full border-border dark:border-border bg-card dark:dark:border-border dark:bg-background overflow-hidden">
         {(recommendation as any).compatibility_score && (
-          <div className="bg-purple-600/10 border-b border-purple-500/20 py-2 px-4 flex items-center justify-between">
-            <span className="text-xs font-bold text-purple-400 flex items-center gap-1">
-              <Sparkles size={12} />
-              AI Compatibility
-            </span>
-            <Badge variant="outline" className="bg-purple-500/20 border-purple-500/30 text-purple-200">
-              {Math.round((recommendation as any).compatibility_score)}% Match
-            </Badge>
+          <div className="bg-purple-600/10 border-b border-purple-500/20 py-2 px-4">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-purple-400 flex items-center gap-1">
+                <Sparkles size={12} />
+                AI Compatibility
+              </span>
+              <Badge variant="outline" className="bg-purple-500/20 border-purple-500/30 text-purple-200">
+                {Math.round((recommendation as any).compatibility_score)}% Match
+              </Badge>
+            </div>
+            {/* Fill tracks the badge exactly (same rounded, clamped score)
+                so the bar can never render empty behind a non-zero %. */}
+            <div className="mt-2 h-1.5 w-full rounded-full bg-purple-500/15" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.max(0, Math.min(100, Math.round((recommendation as any).compatibility_score)))} aria-label="AI compatibility">
+              <div
+                className="h-1.5 rounded-full bg-purple-500 transition-all duration-700"
+                style={{ width: `${Math.max(0, Math.min(100, Math.round((recommendation as any).compatibility_score)))}%` }}
+              />
+            </div>
           </div>
         )}
         <CardHeader className="space-y-3">

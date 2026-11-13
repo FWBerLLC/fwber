@@ -244,20 +244,27 @@ export default function SwipeableCard({ user, onSwipe, onAction }: SwipeableCard
                     </p>
                 )}
                 
-                {user.compatibility_score && (
+                {(() => {
+                    // Normalize once so badge and bar always agree: backends
+                    // have sent both 0-100 scores and raw floats; rounding +
+                    // clamping keeps the fill from rendering empty (or >100%)
+                    // behind the percentage badge.
+                    const compat = Math.max(0, Math.min(100, Math.round(Number(user.compatibility_score) || 0)));
+                    return compat > 0 ? (
                     <div>
                     <div className="flex justify-between items-center mb-2">
                         <span className="text-sm font-bold uppercase tracking-tighter text-blue-600">AI Compatibility</span>
-                        <span className="text-sm font-black text-blue-600">{user.compatibility_score}%</span>
+                        <span className="text-sm font-black text-blue-600">{compat}%</span>
                     </div>
-                    <div className="w-full bg-muted dark:bg-card rounded-full h-1.5">
-                        <div 
-                        className="bg-blue-600 h-1.5 rounded-full transition-all duration-1000" 
-                        style={{ width: `${user.compatibility_score}%` }}
+                    <div className="w-full bg-muted dark:bg-card rounded-full h-1.5" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={compat} aria-label="AI compatibility">
+                        <div
+                        className="bg-blue-600 h-1.5 rounded-full transition-all duration-1000"
+                        style={{ width: `${compat}%` }}
                         ></div>
                     </div>
                     </div>
-                )}
+                    ) : null;
+                })()}
             </>
           )}
           

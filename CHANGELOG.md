@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.3.77] - 2026-11-13
+
+### Discover Compatibility Bars (UI-Polish Item Closed)
+
+- **Recommendations card (`app/recommendations/page.tsx`):** The AI Compatibility header showed only a `% Match` badge with no bar — the visual-pass "bars render empty" finding. Added a progress bar whose fill uses the *same* rounded, clamped score as the badge (with `progressbar` ARIA), so fill and number can never disagree.
+- **SwipeableCard (`components/SwipeableCard.tsx`):** Badge/bar now share one normalized value (`Number(...)` → round → clamp 0–100, hidden at 0) instead of rendering the raw score twice — raw floats could paint a sub-1% (visually empty) fill behind a large-looking badge.
+- **Transient reconnect badge:** already addressed by the unified `ConnectionStatusBadge` (v2.3.63) with its `Reconnecting... (n)` state; no further change. The 2026-10-26 UI-polish TODO is now fully closed.
+- **Verified:** ESLint 0, frontend `tsc` 0, backend 119/119 + `tsc` 0; deployed to Hetzner; local stack DOWN.
+
 ## [2.3.76] - 2026-11-13
 
 ### Header Crowding Polish (No-Wrap Utility Pills)

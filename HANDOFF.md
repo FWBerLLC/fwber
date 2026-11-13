@@ -14,6 +14,10 @@
 - Verified fix against middleware.ts gate; frontend tsc --noEmit EXIT 0 (empty output, no tsc process remains).
 - Bumped 2.3.61 -> 2.3.62 with CHANGELOG. NOT deployed: Hetzner frontend still serves pre-#42 build; needs Robert-authorized rebuild + restart.
 
+## Session 2026-11-13 (cont. 15) - Discover compat bars (v2.3.77, UI-polish closed)
+- Recommendations AI-Compat header gained a real progress bar (same clamped score as badge, ARIA progressbar); SwipeableCard normalizes score once for badge+bar. UI-polish TODO fully closed (header v2.3.76 + bars here; transient badge was v2.3.63 unification).
+- Next code candidate: ActivityPub interop tests. Rest Robert-blocked/watch. Bobbi usage resets Nov 14 18:38 — resume check-ins after.
+
 ## Session 2026-11-13 (cont. 14) - Header crowding polish (v2.3.76)
 - CSS-only: nowrap/shrink-0 on header utility pills + logout, right cluster shrink-0, search flexes (min-w-0), badge labels nowrap. Closes the 2026-10-26 visual-pass crowding item. Remaining code candidate: ActivityPub interop tests; rest Robert-blocked/watch.
 - CDP: Bobbi/Gemini/ChatGPT tabs open; no Bobbi send (usage resets Nov 14 18:38).
