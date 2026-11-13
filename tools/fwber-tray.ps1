@@ -245,6 +245,20 @@ function Stop-FwberService($Service, [switch]$AllowUnownedPortCleanup) {
             if ($proc -and $proc.ProcessName -match $Service.ProcMatch) {
                 Write-TrayLog "  Reclaiming port $($Service.Port) from $($proc.ProcessName) PID $($proc.Id)"
                 & taskkill.exe /PID $proc.Id /T /F *> $null
+                # Watch-mode parents (node --watch) do not listen themselves;
+                # killing only the listening child lets the watcher respawn it
+                # on the next file change (orphan found live 2026-11-13).
+                # Kill the parent too when it is provably the fwber watcher.
+                try {
+                    $cim = Get-CimInstance Win32_Process -Filter "ProcessId=$lpid" -ErrorAction SilentlyContinue
+                    if ($cim -and $cim.ParentProcessId) {
+                        $parentCim = Get-CimInstance Win32_Process -Filter "ProcessId=$($cim.ParentProcessId)" -ErrorAction SilentlyContinue
+                        if ($parentCim -and $parentCim.CommandLine -match '--watch' -and $parentCim.CommandLine -match 'dist/index\.js') {
+                            Write-TrayLog "  Killing watch parent PID $($parentCim.ProcessId) so the service cannot respawn"
+                            & taskkill.exe /PID $parentCim.ProcessId /T /F *> $null
+                        }
+                    }
+                } catch {}
             }
         }
         $script:OwnedPorts.Remove($Service.Name)

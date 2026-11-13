@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.73] - 2026-11-13
+
+### Tray Watch-Parent Orphan Fix; Presence Proof on Prod
+
+- **Tray defect fixed (`tools/fwber-tray.ps1`):** CLI `-StopAll` killed the listening child but left the `node --watch` parent alive, which respawned the backend on the next file change (found live: orphan PID tree from the 12:19 tray launch reappeared on :4003 at 14:05). Port reclaim now also kills a parent provably matching `--watch … dist/index.js`. Orphan tree terminated; tray `-Status` confirms all local ports DOWN (Hetzner-only steady state).
+- **Live presence proof (prod, two clients):** Registered QA users 195/196, connected both over Socket.io, host-created room 7 — B's REST join delivered `ParticipantJoined` to A, roster API showed 2 participants, B's raise-hand relayed (`relayed: true`, `AudioRoomSignal` received), B's leave delivered `ParticipantLeft`, host leave delivered the room-end `ParticipantLeft` to B. Glare rule remains frontend-only (needs real WebRTC peers to exercise).
+- **Gates:** full backend suite **28 suites / 119 tests PASS**; backend + frontend `tsc` 0; dashboard 179/133/17, 0 tiles missing tooltips; prod smoke 4×200. Coordination tabs (Bobbi/Gemini/ChatGPT) all present again; Bobbi still out of usage until Nov 14 18:38, nothing sent.
+
 ## [2.3.72] - 2026-11-13
 
 ### Audio Rooms Live Presence (ParticipantJoined/Left)
