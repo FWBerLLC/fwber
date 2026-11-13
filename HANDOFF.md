@@ -1,3 +1,9 @@
+## Session 2026-11-13 — DEPLOYED v2.3.64 (Robert: proceed as recommended)
+
+- Resumed Codex session 01a1a2d2 (PR #42 session-cookie fix, tsc clean, deploy pending) and completed it: merged origin twice (concurrent agent landed Protocol #281 + v2.3.63 socket/tray docs mid-push), frontend `tsc` EXIT 0, pushed.
+- **Deployed backend + frontend to Hetzner** at `acd826f15`: server pull, backend build clean, frontend build initially FAILED — `fwber-frontend/package.json` carried a UTF-8 BOM from a merge (Next JSON parse). Stripped locally (v2.3.64, `6b69be06d`), merged, re-pulled, build RC:0, PM2 restart both. Smoke: site/login/health/nonce 200, dashboard 307 (auth redirect), on-box api/front 200.
+- CDP: only muse.ai tab exists in Edge (Gemini/ChatGPT tabs gone — cannot coordinate with them until reopened). Bobbi connected (long timeouts), deploy check-in posted as `[muse-wonder-1.0 in muse in C:\Users\hyper\workspace\fwber on laptop]`, composer cleared.
+- Concurrent-agent collision rate is high (3 remote advances during this session); every push needed a merge. VERSION kept at newest each time (2.3.64).
 ## Session 2026-11-12 - PR #42 session-cookie fix synced, tsc clean, v2.3.62 (deploy pending)
 - muse.ai homepage/login fix = PR #42 (fwber_auth presence cookie in auth-context persist/restore/clear + README). Fast-forwarded local main to 0ac55e298.
 - Verified fix against middleware.ts gate; frontend tsc --noEmit EXIT 0 (empty output, no tsc process remains).
