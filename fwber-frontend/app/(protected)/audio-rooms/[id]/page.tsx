@@ -8,6 +8,7 @@ import { Mic, MicOff, LogOut, Loader2, User as UserIcon, Hand } from 'lucide-rea
 import { apiClient } from '@/lib/api/client';
 import { useToast } from '@/components/ui/use-toast';
 import { useWebRTC } from '@/lib/hooks/useWebRTC';
+import { getSharedSocket } from '@/lib/hooks/use-socket-logic';
 import { useAuth } from '@/lib/auth-context';
 import { usePusherLogic } from '@/lib/hooks/use-pusher-logic';
 
@@ -133,6 +134,61 @@ export default function ActiveAudioRoom() {
         };
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [echo, room?.id, user?.id, createOfferForPeer, id, router, toast]);
+
+    // Presence over the shared Socket.io socket. The backend emits
+    // ParticipantJoined/ParticipantLeft on join/leave (the Echo listeners
+    // above only fire where a Reverb deployment exists). Handlers mirror
+    // the Echo ones, normalizing the flat broadcast participant into the
+    // page's { user: { name } } shape.
+    useEffect(() => {
+        if (!room || !user?.id) return;
+        const socket = getSharedSocket();
+        if (!socket) return;
+
+        const onJoined = (e: any) => {
+            if (e.room_id != id || !e.participant) return;
+            const p = e.participant;
+            setRoom(prev => {
+                if (!prev) return prev;
+                if (prev.participants.find(x => x.user_id === p.user_id)) return prev;
+                return {
+                    ...prev,
+                    participants: [...prev.participants, {
+                        id: p.user_id,
+                        user_id: p.user_id,
+                        role: p.role,
+                        is_muted: p.is_muted ?? true,
+                        user: { id: p.user_id, name: p.name || 'Unknown' },
+                    } as RoomParticipant],
+                };
+            });
+            const meNow = room.participants.find(x => x.user_id === user?.id) || (room.host_id === user?.id ? { role: 'speaker' } as any : null);
+            if (meNow?.role === 'speaker' && (p.role === 'speaker' || p.user_id === room.host_id)) {
+                if ((user?.id || 0) > p.user_id) {
+                    setTimeout(() => createOfferForPeer(p.user_id), 1000);
+                }
+            }
+        };
+
+        const onLeft = (e: any) => {
+            if (e.room_id != id) return;
+            setRoom(prev => {
+                if (!prev) return prev;
+                return { ...prev, participants: prev.participants.filter(x => x.user_id !== e.user_id) };
+            });
+            if (e.user_id === room.host_id) {
+                toast({ title: 'Room Ended', description: 'The host has left the room.' });
+                router.push('/audio-rooms');
+            }
+        };
+
+        socket.on('ParticipantJoined', onJoined);
+        socket.on('ParticipantLeft', onLeft);
+        return () => {
+            socket.off('ParticipantJoined', onJoined);
+            socket.off('ParticipantLeft', onLeft);
+        };
+    }, [room, user?.id, createOfferForPeer, id, router, toast]);
 
     // Listen for private signals (like raise-hand)
     useEffect(() => {

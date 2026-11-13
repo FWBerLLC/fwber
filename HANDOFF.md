@@ -14,6 +14,10 @@
 - Verified fix against middleware.ts gate; frontend tsc --noEmit EXIT 0 (empty output, no tsc process remains).
 - Bumped 2.3.61 -> 2.3.62 with CHANGELOG. NOT deployed: Hetzner frontend still serves pre-#42 build; needs Robert-authorized rebuild + restart.
 
+## Session 2026-11-13 (cont. 10) - Audio Rooms presence broadcasts (v2.3.72)
+- Join/leave now emit `ParticipantJoined`/`ParticipantLeft` via Socket.io user rooms; room page subscribes on shared socket (Echo handlers kept as fallback). Builders in `audio-signaling.ts`, tests 12/12.
+- Audio Rooms stack now complete except: TURN provisioning (coturn vs hosted — Robert decision) + two-browser prod voice proof. Bobbi out of usage until Nov 14 18:38.
+
 ## Session 2026-11-13 (cont. 9) - TURN-ready ICE, full 116-test gate, v2.3.71 deployed
 - `useWebRTC` ICE now env-driven (`NEXT_PUBLIC_TURN_URL/USERNAME/CREDENTIAL`); STUN default unchanged. To enable relay: provision coturn (or hosted TURN), set the three env vars on the frontend, rebuild.
 - Full backend suite: 28/116 PASS. Prod error logs watched: only scanner-noise + stale-client warnings.

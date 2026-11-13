@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { authenticate } from '../middleware/auth.js';
 import prisma from '../lib/prisma.js';
-import { validateAudioSignal, buildAudioSignalEvent, userRoomName, AUDIO_SIGNAL_EVENT } from '../lib/audio-signaling.js';
+import { validateAudioSignal, buildAudioSignalEvent, buildParticipantJoinedEvent, buildParticipantLeftEvent, userRoomName, AUDIO_SIGNAL_EVENT, PARTICIPANT_JOINED_EVENT, PARTICIPANT_LEFT_EVENT } from '../lib/audio-signaling.js';
 import { getIO } from '../socket.js';
 
 const router = Router();
@@ -206,6 +206,26 @@ router.post('/:id/join', async (req: any, res) => {
       include: { users: { select: { id: true, name: true, avatar_url: true } } },
     });
 
+    // Presence: tell everyone already in the room that a new participant
+    // arrived so their lists (and WebRTC offer logic) update live. The
+    // joiner gets the full list from this response, so they are skipped.
+    const io = getIO();
+    if (io) {
+      const selfRow = (participants as any[]).find((p) => Number(p.user_id) === Number(userId));
+      const joined = buildParticipantJoinedEvent(Number(roomId), {
+        user_id: Number(userId),
+        name: selfRow?.users?.name ?? null,
+        role: role || 'listener',
+        is_muted: true,
+      });
+      for (const p of participants as any[]) {
+        const pid = Number(p.user_id);
+        if (pid !== Number(userId)) {
+          io.to(userRoomName(pid)).emit(PARTICIPANT_JOINED_EVENT, joined);
+        }
+      }
+    }
+
     res.json({
       room: { id: Number(room.id), name: room.name, host_id: Number(room.created_by) },
       participants: serialize(participants.map((p: any) => ({
@@ -225,9 +245,24 @@ router.post('/:id/leave', async (req: any, res) => {
     const userId = BigInt(req.user.id);
     const roomId = BigInt(req.params.id);
 
+    // Snapshot remaining participants BEFORE deleting so presence can be
+    // broadcast to exactly the people still in the room.
+    const remaining = await prisma.audio_room_participants.findMany({
+      where: { audio_room_id: roomId, user_id: { not: userId } },
+      select: { user_id: true },
+    });
+
     await prisma.audio_room_participants.deleteMany({
       where: { audio_room_id: roomId, user_id: userId },
     });
+
+    const io = getIO();
+    if (io) {
+      const left = buildParticipantLeftEvent(Number(roomId), Number(userId));
+      for (const p of remaining as any[]) {
+        io.to(userRoomName(Number(p.user_id))).emit(PARTICIPANT_LEFT_EVENT, left);
+      }
+    }
 
     res.json({ success: true });
   } catch (error: any) {

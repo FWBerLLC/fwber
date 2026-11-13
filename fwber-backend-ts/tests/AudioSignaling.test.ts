@@ -1,5 +1,5 @@
 import { describe, it, expect } from '@jest/globals';
-import { validateAudioSignal, buildAudioSignalEvent, AUDIO_SIGNAL_TYPES } from '../src/lib/audio-signaling.js';
+import { validateAudioSignal, buildAudioSignalEvent, buildParticipantJoinedEvent, buildParticipantLeftEvent, AUDIO_SIGNAL_TYPES } from '../src/lib/audio-signaling.js';
 
 // Audio Rooms signaling contract (frontend useWebRTC + room page):
 //   POST /api/audio-rooms/:id/signal { target_user_id, type, payload }
@@ -49,6 +49,23 @@ describe('validateAudioSignal', () => {
 
   it('exposes exactly the signal types the frontend sends', () => {
     expect([...AUDIO_SIGNAL_TYPES].sort()).toEqual(['answer', 'ice-candidate', 'offer', 'raise-hand']);
+  });
+});
+
+describe('participant presence events', () => {
+  it('shapes ParticipantJoined with the fields the room page reads', () => {
+    const e = buildParticipantJoinedEvent(99, { user_id: 42, name: 'Ada', role: 'speaker', is_muted: false });
+    expect(e).toEqual({ room_id: 99, participant: { user_id: 42, name: 'Ada', role: 'speaker', is_muted: false } });
+  });
+
+  it('defaults muted to true and name to null for listeners', () => {
+    const e = buildParticipantJoinedEvent(99, { user_id: 42, role: 'listener' });
+    expect(e.participant.is_muted).toBe(true);
+    expect(e.participant.name).toBeNull();
+  });
+
+  it('shapes ParticipantLeft with room and user ids', () => {
+    expect(buildParticipantLeftEvent(99, 42)).toEqual({ room_id: 99, user_id: 42 });
   });
 });
 

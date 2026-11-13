@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.72] - 2026-11-13
+
+### Audio Rooms Live Presence (ParticipantJoined/Left)
+
+- **Backend (`routes/audio-rooms.ts`, `lib/audio-signaling.ts`):** Join now broadcasts `ParticipantJoined` and leave broadcasts `ParticipantLeft` over Socket.io to each remaining participant's `user:{id}` room (event builders unit-tested; signaling suite now 12 cases). Previously presence only existed as Echo/Reverb listeners the TS backend never emitted on, so room rosters went stale until refresh.
+- **Frontend (`audio-rooms/[id]/page.tsx`):** New Socket.io presence subscription mirroring the Echo handlers — roster updates live, speaker-offer glare rule preserved (higher ID offers), host-leave ends the room. Broadcast participants normalized into the page's `{ user: { name } }` shape.
+- **Verified:** backend + frontend `tsc` 0; deployed to Hetzner under the always-deploy rule; prod smoke 200s. Coordination note: Bobbi still within her muse.ai usage outage (resets Nov 14 18:38); nothing sent.
+
 ## [2.3.71] - 2026-11-13
 
 ### TURN-Ready ICE Config + Full Test Gate (Deployed)

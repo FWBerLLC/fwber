@@ -88,5 +88,38 @@ export function userRoomName(userId: number): string {
   return `user:${userId}`;
 }
 
+/** Presence events consumed by the room page alongside AudioRoomSignal. */
+export const PARTICIPANT_JOINED_EVENT = 'ParticipantJoined';
+export const PARTICIPANT_LEFT_EVENT = 'ParticipantLeft';
+
+export interface ParticipantJoinedEvent {
+  room_id: number;
+  participant: { user_id: number; name: string | null; role: string; is_muted: boolean };
+}
+
+export interface ParticipantLeftEvent {
+  room_id: number;
+  user_id: number;
+}
+
+export function buildParticipantJoinedEvent(
+  roomId: number,
+  participant: { user_id: number; name?: string | null; role: string; is_muted?: boolean },
+): ParticipantJoinedEvent {
+  return {
+    room_id: roomId,
+    participant: {
+      user_id: participant.user_id,
+      name: participant.name ?? null,
+      role: participant.role,
+      is_muted: participant.is_muted ?? true,
+    },
+  };
+}
+
+export function buildParticipantLeftEvent(roomId: number, userId: number): ParticipantLeftEvent {
+  return { room_id: roomId, user_id: userId };
+}
+
 /** Event name shared by the Socket.io relay and the frontend listener. */
 export const AUDIO_SIGNAL_EVENT = 'AudioRoomSignal';
