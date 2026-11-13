@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.3.62] - 2026-11-12
+
+### Honest Dashboard Stats, Friend/Profile Direct Messaging & Bidirectional Block Hardening
+
+- **Fresh-Account Seeded Stats Fixed (`fwber-backend-ts/src/routes/dashboard.ts`):** Replaced `prisma.chatrooms.count()` (which counted all 7 global seeded public chatrooms on brand-new accounts) with distinct unblocked 1-on-1 conversation partner counts across accepted `matches`, accepted `friends`, and direct `messages`. Replaced the fabricated `Math.round(completionPercentage * 0.8)` fallback (`17%` on zero-activity accounts) with real `prisma.matches.aggregate({ _avg: { match_score: true } })` (`0%` when `total_matches === 0`).
+- **Friends & Profile Direct Messaging End-to-End (`matches.ts`, `messages.ts`, `app/messages/page.tsx`, `app/profile/[id]/page.tsx`):**
+  - `GET /api/matches/established` (`/accepted`) and `GET /api/messages/conversations` now include accepted friends (`prisma.friends` with `status: 'accepted'`) deduplicated by partner ID, exclude bidirectional `prisma.blocks`, and hydrate `other_user.profile.photos`, `other_user.profile.current_emotion`, and `last_message` snippets.
+  - `app/messages/page.tsx` now reads `?user=` / `?userId=` query parameters, auto-selecting existing conversations or bootstrapping a compose thread via `getPublicProfile` (after verifying non-blocked status).
+  - `app/profile/[id]/page.tsx` removed the duplicate profile header block (`h1`/vouches/location/`TipButton`), checks `/matches/established`, and adds a direct **Message** CTA for mutual matches and accepted friends (plus explanatory `<Tooltip>` guidance across all profile actions).
+- **Bidirectional Block & Malformed-JSON Hardening (`blocks.ts`, `messages.ts`, `index.ts`):**
+  - Fixed `POST /api/blocks` to delete active matches from canonical `prisma.matches` (previously only called legacy `prisma.user_matches`, silently failing inside `try/catch`).
+  - Added bidirectional `prisma.blocks` enforcement (`403`) on `POST /api/messages` and `GET /api/messages/:id` so blocked accounts cannot message or auto-recreate matches.
+  - Quieted `dotenv.config({ quiet: true })`, removed duplicate `/api/integrations/contacts*` route mounts, and added a clean `400 { error: 'Invalid JSON payload' }` middleware for malformed scanner payloads in `fwber-backend-ts/src/index.ts`.
+- **Tests & Build Verified:** Added `fwber-backend-ts/tests/DashboardAndMessaging.test.ts` and expanded `tests/FriendsSearchBlocks.test.ts` (`14/14` passing across 2 suites); `fwber-backend-ts` TypeScript build (`tsc`) clean (`0` errors).
+
 ## [2.3.61] - 2026-11-12
 
 ### Executive Protocol Synchronization, Deep Merge Audit & Build Alignment

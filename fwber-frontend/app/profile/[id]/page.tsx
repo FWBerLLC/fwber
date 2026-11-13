@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useParams, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/lib/auth-context';
 import ProtectedRoute from '@/components/ProtectedRoute';
@@ -15,11 +16,12 @@ import { EvolvingAvatar } from '@/components/ui/EvolvingAvatar';
 import { RelationshipTier } from '@/lib/relationshipTiers';
 import { photoAPI } from '@/lib/api/photos';
 import GiftShopModal from '@/components/gifts/GiftShopModal';
-import { BookHeart, Compass, Gift, HeartHandshake, ShieldCheck, Sparkles, Globe, Copy, UserPlus, UserCheck, Ban } from 'lucide-react';
+import { BookHeart, Compass, Gift, HeartHandshake, ShieldCheck, Sparkles, Globe, Copy, UserPlus, UserCheck, Ban, MessageCircle } from 'lucide-react';
 import { VouchBadge } from '@/components/profile/VouchBadge';
 import { useMatchCompatibility } from '@/lib/hooks/use-compatibility';
 import { useToast } from '@/components/ToastProvider';
 import { MatchInsights } from '@/components/matches/MatchInsights';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 export default function PublicProfilePage() {
   const params = useParams();
@@ -35,6 +37,7 @@ export default function PublicProfilePage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [actionPerformed, setActionPerformed] = useState(false);
+  const [isMatched, setIsMatched] = useState(false);
   const [isGiftModalOpen, setIsGiftModalOpen] = useState(false);
   // Relationship with the viewed user: 'loading' while we check.
   const [friendStatus, setFriendStatus] = useState<'none' | 'pending' | 'friends' | 'blocked' | 'loading'>('loading');
@@ -108,10 +111,15 @@ export default function PublicProfilePage() {
     }
 
     try {
-      await performMatchAction(targetUserId, action);
+      const res = await performMatchAction(targetUserId, action);
       setActionPerformed(true);
       if (action === 'like') {
-        showSuccess('Liked!', 'If they like you back, it\'s a match!');
+        if (res?.is_match) {
+          setIsMatched(true);
+          showSuccess("It's a Match!", 'You can now start a private chat directly from their profile.');
+        } else {
+          showSuccess('Liked!', 'If they like you back, it\'s a match!');
+        }
       } else {
         showSuccess('Passed', 'You won\'t see this profile again.');
       }
@@ -120,7 +128,7 @@ export default function PublicProfilePage() {
     }
   };
 
-  // Relationship status with the viewed user (friend / pending / blocked).
+  // Relationship status with the viewed user (friend / pending / blocked / matched).
   // The backend wraps list responses in { data: [...] }; accept both shapes.
   useEffect(() => {
     if (!profile || !user || profile.id === user.id) return;
@@ -129,18 +137,26 @@ export default function PublicProfilePage() {
       Array.isArray(value) ? value : Array.isArray((value as any)?.data) ? (value as any).data : [];
 
     setFriendStatus('loading');
+    setIsMatched(false);
     setConfirmBlock(false);
     Promise.all([
       api.get('/friends').catch(() => []),
       api.get('/friends/requests').catch(() => []),
       api.get('/blocks').catch(() => []),
+      api.get('/matches/established').catch(() => []),
     ])
-      .then(([friendsRes, requestsRes, blocksRes]) => {
+      .then(([friendsRes, requestsRes, blocksRes, matchesRes]) => {
         if (cancelled) return;
         const friends = unwrapList(friendsRes);
         const requests = unwrapList(requestsRes);
         const blocks = unwrapList(blocksRes);
-        if (blocks.some((b: any) => Number(b.blocked_id) === profile.id)) {
+        const established = unwrapList(matchesRes);
+        const blocked = blocks.some((b: any) => Number(b.blocked_id) === profile.id);
+        const matched = !blocked && established.some(
+          (m: any) => Number(m.other_user?.id) === profile.id && m.relationship_type !== 'friend'
+        );
+        setIsMatched(matched);
+        if (blocked) {
           setFriendStatus('blocked');
         } else if (friends.some((f: any) => Number(f.id) === profile.id)) {
           setFriendStatus('friends');
@@ -303,48 +319,6 @@ export default function PublicProfilePage() {
 								/>
 							</div>
 						)}
-						<div>
-							<div className="flex justify-between items-center w-full">
-								<div>
-									<h1 className="text-3xl font-bold text-foreground dark:text-foreground flex items-center gap-2">
-										{p.display_name || 'Anonymous'}, {p.age || '??'}
-										<PresenceIndicator userId={String(profile.id)} />
-									</h1>
-
-									{/* Vouches Summary */}
-									{p.vouches && p.vouches.length > 0 && (
-										<div className="flex gap-2 mt-2 flex-wrap">
-											<VouchBadge
-												type="safe"
-												count={
-													p.vouches.filter((v: any) => v.type === 'safe').length
-												}
-											/>
-											<VouchBadge
-												type="fun"
-												count={
-													p.vouches.filter((v: any) => v.type === 'fun').length
-												}
-											/>
-											<VouchBadge
-												type="hot"
-												count={
-													p.vouches.filter((v: any) => v.type === 'hot').length
-												}
-											/>
-										</div>
-									)}
-
-									<p className="text-muted-foreground dark:text-muted-foreground mt-1">
-										{p.location?.city || 'Unknown'}, {p.location?.state || 'Location'}
-									</p>
-								</div>
-								<TipButton
-									recipientId={profile.id}
-									recipientName={p.display_name || 'User'}
-								/>
-							</div>
-						</div>
 
             <div className="prose dark:prose-invert mb-8">
               <div className="flex items-center justify-between gap-4 mb-2">
@@ -521,83 +495,142 @@ export default function PublicProfilePage() {
             </div>
 
             {/* Actions */}
-            {!actionPerformed ? (
-              <div className="flex flex-col items-center gap-4">
-                <div className="flex gap-4 justify-center">
-                  <button type="button"
-                    onClick={() => handleAction('pass')}
-                    className="px-8 py-3 bg-muted dark:dark:bg-muted text-foreground dark:text-foreground dark:text-foreground rounded-full font-semibold hover:bg-muted transition-colors"
-                  >
-                    Pass
-                  </button>
-                  <button type="button"
-                    onClick={() => handleAction('like')}
-                    className="px-8 py-3 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-full font-semibold hover:opacity-90 transition-opacity shadow-lg"
-                  >
-                    Like
-                  </button>
-                </div>
+            <TooltipProvider delayDuration={200}>
+              {!actionPerformed && friendStatus !== 'blocked' ? (
+                <div className="flex flex-col items-center gap-4">
+                  <div className="flex gap-4 justify-center flex-wrap">
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <button type="button"
+                          onClick={() => handleAction('pass')}
+                          className="px-8 py-3 bg-muted text-foreground rounded-full font-semibold hover:opacity-80 transition-opacity"
+                        >
+                          Pass
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent>Skip this profile in your discovery queue</TooltipContent>
+                    </Tooltip>
 
-                <button type="button"
-                  onClick={() => setIsGiftModalOpen(true)}
-                  className="flex items-center gap-2 px-6 py-2 bg-pink-100 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400 rounded-full font-medium hover:bg-pink-200 dark:hover:bg-pink-900/50 transition-colors"
-                >
-                  <Gift className="w-4 h-4" />
-                  Send Gift
-                </button>
-              </div>
-            ) : (
-              <div className="text-center text-muted-foreground italic">
-                You have already acted on this profile.
-              </div>
-            )}
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <button type="button"
+                          onClick={() => handleAction('like')}
+                          className="px-8 py-3 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-full font-semibold hover:opacity-90 transition-opacity shadow-lg"
+                        >
+                          Like
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent>Send a like — mutual likes unlock private messaging & progressive photo reveal</TooltipContent>
+                    </Tooltip>
+                  </div>
 
-            {/* Friend & safety actions — always available when viewing someone else */}
-            {user && profile.id !== user.id && (
-              <div className="mt-6 flex flex-col items-center gap-3 border-t pt-6">
-                <div className="flex gap-3 justify-center flex-wrap">
-                  {friendStatus === 'friends' ? (
-                    <span className="flex items-center gap-2 px-6 py-2 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 font-medium">
-                      <UserCheck className="w-4 h-4" /> Friends
-                    </span>
-                  ) : friendStatus === 'pending' ? (
-                    <span className="flex items-center gap-2 px-6 py-2 rounded-full bg-muted text-muted-foreground font-medium">
-                      <UserPlus className="w-4 h-4" /> Friend Request Sent
-                    </span>
-                  ) : friendStatus === 'blocked' ? (
-                    <>
-                      <span className="flex items-center gap-2 px-6 py-2 rounded-full bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 font-medium">
-                        <Ban className="w-4 h-4" /> Blocked
-                      </span>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
                       <button type="button"
-                        onClick={handleUnblock}
-                        disabled={blockBusy}
-                        className="px-6 py-2 rounded-full border font-medium hover:bg-muted transition-colors disabled:opacity-50"
+                        onClick={() => setIsGiftModalOpen(true)}
+                        className="flex items-center gap-2 px-6 py-2 bg-pink-100 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400 rounded-full font-medium hover:bg-pink-200 dark:hover:bg-pink-900/50 transition-colors"
                       >
-                        {blockBusy ? 'Unblocking…' : 'Unblock'}
+                        <Gift className="w-4 h-4" />
+                        Send Gift
                       </button>
-                    </>
-                  ) : (
-                    <button type="button"
-                      onClick={handleAddFriend}
-                      disabled={friendBusy || friendStatus === 'loading'}
-                      className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-full font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
-                    >
-                      <UserPlus className="w-4 h-4" /> {friendBusy ? 'Sending…' : 'Add Friend'}
-                    </button>
+                    </TooltipTrigger>
+                    <TooltipContent>Send a digital token gift with a custom note to stand out</TooltipContent>
+                  </Tooltip>
+                </div>
+              ) : actionPerformed ? (
+                <div className="text-center text-muted-foreground italic">
+                  You have already acted on this profile.
+                </div>
+              ) : null}
+
+              {/* Direct Message, Friend & Safety actions — always available when viewing someone else */}
+              {user && profile.id !== user.id && (
+                <div className="mt-6 flex flex-col items-center gap-3 border-t pt-6">
+                  <div className="flex gap-3 justify-center flex-wrap">
+                    {friendStatus !== 'blocked' && (isMatched || friendStatus === 'friends') && (
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Link
+                            href={`/messages?user=${profile.id}`}
+                            className="flex items-center gap-2 px-6 py-2 rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold shadow-md hover:opacity-95 transition-opacity"
+                          >
+                            <MessageCircle className="w-4 h-4" /> Message
+                          </Link>
+                        </TooltipTrigger>
+                        <TooltipContent>Open a private real-time conversation with {p.display_name || 'this connection'}</TooltipContent>
+                      </Tooltip>
+                    )}
+
+                    {friendStatus !== 'blocked' && !isMatched && friendStatus !== 'friends' && friendStatus !== 'loading' && (
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <span className="inline-flex">
+                            <button
+                              type="button"
+                              disabled
+                              className="flex items-center gap-2 px-5 py-2 rounded-full border border-border text-muted-foreground font-medium opacity-60 cursor-not-allowed"
+                            >
+                              <MessageCircle className="w-4 h-4" /> Message
+                            </button>
+                          </span>
+                        </TooltipTrigger>
+                        <TooltipContent>Match or become friends first to start a private conversation</TooltipContent>
+                      </Tooltip>
+                    )}
+
+                    {friendStatus === 'friends' ? (
+                      <span className="flex items-center gap-2 px-6 py-2 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 font-medium">
+                        <UserCheck className="w-4 h-4" /> Friends
+                      </span>
+                    ) : friendStatus === 'pending' ? (
+                      <span className="flex items-center gap-2 px-6 py-2 rounded-full bg-muted text-muted-foreground font-medium">
+                        <UserPlus className="w-4 h-4" /> Friend Request Sent
+                      </span>
+                    ) : friendStatus === 'blocked' ? (
+                      <>
+                        <span className="flex items-center gap-2 px-6 py-2 rounded-full bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 font-medium">
+                          <Ban className="w-4 h-4" /> Blocked
+                        </span>
+                        <button type="button"
+                          onClick={handleUnblock}
+                          disabled={blockBusy}
+                          className="px-6 py-2 rounded-full border font-medium hover:bg-muted transition-colors disabled:opacity-50"
+                        >
+                          {blockBusy ? 'Unblocking…' : 'Unblock'}
+                        </button>
+                      </>
+                    ) : (
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <button type="button"
+                            onClick={handleAddFriend}
+                            disabled={friendBusy || friendStatus === 'loading'}
+                            className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-full font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
+                          >
+                            <UserPlus className="w-4 h-4" /> {friendBusy ? 'Sending…' : 'Add Friend'}
+                          </button>
+                        </TooltipTrigger>
+                        <TooltipContent>Send a platonic friend request — accepted friends can message & vouch</TooltipContent>
+                      </Tooltip>
+                    )}
+                  </div>
+                  {friendStatus !== 'blocked' && (
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <button type="button"
+                          onClick={handleBlock}
+                          disabled={blockBusy}
+                          className="flex items-center gap-1 text-sm text-red-600 dark:text-red-400 hover:underline disabled:opacity-50"
+                        >
+                          <Ban className="w-3 h-3" /> {confirmBlock ? 'Click again to confirm block' : 'Block user'}
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent>Sever matches & friendships and prevent all profile views or messages</TooltipContent>
+                    </Tooltip>
                   )}
                 </div>
-                {friendStatus !== 'blocked' && (
-                  <button type="button"
-                    onClick={handleBlock}
-                    disabled={blockBusy}
-                    className="flex items-center gap-1 text-sm text-red-600 dark:text-red-400 hover:underline disabled:opacity-50"
-                  >
-                    <Ban className="w-3 h-3" /> {confirmBlock ? 'Click again to confirm block' : 'Block user'}
-                  </button>
-                )}
-              </div>
-            )}
+              )}
+            </TooltipProvider>
           </div>
         </div>
       </div>

@@ -6,9 +6,11 @@ import { getAvatarUrl } from '@/lib/utils/avatar';
 export const dynamic = "force-dynamic";
 
 import { useState, useEffect, useCallback } from "react";
+import { useSearchParams } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { getConversations, type Conversation } from "@/lib/api/messages";
+import { getPublicProfile } from "@/lib/api/profile";
 import { api } from "@/lib/api/client";
 import ReportModal from "@/components/ReportModal";
 import ProfileViewModal from "@/components/ProfileViewModal";
@@ -33,7 +35,9 @@ import { useSocketLogic } from "@/lib/hooks/use-socket-logic";
 import ErrorBoundary from "@/components/ErrorBoundary";
 
 export default function MessagesPage() {
-	const { token, isAuthenticated } = useAuth();
+	const searchParams = useSearchParams();
+	const targetUserParam = searchParams.get("user") || searchParams.get("userId");
+	const { token, isAuthenticated, user } = useAuth();
 	const { connected } = useSocketLogic({ autoConnect: true });
 	const { showError } = useToast();
 	const { videoSignals }: { videoSignals: any[] } = useWebSocket();
@@ -54,6 +58,12 @@ export default function MessagesPage() {
 		null,
 	);
 
+	// Why we hydrate `?user=<id>` here:
+	// Clicking "Message" from `/friends` or `/profile/[id]` routes to `/messages?user=<id>`.
+	// Previously `MessagesPage` ignored query parameters completely, stranding users on
+	// "Select a Conversation" (or "No Conversations Yet" for brand-new friend chats).
+	// We first match against loaded conversations; if none exists yet, we verify the user
+	// isn't blocked and synthesize an active compose thread from `getPublicProfile`.
 	const loadConversations = useCallback(async () => {
 		if (!token) return;
 
@@ -62,12 +72,76 @@ export default function MessagesPage() {
 			setError(null);
 			const [conversationsData, auraMatchesData] = await Promise.all([
 				getConversations(token),
-				api.get('/matching/aura-matches')
+				api.get('/matching/aura-matches').catch(() => []),
 			]);
-			setConversations(
-				Array.isArray(conversationsData) ? conversationsData : [],
-			);
+			let nextConversations = Array.isArray(conversationsData)
+				? [...conversationsData]
+				: [];
 			setAuraMatches(Array.isArray(auraMatchesData) ? auraMatchesData : []);
+
+			const targetNumericId = targetUserParam ? Number(targetUserParam) : NaN;
+			if (
+				!Number.isNaN(targetNumericId) &&
+				targetNumericId > 0 &&
+				(!user || targetNumericId !== user.id)
+			) {
+				const existing = nextConversations.find(
+					(c) => Number(c.other_user?.id) === targetNumericId,
+				);
+				if (existing) {
+					setSelectedConversation(existing);
+				} else {
+					try {
+						const [blocksRes, publicProfile] = await Promise.all([
+							api.get<any>("/blocks").catch(() => ({ data: [] })),
+							getPublicProfile(token, targetNumericId),
+						]);
+						const blockList = Array.isArray(blocksRes)
+							? blocksRes
+							: Array.isArray(blocksRes?.data)
+								? blocksRes.data
+								: [];
+						const isBlocked = blockList.some(
+							(b: any) => Number(b.blocked_id) === targetNumericId,
+						);
+						if (!isBlocked && publicProfile) {
+							const pubProf = publicProfile.profile || ({} as any);
+							const pubPhotos = Array.isArray(pubProf.photos) ? pubProf.photos : [];
+							const nowIso = new Date().toISOString();
+							const syntheticConv: Conversation = {
+								id: 2000000000 + targetNumericId,
+								user1_id: user?.id || 0,
+								user2_id: targetNumericId,
+								created_at: nowIso,
+								updated_at: nowIso,
+								other_user: {
+									id: targetNumericId,
+									email: publicProfile.email || "",
+									profile: {
+										display_name:
+											pubProf.display_name || publicProfile.name || "User",
+										age: pubProf.age ?? null,
+										current_emotion:
+											(pubProf.current_emotion as string) || "neutral",
+										photos: pubPhotos.map((ph: any) => ({
+											id: Number(ph.id || 0),
+											url: ph.url,
+											is_private: Boolean(ph.is_private),
+											is_primary: Boolean(ph.is_primary),
+										})),
+									},
+								},
+							};
+							nextConversations = [syntheticConv, ...nextConversations];
+							setSelectedConversation(syntheticConv);
+						}
+					} catch {
+						// Target user missing or inaccessible — fall back to standard list
+					}
+				}
+			}
+
+			setConversations(nextConversations);
 		} catch (err) {
 			setError(
 				err instanceof Error ? err.message : "Failed to load conversations",
@@ -75,7 +149,7 @@ export default function MessagesPage() {
 		} finally {
 			setIsLoading(false);
 		}
-	}, [token]);
+	}, [token, targetUserParam, user]);
 
 	useEffect(() => {
 		if (isAuthenticated && token) {

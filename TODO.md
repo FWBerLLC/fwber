@@ -1,22 +1,23 @@
 # TODO — fwber Immediate Action Items
 
-> **Version:** 2.3.61
+> **Version:** 2.3.62
 > **Last Updated:** 2026-11-12
 
 ---
 
-## 🔧 Open & Recently Closed Items (2026-11-06 – 2026-11-12, v2.3.55–v2.3.61)
+## 🔧 Open & Recently Closed Items (2026-11-06 – 2026-11-12, v2.3.55–v2.3.62)
 
 ### High Priority
+- [x] **Honest Dashboard Stats, Friend/Profile Direct Messaging & Block Hardening (v2.3.62)** — Fixed fresh-account `"7 Chats"` (`chatrooms.count()`) & `"17% Compatibility"` fallbacks in `dashboard.ts`; merged accepted friends + `last_message` + `profile.photos` into `/matches/established` & `/messages/conversations`; wired `?user=` compose selection in `/messages` and direct **Message** CTA + action tooltips on `/profile/[id]` (removing duplicate profile header); fixed `blocks.ts` `prisma.matches.deleteMany` cleanup and enforced `403` block checks on `POST /api/messages` & `GET /api/messages/:id`; covered by `14/14` Jest tests.
 - [x] **Executive Protocol Sync, Merge Reconciliation & Version Alignment (v2.3.61)** — Audited all `-X ours`/`-X theirs` merges across Protocols #277–#281, restored dropped changelog/TODO records, fixed `.gitignore` session/archive rules, wired `build.bat` Prisma generation + `fwber-geo` build target, and synced version `2.3.61` across all manifests.
 - [x] **Friends search endpoint & reconciliation (v2.3.55 + `b13c4cf9a` / `c9ea14d6e`)** — Canonical bare-array `GET /api/friends/search` excluding self, bidirectional blocks, existing friends, and pending requests; covered by `tests/FriendsSearchBlocks.test.ts` (8/8 passing).
 - [x] **Block/Report & Profile Friend/Block UI (`v2.3.57`–`v2.3.58` + `b13c4cf9a`)** — Explicit-tap Block/Report actions in `ProfileViewModal`, Blocked Users list + Unblock on Safety page (`/safety`) and `/settings/blocked`, and Add Friend / Friend state / Block actions on `app/profile/[id]` (no proactive popups per operator directive).
 - [x] **Unguarded `.map()` crash sites swept (v2.3.59)** — Patched `NemesisFinder` (`clashing_traits`) and Privacy settings (`available_groups`); audited 269 `.map()` candidates across frontend.
 - [x] **Image-URL migration verified clean on prod + dry-run journal guard (v2.3.60)** — Hetzner dry-run reported `canonicalized=0 nulled=0`; `migrate-image-urls.mjs` fixed so dry-runs never overwrite `image-url-migration-journal.json`.
 - [x] **Footer version badge wired to centralized `VERSION` (v2.3.61)** — Fixed `app/layout.tsx` and `next.config.js` so `NEXT_PUBLIC_PROJECT_VERSION` / `NEXT_PUBLIC_FRONTEND_VERSION` read root `VERSION` first (resolving the `v2.1.4` stale footer display seen in Bobbi's Nov 6 QA).
-- [ ] **Direct messaging initiation from `app/profile/[id]` (Bobbi QA 2026-11-06)** — Chat remains match-gated (`Tip`/`Pass`/`Like`/`Gift`/`Add Friend`/`Block` present on profile, but no direct Message/compose entrypoint outside matches). Decide product policy (friends-can-message vs match-only) and wire compose flow if enabled.
+- [x] **Direct messaging initiation from `app/profile/[id]` (Bobbi QA 2026-11-06 — closed in v2.3.62)** — Enabled friend + mutual-match direct messaging end-to-end: `/matches/established` includes accepted friends, `/messages?user=<id>` auto-selects/bootstraps conversations, and `app/profile/[id]` exposes a prominent `Message` button (with tooltip guidance when not yet matched/friends).
 - [ ] **Dashboard Network "Syncing" vs header badge "Connected" disagreement (Bobbi QA 2026-11-06)** — Unify both indicators on a single socket connection state source.
-- [ ] **Fresh-account seeded stats (Bobbi QA 2026-11-06)** — Brand-new QA accounts display `"7 Chats"` / `"17% Compatibility"` with zero activity; audit `/dashboard/stats` fallback defaults for new users.
+- [x] **Fresh-account seeded stats (Bobbi QA 2026-11-06 — closed in v2.3.62)** — Fixed `/dashboard/stats` so new accounts report `0` private conversations and `0%` compatibility until real matches/friends/messages exist.
 
 ## 🔧 Open Items (2026-11-04, v2.3.53 session)
 

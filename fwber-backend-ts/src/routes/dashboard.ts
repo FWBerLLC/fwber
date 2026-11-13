@@ -65,14 +65,24 @@ router.get('/stats', async (req: any, res) => {
   try {
     const userId = BigInt(req.user.id);
 
+    // Why we union accepted matches, accepted friends, and direct message threads
+    // (minus bidirectional blocks) instead of querying `prisma.chatrooms.count()`:
+    // `chatrooms.count()` counted all 7 global seeded public chatrooms, causing
+    // brand-new 0-activity accounts to display "7 Chats" on `/dashboard`.
+    // Counting distinct unblocked 1-on-1 partners ensures `/dashboard` matches
+    // the private conversations list in `/messages` (`0` for fresh accounts).
     const [
       user,
       profile,
       totalMatches,
       pendingMatches,
       acceptedMatches,
-      profileViews, todayViews,
-      conversations,
+      profileViews,
+      todayViews,
+      userBlocks,
+      activeMatchRows,
+      acceptedFriendRows,
+      messagePartnerRows,
     ] = await Promise.all([
       prisma.users.findUnique({ where: { id: userId } }),
       prisma.user_profiles.findFirst({ where: { user_id: userId } }),
@@ -86,8 +96,49 @@ router.get('/stats', async (req: any, res) => {
           created_at: { gte: (() => { const d = new Date(); d.setUTCHours(0, 0, 0, 0); return d; })() }
         }
       }).catch(() => 0),
-      prisma.chatrooms.count().catch(() => 0),
+      prisma.blocks.findMany({
+        where: { OR: [{ blocker_id: userId }, { blocked_id: userId }] },
+        select: { blocker_id: true, blocked_id: true },
+      }).catch(() => []),
+      prisma.matches.findMany({
+        where: { OR: [{ user1_id: userId }, { user2_id: userId }], status: 'accepted', is_active: true },
+        select: { user1_id: true, user2_id: true },
+      }).catch(() => []),
+      prisma.friends.findMany({
+        where: { OR: [{ user_id: userId }, { friend_id: userId }], status: 'accepted' },
+        select: { user_id: true, friend_id: true },
+      }).catch(() => []),
+      prisma.messages.findMany({
+        where: { OR: [{ sender_id: userId }, { receiver_id: userId }] },
+        select: { sender_id: true, receiver_id: true },
+        distinct: ['sender_id', 'receiver_id'],
+      }).catch(() => []),
     ]);
+
+    const myIdStr = userId.toString();
+    const blockedIds = new Set<string>();
+    for (const b of userBlocks as any[]) {
+      const other = b.blocker_id?.toString() === myIdStr ? b.blocked_id?.toString() : b.blocker_id?.toString();
+      if (other) blockedIds.add(other);
+    }
+
+    const conversationPartnerIds = new Set<string>();
+    const addPartner = (candidate: any) => {
+      const idStr = candidate?.toString();
+      if (idStr && idStr !== myIdStr && !blockedIds.has(idStr)) {
+        conversationPartnerIds.add(idStr);
+      }
+    };
+    for (const m of activeMatchRows as any[]) {
+      addPartner(m.user1_id?.toString() === myIdStr ? m.user2_id : m.user1_id);
+    }
+    for (const f of acceptedFriendRows as any[]) {
+      addPartner(f.user_id?.toString() === myIdStr ? f.friend_id : f.user_id);
+    }
+    for (const msg of messagePartnerRows as any[]) {
+      addPartner(msg.sender_id?.toString() === myIdStr ? msg.receiver_id : msg.sender_id);
+    }
+    const conversations = conversationPartnerIds.size;
 
     const daysActive = user?.created_at
       ? Math.max(1, Math.floor((Date.now() - new Date(user.created_at as any).getTime()) / 86400000))
@@ -95,26 +146,37 @@ router.get('/stats', async (req: any, res) => {
 
     const completionPercentage = await calculateCompleteness(userId, profile);
 
-  // Calculate match score average and response rate
-  let matchScoreAvg = 50;
-  let responseRate = 0;
-  try {
-    const totalMatchCount = typeof totalMatches === 'number' ? totalMatches : 0;
-    const acceptedCount = typeof acceptedMatches === 'number' ? acceptedMatches : 0;
-    if (totalMatchCount > 0 && acceptedCount > 0) {
-      const acceptRate = (acceptedCount / totalMatchCount) * 100;
-      matchScoreAvg = Math.round(Math.min(99, (completionPercentage * 0.6) + (acceptRate * 0.4)));
-    } else {
-      matchScoreAvg = Math.round(completionPercentage * 0.8);
-    }
-    const receivedCount = await prisma.messages.count({ where: { receiver_id: userId } });
-    const sentCount = await prisma.messages.count({ where: { sender_id: userId } });
-    if (sentCount > 0) {
-      responseRate = Math.min(100, Math.round((receivedCount / sentCount) * 100));
-    } else if (receivedCount > 0) {
-      responseRate = 100;
-    }
-  } catch (_) {}
+    // Why we aggregate real `match_score` rows and return `0` when `totalMatches === 0`:
+    // Previously `Math.round(completionPercentage * 0.8)` fabricated `17%` compatibility
+    // on brand-new accounts before a single match or compatibility question existed.
+    let matchScoreAvg = 0;
+    let responseRate = 0;
+    try {
+      const totalMatchCount = typeof totalMatches === 'number' ? totalMatches : 0;
+      const acceptedCount = typeof acceptedMatches === 'number' ? acceptedMatches : 0;
+      if (totalMatchCount > 0) {
+        const avgRow = await prisma.matches.aggregate({
+          _avg: { match_score: true },
+          where: { OR: [{ user1_id: userId }, { user2_id: userId }] },
+        }).catch(() => null);
+        const rawAvg = avgRow?._avg?.match_score;
+        if (rawAvg !== null && rawAvg !== undefined && !Number.isNaN(Number(rawAvg))) {
+          matchScoreAvg = Math.max(0, Math.min(100, Math.round(Number(rawAvg))));
+        } else if (acceptedCount > 0) {
+          const acceptRate = (acceptedCount / totalMatchCount) * 100;
+          matchScoreAvg = Math.round(Math.min(99, (completionPercentage * 0.6) + (acceptRate * 0.4)));
+        }
+      }
+      const [receivedCount, sentCount] = await Promise.all([
+        prisma.messages.count({ where: { receiver_id: userId } }),
+        prisma.messages.count({ where: { sender_id: userId } }),
+      ]);
+      if (sentCount > 0) {
+        responseRate = Math.min(100, Math.round((receivedCount / sentCount) * 100));
+      } else if (receivedCount > 0) {
+        responseRate = 100;
+      }
+    } catch (_) {}
 
 
     res.json({

@@ -22,6 +22,7 @@ const mockBlocksFindMany = jest.fn();
 const mockBlocksFindFirst = jest.fn();
 const mockBlocksCreate = jest.fn();
 const mockBlocksDeleteMany = jest.fn();
+const mockMatchesDeleteMany = jest.fn();
 const mockUserMatchesDeleteMany = jest.fn();
 const mockCreateNotification = jest.fn();
 const mockCheckAchievements = jest.fn();
@@ -45,6 +46,7 @@ const mockPrisma = {
     create: mockBlocksCreate,
     deleteMany: mockBlocksDeleteMany,
   },
+  matches: { deleteMany: mockMatchesDeleteMany },
   user_matches: { deleteMany: mockUserMatchesDeleteMany },
 };
 
@@ -176,12 +178,23 @@ describe('Blocking (POST /api/blocks)', () => {
     mockBlocksCreate.mockResolvedValue({ id: 3n });
     mockFriendsDeleteMany.mockResolvedValue({ count: 1 });
     mockFriendRequestsDeleteMany.mockResolvedValue({ count: 1 });
+    mockMatchesDeleteMany.mockResolvedValue({ count: 1 });
     mockUserMatchesDeleteMany.mockResolvedValue({ count: 0 });
 
     const res = await request(app).post('/api/blocks').send({ user_id: 5 });
 
     expect(res.status).toBe(200);
     expect(res.body).toEqual({ message: 'User blocked', blocked: true });
+    expect(mockMatchesDeleteMany).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: expect.objectContaining({
+          OR: [
+            { user1_id: 1n, user2_id: 5n },
+            { user1_id: 5n, user2_id: 1n },
+          ],
+        }),
+      })
+    );
     expect(mockFriendsDeleteMany).toHaveBeenCalledWith(
       expect.objectContaining({
         where: expect.objectContaining({
