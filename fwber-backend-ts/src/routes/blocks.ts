@@ -87,9 +87,23 @@ router.post('/', async (req: any, res) => {
       });
     } catch (_) {}
 
-    // Remove any active match between these users
+    // Remove any active match between these users.
+    // Note: Prisma's canonical model is `prisma.matches` (`prisma.user_matches`
+    // only existed in an earlier PHP schema port and silently threw inside
+    // `try/catch`, leaving established matches alive after a block). We clean
+    // `prisma.matches` first and retain the legacy `user_matches` guard safely.
     try {
-      await prisma.user_matches.deleteMany({
+      await prisma.matches.deleteMany({
+        where: {
+          OR: [
+            { user1_id: userId, user2_id: blockedId },
+            { user1_id: blockedId, user2_id: userId },
+          ],
+        },
+      });
+    } catch (_) {}
+    try {
+      await (prisma as any).user_matches?.deleteMany({
         where: {
           OR: [
             { user1_id: userId, user2_id: blockedId },

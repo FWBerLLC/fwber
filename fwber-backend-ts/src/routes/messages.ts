@@ -12,6 +12,43 @@ const matchingService = new MatchingHeuristicService();
 const upload = multer({ dest: 'uploads/messages/' });
 router.use(authenticate);
 
+/**
+ * Bidirectional block check between two users.
+ * Enforced on conversation listing, message history retrieval, and message send
+ * so a block severs messaging in both directions and cannot auto-recreate a match.
+ */
+async function isBlockedBetween(userA: bigint, userB: bigint): Promise<boolean> {
+  try {
+    const block = await prisma.blocks.findFirst({
+      where: {
+        OR: [
+          { blocker_id: userA, blocked_id: userB },
+          { blocker_id: userB, blocked_id: userA },
+        ],
+      },
+    });
+    return Boolean(block);
+  } catch {
+    return false;
+  }
+}
+
+async function getBlockedPartnerSet(userId: bigint): Promise<Set<string>> {
+  const myIdStr = userId.toString();
+  const set = new Set<string>();
+  try {
+    const blocks = await prisma.blocks.findMany({
+      where: { OR: [{ blocker_id: userId }, { blocked_id: userId }] },
+      select: { blocker_id: true, blocked_id: true },
+    });
+    for (const b of blocks as any[]) {
+      const other = b.blocker_id?.toString() === myIdStr ? b.blocked_id?.toString() : b.blocker_id?.toString();
+      if (other) set.add(other);
+    }
+  } catch {}
+  return set;
+}
+
 function serializeMessage(msg: any) {
   return {
     id: Number(msg.id),
@@ -35,10 +72,13 @@ function serializeMessage(msg: any) {
 router.get('/', async (req: any, res) => {
   try {
     const userId = BigInt(req.user.id);
-    const messages = await prisma.messages.findMany({
-      where: { OR: [{ sender_id: userId }, { receiver_id: userId }] },
-      orderBy: { sent_at: 'desc' },
-    });
+    const [blockedSet, messages] = await Promise.all([
+      getBlockedPartnerSet(userId),
+      prisma.messages.findMany({
+        where: { OR: [{ sender_id: userId }, { receiver_id: userId }] },
+        orderBy: { sent_at: 'desc' },
+      }),
+    ]);
 
     const seen = new Set<string>();
     const conversations: any[] = [];
@@ -46,7 +86,7 @@ router.get('/', async (req: any, res) => {
     for (const msg of messages) {
       const partnerId = msg.sender_id === userId ? Number(msg.receiver_id) : Number(msg.sender_id);
       const key = String(partnerId);
-      if (seen.has(key)) continue;
+      if (seen.has(key) || blockedSet.has(key)) continue;
       seen.add(key);
 
       const partner = await prisma.user_profiles.findFirst({
@@ -86,37 +126,81 @@ router.get('/', async (req: any, res) => {
   }
 });
 
-// GET /api/messages/conversations — list all conversations for the user
+// GET /api/messages/conversations — list all conversations (matches + accepted friends, minus blocks)
 router.get('/conversations', async (req: any, res) => {
   try {
     const userId = BigInt(req.user.id);
-    // Get all accepted matches as conversations
-    const matches = await prisma.matches.findMany({
-      where: {
-        OR: [{ user1_id: userId }, { user2_id: userId }],
-        status: { in: ['accepted', 'pending'] },
-        is_active: true,
-      },
-      include: {
-        users_matches_user1_idTousers: {
-          select: { id: true, name: true, email: true, user_profiles: { select: { display_name: true, avatar_url: true, current_emotion: true }, take: 1 } },
-        },
-        users_matches_user2_idTousers: {
-          select: { id: true, name: true, email: true, user_profiles: { select: { display_name: true, avatar_url: true, current_emotion: true }, take: 1 } },
-        },
-      },
-      take: 50,
-    });
+    const myIdStr = userId.toString();
 
-    // Fetch last message for each match partner
-    const partnerIds = matches.map((m: any) => {
-      const isUser1 = m.user1_id.toString() === userId.toString();
-      return isUser1 ? m.user2_id : m.user1_id;
-    });
+    const [blockedSet, matches, friendships] = await Promise.all([
+      getBlockedPartnerSet(userId),
+      prisma.matches.findMany({
+        where: {
+          OR: [{ user1_id: userId }, { user2_id: userId }],
+          status: { in: ['accepted', 'pending'] },
+          is_active: true,
+        },
+        include: {
+          users_matches_user1_idTousers: {
+            select: { id: true, name: true, email: true, last_seen_at: true, user_profiles: { select: { display_name: true, avatar_url: true, current_emotion: true }, take: 1 } },
+          },
+          users_matches_user2_idTousers: {
+            select: { id: true, name: true, email: true, last_seen_at: true, user_profiles: { select: { display_name: true, avatar_url: true, current_emotion: true }, take: 1 } },
+          },
+        },
+        take: 50,
+      }),
+      prisma.friends.findMany({
+        where: {
+          OR: [{ user_id: userId }, { friend_id: userId }],
+          status: 'accepted',
+        },
+        include: {
+          users_friends_user_idTousers: {
+            select: { id: true, name: true, email: true, last_seen_at: true, user_profiles: { select: { display_name: true, avatar_url: true, current_emotion: true }, take: 1 } },
+          },
+          users_friends_friend_idTousers: {
+            select: { id: true, name: true, email: true, last_seen_at: true, user_profiles: { select: { display_name: true, avatar_url: true, current_emotion: true }, take: 1 } },
+          },
+        },
+        take: 50,
+      }).catch(() => []),
+    ]);
 
-    let lastMessages: Map<string, any> = new Map();
+    const partnerRecords = new Map<string, { otherUser: any; matchId: number | null; status: string; createdAt: string | null }>();
+
+    for (const m of matches as any[]) {
+      const isUser1 = m.user1_id.toString() === myIdStr;
+      const otherUser = isUser1 ? m.users_matches_user2_idTousers : m.users_matches_user1_idTousers;
+      if (!otherUser?.id) continue;
+      const pidStr = otherUser.id.toString();
+      if (blockedSet.has(pidStr)) continue;
+      partnerRecords.set(pidStr, {
+        otherUser,
+        matchId: Number(m.id),
+        status: m.status,
+        createdAt: m.created_at?.toISOString() || null,
+      });
+    }
+
+    for (const f of friendships as any[]) {
+      const isRequester = f.user_id?.toString() === myIdStr;
+      const otherUser = isRequester ? f.users_friends_friend_idTousers : f.users_friends_user_idTousers;
+      if (!otherUser?.id) continue;
+      const pidStr = otherUser.id.toString();
+      if (blockedSet.has(pidStr) || partnerRecords.has(pidStr)) continue;
+      partnerRecords.set(pidStr, {
+        otherUser,
+        matchId: null,
+        status: 'friend',
+        createdAt: f.created_at?.toISOString?.() || null,
+      });
+    }
+
+    const lastMessages: Map<string, any> = new Map();
     try {
-      for (const partnerId of partnerIds) {
+      for (const pidStr of partnerRecords.keys()) {
+        const partnerId = BigInt(pidStr);
         const msg = await prisma.messages.findFirst({
           where: {
             OR: [
@@ -128,29 +212,25 @@ router.get('/conversations', async (req: any, res) => {
           take: 1,
         });
         if (msg) {
-          lastMessages.set(partnerId.toString(), msg);
+          lastMessages.set(pidStr, msg);
         }
       }
     } catch (_) {}
 
-    const conversations = matches.map((m: any) => {
-      const isUser1 = m.user1_id.toString() === userId.toString();
-      const otherUser = isUser1
-        ? m.users_matches_user2_idTousers
-        : m.users_matches_user1_idTousers;
+    const conversations = Array.from(partnerRecords.entries()).map(([pidStr, rec]) => {
+      const otherUser = rec.otherUser;
       const profile = otherUser?.user_profiles?.[0];
-      const partnerId = isUser1 ? m.user2_id : m.user1_id;
-      const lastMsg = lastMessages.get(partnerId.toString());
+      const lastMsg = lastMessages.get(pidStr);
 
       return {
         id: Number(otherUser?.id || 0),
-        match_id: Number(m.id),
+        match_id: rec.matchId,
         other_user: {
           id: Number(otherUser?.id || 0),
           name: otherUser?.name || 'Unknown',
-        display_name: profile?.display_name || otherUser?.name || 'Unknown',
-        avatar_url: profile?.avatar_url || null,
-        is_online: otherUser?.last_seen_at ? (Date.now() - new Date(otherUser.last_seen_at).getTime() < 5 * 60 * 1000) : false,
+          display_name: profile?.display_name || otherUser?.name || 'Unknown',
+          avatar_url: profile?.avatar_url || null,
+          is_online: otherUser?.last_seen_at ? (Date.now() - new Date(otherUser.last_seen_at).getTime() < 5 * 60 * 1000) : false,
           email: otherUser?.email || '',
           profile: {
             display_name: profile?.display_name || otherUser?.name || 'Unknown',
@@ -163,10 +243,11 @@ router.get('/conversations', async (req: any, res) => {
           content: lastMsg.content,
           sender_id: Number(lastMsg.sender_id),
           sent_at: lastMsg.sent_at || lastMsg.created_at || null,
+          created_at: (lastMsg.sent_at || lastMsg.created_at)?.toISOString?.() || null,
           is_read: lastMsg.is_read,
         } : null,
-        match_status: m.status,
-        created_at: m.created_at?.toISOString() || null,
+        match_status: rec.status,
+        created_at: rec.createdAt,
       };
     });
 
@@ -232,6 +313,13 @@ router.get('/:id', async (req: any, res) => {
       return res.status(400).json({ message: 'Invalid user ID' });
     }
     const partnerId = BigInt(req.params.id);
+    if (await isBlockedBetween(userId, partnerId)) {
+      return res.status(403).json({
+        error: 'Cannot view messages with a blocked user',
+        message: 'Cannot message this user',
+        messages: [],
+      });
+    }
     const limit = parseInt(req.query.limit as string) || 50;
     const before = req.query.before as string;
 
@@ -273,6 +361,26 @@ router.post('/', upload.single('media'), async (req: any, res) => {
       res.status(400).json({ message: 'receiver_id and content or media required' });
       return;
     }
+    let receiverBigId: bigint;
+    try {
+      receiverBigId = BigInt(receiver_id);
+    } catch {
+      res.status(400).json({ message: 'Invalid receiver_id' });
+      return;
+    }
+    if (receiverBigId === userId) {
+      res.status(400).json({ message: 'Cannot send a message to yourself' });
+      return;
+    }
+    // Enforce bidirectional block check BEFORE inserting a message or auto-creating a match!
+    if (await isBlockedBetween(userId, receiverBigId)) {
+      res.status(403).json({
+        error: 'Cannot message a blocked user',
+        message: 'Cannot message this user',
+      });
+      return;
+    }
+
     // Handle uploaded media file
     let mediaUrl = null;
     let mediaType = media_type || null;
@@ -288,7 +396,7 @@ router.post('/', upload.single('media'), async (req: any, res) => {
     const message = await prisma.messages.create({
       data: {
         sender_id: userId,
-        receiver_id: BigInt(receiver_id),
+        receiver_id: receiverBigId,
         content: content || '',
         media_url: mediaUrl,
         media_type: mediaType,
@@ -301,7 +409,6 @@ router.post('/', upload.single('media'), async (req: any, res) => {
 
   // Auto-accept or create the match when first message is sent
   try {
-    const receiverBigId = BigInt(receiver_id);
     // Check if a match exists between these users
     const existingMatch = await prisma.matches.findFirst({
       where: {

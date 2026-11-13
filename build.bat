@@ -1,12 +1,11 @@
 @echo off
 REM ==========================================================================
-REM  FWBer Unified Build Script (v2.3.61)
+REM  FWBer Unified Build Script (v2.3.63)
 REM  Validates dependencies, generates Prisma client, and builds every
-REM  component in the monorepo without cleaning or purging built binaries.
+REM  component in the monorepo at BelowNormal CPU priority without cleaning
+REM  or purging built binaries.
 REM
 REM  Usage: build.bat [backend|frontend|geo|mobile|all] [--install]
-REM  Default target is "all". Pass --install to force npm install even when
-REM  node_modules already exists.
 REM ==========================================================================
 setlocal enabledelayedexpansion
 cd /d "%~dp0"
@@ -20,9 +19,9 @@ if /i "%TARGET%"=="--install" (
     if /i "%2"=="--install" set FORCE_INSTALL=1
 )
 
-echo ============================================
-echo  FWBer Build (v2.3.61) - target: %TARGET%
-echo ============================================
+echo ============================================================
+echo  FWBer Build (v2.3.63) - target: %TARGET% [BelowNormal CPU]
+echo ============================================================
 
 where npm >nul 2>nul
 if errorlevel 1 (
@@ -45,7 +44,7 @@ echo [1/4] Backend (fwber-backend-ts)...
 pushd fwber-backend-ts
 if not exist "node_modules" (
     echo [FWBer] Installing backend dependencies...
-    call npm install
+    start "" /b /wait /belownormal cmd /c "npm install"
     if errorlevel 1 (
         echo [ERROR] Backend npm install failed.
         popd
@@ -53,7 +52,7 @@ if not exist "node_modules" (
     )
 ) else if "%FORCE_INSTALL%"=="1" (
     echo [FWBer] Refreshing backend dependencies...
-    call npm install
+    start "" /b /wait /belownormal cmd /c "npm install"
     if errorlevel 1 (
         echo [ERROR] Backend npm install failed.
         popd
@@ -61,11 +60,11 @@ if not exist "node_modules" (
     )
 )
 echo [FWBer] Generating Prisma client...
-call npx prisma generate
+start "" /b /wait /belownormal cmd /c "npx prisma generate"
 if errorlevel 1 (
     echo [WARN] Prisma client generation reported a warning - continuing build.
 )
-call npm run build
+start "" /b /wait /belownormal cmd /c "npm run build"
 if errorlevel 1 (
     echo [WARN] Backend build reported errors - review output above.
 )
@@ -78,7 +77,7 @@ echo [2/4] Frontend (fwber-frontend)...
 pushd fwber-frontend
 if not exist "node_modules" (
     echo [FWBer] Installing frontend dependencies...
-    call npm install
+    start "" /b /wait /belownormal cmd /c "npm install"
     if errorlevel 1 (
         echo [ERROR] Frontend npm install failed.
         popd
@@ -86,14 +85,14 @@ if not exist "node_modules" (
     )
 ) else if "%FORCE_INSTALL%"=="1" (
     echo [FWBer] Refreshing frontend dependencies...
-    call npm install
+    start "" /b /wait /belownormal cmd /c "npm install"
     if errorlevel 1 (
         echo [ERROR] Frontend npm install failed.
         popd
         exit /b 1
     )
 )
-call npm run build
+start "" /b /wait /belownormal cmd /c "npm run build"
 if errorlevel 1 (
     echo [WARN] Frontend build reported errors - review output above.
 )
@@ -109,7 +108,7 @@ if exist "fwber-geo\Cargo.toml" (
         echo [INFO] Rust cargo not found on PATH - skipping optional fwber-geo build.
     ) else (
         pushd fwber-geo
-        cargo build --release
+        start "" /b /wait /belownormal cmd /c "cargo build --release"
         if errorlevel 1 (
             echo [WARN] fwber-geo cargo build reported errors - review output above.
         )
@@ -124,21 +123,21 @@ echo [4/4] Mobile (mobile)...
 if exist "mobile\package.json" (
     pushd mobile
     if not exist "node_modules" (
-        call npm install
+        start "" /b /wait /belownormal cmd /c "npm install"
         if errorlevel 1 (
             echo [WARN] Mobile npm install failed - optional component.
             popd
             goto :done
         )
     ) else if "%FORCE_INSTALL%"=="1" (
-        call npm install
+        start "" /b /wait /belownormal cmd /c "npm install"
     )
     popd
 )
 
 :done
 echo.
-echo ============================================
+echo ============================================================
 echo  Build sequence complete for target: %TARGET%
-echo ============================================
+echo ============================================================
 endlocal

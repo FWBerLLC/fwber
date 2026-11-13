@@ -1,7 +1,6 @@
 use actix_web::{web, App, HttpResponse, HttpServer, Responder};
 use dashmap::DashMap;
-use h3o::{LatLng, Resolution, CellIndex};
-use serde::{Deserialize, Serialize};
+use h3o::{LatLng, Resolution};
 use std::sync::Arc;
 
 // -----------------------------------------------------------------------------
@@ -131,6 +130,18 @@ async fn get_nearby(
     })
 }
 
+/// GET /health
+/// Lightweight readiness probe used by the Windows System Tray controller,
+/// Docker/PM2 health checks, and operator diagnostics.
+async fn health_check(state: web::Data<AppState>) -> impl Responder {
+    HttpResponse::Ok().json(serde_json::json!({
+        "status": "ok",
+        "service": "fwber-geo",
+        "version": env!("CARGO_PKG_VERSION"),
+        "indexed_cells": state.index.len(),
+    }))
+}
+
 // -----------------------------------------------------------------------------
 // Server Entry
 // -----------------------------------------------------------------------------
@@ -143,12 +154,13 @@ async fn main() -> std::io::Result<()> {
         resolution: Resolution::Ten,
     });
 
-    println!("🚀 Starting Rust Geo-Screener (Uber H3 Indexing)");
+    println!("🚀 Starting Rust Geo-Screener v{} (Uber H3 Indexing)", env!("CARGO_PKG_VERSION"));
     println!("📡 Listening on 127.0.0.1:8081");
 
     HttpServer::new(move || {
         App::new()
             .app_data(state.clone())
+            .route("/health", web::get().to(health_check))
             .route("/index", web::post().to(index_location))
             .route("/nearby", web::get().to(get_nearby))
     })

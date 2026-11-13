@@ -279,93 +279,230 @@ router.post('/action', authenticate, async (req: any, res) => {
 });
 
 /**
- * GET /api/matches/established - Get mutual/established matches
+ * GET /api/matches/established - Get mutual/established matches AND accepted friends
  * GET /api/matches/accepted - Alias for established
+ *
+ * Why accepted friendships are merged here (and bidirectional blocks excluded):
+ * `/messages` (`getConversations`) reads `/api/matches/established` as its canonical
+ * 1-on-1 conversation roster. Previously, accepted friends from `/friends` were
+ * omitted (causing `/messages?user=<friendId>` to show an empty list) and `photos`
+ * / `current_emotion` / `last_message` were missing from `other_user.profile`,
+ * causing every conversation row to display "No messages yet" and lose avatars.
  */
 router.get(['/established', '/accepted'], authenticate, async (req: any, res) => {
   try {
     const userId = BigInt(req.user.id);
+    const myIdStr = userId.toString();
 
-    const mutualMatches = await prisma.matches.findMany({
-      where: {
-        OR: [{ user1_id: userId }, { user2_id: userId }],
-        status: 'accepted',
-        is_active: true,
-      },
-      include: {
-        users_matches_user1_idTousers: {
-          include: {
-            user_profiles: true,
-            photos: {
-              where: { is_private: false },
-              orderBy: { is_primary: 'desc' as const },
-              take: 5,
+    const [blockRows, mutualMatches, acceptedFriendships] = await Promise.all([
+      prisma.blocks.findMany({
+        where: { OR: [{ blocker_id: userId }, { blocked_id: userId }] },
+        select: { blocker_id: true, blocked_id: true },
+      }).catch(() => []),
+      prisma.matches.findMany({
+        where: {
+          OR: [{ user1_id: userId }, { user2_id: userId }],
+          status: 'accepted',
+          is_active: true,
+        },
+        include: {
+          users_matches_user1_idTousers: {
+            include: {
+              user_profiles: true,
+              photos: {
+                where: { is_private: false },
+                orderBy: { is_primary: 'desc' as const },
+                take: 5,
+              },
+            },
+          },
+          users_matches_user2_idTousers: {
+            include: {
+              user_profiles: true,
+              photos: {
+                where: { is_private: false },
+                orderBy: { is_primary: 'desc' as const },
+                take: 5,
+              },
             },
           },
         },
-        users_matches_user2_idTousers: {
-          include: {
-            user_profiles: true,
-            photos: {
-              where: { is_private: false },
-              orderBy: { is_primary: 'desc' as const },
-              take: 5,
+        orderBy: { last_message_at: 'desc' },
+      }),
+      prisma.friends.findMany({
+        where: {
+          OR: [{ user_id: userId }, { friend_id: userId }],
+          status: 'accepted',
+        },
+        include: {
+          users_friends_user_idTousers: {
+            include: {
+              user_profiles: true,
+              photos: {
+                where: { is_private: false },
+                orderBy: { is_primary: 'desc' as const },
+                take: 5,
+              },
+            },
+          },
+          users_friends_friend_idTousers: {
+            include: {
+              user_profiles: true,
+              photos: {
+                where: { is_private: false },
+                orderBy: { is_primary: 'desc' as const },
+                take: 5,
+              },
             },
           },
         },
-      },
-      orderBy: { last_message_at: 'desc' },
-    });
+        orderBy: { created_at: 'desc' },
+      }).catch(() => []),
+    ]);
 
-    const data = mutualMatches.map((match: any) => {
-      const isUser1 = match.user1_id.toString() === userId.toString();
+    const blockedSet = new Set<string>();
+    for (const b of blockRows as any[]) {
+      const other = b.blocker_id?.toString() === myIdStr ? b.blocked_id?.toString() : b.blocker_id?.toString();
+      if (other) blockedSet.add(other);
+    }
+
+    const formatOtherUser = (otherUser: any) => {
+      const rawProfile = otherUser?.user_profiles;
+      const profile = Array.isArray(rawProfile) ? rawProfile[0] || {} : (rawProfile || {});
+      const mappedPhotos = (otherUser?.photos || []).map((p: any) => ({
+        id: Number(p.id),
+        url: filePathToUrl(p.file_path || p.url),
+        is_private: p.is_private || false,
+        is_primary: p.is_primary || false,
+      }));
+      const avatarUrl = profile.avatar_url ? filePathToUrl(profile.avatar_url) : (mappedPhotos[0]?.url || null);
+      const profilePhotos = mappedPhotos.length > 0
+        ? mappedPhotos
+        : (avatarUrl ? [{ id: 0, url: avatarUrl, is_private: false, is_primary: true }] : []);
+
+      return {
+        id: Number(otherUser?.id),
+        name: otherUser?.name || 'Anonymous',
+        email: otherUser?.email || '',
+        last_seen_at: otherUser?.last_seen_at?.toISOString() || null,
+        is_verified: profile.is_verified || false,
+        profile: {
+          display_name: profile.display_name || otherUser?.name || 'Anonymous',
+          bio: profile.bio || null,
+          date_of_birth: profile.date_of_birth?.toISOString?.() || null,
+          gender: profile.gender || null,
+          age: profile.date_of_birth
+            ? new Date().getFullYear() - new Date(profile.date_of_birth as any).getFullYear()
+            : null,
+          current_emotion: (profile.current_emotion || 'neutral').toLowerCase(),
+          looking_for: profile.looking_for || [],
+          location_latitude: profile.location_latitude ? Number(profile.location_latitude) : null,
+          location_longitude: profile.location_longitude ? Number(profile.location_longitude) : null,
+          location_description: profile.location_description || null,
+          avatar_url: avatarUrl,
+          occupation: profile.occupation || null,
+          interests: profile.interests || [],
+          photos: profilePhotos,
+        },
+        photos: profilePhotos,
+      };
+    };
+
+    const byPartnerId = new Map<string, any>();
+
+    for (const match of mutualMatches) {
+      const isUser1 = match.user1_id.toString() === myIdStr;
       const otherUser = isUser1
         ? match.users_matches_user2_idTousers
         : match.users_matches_user1_idTousers;
+      if (!otherUser?.id) continue;
+      const partnerIdStr = otherUser.id.toString();
+      if (blockedSet.has(partnerIdStr)) continue;
 
-      const rawProfile = otherUser?.user_profiles;
-      const profile = Array.isArray(rawProfile) ? rawProfile[0] || {} : (rawProfile || {});
-
-      return {
+      byPartnerId.set(partnerIdStr, {
         id: Number(match.id),
         status: match.status || 'accepted',
-        is_active: match.is_active || true,
-        other_user: {
-          id: Number(otherUser?.id),
-          name: otherUser?.name || 'Anonymous',
-          email: otherUser?.email || null,
-          last_seen_at: otherUser?.last_seen_at?.toISOString() || null,
-          is_verified: profile.is_verified || false,
-          profile: {
-            display_name: profile.display_name || otherUser?.name || 'Anonymous',
-            bio: profile.bio || null,
-            date_of_birth: profile.date_of_birth?.toISOString() || null,
-            gender: profile.gender || null,
-            age: profile.date_of_birth ? new Date().getFullYear() - new Date(profile.date_of_birth as any).getFullYear() : null,
-            looking_for: profile.looking_for || [],
-            location_latitude: profile.location_latitude
-              ? Number(profile.location_latitude)
-              : null,
-            location_longitude: profile.location_longitude
-              ? Number(profile.location_longitude)
-              : null,
-            location_description: profile.location_description || null,
-            avatar_url: profile.avatar_url || null,
-            occupation: profile.occupation || null,
-            interests: profile.interests || [],
-          },
-          photos: (otherUser?.photos || []).map((p: any) => ({
-            id: Number(p.id),
-            url: filePathToUrl(p.file_path || p.url),
-            is_private: p.is_private || false,
-            is_primary: p.is_primary || false,
-          })),
-        },
+        relationship_type: 'match',
+        is_active: match.is_active ?? true,
+        other_user: formatOtherUser(otherUser),
         match_score: match.match_score ? Number(match.match_score) : null,
         created_at: match.created_at?.toISOString() || null,
         last_message_at: match.last_message_at?.toISOString() || null,
-      };
-    });
+      });
+    }
+
+    for (const friendship of acceptedFriendships as any[]) {
+      const isRequester = friendship.user_id?.toString() === myIdStr;
+      const otherUser = isRequester
+        ? friendship.users_friends_friend_idTousers
+        : friendship.users_friends_user_idTousers;
+      if (!otherUser?.id) continue;
+      const partnerIdStr = otherUser.id.toString();
+      if (blockedSet.has(partnerIdStr)) continue;
+
+      if (byPartnerId.has(partnerIdStr)) {
+        byPartnerId.get(partnerIdStr).is_friend = true;
+        continue;
+      }
+
+      byPartnerId.set(partnerIdStr, {
+        // Offset synthetic conversation ID so it never collides with `matches.id`
+        id: 1000000000 + Number(friendship.id || otherUser.id),
+        status: 'accepted',
+        relationship_type: 'friend',
+        is_friend: true,
+        is_active: true,
+        other_user: formatOtherUser(otherUser),
+        match_score: null,
+        created_at: friendship.created_at?.toISOString?.() || null,
+        last_message_at: null,
+      });
+    }
+
+    // Hydrate `last_message` for each unblocked conversation partner so `/messages`
+    // displays the real latest snippet + timestamp instead of "No messages yet".
+    const entries = Array.from(byPartnerId.entries());
+    await Promise.all(
+      entries.map(async ([partnerIdStr, entry]) => {
+        try {
+          const partnerBigId = BigInt(partnerIdStr);
+          const lastMsg = await prisma.messages.findFirst({
+            where: {
+              OR: [
+                { sender_id: userId, receiver_id: partnerBigId },
+                { sender_id: partnerBigId, receiver_id: userId },
+              ],
+            },
+            orderBy: { id: 'desc' },
+          });
+          if (lastMsg) {
+            const ts = (lastMsg.sent_at || lastMsg.created_at)?.toISOString?.() || new Date().toISOString();
+            entry.last_message = {
+              id: Number(lastMsg.id),
+              conversation_id: entry.id,
+              sender_id: Number(lastMsg.sender_id),
+              receiver_id: Number(lastMsg.receiver_id),
+              content: lastMsg.content || '',
+              message_type: lastMsg.message_type || 'text',
+              created_at: ts,
+              updated_at: ts,
+              is_read: Boolean(lastMsg.is_read),
+            };
+            if (!entry.last_message_at || ts > entry.last_message_at) {
+              entry.last_message_at = ts;
+            }
+          }
+        } catch (_) {}
+      })
+    );
+
+    const data = entries
+      .map(([, entry]) => entry)
+      .sort((a, b) => {
+        const aTime = new Date(a.last_message_at || a.created_at || 0).getTime();
+        const bTime = new Date(b.last_message_at || b.created_at || 0).getTime();
+        return bTime - aTime;
+      });
 
     res.json({ data });
   } catch (error: any) {

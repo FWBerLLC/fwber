@@ -84,7 +84,7 @@ import trustScoreRoutes from './routes/trust-score.js';
 import prisma from './lib/prisma.js';
 import { setupSocketIO } from './socket.js';
 
-dotenv.config();
+dotenv.config({ quiet: true });
 
 const app = express();
 
@@ -129,6 +129,16 @@ app.use(express.json({ verify: (req, _res, buf) => {
   if (req.headers['content-type']?.startsWith('multipart/')) return;
   (req as any)._rawBody = buf;
 } }));
+
+// Catch malformed JSON payloads cleanly (e.g. automated internet probes sending
+// raw text with `Content-Type: application/json`) instead of emitting unhandled
+// `SyntaxError` stack traces into PM2 error logs.
+app.use((err: any, _req: express.Request, res: express.Response, next: express.NextFunction) => {
+  if (err instanceof SyntaxError && 'body' in err) {
+    return res.status(400).json({ error: 'Invalid JSON payload' });
+  }
+  return next(err);
+});
 
 // Serve uploaded photos as static files
 import path from 'path';
@@ -230,8 +240,6 @@ app.use('/api/federation', federationRoutes);
 app.use('/api/monitoring', monitoringRoutes);
 app.use('/api/quests', questsRoutes);
 app.use('/api/config', configRoutes);
-app.use('/api/integrations/contacts/data', contactsIntegrationSyncRoutes);
-app.use('/api/integrations/contacts', contactsIntegrationRoutes);
 app.use('/api/health', healthRoutes);
 app.use('/api/ice-breakers', iceBreakersRoutes);
 app.use('/api/settings', settingsRoutes);

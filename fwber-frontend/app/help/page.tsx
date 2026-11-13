@@ -6,16 +6,13 @@ import {
   HelpCircle,
   Shield,
   Wallet,
-  Heart,
-  MessageSquare,
-  Users,
-  MapPin,
   Sparkles,
   Search,
   BookOpen,
   Bot,
   Eye,
-  Lock
+  Lock,
+  Globe
 } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { useState } from 'react'
@@ -23,21 +20,48 @@ import { useState } from 'react'
 const HELP_CATEGORIES = [
   {
     id: 'getting-started',
-    title: 'Getting Started',
-    description: 'Everything you need to know to set up your profile and start meeting people.',
+    title: 'Getting Started & Dashboard',
+    description: 'Set up your profile, navigate the consolidated Dashboard, and start meeting people.',
     icon: Sparkles,
     articles: [
       { title: 'Creating your account', slug: 'create-account' },
       { title: 'Setting up your profile', slug: 'profile-setup' },
       { title: 'Understanding Avatars', slug: 'avatars' },
+      { title: 'Navigating the Consolidated Dashboard', slug: 'dashboard-guide' },
+    ]
+  },
+  {
+    id: 'features',
+    title: 'Matches, Friends & Real-Time Chat',
+    description: 'Deep dive into Compatibility Matching, Direct Messaging, Friends, Groups, and Proximity.',
+    icon: BookOpen,
+    articles: [
+      { title: 'How Matching works', slug: 'matching' },
+      { title: 'Friends & Direct Messaging', slug: 'friends-messaging' },
+      { title: 'Proximity Chatrooms', slug: 'chatrooms-guide' },
+      { title: 'Creating & Joining Groups', slug: 'groups-guide' },
+      { title: 'Achievements & Virtual Gifts', slug: 'achievements-guide' },
+    ]
+  },
+  {
+    id: 'safety-privacy',
+    title: 'Safety, Blocking & Hardware Beacons',
+    description: 'Your safety is our priority. Manage bidirectional blocks, Safe Walk, and BLE safety keys.',
+    icon: Shield,
+    articles: [
+      { title: 'Photo Privacy & Blurring', slug: 'photo-privacy' },
+      { title: 'Bidirectional Blocking & Reporting', slug: 'block-report' },
+      { title: 'Location Privacy & Fuzzing', slug: 'location-privacy' },
+      { title: 'Hardware BLE Safety Beacons', slug: 'ble-safety-tokens' },
     ]
   },
   {
     id: 'wallet-crypto',
-    title: 'Wallet & Crypto',
-    description: 'Learn about FWB tokens, Solana integration, and how to manage your funds.',
+    title: 'Wallet, Tokens & Solana Sign-In',
+    description: 'Learn about FWB tokens, Solana wallet login, virtual gifts, and on-chain transfers.',
     icon: Wallet,
     articles: [
+      { title: 'Sign-In with Solana Wallet', slug: 'solana-signin' },
       { title: 'How FWB Tokens work', slug: 'fwb-tokens' },
       { title: 'Depositing from Solana', slug: 'deposits' },
       { title: 'Withdrawing funds', slug: 'withdrawals' },
@@ -45,44 +69,21 @@ const HELP_CATEGORIES = [
     ]
   },
   {
-    id: 'safety-privacy',
-    title: 'Safety & Privacy',
-    description: 'Your safety is our priority. Learn about our privacy features and moderation.',
-    icon: Shield,
-    articles: [
-      { title: 'Photo Privacy & Blurring', slug: 'photo-privacy' },
-      { title: 'Blocking & Reporting', slug: 'block-report' },
-      { title: 'Location Privacy', slug: 'location-privacy' },
-    ]
-  },
-  {
-    id: 'features',
-    title: 'Platform Features',
-    description: 'Deep dive into Matches, Chat, Groups, and Proximity features.',
-    icon: BookOpen,
-    articles: [
-      { title: 'How Matching works', slug: 'matching' },
-      { title: 'Proximity Chatrooms', slug: 'chatrooms-guide' },
-      { title: 'Creating & Joining Groups', slug: 'groups-guide' },
-      { title: 'Achievements & Rewards', slug: 'achievements-guide' },
-    ]
-  },
-  {
     id: 'ai-wingman',
-    title: 'AI Wingman & Tools',
-    description: 'Learn how to use AI to generate roasts, check vibes, and get conversation suggestions.',
+    title: 'AI Wingman Hub & Coaching',
+    description: 'Use private on-box AI to craft openers, audit drafts, check vibes, and play arcade roasts.',
     icon: Bot,
     articles: [
+      { title: 'Conversation Coach & Draft Analyzer', slug: 'conversation-coach' },
       { title: 'Cosmic Matches & Fortune', slug: 'cosmic-fortune' },
       { title: 'Roasts & Hypes', slug: 'roasts-hypes' },
-      { title: 'Conversation Coach', slug: 'conversation-coach' },
       { title: 'Red & Green Flags', slug: 'vibe-check' },
     ]
   },
   {
     id: 'privacy-tiers',
     title: 'Tiered Privacy System',
-    description: 'Understand the 5-tiered connection system (Blur to Clear) and how to manage face reveals.',
+    description: 'Understand the 5-tiered connection system (Blur to Clear) and progressive face reveals.',
     icon: Eye,
     articles: [
       { title: 'The 5 Privacy Tiers', slug: 'privacy-tiers-guide' },
@@ -93,12 +94,21 @@ const HELP_CATEGORIES = [
   {
     id: 'security-vault',
     title: 'Security & Media Vault',
-    description: 'Protect your sensitive photos with on-device encryption and robust vault features.',
+    description: 'Protect sensitive media with client-side AES-256-GCM encryption and master recovery phrases.',
     icon: Lock,
     articles: [
       { title: 'On-Device Encryption', slug: 'on-device-encryption' },
       { title: 'The Local Vault', slug: 'local-vault' },
       { title: 'Recovering Master Keys', slug: 'key-recovery' },
+    ]
+  },
+  {
+    id: 'federation',
+    title: 'ActivityPub & Fediverse',
+    description: 'Connect your fwber handle to Mastodon and ActivityPub servers with strict location isolation.',
+    icon: Globe,
+    articles: [
+      { title: 'ActivityPub & Fediverse Connectivity', slug: 'federation-guide' },
     ]
   }
 ]
@@ -110,7 +120,8 @@ export default function HelpCenter() {
     ...category,
     articles: category.articles.filter(article =>
       article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      category.title.toLowerCase().includes(searchQuery.toLowerCase())
+      category.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      category.description.toLowerCase().includes(searchQuery.toLowerCase())
     )
   })).filter(category => category.articles.length > 0)
 
@@ -118,17 +129,17 @@ export default function HelpCenter() {
     <div className="space-y-8">
       {/* Hero Section */}
       <div className="text-center space-y-4 py-8">
-        <h1 className="text-4xl font-bold tracking-tight text-foreground dark:text-foreground">
-          How can we help you?
+        <h1 className="text-4xl font-bold tracking-tight text-foreground">
+          FWBer User Manual &amp; Help Center
         </h1>
-        <p className="text-lg text-muted-foreground dark:text-muted-foreground max-w-2xl mx-auto">
-          Browse our guides and documentation to get the most out of your fwber experience.
+        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          Comprehensive guides covering privacy tiers, direct messaging, AI Wingman coaching, Solana tokens, safety beacons, and ActivityPub federation.
         </p>
 
         <div className="max-w-md mx-auto relative">
-          <Search className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
+          <Search className="absolute left-3 top-3.5 h-5 w-5 text-muted-foreground" />
           <Input
-            placeholder="Search for answers..."
+            placeholder="Search manual articles (e.g. block, friends, wallet, tiers)..."
             className="pl-10 h-12"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -155,7 +166,7 @@ export default function HelpCenter() {
                   <li key={article.slug}>
                     <Link
                       href={`/help/${article.slug}`}
-                      className="text-sm font-medium text-muted-foreground dark:text-muted-foreground hover:text-primary dark:hover:text-primary flex items-center gap-2 group"
+                      className="text-sm font-medium text-muted-foreground hover:text-primary flex items-center gap-2 group"
                     >
                       <HelpCircle className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
                       {article.title}
@@ -170,18 +181,26 @@ export default function HelpCenter() {
 
       {/* Quick Contact */}
       <div className="mt-12 p-6 bg-primary/5 rounded-2xl border border-primary/10 text-center">
-        <h3 className="text-lg font-semibold text-foreground dark:text-foreground mb-2">
-          Still need help?
+        <h3 className="text-lg font-semibold text-foreground mb-2">
+          Need operator support or want to report a bug?
         </h3>
-        <p className="text-muted-foreground dark:text-muted-foreground mb-4">
-          Our support team is available 24/7 to assist you with any issues.
+        <p className="text-muted-foreground mb-4">
+          Reach our support team directly or submit feature feedback from inside the app.
         </p>
-        <Link
-          href="/contact" // Assuming this exists, or we can route to email
-          className="inline-flex items-center justify-center px-6 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
-        >
-          Contact Support
-        </Link>
+        <div className="flex flex-wrap justify-center gap-3">
+          <Link
+            href="/contact"
+            className="inline-flex items-center justify-center px-6 py-2 text-sm font-medium rounded-md text-white bg-primary hover:bg-primary/90"
+          >
+            Contact Support
+          </Link>
+          <Link
+            href="/feedback"
+            className="inline-flex items-center justify-center px-6 py-2 border border-border text-sm font-medium rounded-md text-foreground bg-card hover:bg-muted"
+          >
+            Submit Product Feedback
+          </Link>
+        </div>
       </div>
     </div>
   )
