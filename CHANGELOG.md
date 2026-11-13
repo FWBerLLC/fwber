@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.3.63] - 2026-11-13
+
+### Socket-Status Unification Verified, Tray & CDP Coordination Check
+
+- **Dashboard/header socket disagreement closed (Bobbi QA 2026-11-06):** Traced `connectionStatus` end-to-end — `AuthenticatedRealtimeProvider` feeds `PresenceContext`, and both `AppHeader` and `/dashboard` ("Realtime Socket" row) render the single shared `ConnectionStatusBadge` (`components/realtime/PresenceComponents.tsx`). No divergent "Syncing" state source remains; TODO item closed as verified-in-code rather than re-implemented.
+- **System tray verified (`tools/fwber-tray.ps1 -Status`):** Controller runs clean; local stack correctly DOWN (Backend :4003, Frontend :3000, Geo :8081) per the prod-only/Hetzner operator rule. Tray provides start/stop (`-StopAll`), status, and smoke-test modes with exact-PID teardown only — no broad process sweeps.
+- **Coordination (Edge CDP 9222):** muse.ai "Chat — Bobbi" tab round-trip proven (WebSocket `Runtime.evaluate document.title` → `"(2) Chat — Bobbi"`); coordination check-in sent as `[muse-wonder-1.0 in Muse Code in C:\Users\hyper\workspace\fwber on laptop]` and verified (composer cleared, message present in thread).
+- **Repo sync audit:** `main` 0/0 vs `origin/main`; all local feature branches 0 unmerged commits; monorepo confirmed (no `.gitmodules`). Version synchronized to `2.3.63` across `VERSION`, `VERSION.md`, and all `package.json` manifests.
+- **Not run locally (by design):** local dev servers and tray GUI start — production runs on Hetzner only; frontend local `npm install` remains incomplete (tracked in TODO). Report: nothing that should be running locally is down; prod health last verified 2026-11-12 (all smoke 200s).
+
 ## [2.3.62] - 2026-11-12
 
 ### Fixed (PR #42 session-cookie, merged from origin/main)
