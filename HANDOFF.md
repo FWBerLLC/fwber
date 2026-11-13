@@ -14,6 +14,11 @@
 - Verified fix against middleware.ts gate; frontend tsc --noEmit EXIT 0 (empty output, no tsc process remains).
 - Bumped 2.3.61 -> 2.3.62 with CHANGELOG. NOT deployed: Hetzner frontend still serves pre-#42 build; needs Robert-authorized rebuild + restart.
 
+## Session 2026-11-13 (cont. 5) - Tray full-cycle + headless browse verified (v2.3.68)
+- Tray: launched via `.bat`, all 3 services BelowNormal + HTTP 200, `-StopAll` + `-Status` DOWN, GUI PID 51804 exited. Local stack OFF again after verification (Hetzner-only steady state preserved).
+- Browser (headless agent-browser): `/dashboard`→`/login` redirect correct; login screenshot visually inspected (clean, v2.3.67 badge); `/` 200. Errors seen are local-only (Fonts egress, Watchpack Tabby path). Dashboard itself needs an authed session to screenshot — not done (no local account creation).
+- Tiles: 130/130 tooltips (block check). CDP 9222: Bobbi/Gemini/ChatGPT tabs absent this probe — coordination send still pending tab return.
+
 ## Session 2026-11-13 (cont. 4) - Tooltip audit, coordination holding (v2.3.67)
 - Dashboard: 130 tiles / 141 tooltips — full guidance coverage confirmed by count, not assumption. No redesign warranted.
 - Bobbi: composer empty, still working, no reply. Do NOT send more check-ins until she answers; CDP probe scripts live in `%TEMP%\cdp-bobbi-*.ps1` (read/send/clear variants, 90s timeouts).

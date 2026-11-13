@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.3.68] - 2026-11-13
+
+### Full Local Stack Run Verified via Tray (Start → Browse → Stop)
+
+- **Tray lifecycle proven end-to-end:** Launched `tools/fwber-tray.bat` (BelowNormal, hidden); all three services came up BelowNormal — Geo :8081 HTTP 200 immediately, Backend :4003 HTTP 200 (`/health` 200 in logs), Frontend :3000 HTTP 200 after Next dev warm-up (11.1s). Quit path proven: `-StopAll` reclaimed all three ports (node 25740/43564, geo 23688), `-Status` confirms all DOWN, tray GUI process exited cleanly. No foreign processes touched.
+- **Headless browser verification:** `/dashboard` correctly redirects unauthenticated users to `/login`; login page screenshot inspected — renders cleanly (Sign-in form, ActivityPub + wallet options, version badge **v2.3.67**, PWA install card). Home `/` loads 200. Only local-env noise observed: Google Fonts fetch retry (sandboxed egress) and a Watchpack ENOTDIR warning (Tabby `app.asar`) — neither affects rendering; prod unaffected.
+- **Dashboard consolidation audit:** 130/130 `FeatureTile`s carry `tooltip=` guidance (block-level check, 0 missing); single-page high-value grouping from v2.3.53 confirmed complete — no further merging per the 2026-10-18 operator decision.
+- **Coordination:** Edge CDP 9222 re-probed (30s timeout) — muse.ai/Gemini/ChatGPT tabs **not present** this pass (only the local fwber page); no message sent. Bobbi follow-up remains pending her tab returning.
+
 ## [2.3.67] - 2026-11-13
 
 ### Dashboard Tooltip Audit; Coordination Holding Pattern
