@@ -14,6 +14,10 @@
 - Verified fix against middleware.ts gate; frontend tsc --noEmit EXIT 0 (empty output, no tsc process remains).
 - Bumped 2.3.61 -> 2.3.62 with CHANGELOG. NOT deployed: Hetzner frontend still serves pre-#42 build; needs Robert-authorized rebuild + restart.
 
+## Session 2026-11-13 (cont. 20) - Disk-growth measured report (loop iteration, docs-only)
+- Measured 2026-11-13: root 80% (57G/75G, 15G free). Sources: /opt 16G, /var/www 8.3G, /tmp 6.2G, /root 5.2G. Watchdog WARNING 2026-11-12 (90%); fwber backups healthy (7.8M). /tmp sweep is the cheap win — Robert's call (outside fwber). Full numbers in TODO disk item.
+- No code change, no version bump (repo VERSION stays == prod 2.3.81). Server reset only.
+
 ## Session 2026-11-13 (cont. 19) - Rewrite audit tool; 15-min loop live (v2.3.81)
 - Robert scheduled permanent cron `5b29f19a` (every 15 min, skip-if-active): "please continue to proceed as you advise". Loop iterations should keep shipping the next unblocked item + deploy (always-deploy) + concise report.
 - Added `tools/check_rewrites.py` (3/3 live). Run after any rewrite/mount change.
