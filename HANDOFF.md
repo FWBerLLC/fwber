@@ -1,3 +1,8 @@
+## Loop check-in — post-v2.3.64 (Muse Code)
+
+- Synced: merged upstream `7744821cb` (`.map()` audit closed, HyperNexus v1.0.50, v2.3.65 docs) fast-forward; `main == origin/main`. Dashboard coverage re-audited: **133/179**, remaining 17 all previously verified intentional (`/journals` now a redirect, correctly unlinked). No dashboard change justified this round.
+- Prod log watch: backend routine maintenance + scanner 404 noise (`/.git/HEAD` probe); frontend clean Ready. No errors needing action.
+- CDP 9222: only muse.ai tab exists (Gemini/ChatGPT still absent). Bobbi read: she forwards lane check-ins to her checkin side chat with summaries; deploy independently verified by her; authorization flag answered from this lane (Robert's word lives in Muse session, not Muse chats). Retest legs (Beta accept -> message -> block/unblock) still pending her — demo day delay, authorization already on her record.
 ## Session 2026-11-13 — DEPLOYED v2.3.64 (Robert: proceed as recommended)
 
 - Resumed Codex session 01a1a2d2 (PR #42 session-cookie fix, tsc clean, deploy pending) and completed it: merged origin twice (concurrent agent landed Protocol #281 + v2.3.63 socket/tray docs mid-push), frontend `tsc` EXIT 0, pushed.
