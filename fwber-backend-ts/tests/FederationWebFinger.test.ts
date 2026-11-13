@@ -11,20 +11,27 @@ import express from 'express';
 // fwber users at all. These tests pin the JRD contract they expect.
 
 const mockUsersFindFirst = jest.fn();
+const mockUsersCount = jest.fn();
+const mockOutboxCount = jest.fn();
 
 jest.unstable_mockModule('../src/lib/prisma.js', () => ({
   default: {
     users: {
       findFirst: mockUsersFindFirst,
+      count: mockUsersCount,
+    },
+    federation_outbox: {
+      count: mockOutboxCount,
     },
   },
 }));
 
-const { default: webfingerRoutes } = await import('../src/routes/webfinger.js');
+const { default: webfingerRoutes, nodeinfoRouter } = await import('../src/routes/webfinger.js');
 
 function buildApp() {
   const app = express();
   app.use('/.well-known', webfingerRoutes);
+  app.use('/nodeinfo', nodeinfoRouter);
   return app;
 }
 
@@ -81,6 +88,27 @@ describe('GET /.well-known/webfinger (inbound discovery)', () => {
 
     expect(res.status).toBe(404);
     expect(mockUsersFindFirst).not.toHaveBeenCalled();
+  });
+
+  it('serves NodeInfo discovery and instance document', async () => {
+    mockUsersCount.mockResolvedValue(1234);
+    mockOutboxCount.mockResolvedValue(56);
+    const app = buildApp();
+
+    const discovery = await request(app).get('/.well-known/nodeinfo');
+    expect(discovery.status).toBe(200);
+    const link = (discovery.body.links || []).find((l: any) => String(l.rel).includes('nodeinfo'));
+    expect(link).toBeDefined();
+    expect(link.href).toBe('https://api.fwber.online/nodeinfo/2.1');
+
+    const doc = await request(app).get('/nodeinfo/2.1');
+    expect(doc.status).toBe(200);
+    expect(doc.body.version).toBe('2.1');
+    expect(doc.body.software.name).toBe('fwber');
+    expect(doc.body.protocols).toContain('activitypub');
+    expect(doc.body.openRegistrations).toBe(true);
+    expect(doc.body.usage.users.total).toBe(1234);
+    expect(doc.body.usage.localPosts).toBe(56);
   });
 
   it('400s when resource is missing or malformed', async () => {

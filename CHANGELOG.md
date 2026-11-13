@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.79] - 2026-11-13
+
+### NodeInfo Discovery (Fediverse Instance Metadata)
+
+- **New endpoints (`src/routes/webfinger.ts`):** `GET /.well-known/nodeinfo` (diaspora discovery JRD) and `GET /nodeinfo/2.1` (instance document: software/version from the backend `VERSION` file, `protocols: ["activitypub"]`, `openRegistrations: true`, live user/post counts that degrade to 0 independently on stats failure). The frontend already rewrote `fwber.online/.well-known/nodeinfo` to the API — until now that landed on a 404, the same defect class as the pre-v2.3.78 WebFinger gap.
+- **Tests:** `FederationWebFinger.test.ts` extended (+1 case: discovery link target + document shape/counts; suite 6 cases, backend total **125/125**). Written failing-first.
+- **Verified:** backend + frontend `tsc` 0, ESLint 0; deployed to Hetzner; prod NodeInfo chain smoke-checked on both domains.
+
 ## [2.3.78] - 2026-11-13
 
 ### Inbound WebFinger Discovery (ActivityPub Interop Blocker Removed)

@@ -14,6 +14,10 @@
 - Verified fix against middleware.ts gate; frontend tsc --noEmit EXIT 0 (empty output, no tsc process remains).
 - Bumped 2.3.61 -> 2.3.62 with CHANGELOG. NOT deployed: Hetzner frontend still serves pre-#42 build; needs Robert-authorized rebuild + restart.
 
+## Session 2026-11-13 (cont. 17) - NodeInfo served (v2.3.79)
+- `/.well-known/nodeinfo` + `/nodeinfo/2.1` live (discovery + instance doc, counts degrade to 0 on failure). Federation discovery chain (WebFinger → actor → NodeInfo) now complete server-side.
+- Remaining federation: live Mastodon/Pleroma node test (external). Rest Robert-blocked.
+
 ## Session 2026-11-13 (cont. 16) - Inbound WebFinger shipped (v2.3.78)
 - Served `/.well-known/webfinger` (was outbound-only discovery — real interop blocker). Domains: fwber.online/www/api accepted; actor stays on api domain. Frontend rewrite already pointed at it.
 - `Federation.test.ts` had a pre-existing WebFinger contract (acct@fwber.online) that only passes with this implementation — treat it as the spec. New `FederationWebFinger.test.ts` 5 cases.

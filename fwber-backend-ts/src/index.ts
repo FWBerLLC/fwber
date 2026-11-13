@@ -69,7 +69,7 @@ import merchantPortalRoutes from './routes/merchant-portal.js';
 import moderationRoutes from './routes/moderation.js';
 import messagesRoutes from './routes/messages.js';
 import federationRoutes from './routes/federation.js';
-import webfingerRoutes from './routes/webfinger.js';
+import webfingerRoutes, { nodeinfoRouter } from './routes/webfinger.js';
 import monitoringRoutes from './routes/monitoring.js';
 import questsRoutes from './routes/quests.js';
 import paymentsRoutes from './routes/payments.js';
@@ -241,6 +241,7 @@ app.use('/api/federation', federationRoutes);
 // RFC 7033 discovery: must live at the root /.well-known path (no /api prefix)
 // or remote ActivityPub servers cannot find fwber users.
 app.use('/.well-known', webfingerRoutes);
+app.use('/nodeinfo', nodeinfoRouter);
 app.use('/api/monitoring', monitoringRoutes);
 app.use('/api/quests', questsRoutes);
 app.use('/api/config', configRoutes);

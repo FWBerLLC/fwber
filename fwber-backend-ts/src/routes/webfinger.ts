@@ -1,5 +1,14 @@
 import { Router } from 'express';
+import { readFileSync } from 'fs';
 import prisma from '../lib/prisma.js';
+
+function readSoftwareVersion(): string {
+  try {
+    return readFileSync('VERSION', 'utf8').trim() || 'unknown';
+  } catch {
+    return process.env.npm_package_version || 'unknown';
+  }
+}
 
 /**
  * Inbound WebFinger discovery (RFC 7033).
@@ -79,6 +88,55 @@ router.get('/webfinger', async (req, res) => {
     console.error('[WebFinger] Lookup failed:', error);
     return res.status(500).json({ error: 'Internal Server Error' });
   }
+});
+
+// NodeInfo discovery (diaspora protocol): fediverse servers and instance
+// catalogs fetch /.well-known/nodeinfo, then the schema document it points
+// to. The frontend already rewrites fwber.online/.well-known/nodeinfo here;
+// without this the rewrite landed on a 404.
+router.get('/nodeinfo', (req, res) => {
+  const apiDomain = process.env.API_DOMAIN || 'api.fwber.online';
+  res.set('Content-Type', 'application/jrd+json');
+  return res.json({
+    links: [
+      {
+        rel: 'http://nodeinfo.diaspora.software/ns/schema/2.1',
+        href: `https://${apiDomain}/nodeinfo/2.1`,
+      },
+    ],
+  });
+});
+
+export const nodeinfoRouter = Router();
+
+nodeinfoRouter.get('/2.1', async (_req, res) => {
+  // Usage counts are best-effort: a stats failure must not 500 the whole
+  // instance document, so each count degrades to 0 independently.
+  const [totalUsers, localPosts] = await Promise.all([
+    prisma.users.count().catch(() => 0),
+    prisma.federation_outbox.count().catch(() => 0),
+  ]);
+
+  return res.json({
+    version: '2.1',
+    software: {
+      name: 'fwber',
+      version: readSoftwareVersion(),
+      repository: 'https://github.com/FWBerLLC/fwber',
+      homepage: 'https://fwber.online',
+    },
+    protocols: ['activitypub'],
+    services: { inbound: [], outbound: [] },
+    openRegistrations: true,
+    usage: {
+      users: { total: totalUsers },
+      localPosts,
+    },
+    metadata: {
+      nodeName: 'fwber',
+      nodeDescription: 'Privacy-first proximity social network with ActivityPub federation.',
+    },
+  });
 });
 
 export default router;
