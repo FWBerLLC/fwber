@@ -23,6 +23,9 @@
 ## Session 2026-11-13 (cont. 36) - Version consistency verified (loop iteration)
 - Prod home HTML + standalone chunks carry **2.3.83**; repo/server `VERSION` = 2.3.83 — badge, build, and source of truth in sync (the v2.3.61 centralized-version wiring holding). Backend suite 128/128.
 
+## Session 2026-11-14 (cont. 33) - Post-incident stability confirmed (loop iteration)
+- Frontend 18m uptime with restarts frozen at 81 (no new crashes since the build-lock incident); backend 21m. Prod v2.3.87 steady, smoke 200s.
+
 ## Session 2026-11-14 (cont. 32) - oEmbed LIVE via nginx carve-out; deploy incident note
 - oEmbed verified live: valid fwber URL → oEmbed object, foreign → 404, missing → 400. The Next rewrite exclusion alone was insufficient — **nginx `location /api/` proxies all API traffic to :4003 before Next sees it**; added exact-match `location = /api/oembed` → :3000 in the fwber.online vhost (backup `/root/nginx-backups/fwber.online.bak-20261114-oembed`). All other `app/api/*` Next handlers remain nginx-shadowed in prod (frontend calls the API subdomain directly; harmless dead code — cleanup candidate, don't churn).
 - **Incident (recovered)**: a killed SSH deploy left an orphaned `next build` holding the build lock; a PM2 restart in that window crash-looped the frontend (restarts to 81) until the build completed and it stabilized on 2.3.87 (verified stable 90s+, front 200). Lesson: after any timed-out deploy SSH, check for orphan builds (`ps aux | grep next`) BEFORE restarting PM2.
