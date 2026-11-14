@@ -4,7 +4,11 @@ import bodyParser from 'body-parser';
 import crypto from 'crypto';
 import request from 'supertest';
 
-// Setup Mock Server
+// Setup Mock Server. The port is ephemeral (listen(0)): a fixed port
+// (8082) collided under full-suite parallel load and flaked the suite
+// (22s timeout once, passes alone). Handlers build URLs from `baseUrl`,
+// assigned in beforeAll once the OS picks the port.
+let baseUrl = '';
 const app = express();
 app.use(bodyParser.json({ type: ['application/json', 'application/activity+json'] }));
 const receivedActivities: any[] = [];
@@ -21,7 +25,7 @@ app.get('/.well-known/webfinger', (req, res) => {
       {
         rel: 'self',
         type: 'application/activity+json',
-        href: `http://localhost:8082/actor/mockuser`
+        href: `${baseUrl}/actor/mockuser`
       }
     ]
   });
@@ -30,13 +34,13 @@ app.get('/.well-known/webfinger', (req, res) => {
 app.get('/actor/mockuser', (req, res) => {
   res.json({
     '@context': 'https://www.w3.org/ns/activitystreams',
-    id: `http://localhost:8082/actor/mockuser`,
+    id: `${baseUrl}/actor/mockuser`,
     type: 'Person',
     preferredUsername: 'mockuser',
-    inbox: `http://localhost:8082/actor/mockuser/inbox`,
+    inbox: `${baseUrl}/actor/mockuser/inbox`,
     publicKey: {
-      id: `http://localhost:8082/actor/mockuser#main-key`,
-      owner: `http://localhost:8082/actor/mockuser`,
+      id: `${baseUrl}/actor/mockuser#main-key`,
+      owner: `${baseUrl}/actor/mockuser`,
       publicKeyPem: publicKey
     }
   });
@@ -77,7 +81,10 @@ jest.unstable_mockModule('../src/lib/ssrf.js', () => ({
 
 describe('ActivityPub End-to-End Interop', () => {
   beforeAll((done) => {
-    server = app.listen(8082, () => done());
+    server = app.listen(0, () => {
+      baseUrl = `http://localhost:${(server.address() as any).port}`;
+      done();
+    });
   });
 
   afterAll((done) => {
@@ -102,7 +109,7 @@ describe('ActivityPub End-to-End Interop', () => {
     });
 
     mockFindMany.mockResolvedValue([
-      { actor_uri: 'http://localhost:8082/actor/mockuser', status: 'accepted' }
+      { actor_uri: `${baseUrl}/actor/mockuser`, status: 'accepted' }
     ]);
 
     const activity = {
@@ -115,6 +122,12 @@ describe('ActivityPub End-to-End Interop', () => {
     // The service handles fetching the remote actor inbox internally inside broadcastUpdate
     // and fires off the HTTP signature to the mock server's inbox.
     await federationService.broadcastUpdate(1n, activity);
+
+    // Delivery is async HTTP: poll briefly instead of asserting instantly
+    // (the instant assert raced under full-suite load).
+    for (let i = 0; i < 50 && receivedActivities.length === 0; i++) {
+      await new Promise((r) => setTimeout(r, 100));
+    }
 
     // Verify mock server received the payload
     expect(receivedActivities.length).toBe(1);
