@@ -176,9 +176,7 @@ const nextConfig = {
             value:
               "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' blob: https://js.stripe.com; worker-src 'self' blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https://api.fwber.online https://*.amazonaws.com https://*.cloudfront.net https://oaidalleapiprodscus.blob.core.windows.net https://*.googleapis.com; font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com; connect-src 'self' https://api.fwber.online wss://ws.fwber.online wss://ws.fwber.online/socket.io/ https://*.sentry.io https://www.fwber.online https://api.stripe.com https://nominatim.openstreetmap.org; frame-src 'self' https://js.stripe.com https://hooks.stripe.com; frame-ancestors 'self' https://fwber.online https://www.fwber.online; media-src 'self' blob:;",
           },
-          { key: 'X-Content-Type-Options', value: '' }, // Neutralize legacy block
-
-          { key: 'Content-Security-Policy', value: 'frame-ancestors *' },
+          { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
           { key: 'X-Content-Type-Options', value: 'nosniff' },
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
           { key: 'X-XSS-Protection', value: '1; mode=block' },

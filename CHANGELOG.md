@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.83] - 2026-11-13
+
+### Strict CSP Was Never Served — Duplicate Header Removed (Security)
+
+- **Fix (`fwber-frontend/next.config.js`):** The `headers()` table declared `Content-Security-Policy` twice — the full strict policy and a later `frame-ancestors *`. Next.js serves the last value per key, so browsers only ever received `frame-ancestors *`: no script/connect restrictions and framing open to any origin (verified live with `curl -sI`). Removed the duplicate (the strict policy already carries `frame-ancestors 'self' https://fwber.online …`), removed an empty-value `X-Content-Type-Options` "neutralizer" duplicate, and added `X-Frame-Options: SAMEORIGIN` as the legacy fallback. Post-deploy header check is part of verification.
+- **Also observed:** API responses carry doubled header values (`SAMEORIGIN,SAMEORIGIN`, `nosniff,nosniff`) from helmet + nginx stacking — cosmetic, browsers handle first-value semantics; left for a future nginx pass.
+- **Gates:** `node --check` + frontend `tsc` 0; backend suite held 128/128; rollback tag taken before deploy reset.
+
 ## [2.3.82] - 2026-11-14
 
 ### Photo Upload Errors Are JSON 400s, Not HTML 500s

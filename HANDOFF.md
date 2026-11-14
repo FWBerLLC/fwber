@@ -17,6 +17,10 @@
 ## Session 2026-11-13 (cont. 29) - Prod page smoke battery: 26/26 healthy (loop iteration)
 - Probed 26 key surfaces on prod: all 200 except expected 307 auth redirects (`/dashboard`, `/discover`, `/messages`, `/settings`). No 404/500 anywhere. Combined with API battery (cont. 28 in the Nov-14 block) + socket presence proof, the full functional surface is green at every layer testable without a logged-in browser.
 
+## Session 2026-11-13 (cont. 30) - CSP duplicate-header security fix (v2.3.83)
+- Prod served ONLY `frame-ancestors *` as CSP: duplicate `Content-Security-Policy` keys in `next.config.js` headers() — last wins, strict policy never shipped. Removed duplicate + empty nosniff neutralizer; added X-Frame-Options SAMEORIGIN. Verify post-deploy: `curl -sI https://fwber.online/` must show the long strict CSP once.
+- Lesson: audit served headers, not config text — config looked strict for months. API doubled headers (helmet+nginx) cosmetic, backlog.
+
 ## Session 2026-11-14 (cont. 2) - Matching dataset count verified (105 = source = prod)
 - Checked the 108-vs-105 question: seed source `src/lib/seeds/matching-questions.ts` defines exactly **105** questions and prod serves 105 — source and DB agree. ROADMAP/CHANGELOG "108" references are historical phase records (dataset later consolidated); left untouched as history. No drift, no action.
 
