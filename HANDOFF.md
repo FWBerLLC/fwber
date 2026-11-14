@@ -23,6 +23,9 @@
 ## Session 2026-11-13 (cont. 36) - Version consistency verified (loop iteration)
 - Prod home HTML + standalone chunks carry **2.3.83**; repo/server `VERSION` = 2.3.83 — badge, build, and source of truth in sync (the v2.3.61 centralized-version wiring holding). Backend suite 128/128.
 
+## Session 2026-11-14 (cont. 16) - Events empty-state fixed (v2.3.85)
+- Blank events grid root cause: empty copy required `data.data.length === 0`; undefined data (anon/geo-denied) rendered nothing. Now covers missing data + anonymous sign-in hint. Watch: `FederationInterop.test.ts` is timing-flaky under full-suite load (passes alone) — if it flakes twice more, give its mock server a dynamic port.
+
 ## Session 2026-11-14 (cont. 15) - Events pages browser-checked (loop iteration)
 - Headless prod: `/events` renders clean (v2.3.84 badge, filters, create CTA; empty list for anonymous/no-location — no crash, though no explicit empty-state copy). `/events/2` anonymous → "Event not found" (detail is auth/proximity-gated; no crash, no sign-in prompt either — minor UX note). Map render itself still needs an authed browser session → stays in Bobbi's scope.
 

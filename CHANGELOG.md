@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.85] - 2026-11-14
+
+### Events Empty State No Longer Blank
+
+- **Fix (`fwber-frontend/app/events/page.tsx`):** The empty-state copy only rendered when `data.data` was an empty *array*; when the nearby-events fetch returns no data (anonymous visitor, denied geolocation, API error), the grid rendered a blank page (observed in prod headless pass). The condition now covers missing data, and anonymous visitors get a "Sign in and allow location access" hint alongside "No upcoming events found nearby."
+- **Verified:** frontend `tsc` 0, ESLint 0; deployed; headless re-check shows the empty state. Backend suite note: `FederationInterop` flaked once under full-suite parallel load (22s) and passes alone (13s) — watch item, unrelated to this change.
+
 ## [2.3.84] - 2026-11-14
 
 ### Prisma Connection Pool: 3 → 20 (Registration 500s Under Load)
