@@ -23,6 +23,9 @@
 ## Session 2026-11-13 (cont. 36) - Version consistency verified (loop iteration)
 - Prod home HTML + standalone chunks carry **2.3.83**; repo/server `VERSION` = 2.3.83 — badge, build, and source of truth in sync (the v2.3.61 centralized-version wiring holding). Backend suite 128/128.
 
+## Session 2026-11-14 (cont. 7) - No CSP fallout after strict policy (loop iteration)
+- Grepped frontend + backend PM2 logs for CSP/refusal mentions since the v2.3.83 strict-CSP deploy: **zero**. Served policy confirmed still the strict one. The only frontend errors remain the stale-client Server-Reference class. Strict CSP is safe to keep.
+
 ## Session 2026-11-14 (cont. 6) - Latency healthy through tenant load spike (loop iteration)
 - 5× `/health` samples during/after the spike: 200 in 0.16–0.36s; load already back to 0.21 (spike was transient, another tenant). PM2 uptimes 44–46m, no restarts. No action.
 
