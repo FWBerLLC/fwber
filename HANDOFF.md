@@ -23,6 +23,9 @@
 ## Session 2026-11-13 (cont. 36) - Version consistency verified (loop iteration)
 - Prod home HTML + standalone chunks carry **2.3.83**; repo/server `VERSION` = 2.3.83 — badge, build, and source of truth in sync (the v2.3.61 centralized-version wiring holding). Backend suite 128/128.
 
+## Session 2026-11-14 (cont. 5) - Pool stress proof: 5/5 parallel registers at load 93 (loop iteration)
+- Parallel-register stress (`%TEMP%\poolstress.mjs`): **5/5 created in ~1.1s each** while box load averaged 15.9/93.1/70.0 (another tenant's spike — far beyond the conditions that produced P2024s at limit 3). Pool 20 fix conclusively holds. QA residue now users up to 208 + rooms to 9.
+
 ## Session 2026-11-14 (cont. 4) - Post-fix regression battery PASS (loop iteration)
 - Full API battery re-run post-pool-fix (users 202/203, room 9): register/profile/me/questions(105)/friends full cycle/messaging/audio/block-403/federation — **ALL PASS** again, registers fast. No new P2024 since deploy (the single grep hit is the historical pre-fix log file; pm2 error log is unrotated/undated — if P2024 recurs, compare file mtime first).
 
