@@ -23,6 +23,9 @@
 ## Session 2026-11-13 (cont. 36) - Version consistency verified (loop iteration)
 - Prod home HTML + standalone chunks carry **2.3.83**; repo/server `VERSION` = 2.3.83 — badge, build, and source of truth in sync (the v2.3.61 centralized-version wiring holding). Backend suite 128/128.
 
+## Session 2026-11-14 (cont. 28) - Transport health re-probe green (loop iteration)
+- Front 200/0.65s, API 200/0.69s, Socket.io handshake issues sid + websocket upgrade, geo `status:ok` v2.3.81. All transports healthy.
+
 ## Session 2026-11-14 (cont. 27) - Steady state (loop iteration)
 - Loop job `5b29f19a` healthy (44 fires). HyperNexus kernel v1.0.71 ok (~2h uptime). fwber PM2 both 2.3.85, 2h uptimes, box load 0.20. Nothing pending lane-side except Bobbi (18:38) + Robert decisions.
 
