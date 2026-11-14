@@ -23,6 +23,11 @@
 ## Session 2026-11-13 (cont. 36) - Version consistency verified (loop iteration)
 - Prod home HTML + standalone chunks carry **2.3.83**; repo/server `VERSION` = 2.3.83 — badge, build, and source of truth in sync (the v2.3.61 centralized-version wiring holding). Backend suite 128/128.
 
+## Session 2026-11-14 (cont. 17) - v2.3.85 deploy VERIFIED (swept-bump repaired)
+- Deploy verification complete: PM2 backend+frontend **2.3.85 online**, on-box front/api 200, public smoke 200s (dashboard 307 auth as expected), served HTML carries `2.3.85`, headless `/events` shows the fixed empty state ("No upcoming events found nearby. Sign in and allow location access…") + v2.3.85 badge. Rollback tag taken pre-reset.
+- **Swept-bump lesson**: a parallel lane's dirty-state sweep (`ede6a8014`) committed the events code fix while my staged 2.3.85 version bump vanished from the tree (never landed; docs claimed 2.3.85 while VERSION read 2.3.84). Repaired in `98bc64986` (7 files, verified in-commit). Rule: after any sweep-style foreign commit, re-check `git show --stat` for your staged files before deploying.
+- One frontend rebuild on the final tree was needed because the first (stalled) deploy had built the pre-bump tree — badge lagged at 2.3.84 until rebuilt. Always verify the *served* version string, not just PM2's label.
+
 ## Session 2026-11-14 (cont. 16) - Events empty-state fixed (v2.3.85)
 - Blank events grid root cause: empty copy required `data.data.length === 0`; undefined data (anon/geo-denied) rendered nothing. Now covers missing data + anonymous sign-in hint. Watch: `FederationInterop.test.ts` is timing-flaky under full-suite load (passes alone) — if it flakes twice more, give its mock server a dynamic port.
 
