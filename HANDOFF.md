@@ -14,6 +14,11 @@
 - Verified fix against middleware.ts gate; frontend tsc --noEmit EXIT 0 (empty output, no tsc process remains).
 - Bumped 2.3.61 -> 2.3.62 with CHANGELOG. NOT deployed: Hetzner frontend still serves pre-#42 build; needs Robert-authorized rebuild + restart.
 
+## Session 2026-11-14 (cont.) - Full API battery PASS while Bobbi usage-blocked
+- Bobbi still out of usage (reset Nov 14 18:38); direct-testing brief delivered + verified in thread, results pending her reset.
+- Pre-covered checklist at API level (script `%TEMP%\api-battery.mjs`, QA users 198/199, room 8): register 201×2, profile update 200, /auth/me 200, matching questions 200 (**105**), friends search finds target, request 200, incoming list 1, accept 200, message A→B 200 + visible in B's conversations, audio room create/join (2 participants)/leave 200, block 200, **message-while-blocked 403**, federation search 200. ALL PASS.
+- Residue: users 198/199 + room 8; block B→A left in place (documents enforcement). Bobbi's remaining scope = browser-visual layer only (badge states, bars, map, onboarding UX).
+
 ## Session 2026-11-14 - Upload error contract fixed (v2.3.82); Bobbi direct-testing coordination
 - Multer errors → JSON 400 (was HTML 500). Tests `PhotosUploadErrors.test.ts` 3 cases; suite 128/128. Upload + optimizer placeholder proven live on prod.
 - Robert asked for direct testing of ALL features/functionality coordinated with muse.ai (Bobbi): send her the full checklist brief (register/login, onboarding, discover/recommendations + compat bars, matching questions, friends search/request/accept, messages + socket badge state per surface, audio rooms create/join/leave + raise-hand, wallet nonce login, federation search, safety block/report, photo upload incl. wrong-field behavior) and ask for DONE/BLOCKED/INFO per area with actual outcomes. Her usage reset was Nov 14 18:38 — verify lane alive before/after send.
