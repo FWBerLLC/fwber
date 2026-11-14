@@ -23,6 +23,9 @@
 ## Session 2026-11-13 (cont. 36) - Version consistency verified (loop iteration)
 - Prod home HTML + standalone chunks carry **2.3.83**; repo/server `VERSION` = 2.3.83 — badge, build, and source of truth in sync (the v2.3.61 centralized-version wiring holding). Backend suite 128/128.
 
+## Session 2026-11-14 (cont. 6) - Latency healthy through tenant load spike (loop iteration)
+- 5× `/health` samples during/after the spike: 200 in 0.16–0.36s; load already back to 0.21 (spike was transient, another tenant). PM2 uptimes 44–46m, no restarts. No action.
+
 ## Session 2026-11-14 (cont. 5) - Pool stress proof: 5/5 parallel registers at load 93 (loop iteration)
 - Parallel-register stress (`%TEMP%\poolstress.mjs`): **5/5 created in ~1.1s each** while box load averaged 15.9/93.1/70.0 (another tenant's spike — far beyond the conditions that produced P2024s at limit 3). Pool 20 fix conclusively holds. QA residue now users up to 208 + rooms to 9.
 
