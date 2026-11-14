@@ -23,6 +23,9 @@
 ## Session 2026-11-13 (cont. 36) - Version consistency verified (loop iteration)
 - Prod home HTML + standalone chunks carry **2.3.83**; repo/server `VERSION` = 2.3.83 — badge, build, and source of truth in sync (the v2.3.61 centralized-version wiring holding). Backend suite 128/128.
 
+## Session 2026-11-14 (cont. 21) - Submodule dashboard refreshed (loop iteration)
+- `docs/SUBMODULE_DASHBOARD.md` was 24 releases stale (2.3.61): root/backend/frontend now **2.3.85**, geo crate **2.3.81**, branch matrix re-verified 2026-11-14. Docs-only; prod unchanged.
+
 ## Session 2026-11-14 (cont. 20) - Periodic health pass green (loop iteration)
 - Nav 179/133/17, rewrites 3/3, tray all DOWN, prod 200s (dashboard 307 auth). Bobbi reset 18:38 today (~14h out). No changes.
 
