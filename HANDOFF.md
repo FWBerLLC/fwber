@@ -23,6 +23,9 @@
 ## Session 2026-11-13 (cont. 36) - Version consistency verified (loop iteration)
 - Prod home HTML + standalone chunks carry **2.3.83**; repo/server `VERSION` = 2.3.83 — badge, build, and source of truth in sync (the v2.3.61 centralized-version wiring holding). Backend suite 128/128.
 
+## Session 2026-11-14 (cont. 38) - Bundle API base verified (loop iteration)
+- Prod standalone chunks: 4 reference `api.fwber.online`, **0** reference `localhost:400x` — API base baked correctly (no dev-URL leakage in the shipped bundle). DSN check also confirmed absent locally (no frontend env files on the laptop) — Robert-supplied, as recorded.
+
 ## Session 2026-11-14 (cont. 37) - Sentry DSN unconfigured: tunnel fixed but SDK dark (loop iteration)
 - Follow-up to cont.35: no `SENTRY_*` names in backend `.env` or frontend `.env.production` (2 lines), and the project ID (`4510305656176640`) does **not** appear in the built standalone chunks — `NEXT_PUBLIC_SENTRY_DSN` was unset at build time, so the browser SDK initializes disabled and the (now-working) tunnel carries nothing. Server-side Sentry likewise unconfigured.
 - **Robert action**: set `NEXT_PUBLIC_SENTRY_DSN` (from the Sentry project already referenced by the tunnel handler) in the frontend build env on Hetzner + rebuild; optionally `SENTRY_DSN` for backend. Until then error telemetry is dark by configuration, not by bug.
