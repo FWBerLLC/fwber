@@ -113,9 +113,12 @@ export default function EventsPage() {
             {data?.data?.map((event: any) => (
               <EventCard key={event.id} event={event} />
             ))}
-            {data?.data?.length === 0 && (
+            {(!data?.data || data.data.length === 0) && (
               <div className="col-span-full py-8 text-center text-muted-foreground">
                 No upcoming events found nearby.
+                {!isAuthenticated && (
+                  <span className="block pt-2">Sign in and allow location access to see events around you.</span>
+                )}
               </div>
             )}
           </div>
