@@ -23,6 +23,9 @@
 ## Session 2026-11-13 (cont. 36) - Version consistency verified (loop iteration)
 - Prod home HTML + standalone chunks carry **2.3.83**; repo/server `VERSION` = 2.3.83 — badge, build, and source of truth in sync (the v2.3.61 centralized-version wiring holding). Backend suite 128/128.
 
+## Session 2026-11-14 (cont. 29) - PWA manifest integrity verified (loop iteration)
+- `manifest.json` (name fwber.online, standalone) references 10 icons — **all serve 200** on prod (72→512px + SVGs). Install prompt path (seen in headless passes) is backed by real assets.
+
 ## Session 2026-11-14 (cont. 28) - Transport health re-probe green (loop iteration)
 - Front 200/0.65s, API 200/0.69s, Socket.io handshake issues sid + websocket upgrade, geo `status:ok` v2.3.81. All transports healthy.
 
