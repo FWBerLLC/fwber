@@ -23,6 +23,9 @@
 ## Session 2026-11-13 (cont. 36) - Version consistency verified (loop iteration)
 - Prod home HTML + standalone chunks carry **2.3.83**; repo/server `VERSION` = 2.3.83 — badge, build, and source of truth in sync (the v2.3.61 centralized-version wiring holding). Backend suite 128/128.
 
+## Session 2026-11-14 (cont. 14) - Upload→serve loop closed (loop iteration)
+- QA photo 328 fetched from its public URL: **200, image/png, 68 bytes** (exact uploaded pixel). Upload → storage → serve → (placeholder for missing) chain fully proven. Browser-checklist residue is now only the map render.
+
 ## Session 2026-11-14 (cont. 13) - Email DNS posture: unconfigured (loop iteration)
 - DNS checked: `fwber.online` has no SPF TXT content, no `_dmarc` record, no Resend DKIM (`resend._domainkey`), no MX. Email DNS is entirely unconfigured (consistent with backend log "No SMTP configured, relying on Resend or console fallback"). Fix is Robert-side: verify domain in Resend + publish SPF/DKIM/DMARC at the registrar. Auth emails currently ride the console/Resend fallback path only.
 
