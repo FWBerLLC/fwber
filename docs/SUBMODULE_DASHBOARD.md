@@ -1,7 +1,7 @@
 # Submodule Dashboard — fwber
 
 > **Last Updated:** 2026-11-14
-> **Root Version:** 2.3.86
+> **Root Version:** 2.3.87
 
 ---
 
@@ -11,9 +11,9 @@
 
 | # | Component | Path | Kind | Version | Stack / Runtime | Remote / Origin | Status |
 |---|-----------|------|------|---------|-----------------|-----------------|--------|
-| 1 | **Root Monorepo** | `.` | Git Root (Submodule in parent workspace) | `2.3.86` | Unified orchestrator, docs, ops & CI | `https://github.com/FWBerLLC/fwber.git` (redirected from `https://github.com/robertpelloni/fwber.git`); legacy upstream `git@github.com:fwber-code/fwber.git` | ✅ Active (`main`) |
-| 2 | **Backend API & WS** | `fwber-backend-ts/` | Workspace Package | `2.3.86` | Node.js ESM, Express 5, TypeScript 6, Prisma 6, Socket.io 4, Ollama + Cloud LLMs | *(monorepo)* | ✅ Active, port `4003` (PM2) |
-| 3 | **Web Frontend** | `fwber-frontend/` | Workspace Package | `2.3.86` | Next.js `16.4.3` (standalone), React `19.3.1`, TailwindCSS, Solana Wallet Adapter, Sentry | *(monorepo)* | ✅ Active, port `3000` (PM2) |
+| 1 | **Root Monorepo** | `.` | Git Root (Submodule in parent workspace) | `2.3.87` | Unified orchestrator, docs, ops & CI | `https://github.com/FWBerLLC/fwber.git` (redirected from `https://github.com/robertpelloni/fwber.git`); legacy upstream `git@github.com:fwber-code/fwber.git` | ✅ Active (`main`) |
+| 2 | **Backend API & WS** | `fwber-backend-ts/` | Workspace Package | `2.3.87` | Node.js ESM, Express 5, TypeScript 6, Prisma 6, Socket.io 4, Ollama + Cloud LLMs | *(monorepo)* | ✅ Active, port `4003` (PM2) |
+| 3 | **Web Frontend** | `fwber-frontend/` | Workspace Package | `2.3.87` | Next.js `16.4.3` (standalone), React `19.3.1`, TailwindCSS, Solana Wallet Adapter, Sentry | *(monorepo)* | ✅ Active, port `3000` (PM2) |
 | 4 | **Geo Screener** | `fwber-geo/` | Rust Crate | `2.3.81` (crate version, aligned 2026-11-13) | Rust `2024` edition, Actix-Web `4.19`, `h3o` hexagonal spatial index, `dashmap` | *(monorepo)* | ✅ Active, port `8081` (`systemd`) |
 | 5 | **WASM Crypto** | `fwber-wasm/` | Rust/WASM Crate | `0.1.0` | Rust `2021` edition, `wasm-bindgen`, `aes-gcm` client-side E2EE primitives | *(monorepo)* | ✅ Active library |
 | 6 | **Mobile Client** | `mobile/` | Expo / RN App | `1.0.0` | Expo `~55.0.4`, React Native `0.83.2`, Expo Router `~3.5.0`, `react-native-nfc-manager` | *(monorepo)* | ✅ Active mobile shell |
@@ -59,13 +59,13 @@
 
 ---
 
-## 5. Branch Reconciliation Matrix (Verified `2026-11-14`, `v2.3.86`)
+## 5. Branch Reconciliation Matrix (Verified `2026-11-14`, `v2.3.87`)
 
 All active local and `origin/*` (`FWBerLLC/fwber` / `robertpelloni/fwber`) feature branches are **100% merged into `main`** (`0` unmerged commits remaining). Branch refs are preserved non-destructively per operator policy.
 
 | Branch / Ref | Tip Commit | Unmerged Into `main` | Disposition |
 |--------------|------------|----------------------|-------------|
-| `main` / `origin/main` | `v2.3.86` | `0` | Canonical production & integration branch |
+| `main` / `origin/main` | `v2.3.87` | `0` | Canonical production & integration branch |
 | `origin/jules-10314857368856784967-6dd32a46` | `ebf38a143` | `0` | ✅ Merged (`093632f6e`) & conflict-audited in `v2.3.61` |
 | `origin/feat/wallet-login-backend` | `ad82d18a9` | `0` | ✅ Merged |
 | `origin/chore/frontend-hardening-2026-10-26` | `671d79921` | `0` | ✅ Merged |

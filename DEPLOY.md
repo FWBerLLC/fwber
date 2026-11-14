@@ -1,11 +1,11 @@
 # DEPLOY.md — The fwber Operations Guide
 
 > **Last Updated:** 2026-11-14
-> **Version:** 2.3.86
+> **Version:** 2.3.87
 
 This document is the operational source of truth for deploying the active fwber stack on **`fwber.online`** (`fwber.me` was permanently retired on 2026-10-22).
 
-## 0. Active Production Topology (All-Hetzner `fwber.online` — v2.3.86)
+## 0. Active Production Topology (All-Hetzner `fwber.online` — v2.3.87)
 
 Since the v2.x TypeScript + Next.js 16 migration, **100% of production runs on Hetzner VPS `5.161.250.43`** (`/var/www/fwber/repo`):
 

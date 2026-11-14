@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.87] - 2026-11-14
+
+### oEmbed Endpoint Unshadowed + Hardened
+
+- **Fix (`fwber-frontend/next.config.js`, `app/api/oembed/route.ts`):** The correct Next oEmbed handler existed but the `/api/:path*` → backend rewrite shadowed it, so discovery requests landed on the backend and got a bare `[]`. The rewrite now excludes `oembed` (same pattern as `sentry-tunnel`), letting the local handler serve. The handler is also hardened: only `https://fwber.online` / `www` URLs are embeddable (404 otherwise, per spec), malformed URLs 400, missing `url` 400 — the requested URL is no longer reflected unvalidated into iframe HTML handed to third parties.
+- **Verified live post-deploy:** valid fwber URL → oEmbed object; foreign URL → 404; missing param → 400.
+
 ## [2.3.86] - 2026-11-14
 
 ### og:url Added (Social Sharing Canonical)

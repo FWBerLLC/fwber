@@ -23,6 +23,10 @@
 ## Session 2026-11-13 (cont. 36) - Version consistency verified (loop iteration)
 - Prod home HTML + standalone chunks carry **2.3.83**; repo/server `VERSION` = 2.3.83 — badge, build, and source of truth in sync (the v2.3.61 centralized-version wiring holding). Backend suite 128/128.
 
+## Session 2026-11-14 (cont. 31) - oEmbed unshadowed + hardened (v2.3.87)
+- `/api/oembed` was rewrite-shadowed to the backend (`[]`); excluded from the `/api/:path*` rewrite like sentry-tunnel. Handler now allowlists fwber hosts (404 foreign, 400 malformed/missing) instead of reflecting any URL into iframe HTML.
+- Lesson: local `app/api/*` routes must be excluded from the backend rewrite or they silently never run — check `app/api/` dirs against the rewrite when adding routes (bounties/bulletin-boards/etc. are intentional proxies? verify next audit).
+
 ## Session 2026-11-14 (cont. 30) - og:url added (v2.3.86)
 - Root metadata lacked `og:url` (only missing social tag in prod audit). Added env-driven canonical URL in `app/layout.tsx`. Frontend `tsc` 0.
 
