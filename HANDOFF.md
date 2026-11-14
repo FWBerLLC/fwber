@@ -23,6 +23,9 @@
 ## Session 2026-11-13 (cont. 36) - Version consistency verified (loop iteration)
 - Prod home HTML + standalone chunks carry **2.3.83**; repo/server `VERSION` = 2.3.83 — badge, build, and source of truth in sync (the v2.3.61 centralized-version wiring holding). Backend suite 128/128.
 
+## Session 2026-11-14 (cont. 11) - Wingman local-AI path proven live (loop iteration)
+- Authenticated probes (QA 197): `/wingman/fortune` 200 (2,016B generated payload), `/wingman/vibe-check` 200, `/wingman/profile-analysis` 200 — the `AI_PREFER_LOCAL` Ollama path serves real AI features with zero cloud keys, confirming the dead-credential bypass works as designed.
+
 ## Session 2026-11-14 (cont. 10) - Dead AI credentials confirmed inert (loop iteration)
 - Server `.env` (names only checked): `NVIDIA_API_KEY` + `OPENAI_API_KEY` present (dead per TODO) but `AI_PREFER_LOCAL="true"` — the on-box Ollama path bypasses both, so they are inert weight, not an outage. Removal/replacement remains Robert's credential call; no functional impact either way.
 
