@@ -17,6 +17,9 @@
 ## Session 2026-11-13 (cont. 29) - Prod page smoke battery: 26/26 healthy (loop iteration)
 - Probed 26 key surfaces on prod: all 200 except expected 307 auth redirects (`/dashboard`, `/discover`, `/messages`, `/settings`). No 404/500 anywhere. Combined with API battery (cont. 28 in the Nov-14 block) + socket presence proof, the full functional surface is green at every layer testable without a logged-in browser.
 
+## Session 2026-11-13 (cont. 34) - Backup integrity + restore drill verified (loop iteration)
+- Nightly backup fresh (2026-11-14 03:30, ~543KB), latest tarball integrity OK (`tar tzf` clean; contents: data/db/envs/nginx bundles). Monthly restore drill last ran **2026-11-01: PASS** (restored into scratch DB, 135 tables row-consistent). Uploads bundle holds only 5 entries — backups are faithful; the empty-uploads issue is upstream of backup (files never landed), not a backup defect. Off-site replication remains the Robert-blocked gap.
+
 ## Session 2026-11-13 (cont. 33) - TLS posture verified (loop iteration)
 - All four fwber certs (fwber/api/ws/geo) expire **2026-12-24** (~41 days out); `certbot.timer` is active (next run 2026-11-14 18:00 UTC, last ran 1h19m ago) — auto-renewal healthy, no action. Re-check if any cert drops under 21 days without renewing.
 
