@@ -3,7 +3,7 @@
 ## Active Tools (`tools/`)
 | Script | Purpose |
 |--------|---------|
-| `fwber-tray.bat` / `fwber-tray.ps1` | Windows System Tray controller (`BelowNormal` CPU priority) — manages Backend (`:4003`), Frontend (`:3000`), and Geo (`:8081`); supports `-Status`, `-SmokeTest`, and `-StopAll` CLI modes |
+| `../tray.bat` / `fwber-tray.bat` / `fwber-tray.ps1` | Windows System Tray controller (`BelowNormal` CPU priority, dynamic `VERSION`) — manages Backend (`:4003`), Frontend (`:3000`), and Geo (`:8081`) plus Hetzner prod checks; supports `-Idle`, `-Status`, `-CheckProd`, `-SmokeTest`, and `-StopAll` CLI modes |
 | `fwber-tray-check.py` | Cross-platform port, HTTP health, backing-service (`:3306` / `:6379`), and `logs/*.log` auditor |
 | `audit-entry-points.cjs` | Audit API entry points for coverage gaps |
 | `repair-truncated-packages.cjs` | Fix missing top-level `package.json` packages and npm tarball truncation issues on Windows (`<node_modules> [--apply]`) |

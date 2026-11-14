@@ -106,11 +106,13 @@ const HELP_CATEGORIES = [
   },
   {
     id: 'federation',
-    title: 'ActivityPub & Fediverse',
-    description: 'Connect your fwber handle to Mastodon and ActivityPub servers with strict location isolation.',
+    title: 'Council Governance, Federation & Integrations',
+    description: 'Vote in the Community Council, connect to the Fediverse, and manage privacy-first OAuth contact sync.',
     icon: Globe,
     articles: [
+      { title: 'Community Council, Merkle Proofs & Appeals', slug: 'council-governance' },
       { title: 'ActivityPub & Fediverse Connectivity', slug: 'federation-guide' },
+      { title: 'Connected Accounts & OAuth Contact Sync', slug: 'connected-contacts' },
     ]
   }
 ]

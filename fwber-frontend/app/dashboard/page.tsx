@@ -1073,11 +1073,11 @@ export default function DashboardPage() {
               />
               <FeatureTile
                 href="/photos"
-                title="Photo Gallery"
-                subtitle="Manage profile photos"
+                title="Photos & Reveals Hub"
+                subtitle="Gallery, reveals & vault"
                 icon={<Users className="h-5 w-5" />}
                 accent="blue"
-                tooltip="Upload, reorder, crop, and set visibility gates on your primary profile photos."
+                tooltip="Unified media hub: upload & reorder profile photos, inspect progressive match reveals, or jump to your AES-256-GCM Encrypted Vault."
               />
               <FeatureTile
                 href="/photos/reveals"
@@ -1085,7 +1085,8 @@ export default function DashboardPage() {
                 subtitle="Progressive reveal logs"
                 icon={<Eye className="h-5 w-5" />}
                 accent="pink"
-                tooltip="Monitor mutual tier-gated photo reveals unlocked with your active matches."
+                isSubpage
+                tooltip="Direct shortcut to mutual tier-gated photo reveals unlocked with your active matches."
               />
               <FeatureTile
                 href="/profile-views"
@@ -1466,20 +1467,20 @@ export default function DashboardPage() {
             <SectionBlock category="governance" icon={<Globe className="h-4 w-4" />} title="Community Governance & Federation" description="Decentralized Community Council, ActivityPub / Fediverse gateway, and external app sync.">
               <FeatureTile
                 href="/council"
-                title="Community Council"
-                subtitle="Decentralized governance"
+                title="Council & Appeals Hub"
+                subtitle="Proposals, audit & appeals"
                 icon={<Gavel className="h-5 w-5" />}
                 accent="amber"
-                tooltip="Vote on community proposals, feature prioritization, and platform governance changes."
+                tooltip="Unified Community Council hub: vote on token-weighted proposals, verify SHA-256 Merkle proofs, and submit or track moderation appeals."
               />
               <FeatureTile
                 href="/council/appeals"
                 title="Dispute Appeals"
-                subtitle="Peer moderation review"
+                subtitle="Standalone appeal portal"
                 icon={<Gavel className="h-5 w-5" />}
                 accent="amber"
                 isSubpage
-                tooltip="Submit moderation appeals and participate as a juror in peer-reviewed dispute claims."
+                tooltip="Standalone dispute appeal portal (also integrated directly inside the Council & Appeals Hub)."
               />
               <FeatureTile
                 href="/federation"
@@ -1487,7 +1488,8 @@ export default function DashboardPage() {
                 subtitle="Fediverse connectivity"
                 icon={<Globe className="h-5 w-5" />}
                 accent="blue"
-                tooltip="Connect and cross-interact with Mastodon and ActivityPub instances across the Fediverse."
+                isSubpage
+                tooltip="Overview of Mastodon and ActivityPub connectivity across the Fediverse."
               />
               <FeatureTile
                 href="/settings/federation"
@@ -1499,20 +1501,20 @@ export default function DashboardPage() {
               />
               <FeatureTile
                 href="/integrations"
-                title="Third-Party Integrations"
-                subtitle="Connect external apps"
+                title="Connected Accounts Hub"
+                subtitle="OAuth & contact sync"
                 icon={<Plug className="h-5 w-5" />}
                 accent="purple"
-                tooltip="Link Spotify, Instagram, calendars, and OAuth providers to your FWBer profile."
+                tooltip="Unified OAuth 2.0 provider hub (Google, Microsoft 365, Facebook) with inline synced contact search and one-click revocation."
               />
               <FeatureTile
                 href="/integrations/contacts"
                 title="Synced Contacts"
-                subtitle="Address book sync"
+                subtitle="Standalone address book"
                 icon={<Users className="h-5 w-5" />}
                 accent="green"
                 isSubpage
-                tooltip="Sync contacts securely with client-side hashing to find friends and prevent awkward overlaps."
+                tooltip="Direct view of imported contacts (also integrated as the Synced Contacts tab inside Connected Accounts Hub)."
               />
             </SectionBlock>
 

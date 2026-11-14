@@ -216,7 +216,7 @@ const HELP_ARTICLES: Record<string, { title: string, content: React.ReactNode, c
     )
   },
   'federation-guide': {
-    category: 'ActivityPub & Fediverse',
+    category: 'Council Governance, Federation & Integrations',
     title: 'ActivityPub & Fediverse Connectivity',
     content: (
       <div className="space-y-4">
@@ -226,6 +226,34 @@ const HELP_ARTICLES: Record<string, { title: string, content: React.ReactNode, c
           <li><strong>Inbound Fediverse Discovery:</strong> Remote Mastodon, Pleroma, and Misskey users can look up your public handle (<code>@username@fwber.online</code>) via RFC 7033 WebFinger (<code>/.well-known/webfinger</code>), while instance catalogs read public server capabilities via NodeInfo 2.1 (<code>/nodeinfo/2.1</code>).</li>
           <li><strong>Unified Federation Hub:</strong> Search remote Mastodon/ActivityPub handles, browse the Global Feed, manage Followers/Following, and inspect your public Outbox from a single tabbed hub.</li>
           <li><strong>Strict Location &amp; Photo Isolation:</strong> Exact GPS coordinates and private Tiered Face Reveals never leave fwber&apos;s encrypted local layer.</li>
+        </ul>
+      </div>
+    )
+  },
+  'council-governance': {
+    category: 'Council Governance, Federation & Integrations',
+    title: 'Community Council, Merkle Proofs & Appeals',
+    content: (
+      <div className="space-y-4">
+        <p>The unified <strong>Community Council &amp; Appeals Hub</strong> (<code>/council</code>) gives members direct democratic control over platform policy, moderation appeals, technical upgrades, and treasury initiatives.</p>
+        <ul className="list-disc pl-5 space-y-2">
+          <li><strong>Token-Weighted Ballots:</strong> Every signed-in member has at least <code>1 FWB</code> base voting voice, scaling upward with your FWB token balance. Creating a new policy proposal requires <code>100 FWB</code> tokens.</li>
+          <li><strong>Client-Side SHA-256 Merkle Verification:</strong> Every vote is hashed into a canonical SHA-256 Merkle tree. After casting a vote, click <em>Verify My Vote</em> on any ballot to verify your cryptographic inclusion proof directly in your browser using WebCrypto.</li>
+          <li><strong>Peer-Reviewed Dispute Appeals:</strong> Restricted accounts or members contesting a moderation decision can file an appeal under the <em>Dispute Appeals</em> tab (or at <code>/council/appeals</code>), automatically opening a 7-day community moderation ballot.</li>
+        </ul>
+      </div>
+    )
+  },
+  'connected-contacts': {
+    category: 'Council Governance, Federation & Integrations',
+    title: 'Connected Accounts & OAuth Contact Sync',
+    content: (
+      <div className="space-y-4">
+        <p>Manage external OAuth 2.0 providers and imported contacts inside the unified <strong>Connected Accounts Hub</strong> (<code>/integrations</code>).</p>
+        <ul className="list-disc pl-5 space-y-2">
+          <li><strong>Read-Only OAuth Scopes:</strong> Link Google Contacts, Microsoft 365 / Outlook, or Facebook Friends using industry-standard OAuth 2.0 without sharing your email password.</li>
+          <li><strong>Inline Contact Sync &amp; Search:</strong> Switch to the <em>Synced Contacts</em> tab to trigger manual syncs and filter imported contacts by name, email, phone, or provider.</li>
+          <li><strong>One-Click Revocation:</strong> Disconnect any provider at any time using the unplug icon — FWBer immediately deletes the stored OAuth token and all contacts imported from that provider.</li>
         </ul>
       </div>
     )

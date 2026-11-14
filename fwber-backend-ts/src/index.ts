@@ -83,6 +83,8 @@ import healthRoutes from './routes/health.js';
 import iceBreakersRoutes from './routes/ice-breakers.js';
 import settingsRoutes from './routes/settings.js';
 import trustScoreRoutes from './routes/trust-score.js';
+import governanceRoutes from './routes/governance.js';
+import { isScannerProbePath } from './lib/scanner-guard.js';
 import prisma from './lib/prisma.js';
 import { setupSocketIO } from './socket.js';
 
@@ -251,20 +253,27 @@ app.use('/api/ice-breakers', iceBreakersRoutes);
 app.use('/api/settings', settingsRoutes);
 app.use('/api/share-unlocks', shareUnlocksRoutes);
 app.use('/api/payments', paymentsRoutes);
+app.use('/api/governance', governanceRoutes);
 
 // Note: Inbound RFC 7033 WebFinger (`/.well-known/webfinger`) and NodeInfo
 // (`/.well-known/nodeinfo`) are served by `webfingerRoutes` above with full
 // domain allowlisting and `application/jrd+json` content-type headers.
 
-// Catch-all for unmatched /api/* routes — return safe defaults instead of 404 HTML
-
-app.use('/api', (_req, res) => {
-  // Return an empty array for GET, success object for everything else
-  if (_req.method === 'GET') {
-    res.json([]);
-  } else {
-    res.json({ success: true });
+// Catch-all for unmatched /api/* routes:
+// 1. Reject automated internet vulnerability scanner probes (`.env`, `.git`,
+//    `.sql`, `/v1/namespaces/*/secrets`, `/wp-admin`, traversal `..`, etc.)
+//    with a real `404` so scanners stop treating the host as a false-positive hit.
+// 2. Return safe JSON defaults (`[]` for GET, `{ success: true }` for mutations)
+//    for benign unmounted feature stubs so experimental UI widgets do not crash.
+app.use('/api', (req, res) => {
+  if (isScannerProbePath(req.originalUrl || req.url || req.path)) {
+    res.setHeader('Cache-Control', 'no-store');
+    return res.status(404).json({ error: 'Not found' });
   }
+  if (req.method === 'GET') {
+    return res.json([]);
+  }
+  return res.json({ success: true });
 });
 
 // Health Check

@@ -8,6 +8,9 @@
 
 # next.js
 /.next/
+/.standalone-live/
+/.standalone-next/
+/.standalone-prev/
 /out/
 /build
 

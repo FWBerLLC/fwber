@@ -1,27 +1,24 @@
-# PROJECT_STATUS.md — fwber v2.3.88
+# PROJECT_STATUS.md — fwber v2.3.89
 
 **Date:** 2026-11-14
-**Version:** 2.3.88 "Health Observability, Deploy Safety & Event/Manual Polish"
-**Status:** LIVE ON `fwber.online` (ALL-HETZNER STACK) — backend suite 136/136, prod error budget ~0.07% 5xx
+**Version:** 2.3.89 "Council Governance API, Unified Hubs, Scanner Hardening & Atomic Frontend Deploy"
+**Status:** LIVE ON `fwber.online` (ALL-HETZNER STACK) — backend suite 33/33 (143/143 tests), frontend `tsc` 0, `fwber-geo` release clean
 
 ---
 
 ## Current Platform Snapshot
 fwber runs as a full-stack TypeScript + Next.js 16 + Rust monorepo hosted on Hetzner (`5.161.250.43`) under canonical domain `https://fwber.online`:
 
-- **Frontend (`fwber-frontend`, port `3000`, PM2)**: Next.js `16.4.3` + React `19.3.1` standalone build, single-page high-value dashboard (130 FeatureTiles, 100% tooltip coverage, 179 routes / 133 linked / 17 intentional, 0 dead links), strict CSP served (fixed v2.3.83), unified realtime connection badge, Solana wallet-nonce auth (live), polished Event Detail UX with tooltips & dark-mode parity (v2.3.88), comprehensive `/help` user manuals incl. Audio Rooms & Events (v2.3.88), explicit-tap Block/Report/Friend controls.
-- **Backend (`fwber-backend-ts`, port `4003`, PM2)**: Express 5 + TypeScript 6 ESM + Prisma (`MySQL`, pool 20 since v2.3.84) + Socket.io (`ws.fwber.online`), real MySQL + centralized `VERSION` checks on `/health`, `/api/health`, and `/api/health/metrics` (fixed v2.3.88), friend search + bidirectional block enforcement, direct messaging incl. friends, Audio Rooms with WebRTC signaling + live presence (v2.3.70–72), ActivityPub federation with **inbound WebFinger + NodeInfo discovery** (v2.3.78–79), OkCupid geometric-mean matching (105 questions), shared local Ollama LLM (`gemma-4-heretic`, `AI_PREFER_LOCAL=true`).
-- **Spatial Microservice (`fwber-geo`, port `8081`, systemd)**: Rust `2024` edition Actix-Web + `h3o` hexagonal proximity screener (crate `2.3.88`).
-- **Client Crypto & Mobile (`fwber-wasm`, `mobile`)**: Rust/WASM AES-GCM E2EE module (`v0.1.0`) and Expo 55 / React Native 0.83 mobile client (`v1.0.0`) with NFC peer tap support.
+- **Frontend (`fwber-frontend`, port `3000`, PM2 `.standalone-live`)**: Next.js `16.4.3` + React `19.3.1` zero-downtime standalone deployment (`ops/hetzner/scripts/deploy-frontend.sh`), single-page high-value dashboard (10 categories, 100% tooltip coverage, 179 routes / 133 linked / 17 intentional, 0 dead links), unified multi-tab hubs for **Council & Appeals** (`/council`), **Connected Accounts & Contact Sync** (`/integrations`), **Photos & Reveals** (`/photos` + `/photos/reveals`), and **Federation Gateway** (`/settings/federation`), strict CSP served, unified realtime connection badge, Solana wallet-nonce auth, comprehensive `/help` user manuals, and explicit-tap Block/Report/Friend controls.
+- **Backend (`fwber-backend-ts`, port `4003`, PM2)**: Express 5 + TypeScript 6 ESM + Prisma (`MySQL`, pool 20) + Socket.io (`ws.fwber.online`), real MySQL + centralized `VERSION` checks on `/health`, `/api/health`, and `/api/health/metrics`, scanner-probe `404` guard (`scanner-guard.ts`), transient-DB-outage resilient `MaintenanceService`, full **Community Council Governance & SHA-256 Merkle Proof API** (`/api/governance`), live OAuth/Contact Sync status & revocation (`/api/integrations/contacts`), friend search + bidirectional block enforcement, direct messaging incl. friends, Audio Rooms WebRTC signaling, ActivityPub + inbound WebFinger/NodeInfo discovery, OkCupid geometric-mean matching (105+ questions), and shared local Ollama LLM (`gemma-4-heretic`, `AI_PREFER_LOCAL=true`).
+- **Spatial Microservice (`fwber-geo`, port `8081`, systemd)**: Rust `2024` edition Actix-Web + `h3o` hexagonal proximity screener embedding root `VERSION` (`2.3.89`) at compile time.
+- **Client Crypto, Tray & Mobile (`fwber-wasm`, `tray.bat`, `mobile`)**: Rust/WASM AES-GCM E2EE module (`v0.1.0`), root Windows System Tray controller (`tray.bat` / `tools/fwber-tray.ps1`, `BelowNormal` CPU priority + bounded PID teardown + `-CheckProd`), and Expo 55 / React Native 0.83 mobile client (`v1.0.0`).
 
-## What v2.3.62–v2.3.88 Delivered
-1. **Social graph completion**: honest dashboard stats, friend/profile direct messaging, block hardening (14/14 messaging tests), wallet-nonce login proven live.
-2. **Realtime unification**: one connection-status source for header + dashboard; Audio Rooms signaling relay + ParticipantJoined/Left presence; TURN-ready ICE config.
-3. **Federation discovery**: served `/.well-known/webfinger` + `/.well-known/nodeinfo` + `/nodeinfo/2.1` (remote servers can now discover fwber users; full WebFinger→actor→outbox chain proven live).
-4. **Security, observability & deploy hardening**: strict CSP actually served (duplicate-header bug), API header dedupe, Prisma pool 3→20, real `/api/health` DB + `app_version` check replacing silent `200 []` catch-all fallthrough (v2.3.88), migration-safe deploy scripts (`deploy-backend-ts.sh` & `deploy-backend.yml`), photo-upload JSON error contract, tray watch-parent orphan fix, rewrite-target + payload audit tool (`tools/check_rewrites.py`).
-5. **UI & Manual polish**: Event Detail (`/events/[id]`) header, auth-aware empty card, dark-mode badges, share link, and RSVP/Invite tooltips; `/help` user manuals updated for Live Audio Rooms, Events & Live Maps, and inbound Fediverse discovery; backend suite 136/136 green.
+## What v2.3.62–v2.3.89 Delivered
+1. **Community Council & Hub Unification (`v2.3.89`)**: Ported `/api/governance` against live MySQL tables (`governance_proposals`, `governance_votes`, `governance_appeals`) with client-verifiable SHA-256 Merkle proofs; unified `/council` (3 tabs), `/integrations` (OAuth Providers + Synced Contacts, fixing `:4000`/401/mock-state bugs), and `/photos` + `/photos/reveals` (fixing counterparty `otherUser` bug); expanded `/help` manuals.
+2. **Production Log & Zero-Downtime Hardening (`v2.3.88`–`v2.3.89`)**: Real `/api/health` DB + `app_version` checks, `404` guard against `.env`/k8s/SQL vulnerability scanners, `MaintenanceService` pool-cascade guard, zero-downtime `.standalone-live` atomic Next.js swap (`deploy-frontend.sh`), migration-safe backend deploy scripts, and root `tray.bat` with dynamic `VERSION` and bounded process teardown (`143/143` Jest tests green).
+3. **Social Graph, Realtime & Fediverse (`v2.3.62`–`v2.3.87`)**: Honest dashboard stats, friend/profile direct messaging, bidirectional block enforcement, unified `PresenceContext` badge, Audio Rooms WebRTC signaling, inbound WebFinger + NodeInfo 2.1 discovery, strict CSP, Prisma pool `3 -> 20`, and `/api/oembed` + `/api/sentry-tunnel` nginx carve-outs.
 
-## Next Up
-1. **Bobbi visual-layer pass** (muse.ai, back online post-reset): badge states, compat bars, map render, event detail & onboarding UX — API layer already fully proven.
-2. **Operator decisions**: `NEXT_PUBLIC_SENTRY_DSN` / `SENTRY_DSN` to light up error telemetry over the live `/api/sentry-tunnel`; TURN provisioning (coturn vs hosted) for strict-NAT voice; off-site backup target; Stripe live keys; Resend email DNS; `/tmp` sweep (6.2G).
-3. **External**: live Mastodon/Pleroma node interop test (contract surface fully covered locally).
+## Next Up (Operator-Supplied Credentials / Decisions)
+1. **Optional External Keys**: `NEXT_PUBLIC_SENTRY_DSN` / `SENTRY_DSN` (Sentry tunnel is live; SDK awaits DSN); OAuth client IDs/secrets (`GOOGLE_CLIENT_ID`, `MICROSOFT_CLIENT_ID`, `FACEBOOK_APP_ID`) if external contact import is desired; Stripe live keys; Resend SMTP/domain DNS.
+2. **Infrastructure Choices**: TURN server (`coturn` on Hetzner vs hosted Cloudflare/Twilio TURN) for strict-NAT WebRTC voice; off-site backup replication target (Hetzner Storage Box / S3) for `/var/backups/fwber/`.

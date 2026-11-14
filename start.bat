@@ -1,14 +1,17 @@
 @echo off
 REM ==========================================================================
-REM  FWBer Launcher (v2.3.63)
+REM  FWBer Launcher (Dynamic VERSION from repo root)
 REM  Starts Backend (4003), Frontend (3000), and Geo (8081) at BelowNormal CPU
 REM  priority, or delegates to the Windows System Tray controller (--tray).
 REM ==========================================================================
 setlocal
-title FWBer Launcher
 cd /d "%~dp0"
 
-echo [FWBer] Starting development environment (BelowNormal CPU priority)...
+set "FWBER_VER=unknown"
+if exist "VERSION" set /p FWBER_VER=<VERSION
+title FWBer Launcher (v%FWBER_VER%)
+
+echo [FWBer v%FWBER_VER%] Starting development environment (BelowNormal CPU priority)...
 echo.
 
 where npm >nul 2>nul
@@ -22,9 +25,8 @@ REM Delegate to Windows System Tray controller when --tray is passed
 where powershell >nul 2>nul
 if not errorlevel 1 (
     if /i "%1"=="--tray" (
-        echo [FWBer] Launching Windows System Tray controller...
-        start "FWBer Tray" /belownormal powershell -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File "%~dp0tools\fwber-tray.ps1"
-        exit /b 0
+        call "%~dp0tray.bat"
+        exit /b %ERRORLEVEL%
     )
 )
 
@@ -32,7 +34,7 @@ echo [FWBer] Checking backend dependencies...
 pushd fwber-backend-ts
 if not exist "node_modules" (
     echo [FWBer] Installing backend dependencies...
-    call npm install
+    start "" /b /wait /belownormal cmd /c "npm install --no-fund --no-audit"
     if errorlevel 1 (
         echo [FWBer ERROR] Backend install failed.
         popd
@@ -52,7 +54,7 @@ echo [FWBer] Checking frontend dependencies...
 pushd fwber-frontend
 if not exist "node_modules" (
     echo [FWBer] Installing frontend dependencies...
-    call npm install
+    start "" /b /wait /belownormal cmd /c "npm install --no-fund --no-audit"
     if errorlevel 1 (
         echo [FWBer ERROR] Frontend install failed.
         popd
@@ -75,12 +77,12 @@ if exist "fwber-geo\target\release\fwber-geo.exe" (
 
 echo.
 echo =====================================================
-echo [FWBer] Services launched at BelowNormal CPU priority:
+echo [FWBer v%FWBER_VER%] Services launched at BelowNormal CPU priority:
 echo   Backend:  http://localhost:4003/health
 echo   Frontend: http://localhost:3000
 echo   Geo H3:   http://127.0.0.1:8081/health
 echo.
-echo Tip: Run "start.bat --tray" or "tools\fwber-tray.bat"
+echo Tip: Run "tray.bat" (or "start.bat --tray" / "tools\fwber-tray.bat")
 echo      to manage & quit servers cleanly from the system tray.
 echo =====================================================
 echo.

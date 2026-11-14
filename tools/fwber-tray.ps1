@@ -1,47 +1,63 @@
 ﻿# ==========================================================================
-#  FWBer System Tray Controller (v2.3.63)
+#  FWBer System Tray Controller (Dynamic VERSION from repo root)
 #  Lightweight Windows notification-area (system tray) icon that manages the
-#  local FWBer stack at BelowNormal CPU priority so dev servers never starve
-#  interactive desktop responsiveness.
+#  local FWBer stack at BelowNormal CPU priority and monitors live Hetzner
+#  production (`https://fwber.online` / `https://api.fwber.online/api/health`).
 #
-#  Managed Services:
+#  Managed Local Services:
 #    - Backend  (fwber-backend-ts) -> http://127.0.0.1:4003/health
 #    - Frontend (fwber-frontend)   -> http://127.0.0.1:3000
 #    - Geo      (fwber-geo Rust)   -> http://127.0.0.1:8081/health
 #
 #  Process Safety Guarantee:
+#    - Runs both this PowerShell controller and every spawned child server at
+#      `BelowNormal` CPU priority so local work never starves desktop responsiveness.
 #    - Tracks exact child Process objects spawned by this controller and uses
 #      `taskkill /PID <id> /T /F` + fast `netstat -ano` port cleanup ONLY for
 #      services started by this tray instance. Never runs broad node.exe sweeps.
 #    - Forces $env:PORT = '4003' when launching Backend so a local .env with
 #      PORT=4000 cannot desynchronize from the tray health monitor (:4003).
-#    - Automatically falls back to `node --watch dist/index.js` for Backend if
-#      `node_modules/tsx` is not installed locally.
 #
 #  Usage:
-#    GUI Tray Mode (default):
+#    GUI Tray Mode (default — starts local stack):
+#      tray.bat
 #      powershell -NoProfile -ExecutionPolicy Bypass -File tools\fwber-tray.ps1
+#    GUI Tray Idle Mode (Hetzner-only steady state — keeps local servers off):
+#      tray.bat -Idle
 #    CLI / Automated Modes:
-#      powershell -NoProfile -ExecutionPolicy Bypass -File tools\fwber-tray.ps1 -Status
-#      powershell -NoProfile -ExecutionPolicy Bypass -File tools\fwber-tray.ps1 -SmokeTest
-#      powershell -NoProfile -ExecutionPolicy Bypass -File tools\fwber-tray.ps1 -StopAll
+#      tray.bat -Status
+#      tray.bat -CheckProd
+#      tray.bat -SmokeTest
+#      tray.bat -StopAll
 # ==========================================================================
 
 param(
     [switch]$StartAll,
     [switch]$StopAll,
     [switch]$Status,
+    [switch]$CheckProd,
+    [switch]$Idle,
     [switch]$SmokeTest,
     [int]$SmokeWaitSeconds = 22
 )
 
+try {
+    [System.Diagnostics.Process]::GetCurrentProcess().PriorityClass = [System.Diagnostics.ProcessPriorityClass]::BelowNormal
+} catch {}
+
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
-# ---- Paths & Service Registry --------------------------------------------
-$RepoRoot = Split-Path -Parent $PSScriptRoot
-$LogDir   = Join-Path $RepoRoot 'logs'
+# ---- Paths, Version & Service Registry -----------------------------------
+$RepoRoot    = Split-Path -Parent $PSScriptRoot
+$VersionFile = Join-Path $RepoRoot 'VERSION'
+$AppVersion  = if (Test-Path $VersionFile) { (Get-Content $VersionFile -Raw).Trim() } else { 'unknown' }
+$LogDir      = Join-Path $RepoRoot 'logs'
 if (-not (Test-Path $LogDir)) { New-Item -ItemType Directory -Path $LogDir | Out-Null }
+
+$ProdWebUrl    = 'https://fwber.online'
+$ProdHealthUrl = 'https://api.fwber.online/api/health'
+$ProdHelpUrl   = 'https://fwber.online/help'
 
 $Services = @(
     @{
@@ -108,11 +124,11 @@ function Test-PortListening([int]$Port) {
     return ((Get-ListeningPids $Port).Count -gt 0)
 }
 
-function Test-HttpEndpoint([string]$Url) {
+function Test-HttpEndpoint([string]$Url, [int]$TimeoutMs = 2000) {
     try {
         $req = [System.Net.HttpWebRequest]::Create($Url)
         $req.Method = 'GET'
-        $req.Timeout = 1500
+        $req.Timeout = $TimeoutMs
         $resp = [System.Net.HttpWebResponse]$req.GetResponse()
         $code = [int]$resp.StatusCode
         $resp.Close()
@@ -124,6 +140,15 @@ function Test-HttpEndpoint([string]$Url) {
         return 0
     } catch {
         return 0
+    }
+}
+
+function Get-ProductionHealthSummary {
+    try {
+        $resp = Invoke-RestMethod -Uri $ProdHealthUrl -Method Get -TimeoutSec 6 -ErrorAction Stop
+        return "OK (status=$($resp.status), db=$($resp.database), app_version=$($resp.app_version))"
+    } catch {
+        return "ERROR ($($_.Exception.Message))"
     }
 }
 
@@ -221,6 +246,26 @@ function Start-FwberService($Service) {
     }
 }
 
+function Invoke-BoundedTaskkill([int]$TargetPid) {
+    try {
+        $psi = New-Object System.Diagnostics.ProcessStartInfo
+        $psi.FileName = 'taskkill.exe'
+        $psi.Arguments = "/PID $TargetPid /T /F"
+        $psi.UseShellExecute = $false
+        $psi.CreateNoWindow = $true
+        $tk = [System.Diagnostics.Process]::Start($psi)
+        if ($tk -and -not $tk.WaitForExit(4000)) {
+            try { $tk.Kill() } catch {}
+        }
+    } catch {}
+    try {
+        $direct = Get-Process -Id $TargetPid -ErrorAction SilentlyContinue
+        if ($direct -and -not $direct.HasExited) {
+            $direct.Kill()
+        }
+    } catch {}
+}
+
 function Stop-FwberService($Service, [switch]$AllowUnownedPortCleanup) {
     $owned = $script:OwnedPorts.ContainsKey($Service.Name) -and $script:OwnedPorts[$Service.Name]
 
@@ -229,7 +274,7 @@ function Stop-FwberService($Service, [switch]$AllowUnownedPortCleanup) {
         try {
             if (-not $p.HasExited) {
                 Write-TrayLog "Stopping $($Service.Name) process tree rooted at PID $($p.Id) ..."
-                & taskkill.exe /PID $p.Id /T /F *> $null
+                Invoke-BoundedTaskkill $p.Id
             }
         } catch {
             Write-TrayLog "WARN stopping PID $($p.Id): $($_.Exception.Message)"
@@ -244,18 +289,16 @@ function Stop-FwberService($Service, [switch]$AllowUnownedPortCleanup) {
             $proc = Get-Process -Id $lpid -ErrorAction SilentlyContinue
             if ($proc -and $proc.ProcessName -match $Service.ProcMatch) {
                 Write-TrayLog "  Reclaiming port $($Service.Port) from $($proc.ProcessName) PID $($proc.Id)"
-                & taskkill.exe /PID $proc.Id /T /F *> $null
+                Invoke-BoundedTaskkill $proc.Id
                 # Watch-mode parents (node --watch) do not listen themselves;
-                # killing only the listening child lets the watcher respawn it
-                # on the next file change (orphan found live 2026-11-13).
-                # Kill the parent too when it is provably the fwber watcher.
+                # kill the parent too when it is provably the fwber watcher.
                 try {
                     $cim = Get-CimInstance Win32_Process -Filter "ProcessId=$lpid" -ErrorAction SilentlyContinue
                     if ($cim -and $cim.ParentProcessId) {
                         $parentCim = Get-CimInstance Win32_Process -Filter "ProcessId=$($cim.ParentProcessId)" -ErrorAction SilentlyContinue
                         if ($parentCim -and $parentCim.CommandLine -match '--watch' -and $parentCim.CommandLine -match 'dist/index\.js') {
                             Write-TrayLog "  Killing watch parent PID $($parentCim.ProcessId) so the service cannot respawn"
-                            & taskkill.exe /PID $parentCim.ProcessId /T /F *> $null
+                            Invoke-BoundedTaskkill ([int]$parentCim.ProcessId)
                         }
                     }
                 } catch {}
@@ -276,7 +319,7 @@ function Stop-AllServices([switch]$ForcePortCleanup) {
 }
 
 function Show-StatusReport {
-    Write-TrayLog '--- FWBer Local Stack Status ---'
+    Write-TrayLog "--- FWBer v$AppVersion Local Stack Status ---"
     foreach ($s in $Services) {
         $pids = Get-ListeningPids $s.Port
         $up   = ($pids.Count -gt 0)
@@ -292,10 +335,16 @@ function Show-StatusReport {
     }
 }
 
-# ---- CLI-Only Fast Paths (-Status / -StopAll) ----------------------------
+# ---- CLI-Only Fast Paths (-Status / -CheckProd / -StopAll) ---------------
 if ($Status) {
     Show-StatusReport
     [System.Environment]::Exit(0)
+}
+
+if ($CheckProd) {
+    $summary = Get-ProductionHealthSummary
+    Write-TrayLog "Production Health ($ProdHealthUrl): $summary"
+    if ($summary -like 'OK*') { [System.Environment]::Exit(0) } else { [System.Environment]::Exit(1) }
 }
 
 if ($StopAll) {
@@ -318,7 +367,7 @@ $font.Dispose()
 $g.Dispose()
 
 $tray.Icon    = [System.Drawing.Icon]::FromHandle($bmp.GetHicon())
-$tray.Text    = 'FWBer Dev Stack'
+$tray.Text    = "FWBer v$AppVersion"
 $tray.Visible = $true
 
 function Update-TrayStatus {
@@ -328,30 +377,64 @@ function Update-TrayStatus {
         $parts += "$($s.Short):$(if ($on) { 'ON' } else { 'off' })"
     }
     # NotifyIcon.Text has a strict 63-char limit in WinForms.
-    $text = "FWBer [$($parts -join ' ')]"
+    $text = "FWBer v$AppVersion [$($parts -join ' ')]"
     if ($text.Length -gt 63) { $text = $text.Substring(0, 63) }
     $tray.Text = $text
 }
 
 $menu = New-Object System.Windows.Forms.ContextMenuStrip
+$headerItem = $menu.Items.Add("FWBer Controller v$AppVersion")
+$headerItem.Enabled = $false
+$menu.Items.Add((New-Object System.Windows.Forms.ToolStripSeparator)) | Out-Null
+
 function Add-TrayMenuItem([string]$Label, [scriptblock]$Action) {
     $item = $menu.Items.Add($Label)
     $item.Add_Click($Action)
     return $item
 }
 
-Add-TrayMenuItem 'Open FWBer App (localhost:3000)'             { Start-Process 'http://localhost:3000' } | Out-Null
-Add-TrayMenuItem 'Open Backend Health (localhost:4003/health)' { Start-Process 'http://localhost:4003/health' } | Out-Null
-Add-TrayMenuItem 'Open Geo Health (127.0.0.1:8081/health)'     { Start-Process 'http://127.0.0.1:8081/health' } | Out-Null
+# Production shortcuts (Hetzner steady-state)
+Add-TrayMenuItem 'Open Live Production (fwber.online)'      { Start-Process $ProdWebUrl } | Out-Null
+Add-TrayMenuItem 'Open User Manual (fwber.online/help)'     { Start-Process $ProdHelpUrl } | Out-Null
+Add-TrayMenuItem 'Check Production Health (api.fwber.online)' {
+    $summary = Get-ProductionHealthSummary
+    Write-TrayLog "Tray Production Check: $summary"
+    $tray.BalloonTipTitle = "FWBer Production (v$AppVersion)"
+    $tray.BalloonTipText  = $summary
+    $tray.ShowBalloonTip(4000)
+} | Out-Null
+
 $menu.Items.Add((New-Object System.Windows.Forms.ToolStripSeparator)) | Out-Null
-Add-TrayMenuItem 'Start All Services (BelowNormal)'            { Start-AllServices; Start-Sleep -Milliseconds 800; Update-TrayStatus } | Out-Null
-Add-TrayMenuItem 'Stop All Services'                           { Stop-AllServices;  Start-Sleep -Milliseconds 600; Update-TrayStatus } | Out-Null
-Add-TrayMenuItem 'Restart All Services'                        { Stop-AllServices; Start-Sleep -Seconds 1; Start-AllServices; Start-Sleep -Milliseconds 800; Update-TrayStatus } | Out-Null
+
+# Local stack shortcuts
+Add-TrayMenuItem 'Open Local App (localhost:3000)'             { Start-Process 'http://localhost:3000' } | Out-Null
+Add-TrayMenuItem 'Open Local Backend Health (:4003/health)'    { Start-Process 'http://localhost:4003/health' } | Out-Null
+Add-TrayMenuItem 'Open Local Geo Health (127.0.0.1:8081)'      { Start-Process 'http://127.0.0.1:8081/health' } | Out-Null
+$menu.Items.Add((New-Object System.Windows.Forms.ToolStripSeparator)) | Out-Null
+
+Add-TrayMenuItem 'Start All Local Services (BelowNormal)'      { Start-AllServices; Start-Sleep -Milliseconds 800; Update-TrayStatus } | Out-Null
+Add-TrayMenuItem 'Stop All Local Services'                     { Stop-AllServices;  Start-Sleep -Milliseconds 600; Update-TrayStatus } | Out-Null
+Add-TrayMenuItem 'Restart All Local Services'                  { Stop-AllServices; Start-Sleep -Seconds 1; Start-AllServices; Start-Sleep -Milliseconds 800; Update-TrayStatus } | Out-Null
+
+# Individual service submenu
+$svcSubmenu = New-Object System.Windows.Forms.ToolStripMenuItem('Individual Services')
+foreach ($svc in $Services) {
+    $captured = $svc
+    $startItem = New-Object System.Windows.Forms.ToolStripMenuItem("Start $($captured.Name) (:$($captured.Port))")
+    $startItem.Add_Click({ Start-FwberService $captured; Start-Sleep -Milliseconds 500; Update-TrayStatus }.GetNewClosure())
+    $stopItem  = New-Object System.Windows.Forms.ToolStripMenuItem("Stop $($captured.Name) (:$($captured.Port))")
+    $stopItem.Add_Click({ Stop-FwberService $captured; Start-Sleep -Milliseconds 400; Update-TrayStatus }.GetNewClosure())
+    $svcSubmenu.DropDownItems.Add($startItem) | Out-Null
+    $svcSubmenu.DropDownItems.Add($stopItem)  | Out-Null
+}
+$menu.Items.Add($svcSubmenu) | Out-Null
+
 $menu.Items.Add((New-Object System.Windows.Forms.ToolStripSeparator)) | Out-Null
 Add-TrayMenuItem 'Open Logs Folder (logs\)'                    { Start-Process $LogDir } | Out-Null
 Add-TrayMenuItem 'Refresh Status'                              { Update-TrayStatus; Show-StatusReport } | Out-Null
 $menu.Items.Add((New-Object System.Windows.Forms.ToolStripSeparator)) | Out-Null
-Add-TrayMenuItem 'Quit (Stop Servers && Exit Tray)' {
+
+Add-TrayMenuItem 'Quit (Stop Local Servers && Exit Tray)' {
     Write-TrayLog 'Quit requested from System Tray menu — stopping managed services...'
     Stop-AllServices
     $tray.Visible = $false
@@ -360,11 +443,17 @@ Add-TrayMenuItem 'Quit (Stop Servers && Exit Tray)' {
 } | Out-Null
 
 $tray.ContextMenuStrip = $menu
-$tray.Add_DoubleClick({ Start-Process 'http://localhost:3000' })
+$tray.Add_DoubleClick({
+    if (Test-PortListening 3000) {
+        Start-Process 'http://localhost:3000'
+    } else {
+        Start-Process $ProdWebUrl
+    }
+})
 
 # ---- Automated Non-Blocking Smoke Test Mode (-SmokeTest) -----------------
 if ($SmokeTest) {
-    Write-TrayLog "=== FWBer System Tray SmokeTest Started (Wait=${SmokeWaitSeconds}s) ==="
+    Write-TrayLog "=== FWBer v$AppVersion System Tray SmokeTest Started (Wait=${SmokeWaitSeconds}s) ==="
     Start-AllServices
     $deadline = (Get-Date).AddSeconds($SmokeWaitSeconds)
     while ((Get-Date) -lt $deadline) {
@@ -394,7 +483,7 @@ if ($SmokeTest) {
 
     $tray.Visible = $false
     $tray.Dispose()
-    Write-TrayLog '=== FWBer System Tray SmokeTest Completed Cleanly ==='
+    Write-TrayLog "=== FWBer v$AppVersion System Tray SmokeTest Completed Cleanly ==="
     [System.Environment]::Exit(0)
 }
 
@@ -404,8 +493,10 @@ $timer.Interval = 5000
 $timer.Add_Tick({ Update-TrayStatus })
 $timer.Start()
 
-Write-TrayLog 'FWBer System Tray GUI initialized in Windows Notification Area.'
-Start-AllServices
+Write-TrayLog "FWBer v$AppVersion System Tray GUI initialized in Windows Notification Area (Idle=$Idle)."
+if (-not $Idle) {
+    Start-AllServices
+}
 Update-TrayStatus
 
 [System.Windows.Forms.Application]::Run()

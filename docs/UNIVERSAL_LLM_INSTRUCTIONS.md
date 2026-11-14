@@ -9,9 +9,9 @@
 fwber is an open-source, privacy-first proximity dating platform. It combines AI-generated avatars with location-based discovery. The core loop is: Register -> Onboard -> Discover -> Match -> Chat.
 For a deep dive into the project's philosophy, refer to `VISION.md`.
 
-- **Stack:** Laravel 12 (PHP 8.4) + Next.js 16 (React 18) + MySQL + Rust (Geo-Screener)
+- **Stack:** Express + TypeScript + Prisma + Socket.IO (`fwber-backend-ts`) + Next.js 16 / React 18 (`fwber-frontend`) + MySQL + Redis + Rust (`fwber-geo`); legacy Laravel 12 (`fwber-backend`) retained as archival reference
 - **License:** MIT
-- **Hosting:** DreamHost Shared (current), Docker/Kubernetes ready
+- **Hosting:** Hetzner Dedicated Linux (`5.161.250.43`, `https://fwber.online`, systemd + PM2 + Nginx), Docker/Kubernetes ready
 
 ## 2. Autonomous Execution Protocol (ACTIVE)
 

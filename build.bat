@@ -1,6 +1,6 @@
 @echo off
 REM ==========================================================================
-REM  FWBer Unified Build Script (v2.3.63)
+REM  FWBer Unified Build Script (Dynamic VERSION from repo root)
 REM  Validates dependencies, generates Prisma client, and builds every
 REM  component in the monorepo at BelowNormal CPU priority without cleaning
 REM  or purging built binaries.
@@ -9,6 +9,10 @@ REM  Usage: build.bat [backend|frontend|geo|mobile|all] [--install]
 REM ==========================================================================
 setlocal enabledelayedexpansion
 cd /d "%~dp0"
+
+set "FWBER_VER=unknown"
+if exist "VERSION" set /p FWBER_VER=<VERSION
+
 set TARGET=%1
 if "%TARGET%"=="" set TARGET=all
 if /i "%TARGET%"=="--install" (
@@ -20,7 +24,7 @@ if /i "%TARGET%"=="--install" (
 )
 
 echo ============================================================
-echo  FWBer Build (v2.3.63) - target: %TARGET% [BelowNormal CPU]
+echo  FWBer Build (v%FWBER_VER%) - target: %TARGET% [BelowNormal CPU]
 echo ============================================================
 
 where npm >nul 2>nul
@@ -44,7 +48,7 @@ echo [1/4] Backend (fwber-backend-ts)...
 pushd fwber-backend-ts
 if not exist "node_modules" (
     echo [FWBer] Installing backend dependencies...
-    start "" /b /wait /belownormal cmd /c "npm install"
+    start "" /b /wait /belownormal cmd /c "npm install --no-fund --no-audit"
     if errorlevel 1 (
         echo [ERROR] Backend npm install failed.
         popd
@@ -52,7 +56,7 @@ if not exist "node_modules" (
     )
 ) else if "%FORCE_INSTALL%"=="1" (
     echo [FWBer] Refreshing backend dependencies...
-    start "" /b /wait /belownormal cmd /c "npm install"
+    start "" /b /wait /belownormal cmd /c "npm install --no-fund --no-audit"
     if errorlevel 1 (
         echo [ERROR] Backend npm install failed.
         popd
@@ -66,7 +70,9 @@ if errorlevel 1 (
 )
 start "" /b /wait /belownormal cmd /c "npm run build"
 if errorlevel 1 (
-    echo [WARN] Backend build reported errors - review output above.
+    echo [ERROR] Backend TypeScript build failed.
+    popd
+    exit /b 1
 )
 popd
 if /i "%TARGET%"=="backend" goto :done
@@ -77,7 +83,7 @@ echo [2/4] Frontend (fwber-frontend)...
 pushd fwber-frontend
 if not exist "node_modules" (
     echo [FWBer] Installing frontend dependencies...
-    start "" /b /wait /belownormal cmd /c "npm install"
+    start "" /b /wait /belownormal cmd /c "npm install --no-fund --no-audit"
     if errorlevel 1 (
         echo [ERROR] Frontend npm install failed.
         popd
@@ -85,7 +91,7 @@ if not exist "node_modules" (
     )
 ) else if "%FORCE_INSTALL%"=="1" (
     echo [FWBer] Refreshing frontend dependencies...
-    start "" /b /wait /belownormal cmd /c "npm install"
+    start "" /b /wait /belownormal cmd /c "npm install --no-fund --no-audit"
     if errorlevel 1 (
         echo [ERROR] Frontend npm install failed.
         popd
@@ -94,7 +100,9 @@ if not exist "node_modules" (
 )
 start "" /b /wait /belownormal cmd /c "npm run build"
 if errorlevel 1 (
-    echo [WARN] Frontend build reported errors - review output above.
+    echo [ERROR] Frontend Next.js build failed.
+    popd
+    exit /b 1
 )
 popd
 if /i "%TARGET%"=="frontend" goto :done
@@ -123,14 +131,14 @@ echo [4/4] Mobile (mobile)...
 if exist "mobile\package.json" (
     pushd mobile
     if not exist "node_modules" (
-        start "" /b /wait /belownormal cmd /c "npm install"
+        start "" /b /wait /belownormal cmd /c "npm install --no-fund --no-audit"
         if errorlevel 1 (
             echo [WARN] Mobile npm install failed - optional component.
             popd
             goto :done
         )
     ) else if "%FORCE_INSTALL%"=="1" (
-        start "" /b /wait /belownormal cmd /c "npm install"
+        start "" /b /wait /belownormal cmd /c "npm install --no-fund --no-audit"
     )
     popd
 )
@@ -138,6 +146,6 @@ if exist "mobile\package.json" (
 :done
 echo.
 echo ============================================================
-echo  Build sequence complete for target: %TARGET%
+echo  FWBer v%FWBER_VER% build sequence complete for target: %TARGET%
 echo ============================================================
 endlocal

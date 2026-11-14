@@ -1,7 +1,12 @@
 # MEMORY.md — fwber Internal Architectural Observations
 
-## Current Version: 2.3.88 "Health Observability, Deploy Safety & Event/Manual Polish"
+## Current Version: 2.3.89 "Council Governance API, Unified Hubs, Scanner Hardening & Atomic Frontend Deploy"
 **Last Updated:** 2026-11-14
+
+### Observations (2026-11-14 session, v2.3.89)
+- **Catch-all `/api` scanner hazard & Governance gap**: Terminal `app.use('/api', ...)` returning `200 []` both invited follow-up fuzzing storms from automated vulnerability scanners probing `/api/v1/namespaces/default/secrets` + `/api/v3/.env` AND masked the fact that `/api/governance` was never mounted in `fwber-backend-ts` even though `governance_proposals`, `governance_votes`, and `governance_appeals` existed in MySQL! `src/lib/scanner-guard.ts` now returns `404` for scanner probes, and `src/routes/governance.ts` implements the full Community Council + SHA-256 Merkle proof API matching `VoteVerifier.tsx`'s WebCrypto SHA-256 tree format.
+- **Zero-downtime Next.js standalone swap**: Running `next build` in-place wipes `.next/standalone/fwber-frontend/server.js` for ~75s. `ops/hetzner/scripts/deploy-frontend.sh` isolates live PM2 `fwber-frontend` inside `.standalone-live/fwber-frontend/server.js` and atomically swaps `.standalone-next` into `.standalone-live` via `mv` (`<5ms`) after `next build` + `copy-standalone-assets.mjs` succeed. Do NOT override Next's `distDir` for staging swaps because `next build` bakes `distDir` into `server.js`.
+- **Windows System Tray handle safety**: Calling `& taskkill.exe /PID <id> /T /F` directly in PowerShell when child processes have `-RedirectStandardOutput` handles can hang waiting on inherited pipe closure. `Invoke-BoundedTaskkill` in `tools/fwber-tray.ps1` uses `Process.Start` + `WaitForExit(4000)` + `Process.Kill()` fallback so `Stop-AllServices` / Quit never blocks.
 
 ### Observations (2026-11-14 session, v2.3.88)
 - **Honest `/api/health` contract**: `src/index.ts` mounts a catch-all `app.use('/api', ...)` returning `200 []` for unmounted GET routes so legacy frontend stubs don't crash. That also masked unmounted `GET /api/health` (`src/routes/health.ts` previously only defined `GET /metrics`)! Always assert payload shape (`status === 'ok'`, non-array JSON) in health probes (`tools/check_rewrites.py`), and read centralized `VERSION` via `src/lib/version.ts` (`getAppVersion()`) across `/health`, `/api/health`, `/api/health/metrics`, `/`, and `/nodeinfo/2.1`.

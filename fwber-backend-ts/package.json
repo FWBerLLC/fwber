@@ -1,6 +1,6 @@
 {
   "name": "fwber-backend-ts",
-  "version": "2.3.88",
+  "version": "2.3.89",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -63,4 +63,3 @@
     "zod": "^4.3.6"
   }
 }
-

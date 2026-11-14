@@ -2,6 +2,10 @@
 > **Generated on:** 2026-04-02
 > **Goal:** Creative, constructive analysis of the fwber monorepo to find missing features, improvements, refactoring targets, language ports, and concept pivots.
 
+## 2026-11-14 Addendum (from the v2.3.89 governance, hub consolidation & zero-downtime deploy pass)
+1. **Solana Memo Anchor Cron for Finalized Council Proposals (`SOLANA_GOVERNANCE_ANCHOR_TX`)**: Now that `src/routes/governance.ts` computes deterministic SHA-256 Merkle roots (`computeProposalMerkleTree`) and `VoteVerifier.tsx` verifies inclusion proofs client-side via WebCrypto, a tiny scheduled worker in `MaintenanceService` can write a 64-byte Solana Memo transaction anchoring each newly finalized proposal's `merkle_root` to Solana mainnet/devnet and store the signature in a `merkle_anchor_tx` column.
+2. **Client-Side Blinded Contact Matching (PSI / Salted SHA-256 Intersection)**: Upgrade `ContactSyncService` so users who prefer not to connect OAuth providers can hash phone numbers/emails locally in WebCrypto (`HMAC-SHA256` with a rotating epoch salt) to discover mutual opt-in friends without transmitting raw contact strings.
+
 ## 2026-11-14 Addendum (from the v2.3.88 observability & UX pass)
 1. **Public OpenGraph Metadata for Shared Event Cards (`/events/[id]`)**: Now that `/api/oembed` (`v2.3.87`) and `/events/[id]` Sign-In/Share UX (`v2.3.88`) are live, add a lightweight unauthenticated `GET /api/public/events/:id/preview` endpoint returning *only* non-sensitive summary fields (`title`, `type`, `starts_at`, city-level region — never exact street coordinates or attendee names) so Next.js `generateMetadata` on `/events/[id]` can render rich per-event `og:title` / `og:description` cards on Discord, iMessage, and Mastodon without leaking member locations.
 2. **Consolidate Shadowed Next `app/api/*` Stubs**: Only `/api/oembed` and `/api/sentry-tunnel` execute Next-side in production (all other `/api/*` requests route directly to `:4003` via nginx); archiving the 6 unused legacy `app/api/*` route stubs into `tools/legacy/` will shrink Next standalone build output and prevent future confusion about which runtime serves `/api/*`.

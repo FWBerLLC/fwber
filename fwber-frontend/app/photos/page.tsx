@@ -5,7 +5,10 @@ import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, us
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, useSortable, rectSortingStrategy } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import Image from 'next/image'
+import Link from 'next/link'
 import dynamic from 'next/dynamic'
+import AppHeader from '@/components/AppHeader'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { usePhotos, usePhotoSettings } from '@/lib/api/photos'
 import PhotoGallery from '@/components/PhotoGallery'
 import { Button } from '@/components/ui/button'
@@ -24,7 +27,9 @@ import {
   Eye, 
   AlertCircle,
   CheckCircle2,
-  GripVertical
+  GripVertical,
+  Lock,
+  Info
 } from 'lucide-react'
 import { isFeatureEnabled } from '@/lib/featureFlags'
 
@@ -540,15 +545,54 @@ export default function PhotoManagementPage() {
   }
 
   return (
+    <TooltipProvider delayDuration={200}>
     <div className={`min-h-screen bg-background ${isPageDragActive ? 'opacity-95' : ''}`}>
+      <AppHeader />
       <div className="container mx-auto px-4 py-8 max-w-4xl">
+        {/* Unified Photo & Media Hub Switcher */}
+        <div className="mb-6 flex flex-wrap items-center gap-2 border-b border-border pb-3">
+          <Link
+            href="/photos"
+            className="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-primary text-primary-foreground shadow-sm flex items-center gap-1.5"
+          >
+            <Camera className="w-3.5 h-3.5" />
+            My Photo Gallery ({photos.length})
+          </Link>
+          <Link
+            href="/photos/reveals"
+            className="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-muted text-muted-foreground hover:text-foreground transition flex items-center gap-1.5"
+          >
+            <Eye className="w-3.5 h-3.5" />
+            Match Photo Reveals
+          </Link>
+          <Link
+            href="/settings/vault"
+            className="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-muted text-muted-foreground hover:text-foreground transition flex items-center gap-1.5"
+          >
+            <Lock className="w-3.5 h-3.5" />
+            Encrypted Media Vault
+          </Link>
+        </div>
+
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">Photo Management</h1>
+          <h1 className="text-3xl font-bold text-foreground mb-2 flex items-center gap-2">
+            Photo Management
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button type="button" aria-label="About Photo Management" className="text-muted-foreground hover:text-foreground">
+                  <Info className="w-4 h-4" />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent className="max-w-xs text-xs">
+                Upload up to {settings?.max_photos || 12} profile photos, drag cards to set display order, mark private photos for progressive tier reveals, or switch above to inspect Match Reveals and your AES-256-GCM Encrypted Vault.
+              </TooltipContent>
+            </Tooltip>
+          </h1>
           <p className="text-muted-foreground">
-            Manage your profile photos to showcase your personality and attract better matches.
-                </p>
-              </div>
+            Manage your profile photos, progressive tier visibility, and match reveals in one unified media hub.
+          </p>
+        </div>
 
         {/* Error Display */}
           {error && (
@@ -705,5 +749,6 @@ export default function PhotoManagementPage() {
         />
       )}
     </div>
+    </TooltipProvider>
   )
 }

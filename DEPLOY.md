@@ -1,26 +1,26 @@
 # DEPLOY.md — The fwber Operations Guide
 
 > **Last Updated:** 2026-11-14
-> **Version:** 2.3.88
+> **Version:** 2.3.89
 
 This document is the operational source of truth for deploying the active fwber stack on **`fwber.online`** (`fwber.me` was permanently retired on 2026-10-22).
 
-## 0. Active Production Topology (All-Hetzner `fwber.online` — v2.3.88)
+## 0. Active Production Topology (All-Hetzner `fwber.online` — v2.3.89)
 
 Since the v2.x TypeScript + Next.js 16 migration, **100% of production runs on Hetzner VPS `5.161.250.43`** (`/var/www/fwber/repo`):
 
 | Public Host | Internal Target | Process Manager | Stack |
 |---|---|---|---|
-| `fwber.online` / `www.fwber.online` | `127.0.0.1:3000` | PM2 (`fwber-frontend`) | Next.js `16.4.3` + React `19.3.1` (`output: 'standalone'`) |
+| `fwber.online` / `www.fwber.online` | `127.0.0.1:3000` | PM2 (`fwber-frontend` -> `.standalone-live`) | Next.js `16.4.3` + React `19.3.1` (`output: 'standalone'`, atomic swap) |
 | `api.fwber.online` | `127.0.0.1:4003` | PM2 (`fwber-backend-ts`) | Express 5 + TypeScript 6 ESM + Prisma (`MySQL`) |
 | `ws.fwber.online` | `127.0.0.1:4003` | PM2 (`fwber-backend-ts`) | Socket.io realtime upgrade via Nginx |
-| `geo.fwber.online` | `127.0.0.1:8081` | `systemd` (`fwber-geo.service`) | Rust `2024` Actix-Web + `h3o` spatial index (`v2.3.88`) |
+| `geo.fwber.online` | `127.0.0.1:8081` | `systemd` (`fwber-geo.service`) | Rust `2024` Actix-Web + `h3o` spatial index (`v2.3.89`) |
 | *(On-box internal)* | `127.0.0.1:3306` / `:6379` / `:11434` | `systemd` | MySQL 8, Redis, shared local Ollama (`gemma-4-heretic`, `AI_PREFER_LOCAL=true`) |
 
 ### Critical Hetzner Co-Tenancy & Safety Rules
 1. **CPU Scheduling (`nice -n 10`)**: Always prefix server-side builds with `nice -n 10` (e.g. `nice -n 10 npm run build`, `nice -n 10 cargo build --release`) so co-hosted sites (`bobsgame.com`, `robertpelloni.com`, `hypernexus.site`, `tormentnexus.site`) are never starved.
 2. **Untracked Server Migrations**: Never run `git clean -fd` blindly over `/var/www/fwber/repo/fwber-backend-ts/prisma/migrations/` without preserving the baseline migration directory on the server.
-3. **Standalone Asset Copy**: Next.js `output: 'standalone'` runs `postbuild` (`node scripts/copy-standalone-assets.mjs`) to copy `.next/static` and `public/` into `.next/standalone/fwber-frontend/`, with `/var/www/fwber/repo/fwber-backend-ts/uploads` symlinked to `.next/standalone/fwber-frontend/public/uploads`.
+3. **Zero-Downtime Standalone Swap (`ops/hetzner/scripts/deploy-frontend.sh`)**: PM2 `fwber-frontend` runs `.standalone-live/fwber-frontend/server.js` so `next build` can rebuild `.next/` without deleting the active `server.js` module; once `copy-standalone-assets.mjs` finishes (`verbatimSymlinks: true` + `public/uploads` link), `.standalone-next` swaps atomically into `.standalone-live` (`<5ms` `mv`) before `pm2 restart fwber-frontend`.
 4. **Automated Backups & Disk Watchdog**: Nightly cron (`03:30`) writes DB + uploads + env + nginx archives to `/var/backups/fwber/` (14-day retention), monthly `/usr/local/bin/fwber-restore-drill.sh` validates all 134 tables, and hourly disk watchdog guards root disk usage.
 5. **CI/CD Workflows**:
    - `.github/workflows/deploy-frontend.yml` — builds Next.js 16 standalone on Node 24 and deploys to Hetzner PM2 `fwber-frontend`.

@@ -1,3 +1,26 @@
+## Session 2026-11-14 (Gemini Pro High — Antigravity) — Shipped & Deployed v2.3.89
+
+### 1. Audit & Discovery (Production Logs, Git Branches, Backend/Frontend Gaps, Tray)
+- **Git & Branch Reconciliation**: Fetched `origin` + `upstream`; verified **0 unmerged commits** across all 24 local and `origin/*` refs; fast-forwarded all 10 local personal feature/`rev/*` branches (`246–371` commits behind `main`, `0` ahead) to `main`.
+- **Live Hetzner Log Findings (`5.161.250.43`)**:
+  1. `fwber-backend-ts-out.log`: Automated scanners hitting `GET /api/v1/namespaces/default/secrets` and `GET /api/v3/.env` received `200 []` from the `/api` catch-all.
+  2. `fwber-backend-ts-error.log`: Transient MySQL pool timeouts (`P1001`/`P2024`) triggered a secondary `AutonomousService.logAction('System Maintenance', 'Failed')` DB `INSERT` inside `MaintenanceService`'s `catch` block, amplifying pool pressure.
+  3. `fwber-frontend-error.log`: Historical `Cannot find module '.../.next/standalone/fwber-frontend/server.js'` errors during in-place `next build` runs.
+- **Full-Stack Gap Uncovered**: Production MySQL already had `governance_proposals`, `governance_votes`, and `governance_appeals`, and `/council` + `/council/appeals` + `VoteVerifier` called `/api/governance/*` — yet `fwber-backend-ts` had **no `/api/governance` router**, causing `/council` to crash on `res.proposals.filter(...)` and dropping all proposals/votes/appeals! Also uncovered 4 bugs in `/integrations` (hardcoded `{ facebook: true }` mock, port `:4000` unauthenticated redirect instead of JSON `{ url }`, missing Microsoft callback, and `first_name` vs `firstName` mismatch) and the counterparty `otherUser` bug in `/photos/reveals` (`reveal.match.user1 || reveal.match.user2` showing the viewer's own name when `user1`).
+
+### 2. Shipped & Verified in v2.3.89
+- **Backend (`fwber-backend-ts`)**:
+  - Created `src/routes/governance.ts` (mounted at `/api/governance`) with `GET/POST /proposals`, `POST /proposals/:id/vote`, `GET /proposals/:id/proof` (deterministic SHA-256 Merkle tree matching `VoteVerifier.tsx` WebCrypto), and `GET/POST /appeals`.
+  - Created `src/lib/scanner-guard.ts` (`isScannerProbePath`) returning `404` on `.env`/`.git`/`.sql`/k8s/CMS/traversal probes before the `/api` catch-all.
+  - Guarded `MaintenanceService.performMaintenance()` with `isTransientDatabaseConnectivityError()`.
+  - Upgraded `src/routes/contacts-integration.ts` & `contacts-integration-sync.ts` (`GET /status`, `DELETE /:provider`, `503` unconfigured-OAuth guard, Microsoft 365 callback exchange, `firstName`/`lastName` normalization) and quieted `dotenv.config({ quiet: true })` across 4 modules.
+  - Added `tests/GovernanceAndScanner.test.ts` — full backend suite is now **`33/33` suites, `143/143` tests passing** (`tsc` `0`).
+- **Frontend & Manuals (`fwber-frontend`)**:
+  - Unified `/integrations` (**OAuth Providers** + **Synced Contacts** tabs), `/council` (**Active Proposals** + **History & Merkle Audit** + **Dispute Appeals** tabs), and `/photos` + `/photos/reveals` (fixed `otherUser` counterparty logic + cross-hub switcher + `<Tooltip>` guidance), updated `/dashboard` hub metadata (`133/179` linked, `0` dead links), and added `council-governance` + `connected-contacts` to `/help` (`tsc --noEmit` `0`).
+- **Ops, Geo & Windows System Tray**:
+  - Created `ops/hetzner/scripts/deploy-frontend.sh` (`.standalone-live` atomic `mv` swap) and updated `copy-standalone-assets.mjs` (`verbatimSymlinks: true` + `uploads` junction).
+  - Created root `tray.bat`, wired dynamic `VERSION` across `build.bat`, `start.bat`, `tools/fwber-tray.ps1`, `tools/fwber-tray-check.py`, and `fwber-geo/src/main.rs` (`include_str!("../../VERSION")`), added `Invoke-BoundedTaskkill` (`4s` timeout + `Kill()` fallback), `-CheckProd`, and `-Idle`, verified live `-SmokeTest` (`BelowNormal` -> clean `DOWN`), and rebuilt `fwber-geo` `2.3.89` release binary.
+
 ## Session 2026-11-14 (Gemini Pro High — Antigravity) — Shipped & Deployed v2.3.88
 
 ### 1. Catch-Up & State Audit

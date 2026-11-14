@@ -4,6 +4,30 @@ import { SentimentAnalysisService } from './SentimentAnalysisService.js';
 import { PromotionService } from './PromotionService.js';
 import { ActivityNotificationService } from './ActivityNotificationService.js';
 
+/**
+ * Detect transient Prisma/MySQL connectivity or connection-pool exhaustion errors.
+ *
+ * WHY THIS GUARD IS CRITICAL (`v2.3.89`):
+ * Live Hetzner error logs (`fwber-backend-ts-error.log`) showed that whenever MySQL
+ * was momentarily unreachable or pool-saturated (`P1001`, `P1002`, `P2024`,
+ * `Can't reach database server`, `Timed out fetching a new connection`),
+ * `MaintenanceService.performMaintenance()` caught the error and immediately
+ * called `AutonomousService.logAction('System Maintenance', 'Failed', ...)` —
+ * issuing a second `INSERT` against the same unreachable/exhausted pool and
+ * doubling connection pressure + multi-line stack spam.
+ */
+export function isTransientDatabaseConnectivityError(err: unknown): boolean {
+  if (!err || typeof err !== 'object') return false;
+  const code = String((err as any).code || '');
+  if (code === 'P1001' || code === 'P1002' || code === 'P1008' || code === 'P1017' || code === 'P2024') {
+    return true;
+  }
+  const message = String((err as any).message || '');
+  return /can't reach database server|timed out fetching a new connection|server has closed the connection|connection refused|econnrefused|etimedout|too many connections/i.test(
+    message
+  );
+}
+
 export class MaintenanceService {
   /**
    * Perform periodic maintenance on the autonomous protocol.
@@ -68,8 +92,15 @@ export class MaintenanceService {
       });
 
     } catch (err: any) {
-      console.error('[MaintenanceService] Maintenance failed:', err.message);
-      await AutonomousService.logAction('System Maintenance', 'Failed', { error: err.message });
+      const errMessage = err?.message || String(err);
+      if (isTransientDatabaseConnectivityError(err)) {
+        // Skip secondary DB write (`AutonomousService.logAction`) when the database
+        // itself is unreachable or pool-exhausted so we never amplify pool pressure.
+        console.warn(`[MaintenanceService] Skipping maintenance cycle (DB unavailable): ${errMessage.split('\n')[0]}`);
+        return;
+      }
+      console.error('[MaintenanceService] Maintenance failed:', errMessage);
+      await AutonomousService.logAction('System Maintenance', 'Failed', { error: errMessage });
     }
   }
 

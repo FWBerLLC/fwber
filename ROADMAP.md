@@ -1,11 +1,19 @@
 # ROADMAP.md — fwber Project Trajectory
 
-> **Current Version:** 2.3.88
+> **Current Version:** 2.3.89
 > **Last Updated:** 2026-11-14
 
 ---
 
 ## 🗺️ High-Level Trajectory
+
+### Phase 15: Full-Stack Governance, Hub Consolidation, Scanner Hardening & Zero-Downtime Deploys (COMPLETED - v2.3.89)
+End-to-end completion of the Community Council & Merkle verification API, unified multi-tab frontend hubs (`/council`, `/integrations`, `/photos`), production scanner/pool resilience, atomic Next.js standalone swaps, and root System Tray operations.
+
+**Key Achievements:**
+- **Community Council & Merkle Governance Engine (`v2.3.89`)**: Ported `/api/governance` (`proposals`, `vote`, SHA-256 Merkle `proof`, and `appeals`) against live MySQL tables (`governance_proposals`, `governance_votes`, `governance_appeals`), paired with client-side WebCrypto Merkle verification in `VoteVerifier` and a unified 3-tab `/council` hub.
+- **Unified Frontend Hubs & Bug Elimination (`v2.3.89`)**: Consolidated OAuth Providers + Synced Contacts into `/integrations` (fixing `:4000` port bug, unauthenticated `401` fetches, hardcoded mock state, and `first_name` mapping, plus Microsoft 365 callback & provider disconnect); fixed counterparty display bug in `/photos/reveals` (`user1_id === user.id ? user2 : user1`) and unified `/photos`, `/photos/reveals`, and `/settings/vault` navigation; expanded `/help` manual coverage (`council-governance`, `connected-contacts`).
+- **Production Log Hardening & Zero-Downtime Deploys (`v2.3.89`)**: Added `isScannerProbePath()` returning `404` on `.env`/k8s/SQL/CMS probes, guarded `MaintenanceService` against secondary DB writes during transient MySQL pool saturation, created `ops/hetzner/scripts/deploy-frontend.sh` (`.standalone-live` atomic `mv` swap), and upgraded root `tray.bat` + `tools/fwber-tray.ps1` with dynamic `VERSION`, bounded process-tree teardown, and live Hetzner health checks (`33/33` backend test suites, `143/143` tests green).
 
 ### Phase 14: Realtime Voice, Fediverse Discovery & Production Hardening (COMPLETED - v2.3.88)
 Full-stack completion of live Audio Room WebRTC signaling, inbound ActivityPub/WebFinger discovery, security/CSP/pool hardening, honest health/rewrite observability, and user-manual parity on `fwber.online`.

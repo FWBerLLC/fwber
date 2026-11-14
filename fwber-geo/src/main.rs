@@ -130,6 +130,17 @@ async fn get_nearby(
     })
 }
 
+const ROOT_APP_VERSION: &str = include_str!("../../VERSION");
+
+fn app_version() -> &'static str {
+    let trimmed = ROOT_APP_VERSION.trim();
+    if trimmed.is_empty() {
+        env!("CARGO_PKG_VERSION")
+    } else {
+        trimmed
+    }
+}
+
 /// GET /health
 /// Lightweight readiness probe used by the Windows System Tray controller,
 /// Docker/PM2 health checks, and operator diagnostics.
@@ -137,7 +148,7 @@ async fn health_check(state: web::Data<AppState>) -> impl Responder {
     HttpResponse::Ok().json(serde_json::json!({
         "status": "ok",
         "service": "fwber-geo",
-        "version": env!("CARGO_PKG_VERSION"),
+        "version": app_version(),
         "indexed_cells": state.index.len(),
     }))
 }
@@ -154,7 +165,7 @@ async fn main() -> std::io::Result<()> {
         resolution: Resolution::Ten,
     });
 
-    println!("🚀 Starting Rust Geo-Screener v{} (Uber H3 Indexing)", env!("CARGO_PKG_VERSION"));
+    println!("🚀 Starting Rust Geo-Screener v{} (Uber H3 Indexing)", app_version());
     println!("📡 Listening on 127.0.0.1:8081");
 
     HttpServer::new(move || {

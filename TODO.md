@@ -1,13 +1,15 @@
 # TODO — fwber Immediate Action Items
 
-> **Version:** 2.3.88
+> **Version:** 2.3.89
 > **Last Updated:** 2026-11-14
 
 ---
 
-## 🔧 Open & Recently Closed Items (2026-11-06 – 2026-11-14, v2.3.55–v2.3.88)
+## 🔧 Open & Recently Closed Items (2026-11-06 – 2026-11-14, v2.3.55–v2.3.89)
 
 ### High Priority
+- [x] **Community Council API, Unified Council/Integrations/Photos Hubs, Scanner `404` Guard, Atomic Frontend Deploy & Root Tray (`v2.3.89`)** — Ported `/api/governance` (`proposals`, `vote`, SHA-256 Merkle `proof`, `appeals`) against live MySQL tables; added `isScannerProbePath()` (`404` for `.env`/k8s/SQL probes) and `MaintenanceService` transient-DB outage guard; consolidated `/integrations` (live status, authenticated OAuth URLs, Microsoft callback, provider disconnect, `Synced Contacts` tab), `/council` (3-tab proposals/audit/appeals + array guards + tooltips), and `/photos` + `/photos/reveals` (fixed `otherUser` self-name bug); added zero-downtime `ops/hetzner/scripts/deploy-frontend.sh` (`.standalone-live` atomic swap), root `tray.bat` + dynamic `VERSION` across all `.bat`/`.ps1`/`.py`/Rust scripts, and `/help` articles (`council-governance`, `connected-contacts`). Verified `33/33` suites (`143/143` tests) green.
+- [ ] **OAuth Client Credentials for Contact Sync (Operator-Optional)** — `/integrations` now queries live provider status and cleanly disables unconfigured buttons (`Server OAuth keys pending`) instead of redirecting to `client_id=undefined`; supply `GOOGLE_CLIENT_ID`/`GOOGLE_CLIENT_SECRET`, `MICROSOFT_CLIENT_ID`/`MICROSOFT_CLIENT_SECRET`, or `FACEBOOK_APP_ID`/`FACEBOOK_CLIENT_SECRET` in Hetzner `fwber-backend-ts/.env` whenever address-book import should go live.
 - [x] **Real `/api/health` DB + Centralized Version Check, Deploy Script Safety & Event/Manual Polish (v2.3.88)** — Implemented `GET /api/health` (`SELECT 1` + `app_version` from `src/lib/version.ts`, `503` on failure) fixing silent `200 []` catch-all fallthrough; removed dead duplicate `app.get('/.well-known/webfinger')` from `src/index.ts`; hardened `tools/check_rewrites.py` payload check + `deploy-backend-ts.sh` / `deploy-backend.yml` (removed destructive `git clean -fd` & `git stash --include-untracked`); polished `/events/[id]` (`AppHeader`, Sign-In/Not-Found card, dark-mode badges, Share link, RSVP/Invite tooltips); added `audio-rooms-guide` & `events-guide` to `/help`; aligned `fwber-geo` crate to `2.3.88`.
 - [x] **Inbound Fediverse Discovery, Strict CSP, Prisma Pool 20 & oEmbed/Sentry Carve-Outs (v2.3.78–v2.3.87)** — Shipped `/.well-known/webfinger`, `/.well-known/nodeinfo`, and `/nodeinfo/2.1`; removed duplicate `frame-ancestors *` header masking strict CSP; raised Prisma pool `3 -> 20`; carved out `/api/oembed` (allowlisted to `fwber.online`) and `/api/sentry-tunnel` in nginx + Next rewrites; zeroed all frontend `exhaustive-deps` lint warnings.
 - [ ] **Sentry DSN Configuration (Operator-Blocked)** — `/api/sentry-tunnel` now routes cleanly to Next.js on Hetzner, but `NEXT_PUBLIC_SENTRY_DSN` (frontend build env) and `SENTRY_DSN` (backend `.env`) are unset, so the Sentry SDK initializes disabled until Robert supplies the DSN.
