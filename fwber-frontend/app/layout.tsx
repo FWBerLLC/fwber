@@ -61,6 +61,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'fwber.online - Social Network - Free Tokens for AI Avatars & Gold Premium!',
     description: 'Sign up today with a referral link to unlock 50 Tokens for custom AI Avatars and 3 Days of Gold Premium instantly. Experience the best in social networking.',
+    url: process.env.NEXT_PUBLIC_APP_URL || 'https://fwber.online',
     type: 'website',
     locale: 'en_US',
     siteName: 'FWBer',

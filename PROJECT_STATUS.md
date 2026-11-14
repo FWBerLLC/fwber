@@ -1,7 +1,7 @@
-# PROJECT_STATUS.md — fwber v2.3.85
+# PROJECT_STATUS.md — fwber v2.3.86
 
 **Date:** 2026-11-14
-**Version:** 2.3.85 "Federation Discovery, Realtime & Hardening Loop"
+**Version:** 2.3.86 "Federation Discovery, Realtime & Hardening Loop"
 **Status:** LIVE ON `fwber.online` (ALL-HETZNER STACK) — backend suite 132/132, prod error budget ~0.07% 5xx
 
 ---
@@ -14,7 +14,7 @@ fwber runs as a full-stack TypeScript + Next.js 16 + Rust monorepo hosted on Het
 - **Spatial Microservice (`fwber-geo`, port `8081`, systemd)**: Rust `2024` edition Actix-Web + `h3o` hexagonal proximity screener (crate `2.3.81`).
 - **Client Crypto & Mobile (`fwber-wasm`, `mobile`)**: Rust/WASM AES-GCM E2EE module (`v0.1.0`) and Expo 55 / React Native 0.83 mobile client (`v1.0.0`) with NFC peer tap support.
 
-## What v2.3.62–v2.3.85 Delivered
+## What v2.3.62–v2.3.86 Delivered
 1. **Social graph completion**: honest dashboard stats, friend/profile direct messaging, block hardening (14/14 messaging tests), wallet-nonce login proven live.
 2. **Realtime unification**: one connection-status source for header + dashboard; Audio Rooms signaling relay + ParticipantJoined/Left presence; TURN-ready ICE config.
 3. **Federation discovery**: served `/.well-known/webfinger` + `/.well-known/nodeinfo` + `/nodeinfo/2.1` (remote servers can now discover fwber users; full WebFinger→actor→outbox chain proven live).

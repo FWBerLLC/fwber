@@ -9,7 +9,7 @@ Live site: https://fwber.online
 
 ## Status
 
-**Active development.** Current version: **2.3.85** (synced across the repo
+**Active development.** Current version: **2.3.86** (synced across the repo
 2026-11-14). Commits land most days. The codebase is large and in flux; some
 documented features are implemented, some are partial, and some exist only as
 scaffolding. Treat any feature list here as aspirational unless you verify it

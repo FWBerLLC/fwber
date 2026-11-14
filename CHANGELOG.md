@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.3.86] - 2026-11-14
+
+### og:url Added (Social Sharing Canonical)
+
+- **Fix (`fwber-frontend/app/layout.tsx`):** Root OpenGraph metadata had title/description/image but no `og:url`, so shared links carried no canonical URL. Added `url` (env-driven, `https://fwber.online` default, consistent with `metadataBase`). Verified live post-deploy (`og:url` present in served HTML); all other social tags (og:title/description/image, twitter:card) were already present.
+
 ## [2.3.85] - 2026-11-14
 
 ### Events Empty State No Longer Blank
