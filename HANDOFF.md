@@ -14,6 +14,9 @@
 - Verified fix against middleware.ts gate; frontend tsc --noEmit EXIT 0 (empty output, no tsc process remains).
 - Bumped 2.3.61 -> 2.3.62 with CHANGELOG. NOT deployed: Hetzner frontend still serves pre-#42 build; needs Robert-authorized rebuild + restart.
 
+## Session 2026-11-13 (cont. 27) - Rollback-artifact deploy standard started (loop iteration)
+- Before server resets, tag current HEAD `rollback/pre-deploy-<date>-<sha>` (first tag created: `rollback/pre-deploy-20261113-c725168`, server-local). Procedure in DEPLOY.md. TODO "Verified" standard: rollback half done; interactive prod checklist half remains (login/map/matching/message/upload/optimizer — needs an authed browser session; shared-Edge caveat applies).
+
 ## Session 2026-11-13 (cont. 26) - GitHub HTTPS push auth died; SSH push route adopted
 - HTTPS push began failing ("Invalid username or token") — stored credential expired/revoked. SSH key on this laptop authenticates as `robertpelloni`, so origin's **push URL is now SSH** (`git remote set-url --push origin git@github.com:robertpelloni/fwber.git`); fetch stays HTTPS (reads still work). Queued commit `c72516858` pushed + server reset. If HTTPS is ever re-authed, the push URL can be reverted — until then, do not "fix" push failures by re-trying HTTPS.
 

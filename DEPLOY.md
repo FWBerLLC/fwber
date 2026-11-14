@@ -193,6 +193,8 @@ To manually deploy the TS backend:
 ```
 
 > **Standing practice (2026-11-13, always-deploy):** the lanes deploy manually instead — `ssh hetzner`, `git fetch && git reset --hard origin/main` in `/var/www/fwber/repo` (preserves untracked `prisma/migrations/`; the script's `git stash --include-untracked` endangers them), then per app `nice -n 10 npm install`, `npx prisma generate` (backend), `nice -n 10 npm run build`, `pm2 restart <app>`. Smoke: `fwber.online`, `/login`, `/dashboard`, `api.fwber.online/health` all 200. Federation discovery (`/.well-known/webfinger`, `/.well-known/nodeinfo`, `/nodeinfo/2.1`) is served by the backend at the root path and rewritten from the frontend domain — keep both sides mounted when touching rewrites or route mounts.
+>
+> **Rollback artifact (Verified standard, from 2026-11-13):** before the `reset --hard`, tag the server's current HEAD: `git tag rollback/pre-deploy-<yyyymmdd>-<shortsha> <sha>` (server-local tags; first: `rollback/pre-deploy-20261113-c725168`). Rollback = `git reset --hard <tag>` + rebuild + PM2 restarts. Framework upgrades and auth-layer changes still ship as SEPARATE deploys.
 
 #### PHP Backend (fwber-backend)
 GitHub Actions backend deployment should now target Hetzner as well, using `.github/workflows/deploy-backend.yml` plus repository secrets:
