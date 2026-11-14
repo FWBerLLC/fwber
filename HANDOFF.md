@@ -17,6 +17,9 @@
 ## Session 2026-11-13 (cont. 29) - Prod page smoke battery: 26/26 healthy (loop iteration)
 - Probed 26 key surfaces on prod: all 200 except expected 307 auth redirects (`/dashboard`, `/discover`, `/messages`, `/settings`). No 404/500 anywhere. Combined with API battery (cont. 28 in the Nov-14 block) + socket presence proof, the full functional surface is green at every layer testable without a logged-in browser.
 
+## Session 2026-11-13 (cont. 37) - Discovery files verified (loop iteration)
+- `robots.txt` 200 (sane allow/disallow incl. private surfaces), `sitemap.xml` 200 (32 fwber.online refs, **0** retired fwber.me), `manifest.json` 200, `favicon.ico` 200. (`manifest.webmanifest` 404 is correct — the app uses manifest.json.)
+
 ## Session 2026-11-13 (cont. 36) - Version consistency verified (loop iteration)
 - Prod home HTML + standalone chunks carry **2.3.83**; repo/server `VERSION` = 2.3.83 — badge, build, and source of truth in sync (the v2.3.61 centralized-version wiring holding). Backend suite 128/128.
 
