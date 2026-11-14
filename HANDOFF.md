@@ -23,6 +23,9 @@
 ## Session 2026-11-13 (cont. 36) - Version consistency verified (loop iteration)
 - Prod home HTML + standalone chunks carry **2.3.83**; repo/server `VERSION` = 2.3.83 — badge, build, and source of truth in sync (the v2.3.61 centralized-version wiring holding). Backend suite 128/128.
 
+## Session 2026-11-14 (cont. 4) - Post-fix regression battery PASS (loop iteration)
+- Full API battery re-run post-pool-fix (users 202/203, room 9): register/profile/me/questions(105)/friends full cycle/messaging/audio/block-403/federation — **ALL PASS** again, registers fast. No new P2024 since deploy (the single grep hit is the historical pre-fix log file; pm2 error log is unrotated/undated — if P2024 recurs, compare file mtime first).
+
 ## Session 2026-11-14 (cont. 3) - Prisma pool 3→20 fixes register 500s (v2.3.84)
 - P2024 pool timeouts (limit 3) made registration 500 under box load; `withConnectionPool()` in `src/lib/prisma.ts` now guarantees 20/20 unless DATABASE_URL sets its own. Tests `PrismaPool.test.ts`. Watch: if P2024 recurs, MySQL-side contention is next (check Threads_connected then).
 - Federation live chain (register→WebFinger→actor→outbox) re-proven after deploy — earlier attempt is what surfaced this bug.
