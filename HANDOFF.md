@@ -14,6 +14,9 @@
 - Verified fix against middleware.ts gate; frontend tsc --noEmit EXIT 0 (empty output, no tsc process remains).
 - Bumped 2.3.61 -> 2.3.62 with CHANGELOG. NOT deployed: Hetzner frontend still serves pre-#42 build; needs Robert-authorized rebuild + restart.
 
+## Session 2026-11-14 (cont. 2) - Matching dataset count verified (105 = source = prod)
+- Checked the 108-vs-105 question: seed source `src/lib/seeds/matching-questions.ts` defines exactly **105** questions and prod serves 105 — source and DB agree. ROADMAP/CHANGELOG "108" references are historical phase records (dataset later consolidated); left untouched as history. No drift, no action.
+
 ## Session 2026-11-14 (cont.) - Full API battery PASS while Bobbi usage-blocked
 - Bobbi still out of usage (reset Nov 14 18:38); direct-testing brief delivered + verified in thread, results pending her reset.
 - Pre-covered checklist at API level (script `%TEMP%\api-battery.mjs`, QA users 198/199, room 8): register 201×2, profile update 200, /auth/me 200, matching questions 200 (**105**), friends search finds target, request 200, incoming list 1, accept 200, message A→B 200 + visible in B's conversations, audio room create/join (2 participants)/leave 200, block 200, **message-while-blocked 403**, federation search 200. ALL PASS.
