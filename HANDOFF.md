@@ -23,6 +23,10 @@
 ## Session 2026-11-13 (cont. 36) - Version consistency verified (loop iteration)
 - Prod home HTML + standalone chunks carry **2.3.83**; repo/server `VERSION` = 2.3.83 — badge, build, and source of truth in sync (the v2.3.61 centralized-version wiring holding). Backend suite 128/128.
 
+## Session 2026-11-14 (cont. 35) - Sentry tunnel was silently swallowing browser events; carved out
+- **Live defect found + fixed (ops)**: client SDK posts envelopes to relative `/api/sentry-tunnel` (`instrumentation-client.ts`), which nginx proxied to the backend's `[]` 200 — browser error/replay events were **silently lost** for as long as the vhost has proxied `/api/`. Added exact-match `location = /api/sentry-tunnel` → :3000 (backup `/root/nginx-backups/fwber.online.bak-20261114-sentry`). Verified: empty POST → 400 `Invalid envelope`, wrong project → 400 `Invalid project ID` (handler's own validation — forwarding path live). No app version change (2.3.87).
+- Correction to cont.34: relative `/api/*` calls land on backend *except* the two carved-out Next routes (oembed, sentry-tunnel) — both now verified executing Next-side.
+
 ## Session 2026-11-14 (cont. 34) - Shadowed Next API routes audited: no prod impact (loop iteration)
 - Frontend relative `/api/*` calls (bounties, bulletin-boards, burner-links, contacts, reports, analytics) all land on the **backend** via nginx (verified 401 auth responses on prod) — the identically-named Next `app/api/*` handlers are dead duplicates, shadowed at both nginx and rewrite layers. Only `oembed` (carved out) and `sentry-tunnel` (rewrite-excluded) actually execute Next-side. No change made; deleting the dead handlers is a cleanup candidate only if Robert wants it (zero prod effect either way).
 
