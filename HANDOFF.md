@@ -23,6 +23,9 @@
 ## Session 2026-11-13 (cont. 36) - Version consistency verified (loop iteration)
 - Prod home HTML + standalone chunks carry **2.3.83**; repo/server `VERSION` = 2.3.83 — badge, build, and source of truth in sync (the v2.3.61 centralized-version wiring holding). Backend suite 128/128.
 
+## Session 2026-11-14 (cont. 13) - Email DNS posture: unconfigured (loop iteration)
+- DNS checked: `fwber.online` has no SPF TXT content, no `_dmarc` record, no Resend DKIM (`resend._domainkey`), no MX. Email DNS is entirely unconfigured (consistent with backend log "No SMTP configured, relying on Resend or console fallback"). Fix is Robert-side: verify domain in Resend + publish SPF/DKIM/DMARC at the registrar. Auth emails currently ride the console/Resend fallback path only.
+
 ## Session 2026-11-14 (cont. 12) - Stripe posture: no keys configured (loop iteration)
 - Checked (names/prefixes only): no `STRIPE_*` names in backend/frontend env files on the box, and no publishable key (`pk_test_`/`pk_live_`) in prod home HTML. Payments are simply unconfigured — the Stripe-live TODO needs Robert's keys before any code work exists. No action possible lane-side.
 
