@@ -1,13 +1,17 @@
 # TODO — fwber Immediate Action Items
 
-> **Version:** 2.3.87
-> **Last Updated:** 2026-11-12
+> **Version:** 2.3.88
+> **Last Updated:** 2026-11-14
 
 ---
 
-## 🔧 Open & Recently Closed Items (2026-11-06 – 2026-11-12, v2.3.55–v2.3.62)
+## 🔧 Open & Recently Closed Items (2026-11-06 – 2026-11-14, v2.3.55–v2.3.88)
 
 ### High Priority
+- [x] **Real `/api/health` DB + Centralized Version Check, Deploy Script Safety & Event/Manual Polish (v2.3.88)** — Implemented `GET /api/health` (`SELECT 1` + `app_version` from `src/lib/version.ts`, `503` on failure) fixing silent `200 []` catch-all fallthrough; removed dead duplicate `app.get('/.well-known/webfinger')` from `src/index.ts`; hardened `tools/check_rewrites.py` payload check + `deploy-backend-ts.sh` / `deploy-backend.yml` (removed destructive `git clean -fd` & `git stash --include-untracked`); polished `/events/[id]` (`AppHeader`, Sign-In/Not-Found card, dark-mode badges, Share link, RSVP/Invite tooltips); added `audio-rooms-guide` & `events-guide` to `/help`; aligned `fwber-geo` crate to `2.3.88`.
+- [x] **Inbound Fediverse Discovery, Strict CSP, Prisma Pool 20 & oEmbed/Sentry Carve-Outs (v2.3.78–v2.3.87)** — Shipped `/.well-known/webfinger`, `/.well-known/nodeinfo`, and `/nodeinfo/2.1`; removed duplicate `frame-ancestors *` header masking strict CSP; raised Prisma pool `3 -> 20`; carved out `/api/oembed` (allowlisted to `fwber.online`) and `/api/sentry-tunnel` in nginx + Next rewrites; zeroed all frontend `exhaustive-deps` lint warnings.
+- [ ] **Sentry DSN Configuration (Operator-Blocked)** — `/api/sentry-tunnel` now routes cleanly to Next.js on Hetzner, but `NEXT_PUBLIC_SENTRY_DSN` (frontend build env) and `SENTRY_DSN` (backend `.env`) are unset, so the Sentry SDK initializes disabled until Robert supplies the DSN.
+- [ ] **TURN Server Provisioning for Strict-NAT Voice (Operator Decision)** — `useWebRTC` reads `NEXT_PUBLIC_TURN_URL` / `NEXT_PUBLIC_TURN_USERNAME` / `NEXT_PUBLIC_TURN_CREDENTIAL` (`v2.3.71`); choose self-hosted `coturn` on Hetzner vs managed Cloudflare/Twilio TURN for restrictive carrier/corporate NATs.
 - [x] **Honest Dashboard Stats, Friend/Profile Direct Messaging & Block Hardening (v2.3.62)** — Fixed fresh-account `"7 Chats"` (`chatrooms.count()`) & `"17% Compatibility"` fallbacks in `dashboard.ts`; merged accepted friends + `last_message` + `profile.photos` into `/matches/established` & `/messages/conversations`; wired `?user=` compose selection in `/messages` and direct **Message** CTA + action tooltips on `/profile/[id]` (removing duplicate profile header); fixed `blocks.ts` `prisma.matches.deleteMany` cleanup and enforced `403` block checks on `POST /api/messages` & `GET /api/messages/:id`; covered by `14/14` Jest tests.
 - [x] **Executive Protocol Sync, Merge Reconciliation & Version Alignment (v2.3.61)** — Audited all `-X ours`/`-X theirs` merges across Protocols #277–#281, restored dropped changelog/TODO records, fixed `.gitignore` session/archive rules, wired `build.bat` Prisma generation + `fwber-geo` build target, and synced version `2.3.61` across all manifests.
 - [x] **Friends search endpoint & reconciliation (v2.3.55 + `b13c4cf9a` / `c9ea14d6e`)** — Canonical bare-array `GET /api/friends/search` excluding self, bidirectional blocks, existing friends, and pending requests; covered by `tests/FriendsSearchBlocks.test.ts` (8/8 passing).

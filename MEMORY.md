@@ -1,9 +1,14 @@
 # MEMORY.md — fwber Internal Architectural Observations
 
-## Current Version: 2.3.87 "Federation Discovery & Realtime Unification"
-**Last Updated:** 2026-11-13
+## Current Version: 2.3.88 "Health Observability, Deploy Safety & Event/Manual Polish"
+**Last Updated:** 2026-11-14
 
-### Observations (2026-11-13 session, v2.3.63–v2.3.80)
+### Observations (2026-11-14 session, v2.3.88)
+- **Honest `/api/health` contract**: `src/index.ts` mounts a catch-all `app.use('/api', ...)` returning `200 []` for unmounted GET routes so legacy frontend stubs don't crash. That also masked unmounted `GET /api/health` (`src/routes/health.ts` previously only defined `GET /metrics`)! Always assert payload shape (`status === 'ok'`, non-array JSON) in health probes (`tools/check_rewrites.py`), and read centralized `VERSION` via `src/lib/version.ts` (`getAppVersion()`) across `/health`, `/api/health`, `/api/health/metrics`, `/`, and `/nodeinfo/2.1`.
+- **Deploy script migration-safety**: Both `.github/workflows/deploy-backend.yml` and `ops/hetzner/scripts/deploy-backend-ts.sh` are now sanitized to never invoke `git clean -fd` or `git stash --include-untracked` (protecting untracked server-side `prisma/migrations/` and `uploads/`), always create a `rollback/pre-deploy-*` tag before `git reset --hard`, and run full TypeScript installs/builds under `nice -n 10`.
+- **Nginx `/api/` carve-outs**: On Hetzner, nginx proxies `location /api/` directly to `:4003` before Next.js sees it, with two exact-match carve-outs (`location = /api/oembed` and `location = /api/sentry-tunnel`) routed to `:3000`. Note: `NEXT_PUBLIC_SENTRY_DSN` is currently unset in `fwber-frontend/.env.production`, so Sentry remains intentionally dark until supplied by the operator.
+
+### Observations (2026-11-13 session, v2.3.63–v2.3.87)
 - **Realtime single-source rule**: header + dashboard connection badges must only ever read `PresenceContext` (fed by `AuthenticatedRealtimeProvider` from the singleton Socket.io in `use-socket-logic.ts`). Any new surface that spins its own socket state will resurrect the "Disconnected vs Connected" split. Echo/Reverb listeners remain legacy fallbacks only — the TS backend emits on Socket.io (`user:{id}` rooms; events `AudioRoomSignal`, `ParticipantJoined/Left`).
 - **Discovery completeness rule**: every `next.config.js` rewrite target under `/.well-known/*` must exist in the backend. WebFinger (v2.3.78) and NodeInfo (v2.3.79) were both rewrite-to-404 until implemented; audit rewrites against `src/index.ts` mounts whenever either side changes.
 - **Version-write hazard**: PowerShell `Set-Content -Encoding UTF8` writes a BOM that breaks Node JSON parsing. All version/manifest writes must use `UTF8Encoding($false)` (learned v2.3.63, fixed same turn).

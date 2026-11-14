@@ -30,15 +30,17 @@ jobs:
             set -euo pipefail
             REPO_ROOT="${HETZNER_PROJECT_PATH:-/var/www/fwber/repo}"
             cd "$REPO_ROOT"
-            sudo chown -R $(whoami):$(whoami) . 2>/dev/null || true
+            # Preserve untracked server-side directories (such as prisma/migrations/
+            # and uploads/) — NEVER run `git clean -fd` or `git stash --include-untracked`.
+            git tag -f "rollback/pre-deploy-$(date +%Y%m%d)-$(git rev-parse --short HEAD)" "$(git rev-parse HEAD)" 2>/dev/null || true
             git checkout -- . 2>/dev/null || true
-            git clean -fd 2>/dev/null || true
             git fetch origin main
             git reset --hard origin/main
             cd fwber-backend-ts
-            npm install --production
-            npx prisma generate
-            npm run build
+            nice -n 10 npm install --no-fund --no-audit
+            nice -n 10 npx prisma generate
+            nice -n 10 npm run build
             pm2 restart fwber-backend-ts || pm2 start dist/index.js --name "fwber-backend-ts"
+            pm2 save || true
             sudo systemctl reload nginx || true
             echo "Deploy complete"

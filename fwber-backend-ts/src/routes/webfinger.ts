@@ -1,14 +1,6 @@
 import { Router } from 'express';
-import { readFileSync } from 'fs';
 import prisma from '../lib/prisma.js';
-
-function readSoftwareVersion(): string {
-  try {
-    return readFileSync('VERSION', 'utf8').trim() || 'unknown';
-  } catch {
-    return process.env.npm_package_version || 'unknown';
-  }
-}
+import { getAppVersion } from '../lib/version.js';
 
 /**
  * Inbound WebFinger discovery (RFC 7033).
@@ -121,7 +113,7 @@ nodeinfoRouter.get('/2.1', async (_req, res) => {
     version: '2.1',
     software: {
       name: 'fwber',
-      version: readSoftwareVersion(),
+      version: getAppVersion(),
       repository: 'https://github.com/FWBerLLC/fwber',
       homepage: 'https://fwber.online',
     },

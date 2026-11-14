@@ -1,7 +1,7 @@
 # VISION.md — The Ultimate fwber Architecture & Philosophy
 
-> **Last Updated:** 2026-11-13
-> **Version:** 2.3.87 (Federation Discovery & Realtime Unification)
+> **Last Updated:** 2026-11-14
+> **Version:** 2.3.88 (Health Observability, Deploy Safety & Event/Manual Polish)
 > **Goal:** To serve as the definitive North Star for all human and AI agents working on the fwber project.
 
 ---

@@ -2,6 +2,10 @@
 > **Generated on:** 2026-04-02
 > **Goal:** Creative, constructive analysis of the fwber monorepo to find missing features, improvements, refactoring targets, language ports, and concept pivots.
 
+## 2026-11-14 Addendum (from the v2.3.88 observability & UX pass)
+1. **Public OpenGraph Metadata for Shared Event Cards (`/events/[id]`)**: Now that `/api/oembed` (`v2.3.87`) and `/events/[id]` Sign-In/Share UX (`v2.3.88`) are live, add a lightweight unauthenticated `GET /api/public/events/:id/preview` endpoint returning *only* non-sensitive summary fields (`title`, `type`, `starts_at`, city-level region — never exact street coordinates or attendee names) so Next.js `generateMetadata` on `/events/[id]` can render rich per-event `og:title` / `og:description` cards on Discord, iMessage, and Mastodon without leaking member locations.
+2. **Consolidate Shadowed Next `app/api/*` Stubs**: Only `/api/oembed` and `/api/sentry-tunnel` execute Next-side in production (all other `/api/*` requests route directly to `:4003` via nginx); archiving the 6 unused legacy `app/api/*` route stubs into `tools/legacy/` will shrink Next standalone build output and prevent future confusion about which runtime serves `/api/*`.
+
 ## 2026-11-13 Addendum (from the v2.3.63–v2.3.80 hardening loop)
 1. **Self-hosted TURN (coturn) on Hetzner** for Audio Rooms: client is already env-ready (`NEXT_PUBLIC_TURN_URL/USERNAME/CREDENTIAL`); a coturn service beside PM2 closes strict-NAT voice. Needs Robert's go (new listening service + UDP ports on a shared box).
 2. **Live fediverse interop harness**: spin an ephemeral Mastodon/Pleroma in CI (or a scheduled job) and assert the full chain — WebFinger → actor fetch → signed Follow → Accept → Create delivery — against real server software, not just contract mocks.

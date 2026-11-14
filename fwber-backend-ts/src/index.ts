@@ -7,6 +7,7 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import * as dotenv from 'dotenv';
 import { createServer } from 'http';
+import { getAppVersion } from './lib/version.js';
 import emailRoutes from './routes/email.js';
 
 import authRoutes from './routes/auth.js';
@@ -251,40 +252,9 @@ app.use('/api/settings', settingsRoutes);
 app.use('/api/share-unlocks', shareUnlocksRoutes);
 app.use('/api/payments', paymentsRoutes);
 
-
-// WebFinger Route for ActivityPub Federation
-app.get('/.well-known/webfinger', async (req, res) => {
-  const resource = req.query.resource as string;
-  if (!resource || !resource.startsWith('acct:')) {
-    return res.status(400).json({ error: 'Invalid resource parameter' });
-  }
-
-  const [username, domain] = resource.replace('acct:', '').split('@');
-
-  try {
-    const user = await prisma.users.findFirst({
-      where: { name: username as string },
-    });
-
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
-    }
-
-    res.json({
-      subject: `acct:${user.name}@fwber.online`,
-      links: [
-        {
-          rel: 'self',
-          type: 'application/activity+json',
-          href: `https://api.fwber.online/api/federation/actors/${user.id}`
-        }
-      ]
-    });
-  } catch (error) {
-    console.error('[WebFinger] Error:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
+// Note: Inbound RFC 7033 WebFinger (`/.well-known/webfinger`) and NodeInfo
+// (`/.well-known/nodeinfo`) are served by `webfingerRoutes` above with full
+// domain allowlisting and `application/jrd+json` content-type headers.
 
 // Catch-all for unmatched /api/* routes — return safe defaults instead of 404 HTML
 
@@ -298,18 +268,19 @@ app.use('/api', (_req, res) => {
 });
 
 // Health Check
-app.get('/health', async (req, res) => {
+app.get('/health', async (_req, res) => {
+  const appVersion = getAppVersion();
   try {
     await prisma.$queryRaw`SELECT 1`;
-    res.json({ status: 'ok', database: 'connected', version: '2.0.0-ts' });
+    res.json({ status: 'ok', database: 'connected', version: '2.0.0-ts', app_version: appVersion });
   } catch (error) {
-    res.status(503).json({ status: 'error', database: 'disconnected' });
+    res.status(503).json({ status: 'error', database: 'disconnected', version: '2.0.0-ts', app_version: appVersion });
   }
 });
 
 // Basic Route for testing
-app.get('/', (req, res) => {
-  res.json({ message: 'FWBER TypeScript Backend API v2.0' });
+app.get('/', (_req, res) => {
+  res.json({ message: 'FWBER TypeScript Backend API v2.0', app_version: getAppVersion() });
 });
 
 let server: any;

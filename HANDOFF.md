@@ -1,3 +1,25 @@
+## Session 2026-11-14 (Gemini Pro High — Antigravity) — Shipped & Deployed v2.3.88
+
+### 1. Catch-Up & State Audit
+- Read latest Muse session `01a1d37c-be49-7b13-a961-f345b33bc677` (`2026-11-13`–`2026-11-14`, `v2.3.63`–`v2.3.87`, ended on `muse-wonder-1.0` subscription quota exhaustion at `10:02:46` after commit `0e082b687`), plus all governance docs and Edge CDP `9222` tabs (Bobbi `muse.ai` is back `Connected` post-`18:38 UTC` reset).
+- Verified live Hetzner (`5.161.250.43`) state before changes: `GET http://127.0.0.1:4003/api/health` was literally returning `[]` (falling through to `app.use('/api', ...)` catch-all without checking MySQL!), `/health` lacked centralized `VERSION`, `fwber-geo` reported `2.3.81`, and `.github/workflows/deploy-backend.yml` (`git clean -fd`, `npm install --production`) + `ops/hetzner/scripts/deploy-backend-ts.sh` (`git stash --include-untracked`) still carried untracked-migration hazards.
+
+### 2. Shipped in v2.3.88
+- **Backend Health & Version Provenance (`fwber-backend-ts/src/lib/version.ts`, `src/routes/health.ts`, `src/routes/webfinger.ts`, `src/index.ts`, `tests/HealthEndpoints.test.ts`):**
+  - Added `getAppVersion()` reading centralized `VERSION` (stripping any accidental UTF-8 BOM) and wired it into `GET /health`, new `GET /api/health` (`SELECT 1` DB check + `503` on failure instead of `200 []`), `GET /api/health/metrics` (`SELECT 1` + `503` when degraded), `GET /`, and `GET /nodeinfo/2.1`.
+  - Removed unreachable dead duplicate `app.get('/.well-known/webfinger', ...)` from `src/index.ts`.
+  - Added `tests/HealthEndpoints.test.ts` (4 cases).
+- **Rewrite Verifier & Deploy Script Hardening (`tools/check_rewrites.py`, `.github/workflows/deploy-backend.yml`, `ops/hetzner/scripts/deploy-backend-ts.sh`, `fwber-geo/Cargo.toml`):**
+  - Upgraded `tools/check_rewrites.py` to assert `/api/health` returns a JSON object with `status == 'ok'` (catching catch-all `[]` regressions) with 1 retry on transient TLS handshake timeouts.
+  - Sanitized both backend deploy pipelines (removed `git clean -fd` and `git stash --include-untracked`, added `rollback/pre-deploy-*` tags, enforced `nice -n 10` full TypeScript installs/builds); aligned `fwber-geo` crate to `2.3.88`.
+- **Frontend Event Detail UX & Help Manuals (`fwber-frontend/app/events/[id]/page.tsx`, `app/help/page.tsx`, `app/help/[slug]/page.tsx`):**
+  - Added `<AppHeader />`, back-link to `/events`, themed Sign-In / Not-Found card, dark-mode badge tokens, copyable `Share` link button, active RSVP indicator, and `<Tooltip>` guidance on `Share`, `Invite`, and `Attend`/`Maybe`/`Decline`.
+  - Added `audio-rooms-guide` and `events-guide` to `/help` and updated `federation-guide` with inbound `@username@fwber.online` WebFinger & NodeInfo 2.1 details.
+
+### 3. Next Steps & Operator-Gated Items
+- **Bobbi (`muse.ai`) Visual Pass**: Bobbi is back online; ready for authenticated visual verification of header pills, compat bars, `/events/[id]`, and Audio Rooms UI when Robert cues it.
+- **Operator-Blocked Configs**: `NEXT_PUBLIC_SENTRY_DSN` / `SENTRY_DSN` (tunnel live, SDK dark until DSN set); TURN choice (`coturn` vs hosted) for strict-NAT WebRTC voice; off-site backup replication target; Stripe live keys; Resend email DNS.
+
 ## Loop check-in — post-v2.3.64 (Muse Code)
 
 - Synced: merged upstream `7744821cb` (`.map()` audit closed, HyperNexus v1.0.50, v2.3.65 docs) fast-forward; `main == origin/main`. Dashboard coverage re-audited: **133/179**, remaining 17 all previously verified intentional (`/journals` now a redirect, correctly unlinked). No dashboard change justified this round.

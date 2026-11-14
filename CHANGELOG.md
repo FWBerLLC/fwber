@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.3.88] - 2026-11-14
+
+### Real `/api/health` DB + Version Check, Deploy Script Safety, Event Detail UX & Help Manuals
+
+- **Backend Health & Centralized Version Provenance (`fwber-backend-ts/src/lib/version.ts`, `src/routes/health.ts`, `src/routes/webfinger.ts`, `src/index.ts`, `tests/HealthEndpoints.test.ts`):**
+  - Fixed a silent production health-check blind spot: `src/index.ts` mounted `app.use('/api/health', healthRoutes)`, while `src/routes/health.ts` only implemented `GET /metrics` — causing `GET /api/health` on `api.fwber.online` and `fwber.online` (and `tools/check_rewrites.py`) to fall through to the `app.use('/api', ...)` catch-all and return `200 []` even if MySQL were completely disconnected.
+  - Implemented `GET /api/health` (`router.get('/', ...)`) executing `prisma.$queryRaw\`SELECT 1\`` and returning `200 { status: 'ok', database: 'connected', version: '2.0.0-ts', app_version, uptime_seconds }` or `503` on failure; updated `GET /api/health/metrics` to use `SELECT 1` and return `503` when degraded; consolidated `getAppVersion()` into `src/lib/version.ts` (shared across `/health`, `/api/health`, `/api/health/metrics`, `/`, and `/nodeinfo/2.1`).
+  - Removed the unreachable dead duplicate `app.get('/.well-known/webfinger', ...)` shadow handler from `src/index.ts` (superseded by `webfingerRoutes`).
+  - Added `tests/HealthEndpoints.test.ts` (4 cases) verifying `getAppVersion()`, `GET /api/health` (`200` non-array JSON + `503` on DB error), and `GET /api/health/metrics`.
+- **Rewrite Verifier & Deploy Script Safety (`tools/check_rewrites.py`, `ops/hetzner/scripts/deploy-backend-ts.sh`, `.github/workflows/deploy-backend.yml`, `fwber-geo/Cargo.toml`):**
+  - Hardened `tools/check_rewrites.py` to validate `/api/health` JSON body (`status == 'ok'`) so catch-all `[]` responses fail loudly, plus a single retry on transient TLS handshake timeouts.
+  - Removed destructive `git clean -fd` (`.github/workflows/deploy-backend.yml`) and `git stash --include-untracked` (`ops/hetzner/scripts/deploy-backend-ts.sh`) that endangered untracked server-side `prisma/migrations/`; standardized `rollback/pre-deploy-*` tagging and `nice -n 10` full TypeScript installs/builds; aligned `fwber-geo` crate version to `2.3.88`.
+- **Event Detail UX, Dark-Mode Contrast & Help Center Manuals (`fwber-frontend/app/events/[id]/page.tsx`, `app/help/page.tsx`, `app/help/[slug]/page.tsx`):**
+  - Upgraded `/events/[id]` with `<AppHeader />`, back-navigation to `/events`, a themed Sign-In / Not-Found card instead of bare `Event not found`, dark-mode-safe status/invite badges, copyable `Share` link button, active RSVP status indicator, and Radix `<Tooltip>` descriptions on `Share`, `Invite`, and `Attend`/`Maybe`/`Decline`.
+  - Added `audio-rooms-guide` (*Live Audio Rooms & Voice Chat*) and `events-guide` (*Local Events, Live Maps & RSVPs*) to `/help` and updated `federation-guide` with inbound `@username@fwber.online` WebFinger & NodeInfo 2.1 details.
+
 ## [2.3.87] - 2026-11-14
 
 ### oEmbed Endpoint Unshadowed + Hardened

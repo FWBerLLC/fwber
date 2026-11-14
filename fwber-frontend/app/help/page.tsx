@@ -39,6 +39,8 @@ const HELP_CATEGORIES = [
       { title: 'How Matching works', slug: 'matching' },
       { title: 'Friends & Direct Messaging', slug: 'friends-messaging' },
       { title: 'Proximity Chatrooms', slug: 'chatrooms-guide' },
+      { title: 'Live Audio Rooms & Voice Chat', slug: 'audio-rooms-guide' },
+      { title: 'Local Events, Live Maps & RSVPs', slug: 'events-guide' },
       { title: 'Creating & Joining Groups', slug: 'groups-guide' },
       { title: 'Achievements & Virtual Gifts', slug: 'achievements-guide' },
     ]

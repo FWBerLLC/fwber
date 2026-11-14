@@ -223,6 +223,7 @@ const HELP_ARTICLES: Record<string, { title: string, content: React.ReactNode, c
         <p>FWBer includes an optional ActivityPub / WebFinger gateway at <strong>Settings &gt; Global Federation</strong> (<code>/settings/federation</code>).</p>
         <ul className="list-disc pl-5 space-y-2">
           <li><strong>Opt-In Broadcasting:</strong> Federation is off until you toggle <em>ActivityPub broadcasting</em> on.</li>
+          <li><strong>Inbound Fediverse Discovery:</strong> Remote Mastodon, Pleroma, and Misskey users can look up your public handle (<code>@username@fwber.online</code>) via RFC 7033 WebFinger (<code>/.well-known/webfinger</code>), while instance catalogs read public server capabilities via NodeInfo 2.1 (<code>/nodeinfo/2.1</code>).</li>
           <li><strong>Unified Federation Hub:</strong> Search remote Mastodon/ActivityPub handles, browse the Global Feed, manage Followers/Following, and inspect your public Outbox from a single tabbed hub.</li>
           <li><strong>Strict Location &amp; Photo Isolation:</strong> Exact GPS coordinates and private Tiered Face Reveals never leave fwber&apos;s encrypted local layer.</li>
         </ul>
@@ -269,6 +270,38 @@ const HELP_ARTICLES: Record<string, { title: string, content: React.ReactNode, c
         <p>Connect with people in your immediate vicinity through Proximity Chatrooms.</p>
         <h3 className="text-lg font-semibold">How it works</h3>
         <p>These are geo-fenced chat groups (e.g., &quot;Downtown Bar Scene&quot;, &quot;Central Park&quot;). You must be physically located within the radius to join and chat.</p>
+      </div>
+    )
+  },
+  'audio-rooms-guide': {
+    category: 'Matches, Friends & Real-Time Chat',
+    title: 'Live Audio Rooms & Voice Chat',
+    content: (
+      <div className="space-y-4">
+        <p>Drop into live, low-latency voice hangouts with members in your scene at <strong>Audio Rooms</strong> (<code>/audio-rooms</code>).</p>
+        <h3 className="text-lg font-semibold">Roles &amp; Controls</h3>
+        <ul className="list-disc pl-5 space-y-2">
+          <li><strong>Speakers &amp; Hosts:</strong> Broadcast live encrypted WebRTC audio to everyone in the room and mute/unmute your microphone at any time.</li>
+          <li><strong>Listeners &amp; Raise Hand:</strong> Join quietly to listen first. Tap <strong>Raise Hand</strong> whenever you want the host to invite you onto the stage as a speaker.</li>
+          <li><strong>Live Presence:</strong> Participant rosters update in real time over WebSockets as members join, speak, or leave.</li>
+          <li><strong>Connection Tips:</strong> Allow browser microphone permission when joining as a speaker. If you are on a strict corporate or mobile carrier NAT, switching between Wi-Fi and cellular can help peer-to-peer WebRTC audio establish cleanly.</li>
+        </ul>
+      </div>
+    )
+  },
+  'events-guide': {
+    category: 'Matches, Friends & Real-Time Chat',
+    title: 'Local Events, Live Maps & RSVPs',
+    content: (
+      <div className="space-y-4">
+        <p>Discover and host real-world meetups, speed-dating nights, workshops, and parties at <strong>Events</strong> (<code>/events</code>).</p>
+        <h3 className="text-lg font-semibold">Key Event Features</h3>
+        <ul className="list-disc pl-5 space-y-2">
+          <li><strong>Trust-Aware Proximity Discovery:</strong> Filter upcoming events by category within your radius, ranked by distance, freshness, and social trust signals.</li>
+          <li><strong>Flexible RSVPs:</strong> Mark yourself as <em>Attend</em>, <em>Maybe</em>, or <em>Decline</em>. Hosts can run free community gatherings or ticketed events using FWB Tokens or card checkout.</li>
+          <li><strong>Live Event Map &amp; Discussion:</strong> Confirmed event pages include a dedicated discussion thread and an opt-in Live Map to coordinate arrivals without exposing permanent home coordinates.</li>
+          <li><strong>Direct Invites &amp; Shareable Links:</strong> Invite matches or friends directly from any event page or copy an oEmbed-enabled link to share externally.</li>
+        </ul>
       </div>
     )
   },

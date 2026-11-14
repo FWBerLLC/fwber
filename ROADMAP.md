@@ -1,11 +1,19 @@
 # ROADMAP.md — fwber Project Trajectory
 
-> **Current Version:** 2.3.87
-> **Last Updated:** 2026-11-12
+> **Current Version:** 2.3.88
+> **Last Updated:** 2026-11-14
 
 ---
 
 ## 🗺️ High-Level Trajectory
+
+### Phase 14: Realtime Voice, Fediverse Discovery & Production Hardening (COMPLETED - v2.3.88)
+Full-stack completion of live Audio Room WebRTC signaling, inbound ActivityPub/WebFinger discovery, security/CSP/pool hardening, honest health/rewrite observability, and user-manual parity on `fwber.online`.
+
+**Key Achievements:**
+- **Social Graph, Wallet Auth & Realtime Unification (`v2.3.62`–`v2.3.72`)**: Honest fresh-account stats, friend + mutual-match direct messaging with bidirectional block enforcement (`14/14` tests), `fwber_auth` session-presence cookie (`PR #42`), unified `PresenceContext` WebSocket status badge, live Socket.io `AudioRoomSignal` WebRTC signaling relay + `ParticipantJoined`/`ParticipantLeft` broadcasts (`9/9` tests), and TURN-ready ICE configuration.
+- **Inbound Fediverse Discovery (`v2.3.78`–`v2.3.81`)**: Shipped RFC 7033 `GET /.well-known/webfinger`, `GET /.well-known/nodeinfo`, and `GET /nodeinfo/2.1` so Mastodon/Pleroma instances can resolve `@username@fwber.online` handles directly to signed ActivityPub actors; added `tools/check_rewrites.py` to verify every Next.js rewrite destination.
+- **Security, Pool & Observability Hardening (`v2.3.82`–`v2.3.88`)**: Multer upload JSON `400` error handling, duplicate `frame-ancestors *` CSP header bug removed (`v2.3.83`), Prisma MySQL connection pool raised `3 -> 20` eliminating P2024 registration 500s under load (`v2.3.84`), nginx exact-match carve-outs for `/api/oembed` (host-allowlisted) and `/api/sentry-tunnel`, real MySQL + centralized `VERSION` checks on `GET /api/health` (replacing silent `200 []` catch-all fallthrough, `v2.3.88`), deploy script migration-safety hardening, Event Detail UX/tooltips, and complete `/help` manuals for Audio Rooms, Events, and Fediverse discovery.
 
 ### Phase 13: Multi-Account Live QA Hardening, Social Graph Safety & Monorepo Synchronization (COMPLETED - v2.3.61)
 Live production verification, end-to-end friend/block workflow completion, crash-surface elimination, and repository-wide version/build synchronization on `fwber.online`.
