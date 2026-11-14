@@ -23,6 +23,9 @@
 ## Session 2026-11-13 (cont. 36) - Version consistency verified (loop iteration)
 - Prod home HTML + standalone chunks carry **2.3.83**; repo/server `VERSION` = 2.3.83 — badge, build, and source of truth in sync (the v2.3.61 centralized-version wiring holding). Backend suite 128/128.
 
+## Session 2026-11-14 (cont. 40) - Client WS URL handshake proven (loop iteration)
+- `https://fwber.online/socket.io/?EIO=4&transport=polling` (the exact base clients derive from `NEXT_PUBLIC_WS_URL`) returns a session id + websocket upgrade. The realtime path is proven on all three hosts (fwber.online, ws.fwber.online, api.fwber.online).
+
 ## Session 2026-11-14 (cont. 39) - Runtime URL derivation verified (loop iteration)
 - Server `fwber-frontend/.env.production` (2 lines): `NEXT_PUBLIC_API_URL=https://fwber.online/api`, `NEXT_PUBLIC_WS_URL=wss://fwber.online`. Zero chunks bake `ws.fwber.online` because the socket URL is env-derived at runtime — and both values route correctly (API via the nginx `/api/` proxy, socket via the `/socket.io/` location, handshake verified). No change needed.
 
