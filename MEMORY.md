@@ -1,6 +1,6 @@
 # MEMORY.md — fwber Internal Architectural Observations
 
-## Current Version: 2.3.80 "Federation Discovery & Realtime Unification"
+## Current Version: 2.3.85 "Federation Discovery & Realtime Unification"
 **Last Updated:** 2026-11-13
 
 ### Observations (2026-11-13 session, v2.3.63–v2.3.80)

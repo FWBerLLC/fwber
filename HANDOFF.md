@@ -23,6 +23,9 @@
 ## Session 2026-11-13 (cont. 36) - Version consistency verified (loop iteration)
 - Prod home HTML + standalone chunks carry **2.3.83**; repo/server `VERSION` = 2.3.83 — badge, build, and source of truth in sync (the v2.3.61 centralized-version wiring holding). Backend suite 128/128.
 
+## Session 2026-11-14 (cont. 25) - MEMORY header sweep; doc sweep complete (loop iteration)
+- MEMORY current-version header 2.3.80 → **2.3.85** (the 2.3.61 block below it is dated history, kept). Every version-bearing doc now reads 2.3.85: VERSION/manifests, TODO, ROADMAP, CHANGELOG, HANDOFF, PROJECT_STATUS, SUBMODULE_DASHBOARD, README, DEPLOY, VISION, MEMORY.
+
 ## Session 2026-11-14 (cont. 24) - VISION header sweep (loop iteration)
 - VISION header 2.3.80 → **2.3.85**. Agent instruction files (CLAUDE/GEMINI/GPT/copilot/AGENTS) carry no version pins — verified clean. All version-bearing docs now current.
 
