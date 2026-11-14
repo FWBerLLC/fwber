@@ -14,6 +14,11 @@
 - Verified fix against middleware.ts gate; frontend tsc --noEmit EXIT 0 (empty output, no tsc process remains).
 - Bumped 2.3.61 -> 2.3.62 with CHANGELOG. NOT deployed: Hetzner frontend still serves pre-#42 build; needs Robert-authorized rebuild + restart.
 
+## Session 2026-11-13 (cont. 23) - Prod geo was stale since June; rebuilt (loop iteration)
+- Found: prod `fwber-geo` binary dated **2026-06-18**, predating the `/health` route (all health probes 404 despite systemd `active`). My manual deploy sequence never rebuilt geo — drift. Rebuilt on box with **rustup cargo 1.96** (`export PATH=$HOME/.cargo/bin:$PATH` — system `/usr/bin/cargo` 1.75 cannot parse edition2024), `systemctl restart fwber-geo` → `/health` 200 `{status:ok, version:2.3.63}` (crate version, independent of app version).
+- **Deploy sequence now includes geo**: after frontend, `cd fwber-geo && nice -n 10 cargo build --release && systemctl restart fwber-geo` + health probe. Memory deploy-rule updated.
+- ESLint full census: only 6 warnings, all intentional `<img>` (PhotoEditor/avatar) — no errors.
+
 ## Session 2026-11-13 (cont. 22) - Local build gate CLOSED as environment-only (loop iteration)
 - The restore `npm install` never completed (25+ min in peer-resolution; killed PIDs 27848/27712, proven ours). Local frontend tree stays partially pruned (`dompurify`/`jsdom` missing). Verdict: local `next build` is not a usable gate on this box — registry egress + wallet-SDK peer hell. **Prod builds on Hetzner are the operative build gate** (green on every deploy this session, incl. v2.3.81). Do not retry local install without a changed network story.
 - Other npm-cli processes seen (33760/33092) are another lane's `npm outdated` probes — left running, not ours.
