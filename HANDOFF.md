@@ -14,6 +14,10 @@
 - Verified fix against middleware.ts gate; frontend tsc --noEmit EXIT 0 (empty output, no tsc process remains).
 - Bumped 2.3.61 -> 2.3.62 with CHANGELOG. NOT deployed: Hetzner frontend still serves pre-#42 build; needs Robert-authorized rebuild + restart.
 
+## Session 2026-11-14 - Upload error contract fixed (v2.3.82); Bobbi direct-testing coordination
+- Multer errors → JSON 400 (was HTML 500). Tests `PhotosUploadErrors.test.ts` 3 cases; suite 128/128. Upload + optimizer placeholder proven live on prod.
+- Robert asked for direct testing of ALL features/functionality coordinated with muse.ai (Bobbi): send her the full checklist brief (register/login, onboarding, discover/recommendations + compat bars, matching questions, friends search/request/accept, messages + socket badge state per surface, audio rooms create/join/leave + raise-hand, wallet nonce login, federation search, safety block/report, photo upload incl. wrong-field behavior) and ask for DONE/BLOCKED/INFO per area with actual outcomes. Her usage reset was Nov 14 18:38 — verify lane alive before/after send.
+
 ## Session 2026-11-13 (cont. 28) - Authed API prod checklist PASS (loop iteration)
 - With QA user 197 (API login): `/auth/me` 200, `/dashboard/stats` 200, `/friends/search` 200, `/messages/conversations` 200 (`[]` — fresh account, correct), `/audio-rooms` 200, `/matches/established` 200, `/notifications` 200, `wallet-nonce` OK (600s). Interactive-checklist items coverable at API level all pass on prod v2.3.81. Browser-only remainders: map render, photo upload, image optimizer — need a reliable authed browser (shared-Edge caveat).
 

@@ -109,12 +109,23 @@ router.get('/', authenticate, async (req: any, res: Response) => {
   }
 });
 
+// Multer failures (wrong field name, oversized/disallowed files) are
+// client errors: answer JSON 400 instead of falling through to Express's
+// default HTML 500 (prod probe 2026-11-13: field `photos` -> HTML 500).
+const uploadSinglePhoto = (req: any, res: Response, next: any) => {
+  upload.single('photo')(req, res, (err: any) => {
+    if (err) {
+      const message = err.code === 'LIMIT_FILE_SIZE'
+        ? 'File too large (max 10 MB)'
+        : `Invalid upload: ${err.message || 'unexpected file'}`;
+      return res.status(400).json({ success: false, message });
+    }
+    return next();
+  });
+};
+
 // POST /api/photos — Upload a photo
-router.post('/', authenticate, (req: any, _res, next) => {
-  console.log('[photos] POST headers:', JSON.stringify(req.headers['content-type']));
-  console.log('[photos] POST body type:', typeof req.body, req.body ? Object.keys(req.body) : 'null');
-  next();
-}, upload.single('photo'), async (req: any, res: Response) => {
+router.post('/', authenticate, uploadSinglePhoto, async (req: any, res: Response) => {
   try {
     const userId = BigInt(req.user.id);
     const file = req.file as Express.Multer.File | undefined;

@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.82] - 2026-11-14
+
+### Photo Upload Errors Are JSON 400s, Not HTML 500s
+
+- **Fix (`fwber-backend-ts/src/routes/photos.ts`):** Multer failures (wrong field name, oversized or disallowed files) fell through to Express's default HTML 500. The upload middleware now answers `400 { success: false, message }` (with a specific message for `LIMIT_FILE_SIZE`). Found by prod probe: field `photos` (plural) → HTML 500, correct `photo` field → 200 (verified live, photo id 328 on QA user 197).
+- **Tests:** New `tests/PhotosUploadErrors.test.ts` (wrong field, disallowed type, no file — all JSON 400), written failing-first. Backend suite now **128/128**.
+- **Checklist evidence:** image-optimizer placeholder verified live (missing upload → 200 PNG, 966 bytes); authed upload verified live (200). Browser-only remainders: map render.
+
 ## [2.3.81] - 2026-11-13
 
 ### Rewrite-Target Audit Tool (Rewrite-to-404 Made Detectable)
