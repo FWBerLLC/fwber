@@ -17,6 +17,9 @@
 ## Session 2026-11-13 (cont. 29) - Prod page smoke battery: 26/26 healthy (loop iteration)
 - Probed 26 key surfaces on prod: all 200 except expected 307 auth redirects (`/dashboard`, `/discover`, `/messages`, `/settings`). No 404/500 anywhere. Combined with API battery (cont. 28 in the Nov-14 block) + socket presence proof, the full functional surface is green at every layer testable without a logged-in browser.
 
+## Session 2026-11-13 (cont. 33) - TLS posture verified (loop iteration)
+- All four fwber certs (fwber/api/ws/geo) expire **2026-12-24** (~41 days out); `certbot.timer` is active (next run 2026-11-14 18:00 UTC, last ran 1h19m ago) — auto-renewal healthy, no action. Re-check if any cert drops under 21 days without renewing.
+
 ## Session 2026-11-13 (cont. 32) - Realtime transport verified live (loop iteration)
 - Socket.io handshake probed on prod: `ws.fwber.online/socket.io/?EIO=4&transport=polling` and the `api.fwber.online` equivalent both return 200 with a session id + `upgrades:["websocket"]`. The realtime layer Bobbi's badge depends on is reachable at the transport level; remaining badge verification needs her logged-in browser pass (reset Nov 14 18:38, ~20h out at time of writing).
 
