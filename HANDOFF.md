@@ -17,6 +17,9 @@
 ## Session 2026-11-13 (cont. 29) - Prod page smoke battery: 26/26 healthy (loop iteration)
 - Probed 26 key surfaces on prod: all 200 except expected 307 auth redirects (`/dashboard`, `/discover`, `/messages`, `/settings`). No 404/500 anywhere. Combined with API battery (cont. 28 in the Nov-14 block) + socket presence proof, the full functional surface is green at every layer testable without a logged-in browser.
 
+## Session 2026-11-13 (cont. 36) - Version consistency verified (loop iteration)
+- Prod home HTML + standalone chunks carry **2.3.83**; repo/server `VERSION` = 2.3.83 — badge, build, and source of truth in sync (the v2.3.61 centralized-version wiring holding). Backend suite 128/128.
+
 ## Session 2026-11-13 (cont. 35) - Prod error budget measured (loop iteration)
 - Backend sampled window (last ~4,000 morgan lines, ANSI-stripped): **2 5xx / 2,838 responses ≈ 0.07%** — both were the pre-fix `POST /api/photos` 500s (fixed v2.3.82). No other 5xx routes.
 - Frontend error log remains dominated by the known Next.js Server-Reference stale-client warnings (83 Error-matching lines per 500 sampled) — noise class, no crash loop; PM2 uptimes stable.
