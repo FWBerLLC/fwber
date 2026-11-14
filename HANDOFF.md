@@ -17,6 +17,10 @@
 ## Session 2026-11-13 (cont. 29) - Prod page smoke battery: 26/26 healthy (loop iteration)
 - Probed 26 key surfaces on prod: all 200 except expected 307 auth redirects (`/dashboard`, `/discover`, `/messages`, `/settings`). No 404/500 anywhere. Combined with API battery (cont. 28 in the Nov-14 block) + socket presence proof, the full functional surface is green at every layer testable without a logged-in browser.
 
+## Session 2026-11-13 (cont. 31) - API doubled headers deduped at nginx (ops, no version bump)
+- Removed `add_header` X-Frame/nosniff/Referrer from `/etc/nginx/sites-enabled/api.fwber.online` (helmet already sets all three; Referrer is now helmet's stricter `no-referrer`). Served headers verified single-valued. Backup at `/root/nginx-backups/api.fwber.online.bak-20261113` — **never leave .bak files inside sites-enabled**: nginx loads them as duplicate server blocks (conflicting-server-name warning; first alphabetical wins, which luckily was the edited live block).
+- App version unchanged (2.3.83). Pre-existing nginx warnings (protocol options redefined across many vhosts) are box-wide, untouched.
+
 ## Session 2026-11-13 (cont. 30) - CSP duplicate-header security fix (v2.3.83)
 - Prod served ONLY `frame-ancestors *` as CSP: duplicate `Content-Security-Policy` keys in `next.config.js` headers() — last wins, strict policy never shipped. Removed duplicate + empty nosniff neutralizer; added X-Frame-Options SAMEORIGIN. Verify post-deploy: `curl -sI https://fwber.online/` must show the long strict CSP once.
 - Lesson: audit served headers, not config text — config looked strict for months. API doubled headers (helmet+nginx) cosmetic, backlog.
