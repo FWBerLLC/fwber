@@ -14,6 +14,9 @@
 - Verified fix against middleware.ts gate; frontend tsc --noEmit EXIT 0 (empty output, no tsc process remains).
 - Bumped 2.3.61 -> 2.3.62 with CHANGELOG. NOT deployed: Hetzner frontend still serves pre-#42 build; needs Robert-authorized rebuild + restart.
 
+## Session 2026-11-13 (cont. 28) - Authed API prod checklist PASS (loop iteration)
+- With QA user 197 (API login): `/auth/me` 200, `/dashboard/stats` 200, `/friends/search` 200, `/messages/conversations` 200 (`[]` — fresh account, correct), `/audio-rooms` 200, `/matches/established` 200, `/notifications` 200, `wallet-nonce` OK (600s). Interactive-checklist items coverable at API level all pass on prod v2.3.81. Browser-only remainders: map render, photo upload, image optimizer — need a reliable authed browser (shared-Edge caveat).
+
 ## Session 2026-11-13 (cont. 27) - Rollback-artifact deploy standard started (loop iteration)
 - Before server resets, tag current HEAD `rollback/pre-deploy-<date>-<sha>` (first tag created: `rollback/pre-deploy-20261113-c725168`, server-local). Procedure in DEPLOY.md. TODO "Verified" standard: rollback half done; interactive prod checklist half remains (login/map/matching/message/upload/optimizer — needs an authed browser session; shared-Edge caveat applies).
 
