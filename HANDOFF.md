@@ -23,6 +23,9 @@
 ## Session 2026-11-13 (cont. 36) - Version consistency verified (loop iteration)
 - Prod home HTML + standalone chunks carry **2.3.83**; repo/server `VERSION` = 2.3.83 — badge, build, and source of truth in sync (the v2.3.61 centralized-version wiring holding). Backend suite 128/128.
 
+## Session 2026-11-14 (cont. 23) - README/DEPLOY version sweep (loop iteration)
+- README current-version line + DEPLOY header/topology tags: 2.3.61 → **2.3.85** (2026-11-14). Historical dated entries left as history. Status-doc sweep now complete (SUBMODULE_DASHBOARD, PROJECT_STATUS, README, DEPLOY all current).
+
 ## Session 2026-11-14 (cont. 22) - PROJECT_STATUS refreshed (loop iteration)
 - `PROJECT_STATUS.md` rewritten from stale v2.3.61 snapshot to v2.3.85 reality (delivered list, current Next Up). Its old "Next Up" items 1–2 (DM initiation, stats/badge unification) shipped in v2.3.62/63 — stale-doc class again; check status docs after every ~10 releases.
 
