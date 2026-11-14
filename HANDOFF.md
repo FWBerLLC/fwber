@@ -23,6 +23,9 @@
 ## Session 2026-11-13 (cont. 36) - Version consistency verified (loop iteration)
 - Prod home HTML + standalone chunks carry **2.3.83**; repo/server `VERSION` = 2.3.83 — badge, build, and source of truth in sync (the v2.3.61 centralized-version wiring holding). Backend suite 128/128.
 
+## Session 2026-11-14 (cont. 19) - Suite stability confirmed 2×132 (loop iteration)
+- Swept all backend tests for other fixed-port listeners: none (FederationInterop was the only one). Full suite run twice consecutively post-hardening: **132/132, 132/132**. Flake watch closed.
+
 ## Session 2026-11-14 (cont. 18) - FederationInterop flake hardened (test-only)
 - Mock server now listens on an ephemeral port (`listen(0)`, URLs built from `baseUrl`) and the delivery assert polls up to 5s — the fixed :8082 + instant assert flaked under full-suite load. Verified: single pass + full suite **132/132**, `tsc` 0. No runtime change, no version bump (prod stays 2.3.85).
 
