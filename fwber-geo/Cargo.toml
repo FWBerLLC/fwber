@@ -1,6 +1,6 @@
 [package]
 name = "fwber-geo"
-version = "2.3.63"
+version = "2.3.81"
 edition = "2024"
 
 [dependencies]
