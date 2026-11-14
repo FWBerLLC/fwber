@@ -14,6 +14,11 @@
 - Verified fix against middleware.ts gate; frontend tsc --noEmit EXIT 0 (empty output, no tsc process remains).
 - Bumped 2.3.61 -> 2.3.62 with CHANGELOG. NOT deployed: Hetzner frontend still serves pre-#42 build; needs Robert-authorized rebuild + restart.
 
+## Session 2026-11-13 (cont. 25) - Prod stability audit clean (loop iteration)
+- `prisma migrate status` on Hetzner: **Database schema is up to date** (1 baseline migration; no drift despite the untracked-migrations setup).
+- PM2: backend + frontend both 90m uptime post-deploys, restart counts are deploy-driven only — no crash loop. Frontend error tail remains the known stale-client Server-Reference noise.
+- No code change. Gates + smoke green; local DOWN.
+
 ## Session 2026-11-13 (cont. 24) - Geo crate version aligned to app (loop iteration)
 - `fwber-geo` Cargo.toml/Cargo.lock 2.3.63 → **2.3.81** so `/health`'s reported version matches the app release at a glance (staleness becomes obvious). Rule going forward: bump geo crate with app VERSION on release commits that touch the deploy sequence; geo rebuild on server validates the lock edit.
 
