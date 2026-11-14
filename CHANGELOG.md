@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.84] - 2026-11-14
+
+### Prisma Connection Pool: 3 → 20 (Registration 500s Under Load)
+
+- **Root cause (prod):** Registration intermittently failed with P2024 "Timed out fetching a new connection from the connection pool (connection limit: 3)" — one register took 50s and surfaced as 500 "Registration is temporarily unavailable" whenever the shared box got busy. A 3-connection pool serializes even light auth traffic behind long queries.
+- **Fix (`fwber-backend-ts/src/lib/prisma.ts`):** `withConnectionPool()` guarantees `connection_limit=20&pool_timeout=20` on the datasource URL (well within MySQL's shared 151 max), never overriding operator-provided params, and passes through when no URL is set. Pure helper, unit-tested.
+- **Tests:** New `tests/PrismaPool.test.ts` (4 cases, failing-first). Backend suite **132/132**, `tsc` 0. Live re-proof after deploy: fresh registration + full WebFinger→actor→outbox chain.
+
 ## [2.3.83] - 2026-11-13
 
 ### Strict CSP Was Never Served — Duplicate Header Removed (Security)

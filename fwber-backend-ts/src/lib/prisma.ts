@@ -1,6 +1,29 @@
 import { PrismaClient } from '@prisma/client';
 
-const prisma = new PrismaClient();
+/**
+ * Guarantee an explicit connection-pool size on the datasource URL.
+ *
+ * Why: prod registration intermittently died with P2024 pool timeouts
+ * ("connection limit: 3", 2026-11-14) whenever the shared box got busy —
+ * the effective limit of 3 serializes even light auth traffic behind
+ * long queries. 20 connections is still trivial against MySQL's default
+ * 151 max_connections shared with co-tenants, and pool_timeout matches
+ * so waiters fail in 20s instead of hanging a request for 50s.
+ * Operator-provided params in DATABASE_URL always win.
+ */
+export function withConnectionPool(url: string | undefined): string | undefined {
+  if (!url) return undefined;
+  const params: string[] = [];
+  if (!/[?&]connection_limit=/.test(url)) params.push('connection_limit=20');
+  if (!/[?&]pool_timeout=/.test(url)) params.push('pool_timeout=20');
+  if (params.length === 0) return url;
+  return url + (url.includes('?') ? '&' : '?') + params.join('&');
+}
+
+const datasourceUrl = withConnectionPool(process.env.DATABASE_URL);
+const prisma = datasourceUrl
+  ? new PrismaClient({ datasources: { db: { url: datasourceUrl } } })
+  : new PrismaClient();
 
 /**
  * Recursively convert BigInt values to String for JSON serialization to prevent precision loss.

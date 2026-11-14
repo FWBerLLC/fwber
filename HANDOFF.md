@@ -23,6 +23,10 @@
 ## Session 2026-11-13 (cont. 36) - Version consistency verified (loop iteration)
 - Prod home HTML + standalone chunks carry **2.3.83**; repo/server `VERSION` = 2.3.83 — badge, build, and source of truth in sync (the v2.3.61 centralized-version wiring holding). Backend suite 128/128.
 
+## Session 2026-11-14 (cont. 3) - Prisma pool 3→20 fixes register 500s (v2.3.84)
+- P2024 pool timeouts (limit 3) made registration 500 under box load; `withConnectionPool()` in `src/lib/prisma.ts` now guarantees 20/20 unless DATABASE_URL sets its own. Tests `PrismaPool.test.ts`. Watch: if P2024 recurs, MySQL-side contention is next (check Threads_connected then).
+- Federation live chain (register→WebFinger→actor→outbox) re-proven after deploy — earlier attempt is what surfaced this bug.
+
 ## Session 2026-11-13 (cont. 35) - Prod error budget measured (loop iteration)
 - Backend sampled window (last ~4,000 morgan lines, ANSI-stripped): **2 5xx / 2,838 responses ≈ 0.07%** — both were the pre-fix `POST /api/photos` 500s (fixed v2.3.82). No other 5xx routes.
 - Frontend error log remains dominated by the known Next.js Server-Reference stale-client warnings (83 Error-matching lines per 500 sampled) — noise class, no crash loop; PM2 uptimes stable.
