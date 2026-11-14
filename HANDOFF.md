@@ -23,6 +23,9 @@
 ## Session 2026-11-13 (cont. 36) - Version consistency verified (loop iteration)
 - Prod home HTML + standalone chunks carry **2.3.83**; repo/server `VERSION` = 2.3.83 — badge, build, and source of truth in sync (the v2.3.61 centralized-version wiring holding). Backend suite 128/128.
 
+## Session 2026-11-14 (cont. 12) - Stripe posture: no keys configured (loop iteration)
+- Checked (names/prefixes only): no `STRIPE_*` names in backend/frontend env files on the box, and no publishable key (`pk_test_`/`pk_live_`) in prod home HTML. Payments are simply unconfigured — the Stripe-live TODO needs Robert's keys before any code work exists. No action possible lane-side.
+
 ## Session 2026-11-14 (cont. 11) - Wingman local-AI path proven live (loop iteration)
 - Authenticated probes (QA 197): `/wingman/fortune` 200 (2,016B generated payload), `/wingman/vibe-check` 200, `/wingman/profile-analysis` 200 — the `AI_PREFER_LOCAL` Ollama path serves real AI features with zero cloud keys, confirming the dead-credential bypass works as designed.
 
