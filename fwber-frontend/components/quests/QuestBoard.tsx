@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Trophy, Zap, MapPin, CheckCircle2, Coins, ArrowRight } from 'lucide-react';
 import { api } from '@/lib/api/client';
 import { useAuth } from '@/lib/auth-context';
+import { toast } from 'sonner';
 
 interface Quest {
     id: number;
@@ -28,7 +29,7 @@ export default function QuestBoard() {
             const data = await api.get<Quest[]>('/quests/active', {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            setQuests(data);
+            setQuests(Array.isArray(data) ? data : []);
         } catch (err) {
             console.error('Failed to fetch quests:', err);
         } finally {
@@ -45,9 +46,10 @@ export default function QuestBoard() {
             await api.post(`/quests/${id}/accept`, {}, {
                 headers: { Authorization: `Bearer ${token}` }
             });
+            toast.success('Quest joined!');
             fetchQuests();
         } catch (err) {
-            alert('Failed to join quest.');
+            toast.error('Failed to join quest.');
         }
     };
 
@@ -56,10 +58,10 @@ export default function QuestBoard() {
             const res = await api.post<{ success: boolean; reward: number }>(`/quests/${id}/complete`, {}, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            alert(`Quest Complete! You earned ${res.reward} FWB tokens.`);
+            toast.success(`Quest Complete! You earned ${res.reward} FWB tokens.`);
             fetchQuests();
         } catch (err) {
-            alert('Condition not met yet. Keep going!');
+            toast.info('Condition not met yet. Keep going!');
         }
     };
 
@@ -81,7 +83,7 @@ export default function QuestBoard() {
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {(quests || []).map((quest) => {
-                        const userQuest = quest.user_quests[0];
+                        const userQuest = Array.isArray(quest.user_quests) ? quest.user_quests[0] : undefined;
                         const isActive = userQuest?.status === 'active';
                         const isClaimed = userQuest?.status === 'claimed';
 

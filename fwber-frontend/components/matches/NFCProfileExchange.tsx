@@ -36,9 +36,24 @@ export function NFCProfileExchange() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [lastScan, status]);
 
-    const processNfcData = (data: any) => {
+    const resolveCurrentGeohash = async (fallbackHash?: string): Promise<string> => {
+        if (typeof navigator !== 'undefined' && navigator.geolocation) {
+            try {
+                const pos = await new Promise<GeolocationPosition>((resolve, reject) => {
+                    navigator.geolocation.getCurrentPosition(resolve, reject, { enableHighAccuracy: true, timeout: 4000 });
+                });
+                return geohash.encode(pos.coords.latitude, pos.coords.longitude, 8);
+            } catch {
+                // Fall back to peer/default geohash when browser geolocation is blocked
+            }
+        }
+        return (typeof fallbackHash === 'string' && fallbackHash.length >= 4) ? fallbackHash : 'dpsb8u00';
+    };
+
+    const processNfcData = async (data: any) => {
         if (data.type === 'fwber_profile' && data.userId) {
-            handleMatch(data.userId, data.nonce, 'MOCK_GEOHASH_FROM_NATIVE');
+            const locHash = await resolveCurrentGeohash(data.geohash);
+            handleMatch(data.userId, data.nonce, locHash);
         }
         if (data.type === 'fwber_payment_request') {
             setPendingPayment(data);
@@ -54,11 +69,13 @@ export function NFCProfileExchange() {
         if (isNative) {
             setStatus('scanning');
             startScan();
+            const nativeHash = await resolveCurrentGeohash();
             // Also broadcast our profile via native write
             writeTag(JSON.stringify({
                 type: 'fwber_profile',
                 userId: user?.id,
                 nonce: uuidv4().substring(0, 8),
+                geohash: nativeHash,
                 timestamp: Date.now()
             }));
             return;
@@ -154,7 +171,7 @@ export function NFCProfileExchange() {
                 id: res.redemption_code,
                 itemName: pendingPayment.itemName,
                 price: pendingPayment.price,
-                merchantName: 'Venue', 
+                merchantName: pendingPayment.merchantName || 'Local Merchant', 
                 timestamp: new Date().toISOString(),
                 redemptionCode: res.redemption_code
             });

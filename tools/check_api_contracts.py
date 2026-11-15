@@ -172,6 +172,23 @@ REQUIRED_CONTRACTS: list[tuple[str, str, str]] = [
     ("/api/reports", "POST", "/"),
     ("/api/merchant-portal", "DELETE", "/inventory/:param"),
     ("/api/merchant-portal", "POST", "/inventory/redeem"),
+    # Referrals & Vouches Hub, Local Bulletin Boards Hub, Hardware Tokens & Analytics Beacons (v2.3.96)
+    ("/api/referrals", "GET", "/"),
+    ("/api/referrals", "GET", "/summary"),
+    ("/api/referrals", "GET", "/code"),
+    ("/api/referrals", "POST", "/apply"),
+    ("/api/bulletin-boards", "GET", "/"),
+    ("/api/bulletin-boards", "POST", "/"),
+    ("/api/bulletin-boards", "POST", "/boards"),
+    ("/api/bulletin-boards", "GET", "/:param"),
+    ("/api/bulletin-boards", "POST", "/:param/follow"),
+    ("/api/bulletin-boards", "DELETE", "/:param/follow"),
+    ("/api/bulletin-boards", "DELETE", "/posts/:param"),
+    ("/api/hardware-tokens", "GET", "/status"),
+    ("/api/hardware-tokens", "POST", "/register"),
+    ("/api/hardware-tokens", "POST", "/ping"),
+    ("/api/hardware-tokens", "DELETE", "/:param"),
+    ("/api/analytics", "POST", "/events"),
 ]
 
 

@@ -1,3 +1,22 @@
+## Session 2026-11-15 (Gemini — Antigravity) — Shipped & Deployed v2.3.96
+
+### 1. Post-v2.3.95 Deep Audit Findings (ReferralModal Crash, Unauthenticated Bulletin Boards, BLE Hardware Tokens & Codemod Locks)
+Audited viral/referral modals, direct `fetch()` calls, hardware token settings, and residual `if (true)` / `if (false)` codemod remnants across the entire monorepo:
+1. **`ReferralModal.tsx` Crash on Every Open (`summary?.reward_rules.level_1.cash_usd`)**:
+   - `ReferralModal.tsx` accessed `summary?.reward_rules.level_1.cash_usd` without optional chaining on `reward_rules`, while `GET /api/referrals/summary` returned no `reward_rules` object at all (throwing a `TypeError` crash whenever the Invite Friends modal opened!), returned `referral_code: ""` until `/code` was hit separately, and faked Level-2 counts via `Math.floor(referralCount * 0.1)`. Meanwhile `/referrals` had no Copy/Share Invite link actions, no Referral Code redemption UI, and no Invited Members / Vouches feeds.
+2. **Broken `/bulletin-boards` Page (`401` + Schema Mismatch + Dead Buttons)**:
+   - `app/bulletin-boards/page.tsx` invoked raw `fetch('/api/bulletin-boards')` without `Authorization: Bearer` (failing `401` against `router.use(authenticate)`), rendered undefined `board.name` / `board.distance` / `board.postCount`, had no `onClick` handlers on `Create New Post` or board cards, and `POST /:slug/follow` incremented `follower_count` repeatedly without checking whether `board_members` already existed.
+3. **Final Two `if (true)` Codemod Remnants & BLE Hardware Token Stub (`/journal`, `/settings/hardware`, `hardware-tokens.ts`)**:
+   - `git grep` across the entire repo uncovered `if (true) { return }` at `app/journal/page.tsx:89` (completely locking out journal deletion!) and `if (true) { setTokenStatus(null) }` at `app/settings/hardware/page.tsx:177` (plus `res.data.token` crashing `/settings/hardware` because `api.get()` already unwraps `.data`, while `hardware-tokens.ts` was an unpersisted stub even though `prisma.hardware_tokens` exists in MySQL).
+
+### 2. Shipped & Verified in v2.3.96
+- **Referrals & Vouches Hub + Modal Crash Fix (`referrals.ts`, `ReferralModal.tsx`, `app/referrals/page.tsx`)**:
+  - Added `ensureUserReferralCode()` on `GET /api/referrals/summary` and `GET /api/referrals`, returned `reward_rules` (`level_1` + `level_2`) + real Level-1 & Level-2 `prisma.users` counts, added `?.` + `Array.isArray` guards in `ReferralModal.tsx`, upgraded `POST /api/referrals/apply` inside `prisma.$transaction` (**50 FWB** referrer + **25 FWB** applicant + `token_transactions` ledger entries), and rebuilt `/referrals` with Copy/Share Invite & Vouch buttons, Redeem Referral Code form, and Invited Members / Recent Vouches feeds.
+- **Local Bulletin Boards Hub & AI Post Suggester (`bulletin-boards.ts`, `app/bulletin-boards/page.tsx`, `PostSuggester.tsx`)**:
+  - Added `POST /api/bulletin-boards/boards`, author/moderator `DELETE /api/bulletin-boards/posts/:id`, idempotent `POST /:slug/follow`, and live `post_count` + `topics.count()` queries; rebuilt `/bulletin-boards` onto `<ProtectedRoute>`, `<AppHeader />`, and the authenticated `api` client with search + category pills, Start Board `<Dialog>`, Create Post `<Dialog>` (`<PostSuggester />`), and Board Discussion `<Dialog>`.
+- **BLE Hardware Tokens Persistence, Field Notes Delete Fix & 144-Contract Gate (`hardware-tokens.ts`, `app/settings/hardware/page.tsx`, `app/journal/page.tsx`, `tools/check_api_contracts.py`, `tests/ReferralsBoardsHardware.test.ts`)**:
+  - Persisted `/api/hardware-tokens` (`GET /status`, `POST /register` with `409` cross-account hijack protection, `POST /ping`, `DELETE /:id`) on `prisma.hardware_tokens` and wired `/settings/hardware` live; removed the `if (true)` delete lock in `/journal` (`0` `if (true|false)` remnants remaining repo-wide); polished `/nearby` Message CTA, `/groups/[id]` post delete & member toggle, `NFCProfileExchange` precision-8 geohash, 5 modal `sonner` toast flows, and batched `POST /api/analytics/events` + 60s `last_seen_at` heartbeat; published `/help/referrals-boards-and-field-notes`, expanded `tools/check_api_contracts.py` to **`144/144` contracts across `92` prefixes**, and verified **`39/39` suites (`185/185` tests)** offline.
+
 ## Session 2026-11-15 (Gemini — Antigravity) — Shipped & Deployed v2.3.95
 
 ### 1. Post-v2.3.94 Deep UI/Backend Audit Findings (Venue Portal, Venue Check-ins, Burner Bridge, Reports & Merchant POS)

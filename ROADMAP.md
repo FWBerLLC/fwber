@@ -1,11 +1,19 @@
 # ROADMAP.md — fwber Project Trajectory
 
-> **Current Version:** 2.3.95
+> **Current Version:** 2.3.96
 > **Last Updated:** 2026-11-15
 
 ---
 
 ## 🗺️ High-Level Trajectory
+
+### Phase 22: Referrals & Vouches Hub, Local Bulletin Boards Hub, BLE Hardware Tokens & Field Notes Polish (COMPLETED - v2.3.96)
+Eliminated the `ReferralModal` runtime crash, completed atomic two-sided referral code redemption and vouch link sharing on `/referrals`, rebuilt `/bulletin-boards` into an authenticated hyper-local discussion hub with AI post drafting, persisted BLE hardware security tokens on MySQL `prisma.hardware_tokens`, and swept the final codemod dead-code locks across `/journal` and `/settings/hardware`.
+
+**Key Achievements:**
+- **Referrals & Vouches Hub (`v2.3.96`)**: Returned `reward_rules`, real Level-1/Level-2 referral counts, and auto-minted `referral_code`s on `GET /api/referrals/summary` (fixing the `ReferralModal.tsx` `TypeError` crash), added `GET /api/referrals` + atomic `POST /api/referrals/apply` (**50 FWB** referrer + **25 FWB** applicant + `token_transactions`), and upgraded `/referrals` with Copy/Share actions, Redeem Code form, and Invited Members / Recent Vouches feeds.
+- **Local Bulletin Boards Hub & AI Post Suggester (`v2.3.96`)**: Added `POST /api/bulletin-boards/boards`, `DELETE /api/bulletin-boards/posts/:id`, idempotent `POST /:slug/follow`, and real `post_count` / `topics.count()` queries; rebuilt `/bulletin-boards` onto `<ProtectedRoute>`, `<AppHeader />`, and the authenticated `api` client (fixing raw `fetch` `401`s and dead buttons) with Start Board, Create Post (`<PostSuggester />`), and Board Discussion `<Dialog>`s.
+- **BLE Hardware Tokens, Field Notes Delete Fix & 144-Contract Gate (`v2.3.96`)**: Persisted `/api/hardware-tokens` (`status`, `register` with `409` cross-account guard, `ping`, `DELETE /:id`) on `prisma.hardware_tokens` and fixed `/settings/hardware`; removed the `if (true) { return }` delete lock in `/journal` (`0` `if (true|false)` codemod remnants remaining repo-wide); polished `/nearby`, `/groups/[id]`, `NFCProfileExchange`, 5 modal `sonner` toast flows, and batched `POST /api/analytics/events`; published `/help/referrals-boards-and-field-notes`, expanded `tools/check_api_contracts.py` to **`92` prefixes / `144/144` contracts**, and verified `ReferralsBoardsHardware.test.ts` (`39/39` suites, `185/185` tests green).
 
 ### Phase 21: Venue Partner Portal, Live Venue Check-Ins, Burner Bridge Chatrooms, Safety Reports & POS Redemptions (COMPLETED - v2.3.95)
 Completed end-to-end B2B Venue Partner Portal authentication and management (`/api/venue/*`), real-time guest venue check-ins/checkouts (`/api/venues/*`), automatic private chatroom provisioning on Burner Bridge QR/link scans, authenticated Safety Reports & Burner Links management hubs, and single-use `FWB-...` merchant POS voucher redemptions.

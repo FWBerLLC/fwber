@@ -9,6 +9,7 @@ import { StripePaymentForm } from './StripePaymentForm';
 import { useQueryClient } from '@tanstack/react-query';
 import { useWallet } from '@/lib/hooks/useWallet';
 import type { PremiumInitiationResponse } from '@/lib/hooks/use-premium';
+import { toast } from 'sonner';
 
 interface PremiumUpgradeModalProps {
   isOpen: boolean;
@@ -27,10 +28,11 @@ export const PremiumUpgradeModal = ({ isOpen, onClose }: PremiumUpgradeModalProp
     if (paymentMethod === 'token') {
       purchaseWithToken({ paymentMethod: 'token' }, {
         onSuccess: () => {
+          toast.success('Upgraded to Gold Premium!');
           handleSuccess();
         },
         onError: (error: any) => {
-           alert(error.response?.data?.error || 'Failed to purchase premium');
+           toast.error(error.response?.data?.error || 'Failed to purchase premium');
         }
       });
     } else {
@@ -40,11 +42,11 @@ export const PremiumUpgradeModal = ({ isOpen, onClose }: PremiumUpgradeModalProp
           if (data?.client_secret) {
             setPaymentIntent(data);
           } else {
-            alert('Card payments are not yet available. Please use tokens to upgrade.');
+            toast.info('Card payments are not yet available. Please use FWB tokens to upgrade.');
           }
         },
         onError: (error: any) => {
-          alert(error?.response?.data?.error || 'Card payments are not yet available. Please use tokens to upgrade.');
+          toast.error(error?.response?.data?.error || 'Card payments are not yet available. Please use FWB tokens to upgrade.');
         }
       });
     }

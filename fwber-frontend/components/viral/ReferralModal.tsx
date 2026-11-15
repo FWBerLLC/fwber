@@ -85,14 +85,19 @@ export function ReferralModal({ trigger }: ReferralModalProps) {
   const tokenBalance = summary?.token_balance ?? user?.token_balance ?? 0;
   const goldenTickets = summary?.golden_tickets_remaining ?? user?.golden_tickets_remaining ?? 0;
 
-  const directPremium = useMemo(
-    () => summary?.levels.find(level => level.level === 1),
+  const levelsList = useMemo(
+    () => (Array.isArray(summary?.levels) ? summary.levels : []),
     [summary]
   );
 
+  const directPremium = useMemo(
+    () => levelsList.find(level => level.level === 1),
+    [levelsList]
+  );
+
   const indirectPremium = useMemo(
-    () => summary?.levels.find(level => level.level === 2),
-    [summary]
+    () => levelsList.find(level => level.level === 2),
+    [levelsList]
   );
 
   if (!user) return null;
@@ -175,10 +180,10 @@ export function ReferralModal({ trigger }: ReferralModalProps) {
         <div className="rounded-lg border bg-muted/40 p-3 text-xs text-muted-foreground">
           <div className="font-medium text-foreground">Premium referral payouts</div>
           <div className="mt-1">
-            Direct upgrades: <strong>${summary?.reward_rules.level_1.cash_usd ?? 2}</strong> + <strong>{summary?.reward_rules.level_1.token_amount ?? 50} FWBcoin</strong>
+            Direct upgrades: <strong>${summary?.reward_rules?.level_1?.cash_usd ?? 2}</strong> + <strong>{summary?.reward_rules?.level_1?.token_amount ?? 50} FWBcoin</strong>
           </div>
           <div>
-            Second level: <strong>${summary?.reward_rules.level_2.cash_usd ?? 0.5}</strong> + <strong>{summary?.reward_rules.level_2.token_amount ?? 15} FWBcoin</strong>
+            Second level: <strong>${summary?.reward_rules?.level_2?.cash_usd ?? 0.5}</strong> + <strong>{summary?.reward_rules?.level_2?.token_amount ?? 15} FWBcoin</strong>
           </div>
         </div>
 

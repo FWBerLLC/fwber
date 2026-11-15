@@ -2,6 +2,11 @@
 > **Generated on:** 2026-04-02
 > **Goal:** Creative, constructive analysis of the fwber monorepo to find missing features, improvements, refactoring targets, language ports, and concept pivots.
 
+## 2026-11-15 Addendum (from the v2.3.96 Referrals & Vouches hub, Bulletin Boards hub, BLE hardware tokens & Field Notes pass)
+1. **Ephemeral Rolling BLE Beacon Nonces (`hardware_tokens` + `fwber-geo`)**: Extend paired `/settings/hardware` BLE fobs with 15-minute HMAC-derived rolling Eddystone-EID advertisement frames so two users carrying paired fobs at a crowded festival receive an encrypted mutual-interest buzz without broadcasting static MACs or UUIDs.
+2. **Geofenced Event-Auto-Spawned Bulletin Boards (`events` -> `bulletin_boards`)**: Automatically provision a 48-hour hyper-local `/bulletin-boards` channel whenever a verified Venue Partner event reaches `10+` RSVPs, pre-seeded with `<PostSuggester />` icebreaker prompts for attendees checked in on-site.
+3. **Multi-Hop Vouch Reputation Graph Decay (`vouches` + `referrals`)**: Weight public vouches (`vouch_score`) by the voucher's own referral retention and zero-report safety streak so organic real-world friend circles earn fast trust badges while Sybil rings gain zero lift.
+
 ## 2026-11-15 Addendum (from the v2.3.95 Venue Partner Portal, live venue check-ins, Burner Bridge chatrooms & POS redemptions pass)
 1. **Cryptographic Bluetooth / NFC Venue Table Beacons (`venue_checkins` + `ZKProver`)**: Let verified Venue Partners (`/venue/dashboard`) mint signed NFC/QR table tags so guests checking into `/venues` earn a `verified_on_premise` badge + automatic merchant happy-hour FWB voucher (`inventory_redemptions`) without revealing table numbers publicly.
 2. **Self-Destructing E2EE Burner Rooms with Ephemeral Key Ratchet**: Upgrade Burner Bridge 24-hour private chatrooms (`claimBurnerLinkAndCreateChatroom`) with client-generated X25519 keypairs embedded in the `#fragment` of the QR URL (never sent to the server) so IRL QR handshakes establish zero-trust forward-secret E2EE on first scan.

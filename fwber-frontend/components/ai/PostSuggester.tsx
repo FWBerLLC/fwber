@@ -28,9 +28,9 @@ export function PostSuggester({ boardId, onSelectPost }: PostSuggesterProps) {
   };
 
   return (
-    <Card className="w-full border-dashed bg-slate-50/50">
+    <Card className="w-full border-dashed bg-muted/40 border-border">
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm font-medium flex items-center gap-2 text-slate-600">
+        <CardTitle className="text-sm font-medium flex items-center gap-2 text-foreground">
           <Lightbulb className="h-4 w-4 text-yellow-500" />
           Stuck on what to post?
         </CardTitle>
@@ -60,6 +60,7 @@ export function PostSuggester({ boardId, onSelectPost }: PostSuggesterProps) {
         </div>
 
         <Button 
+          type="button"
           size="sm" 
           variant="secondary"
           className="w-full" 
@@ -89,9 +90,14 @@ export function PostSuggester({ boardId, onSelectPost }: PostSuggesterProps) {
                     {Math.round((suggestion.confidence || 0) * 100)}% Match
                   </span>
                   <Button 
+                    type="button"
                     variant="ghost" 
                     size="sm" 
                     className="h-5 text-xs px-2"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onSelectPost(suggestion.content);
+                    }}
                     data-testid="use-suggestion"
                   >
                     Use

@@ -1,18 +1,44 @@
 import { Router } from 'express';
 import os from 'os';
+import jwt from 'jsonwebtoken';
 import { authenticate } from '../middleware/auth.js';
 import prisma, { serialize } from '../lib/prisma.js';
 import { getIO } from '../socket.js';
 
 const router = Router();
+const lastSeenTouchByUser = new Map<string, number>();
 
-// POST /api/analytics/events — accept analytics events
+// POST /api/analytics/events — accept single `{ event, properties }` or batched `{ session_id, events: [...] }`
 router.post('/events', (req, res) => {
-  const { event, properties } = req.body || {};
-  if (process.env.NODE_ENV !== 'production') {
-    console.log('[analytics]', event, properties);
+  const body = req.body || {};
+  const batchCount = Array.isArray(body.events) ? body.events.length : (body.event ? 1 : 0);
+
+  // Best-effort non-blocking `last_seen_at` heartbeat (throttled to once per 60s per user)
+  const authHeader = req.headers?.authorization;
+  if (typeof authHeader === 'string' && authHeader.startsWith('Bearer ')) {
+    try {
+      const secret = process.env.JWT_SECRET || 'secret';
+      const decoded = jwt.verify(authHeader.slice(7).trim(), secret) as any;
+      const rawUserId = decoded?.id ?? decoded?.userId ?? decoded?.sub;
+      if (rawUserId && decoded?.role !== 'venue') {
+        const key = String(rawUserId);
+        const nowMs = Date.now();
+        if (nowMs - (lastSeenTouchByUser.get(key) || 0) > 60_000) {
+          lastSeenTouchByUser.set(key, nowMs);
+          if (prisma.users?.update) {
+            prisma.users.update({
+              where: { id: BigInt(rawUserId) },
+              data: { last_seen_at: new Date(nowMs) },
+            }).catch(() => {});
+          }
+        }
+      }
+    } catch {
+      // Ignore expired/anonymous tokens on public page-view beacons
+    }
   }
-  res.status(202).json({ success: true });
+
+  res.status(202).json({ success: true, accepted: batchCount });
 });
 
 // GET /api/analytics — unified platform + user overview stats (`PlatformAnalyticsResponse`)

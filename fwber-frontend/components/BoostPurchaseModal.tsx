@@ -3,6 +3,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { X, Rocket, Zap, Coins, CreditCard } from 'lucide-react';
 import { usePurchaseBoost } from '@/lib/hooks/use-boosts';
 import { useWallet } from '@/lib/hooks/useWallet';
+import { toast } from 'sonner';
 
 interface BoostPurchaseModalProps {
   isOpen: boolean;
@@ -22,11 +23,12 @@ export default function BoostPurchaseModal({ isOpen, onClose }: BoostPurchaseMod
           window.location.href = data.checkoutUrl;
         } else {
           // Token purchase or immediate success
+          toast.success('Profile boost activated!');
           onClose();
         }
       },
       onError: (error: any) => {
-        alert(error.response?.data?.error || 'Failed to purchase boost');
+        toast.error(error.response?.data?.error || 'Failed to purchase boost');
       },
     });
   };

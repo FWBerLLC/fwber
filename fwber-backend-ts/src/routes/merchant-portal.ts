@@ -717,7 +717,6 @@ router.post('/inventory/redeem', async (req: any, res) => {
 
 // GET /api/merchant-portal/loyalty/settings
 router.get('/loyalty/settings', async (req: any, res) => {
-  console.log('[DEBUG] Hit /loyalty/settings GET');
   try {
     const userId = BigInt(req.user.id);
     const profile = await getMerchantProfile(userId);
@@ -748,7 +747,6 @@ router.get('/loyalty/settings', async (req: any, res) => {
 
 // POST /api/merchant-portal/loyalty/settings
 router.post('/loyalty/settings', async (req: any, res) => {
-  console.log('[DEBUG] Hit /loyalty/settings POST');
   try {
     const userId = BigInt(req.user.id);
     const profile = await getMerchantProfile(userId);

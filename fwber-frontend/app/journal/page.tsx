@@ -38,6 +38,7 @@ export default function JournalPage() {
   const [tags, setTags] = useState('')
   const [moodEmoji, setMoodEmoji] = useState('')
   const [accentColor, setAccentColor] = useState('#a855f7')
+  const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null)
 
   const availableGroups = settings?.available_groups ?? []
 
@@ -86,12 +87,15 @@ export default function JournalPage() {
   }
 
   const handleDelete = async (id: number) => {
-    if (true) { // Proceeds with deletion
+    // WebView-safe two-tap inline delete guard (replaces dead `if (true) return` codemod bug)
+    if (confirmDeleteId !== id) {
+      setConfirmDeleteId(id)
       return
     }
 
     try {
       await deleteJournal.mutateAsync(id)
+      setConfirmDeleteId(null)
       success('Field note deleted.')
     } catch (err: any) {
       error(err?.message || 'Failed to delete field note.')
@@ -125,7 +129,7 @@ export default function JournalPage() {
                   onChange={(event) => setTitle(event.target.value)}
                   maxLength={120}
                   placeholder="Late-night warehouse thoughts"
-                  className="w-full rounded-2xl border border-border dark:border-border px-4 py-3 text-sm outline-none transition focus:border-purple-500 focus:ring-2 focus:ring-purple-100"
+                  className="w-full rounded-2xl border border-border bg-background text-foreground px-4 py-3 text-sm outline-none transition focus:border-purple-500 focus:ring-2 focus:ring-purple-100"
                 />
               </label>
 
@@ -137,7 +141,7 @@ export default function JournalPage() {
                   rows={8}
                   maxLength={5000}
                   placeholder="Write the longer thought you want to keep..."
-                  className="w-full rounded-2xl border border-border dark:border-border px-4 py-3 text-sm outline-none transition focus:border-purple-500 focus:ring-2 focus:ring-purple-100"
+                  className="w-full rounded-2xl border border-border bg-background text-foreground px-4 py-3 text-sm outline-none transition focus:border-purple-500 focus:ring-2 focus:ring-purple-100"
                 />
               </label>
 
@@ -146,7 +150,7 @@ export default function JournalPage() {
                 <select
                   value={visibility}
                   onChange={(event) => setVisibility(event.target.value as JournalVisibility)}
-                  className="w-full rounded-2xl border border-border dark:border-border px-4 py-3 text-sm outline-none transition focus:border-purple-500 focus:ring-2 focus:ring-purple-100"
+                  className="w-full rounded-2xl border border-border bg-background text-foreground px-4 py-3 text-sm outline-none transition focus:border-purple-500 focus:ring-2 focus:ring-purple-100"
                 >
                   {visibilityOptions.map((option) => (
                     <option key={option.value} value={option.value}>
@@ -163,7 +167,7 @@ export default function JournalPage() {
                   onChange={(event) => setMoodEmoji(event.target.value)}
                   maxLength={10}
                   placeholder="✨"
-                  className="w-full rounded-2xl border border-border dark:border-border px-4 py-3 text-sm outline-none transition focus:border-purple-500 focus:ring-2 focus:ring-purple-100"
+                  className="w-full rounded-2xl border border-border bg-background text-foreground px-4 py-3 text-sm outline-none transition focus:border-purple-500 focus:ring-2 focus:ring-purple-100"
                 />
               </label>
 
@@ -173,7 +177,7 @@ export default function JournalPage() {
                   <select
                     value={circleGroupId}
                     onChange={(event) => setCircleGroupId(event.target.value)}
-                    className="w-full rounded-2xl border border-border dark:border-border px-4 py-3 text-sm outline-none transition focus:border-purple-500 focus:ring-2 focus:ring-purple-100"
+                    className="w-full rounded-2xl border border-border bg-background text-foreground px-4 py-3 text-sm outline-none transition focus:border-purple-500 focus:ring-2 focus:ring-purple-100"
                   >
                     <option value="">Select one of your groups</option>
                     {availableGroups.map((group) => (
@@ -191,7 +195,7 @@ export default function JournalPage() {
                   value={tags}
                   onChange={(event) => setTags(event.target.value)}
                   placeholder="aftercare, warehouse, jazz"
-                  className="w-full rounded-2xl border border-border dark:border-border px-4 py-3 text-sm outline-none transition focus:border-purple-500 focus:ring-2 focus:ring-purple-100"
+                  className="w-full rounded-2xl border border-border bg-background text-foreground px-4 py-3 text-sm outline-none transition focus:border-purple-500 focus:ring-2 focus:ring-purple-100"
                 />
               </label>
 
@@ -280,10 +284,16 @@ export default function JournalPage() {
                         <button
                           type="button"
                           onClick={() => handleDelete(journal.id)}
-                          className="rounded-full p-2 text-muted-foreground transition hover:bg-red-50 hover:text-red-600"
-                          aria-label="Delete field note"
+                          disabled={deleteJournal.isPending}
+                          className={`rounded-full px-2.5 py-1.5 text-xs font-medium transition flex items-center gap-1 ${
+                            confirmDeleteId === journal.id
+                              ? 'bg-red-600 text-white hover:bg-red-700'
+                              : 'text-muted-foreground hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-950/40'
+                          }`}
+                          aria-label={confirmDeleteId === journal.id ? 'Confirm delete field note' : 'Delete field note'}
                         >
                           <Trash2 className="h-4 w-4" />
+                          {confirmDeleteId === journal.id ? 'Confirm?' : null}
                         </button>
                       </div>
 

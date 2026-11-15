@@ -42,6 +42,7 @@ const HELP_CATEGORIES = [
       { title: 'Live Audio Rooms & Voice Chat', slug: 'audio-rooms-guide' },
       { title: 'Local Events, Live Maps & RSVPs', slug: 'events-guide' },
       { title: 'Partner Venues, Burner Bridge & Marketplace POS', slug: 'venues-burner-and-marketplace' },
+      { title: 'Referrals, Vouches, Bulletin Boards & Field Notes', slug: 'referrals-boards-and-field-notes' },
       { title: 'Creating & Joining Groups', slug: 'groups-guide' },
       { title: 'Achievements & Virtual Gifts', slug: 'achievements-guide' },
     ]

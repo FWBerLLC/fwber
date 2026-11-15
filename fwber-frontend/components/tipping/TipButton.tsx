@@ -4,6 +4,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { Coins, X, Loader2 } from 'lucide-react';
 import { apiClient } from '@/lib/api/client';
 import { useWallet } from '@/lib/hooks/useWallet';
+import { toast } from 'sonner';
 
 interface TipButtonProps {
   recipientId: number;
@@ -26,9 +27,9 @@ export default function TipButton({ recipientId, recipientName, compact = false 
       });
       refresh();
       setIsOpen(false);
-      alert(`Sent ${amount} FWB to ${recipientName}!`);
+      toast.success(`Sent ${amount} FWB to ${recipientName}!`);
     } catch (e: any) {
-      alert('Tip failed: ' + (e.response?.data?.error || e.message));
+      toast.error('Tip failed: ' + (e.response?.data?.error || e.message));
     } finally {
       setLoading(false);
     }
@@ -39,13 +40,14 @@ export default function TipButton({ recipientId, recipientName, compact = false 
       <Dialog.Trigger asChild>
         {compact ? (
           <button
+            type="button"
             className="p-2 hover:dark:bg-muted rounded-full text-muted-foreground hover:text-yellow-400 transition-colors"
             title={`Tip ${recipientName}`}
           >
             <Coins className="w-5 h-5" />
           </button>
         ) : (
-          <button className="flex items-center gap-2 px-4 py-2 bg-purple-100 text-purple-700 rounded-full hover:bg-purple-200 transition-colors font-medium dark:bg-purple-900/40 dark:text-purple-300">
+          <button type="button" className="flex items-center gap-2 px-4 py-2 bg-purple-100 text-purple-700 rounded-full hover:bg-purple-200 transition-colors font-medium dark:bg-purple-900/40 dark:text-purple-300">
             <Coins className="w-4 h-4" />
             Tip
           </button>
@@ -57,7 +59,7 @@ export default function TipButton({ recipientId, recipientName, compact = false 
           <div className="flex justify-between items-center mb-4">
             <Dialog.Title className="text-xl font-bold">Tip {recipientName}</Dialog.Title>
             <Dialog.Close asChild>
-              <button className="text-muted-foreground hover:text-muted-foreground">
+              <button type="button" className="text-muted-foreground hover:text-foreground" aria-label="Close">
                 <X className="w-5 h-5" />
               </button>
             </Dialog.Close>

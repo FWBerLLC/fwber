@@ -347,9 +347,12 @@ export default function NearbyPage() {
                       >
                         View Profile
                       </Link>
-                      <button className="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded transition duration-200">
+                      <Link
+                        href={`/messages?user=${user.id}`}
+                        className="bg-green-600 hover:bg-green-700 text-white text-center py-2 px-4 rounded transition duration-200"
+                      >
                         Message
-                      </button>
+                      </Link>
                     </div>
                   </div>
                 ))}

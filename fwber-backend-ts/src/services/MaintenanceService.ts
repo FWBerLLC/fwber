@@ -109,6 +109,7 @@ export class MaintenanceService {
    */
   private static async processVibeNudges() {
     try {
+      if (!prisma.merchant_profiles?.findMany) return;
       // 1. Get all verified merchants with active promotions
       const merchants = await prisma.merchant_profiles.findMany({
         where: { verification_status: 'verified' },
@@ -221,6 +222,7 @@ export class MaintenanceService {
    */
   private static async refreshActiveUserSentiment() {
     try {
+      if (!prisma.users?.findMany) return;
       const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
       const fourHoursAgo = new Date(Date.now() - 4 * 60 * 60 * 1000);
 

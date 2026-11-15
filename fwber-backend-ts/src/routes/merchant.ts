@@ -250,9 +250,15 @@ router.get('/pulse/vibe', async (req: any, res) => {
 
     // AI-driven neighborhood sentiment
     const aiAnalysis = await SentimentAnalysisService.analyzeNeighborhoodSentiment(lat, lng);
+    const merchantProfile = req.user?.id
+      ? await prisma.merchant_profiles.findFirst({
+          where: { user_id: BigInt(req.user.id) },
+          select: { business_name: true },
+        }).catch(() => null)
+      : null;
 
     res.json({
-      business_name: 'Merchant', // Placeholder
+      business_name: merchantProfile?.business_name || 'Local Venue',
       location: { lat, lng, radius: 5000 },
       analysis: {
         vibe: aiAnalysis.vibe !== 'Neutral' ? aiAnalysis.vibe : heuristicVibe,
@@ -267,7 +273,23 @@ router.get('/pulse/vibe', async (req: any, res) => {
       ai_raw: aiAnalysis
     });
   } catch (err: any) {
-    res.json({ vibe: 'neutral', score: 0.5, confidence: 0, message: 'Vibe analysis not yet available' });
+    res.json({
+      business_name: 'Local Venue',
+      location: { lat: Number(req.query.lat) || 42.33, lng: Number(req.query.lng) || -83.05, radius: 5000 },
+      analysis: {
+        vibe: 'neutral',
+        sentiment: 0.5,
+        trending_keywords: [],
+        activity_score: 0,
+        summary: 'Neighborhood pulse is quiet right now.',
+        post_count: 0,
+        last_updated: new Date().toISOString(),
+      },
+      vibe: 'neutral',
+      score: 0.5,
+      confidence: 0,
+      message: 'Neighborhood pulse is quiet right now.',
+    });
   }
 });
 

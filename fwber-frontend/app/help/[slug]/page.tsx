@@ -615,6 +615,33 @@ const HELP_ARTICLES: Record<string, { title: string, content: React.ReactNode, c
         </ul>
       </div>
     )
+  },
+  'referrals-boards-and-field-notes': {
+    category: 'Matches, Friends & Real-Time Chat',
+    title: 'Referrals, Vouches, Bulletin Boards & Field Notes',
+    content: (
+      <div className="space-y-4">
+        <p>
+          Grow your trusted network, launch neighborhood discussion boards, pair physical BLE proximity tokens, and curate private or circle-scoped Field Notes.
+        </p>
+        <h3 className="text-lg font-semibold">Referrals &amp; Reputation Vouches (/referrals)</h3>
+        <ul className="list-disc pl-5 space-y-2">
+          <li><strong>Two-Tier Invite Rewards:</strong> Share your personal invite link from <code>/referrals</code> or the <strong>Invite &amp; Earn</strong> modal. Friends receive an instant <strong>25 FWB</strong> welcome bonus and you earn <strong>50 FWB</strong> on direct invites plus second-level network rewards.</li>
+          <li><strong>Redeem Codes Anytime:</strong> Missed an invite link during signup? Enter a friend&apos;s code directly on <code>/referrals</code> to unlock both bonuses retroactively.</li>
+          <li><strong>Public Vouch Links:</strong> Send your <code>/vouch/&lt;code&gt;</code> link to friends so they can vouch for you as <strong>Safe</strong>, <strong>Fun</strong>, or <strong>Hot</strong> — boosting your trust rank across Nearby and Venues.</li>
+        </ul>
+        <h3 className="text-lg font-semibold">Local Bulletin Boards &amp; AI Post Starters (/bulletin-boards)</h3>
+        <ul className="list-disc pl-5 space-y-2">
+          <li><strong>Neighborhood Hubs:</strong> Browse active local boards, filter by scene, or click <strong>Start Board</strong> to launch a new community hub.</li>
+          <li><strong>7-Day Ephemeral Flyers &amp; AI Assist:</strong> Publish event flyers, local tips, or missed connections with optional AI-suggested openers, follow boards for updates, and remove your own posts anytime.</li>
+        </ul>
+        <h3 className="text-lg font-semibold">Field Notes &amp; Hardware Proximity Tokens (/journal &amp; /settings/hardware)</h3>
+        <ul className="list-disc pl-5 space-y-2">
+          <li><strong>Circle-Scoped Field Notes:</strong> Write long-form reflections on <code>/journal</code> scoped to <em>Public</em>, <em>Friends</em>, a specific <em>Circle Group</em>, or <em>Private</em>, with two-tap inline delete protection.</li>
+          <li><strong>&ldquo;Anti-App&rdquo; Hardware Token:</strong> Pair, ping-test, and unpair your physical fwber BLE bracelet or keychain at <code>/settings/hardware</code>.</li>
+        </ul>
+      </div>
+    )
   }
 }
 

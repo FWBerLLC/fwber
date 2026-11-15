@@ -147,11 +147,11 @@ export default function AudioRoomsLobby() {
                 {rankingSummary && (
                     <Card className="mb-6 border-cyan-200 bg-cyan-50">
                         <CardContent className="p-4">
-                            <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-cyan-700">
+                            <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-cyan-700 dark:text-cyan-300">
                                 <Compass className="h-4 w-4" />
                                 <span>Trust-aware audio ranking</span>
                             </div>
-                            <p className="text-sm text-cyan-900">{rankingSummary}</p>
+                            <p className="text-sm text-cyan-900 dark:text-cyan-100">{rankingSummary}</p>
                         </CardContent>
                     </Card>
                 )}
@@ -220,7 +220,17 @@ export default function AudioRoomsLobby() {
                                                 <Users className="h-4 w-4" />
                                                 {room.participants_count}
                                             </span>
-                                            <Button variant="secondary" size="sm">Join</Button>
+                                            <Button
+                                                type="button"
+                                                variant="secondary"
+                                                size="sm"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    router.push(`/audio-rooms/${room.id}`);
+                                                }}
+                                            >
+                                                Join
+                                            </Button>
                                         </div>
                                     </CardContent>
                                 </Card>

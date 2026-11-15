@@ -11,10 +11,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useGroup, useGroupPosts, useCreateGroupPost, useJoinGroup, useLeaveGroup, useDeleteGroupPost, useMyGroups, useGroupMatchRequests, useConnectedGroups, useGroupEvents } from '@/lib/hooks/use-groups';
 
 import Link from 'next/link';
+import ProtectedRoute from '@/components/ProtectedRoute';
+import AppHeader from '@/components/AppHeader';
+import { useAuth } from '@/lib/auth-context';
 
 export default function GroupDetailPage() {
   const params = useParams();
   const router = useRouter();
+  const { user } = useAuth();
   const groupId = parseInt(params.id as string);
   
   const { data: group, isLoading: isLoadingGroup } = useGroup(groupId);
@@ -40,6 +44,7 @@ export default function GroupDetailPage() {
   const leaveGroup = useLeaveGroup();
   
   const [postContent, setPostContent] = React.useState('');
+  const [showAllMembers, setShowAllMembers] = React.useState(false);
 
   // const isMember = myGroupsData?.data.some(g => g.id === groupId); // Already declared above
   // Assume current user is the creator for simplicity or add user context later to check admin rights properly
@@ -69,7 +74,10 @@ export default function GroupDetailPage() {
   if (!group) return <div className="p-8 text-center">Group not found</div>;
 
   return (
-    <div className="container mx-auto py-8 px-4">
+    <ProtectedRoute>
+      <div className="min-h-screen bg-muted dark:bg-background">
+        <AppHeader title={group.name} />
+        <div className="container mx-auto py-8 px-4">
       {/* Header */}
       <div className="bg-card rounded-lg shadow-sm border p-6 mb-8">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
@@ -210,10 +218,11 @@ export default function GroupDetailPage() {
                             </div>
                           </div>
                         </div>
-                        {/* Allow deletion if it's my post (logic simplified here, ideally check user ID) */}
-                        <Button variant="ghost" size="icon" onClick={() => handleDeletePost(post.id)}>
-                          <Trash2 className="w-4 h-4 text-muted-foreground hover:text-destructive" />
-                        </Button>
+                        {(isAdmin || (user && Number(user.id) === Number((post as any).user_id ?? post.user?.id))) && (
+                          <Button type="button" variant="ghost" size="icon" onClick={() => handleDeletePost(post.id)} aria-label="Delete post">
+                            <Trash2 className="w-4 h-4 text-muted-foreground hover:text-destructive" />
+                          </Button>
+                        )}
                       </div>
                     </CardHeader>
                     <CardContent>
@@ -306,7 +315,7 @@ export default function GroupDetailPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {group.members?.slice(0, 5).map(member => (
+                {(showAllMembers ? group.members : group.members?.slice(0, 5))?.map(member => (
                   <div key={member.id} className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
                       {member.user?.name?.[0] || 'U'}
@@ -318,8 +327,13 @@ export default function GroupDetailPage() {
                   </div>
                 ))}
                 {group.members && group.members.length > 5 && (
-                  <Button variant="link" className="w-full text-sm">
-                    View all {group.member_count} members
+                  <Button
+                    type="button"
+                    variant="link"
+                    className="w-full text-sm"
+                    onClick={() => setShowAllMembers((prev) => !prev)}
+                  >
+                    {showAllMembers ? 'Show fewer members' : `View all ${group.member_count || group.members.length} members`}
                   </Button>
                 )}
               </div>
@@ -327,6 +341,8 @@ export default function GroupDetailPage() {
           </Card>
         </div>
       </div>
-    </div>
+        </div>
+      </div>
+    </ProtectedRoute>
   );
 }

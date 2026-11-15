@@ -4,6 +4,7 @@ import { X, Gift as GiftIcon, Coins, Send } from 'lucide-react';
 import { useGifts, useSendGift } from '@/lib/hooks/use-gifts';
 import { useWallet } from '@/lib/hooks/useWallet';
 import Image from 'next/image';
+import { toast } from 'sonner';
 
 interface GiftShopModalProps {
   isOpen: boolean;
@@ -24,13 +25,13 @@ export default function GiftShopModal({ isOpen, onClose, receiverId, receiverNam
 
     sendGift({ receiverId, giftId: selectedGiftId, message }, {
       onSuccess: () => {
-        alert('Gift sent successfully!');
+        toast.success(`Gift sent to ${receiverName}!`);
         onClose();
         setSelectedGiftId(null);
         setMessage('');
       },
       onError: (error: any) => {
-        alert(error.response?.data?.error || 'Failed to send gift');
+        toast.error(error.response?.data?.error || 'Failed to send gift');
       },
     });
   };
