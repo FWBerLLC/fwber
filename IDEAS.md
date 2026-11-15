@@ -2,6 +2,11 @@
 > **Generated on:** 2026-04-02
 > **Goal:** Creative, constructive analysis of the fwber monorepo to find missing features, improvements, refactoring targets, language ports, and concept pivots.
 
+## 2026-11-15 Addendum (from the v2.3.94 ordered WebRTC video negotiation, zero-downtime CI/CD & mobile hardening pass)
+1. **SFU Simulcast Escalation (`livekit` / `mediasoup` sidecar) for Multi-Party Video**: 1-on-1 WebRTC video calls (`VideoCallModal.tsx`) and mesh Audio Rooms (`useWebRTC.ts`) now share TURN-ready ICE configuration and ordered Socket.IO signaling; adding an optional LiveKit/Mediasoup SFU adapter would let 4-8 person group dates and Speed Dating rooms add low-CPU simulcast video without `O(N^2)` client uplink scaling.
+2. **Expo Native Push Token Auto-Registration Bridge (`mobile/app/index.js` -> `POST /api/notifications/subscribe`)**: Forward `Notifications.getExpoPushTokenAsync()` from the hardened React Native shell into the authenticated WebView session so incoming `video_call_incoming` rings wake backgrounded iOS/Android devices via APNs/FCM CallKit-style notifications.
+3. **Playwright Two-Context WebRTC Loopback E2E Smoke**: Launch two Chromium contexts with `--use-fake-device-for-media-stream --use-fake-ui-for-media-stream` in CI to assert end-to-end `initiate -> offer -> candidate -> answer -> connected -> ended` video stream frames automatically on PRs.
+
 ## 2026-11-15 Addendum (from the v2.3.93 TOTP 2FA, WebRTC video signaling & 100% contract parity pass)
 1. **WebAuthn / FIDO2 Passkey Second-Factor & Passwordless Login (`@simplewebauthn/server`)**: Now that `AuthService.loginUser()` enforces a domain-separated 5-minute 2FA challenge (`v2.3.93`), extend `/settings/two-factor` and `/two-factor-challenge` with WebAuthn hardware security keys (YubiKey, Touch ID, Windows Hello) alongside RFC 6238 TOTP and recovery codes.
 2. **Ephemeral TURN REST Credentials (`RFC 5389` / `coturn` `--use-auth-secret`) for 1-on-1 Video & Audio Rooms**: Expose an authenticated `GET /api/video/ice-servers` endpoint minting short-lived (1-hour) HMAC-SHA1 TURN credentials scoped to `req.user.id` so WebRTC media traversal works across Symmetric Carrier-Grade NATs without exposing static TURN credentials in client bundles.

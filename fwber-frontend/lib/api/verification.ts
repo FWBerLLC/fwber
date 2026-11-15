@@ -35,7 +35,7 @@ export const verificationApi = {
     }
 
     // Use fetch directly to avoid JSON.stringify in apiClient
-    const baseUrl = typeof window !== 'undefined' ? '/api' : (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api');
+    const baseUrl = typeof window !== 'undefined' ? '/api' : (process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:4003/api');
     const url = baseUrl.endsWith('/api') ? baseUrl : `${baseUrl}/api`;
     
     const response = await fetch(`${url}/verification/verify`, {

@@ -4,15 +4,15 @@ on:
   workflow_dispatch:
     inputs:
       publish_backend:
-        description: 'Build and publish the backend image'
+        description: 'Build and publish the fwber-backend-ts image'
         required: false
         default: 'false'
-      publish_queue:
-        description: 'Build and publish the queue image'
+      publish_geo:
+        description: 'Build and publish the fwber-geo Rust sidecar image'
         required: false
         default: 'false'
       publish_frontend:
-        description: 'Build and publish the frontend image'
+        description: 'Build and publish the fwber-frontend standalone image'
         required: false
         default: 'false'
 
@@ -22,9 +22,11 @@ jobs:
     steps:
       - name: Explain current deployment topology
         run: |
-          echo "Primary production deployment is now Vercel frontend + Hetzner backend."
-          echo "This manual workflow is retained only for optional Docker image publishing."
-          echo "Use .github/workflows/deploy-backend.yml for the real Hetzner backend deployment path."
+          echo "Primary production deployment is All-Hetzner Unified Stack (5.161.250.43 / fwber.online):"
+          echo "  - fwber-frontend (.standalone-live :3000) via .github/workflows/deploy-frontend.yml"
+          echo "  - fwber-backend-ts (Express/Prisma/Socket.IO :4003) via .github/workflows/deploy-backend.yml"
+          echo "  - fwber-geo (Actix-Web Rust geohash engine :8081)"
+          echo "This manual workflow builds optional Docker images for self-hosted / Kubernetes deployments."
 
   build-docker-backend:
     needs: summary
@@ -37,17 +39,17 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Build and push Backend
+      - name: Build and push fwber-backend-ts
         uses: docker/build-push-action@v5
         with:
-          context: ./fwber-backend
-          file: ./fwber-backend/Dockerfile
+          context: ./fwber-backend-ts
+          file: ./fwber-backend-ts/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/fwber-backend:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/fwber-backend-ts:latest
 
-  build-docker-queue:
+  build-docker-geo:
     needs: summary
-    if: ${{ github.event.inputs.publish_queue == 'true' }}
+    if: ${{ github.event.inputs.publish_geo == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -56,14 +58,13 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Build and push Queue
+      - name: Build and push fwber-geo
         uses: docker/build-push-action@v5
         with:
-          context: ./fwber-backend
-          file: ./fwber-backend/Dockerfile
+          context: ./fwber-geo
+          file: ./fwber-geo/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/fwber-queue:latest
-          target: queue-worker
+          tags: ${{ secrets.DOCKER_USERNAME }}/fwber-geo:latest
 
   build-docker-frontend:
     needs: summary
@@ -76,10 +77,10 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Build and push Frontend
+      - name: Build and push fwber-frontend
         uses: docker/build-push-action@v5
         with:
-          context: ./fwber-frontend
-          file: ./fwber-frontend/Dockerfile
+          context: .
+          file: ./fwber-frontend/Dockerfile.prod
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/fwber-frontend:latest

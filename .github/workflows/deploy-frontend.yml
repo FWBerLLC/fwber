@@ -5,74 +5,47 @@ on:
     branches: [main]
     paths:
       - "fwber-frontend/**"
+      - "ops/hetzner/scripts/deploy-frontend.sh"
+      - "VERSION"
       - ".github/workflows/deploy-frontend.yml"
   workflow_dispatch:
 
 jobs:
   deploy:
-    name: Build & Deploy Frontend to Hetzner
+    name: Verify & Deploy Frontend to Hetzner (.standalone-live)
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "24.x"
-          cache: "npm"
-          cache-dependency-path: fwber-frontend/package-lock.json
+      - name: Verify UTF-8 BOM, Nav Coverage & API Contracts
+        run: |
+          python3 tools/verify_no_bom.py
+          python3 tools/check_nav_coverage.py
+          python3 tools/check_api_contracts.py
 
-      - name: Install dependencies
-        working-directory: ./fwber-frontend
-        run: npm install --no-fund --no-audit
-
-      - name: Build Next.js (standalone)
-        working-directory: ./fwber-frontend
-        run: npm run build
-        env:
-          NEXT_PUBLIC_API_URL: https://api.fwber.online
-          NEXT_PUBLIC_WS_URL: wss://ws.fwber.online
-          NEXT_PUBLIC_REVERB_HOST: ws.fwber.online
-          NEXT_PUBLIC_REVERB_PORT: "443"
-          NEXT_PUBLIC_REVERB_SCHEME: https
-          NEXT_PUBLIC_APP_URL: https://fwber.online
-
-      - name: Copy build to Hetzner
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.HETZNER_HOST }}
-          username: ${{ secrets.HETZNER_USERNAME }}
-          key: ${{ secrets.HETZNER_SSH_KEY }}
-          source: "fwber-frontend/.next/standalone,fwber-frontend/.next/static,fwber-frontend/public"
-          target: "/var/www/fwber/repo/"
-          strip_components: 0
-
-      - name: Deploy on Hetzner
+      - name: Deploy Frontend Zero-Downtime on Hetzner via SSH
         uses: appleboy/ssh-action@v1.0.3
+        env:
+          HETZNER_PROJECT_PATH: ${{ secrets.HETZNER_PROJECT_PATH }}
         with:
           host: ${{ secrets.HETZNER_HOST }}
           username: ${{ secrets.HETZNER_USERNAME }}
           key: ${{ secrets.HETZNER_SSH_KEY }}
+          port: 22
+          envs: HETZNER_PROJECT_PATH
           script: |
-            set -e
-            cd /var/www/fwber/repo
-
-            # Move standalone build into place
-            STANDALONE=fwber-frontend/.next/standalone/fwber-frontend
-            if [ -f "$STANDALONE/server.js" ]; then
-              # Merge static assets into standalone
-              cp -r fwber-frontend/.next/static "$STANDALONE/.next/" 2>/dev/null || true
-              # Copy public assets
-              cp -r fwber-frontend/public "$STANDALONE/" 2>/dev/null || true
-              # Symlink uploads directory for user photos
-              ln -sf /var/www/fwber/repo/fwber-backend-ts/uploads "$STANDALONE/public/uploads" 2>/dev/null || true
-            fi
-
-            # Restart frontend via PM2
-            pm2 restart fwber-frontend || \
-              PORT=3000 pm2 start "$STANDALONE/server.js" --name fwber-frontend
-            pm2 save
-
-            echo '✅ Frontend deployed and restarted'
+            set -euo pipefail
+            REPO_ROOT="${HETZNER_PROJECT_PATH:-/var/www/fwber/repo}"
+            cd "$REPO_ROOT"
+            # Preserve untracked server-side directories (prisma/migrations/ and uploads/)
+            # — NEVER run `git clean -fd` or `git stash --include-untracked`.
+            git tag -f "rollback/pre-deploy-$(date +%Y%m%d)-$(git rev-parse --short HEAD)" "$(git rev-parse HEAD)" 2>/dev/null || true
+            git checkout -- . 2>/dev/null || true
+            git fetch origin main
+            git reset --hard origin/main
+            # Build at `nice -n 10` and atomically swap `.standalone-next` -> `.standalone-live`
+            bash ops/hetzner/scripts/deploy-frontend.sh
+            echo "✅ Zero-downtime frontend deployment complete"

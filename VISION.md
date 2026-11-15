@@ -1,7 +1,7 @@
 # VISION.md — The Ultimate fwber Architecture & Philosophy
 
 > **Last Updated:** 2026-11-15
-> **Version:** 2.3.93 (TOTP 2FA Login Enforcement, Live WebRTC Video Signaling, Operator Control Plane & 100% Contract Parity)
+> **Version:** 2.3.94 (Ordered WebRTC Video Negotiation, Zero-Downtime CI/CD Parity, Offline Test Determinism & Mobile Hardening)
 > **Goal:** To serve as the definitive North Star for all human and AI agents working on the fwber project.
 
 ---

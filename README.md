@@ -9,9 +9,9 @@ Live site: https://fwber.online
 
 ## Status
 
-**Active development.** Current version: **2.3.93** (synced across the repo
+**Active development.** Current version: **2.3.94** (synced across the repo
 2026-11-15). Live on Hetzner (`https://fwber.online`) with `37/37` backend Jest
-suites (`178/178` tests), `0` TypeScript errors across backend and frontend,
+suites (`178/178` tests passing offline), `0` TypeScript errors across backend and frontend,
 `112/112` verified frontend-to-backend API contracts across `91` Express prefixes (`tools/check_api_contracts.py`),
 and Rust `fwber-geo` H3 spatial service active on `:8081`.
 
@@ -28,20 +28,12 @@ and Rust `fwber-geo` H3 spatial service active on `:8081`.
 
 ## What's working
 
-- Friend search, Add Friend, and block/unblock flows were fixed and merged
-  2026-11-11 after a multi-account QA pass (2026-11-06) found them broken.
-  Backend tests: 91 passed, 5 pre-existing Prisma-client failures (as of the
-  2026-11-11 merge).
-- Frontend deploys to production regularly (v2.3.55–2.3.60 deploy records
-  in November 2026).
+- Full-stack Express 5 + Prisma (`fwber-backend-ts`, `:4003`), Next.js 16 standalone (`fwber-frontend`, `.standalone-live` `:3000`), and Rust H3 spatial sidecar (`fwber-geo`, `:8081`) run unified on Hetzner (`https://fwber.online`) with zero-downtime atomic frontend swaps and post-deploy smoke/rewrite gates (`tools/check_rewrites.py`).
+- Friend search, Add Friend, bidirectional block/unblock, direct messaging, TOTP 2FA login challenges, 1-on-1 WebRTC video calls & Audio Rooms signaling, Community Council Merkle governance, AI Avatar Studio, Wallet P2P/Bridge/Bounties, ZK proximity proofs, and inbound/outbound ActivityPub federation are live and covered by `37/37` Jest suites (`178/178` tests) and `112/112` static API-contract checks.
 
 ## What's not / known gaps
 
-- End-to-end verification of the latest production deploy is still pending —
-  the homepage has returned 200 while failing to render in the past, so a
-  green deploy record is not proof the site works.
-- Backend test suite has 5 pre-existing Prisma-client failures; the frontend
-  had pre-existing type errors in untouched files at last check.
+- Optional external operator credentials (`NEXT_PUBLIC_SENTRY_DSN` / `SENTRY_DSN`, OAuth contact-sync keys for Google/Microsoft/Facebook, live Stripe keys, and a dedicated `coturn`/managed TURN relay for strict symmetric carrier NATs) remain unset until provisioned by the operator; unconfigured integrations degrade cleanly in the UI.
 - No paying users; no revenue. FWBer is a rebuild of the original 2011 PHP
   app (archived under `ARCHIVE_v1_8_php_legacy/`), which was test-marketed in
   Austin, TX and then shelved. The biggest historical blocker was marketing,
@@ -51,31 +43,32 @@ and Rust `fwber-geo` H3 spatial service active on `:8081`.
 
 | Layer | Technology |
 |-------|-----------|
-| Backend API | Node.js, Express, TypeScript, Prisma ORM |
-| Frontend | Next.js 15, React 19, TypeScript, Tailwind CSS |
-| Geo service | Rust, Actix-Web, H3 spatial indexing |
-| Database | MySQL (production) |
-| Real-time | Socket.io |
-| Mobile | React Native / Expo (in `mobile/`) |
-| Payments | Stripe |
+| Backend API | Node.js 24, Express 5, TypeScript 6, Prisma ORM |
+| Frontend | Next.js 16, React 19, TypeScript, Tailwind CSS |
+| Geo service | Rust (2024 edition), Actix-Web, H3 spatial indexing |
+| Database | MySQL 8 + Redis (production) |
+| Real-time | Socket.io (`ws.fwber.online`) + WebRTC |
+| Mobile | React Native 0.83 / Expo 55 (in `mobile/`) |
+| Payments | FWB Internal Ledger, Solana Wallet Sign-In, Stripe |
 
 ## Layout
 
 ```
 fwber/
-├── fwber-backend-ts/     Node.js + Express + TypeScript API
-├── fwber-frontend/       Next.js 15 + React 19 web app
-├── fwber-geo/            Rust microservice — H3 spatial indexing
+├── fwber-backend-ts/     Node.js + Express + TypeScript API (:4003)
+├── fwber-frontend/       Next.js 16 + React 19 web app (:3000)
+├── fwber-geo/            Rust microservice — H3 spatial indexing (:8081)
 ├── fwber-wasm/           WebAssembly E2E encryption module
 ├── mobile/               React Native + Expo mobile app
 ├── ops/                  Deployment scripts, nginx configs, systemd units
+├── tools/                System tray controller, contract/nav/rewrite verifiers
 ├── docs/                 Architecture and design docs
 └── ARCHIVE_v1_8_php_legacy/  Archived Laravel/PHP codebase
 ```
 
 ## Getting started (development)
 
-Prerequisites: Node.js 20+, MySQL or PostgreSQL, Redis. Rust toolchain optional
+Prerequisites: Node.js 24+, MySQL, Redis. Rust toolchain optional
 (for the geo service).
 
 ```bash
@@ -83,18 +76,19 @@ Prerequisites: Node.js 20+, MySQL or PostgreSQL, Redis. Rust toolchain optional
 cd fwber-backend-ts && npm install
 cp .env.example .env   # edit with your database credentials
 npx prisma generate && npx prisma db push
-npm run dev            # http://localhost:4000
+npm run dev            # http://127.0.0.1:4003
 
 # Frontend
 cd fwber-frontend && npm install
 cp .env.example .env.local
-npm run dev            # http://localhost:3000
+npm run dev            # http://127.0.0.1:3000
 ```
 
 See `SETUP_GUIDE.md` and `DEPLOY.md` for full setup and deployment details.
 
 ## Last significant activity
 
+- **2026-11-15** — v2.3.94 full-stack parity, TOTP 2FA enforcement, ordered WebRTC video negotiation, Community Council Merkle governance, AI Avatar Studio, ZK proximity proofs, zero-downtime `.standalone-live` deploys, and `112/112` CI contract gates (`37/37` suites, `178/178` tests).
 - **2026-11-12** — v2.3.61 sync across VERSION, package.json files, and docs;
   friend-search/block fix batch merged into main.
 - **2026-11-11** — `fix/friend-search-block-actions` merged (friend search,

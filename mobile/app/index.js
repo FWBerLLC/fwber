@@ -1,12 +1,31 @@
-import { StyleSheet, View, BackHandler, Linking, Platform } from 'react-native';
+import { StyleSheet, View, BackHandler, Linking } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import * as Location from 'expo-location';
 import * as Notifications from 'expo-notifications';
 import NfcManager, { NfcTech, Ndef } from 'react-native-nfc-manager';
 
 const TARGET_DOMAIN = 'fwber.online';
+
+/**
+ * Strict hostname verification for WebView navigation and WebRTC media permissions.
+ *
+ * WHY THIS DESIGN:
+ * Using `hostname.includes('fwber.online')` is vulnerable to subdomain spoofing
+ * (e.g. `fwber.online.attacker.example`). We explicitly verify exact match or
+ * dot-prefixed subdomain match (`*.fwber.online`), plus loopback dev hosts.
+ */
+function isTrustedHostname(hostname) {
+  if (!hostname || typeof hostname !== 'string') return false;
+  const normalized = hostname.toLowerCase();
+  return (
+    normalized === TARGET_DOMAIN ||
+    normalized.endsWith(`.${TARGET_DOMAIN}`) ||
+    normalized === 'localhost' ||
+    normalized === '127.0.0.1'
+  );
+}
 
 // Configure notification behavior
 Notifications.setNotificationHandler({
@@ -27,17 +46,11 @@ export default function Home() {
   // 1. Initialize Native Capabilities
   useEffect(() => {
     (async () => {
-      // Location
       const { status: locStatus } = await Location.requestForegroundPermissionsAsync();
       setLocationGranted(locStatus === 'granted');
 
-      // Notifications
-      const { status: pushStatus } = await Notifications.requestPermissionsAsync();
-      if (pushStatus === 'granted') {
-        // Forward token to webview if needed, or handle here
-      }
+      await Notifications.requestPermissionsAsync();
 
-      // NFC
       try {
         const supported = await NfcManager.isSupported();
         setNfcSupported(supported);
@@ -50,45 +63,38 @@ export default function Home() {
     })();
   }, []);
 
-  // 2. NFC Native -> WebView Bridge
-  useEffect(() => {
+  // 2. NFC Native -> WebView Bridge (invoked on demand when WebView dispatches START_NFC_SCAN)
+  const startNfcDiscovery = useCallback(async () => {
     if (!nfcSupported) return;
+    try {
+      await NfcManager.requestTechnology(NfcTech.Ndef);
+      const tag = await NfcManager.getTag();
 
-    const startNfcDiscovery = async () => {
-        try {
-            await NfcManager.requestTechnology(NfcTech.Ndef);
-            const tag = await NfcManager.getTag();
-            
-            if (tag && tag.ndefMessage) {
-                const message = Ndef.decodeMessage(tag.ndefMessage[0].payload);
-                const payload = Ndef.text.decodePayload(tag.ndefMessage[0].payload);
-                
-                // Inject into WebView
-                const js = `
-                  if (window.handleNativeNFC) {
-                    window.handleNativeNFC(${JSON.stringify(payload)});
-                  }
-                `;
-                webViewRef.current?.injectJavaScript(js);
-            }
-        } catch (ex) {
-            console.warn('NFC Read Error', ex);
-        } finally {
-            NfcManager.cancelTechnologyRequest();
-        }
-    };
-
-    // We can trigger this via a message from the WebView
+      if (tag && Array.isArray(tag.ndefMessage) && tag.ndefMessage.length > 0) {
+        const payload = Ndef.text.decodePayload(tag.ndefMessage[0].payload);
+        const js = `
+          if (window.handleNativeNFC) {
+            window.handleNativeNFC(${JSON.stringify(payload)});
+          }
+          true;
+        `;
+        webViewRef.current?.injectJavaScript(js);
+      }
+    } catch (ex) {
+      console.warn('NFC Read Error', ex);
+    } finally {
+      NfcManager.cancelTechnologyRequest().catch(() => {});
+    }
   }, [nfcSupported]);
 
   // 2.5 Notification Bridge (Foreground)
   useEffect(() => {
-    const subscription = Notifications.addNotificationReceivedListener(notification => {
-      // Inject into WebView as a toast trigger
+    const subscription = Notifications.addNotificationReceivedListener((notification) => {
       const js = `
         if (window.handleNativeNotification) {
           window.handleNativeNotification(${JSON.stringify(notification.request.content)});
         }
+        true;
       `;
       webViewRef.current?.injectJavaScript(js);
     });
@@ -100,24 +106,28 @@ export default function Home() {
   const onMessage = async (event) => {
     try {
       const data = JSON.parse(event.nativeEvent.data);
-      
+
       if (data.type === 'START_NFC_SCAN') {
-        // Trigger native NFC prompt
-        NfcManager.registerTagEvent();
+        await startNfcDiscovery();
       }
 
-      if (data.type === 'NFC_WRITE') {
-        await NfcManager.requestTechnology(NfcTech.Ndef);
-        const bytes = Ndef.encodeMessage([Ndef.textRecord(data.payload)]);
-        await NfcManager.ndefHandler.writeNdefMessage(bytes);
-        NfcManager.cancelTechnologyRequest();
+      if (data.type === 'NFC_WRITE' && typeof data.payload === 'string') {
+        try {
+          await NfcManager.requestTechnology(NfcTech.Ndef);
+          const bytes = Ndef.encodeMessage([Ndef.textRecord(data.payload)]);
+          if (bytes) {
+            await NfcManager.ndefHandler.writeNdefMessage(bytes);
+          }
+        } finally {
+          NfcManager.cancelTechnologyRequest().catch(() => {});
+        }
       }
     } catch (e) {
       console.error('Bridge Error', e);
     }
   };
 
-  // 4. Handle Android Hardware Back Button
+  // 4. Handle Android Hardware Back Button (RN 0.83+ EventSubscription.remove())
   useEffect(() => {
     const handleBackPress = () => {
       if (canGoBack && webViewRef.current) {
@@ -127,8 +137,8 @@ export default function Home() {
       return false;
     };
 
-    BackHandler.addEventListener('hardwareBackPress', handleBackPress);
-    return () => BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
+    const subscription = BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+    return () => subscription.remove();
   }, [canGoBack]);
 
   const handleNavigationStateChange = (navState) => {
@@ -137,14 +147,29 @@ export default function Home() {
     if (!url) return;
 
     try {
-      const hostname = new URL(url).hostname;
-      if (!hostname.includes(TARGET_DOMAIN) && !url.includes('localhost')) {
-        webViewRef.current.stopLoading();
+      const parsed = new URL(url);
+      if (parsed.protocol === 'about:' || parsed.protocol === 'blob:') return;
+      if (!isTrustedHostname(parsed.hostname)) {
+        webViewRef.current?.stopLoading();
         Linking.openURL(url);
       }
-    } catch (error) {
-      // Ignore
+    } catch {
+      // Ignore malformed transient WebView URLs
     }
+  };
+
+  // Grant WebRTC camera/microphone capture inside Android WebView only for trusted fwber.online origins
+  const handlePermissionRequest = (request) => {
+    try {
+      const originHost = new URL(request.origin).hostname;
+      if (isTrustedHostname(originHost)) {
+        request.grant(request.resources);
+        return;
+      }
+    } catch {
+      // Deny if origin cannot be parsed
+    }
+    request.deny();
   };
 
   return (
@@ -155,6 +180,9 @@ export default function Home() {
         style={styles.webview}
         bounces={false}
         showsVerticalScrollIndicator={false}
+        allowsInlineMediaPlayback={true}
+        mediaPlaybackRequiresUserAction={false}
+        onPermissionRequest={handlePermissionRequest}
         onNavigationStateChange={handleNavigationStateChange}
         onMessage={onMessage}
         geolocationEnabled={locationGranted}
@@ -171,5 +199,5 @@ const styles = StyleSheet.create({
   webview: {
     flex: 1,
     backgroundColor: 'transparent',
-  }
+  },
 });

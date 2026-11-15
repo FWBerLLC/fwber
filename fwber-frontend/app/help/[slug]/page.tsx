@@ -282,9 +282,10 @@ const HELP_ARTICLES: Record<string, { title: string, content: React.ReactNode, c
         </ul>
         <h3 className="text-lg font-semibold">Live 1-on-1 WebRTC Video Calls</h3>
         <ul className="list-disc pl-5 space-y-2">
-          <li><strong>Encrypted Peer-to-Peer Media:</strong> Start a 1-on-1 video call directly from a match conversation. Audio and video stream over DTLS-SRTP WebRTC while SDP offers/answers and ICE candidates relay exclusively to your verified call partner.</li>
+          <li><strong>Encrypted Peer-to-Peer &amp; TURN Relay Media:</strong> Start or answer a 1-on-1 video call directly from <strong>Messages</strong> (<code>/messages</code>). Audio and video stream over DTLS-SRTP WebRTC with ordered SDP/ICE negotiation and optional TURN relay traversal for strict mobile carrier NATs.</li>
+          <li><strong>Privacy Face Blur &amp; Controls:</strong> Toggle on-device AI Face Blur (ghost icon), mute your microphone, turn camera video on/off, or decline/end a call with a single tap at any moment.</li>
+          <li><strong>Call History &amp; Mobile Support:</strong> Open <strong>Call History</strong> inside Messages to review outgoing, incoming, missed, and declined calls with partner display names and call durations. Native camera, microphone, and NFC tap permissions are supported in the iOS &amp; Android mobile shell as well as desktop/mobile browsers.</li>
           <li><strong>Safety &amp; Block Guards:</strong> Bidirectional blocks and participant authorization checks prevent unwanted call initiation, unauthorized call-state changes, or signaling spoofing.</li>
-          <li><strong>In-Call Controls:</strong> Mute your microphone, toggle camera video, or end the call with a single tap at any moment.</li>
         </ul>
       </div>
     )

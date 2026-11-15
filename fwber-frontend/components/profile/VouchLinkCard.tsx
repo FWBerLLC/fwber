@@ -29,33 +29,13 @@ export function VouchLinkCard() {
       
       try {
         setLoading(true)
-
-      // If we already have the code locally, just construct it
-      // Alternatively, we could call the API to ensure it's fresh/valid
-      // Let's call the API to be safe and consistent with backend logic
-        const apiUrl = typeof window !== 'undefined' ? 'https://api.fwber.online/api' : (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000') + '/api';
-        const response = await fetch(`${apiUrl}/vouch/generate-link`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        })
-        
-        if (response.ok) {
-            const data = await response.json()
-            // The backend returns the full URL usually, but let's handle both cases
-            // VouchController: return response()->json(['url' => $url]);
-            setLink(data.url)
+        const data = await api.post<{ url: string }>('/vouch/generate-link')
+        if (data?.url) {
+          setLink(data.url)
         } else {
-            // Fallback if API fails but we have referral code
-            const baseUrl = getBaseUrl()
-            setLink(`${baseUrl}/vouch/${user.referral_code}`)
+          const baseUrl = getBaseUrl()
+          setLink(`${baseUrl}/vouch/${user.referral_code}`)
         }
-        const data = await api.post<{url: string}>('/vouch/generate-link')
-        setLink(data.url)
-
       } catch (err) {
         console.error('Failed to fetch vouch link:', err)
         // Fallback

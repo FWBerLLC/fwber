@@ -1,58 +1,75 @@
-name: Backend CI (Tests & Linting)
+name: Backend & Geo CI (fwber-backend-ts + fwber-geo)
 
 on:
   push:
     paths:
-      - 'fwber-backend/**'
+      - 'fwber-backend-ts/**'
+      - 'fwber-geo/**'
+      - 'tools/check_api_contracts.py'
+      - 'tools/verify_no_bom.py'
       - '.github/workflows/backend-tests.yml'
   pull_request:
     paths:
-      - 'fwber-backend/**'
+      - 'fwber-backend-ts/**'
+      - 'fwber-geo/**'
+      - 'tools/check_api_contracts.py'
+      - 'tools/verify_no_bom.py'
   workflow_dispatch:
 
 jobs:
-  test:
-    name: Run PHPUnit Tests
+  backend-ts:
+    name: TypeScript Build, Jest Suite & Contract Verification
     runs-on: ubuntu-latest
-    
-    defaults:
-      run:
-        working-directory: ./fwber-backend
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.4'
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo
-          coverage: none
-
-      - name: Cache Composer dependencies
-        uses: actions/cache@v4
-        with:
-          path: /tmp/composer-cache
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: ${{ runner.os }}-composer-
-
-      - name: Install Dependencies
-        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-
-      - name: Prepare Database environment
-        env:
-          DB_CONNECTION: sqlite
-          DB_DATABASE: database/database.sqlite
+      - name: Verify Zero UTF-8 BOMs & API Contracts
         run: |
-          cp .env.example .env
-          mkdir -p database
-          touch database/database.sqlite
-          php artisan key:generate
-          php artisan migrate:fresh
+          python3 tools/verify_no_bom.py
+          python3 tools/check_api_contracts.py
 
-      - name: Execute Tests via Artisan
+      - name: Setup Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24.x'
+          cache: 'npm'
+          cache-dependency-path: fwber-backend-ts/package-lock.json
+
+      - name: Install Dependencies & Generate Prisma Client
+        working-directory: ./fwber-backend-ts
+        run: |
+          npm install --no-fund --no-audit
+          npx prisma generate
+
+      - name: Compile TypeScript Backend
+        working-directory: ./fwber-backend-ts
+        run: npm run build
+
+      - name: Run Jest Integration & Unit Suites
+        working-directory: ./fwber-backend-ts
         env:
-          DB_CONNECTION: sqlite
-          DB_DATABASE: database/database.sqlite
-        run: php artisan test
+          NODE_ENV: test
+          JWT_SECRET: ci-ephemeral-jwt-secret-key-fwber-online-32chars
+          DATABASE_URL: mysql://fwber:fwber@127.0.0.1:3306/fwber_test
+        run: npm test -- --forceExit
+
+  geo-rust:
+    name: Rust Geohash Sidecar (fwber-geo) Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Rust Toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache Cargo Registry & Target
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: fwber-geo
+
+      - name: Check fwber-geo
+        run: cargo check --manifest-path fwber-geo/Cargo.toml

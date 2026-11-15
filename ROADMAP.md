@@ -1,11 +1,19 @@
 # ROADMAP.md — fwber Project Trajectory
 
-> **Current Version:** 2.3.93
+> **Current Version:** 2.3.94
 > **Last Updated:** 2026-11-15
 
 ---
 
 ## 🗺️ High-Level Trajectory
+
+### Phase 20: Ordered WebRTC Video Negotiation, Zero-Downtime CI/CD Parity, Offline Test Determinism & Mobile Hardening (COMPLETED - v2.3.94)
+Eliminated the asynchronous WebRTC SDP/ICE race condition in incoming 1-on-1 video calls, aligned all GitHub Actions CI/CD workflows and multi-stage Dockerfiles with the live Node 24 + Rust + `.standalone-live` Hetzner architecture, achieved 100% offline Jest determinism across all 37 suites, unified remaining port `:4003` proxy fallbacks, and hardened the Expo/React Native mobile shell.
+
+**Key Achievements:**
+- **Ordered WebRTC Video Negotiation, TURN Config & Call History (`v2.3.94`)**: Added monotonic `_seq` event ordering across `use-socket-logic.ts`, `MessagesPage`, and `VideoCallModal.tsx` (fixing missed `offer`s during rapid ICE candidate bursts), wired `video_call_incoming` + `video_call_status` listeners, `NEXT_PUBLIC_TURN_*` ICE servers, `callIdRef`, `rejectCall()`, repeat-call session reset, Radix `<Tooltip>` call controls, and `caller`/`receiver` payloads on `GET /api/video/history` (`CallHistory.tsx`).
+- **GitHub Actions CI/CD Overhaul & Offline Jest Determinism (`v2.3.94`)**: Upgraded `deploy-frontend.yml` to invoke `ops/hetzner/scripts/deploy-frontend.sh` (`.standalone-live` zero-downtime swap), replaced retired PHP 8.4 `backend-tests.yml` with Node 24 (`fwber-backend-ts`) + Rust (`fwber-geo`) + contract/BOM CI, added multi-stage `Dockerfile`s across backend/geo/frontend, and made `FederationBroadcast.test.ts` + `FederationInterop.test.ts` 100% offline-deterministic (`37/37` suites, `178/178` tests green in air-gapped sandboxes).
+- **Port `:4003` Proxy Alignment & Mobile WebView Hardening (`v2.3.94`)**: Aligned all 7 Next.js `app/api/*` route proxies and 11 `lib/api/*.ts` SSR fallbacks to `127.0.0.1:4003/api`, deduplicated `VouchLinkCard.tsx` vouch API calls, and hardened `mobile/app/index.js` + `mobile/app.json` (strict `isTrustedHostname` anti-spoofing check, `START_NFC_SCAN` -> `startNfcDiscovery()`, RN 0.83 `BackHandler` subscription cleanup, and iOS/Android WebRTC camera/microphone permissions).
 
 ### Phase 19: TOTP 2FA Login Enforcement, Live WebRTC Video Call Signaling, Runtime Operator Control Plane & 100% Contract Parity (COMPLETED - v2.3.93)
 Eliminated the final 16 unmatched active frontend-to-backend API calls across all 553 call sites in `fwber-frontend` (`0` remaining outside intentionally untouched `/rate-my-pussy`), closed the TOTP 2FA password-login bypass, wired live 1-on-1 WebRTC video signaling end-to-end, and fixed all `/admin/system` + `/admin/settings` runtime crash surfaces.

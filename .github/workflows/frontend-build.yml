@@ -1,20 +1,24 @@
-name: Frontend Build & Deploy (Vercel)
+name: Frontend CI (Next.js 16 Standalone)
 
 on:
   push:
     paths:
       - 'fwber-frontend/**'
+      - 'tools/check_nav_coverage.py'
+      - 'tools/check_api_contracts.py'
       - '.github/workflows/frontend-build.yml'
   pull_request:
     paths:
       - 'fwber-frontend/**'
+      - 'tools/check_nav_coverage.py'
+      - 'tools/check_api_contracts.py'
   workflow_dispatch:
 
 jobs:
   build:
-    name: Next.js Production Build
+    name: Next.js 16 Typecheck, Contracts & Standalone Build
     runs-on: ubuntu-latest
-    
+
     defaults:
       run:
         working-directory: ./fwber-frontend
@@ -23,7 +27,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Verify BOM, Nav Coverage & API Contracts
+        working-directory: .
+        run: |
+          python3 tools/verify_no_bom.py
+          python3 tools/check_nav_coverage.py
+          python3 tools/check_api_contracts.py
+
+      - name: Setup Node.js 24
         uses: actions/setup-node@v4
         with:
           node-version: '24.x'
@@ -33,10 +44,15 @@ jobs:
       - name: Install dependencies
         run: npm install --no-fund --no-audit
 
-      - name: Test Build (TypeScript / ESLint / Next.js)
+      - name: Strict TypeScript Check
+        run: npx tsc --noEmit
+
+      - name: Production Standalone Build
         run: npm run build
         env:
-          NEXT_PUBLIC_API_URL: https://api.fwber.online
+          NEXT_PUBLIC_API_URL: https://api.fwber.online/api
+          NEXT_PUBLIC_WS_URL: https://ws.fwber.online
+          NEXT_PUBLIC_APP_URL: https://fwber.online
           NEXT_PUBLIC_REVERB_HOST: ws.fwber.online
-          NEXT_PUBLIC_REVERB_PORT: 443
+          NEXT_PUBLIC_REVERB_PORT: "443"
           NEXT_PUBLIC_REVERB_SCHEME: https

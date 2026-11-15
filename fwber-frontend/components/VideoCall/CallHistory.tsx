@@ -28,8 +28,9 @@ export function CallHistory() {
   return (
     <div className="space-y-2">
       {(history || []).map((call) => {
-        const isCaller = call.caller_id === user?.id;
-        const otherUser = isCaller ? call.receiver : call.caller;
+        const isCaller = Number(call.caller_id) === Number(user?.id);
+        const otherUser = call.other_user || (isCaller ? call.receiver : call.caller);
+        const displayName = otherUser?.display_name || otherUser?.name || call.partner_name || 'Unknown User';
         const date = new Date(call.started_at || call.created_at); // Fallback to created_at if started_at is null
 
         let Icon = Phone;
@@ -38,6 +39,9 @@ export function CallHistory() {
         if (call.status === 'missed') {
           Icon = PhoneMissed;
           color = 'text-red-500';
+        } else if (call.status === 'rejected') {
+          Icon = PhoneMissed;
+          color = 'text-amber-500';
         } else if (isCaller) {
           Icon = PhoneOutgoing;
           color = 'text-blue-500';
@@ -53,14 +57,14 @@ export function CallHistory() {
                 <Icon className="w-5 h-5" />
               </div>
               <div>
-                <div className="font-medium text-foreground dark:text-foreground">{otherUser?.name || 'Unknown User'}</div>
+                <div className="font-medium text-foreground dark:text-foreground">{displayName}</div>
                 <div className="text-xs text-muted-foreground flex items-center gap-1">
                   {date.toLocaleDateString()} {date.toLocaleTimeString()}
-                  {call.duration && (
+                  {Boolean(call.duration && call.duration > 0) && (
                     <>
                       <span>•</span>
                       <Clock className="w-3 h-3" />
-                      <span>{formatDuration(call.duration)}</span>
+                      <span>{formatDuration(call.duration!)}</span>
                     </>
                   )}
                 </div>

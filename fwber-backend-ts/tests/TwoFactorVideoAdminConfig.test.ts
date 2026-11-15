@@ -376,6 +376,39 @@ describe('v2.3.93 Full-Stack Parity: TOTP 2FA Enforcement, WebRTC Video Signalin
           e.payload.signal.type === 'offer',
       ),
     ).toBe(true);
+
+    // 7. GET /api/video/history exposes caller, receiver, AND other_user so CallHistory UI never renders "Unknown User"
+    mockPrisma.video_calls.findMany.mockResolvedValueOnce([
+      {
+        id: 99n,
+        caller_id: 10n,
+        receiver_id: 20n,
+        status: 'ended',
+        duration: 42,
+        started_at: new Date('2026-11-15T12:00:00Z'),
+        ended_at: new Date('2026-11-15T12:00:42Z'),
+        created_at: new Date('2026-11-15T12:00:00Z'),
+        users_video_calls_caller_idTousers: {
+          id: 10n,
+          name: 'Alice',
+          user_profiles: [{ display_name: 'Alice Wonderland', avatar_url: '/uploads/alice.png' }],
+        },
+        users_video_calls_receiver_idTousers: {
+          id: 20n,
+          name: 'Bob',
+          user_profiles: [{ display_name: 'Bob Builder', avatar_url: '/uploads/bob.png' }],
+        },
+      },
+    ]);
+    const histRes = await request(app)
+      .get('/api/video/history')
+      .set('Authorization', `Bearer ${aliceToken}`);
+    expect(histRes.status).toBe(200);
+    expect(histRes.body.data).toHaveLength(1);
+    expect(histRes.body.data[0].caller.name).toBe('Alice Wonderland');
+    expect(histRes.body.data[0].receiver.name).toBe('Bob Builder');
+    expect(histRes.body.data[0].other_user.name).toBe('Bob Builder');
+    expect(histRes.body.data[0].direction).toBe('outgoing');
   });
 
   it('persists admin runtime feature flags, exposes config health, infra metrics, rate-limit stats, and platform analytics', async () => {

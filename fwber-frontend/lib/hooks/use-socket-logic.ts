@@ -24,6 +24,7 @@ export function getSharedSocket(): Socket | null {
 }
 let _connectionCount = 0;
 let _listenersAttached = false;
+let _videoSignalSeq = 0;
 const _chatMessages: ChatMessage[] = [];
 const _typingIndicators: TypingIndicator[] = [];
 const _videoSignals: any[] = [];
@@ -118,12 +119,46 @@ function attachListeners(socket: Socket, userId: string | undefined) {
     }, 3000);
   });
 
-  socket.on('VideoCallSignal', (payload: any) => {
-    if (!payload) return;
-    _videoSignals.push(payload);
-    if (_videoSignals.length > 50) _videoSignals.shift();
+  const pushVideoSignal = (entry: any) => {
+    _videoSignals.push({ ...entry, _seq: ++_videoSignalSeq });
+    if (_videoSignals.length > 100) _videoSignals.shift();
     const snapshot = [..._videoSignals];
     _videoSignalSetters.forEach(s => s(snapshot));
+  };
+
+  socket.on('VideoCallSignal', (payload: any) => {
+    if (!payload) return;
+    pushVideoSignal(payload);
+  });
+
+  // `POST /api/video/initiate` emits `video_call_incoming` with `{ call_id, caller_id, caller_name, started_at }`
+  // immediately before the WebRTC SDP offer arrives. Pushing a typed `'ringing'` frame keeps `call_id` and
+  // `caller_name` synchronized across `MessagesPage` and `VideoCallModal`.
+  socket.on('video_call_incoming', (payload: any) => {
+    if (!payload || !payload.caller_id) return;
+    pushVideoSignal({
+      from_user_id: String(payload.caller_id),
+      to_user_id: String(userId ?? ''),
+      call_id: payload.call_id,
+      caller_name: payload.caller_name,
+      signal: { type: 'ringing' },
+      timestamp: payload.started_at || new Date().toISOString(),
+    });
+  });
+
+  // `PUT /api/video/:callId/status` emits `video_call_status` with `{ call_id, status, updated_by }`
+  // so remote rejections/hangups close the peer's ringing dialog immediately even if a `bye` packet dropped.
+  socket.on('video_call_status', (payload: any) => {
+    if (!payload || !payload.updated_by) return;
+    if (payload.status === 'rejected' || payload.status === 'ended' || payload.status === 'missed') {
+      pushVideoSignal({
+        from_user_id: String(payload.updated_by),
+        to_user_id: String(userId ?? ''),
+        call_id: payload.call_id,
+        signal: { type: payload.status === 'rejected' ? 'rejected' : 'bye' },
+        timestamp: new Date().toISOString(),
+      });
+    }
   });
 }
 
@@ -166,7 +201,7 @@ export function useSocketLogic(options: { autoConnect?: boolean } = {}) {
   const connect = useCallback(() => {
     if (_socket || !token) return;
 
-    const socketUrl = process.env.NEXT_PUBLIC_WS_URL || process.env.NEXT_PUBLIC_API_URL?.replace(/\/api$/, '') || 'http://localhost:4000';
+    const socketUrl = process.env.NEXT_PUBLIC_WS_URL || process.env.NEXT_PUBLIC_API_URL?.replace(/\/api$/, '') || 'http://127.0.0.1:4003';
 
     _socket = io(socketUrl, {
       auth: { token },

@@ -3,10 +3,10 @@
     "name": "fwber",
     "slug": "fwber",
     "scheme": "fwber",
-    "version": "1.0.0",
+    "version": "2.3.94",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
@@ -17,6 +17,8 @@
       "bundleIdentifier": "com.hyperfield.fwber",
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": "fwber needs access to your location to find nearby matches and venues.",
+        "NSCameraUsageDescription": "fwber needs camera access for 1-on-1 video calls, AR proximity discovery, and identity verification.",
+        "NSMicrophoneUsageDescription": "fwber needs microphone access for encrypted video calls, live audio rooms, and voice messages.",
         "NFCReaderUsageDescription": "fwber needs access to NFC to verify physical profile exchanges and process tap-to-pay transactions."
       },
       "entitlements": {
@@ -34,6 +36,9 @@
       "permissions": [
         "ACCESS_FINE_LOCATION",
         "ACCESS_COARSE_LOCATION",
+        "CAMERA",
+        "RECORD_AUDIO",
+        "MODIFY_AUDIO_SETTINGS",
         "NFC"
       ]
     },

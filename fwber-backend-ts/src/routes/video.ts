@@ -44,13 +44,29 @@ router.get('/history', async (req: any, res) => {
     });
     const data = calls.map((call: any) => {
       const isCaller = call.caller_id === userId;
-      const otherUser = isCaller
-        ? call.users_video_calls_receiver_idTousers
-        : call.users_video_calls_caller_idTousers;
-      const otherProfile = Array.isArray(otherUser?.user_profiles)
-        ? otherUser.user_profiles[0]
-        : otherUser?.user_profiles;
-      const displayName = otherProfile?.display_name || otherUser?.name || 'Unknown';
+      const callerRaw = call.users_video_calls_caller_idTousers;
+      const receiverRaw = call.users_video_calls_receiver_idTousers;
+      const callerProfile = Array.isArray(callerRaw?.user_profiles)
+        ? callerRaw.user_profiles[0]
+        : callerRaw?.user_profiles;
+      const receiverProfile = Array.isArray(receiverRaw?.user_profiles)
+        ? receiverRaw.user_profiles[0]
+        : receiverRaw?.user_profiles;
+      const callerName = callerProfile?.display_name || callerRaw?.name || 'Unknown';
+      const receiverName = receiverProfile?.display_name || receiverRaw?.name || 'Unknown';
+      const callerObj = {
+        id: Number(callerRaw?.id ?? call.caller_id),
+        name: callerName,
+        display_name: callerName,
+        avatar_url: callerProfile?.avatar_url || null,
+      };
+      const receiverObj = {
+        id: Number(receiverRaw?.id ?? call.receiver_id),
+        name: receiverName,
+        display_name: receiverName,
+        avatar_url: receiverProfile?.avatar_url || null,
+      };
+      const otherObj = isCaller ? receiverObj : callerObj;
       return {
         id: Number(call.id),
         caller_id: Number(call.caller_id),
@@ -61,14 +77,11 @@ router.get('/history', async (req: any, res) => {
         started_at: call.started_at,
         ended_at: call.ended_at,
         created_at: call.created_at,
-        other_user: {
-          id: Number(otherUser?.id),
-          name: displayName,
-          display_name: displayName,
-          avatar_url: otherProfile?.avatar_url || null,
-        },
-        partner_name: displayName,
-        partner_avatar: otherProfile?.avatar_url || null,
+        caller: callerObj,
+        receiver: receiverObj,
+        other_user: otherObj,
+        partner_name: otherObj.name,
+        partner_avatar: otherObj.avatar_url,
       };
     });
     res.json({ data, total: data.length });
@@ -213,10 +226,17 @@ router.put('/:callId/status', async (req: any, res) => {
       return res.status(403).json({ error: 'Not authorized to update this call' });
     }
 
-    const updateData: any = { status, updated_at: new Date() };
+    const now = new Date();
+    const updateData: any = { status, updated_at: now };
     if (status === 'ended') {
-      updateData.ended_at = new Date();
-      updateData.duration = Number.isFinite(Number(duration)) ? Number(duration) : 0;
+      updateData.ended_at = now;
+      if (duration !== undefined && Number.isFinite(Number(duration))) {
+        updateData.duration = Math.max(0, Math.round(Number(duration)));
+      } else if (call.status === 'connected' && call.started_at) {
+        updateData.duration = Math.max(0, Math.round((now.getTime() - new Date(call.started_at).getTime()) / 1000));
+      } else {
+        updateData.duration = call.duration ?? 0;
+      }
     }
     const updated = await prisma.video_calls.update({ where: { id: call.id }, data: updateData });
 

@@ -1,7 +1,13 @@
 # MEMORY.md — fwber Internal Architectural Observations
 
-## Current Version: 2.3.93 "TOTP 2FA Login Enforcement, Live WebRTC Video Signaling, Operator Control Plane & 100% Contract Parity"
+## Current Version: 2.3.94 "Ordered WebRTC Video Negotiation, Zero-Downtime CI/CD Parity, Offline Test Determinism & Mobile Hardening"
 **Last Updated:** 2026-11-15
+
+### Observations (2026-11-15 session, v2.3.94)
+- **WebRTC `offer` + `onicecandidate` Render-Batch Race**: `pc.setLocalDescription(offer)` triggers `pc.onicecandidate` 3-10ms later. Any React component that reads only `videoSignals[videoSignals.length - 1]` will miss the `offer` whenever an ICE `candidate` arrives before `<VideoCallModal isIncoming={true} />` finishes mounting/opening. Stamping a monotonic `_seq` counter on every pushed signal in `use-socket-logic.ts` and draining signals strictly via `processedSeqRef` (`lastSeenCallSeqRef` in `MessagesPage`) guarantees zero dropped offers or candidates even across buffer ring shifts (`>100`).
+- **Kept-Mounted Dialog State Reset (`VideoCallModal`)**: `MessagesPage` renders `<VideoCallModal isOpen={isVideoCallOpen} />` whenever `selectedConversation?.other_user` is truthy. Modal components kept mounted across open/close cycles must explicitly release media tracks, reset `RTCPeerConnection` refs, and return status to `'idle'` on `isOpen: true -> false`, and suppress echoing `'bye'` (`notifyPeer: false`) when closing in response to a remote `'bye'`/`'rejected'` signal.
+- **GitHub Actions `.standalone-live` Parity**: PM2 `fwber-frontend` on Hetzner runs `.standalone-live/fwber-frontend/server.js`, NOT `.next/standalone/fwber-frontend/server.js`. Any CI/CD frontend deploy workflow (`.github/workflows/deploy-frontend.yml`) must delegate to `ops/hetzner/scripts/deploy-frontend.sh` rather than SCP-copying into `.next/standalone`.
+- **Offline Sandbox Determinism in Jest**: Express ephemeral test servers (`app.listen(0, '127.0.0.1')`) must bind IPv4 `127.0.0.1` rather than `localhost` (which resolves to `::1` in dual-stack Windows sandboxes), and outbound federation tests must mock `src/lib/ssrf.ts` so `dns.resolve4()` never attempts live external DNS queries in air-gapped runners.
 
 ### Observations (2026-11-15 session, v2.3.93)
 - **Domain-Separated Pre-2FA Challenge JWTs (`fwber-2fa-challenge-v1`)**: Never sign temporary 2FA login challenge tokens with the raw `JWT_SECRET` used by `authenticate` / `socket.ts` — otherwise a caller could pass the pre-2FA token as `Authorization: Bearer` to bypass the second factor. Signing `two_factor_token` with `HMAC-SHA256(JWT_SECRET, 'fwber-2fa-challenge-v1')` + `purpose: '2fa_challenge'` + a single-use `jti` replay set (`consumedTwoFactorJtis`) guarantees cryptographic domain separation without requiring a new `.env` variable.

@@ -5,7 +5,7 @@ import { getAvatarUrl } from '@/lib/utils/avatar';
 
 export const dynamic = "force-dynamic";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
 import ProtectedRoute from "@/components/ProtectedRoute";
@@ -54,8 +54,19 @@ export default function MessagesPage() {
 	const [isHistoryOpen, setIsHistoryOpen] = useState(false);
 	const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
 	const [isAROpen, setIsAROpen] = useState(false);
-	const [incomingCall, setIncomingCall] = useState<{ callerId: string } | null>(
-		null,
+	const [incomingCall, setIncomingCall] = useState<{
+		callerId: string;
+		callId?: number;
+		callerName?: string;
+	} | null>(null);
+	// Monotonic cursor into `videoSignals` (`_seq`) seeded on mount so historical signals
+	// buffered in the module singleton do not reopen an old call on page navigation, while
+	// ensuring an `offer` followed 3ms later by an ICE `candidate` is never skipped.
+	const lastSeenCallSeqRef = useRef<number>(
+		(videoSignals || []).reduce(
+			(max: number, sig: any) => Math.max(max, Number(sig?._seq || 0)),
+			0,
+		),
 	);
 
 	// Why we hydrate `?user=<id>` here:
@@ -159,11 +170,25 @@ export default function MessagesPage() {
 
 	useEffect(() => {
 		const signals = videoSignals || [];
-		const lastSignal = signals[signals.length - 1];
-		if (lastSignal && lastSignal.signal?.type === "offer") {
-			setIncomingCall({ callerId: lastSignal.from_user_id });
-			setIsVideoCallOpen(true);
+		if (signals.length === 0) return;
+
+		let nextSeq = lastSeenCallSeqRef.current;
+		for (const sig of signals) {
+			const seq = Number(sig?._seq || 0);
+			if (seq <= lastSeenCallSeqRef.current) continue;
+			if (seq > nextSeq) nextSeq = seq;
+
+			const sigType = sig?.signal?.type;
+			if ((sigType === "offer" || sigType === "ringing") && sig?.from_user_id) {
+				setIncomingCall((prev) => ({
+					callerId: String(sig.from_user_id),
+					callId: sig.call_id ?? prev?.callId,
+					callerName: sig.caller_name ?? prev?.callerName,
+				}));
+				setIsVideoCallOpen(true);
+			}
 		}
+		lastSeenCallSeqRef.current = nextSeq;
 	}, [videoSignals]);
 
 	const handleBlock = async () => {
@@ -527,6 +552,12 @@ export default function MessagesPage() {
 							? incomingCall.callerId
 							: String(selectedConversation!.other_user!.id)
 					}
+					recipientName={
+						incomingCall?.callerName ||
+						selectedConversation?.other_user?.profile?.display_name ||
+						undefined
+					}
+					initialCallId={incomingCall?.callId}
 					isOpen={isVideoCallOpen}
 					onClose={() => {
 						setIsVideoCallOpen(false);

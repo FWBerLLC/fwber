@@ -1,3 +1,27 @@
+## Session 2026-11-15 (Gemini — Antigravity) — Shipped & Deployed v2.3.94
+
+### 1. Post-v2.3.93 Deep Audit Findings (WebRTC Race, CI/CD Drift, Offline Jest & Mobile Shell)
+Audited end-to-end runtime behavior across WebRTC video calls, GitHub Actions workflows, offline Jest execution, Next.js App Router `/api/*` proxies, and the Expo/React Native mobile bridge:
+1. **Incoming 1-on-1 WebRTC Video Call Race & Repeat-Call Lockout (`VideoCallModal.tsx`, `app/messages/page.tsx`, `CallHistory.tsx`)**:
+   - `pc.setLocalDescription(offer)` emits `onicecandidate` 3-10ms after sending `offer`. By the time `MessagesPage` mounted/opened `<VideoCallModal isIncoming={true} />`, `videoSignals[videoSignals.length - 1]` had already moved past `offer` to an ICE `candidate` — leaving `incomingOffer === null` so clicking **Accept** was a total no-op!
+   - Furthermore, `<VideoCallModal>` stayed mounted while a conversation was selected (`endCall()` never reset `localStream` or `callStatus === 'ended'`, breaking any second call in the same chat, and echoed `'bye'` back on remote `'bye'`), hardcoded Google STUN without `NEXT_PUBLIC_TURN_*`, closed over stale `callId === null` inside `createPeerConnection`, and `CallHistory.tsx` rendered `"Unknown User"` on every row because `GET /api/video/history` returned `other_user` without `caller` / `receiver`.
+2. **GitHub Actions CI/CD Production Drift (`.github/workflows/*.yml`)**:
+   - `deploy-frontend.yml` SCP'd into `.next/standalone` instead of `.standalone-live` (leaving stale code running under PM2 on Hetzner!).
+   - `backend-tests.yml` still ran `php artisan test` on PHP 8.4 against retired `fwber-backend/**` instead of `fwber-backend-ts` + `fwber-geo` + `check_api_contracts.py`!
+   - `deploy.yml` referenced non-existent `./fwber-backend/Dockerfile` and `./fwber-frontend/Dockerfile`.
+3. **Offline Sandbox Flakiness in Federation Jest Suites (`FederationBroadcast.test.ts`, `FederationInterop.test.ts`)**:
+   - `FederationBroadcast.test.ts` triggered live `dns.resolve4('remote.com')` via unmocked `ssrf.ts`, and `FederationInterop.test.ts` bound `localhost` (hitting IPv6 `::1` timeouts in Windows sandboxes).
+4. **Legacy Port Fallbacks & Mobile WebView Anti-Patterns (`fwber-frontend/app/api/*`, `VouchLinkCard.tsx`, `mobile/*`)**:
+   - 7 `app/api/*/route.ts` proxy files and 11 `lib/api/*.ts` SSR fallbacks pointed to dead `:3001` / `:4000` / `:8000` ports, `VouchLinkCard.tsx` called `POST /vouch/generate-link` twice per mount, and `mobile/app/index.js` used `hostname.includes('fwber.online')` (vulnerable to `fwber.online.attacker.com`), never invoked `startNfcDiscovery()` on `START_NFC_SCAN`, called removed `BackHandler.removeEventListener` on RN `0.83.2`, and lacked WebRTC camera/microphone permissions.
+
+### 2. Shipped & Verified in v2.3.94
+- **WebRTC Video Call Answering, TURN Config & Call History (`fwber-frontend`, `fwber-backend-ts`)**:
+  - Stamped monotonic `_seq` IDs + `video_call_incoming` / `video_call_status` listeners in `use-socket-logic.ts`, added ordered `_seq` cursors in `MessagesPage` and `VideoCallModal.tsx`, wired `NEXT_PUBLIC_TURN_URL` / `USERNAME` / `CREDENTIAL`, `callIdRef`, `rejectCall()`, non-ping-pong `endCall({ notifyPeer })`, full open/close session reset, Radix `<Tooltip>` call controls, and `caller` + `receiver` + `other_user` fields on `GET /api/video/history` (`CallHistory.tsx` + `TwoFactorVideoAdminConfig.test.ts`).
+- **GitHub Actions CI/CD, Dockerfiles & Offline Jest Suite (`.github/workflows/*`, `Dockerfile*`, `tests/*`)**:
+  - Rewrote `deploy-frontend.yml` to run BOM/nav/API-contract gates and invoke `ops/hetzner/scripts/deploy-frontend.sh` via SSH; replaced `backend-tests.yml` with Node 24 (`fwber-backend-ts`) + Rust (`fwber-geo`) + contract CI; upgraded `frontend-build.yml`, `deploy.yml`, `fwber-backend-ts/Dockerfile`, `fwber-geo/Dockerfile`, and `fwber-frontend/Dockerfile.prod`; made all **`37/37` suites (`178/178` tests)** pass 100% offline in Standard Sandbox.
+- **Port `:4003` Alignment & Mobile Hardening (`fwber-frontend`, `mobile`)**:
+  - Aligned all 7 `app/api/*/route.ts` proxies and 11 `lib/api/*.ts` SSR fallbacks to `http://127.0.0.1:4003/api`, deduplicated `VouchLinkCard.tsx`, removed `api.fwber.me` from `next.config.js`, hardened `mobile/app/index.js` + `mobile/app.json` (`isTrustedHostname`, `startNfcDiscovery`, RN 0.83 `subscription.remove()`, iOS/Android camera/mic permissions), and updated `/help/two-factor-and-video-calls`.
+
 ## Session 2026-11-15 (Gemini — Antigravity) — Shipped & Deployed v2.3.93
 
 ### 1. Full-Repo 553-Call Static Audit & Security/Crash Findings

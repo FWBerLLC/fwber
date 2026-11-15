@@ -14,11 +14,27 @@ const mockPrisma = {
   },
   federation_follows: {
     findMany: mockFindMany,
-  }
+  },
+  federation_outbox: {
+    create: jest.fn(),
+  },
+  federation_activities: {
+    create: jest.fn(),
+  },
+  autonomous_actions: {
+    create: jest.fn(),
+  },
 };
 
 jest.unstable_mockModule('../src/lib/prisma.js', () => ({
   default: mockPrisma,
+}));
+
+// Mock SSRF DNS lookup so `validateFederationUrl('https://remote.com/...')` runs 100%
+// offline and deterministically inside air-gapped CI and sandboxed test environments.
+jest.unstable_mockModule('../src/lib/ssrf.js', () => ({
+  getHardenedFederationAgent: jest.fn().mockImplementation(async () => undefined),
+  validateFederationUrl: jest.fn().mockImplementation(async () => true),
 }));
 
 jest.unstable_mockModule('axios', () => ({
