@@ -21,7 +21,7 @@ export default function PromotionsListPage() {
       if (!token) return
       try {
         const data = await getPromotions(token)
-        setPromotions(data)
+        setPromotions(Array.isArray(data) ? data : [])
       } catch (error) {
         console.error(error)
       } finally {

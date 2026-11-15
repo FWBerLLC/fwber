@@ -1,7 +1,7 @@
 # VISION.md — The Ultimate fwber Architecture & Philosophy
 
-> **Last Updated:** 2026-11-14
-> **Version:** 2.3.89 (Council Governance API, Unified Hubs, Scanner Hardening & Atomic Frontend Deploy)
+> **Last Updated:** 2026-11-15
+> **Version:** 2.3.90 (Token Economy Bridge, Matchmaker Bounties, Unlocks & Merchant Promotions Unification)
 > **Goal:** To serve as the definitive North Star for all human and AI agents working on the fwber project.
 
 ---

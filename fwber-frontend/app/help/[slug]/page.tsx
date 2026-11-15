@@ -494,6 +494,28 @@ const HELP_ARTICLES: Record<string, { title: string, content: React.ReactNode, c
         <p>When you create your Vault, you are provided a 12-word recovery phrase. <strong>Write this down and store it in a secure, physical location.</strong> It is the only way to restore access to your encrypted media if you forget your password.</p>
       </div>
     )
+  },
+  'wallet-and-bounties': {
+    category: 'Wallet, Tokens & Solana Sign-In',
+    title: 'Global Bridge Swaps & Matchmaker Bounties',
+    content: (
+      <div className="space-y-4">
+        <p>
+          Your internal <strong>FWB</strong> balance powers instant tipping, content unlocks, community governance voting, Global Bridge swaps, and Matchmaker Bounties.
+        </p>
+        <h3 className="text-lg font-semibold">Global Bridge Swaps (/wallet &rarr; Bridge)</h3>
+        <ul className="list-disc pl-5 space-y-2">
+          <li><strong>Live Reference Rates:</strong> Preview real-time conversion quotes from FWB into <code>SOL</code>, <code>USDC</code>, or instant <code>PEER_TOKEN</code> Federated Vouchers before confirming.</li>
+          <li><strong>Atomic Settlement:</strong> Submitting a swap atomically debits your internal FWB balance (with a transparent 2% protocol bridge fee) and logs both a Bridge History record and a Wallet Transaction audit entry.</li>
+        </ul>
+        <h3 className="text-lg font-semibold">Matchmaker Bounties (/bounties)</h3>
+        <ul className="list-disc pl-5 space-y-2">
+          <li><strong>Post a Bounty:</strong> Escrow 10+ FWB tokens with an optional description of who you want to meet. You receive a public shareable link (<code>/bounty/&lt;slug&gt;</code>) to send to friends or surface in the Community Bounties feed.</li>
+          <li><strong>Suggest a Match:</strong> Friends and community matchmakers can open any active bounty, pick a friend or search members, and submit a curated introduction while respecting bidirectional privacy blocks.</li>
+          <li><strong>Track Introductions:</strong> Switch to the <em>My Bounties</em> tab on <code>/bounties</code> to review every candidate suggested for your active bounties.</li>
+        </ul>
+      </div>
+    )
   }
 }
 

@@ -175,30 +175,94 @@ router.get('/vibe-history', async (req: any, res) => {
   }
 });
 
+interface StoredMerchantPromotion {
+  id: number;
+  merchant_id: number;
+  title: string;
+  description: string | null;
+  promo_code: string | null;
+  discount_value: string;
+  lat: number;
+  lng: number;
+  radius: number;
+  token_cost: number;
+  starts_at: string;
+  expires_at: string;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+async function loadMerchantPromotions(merchantProfileId: bigint): Promise<StoredMerchantPromotion[]> {
+  const key = `merchant_promotions_${merchantProfileId}`;
+  const row = await prisma.autonomous_settings.findUnique({ where: { key } });
+  if (!row || !row.value) return [];
+  try {
+    const parsed = JSON.parse(row.value);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+async function saveMerchantPromotions(merchantProfileId: bigint, promos: StoredMerchantPromotion[]) {
+  const key = `merchant_promotions_${merchantProfileId}`;
+  const value = JSON.stringify(promos);
+  await prisma.autonomous_settings.upsert({
+    where: { key },
+    update: { value },
+    create: { key, value },
+  });
+}
+
+async function getPromotionMetrics(promotionId: number) {
+  const pid = BigInt(promotionId);
+  const [views, clicks, redemptions] = await Promise.all([
+    prisma.promotion_events.count({ where: { promotion_id: pid, type: 'view' } }),
+    prisma.promotion_events.count({ where: { promotion_id: pid, type: 'click' } }),
+    prisma.promotion_events.count({ where: { promotion_id: pid, type: 'redemption' } }),
+  ]);
+  const conversion_rate = views > 0 ? Number(((redemptions / views) * 100).toFixed(1)) : 0;
+  return { views, clicks, redemptions, conversion_rate };
+}
+
 // GET /api/merchant-portal/promotions
+// Returns `{ data: Promotion[], promos, vibe_context }` so `lib/api/merchant.ts`
+// (`result.data || result`) receives a proper `Promotion[]` array instead of
+// crashing `/merchant/promotions` on `(promotions || []).map is not a function`.
 router.get('/promotions', async (req: any, res) => {
   try {
     const userId = BigInt(req.user.id);
     const lat = Number(req.query.lat) || 42.33;
     const lng = Number(req.query.lng) || -83.05;
+    const profile = await getMerchantProfile(userId);
 
-    // Promotions linked to merchant's events
-    const promos = await prisma.promotion_events.findMany({
+    const stored = profile ? await loadMerchantPromotions(profile.id) : [];
+    const enriched = await Promise.all(
+      stored.map(async (p) => {
+        const metrics = await getPromotionMetrics(p.id);
+        return { ...p, views: metrics.views, clicks: metrics.clicks, redemptions: metrics.redemptions };
+      })
+    );
+
+    const promoEvents = await prisma.promotion_events.findMany({
       where: { user_id: userId },
       orderBy: { created_at: 'desc' },
       take: 20,
     });
 
-    // Match with current vibe
-    const vibeMatch = await PromotionService.getVibeMatchedPromotions(lat, lng);
+    const vibeMatch = await PromotionService.getVibeMatchedPromotions(lat, lng).catch(() => null);
 
-    res.json(serialize({
-      promos,
-      vibe_context: vibeMatch
-    }));
+    res.json(
+      serialize({
+        data: enriched,
+        promos: promoEvents,
+        vibe_context: vibeMatch,
+      })
+    );
   } catch (error: any) {
     console.error('[Merchant] Promotions error:', error.message);
-    res.json([]);
+    res.json({ data: [], promos: [], vibe_context: null });
   }
 });
 
@@ -206,11 +270,68 @@ router.get('/promotions', async (req: any, res) => {
 router.post('/promotions', async (req: any, res) => {
   try {
     const userId = BigInt(req.user.id);
-    const { promotion_id, type, metadata, broadcast_id } = req.body;
+    const {
+      title,
+      description,
+      promo_code,
+      discount_value,
+      lat,
+      lng,
+      radius,
+      token_cost,
+      starts_at,
+      expires_at,
+      promotion_id,
+      type,
+      metadata,
+      broadcast_id,
+    } = req.body || {};
 
+    // Structured promotion creation from `/merchant/promotions/new`
+    if (title) {
+      let profile = await getMerchantProfile(userId);
+      if (!profile) {
+        profile = await prisma.merchant_profiles.create({
+          data: {
+            user_id: userId,
+            business_name: 'FWBer Merchant',
+            category: 'general',
+            verification_status: 'pending',
+          },
+        });
+      }
+
+      const existing = await loadMerchantPromotions(profile.id);
+      const nowIso = new Date().toISOString();
+      const nextId = existing.reduce((max, p) => Math.max(max, Number(p.id) || 0), 1000) + 1;
+      const newPromo: StoredMerchantPromotion = {
+        id: nextId,
+        merchant_id: Number(profile.id),
+        title: String(title).trim(),
+        description: description ? String(description) : null,
+        promo_code: promo_code ? String(promo_code).trim() : null,
+        discount_value: String(discount_value || '10% OFF'),
+        lat: Number(lat) || 42.3314,
+        lng: Number(lng) || -83.0458,
+        radius: Number(radius) || 5000,
+        token_cost: Number(token_cost) || 0,
+        starts_at: starts_at ? String(starts_at) : nowIso,
+        expires_at: expires_at ? String(expires_at) : new Date(Date.now() + 14 * 86400 * 1000).toISOString(),
+        is_active: true,
+        created_at: nowIso,
+        updated_at: nowIso,
+      };
+
+      existing.unshift(newPromo);
+      await saveMerchantPromotions(profile.id, existing);
+
+      return res.status(201).json({ success: true, promotion: newPromo, data: newPromo });
+    }
+
+    // Legacy promotion event telemetry fallback
     const finalMetadata = {
-        ...(metadata || {}),
-        ...(broadcast_id && { attributed_broadcast_id: broadcast_id })
+      ...(metadata || {}),
+      ...(broadcast_id && { attributed_broadcast_id: broadcast_id }),
     };
 
     const promo = await prisma.promotion_events.create({
@@ -226,6 +347,87 @@ router.post('/promotions', async (req: any, res) => {
   } catch (error: any) {
     console.error('[Merchant] Create promo error:', error.message);
     res.status(500).json({ success: false, message: 'Failed to create promotion' });
+  }
+});
+
+// GET /api/merchant-portal/promotions/:id
+router.get('/promotions/:id', async (req: any, res) => {
+  try {
+    const userId = BigInt(req.user.id);
+    const profile = await getMerchantProfile(userId);
+    if (!profile) return res.status(404).json({ message: 'Merchant profile not found' });
+
+    const promoId = Number(req.params.id);
+    const promos = await loadMerchantPromotions(profile.id);
+    const promo = promos.find((p) => Number(p.id) === promoId);
+    if (!promo) return res.status(404).json({ message: 'Promotion not found' });
+
+    const metrics = await getPromotionMetrics(promo.id);
+    return res.json({
+      promotion: { ...promo, views: metrics.views, clicks: metrics.clicks, redemptions: metrics.redemptions },
+      metrics,
+    });
+  } catch (error: any) {
+    console.error('[Merchant] Get promo detail error:', error.message);
+    return res.status(500).json({ message: 'Failed to load promotion' });
+  }
+});
+
+// PUT /api/merchant-portal/promotions/:id
+router.put('/promotions/:id', async (req: any, res) => {
+  try {
+    const userId = BigInt(req.user.id);
+    const profile = await getMerchantProfile(userId);
+    if (!profile) return res.status(404).json({ message: 'Merchant profile not found' });
+
+    const promoId = Number(req.params.id);
+    const promos = await loadMerchantPromotions(profile.id);
+    const idx = promos.findIndex((p) => Number(p.id) === promoId);
+    const current = idx >= 0 ? promos[idx] : undefined;
+    if (!current) return res.status(404).json({ message: 'Promotion not found' });
+
+    const body = req.body || {};
+    const updated: StoredMerchantPromotion = {
+      ...current,
+      ...(body.title !== undefined && { title: String(body.title) }),
+      ...(body.description !== undefined && { description: body.description ? String(body.description) : null }),
+      ...(body.promo_code !== undefined && { promo_code: body.promo_code ? String(body.promo_code) : null }),
+      ...(body.discount_value !== undefined && { discount_value: String(body.discount_value) }),
+      ...(body.radius !== undefined && { radius: Number(body.radius) }),
+      ...(body.token_cost !== undefined && { token_cost: Number(body.token_cost) }),
+      ...(body.starts_at !== undefined && { starts_at: String(body.starts_at) }),
+      ...(body.expires_at !== undefined && { expires_at: String(body.expires_at) }),
+      ...(body.is_active !== undefined && { is_active: Boolean(body.is_active) }),
+      updated_at: new Date().toISOString(),
+    };
+
+    promos[idx] = updated;
+    await saveMerchantPromotions(profile.id, promos);
+    return res.json({ success: true, promotion: updated, data: updated });
+  } catch (error: any) {
+    console.error('[Merchant] Update promo error:', error.message);
+    return res.status(500).json({ message: 'Failed to update promotion' });
+  }
+});
+
+// DELETE /api/merchant-portal/promotions/:id
+router.delete('/promotions/:id', async (req: any, res) => {
+  try {
+    const userId = BigInt(req.user.id);
+    const profile = await getMerchantProfile(userId);
+    if (!profile) return res.status(404).json({ message: 'Merchant profile not found' });
+
+    const promoId = Number(req.params.id);
+    const promos = await loadMerchantPromotions(profile.id);
+    const target = promos.find((p) => Number(p.id) === promoId);
+    if (!target) return res.status(404).json({ message: 'Promotion not found' });
+
+    const remaining = promos.filter((p) => Number(p.id) !== promoId);
+    await saveMerchantPromotions(profile.id, remaining);
+    return res.json({ success: true, promotion: target });
+  } catch (error: any) {
+    console.error('[Merchant] Delete promo error:', error.message);
+    return res.status(500).json({ message: 'Failed to delete promotion' });
   }
 });
 

@@ -1,11 +1,19 @@
 # ROADMAP.md — fwber Project Trajectory
 
-> **Current Version:** 2.3.89
-> **Last Updated:** 2026-11-14
+> **Current Version:** 2.3.90
+> **Last Updated:** 2026-11-15
 
 ---
 
 ## 🗺️ High-Level Trajectory
+
+### Phase 16: Token Economy Bridge, Matchmaker Bounties, Unlocks & Merchant Promotions Unification (COMPLETED - v2.3.90)
+Full-stack contract reconciliation across the FWB token bridge, viral/paid content unlocks, matchmaker bounties, local deals, and merchant promotion CRUD—eliminating five production crash/silent-drop surfaces found via automated frontend<->backend route scanning.
+
+**Key Achievements:**
+- **Token Economy & Cross-Chain Bridge (`v2.3.90`)**: Created `/api/economy` (`GET /rates`, `GET /swaps`, atomic `POST /swaps/initiate` writing `swap_transactions` + `wallet_transactions` with `402` balance guard), resolving the `/wallet` -> `Bridge` tab crash and wiring live wallet balance refresh.
+- **Canonical `content_unlocks` Unification (`v2.3.90`)**: Migrated broken `share-unlocks.ts` off a non-existent `share_unlocks` SQL table onto live `prisma.content_unlocks`, mounted both `/api/share-unlocks` and `/api/share-unlock` (`GET /:targetId`), created idempotent atomic `/api/content-unlocks` for `ContentUnlockGate`, and wired `/share-unlock` to persist shares and cross-link to `/unlocks`.
+- **Matchmaker Bounties Hub & Merchant Promotions (`v2.3.90`)**: Shipped public `GET /api/matchmaker/bounty/:slug`, `POST /api/bounties/:slug/suggest` (`match_assists` + bidirectional block check), a 2-tab `/bounties` hub (*Community Bounties* + *My Bounties*) with `CreateBountyModal` and `/friends/search` fallback on `/bounty/[slug]`, nested `merchant` payloads on `/api/deals`, `POST /api/promotions/:id/track` (`promotion_events`), full `/api/merchant-portal/promotions` CRUD, `wallet-and-bounties` `/help` manual, and `EconomyBountiesUnlocks.test.ts` (`34/34` suites, `151/151` tests green).
 
 ### Phase 15: Full-Stack Governance, Hub Consolidation, Scanner Hardening & Zero-Downtime Deploys (COMPLETED - v2.3.89)
 End-to-end completion of the Community Council & Merkle verification API, unified multi-tab frontend hubs (`/council`, `/integrations`, `/photos`), production scanner/pool resilience, atomic Next.js standalone swaps, and root System Tray operations.

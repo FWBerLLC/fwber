@@ -68,6 +68,7 @@ const HELP_CATEGORIES = [
       { title: 'Depositing from Solana', slug: 'deposits' },
       { title: 'Withdrawing funds', slug: 'withdrawals' },
       { title: 'Internal Ledger vs On-Chain', slug: 'ledger-vs-chain' },
+      { title: 'Global Bridge Swaps & Matchmaker Bounties', slug: 'wallet-and-bounties' },
     ]
   },
   {

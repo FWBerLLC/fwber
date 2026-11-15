@@ -1,5 +1,26 @@
 # Changelog
 
+## [2.3.90] - 2026-11-15
+
+### Token Economy & Cross-Chain Bridge, Matchmaker Bounties, Share/Content Unlocks & Merchant Promotions Unification
+
+- **Token Economy & Cross-Chain Bridge API (`fwber-backend-ts/src/routes/economy.ts`, `src/index.ts`, `fwber-frontend/components/wallet/SwapInterface.tsx`, `WalletDashboard.tsx`):**
+  - Created and mounted `/api/economy` (`GET /rates`, `GET /swaps`, `POST /swaps/initiate`), closing a live React crash on `/wallet` -> `Bridge` tab where unmounted `/api/economy/*` previously fell through to the `200 []` catch-all (`[].swaps` -> `undefined`).
+  - Implemented atomic `prisma.$transaction` bridge swaps deducting `users.token_balance` (`402` on insufficient balance), creating `swap_transactions` records (`SOL`, `USDC`, `PEER_TOKEN`, 2% bridge fee), and recording `wallet_transactions` (`bridge_swap`), plus `Array.isArray` guards, `onSwapSuccess` balance refresh, and `<Tooltip>` guidance in `SwapInterface.tsx`.
+- **Share-to-Unlock & Paid Content Unlocks on Live `content_unlocks` Table (`fwber-backend-ts/src/routes/content-unlocks.ts`, `src/routes/share-unlocks.ts`, `src/index.ts`, `fwber-frontend/app/share-unlock/page.tsx`):**
+  - Fixed silent total failure of `share-unlocks.ts`, which previously issued raw SQL against a non-existent `share_unlocks` MySQL table and swallowed `ER_NO_SUCH_TABLE` on every call; rewrote viral share unlocks (`content_type = "share:<platform>"`, `cost = 0`) and new paid content unlocks (`/api/content-unlocks`) onto the canonical `prisma.content_unlocks` MySQL table (`@@unique([user_id, content_type, content_id])`).
+  - Mounted `shareUnlocksRoutes` at both `/api/share-unlocks` and singular `/api/share-unlock`, added `GET /api/share-unlock/:targetId` (`{ unlocked: boolean }`) for `ProfileViewModal.tsx` and `ShareToUnlock.tsx`, wired `app/share-unlock/page.tsx` to actually persist share unlocks via `api.post('/share-unlocks')` and link back to `/unlocks`, and implemented idempotent atomic `POST /api/content-unlocks` (`402` when underfunded) for `ContentUnlockGate.tsx`.
+- **Matchmaker Bounties Hub & Public Share Slugs (`fwber-backend-ts/src/routes/bounties.ts`, `fwber-frontend/app/bounties/page.tsx`, `app/bounty/[slug]/page.tsx`, `app/api/bounties/route.ts`, `components/CreateBountyModal.tsx`):**
+  - Exported and mounted public `matchmakerRouter` at `/api/matchmaker` (`GET /api/matchmaker/bounty/:slug`) so shared `/bounty/[slug]` referral links resolve without falling through to `200 []`; implemented `POST /api/bounties/:slug/suggest` (`prisma.match_assists.upsert` with bidirectional `blocks` `403` enforcement).
+  - Fixed `POST /api/bounties` so `CreateBountyModal.tsx` (`{ token_reward }` without `title`) succeeds instead of failing `422`, returns `402` on insufficient `token_balance`, logs `wallet_transactions` (`bounty_escrow`), and returns `share_url`; upgraded `GET /api/bounties` with `?mine=true` + incoming `match_assists` candidate introductions and dual `{ data, bounties }` keys.
+  - Rebuilt `app/bounties/page.tsx` into a 2-tab **Matchmaker Bounties Hub** (*Community Bounties* + *My Bounties*) with `<ProtectedRoute>`, `<AppHeader />`, `CreateBountyModal`, sort controls, incoming candidate suggestions, `Suggest a Match` link, `Copy Share Link`, and `<Tooltip>` markers; hardened `app/bounty/[slug]/page.tsx` against `friend.username` `undefined` crashes and wired `/friends/search?q=` member search fallback.
+- **Deals & Merchant Promotions Crash Fixes + Analytics Tracking (`fwber-backend-ts/src/routes/deals.ts`, `src/routes/merchant-portal.ts`, `src/routes/promotions.ts`, `fwber-frontend/app/merchant/promotions/page.tsx`):**
+  - Fixed `DealCard` crash on `/deals` (`deal.merchant.category` was `undefined`) by returning nested `merchant: { id, business_name, category, address, verification_status }`, `discount_value`, `expires_at`, and `{ data: deals, deals }`.
+  - Created `POST /api/promotions/:id/track` recording `view` | `click` | `redemption` into `prisma.promotion_events`.
+  - Fixed `/merchant/promotions` React crash (`(promotions || []).map is not a function` because `GET /api/merchant-portal/promotions` returned `{ promos, vibe_context }` without `data: Promotion[]`) and added full `GET/POST/PUT/DELETE /api/merchant-portal/promotions` & `/promotions/:id` CRUD backed by `autonomous_settings` + live `promotion_events` counts.
+- **Tests, Dashboard Metadata & User Manual (`fwber-backend-ts/tests/EconomyBountiesUnlocks.test.ts`, `fwber-frontend/app/dashboard/page.tsx`, `app/help/*`):**
+  - Added `tests/EconomyBountiesUnlocks.test.ts` (`8/8` cases covering economy rates/swaps/`402`, bounties escrow/public slug/match suggestion, share + paid content unlocks, and deals/promotions CRUD + event tracking), bringing the backend Jest suite to **`34/34` suites (`151/151` tests)**; updated `/dashboard` hub labels (`133/179` linked, `0` dead links) and added `wallet-and-bounties` manual article to `/help`.
+
 ## [2.3.89] - 2026-11-14
 
 ### Community Council Governance API, Scanner 404 Guard, Atomic Frontend Deploy, Unified Hubs & Root System Tray

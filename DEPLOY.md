@@ -1,11 +1,11 @@
 # DEPLOY.md — The fwber Operations Guide
 
-> **Last Updated:** 2026-11-14
-> **Version:** 2.3.89
+> **Last Updated:** 2026-11-15
+> **Version:** 2.3.90
 
 This document is the operational source of truth for deploying the active fwber stack on **`fwber.online`** (`fwber.me` was permanently retired on 2026-10-22).
 
-## 0. Active Production Topology (All-Hetzner `fwber.online` — v2.3.89)
+## 0. Active Production Topology (All-Hetzner `fwber.online` — v2.3.90)
 
 Since the v2.x TypeScript + Next.js 16 migration, **100% of production runs on Hetzner VPS `5.161.250.43`** (`/var/www/fwber/repo`):
 
@@ -14,7 +14,7 @@ Since the v2.x TypeScript + Next.js 16 migration, **100% of production runs on H
 | `fwber.online` / `www.fwber.online` | `127.0.0.1:3000` | PM2 (`fwber-frontend` -> `.standalone-live`) | Next.js `16.4.3` + React `19.3.1` (`output: 'standalone'`, atomic swap) |
 | `api.fwber.online` | `127.0.0.1:4003` | PM2 (`fwber-backend-ts`) | Express 5 + TypeScript 6 ESM + Prisma (`MySQL`) |
 | `ws.fwber.online` | `127.0.0.1:4003` | PM2 (`fwber-backend-ts`) | Socket.io realtime upgrade via Nginx |
-| `geo.fwber.online` | `127.0.0.1:8081` | `systemd` (`fwber-geo.service`) | Rust `2024` Actix-Web + `h3o` spatial index (`v2.3.89`) |
+| `geo.fwber.online` | `127.0.0.1:8081` | `systemd` (`fwber-geo.service`) | Rust `2024` Actix-Web + `h3o` spatial index (`v2.3.90`) |
 | *(On-box internal)* | `127.0.0.1:3306` / `:6379` / `:11434` | `systemd` | MySQL 8, Redis, shared local Ollama (`gemma-4-heretic`, `AI_PREFER_LOCAL=true`) |
 
 ### Critical Hetzner Co-Tenancy & Safety Rules

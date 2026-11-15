@@ -9,9 +9,9 @@ Live site: https://fwber.online
 
 ## Status
 
-**Active development.** Current version: **2.3.89** (synced across the repo
-2026-11-14). Live on Hetzner (`https://fwber.online`) with `33/33` backend Jest
-suites (`143/143` tests), `0` TypeScript errors across backend and frontend,
+**Active development.** Current version: **2.3.90** (synced across the repo
+2026-11-15). Live on Hetzner (`https://fwber.online`) with `34/34` backend Jest
+suites (`151/151` tests), `0` TypeScript errors across backend and frontend,
 and Rust `fwber-geo` H3 spatial service active on `:8081`.
 
 ## What it is

@@ -928,11 +928,11 @@ export default function DashboardPage() {
             <SectionBlock category="economy" icon={<Wallet className="h-4 w-4" />} title="Economy, Tokens & Premium Perks" description="FWB token wallet, Solana transfers, virtual gifts hub, visibility boosts, and rewards.">
               <FeatureTile
                 href="/wallet"
-                title="Token Wallet"
-                subtitle="FWB token balance"
+                title="Wallet & Bridge Hub"
+                subtitle="FWB, Solana & swaps"
                 icon={<Wallet className="h-5 w-5" />}
                 accent="green"
-                tooltip="Manage your native FWB token balance, transactions, wallet address, and on-chain claims."
+                tooltip="Manage your FWB balance, send/request tokens, connect Solana wallets, and swap FWB via the Global Bridge."
               />
               <FeatureTile
                 href="/economy"
@@ -968,11 +968,11 @@ export default function DashboardPage() {
               />
               <FeatureTile
                 href="/unlocks"
-                title="Feature Unlocks"
-                subtitle="Active privileges"
+                title="Unlocks & Perks Hub"
+                subtitle="Token & viral unlocks"
                 icon={<Lock className="h-5 w-5" />}
                 accent="yellow"
-                tooltip="View your active paid and earned perks, unblurred photos, and special permissions."
+                tooltip="Unified Unlock Center: manage token-gated insights, photo reveals, Who Likes You, and Share-to-Unlock streaks."
               />
               <FeatureTile
                 href="/referrals"
@@ -985,18 +985,19 @@ export default function DashboardPage() {
               <FeatureTile
                 href="/share-unlock"
                 title="Share to Unlock"
-                subtitle="Viral rewards"
+                subtitle="Viral share streaks"
                 icon={<Share2 className="h-5 w-5" />}
                 accent="purple"
-                tooltip="Unlock premium features and badges by sharing anonymous links with external friends."
+                isSubpage
+                tooltip="Direct shortcut to earn free profile unlocks and streak badges by sharing links with external friends."
               />
               <FeatureTile
                 href="/bounties"
-                title="Community Bounties"
-                subtitle="Earn tokens helping out"
+                title="Matchmaker Bounties Hub"
+                subtitle="Escrowed match rewards"
                 icon={<Rocket className="h-5 w-5" />}
                 accent="purple"
-                tooltip="Complete neighborhood verification and matchmaking bounties to earn token payouts."
+                tooltip="Escrow FWB rewards for friends or community matchmakers who introduce compatible matches, or suggest candidates to earn tokens."
               />
               <FeatureTile
                 href="/leaderboard"

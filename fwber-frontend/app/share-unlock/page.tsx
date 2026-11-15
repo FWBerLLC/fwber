@@ -54,7 +54,12 @@ export default function ShareUnlockPage() {
   async function fetchUnlocks() {
     try {
       const response = await apiClient.get<ShareUnlocksResponse>('/share-unlocks')
-      setUnlocks(response.data.data || [])
+      const rows = Array.isArray(response.data?.data)
+        ? response.data.data
+        : Array.isArray((response.data as any)?.unlocks)
+        ? (response.data as any).unlocks
+        : []
+      setUnlocks(rows)
     } catch (err) {
       console.error('Failed to fetch unlocks:', err)
     } finally {
@@ -78,6 +83,12 @@ export default function ShareUnlockPage() {
         await navigator.clipboard.writeText(shareUrl)
       }
 
+      await apiClient.post('/share-unlocks', {
+        platform,
+        content_id: `invite-${platform}`,
+      })
+      await fetchUnlocks()
+
       setShareSuccess(platform)
       setTimeout(() => setShareSuccess(null), 3000)
     } catch (err) {
@@ -98,8 +109,9 @@ export default function ShareUnlockPage() {
         <main className="max-w-2xl mx-auto px-4 py-6">
           <div className="flex items-center gap-3 mb-6">
             <Link 
-              href="/home" 
+              href="/unlocks" 
               className="p-2 -ml-2 hover:bg-purple-800/30 rounded-lg transition"
+              title="Back to Unlock Center"
             >
               <ArrowLeft className="w-5 h-5 text-muted-foreground" />
             </Link>

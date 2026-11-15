@@ -2,6 +2,10 @@
 > **Generated on:** 2026-04-02
 > **Goal:** Creative, constructive analysis of the fwber monorepo to find missing features, improvements, refactoring targets, language ports, and concept pivots.
 
+## 2026-11-15 Addendum (from the v2.3.90 economy, bounties, unlocks & merchant promotions pass)
+1. **CI Static API-Contract Gate (`tools/check_api_contracts.py`)**: Formalize our frontend-to-backend route/payload shape scanner as a fast `<1s` CI gate so any new `api.get('/foo')` or `fetch('/api/bar')` added in `fwber-frontend` fails CI immediately if `fwber-backend-ts/src/index.ts` does not mount a matching router (preventing future silent `200 []` catch-all regressions).
+2. **Automatic Matchmaker Bounty Escrow Settlement on Verified Mutual Date**: Now that `POST /api/bounties` escrows `token_reward` in `wallet_transactions` and `POST /api/bounties/:slug/suggest` records `match_assists`, hook mutual physical-meetup verification (BLE/NFC tap or QR date check-in) to auto-release the escrowed bounty + platform bonus directly to the matchmaker's `token_balance`.
+
 ## 2026-11-14 Addendum (from the v2.3.89 governance, hub consolidation & zero-downtime deploy pass)
 1. **Solana Memo Anchor Cron for Finalized Council Proposals (`SOLANA_GOVERNANCE_ANCHOR_TX`)**: Now that `src/routes/governance.ts` computes deterministic SHA-256 Merkle roots (`computeProposalMerkleTree`) and `VoteVerifier.tsx` verifies inclusion proofs client-side via WebCrypto, a tiny scheduled worker in `MaintenanceService` can write a 64-byte Solana Memo transaction anchoring each newly finalized proposal's `merkle_root` to Solana mainnet/devnet and store the signature in a `merkle_anchor_tx` column.
 2. **Client-Side Blinded Contact Matching (PSI / Salted SHA-256 Intersection)**: Upgrade `ContactSyncService` so users who prefer not to connect OAuth providers can hash phone numbers/emails locally in WebCrypto (`HMAC-SHA256` with a rotating epoch salt) to discover mutual opt-in friends without transmitting raw contact strings.

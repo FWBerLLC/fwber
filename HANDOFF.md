@@ -1,3 +1,25 @@
+## Session 2026-11-15 (Gemini — Antigravity) — Shipped & Deployed v2.3.90
+
+### 1. Automated Frontend <-> Backend Contract Audit Findings
+Ran a full static contract sweep across `fwber-frontend/{app,components,lib,hooks}` against `fwber-backend-ts/src/index.ts` and live Hetzner MySQL (`SHOW TABLES`), uncovering **5 live crash / silent-drop surfaces**:
+1. **`/wallet` -> `Bridge` tab React crash (`SwapInterface.tsx`)**: `/api/economy/rates`, `/api/economy/swaps`, and `/api/economy/swaps/initiate` were unmounted (`200 []` catch-all -> `[].swaps` `undefined`).
+2. **`share-unlocks.ts` silent `ER_NO_SUCH_TABLE` + singular `/api/share-unlock` mismatch**: `share-unlocks.ts` queried `SELECT * FROM share_unlocks` (a table absent in `fwber_production`, which uses `content_unlocks`) and swallowed errors; `ProfileViewModal.tsx` and `ShareToUnlock.tsx` also called singular `/api/share-unlock`, `ContentUnlockGate.tsx` called unmounted `/api/content-unlocks`, and `/share-unlock` had a client-only mock `handleShare` with no API write.
+3. **Matchmaker Bounties gaps (`/bounties` & `/bounty/[slug]`)**: Unmounted `/api/matchmaker/bounty/:slug`, missing `POST /api/bounties/:slug/suggest`, port `:3001` in `app/api/bounties/route.ts`, `422` validation failure when `CreateBountyModal` submitted `{ token_reward }` without `title`, unauthenticated `fetch('/api/bounties')` + dead buttons on `/bounties`, and unguarded `friend.username.toLowerCase()` on `/bounty/[slug]`.
+4. **`/deals` `DealCard` crash**: `GET /api/deals` omitted nested `deal.merchant`, crashing `deal.merchant.category` whenever an active inventory item existed; `/api/promotions/:id/track` was also unmounted.
+5. **`/merchant/promotions` React crash**: `GET /api/merchant-portal/promotions` returned `{ promos, vibe_context }` without `data: Promotion[]`, causing `(promotions || []).map is not a function` (`promos` object passed into `setPromotions`).
+
+### 2. Shipped & Verified in v2.3.90
+- **Backend (`fwber-backend-ts`)**:
+  - Created `src/routes/economy.ts` (`/api/economy`: `GET /rates`, `GET /swaps`, atomic `POST /swaps/initiate` writing `swap_transactions` + `wallet_transactions` with `402` balance guard).
+  - Created `src/routes/content-unlocks.ts` (`/api/content-unlocks`) and rewrote `src/routes/share-unlocks.ts` (mounted at both `/api/share-unlocks` and `/api/share-unlock`, including `GET /:targetId`) onto live `prisma.content_unlocks`.
+  - Upgraded `src/routes/bounties.ts` + exported public `matchmakerRouter` (`/api/matchmaker/bounty/:slug`), added `POST /api/bounties/:slug/suggest` (`match_assists` + bidirectional `blocks` `403` check), `?mine=true` personal bounties + incoming candidate assists, optional `title` default, `402` balance guard, and `wallet_transactions` (`bounty_escrow`).
+  - Upgraded `src/routes/deals.ts` (nested `merchant` object + `{ data, deals }`), `src/routes/merchant-portal.ts` (full `GET/POST/PUT/DELETE /promotions` & `/promotions/:id` CRUD backed by `autonomous_settings` + `promotion_events` counts), and created `src/routes/promotions.ts` (`POST /api/promotions/:id/track`).
+  - Added `tests/EconomyBountiesUnlocks.test.ts` (`8/8` passing) — full backend suite is now **`34/34` suites, `151/151` tests passing** (`tsc` `0`).
+- **Frontend, Dashboard & Manuals (`fwber-frontend`)**:
+  - Hardened `SwapInterface.tsx` + `WalletDashboard.tsx` (`Array.isArray` guards, `onSwapSuccess` refresh, `<Tooltip>` markers), `CreateBountyModal.tsx`, `app/api/bounties/route.ts`, `app/share-unlock/page.tsx` (persists to `/share-unlocks`, back-links to `/unlocks`), and `app/merchant/promotions/page.tsx`.
+  - Rebuilt `app/bounties/page.tsx` into a 2-tab **Matchmaker Bounties Hub** (*Community Bounties* + *My Bounties*) and upgraded `app/bounty/[slug]/page.tsx` (`AppHeader`, `username` guard, `/friends/search?q=` fallback, `Share Link`, `<Tooltip>` markers).
+  - Updated `app/dashboard/page.tsx` (`133/179` linked, `0` dead links) and added `wallet-and-bounties` to `/help` (`tsc --noEmit` `0`).
+
 ## Session 2026-11-14 (Gemini Pro High — Antigravity) — Shipped & Deployed v2.3.89
 
 ### 1. Audit & Discovery (Production Logs, Git Branches, Backend/Frontend Gaps, Tray)

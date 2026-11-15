@@ -265,7 +265,7 @@ export default function WalletDashboard() {
 
             {activeTab === 'bridge' && (
                 <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
-                    <SwapInterface />
+                    <SwapInterface onSwapSuccess={refresh} />
                 </div>
             )}
 
