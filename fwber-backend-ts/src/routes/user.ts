@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { authenticate } from '../middleware/auth.js';
-import prisma from '../lib/prisma.js';
+import prisma, { serialize, sanitizeUser } from '../lib/prisma.js';
 import { filePathToUrl } from '../lib/photos.js';
 import { authenticator } from 'otplib';
 import QRCode from 'qrcode';
@@ -9,6 +9,126 @@ import { sendNotificationEmail } from '../lib/email.js';
 import { checkAndUnlockAchievements } from '../lib/achievements.js';
 
 const router = Router();
+
+/**
+ * GET /api/user — Current user + flattened `profile` object (`EnhancedProfileEditor.tsx`).
+ */
+router.get('/', authenticate, async (req: any, res) => {
+  try {
+    const userId = BigInt(req.user.id);
+    const user = await prisma.users.findUnique({
+      where: { id: userId },
+      include: { user_profiles: true },
+    });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    const rawProfile = Array.isArray(user.user_profiles) ? user.user_profiles[0] : user.user_profiles;
+    const clean = sanitizeUser(serialize(user));
+    return res.json({
+      ...clean,
+      profile: rawProfile ? serialize(rawProfile) : {},
+    });
+  } catch (err: any) {
+    console.error('[user] GET / error:', err.message);
+    return res.status(500).json({ message: 'Failed to load user profile' });
+  }
+});
+
+/**
+ * PUT /api/user/profile — Update profile fields via `/api/user/profile` (`EnhancedProfileEditor.tsx`).
+ */
+router.put('/profile', authenticate, async (req: any, res) => {
+  try {
+    const userId = BigInt(req.user.id);
+    const body = req.body || {};
+
+    const allowedScalarFields = [
+      'display_name',
+      'gender',
+      'pronouns',
+      'sexual_orientation',
+      'relationship_style',
+      'bio',
+      'location_description',
+      'love_language',
+      'personality_type',
+      'political_views',
+      'religion',
+      'sleep_schedule',
+      'smoking_status',
+      'drinking_status',
+      'cannabis_status',
+      'dietary_preferences',
+      'zodiac_sign',
+      'relationship_goals',
+      'body_type',
+      'hair_color',
+      'eye_color',
+      'skin_tone',
+      'facial_hair',
+      'dominant_hand',
+      'fitness_level',
+      'clothing_style',
+      'ethnicity',
+      'occupation',
+      'education',
+      'relationship_status',
+      'preferred_language',
+    ] as const;
+
+    const allowedJsonFields = [
+      'looking_for',
+      'interests',
+      'languages',
+      'interested_in',
+      'fetishes',
+      'sti_status',
+      'social_media',
+      'preferences',
+    ] as const;
+
+    const data: Record<string, any> = { updated_at: new Date() };
+    for (const key of allowedScalarFields) {
+      if (body[key] !== undefined) data[key] = body[key];
+    }
+    for (const key of allowedJsonFields) {
+      if (body[key] !== undefined) data[key] = body[key];
+    }
+    if (body.height_cm !== undefined) {
+      data.height_cm = body.height_cm === null || body.height_cm === '' ? null : Number(body.height_cm);
+    }
+    if (body.subscription_price !== undefined) {
+      data.subscription_price = body.subscription_price === null || body.subscription_price === '' ? null : Number(body.subscription_price);
+    }
+    for (const boolKey of ['has_children', 'wants_children', 'has_pets', 'is_travel_mode', 'is_incognito'] as const) {
+      if (typeof body[boolKey] === 'boolean') data[boolKey] = body[boolKey];
+    }
+    const dobRaw = body.birthdate || body.date_of_birth;
+    if (dobRaw && !isNaN(new Date(dobRaw).getTime())) {
+      const dob = new Date(dobRaw);
+      data.birthdate = dob;
+      data.date_of_birth = dob;
+    }
+
+    const existing = await prisma.user_profiles.findFirst({ where: { user_id: userId } });
+    const updatedProfile = existing
+      ? await prisma.user_profiles.update({ where: { id: existing.id }, data })
+      : await prisma.user_profiles.create({ data: { user_id: userId, created_at: new Date(), ...data } });
+
+    if (body.display_name && typeof body.display_name === 'string') {
+      await prisma.users.update({
+        where: { id: userId },
+        data: { name: body.display_name.trim().slice(0, 120) },
+      }).catch(() => {});
+    }
+
+    return res.json(serialize(updatedProfile));
+  } catch (err: any) {
+    console.error('[user] PUT /profile error:', err.message);
+    return res.status(500).json({ message: 'Failed to update profile' });
+  }
+});
 
 // Helper: generate recovery codes
 function generateRecoveryCodes(count = 8): string[] {

@@ -114,6 +114,7 @@ const HELP_CATEGORIES = [
     articles: [
       { title: 'Community Council, Merkle Proofs & Appeals', slug: 'council-governance' },
       { title: 'ActivityPub & Fediverse Connectivity', slug: 'federation-guide' },
+      { title: 'Zero-Knowledge Proximity Proofs, NFC Meetups & Fediverse Login', slug: 'zk-proximity-and-federated-login' },
       { title: 'Connected Accounts & OAuth Contact Sync', slug: 'connected-contacts' },
     ]
   }

@@ -68,6 +68,7 @@ import audioRoomsRoutes from './routes/audio-rooms.js';
 import reportsRoutes from './routes/reports.js';
 import merchantPortalRoutes from './routes/merchant-portal.js';
 import moderationRoutes from './routes/moderation.js';
+import adminRoutes from './routes/admin.js';
 import messagesRoutes from './routes/messages.js';
 import federationRoutes from './routes/federation.js';
 import webfingerRoutes, { nodeinfoRouter } from './routes/webfinger.js';
@@ -243,6 +244,7 @@ app.use('/api/audio-rooms', audioRoomsRoutes);
 app.use('/api/reports', reportsRoutes);
 app.use('/api/merchant-portal', merchantPortalRoutes);
 app.use('/api/moderation', moderationRoutes);
+app.use('/api/admin', adminRoutes);
 app.use('/api/messages', messagesRoutes);
 app.use('/api/federation', federationRoutes);
 // RFC 7033 discovery: must live at the root /.well-known path (no /api prefix)

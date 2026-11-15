@@ -243,4 +243,97 @@ router.delete('/', authenticate, async (req: any, res) => {
   }
 });
 
+/**
+ * GET /api/location/aura/:matchId — Privacy-guarded AR Aura beacon (`MatchARView.tsx`).
+ * Resolves `:matchId` as either a `matches.id` or partner `users.id`, enforces a
+ * bidirectional block check (`403`), verifies an accepted match or friendship exists,
+ * and refuses coordinates when the partner's `privacy_level === 'private'` or location is inactive.
+ */
+router.get('/aura/:matchId', authenticate, async (req: any, res) => {
+  try {
+    const userId = BigInt(req.user.id);
+    let paramId: bigint;
+    try {
+      paramId = BigInt(req.params.matchId);
+    } catch {
+      return res.status(400).json({ error: 'Invalid match or user ID' });
+    }
+
+    let partnerId: bigint | null = null;
+    const matchById = await prisma.matches.findUnique({ where: { id: paramId } });
+    if (matchById && matchById.status === 'accepted' && (matchById.user1_id === userId || matchById.user2_id === userId)) {
+      partnerId = matchById.user1_id === userId ? matchById.user2_id : matchById.user1_id;
+    } else {
+      const [directMatch, friendship] = await Promise.all([
+        prisma.matches.findFirst({
+          where: {
+            status: 'accepted',
+            is_active: true,
+            OR: [
+              { user1_id: userId, user2_id: paramId },
+              { user1_id: paramId, user2_id: userId },
+            ],
+          },
+        }),
+        prisma.friends.findFirst({
+          where: {
+            status: 'accepted',
+            OR: [
+              { user_id: userId, friend_id: paramId },
+              { user_id: paramId, friend_id: userId },
+            ],
+          },
+        }).catch(() => null),
+      ]);
+      if (directMatch || friendship) {
+        partnerId = paramId;
+      }
+    }
+
+    if (!partnerId) {
+      return res.status(404).json({ error: 'Accepted match required to view AR Aura' });
+    }
+
+    const blocked = await prisma.blocks.findFirst({
+      where: {
+        OR: [
+          { blocker_id: userId, blocked_id: partnerId },
+          { blocker_id: partnerId, blocked_id: userId },
+        ],
+      },
+    });
+    if (blocked) {
+      return res.status(403).json({ error: 'Location unavailable for blocked user' });
+    }
+
+    const [loc, partnerUser] = await Promise.all([
+      prisma.user_locations.findFirst({
+        where: { user_id: partnerId, is_active: true },
+        orderBy: { updated_at: 'desc' },
+      }),
+      prisma.users.findUnique({
+        where: { id: partnerId },
+        include: { user_profiles: { select: { display_name: true }, take: 1 } },
+      }),
+    ]);
+
+    if (!loc || loc.privacy_level === 'private') {
+      return res.status(404).json({ error: 'Match has not shared live AR Aura location' });
+    }
+
+    return res.json({
+      data: {
+        id: Number(partnerId),
+        name: partnerUser?.user_profiles?.[0]?.display_name || partnerUser?.name || 'Match',
+        latitude: Number(loc.latitude),
+        longitude: Number(loc.longitude),
+        last_updated: (loc.last_updated || loc.updated_at || new Date()).toISOString(),
+      },
+    });
+  } catch (error: any) {
+    console.error('[Location] Aura error:', error.message);
+    return res.status(500).json({ error: 'Failed to load AR Aura location' });
+  }
+});
+
 export default router;

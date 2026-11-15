@@ -117,8 +117,8 @@ const [isReportModalOpen, setIsReportModalOpen] = useState(false)
 
   const handleShare = async () => {
     try {
-      // Generate link (mock for now, or use real wingman link)
-      const link = `${window.location.origin}/profile/${user.id}?ref=${user.id}` // In real app, use current user ID as ref
+      const referrerId = currentUser?.id || user.id
+      const link = `${window.location.origin}/profile/${user.id}?ref=${referrerId}`
       await navigator.clipboard.writeText(link)
       
       // Record share

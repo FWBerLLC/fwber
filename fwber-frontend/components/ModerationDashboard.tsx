@@ -47,12 +47,12 @@ export default function ModerationDashboard() {
     );
   }
 
-  const tabs: { id: Tab; label: string; icon: React.ReactNode; count?: number }[] = [
-    { id: 'flagged', label: 'Flagged Content', icon: <Flag className="h-4 w-4" />, count: dashboard.data?.stats.flagged_artifacts },
-    { id: 'spoofs', label: 'Geo-Spoofs', icon: <Zap className="h-4 w-4" />, count: dashboard.data?.stats.pending_spoof_detections },
-    { id: 'throttles', label: 'Throttles', icon: <Gauge className="h-4 w-4" />, count: dashboard.data?.stats.active_throttles },
-    { id: 'actions', label: 'Actions', icon: <CheckCircle2 className="h-4 w-4" /> },
-    { id: 'autonomous', label: 'Autonomous Monitor', icon: <Cpu className="h-4 w-4" /> },
+  const tabs: { id: Tab; label: string; icon: React.ReactNode; count?: number; hint: string }[] = [
+    { id: 'flagged', label: 'Flagged Content', icon: <Flag className="h-4 w-4" />, count: dashboard.data?.stats?.flagged_artifacts, hint: 'Review community-flagged Local Pulse artifacts' },
+    { id: 'spoofs', label: 'Geo-Spoofs', icon: <Zap className="h-4 w-4" />, count: dashboard.data?.stats?.pending_spoof_detections, hint: 'Inspect impossible-velocity GPS spoof detections' },
+    { id: 'throttles', label: 'Throttles', icon: <Gauge className="h-4 w-4" />, count: dashboard.data?.stats?.active_throttles, hint: 'Manage active visibility shadow-throttles' },
+    { id: 'actions', label: 'Actions', icon: <CheckCircle2 className="h-4 w-4" />, hint: 'Audit log of moderator decisions' },
+    { id: 'autonomous', label: 'Autonomous Monitor', icon: <Cpu className="h-4 w-4" />, hint: 'Live AI safety & autonomous system telemetry' },
   ];
 
   return (
@@ -64,6 +64,7 @@ export default function ModerationDashboard() {
         <button type="button"
           onClick={() => dashboard.refetch()}
           disabled={dashboard.isFetching}
+          title="Refresh live moderation queue metrics"
           className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-foreground dark:text-muted-foreground bg-card dark:bg-card border rounded-lg hover:bg-muted dark:bg-background disabled:opacity-50"
         >
           <RefreshCw className={`h-4 w-4 ${dashboard.isFetching ? 'animate-spin' : ''}`} />
@@ -73,10 +74,10 @@ export default function ModerationDashboard() {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-        <StatCard label="Flagged Posts" value={dashboard.data?.stats.flagged_artifacts ?? '—'} icon={<Flag className="h-5 w-5 text-red-500" />} variant="danger" />
-        <StatCard label="Active Throttles" value={dashboard.data?.stats.active_throttles ?? '—'} icon={<Gauge className="h-5 w-5 text-yellow-500" />} variant="warning" />
-        <StatCard label="High-Risk Spoofs" value={dashboard.data?.stats.pending_spoof_detections ?? '—'} icon={<Zap className="h-5 w-5 text-orange-500" />} variant="warning" />
-        <StatCard label="Actions Today" value={dashboard.data?.stats.moderation_actions_today ?? '—'} icon={<CheckCircle2 className="h-5 w-5 text-green-500" />} variant="success" />
+        <StatCard label="Flagged Posts" value={dashboard.data?.stats?.flagged_artifacts ?? '—'} icon={<Flag className="h-5 w-5 text-red-500" />} variant="danger" />
+        <StatCard label="Active Throttles" value={dashboard.data?.stats?.active_throttles ?? '—'} icon={<Gauge className="h-5 w-5 text-yellow-500" />} variant="warning" />
+        <StatCard label="High-Risk Spoofs" value={dashboard.data?.stats?.pending_spoof_detections ?? '—'} icon={<Zap className="h-5 w-5 text-orange-500" />} variant="warning" />
+        <StatCard label="Actions Today" value={dashboard.data?.stats?.moderation_actions_today ?? '—'} icon={<CheckCircle2 className="h-5 w-5 text-green-500" />} variant="success" />
       </div>
 
       {/* Tab Navigation */}
@@ -85,6 +86,7 @@ export default function ModerationDashboard() {
           {tabs.map((tab) => (
             <button type="button"
               key={tab.id}
+              title={tab.hint}
               onClick={() => setActiveTab(tab.id)}
               className={`group inline-flex items-center py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
                 activeTab === tab.id

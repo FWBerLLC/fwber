@@ -542,6 +542,31 @@ const HELP_ARTICLES: Record<string, { title: string, content: React.ReactNode, c
         </ul>
       </div>
     )
+  },
+  'zk-proximity-and-federated-login': {
+    category: 'Council Governance, Federation & Integrations',
+    title: 'Zero-Knowledge Proximity Proofs, NFC Meetups & Fediverse Login',
+    content: (
+      <div className="space-y-4">
+        <p>
+          FWBer lets you prove real-world presence, confirm in-person meetups, and sign in with an external Mastodon/ActivityPub identity without surrendering raw GPS history or centralized passwords.
+        </p>
+        <h3 className="text-lg font-semibold">Zero-Knowledge Proximity Proofs &amp; Token Drops (/pulse)</h3>
+        <ul className="list-disc pl-5 space-y-2">
+          <li><strong>Ephemeral Geohash Proofs:</strong> When checking in at a venue, event, or Proximity Chatroom, your browser encodes your coordinates into a precision-7 geohash, signs an HMAC against FWBer&apos;s rotating daily epoch key, and discards your raw GPS coordinates before sending the proof.</li>
+          <li><strong>Local Pulse Token Drops:</strong> Spot a golden <em>Token Drop</em> artifact on <strong>Local Pulse</strong> (<code>/pulse</code>) and tap <strong>Claim</strong> to atomically credit the escrowed FWB tokens to your wallet.</li>
+        </ul>
+        <h3 className="text-lg font-semibold">Physical NFC Meetup Verification &amp; AR Aura</h3>
+        <ul className="list-disc pl-5 space-y-2">
+          <li><strong>NFC Tap-to-Verify:</strong> On NFC-capable devices, tap phones together during an in-person date to exchange a cryptographic nonce + geohash proof and instantly upgrade your mutual connection.</li>
+          <li><strong>AR Aura Finder:</strong> Accepted matches who opt into location sharing can use the AR Aura compass to locate each other at crowded venues while respecting bidirectional blocks and private mode.</li>
+        </ul>
+        <h3 className="text-lg font-semibold">Sign-In with Mastodon / ActivityPub (/login)</h3>
+        <ul className="list-disc pl-5 space-y-2">
+          <li><strong>Bio Challenge Verification:</strong> Choose <strong>Federated Login</strong> on <code>/login</code>, enter your <code>@user@instance</code> handle, paste the one-time <code>fwber-verify-...</code> token into your remote profile bio, and click <strong>Verify Identity</strong> to sign straight into your dashboard.</li>
+        </ul>
+      </div>
+    )
   }
 }
 

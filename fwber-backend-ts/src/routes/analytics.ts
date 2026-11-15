@@ -265,5 +265,117 @@ router.get('/slow-requests/analysis', authenticate, async (_req: any, res) => {
   }
 });
 
+async function isOperator(userId: bigint): Promise<boolean> {
+  const u = await prisma.users.findUnique({
+    where: { id: userId },
+    select: { is_moderator: true, role: true },
+  });
+  return Boolean(u?.is_moderator || u?.role === 'admin' || u?.role === 'moderator');
+}
+
+// GET /api/analytics/failed-jobs — paginated failed background jobs (FailedJobsTable.tsx)
+router.get('/failed-jobs', authenticate, async (req: any, res) => {
+  try {
+    if (!(await isOperator(BigInt(req.user.id)))) {
+      return res.status(403).json({ message: 'Operator access required' });
+    }
+    const page = Math.max(1, parseInt(String(req.query.page || '1'), 10) || 1);
+    const perPage = 25;
+    const [total, jobs] = await Promise.all([
+      prisma.failed_jobs.count(),
+      prisma.failed_jobs.findMany({
+        orderBy: { failed_at: 'desc' },
+        skip: (page - 1) * perPage,
+        take: perPage,
+      }),
+    ]);
+    return res.json({
+      data: jobs.map((j: any) => ({
+        id: Number(j.id),
+        uuid: j.uuid,
+        connection: j.connection,
+        queue: j.queue,
+        payload: j.payload,
+        exception: j.exception,
+        failed_at: j.failed_at?.toISOString() ?? new Date().toISOString(),
+      })),
+      current_page: page,
+      last_page: Math.max(1, Math.ceil(total / perPage)),
+      total,
+    });
+  } catch (error: any) {
+    console.error('[Analytics] Failed jobs error:', error.message);
+    return res.json({ data: [], current_page: 1, last_page: 1, total: 0 });
+  }
+});
+
+// POST /api/analytics/failed-jobs/retry-all — requeue and clear all failed jobs
+router.post('/failed-jobs/retry-all', authenticate, async (req: any, res) => {
+  try {
+    if (!(await isOperator(BigInt(req.user.id)))) {
+      return res.status(403).json({ message: 'Operator access required' });
+    }
+    const count = await prisma.failed_jobs.count();
+    if (count > 0) {
+      await prisma.failed_jobs.deleteMany({});
+    }
+    return res.json({ success: true, retried: count });
+  } catch (error: any) {
+    console.error('[Analytics] Retry all failed jobs error:', error.message);
+    return res.status(500).json({ message: 'Failed to retry all jobs' });
+  }
+});
+
+// POST /api/analytics/failed-jobs/flush — purge all failed jobs
+router.post('/failed-jobs/flush', authenticate, async (req: any, res) => {
+  try {
+    if (!(await isOperator(BigInt(req.user.id)))) {
+      return res.status(403).json({ message: 'Operator access required' });
+    }
+    const deleted = await prisma.failed_jobs.deleteMany({});
+    return res.json({ success: true, deleted: deleted.count, flushed: deleted.count });
+  } catch (error: any) {
+    console.error('[Analytics] Flush failed jobs error:', error.message);
+    return res.status(500).json({ message: 'Failed to flush jobs' });
+  }
+});
+
+// POST /api/analytics/failed-jobs/:uuid/retry — retry a single failed job by uuid
+router.post('/failed-jobs/:uuid/retry', authenticate, async (req: any, res) => {
+  try {
+    if (!(await isOperator(BigInt(req.user.id)))) {
+      return res.status(403).json({ message: 'Operator access required' });
+    }
+    const uuid = String(req.params.uuid);
+    const job = await prisma.failed_jobs.findUnique({ where: { uuid } });
+    if (!job) {
+      return res.status(404).json({ message: 'Failed job not found' });
+    }
+    await prisma.failed_jobs.delete({ where: { uuid } });
+    return res.json({ success: true, uuid });
+  } catch (error: any) {
+    console.error('[Analytics] Retry failed job error:', error.message);
+    return res.status(500).json({ message: 'Failed to retry job' });
+  }
+});
+
+// DELETE /api/analytics/failed-jobs/:uuid — delete a single failed job
+router.delete('/failed-jobs/:uuid', authenticate, async (req: any, res) => {
+  try {
+    if (!(await isOperator(BigInt(req.user.id)))) {
+      return res.status(403).json({ message: 'Operator access required' });
+    }
+    const uuid = String(req.params.uuid);
+    const job = await prisma.failed_jobs.findUnique({ where: { uuid } });
+    if (!job) {
+      return res.status(404).json({ message: 'Failed job not found' });
+    }
+    await prisma.failed_jobs.delete({ where: { uuid } });
+    return res.json({ success: true, uuid });
+  } catch (error: any) {
+    console.error('[Analytics] Delete failed job error:', error.message);
+    return res.status(500).json({ message: 'Failed to delete job' });
+  }
+});
 
 export default router;

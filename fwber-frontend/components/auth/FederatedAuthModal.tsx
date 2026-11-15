@@ -39,9 +39,18 @@ export function FederatedAuthModal({ isOpen, onOpenChange }: { isOpen: boolean, 
                 actor_uri: challengeData.actor_uri 
             });
             
-            // Store token and redirect
-            localStorage.setItem('fwber_token', res.token);
+            const sessionToken = res.token || res.access_token;
+            if (!sessionToken) {
+                throw new Error('Missing authentication token');
+            }
+
+            // Store token + SSR middleware auth marker cookie (prevents 307 redirect back to /login)
+            localStorage.setItem('fwber_token', sessionToken);
             localStorage.setItem('fwber_user', JSON.stringify(res.user));
+            document.cookie = 'fwber_auth=1; path=/; max-age=2592000; SameSite=Lax';
+            if (res.user) {
+                updateUser(res.user);
+            }
             
             setStep('success');
             setTimeout(() => {

@@ -127,10 +127,10 @@ export default function LivePulseBoard() {
 
                 {/* Trends Column */}
                 <div className="space-y-8">
-                    <section className="bg-zinc-900/50 backdrop-blur-md border-2 border-white/5 p-8 rounded-[2rem] h-full&quot;">
+                    <section className="bg-zinc-900/50 backdrop-blur-md border-2 border-white/5 p-8 rounded-[2rem] h-full">
                         <span className="text-xs font-black uppercase tracking-widest text-zinc-500 mb-8 block">Trending Topics Nearby</span>
                         <div className="space-y-4">
-                            {data.analysis.trending_keywords.map((kw, i) => (
+                            {(Array.isArray(data.analysis?.trending_keywords) ? data.analysis.trending_keywords : []).map((kw, i) => (
                                 <motion.div 
                                     key={kw}
                                     initial={{ opacity: 0, x: -20 }}

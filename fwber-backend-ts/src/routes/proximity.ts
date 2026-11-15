@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import crypto from 'crypto';
 import { authenticate } from '../middleware/auth.js';
 import prisma from '../lib/prisma.js';
 import { FederationService } from '../services/FederationService.js';
@@ -8,6 +9,20 @@ import { MatchingHeuristicService } from '../services/MatchingHeuristicService.j
 const router = Router();
 const federationService = new FederationService();
 const matchingService = new MatchingHeuristicService();
+
+/**
+ * Derive a rotating daily HMAC secret for client-side Zero-Knowledge Proximity Proofs (`ZKProver.tsx`).
+ * Accepting both today's and yesterday's UTC epoch prevents midnight boundary rejections while
+ * ensuring leaked secrets expire automatically within 24–48h without exposing `JWT_SECRET`.
+ */
+export function deriveZkEpochSecret(dateOffsetDays = 0): string {
+  const d = new Date(Date.now() + dateOffsetDays * 86_400_000);
+  const dayKey = d.toISOString().slice(0, 10);
+  return crypto
+    .createHmac('sha256', process.env.JWT_SECRET || 'secret')
+    .update(`fwber-zk-epoch-${dayKey}`)
+    .digest('hex');
+}
 
 function safeProfile(u: any) {
   if (!u) return { name: 'Anonymous', avatar: null, emotion: 'neutral' };
@@ -96,7 +111,21 @@ router.get('/local-pulse', authenticate, async (req: any, res) => {
     res.json({
       artifacts: artifacts.map((a: any) => {
         const p = safeProfile(a.users);
-        return { id: Number(a.id), type: a.type, content: a.content, lat: Number(a.location_lat), lng: Number(a.location_lng), radius_m: Number(a.visibility_radius_m), author_name: p.name, author_avatar: p.avatar, author_emotion: p.emotion, created_at: a.created_at?.toISOString(), expires_at: a.expires_at?.toISOString() };
+        return {
+          id: Number(a.id),
+          user_id: Number(a.user_id),
+          type: a.type,
+          content: a.content,
+          lat: Number(a.location_lat),
+          lng: Number(a.location_lng),
+          radius_m: Number(a.visibility_radius_m),
+          meta: a.meta && typeof a.meta === 'object' ? a.meta : {},
+          author_name: p.name,
+          author_avatar: p.avatar,
+          author_emotion: p.emotion,
+          created_at: a.created_at?.toISOString(),
+          expires_at: a.expires_at?.toISOString(),
+        };
       }),
       candidates,
       total: artifacts.length,
@@ -123,7 +152,22 @@ router.get('/feed', authenticate, async (_req: any, res) => {
       orderBy: { created_at: 'desc' as const }, take: 30,
       include: { users: { select: { id: true, name: true, user_profiles: { select: { display_name: true, avatar_url: true, current_emotion: true } } } } }
     });
-    res.json({ artifacts: artifacts.map((a: any) => { const p = safeProfile(a.users); return { id: Number(a.id), type: a.type, content: a.content, author_name: p.name, author_avatar: p.avatar, author_emotion: p.emotion, created_at: a.created_at?.toISOString() }; }) });
+    res.json({
+      artifacts: artifacts.map((a: any) => {
+        const p = safeProfile(a.users);
+        return {
+          id: Number(a.id),
+          user_id: Number(a.user_id),
+          type: a.type,
+          content: a.content,
+          meta: a.meta && typeof a.meta === 'object' ? a.meta : {},
+          author_name: p.name,
+          author_avatar: p.avatar,
+          author_emotion: p.emotion,
+          created_at: a.created_at?.toISOString(),
+        };
+      }),
+    });
   } catch { res.json({ artifacts: [] }); }
 });
 
@@ -269,6 +313,184 @@ router.post('/artifacts/:id/vote', authenticate, async (req: any, res) => {
     });
     res.json({ message: 'Voted', vote: { value: val } });
   } catch { res.json({ message: 'Voted', vote: null }); }
+});
+
+/**
+ * POST /api/proximity/artifacts/:id/claim
+ * Atomic FWB Token Drop claim (`LocalPulse.tsx`).
+ * Ensures an artifact is of type `token_drop`, prevents self-claim or double-claim,
+ * marks `meta.claimed = true`, credits the claimer's `token_balance`, and records `wallet_transactions`.
+ */
+router.post('/artifacts/:id/claim', authenticate, async (req: any, res) => {
+  try {
+    const userId = BigInt(req.user.id);
+    let artifactId: bigint;
+    try {
+      artifactId = BigInt(req.params.id);
+    } catch {
+      return res.status(400).json({ error: 'Invalid artifact ID' });
+    }
+
+    const result = await prisma.$transaction(async (tx) => {
+      const artifact = await tx.proximity_artifacts.findUnique({ where: { id: artifactId } });
+      if (!artifact) {
+        return { error: 'Token drop not found', status: 404 as const };
+      }
+      if (artifact.type !== 'token_drop') {
+        return { error: 'Artifact is not a claimable token drop', status: 400 as const };
+      }
+      if (artifact.user_id === userId) {
+        return { error: 'Cannot claim your own token drop', status: 400 as const };
+      }
+
+      const rawMeta = artifact.meta && typeof artifact.meta === 'object' ? (artifact.meta as Record<string, any>) : {};
+      if (rawMeta.claimed) {
+        return { error: 'This token drop has already been claimed', status: 400 as const };
+      }
+
+      const rawAmount = Number(rawMeta.amount);
+      const amount = Number.isFinite(rawAmount) && rawAmount > 0 ? Math.min(Math.round(rawAmount), 500) : 5;
+      const now = new Date();
+
+      const updatedMeta = {
+        ...rawMeta,
+        amount,
+        claimed: true,
+        claimed_by: Number(userId),
+        claimed_at: now.toISOString(),
+      };
+
+      await tx.proximity_artifacts.update({
+        where: { id: artifactId },
+        data: { meta: updatedMeta, updated_at: now },
+      });
+
+      const updatedUser = await tx.users.update({
+        where: { id: userId },
+        data: { token_balance: { increment: amount } },
+        select: { token_balance: true },
+      });
+
+      await tx.wallet_transactions.create({
+        data: {
+          user_id: userId,
+          amount,
+          type: 'token_drop_claim',
+          description: `Claimed Local Pulse Token Drop (#${artifactId.toString()})`,
+          created_at: now,
+          updated_at: now,
+        },
+      });
+
+      return {
+        status: 200 as const,
+        amount,
+        newBalance: Number(updatedUser.token_balance || 0),
+        meta: updatedMeta,
+      };
+    });
+
+    if (result.status !== 200) {
+      return res.status(result.status).json({ error: result.error, message: result.error });
+    }
+
+    return res.json({
+      success: true,
+      claimed: true,
+      amount: result.amount,
+      new_balance: result.newBalance,
+      meta: result.meta,
+    });
+  } catch (err: any) {
+    console.error('[proximity] claim error:', err.message);
+    return res.status(500).json({ error: 'Failed to claim token drop' });
+  }
+});
+
+/**
+ * GET /api/proximity/zk-params
+ * Issue precision & rotating epoch HMAC secret for `ZKProver.tsx`.
+ */
+router.get('/zk-params', authenticate, (_req: any, res) => {
+  res.json({
+    secret: deriveZkEpochSecret(0),
+    precision: 7,
+  });
+});
+
+/**
+ * POST /api/proximity/zk-verify
+ * Verify a privacy-preserving geohash HMAC proof (`ZKProver.tsx`) without storing raw GPS coordinates.
+ */
+router.post('/zk-verify', authenticate, async (req: any, res) => {
+  try {
+    const userId = BigInt(req.user.id);
+    const { target_entity_type, target_entity_id, proof_payload, public_signals } = req.body || {};
+
+    const allowedTypes = new Set(['venue', 'event', 'user', 'chatroom']);
+    const entityType = String(target_entity_type || '').trim();
+    if (!allowedTypes.has(entityType)) {
+      return res.status(400).json({ verified: false, error: 'Invalid target_entity_type' });
+    }
+
+    let entityId: bigint;
+    try {
+      entityId = BigInt(target_entity_id);
+    } catch {
+      return res.status(400).json({ verified: false, error: 'Invalid target_entity_id' });
+    }
+
+    const geohashStr = String(proof_payload?.geohash || '').trim();
+    const signatureHex = String(proof_payload?.signature || '').trim().toLowerCase();
+    const tsSec = Number(public_signals?.timestamp);
+
+    if (!geohashStr || geohashStr.length < 4 || geohashStr.length > 12 || !/^[0-9b-hjkmnp-z]+$/i.test(geohashStr)) {
+      return res.status(400).json({ verified: false, error: 'Invalid geohash in proof_payload' });
+    }
+    if (!/^[a-f0-9]{64}$/.test(signatureHex)) {
+      return res.status(400).json({ verified: false, error: 'Invalid HMAC signature format' });
+    }
+
+    const nowSec = Math.floor(Date.now() / 1000);
+    if (!Number.isFinite(tsSec) || Math.abs(nowSec - tsSec) > 300) {
+      return res.status(400).json({ verified: false, error: 'Proof timestamp expired or skewed beyond 300s' });
+    }
+
+    const messageToSign = `${geohashStr}${tsSec}${entityId.toString()}`;
+    const candidateSecrets = [deriveZkEpochSecret(0), deriveZkEpochSecret(-1)];
+    const sigBuf = Buffer.from(signatureHex, 'hex');
+
+    const matchesEpoch = candidateSecrets.some((secret) => {
+      const expected = crypto.createHmac('sha256', secret).update(messageToSign).digest();
+      return expected.length === sigBuf.length && crypto.timingSafeEqual(expected, sigBuf);
+    });
+
+    if (!matchesEpoch) {
+      return res.status(400).json({ verified: false, error: 'Zero-knowledge proximity signature mismatch' });
+    }
+
+    const now = new Date();
+    const record = await prisma.zk_proximity_proofs.create({
+      data: {
+        user_id: userId,
+        target_entity_type: entityType,
+        target_entity_id: entityId,
+        proof_hash: signatureHex,
+        is_verified: true,
+        created_at: now,
+        updated_at: now,
+      },
+    });
+
+    return res.json({
+      verified: true,
+      record_id: Number(record.id),
+      precision: geohashStr.length,
+    });
+  } catch (err: any) {
+    console.error('[proximity] zk-verify error:', err.message);
+    return res.status(500).json({ verified: false, error: 'Failed to verify zero-knowledge proof' });
+  }
 });
 
 export default router;

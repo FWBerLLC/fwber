@@ -1,3 +1,24 @@
+## Session 2026-11-15 (Gemini — Antigravity) — Shipped & Deployed v2.3.92
+
+### 1. Deep Sub-Route, Crash & Cookie Audit Findings
+Expanded `tools/check_api_contracts.py` across remaining moderator/operator, proximity, Fediverse auth, creator subscription, polycule relationship, and offline sync flows, uncovering **7 user-facing & operator bugs**:
+1. **`/moderation` Dashboard `TypeError` Crash & Missing Queue Endpoints**: `ModerationDashboard.tsx` read `dashboard.data?.stats.flagged_artifacts` without `stats?.`, while `GET /api/moderation/dashboard` returned no `stats` object; `/flagged-content`, `/flags/:id/review`, `/spoof-detections`, `/spoofs/:id/review`, `/throttles`, `/actions`, `/users/:id`, `/api/admin/logs/*` (`LogViewer.tsx`), and `/api/analytics/failed-jobs/*` (`FailedJobsTable.tsx`) were unmounted.
+2. **`ProfileViewModal.tsx` Match Insights, Creator Subscriptions & Share Ref**: `GET/POST /api/matches/:matchId/insights(/unlock)` had no `GET` handler and a stub `POST` unlock, `GET/POST /api/subscriptions/creator/:creatorId` fell through to `200 []`, and `handleShare` set `ref=${user.id}` instead of `currentUser?.id || user.id`.
+3. **ZK-Proximity Proofs, Token Drops, Live Venue Pulse Nodes, NFC Exchange & AR Aura**: `/api/proximity/zk-params`, `/zk-verify`, `/artifacts/:id/claim`, `/api/public/pulse/node/:uuid`, `/api/matches/nfc-exchange`, and `/api/location/aura/:matchId` were unmounted; `app/public/pulse/[uuid]/page.tsx` also had a stray `&quot;` in `className="... h-full&quot;"` and an unguarded `.map()` on `trending_keywords`.
+4. **Federated ActivityPub Login + `fwber_auth` SSR Redirect Loop**: `POST /api/auth/federated/{challenge,verify}` were unmounted, AND `FederatedAuthModal.tsx` omitted `document.cookie = 'fwber_auth=1; ...'` required by `middleware.ts` (`PR #42`), which would 307-redirect authenticated Fediverse users back to `/login`.
+5. **Polycule Relationship Links Response Key Mismatch**: `lib/api/relationships.ts` read `response.links` and `response.requests`, while `relationship-links.ts` returned `{ data }` without `links`/`requests` and lacked `POST /:id/respond` and `PUT /:id`.
+6. **Offline CRDT Chat Sync, Message Translation, `/api/user` Alias & Merchant CSV Export**: Missing `POST /api/messages/translate`, `POST /api/messages/sync-batch` (`use-chat-sync.ts` sends `recipient_id`), `GET /api/user` + `PUT /api/user/profile` (`EnhancedProfileEditor.tsx`), and `GET /api/merchant-portal/analytics/export` (plus broken `${process.env.NEXT_PUBLIC_API_URL}/merchant-portal/...` URL in `app/merchant/analytics/page.tsx`).
+
+### 2. Shipped & Verified in v2.3.92
+- **Backend (`fwber-backend-ts` — 13 files)**:
+  - Rewrote `src/routes/moderation.ts` (`stats` object + full moderator-gated review/spoof/throttle/action/user endpoints), created `src/routes/admin.ts` (mounted at `/api/admin`, `fwber-*`-isolated PM2 logs + traversal block + virtual `autonomous-audit.log`), and extended `src/routes/analytics.ts` (`/failed-jobs/*`).
+  - Upgraded `src/routes/matches.ts` (`POST /nfc-exchange` + dual matchId/userId `GET/POST /:matchId/insights(/unlock)` atomic 10-FWB transaction), `src/routes/subscriptions.ts` (`GET/POST /creator/:creatorId` atomic 30-day FWB subscription), `src/routes/proximity.ts` (`meta` exposure, atomic `POST /artifacts/:id/claim`, rotating-epoch `GET /zk-params`, constant-time `POST /zk-verify`), `src/routes/public.ts` (`GET /pulse/node/:uuid`), and `src/routes/location.ts` (`GET /aura/:matchId` with bidirectional block + `private` guards).
+  - Upgraded `src/routes/auth.ts` (SSRF-pinned `POST /federated/challenge` + `POST /federated/verify`), `src/routes/relationship-links.ts` (`{ links, data }`, `{ requests, data }`, `POST /:id/respond`, `PUT /:id`), `src/routes/messages.ts` (`POST /translate`, `POST /sync-batch`), `src/routes/user.ts` (`GET /`, `PUT /profile`), and `src/routes/merchant-portal.ts` (`GET /analytics/export` CSV).
+  - Added `tests/ModerationProximityFederatedSync.test.ts` (`9/9` passing) — full backend suite is now **`36/36` suites, `174/174` tests passing** (`tsc` `0`).
+- **Frontend, CI Contract Gate & Manuals (`fwber-frontend`, `tools/`, `.github/workflows/`)**:
+  - Fixed `app/moderation/page.tsx` + `ModerationDashboard.tsx`, `FederatedAuthModal.tsx` (`fwber_auth=1` cookie), `app/public/pulse/[uuid]/page.tsx`, `app/merchant/analytics/page.tsx`, and `ProfileViewModal.tsx`, and added `zk-proximity-and-federated-login` to `/help` (`tsc --noEmit` `0`).
+  - Upgraded `tools/check_api_contracts.py` (`88` prefixes, `86/86` contracts incl. array routes) and wired it into `.github/workflows/deploy-backend.yml`.
+
 ## Session 2026-11-15 (Gemini — Antigravity) — Shipped & Deployed v2.3.91
 
 ### 1. Sub-Route Contract & Dead-Code Audit Findings

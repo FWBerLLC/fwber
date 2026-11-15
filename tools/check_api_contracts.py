@@ -85,6 +85,49 @@ REQUIRED_CONTRACTS: list[tuple[str, str, str]] = [
     ("/api/governance", "GET", "/proposals/:param/proof"),
     ("/.well-known", "GET", "/webfinger"),
     ("/nodeinfo", "GET", "/2.1"),
+    # Moderation, Admin Logs & Failed Jobs (v2.3.92)
+    ("/api/moderation", "GET", "/dashboard"),
+    ("/api/moderation", "GET", "/flagged-content"),
+    ("/api/moderation", "POST", "/flags/:param/review"),
+    ("/api/moderation", "GET", "/spoof-detections"),
+    ("/api/moderation", "POST", "/spoofs/:param/review"),
+    ("/api/moderation", "GET", "/throttles"),
+    ("/api/moderation", "DELETE", "/throttles/:param"),
+    ("/api/moderation", "GET", "/actions"),
+    ("/api/moderation", "GET", "/users/:param"),
+    ("/api/admin", "GET", "/logs"),
+    ("/api/admin", "GET", "/logs/:param"),
+    ("/api/analytics", "GET", "/failed-jobs"),
+    ("/api/analytics", "POST", "/failed-jobs/retry-all"),
+    ("/api/analytics", "POST", "/failed-jobs/flush"),
+    ("/api/analytics", "POST", "/failed-jobs/:param/retry"),
+    ("/api/analytics", "DELETE", "/failed-jobs/:param"),
+    # Matches, Insights, Creator Subscriptions & NFC Exchange (v2.3.92)
+    ("/api/matches", "GET", "/established"),
+    ("/api/matches", "GET", "/accepted"),
+    ("/api/matches", "POST", "/nfc-exchange"),
+    ("/api/matches", "GET", "/:param/insights"),
+    ("/api/matches", "POST", "/:param/insights/unlock"),
+    ("/api/subscriptions", "GET", "/creator/:param"),
+    ("/api/subscriptions", "POST", "/creator/:param"),
+    # Zero-Knowledge Proximity, Token Drops, Public Pulse Nodes & AR Aura (v2.3.92)
+    ("/api/proximity", "GET", "/zk-params"),
+    ("/api/proximity", "POST", "/zk-verify"),
+    ("/api/proximity", "POST", "/artifacts/:param/claim"),
+    ("/api/public", "GET", "/pulse/node/:param"),
+    ("/api/location", "GET", "/aura/:param"),
+    # Federated ActivityPub Auth, Polycule Links, CRDT Sync & CSV Export (v2.3.92)
+    ("/api/auth", "POST", "/federated/challenge"),
+    ("/api/auth", "POST", "/federated/verify"),
+    ("/api/relationship-links", "GET", "/"),
+    ("/api/relationship-links", "GET", "/requests"),
+    ("/api/relationship-links", "POST", "/:param/respond"),
+    ("/api/relationship-links", "PUT", "/:param"),
+    ("/api/messages", "POST", "/translate"),
+    ("/api/messages", "POST", "/sync-batch"),
+    ("/api/user", "GET", "/"),
+    ("/api/user", "PUT", "/profile"),
+    ("/api/merchant-portal", "GET", "/analytics/export"),
 ]
 
 
@@ -123,8 +166,12 @@ def load_backend_routes() -> tuple[dict[str, pathlib.Path], set[tuple[str, str, 
             mounted.setdefault(prefix, []).append(imports[ident])
 
     registered: set[tuple[str, str, str]] = set()
-    route_re = re.compile(
+    single_route_re = re.compile(
         r"\b(?:router|matchmakerRouter|nodeinfoRouter)\.(get|post|put|patch|delete)\(\s*['\"]([^'\"]+)['\"]",
+        re.IGNORECASE,
+    )
+    array_route_re = re.compile(
+        r"\b(?:router|matchmakerRouter|nodeinfoRouter)\.(get|post|put|patch|delete)\(\s*\[([^\]]+)\]",
         re.IGNORECASE,
     )
 
@@ -133,10 +180,14 @@ def load_backend_routes() -> tuple[dict[str, pathlib.Path], set[tuple[str, str, 
             if not route_file.exists():
                 continue
             body = route_file.read_text(encoding="utf-8")
-            for rm in route_re.finditer(body):
+            for rm in single_route_re.finditer(body):
                 method = rm.group(1).upper()
                 sub = normalize_subpath(rm.group(2))
                 registered.add((prefix, method, sub))
+            for arm in array_route_re.finditer(body):
+                method = arm.group(1).upper()
+                for lit in re.findall(r"['\"]([^'\"]+)['\"]", arm.group(2)):
+                    registered.add((prefix, method, normalize_subpath(lit)))
 
     primary_files = {k: v[0] for k, v in mounted.items() if v}
     return primary_files, registered

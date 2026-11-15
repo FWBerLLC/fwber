@@ -83,9 +83,12 @@ export default function MerchantAnalyticsPage() {
     const handleExport = async () => {
         if (!token) return;
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/merchant-portal/analytics/export?range=${range}`, {
+            const response = await fetch(`/api/merchant-portal/analytics/export?range=${encodeURIComponent(range)}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
+            if (!response.ok) {
+                throw new Error(`Export failed with HTTP ${response.status}`);
+            }
             const blob = await response.blob();
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -93,6 +96,7 @@ export default function MerchantAnalyticsPage() {
             a.download = `fwber_merchant_report_${range}.csv`;
             document.body.appendChild(a);
             a.click();
+            a.remove();
             window.URL.revokeObjectURL(url);
         } catch (error) {
             console.error('Failed to export CSV:', error);

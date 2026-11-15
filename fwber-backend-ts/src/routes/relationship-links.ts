@@ -9,9 +9,32 @@ function formatRelationshipLabel(value: string | null | undefined, fallback = 'U
   return value.charAt(0).toUpperCase() + value.slice(1);
 }
 
+function serializeLinkRow(l: any, relatedUserObj: any) {
+  return {
+    id: Number(l.id),
+    relationship_type: l.relationship_type,
+    relationship_type_label: formatRelationshipLabel(l.relationship_type),
+    visibility: l.visibility || 'public',
+    visibility_label: formatRelationshipLabel(l.visibility, 'Public'),
+    note: l.note ?? null,
+    requested_at: l.created_at?.toISOString() ?? null,
+    confirmed_at: l.confirmed_at?.toISOString() ?? null,
+    is_confirmed: Boolean(l.is_confirmed),
+    requested_by_user_id: Number(l.requested_by_user_id || l.user_id),
+    related_user: relatedUserObj
+      ? {
+          id: Number(relatedUserObj.id),
+          name: relatedUserObj.name,
+          display_name: relatedUserObj.user_profiles?.[0]?.display_name ?? null,
+          avatar_url: relatedUserObj.user_profiles?.[0]?.avatar_url ?? null,
+        }
+      : null,
+  };
+}
+
 /**
  * GET /api/relationship-links
- * Returns established relationship links for the current user
+ * Returns established relationship links (`links` + `data` for backwards compatibility).
  */
 router.get('/', authenticate, async (req: any, res) => {
   try {
@@ -30,41 +53,27 @@ router.get('/', authenticate, async (req: any, res) => {
               select: {
                 display_name: true,
                 avatar_url: true,
-              }
-            }
-          }
-        }
-      }
+              },
+            },
+          },
+        },
+      },
     });
 
-    res.json({
-      data: links.map(l => ({
-        id: Number(l.id),
-        relationship_type: l.relationship_type,
-        relationship_type_label: formatRelationshipLabel(l.relationship_type),
-        visibility: l.visibility,
-        visibility_label: formatRelationshipLabel(l.visibility, 'Public'),
-        note: l.note,
-        confirmed_at: l.confirmed_at?.toISOString(),
-        is_confirmed: l.is_confirmed,
-        requested_by_user_id: Number(l.requested_by_user_id),
-        related_user: l.users_relationship_links_related_user_idTousers ? {
-          id: Number(l.users_relationship_links_related_user_idTousers.id),
-          name: l.users_relationship_links_related_user_idTousers.name,
-          display_name: l.users_relationship_links_related_user_idTousers.user_profiles?.[0]?.display_name,
-          avatar_url: l.users_relationship_links_related_user_idTousers.user_profiles?.[0]?.avatar_url,
-        } : null
-      }))
-    });
+    const mapped = links.map((l) =>
+      serializeLinkRow(l, l.users_relationship_links_related_user_idTousers)
+    );
+
+    res.json({ links: mapped, data: mapped });
   } catch (error: any) {
     console.error('[RelationshipLinks] GET Error:', error.message);
-    res.json({ data: [] });
+    res.json({ links: [], data: [] });
   }
 });
 
 /**
  * GET /api/relationship-links/requests
- * Returns pending relationship requests
+ * Returns pending incoming relationship requests (`requests` + `data`).
  */
 router.get('/requests', authenticate, async (req: any, res) => {
   try {
@@ -83,29 +92,32 @@ router.get('/requests', authenticate, async (req: any, res) => {
               select: {
                 display_name: true,
                 avatar_url: true,
-              }
-            }
-          }
-        }
-      }
+              },
+            },
+          },
+        },
+      },
     });
 
-    res.json({
-      data: requests.map(l => ({
-        id: Number(l.id),
-        relationship_type: l.relationship_type,
-        requested_by: {
-          id: Number(l.users_relationship_links_user_idTousers.id),
-          name: l.users_relationship_links_user_idTousers.name,
-          display_name: l.users_relationship_links_user_idTousers.user_profiles?.[0]?.display_name,
-          avatar_url: l.users_relationship_links_user_idTousers.user_profiles?.[0]?.avatar_url,
-        },
-        requested_at: l.created_at?.toISOString()
-      }))
+    const mapped = requests.map((l) => {
+      const requester = l.users_relationship_links_user_idTousers;
+      return {
+        ...serializeLinkRow(l, requester),
+        requested_by: requester
+          ? {
+              id: Number(requester.id),
+              name: requester.name,
+              display_name: requester.user_profiles?.[0]?.display_name ?? null,
+              avatar_url: requester.user_profiles?.[0]?.avatar_url ?? null,
+            }
+          : null,
+      };
     });
+
+    res.json({ requests: mapped, data: mapped });
   } catch (error: any) {
     console.error('[RelationshipLinks] Requests Error:', error.message);
-    res.json({ data: [] });
+    res.json({ requests: [], data: [] });
   }
 });
 
@@ -151,14 +163,151 @@ router.post('/', authenticate, async (req: any, res) => {
         visibility: visibility || 'public',
         note,
         requested_by_user_id: userId,
-        is_confirmed: false
-      }
+        is_confirmed: false,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      include: {
+        users_relationship_links_related_user_idTousers: {
+          select: {
+            id: true,
+            name: true,
+            user_profiles: { select: { display_name: true, avatar_url: true } },
+          },
+        },
+      },
     });
 
-    res.json({ success: true, id: Number(link.id) });
+    const formatted = serializeLinkRow(link, link.users_relationship_links_related_user_idTousers);
+    res.json({ success: true, id: Number(link.id), link: formatted });
   } catch (error: any) {
     console.error('[RelationshipLinks] POST Error:', error.message);
     res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+/**
+ * POST /api/relationship-links/:id/respond
+ * Accept or decline a pending relationship link request (`lib/api/relationships.ts`).
+ */
+router.post('/:id/respond', authenticate, async (req: any, res) => {
+  try {
+    const userId = BigInt(req.user.id);
+    const linkId = BigInt(req.params.id);
+    const status = String(req.body?.status || '').toLowerCase();
+
+    if (status !== 'accepted' && status !== 'declined') {
+      return res.status(400).json({ message: "status must be 'accepted' or 'declined'" });
+    }
+
+    const request = await prisma.relationship_links.findUnique({
+      where: { id: linkId },
+    });
+
+    if (!request || request.related_user_id !== userId) {
+      return res.status(404).json({ message: 'Request not found' });
+    }
+
+    if (status === 'declined') {
+      await prisma.relationship_links.delete({ where: { id: linkId } });
+      return res.json({ success: true, status: 'declined', link: null, message: 'Relationship link request declined' });
+    }
+
+    const now = new Date();
+    const [, reciprocal] = await prisma.$transaction([
+      prisma.relationship_links.update({
+        where: { id: linkId },
+        data: { is_confirmed: true, confirmed_at: now, updated_at: now },
+      }),
+      prisma.relationship_links.create({
+        data: {
+          user_id: userId,
+          related_user_id: request.user_id,
+          relationship_type: request.relationship_type,
+          visibility: request.visibility,
+          note: request.note,
+          is_confirmed: true,
+          confirmed_at: now,
+          requested_by_user_id: request.user_id,
+          created_at: now,
+          updated_at: now,
+        },
+        include: {
+          users_relationship_links_related_user_idTousers: {
+            select: {
+              id: true,
+              name: true,
+              user_profiles: { select: { display_name: true, avatar_url: true } },
+            },
+          },
+        },
+      }),
+    ]);
+
+    return res.json({
+      success: true,
+      status: 'accepted',
+      link: serializeLinkRow(reciprocal, reciprocal.users_relationship_links_related_user_idTousers),
+    });
+  } catch (error: any) {
+    console.error('[RelationshipLinks] Respond Error:', error.message);
+    return res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+/**
+ * PUT /api/relationship-links/:id
+ * Update relationship_type, visibility, or note (`lib/api/relationships.ts`).
+ */
+router.put('/:id', authenticate, async (req: any, res) => {
+  try {
+    const userId = BigInt(req.user.id);
+    const linkId = BigInt(req.params.id);
+    const { relationship_type, visibility, note } = req.body || {};
+
+    const existing = await prisma.relationship_links.findUnique({ where: { id: linkId } });
+    if (!existing || existing.user_id !== userId) {
+      return res.status(404).json({ message: 'Relationship link not found' });
+    }
+
+    const now = new Date();
+    const updated = await prisma.relationship_links.update({
+      where: { id: linkId },
+      data: {
+        ...(relationship_type ? { relationship_type: String(relationship_type) } : {}),
+        ...(visibility ? { visibility: String(visibility) } : {}),
+        ...(note !== undefined ? { note: note === null ? null : String(note) } : {}),
+        updated_at: now,
+      },
+      include: {
+        users_relationship_links_related_user_idTousers: {
+          select: {
+            id: true,
+            name: true,
+            user_profiles: { select: { display_name: true, avatar_url: true } },
+          },
+        },
+      },
+    });
+
+    if (existing.is_confirmed && relationship_type && existing.related_user_id) {
+      await prisma.relationship_links.updateMany({
+        where: {
+          user_id: existing.related_user_id,
+          related_user_id: userId,
+          is_confirmed: true,
+        },
+        data: { relationship_type: String(relationship_type), updated_at: now },
+      }).catch(() => {});
+    }
+
+    return res.json({
+      success: true,
+      link: serializeLinkRow(updated, updated.users_relationship_links_related_user_idTousers),
+    });
+  } catch (error: any) {
+    console.error('[RelationshipLinks] PUT Error:', error.message);
+    return res.status(500).json({ message: 'Internal Server Error' });
   }
 });
 

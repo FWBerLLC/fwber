@@ -1,11 +1,19 @@
 # ROADMAP.md — fwber Project Trajectory
 
-> **Current Version:** 2.3.91
+> **Current Version:** 2.3.92
 > **Last Updated:** 2026-11-15
 
 ---
 
 ## 🗺️ High-Level Trajectory
+
+### Phase 18: Moderation & Ops Suite, ZK Proximity Proofs, Federated Login, Creator Subscriptions & CRDT Sync (COMPLETED - v2.3.92)
+Complete closure of remaining moderator/operator, cryptographic proximity, Fediverse sign-in, creator subscription, polycule link, and offline CRDT chat sync sub-routes across 12 backend routers and 8 frontend surfaces, locked in by an 86-contract CI deploy gate.
+
+**Key Achievements:**
+- **Moderation Suite, Co-Tenant-Safe Admin Logs & Failed Jobs (`v2.3.92`)**: Fixed `/moderation` `stats` crash and implemented full `/api/moderation/*` queue/review/spoof/throttle/action endpoints, traversal-hardened `fwber-*`-isolated `/api/admin/logs/*` (`LogViewer.tsx` + virtual `autonomous-audit.log`), and `/api/analytics/failed-jobs/*` (`FailedJobsTable.tsx`).
+- **ZK Proximity Proofs, Token Drops, NFC Meetups, Match Insights & Creator Subscriptions (`v2.3.92`)**: Shipped rotating-epoch `GET /api/proximity/zk-params` + constant-time `POST /zk-verify`, atomic `POST /proximity/artifacts/:id/claim`, `GET /api/public/pulse/node/:uuid`, block/privacy-guarded `GET /api/location/aura/:matchId`, `POST /api/matches/nfc-exchange`, `GET/POST /api/matches/:matchId/insights(/unlock)`, and atomic 30-day `GET/POST /api/subscriptions/creator/:creatorId`.
+- **Federated ActivityPub Login, Polycule Links, CRDT Sync & 86-Contract CI Gate (`v2.3.92`)**: Shipped SSRF-pinned `POST /api/auth/federated/{challenge,verify}` + `fwber_auth` cookie fix in `FederatedAuthModal.tsx`, `relationship-links` (`links`/`requests` + `respond` + `PUT`), `POST /api/messages/{translate,sync-batch}`, `GET /api/user` + `PUT /api/user/profile`, `GET /api/merchant-portal/analytics/export` CSV streaming, `zk-proximity-and-federated-login` `/help` manual, `tools/check_api_contracts.py` (`88` prefixes, `86/86` contracts wired into `.github/workflows/deploy-backend.yml`), and `ModerationProximityFederatedSync.test.ts` (`36/36` suites, `174/174` tests green).
 
 ### Phase 17: AI Avatar Studio, P2P Wallet/Checkout Sub-Routes, Event Invites, Decoy Security & Contract Gate (COMPLETED - v2.3.91)
 Deep sub-route contract reconciliation across 10 backend routers and 7 frontend surfaces, closing every high-priority unmounted sub-route, dead-code block, and payload-shape crash uncovered by `tools/check_api_contracts.py`.

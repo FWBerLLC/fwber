@@ -470,6 +470,70 @@ router.get('/analytics', async (req: any, res) => {
   }
 });
 
+/**
+ * GET /api/merchant-portal/analytics/export — CSV report export (`app/merchant/analytics/page.tsx`).
+ */
+router.get('/analytics/export', async (req: any, res) => {
+  try {
+    const userId = BigInt(req.user.id);
+    const range = String(req.query.range || '7d').replace(/[^a-zA-Z0-9_-]/g, '') || '7d';
+    const profile = await getMerchantProfile(userId);
+    const promos = profile ? await loadMerchantPromotions(profile.id) : [];
+
+    const [totalViews, totalClicks, totalRedemptions, totalRevenue] = await Promise.all([
+      prisma.promotion_events.count({ where: { user_id: userId, type: 'view' } }),
+      prisma.promotion_events.count({ where: { user_id: userId, type: 'click' } }),
+      prisma.promotion_events.count({ where: { user_id: userId, type: 'redemption' } }),
+      prisma.merchant_payments.aggregate({
+        where: { merchant_id: userId, status: 'paid' },
+        _sum: { amount: true },
+      }),
+    ]);
+
+    const csvEscape = (val: unknown) => {
+      const s = String(val ?? '');
+      return /[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+    };
+
+    const rows: string[] = [
+      'Section,Metric_or_Title,Views,Clicks,Redemptions,Conversion_Pct,Revenue_USD,Status',
+      [
+        'KPI_SUMMARY',
+        csvEscape(`${profile?.business_name || 'Merchant'} (${range})`),
+        totalViews,
+        totalClicks,
+        totalRedemptions,
+        totalViews > 0 ? ((totalClicks / totalViews) * 100).toFixed(1) : '0.0',
+        Number(totalRevenue._sum.amount || 0).toFixed(2),
+        profile?.verification_status || 'unregistered',
+      ].join(','),
+    ];
+
+    for (const promo of promos) {
+      const m = await getPromotionMetrics(promo.id);
+      rows.push(
+        [
+          'PROMOTION',
+          csvEscape(promo.title),
+          m.views,
+          m.clicks,
+          m.redemptions,
+          m.conversion_rate.toFixed(1),
+          '0.00',
+          promo.is_active ? 'active' : 'paused',
+        ].join(',')
+      );
+    }
+
+    res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+    res.setHeader('Content-Disposition', `attachment; filename="fwber_merchant_report_${range}.csv"`);
+    return res.send(rows.join('\n') + '\n');
+  } catch (error: any) {
+    console.error('[Merchant] Analytics CSV export error:', error.message);
+    return res.status(500).json({ error: 'Failed to export merchant analytics CSV' });
+  }
+});
+
 // GET /api/merchant-portal/inventory
 router.get('/inventory', async (req: any, res) => {
   try {

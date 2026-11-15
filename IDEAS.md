@@ -2,6 +2,11 @@
 > **Generated on:** 2026-04-02
 > **Goal:** Creative, constructive analysis of the fwber monorepo to find missing features, improvements, refactoring targets, language ports, and concept pivots.
 
+## 2026-11-15 Addendum (from the v2.3.92 moderation, ZK proximity, federated login & CRDT sync pass)
+1. **True Groth16 / Circom Browser Prover for ZK-Proximity (`fwber-wasm` / `snarkjs`)**: Upgrade `ZKProver.tsx` + `/api/proximity/zk-verify` from rotating-epoch HMAC geohash commitments to a compact Poseidon-hash Groth16 circuit compiled to WASM so a prover can demonstrate membership inside a venue polygon `(lat, lng) ∈ R` without revealing even the 150m precision-7 geohash cell to the server.
+2. **ActivityPub HTTP-Signature One-Click Login (FEP-fe34 / OAuth-over-WebFinger)**: Complement the zero-setup profile-bio challenge flow (`POST /api/auth/federated/{challenge,verify}`) with Mastodon OAuth dynamic client registration (`POST /api/v1/apps` on the user's home instance) so Mastodon users can sign in with a single OAuth redirect without editing their profile summary.
+3. **CRDT Vector Clocks for Multi-Device E2EE History Sync**: Extend `POST /api/messages/sync-batch` with per-device Lamport/vector cursors so users signed in simultaneously on desktop PWA and Expo mobile (`mobile/`) reconcile read receipts, reactions, and encrypted message edits deterministically offline.
+
 ## 2026-11-15 Addendum (from the v2.3.91 AI Avatar Studio, wallet/checkout, event invites & decoy security pass)
 1. **Local ComfyUI / SDXL-Turbo Sidecar for Zero-Cost Photorealistic Avatars**: Now that `/api/avatar` supports cloud Flux/DALL-E with automatic fallback to deterministic local SVG studio portraits (`v2.3.91`), wire an optional `AVATAR_COMFYUI_URL` adapter so operators with spare GPU cycles can render sub-second photorealistic SDXL-Turbo portraits locally with zero API spend.
 2. **QR / Solana Pay Deep-Link Integration on Hosted Merchant Checkout (`/pay/[id]`)**: Extend `GET /api/merchant/payment/:id` + `POST /confirm` with a Solana Pay `solana:<recipient>?amount=...&reference=...` QR URI so venue guests can settle tabs either via off-chain FWB balance (`POST /confirm`) or on-chain SPL wallet scan in one tap.

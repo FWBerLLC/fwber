@@ -40,6 +40,7 @@ jobs:
             nice -n 10 npm install --no-fund --no-audit
             nice -n 10 npx prisma generate
             nice -n 10 npm run build
+            python3 ../tools/check_api_contracts.py
             pm2 restart fwber-backend-ts || pm2 start dist/index.js --name "fwber-backend-ts"
             pm2 save || true
             sudo systemctl reload nginx || true

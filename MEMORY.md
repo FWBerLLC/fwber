@@ -1,7 +1,13 @@
 # MEMORY.md — fwber Internal Architectural Observations
 
-## Current Version: 2.3.91 "AI Avatar Studio, P2P Wallet/Checkout, Event Invites, Decoy Security & API Contract Gate"
+## Current Version: 2.3.92 "Moderation Ops, ZK Proximity Proofs, Federated Login, Creator Subscriptions, CRDT Chat Sync & CI Contract Gate"
 **Last Updated:** 2026-11-15
+
+### Observations (2026-11-15 session, v2.3.92)
+- **Middleware Auth Cookie Parity (`fwber_auth=1`)**: `fwber-frontend/middleware.ts` (`PR #42`) enforces a lightweight `fwber_auth=1` presence cookie on protected routes (`/dashboard`, `/messages`, `/matches`, etc.) and 307-redirects to `/login` when absent. Any alternate login flow (`FederatedAuthModal.tsx`, Solana wallet login, passkey/magic-link flows) MUST set `document.cookie = 'fwber_auth=1; path=/; max-age=2592000; SameSite=Lax'` alongside `localStorage.setItem('fwber_token', ...)` or users will hit an immediate redirect loop back to `/login`.
+- **Dual Match-ID / User-ID Resolution (`/api/matches/:matchId/insights` & `/api/location/aura/:matchId`)**: Discovery surfaces (`ProfileViewModal.tsx`) pass the viewed user's `users.id` into `/matches/${user.id}/insights`, whereas established-match hooks (`useMatchInsights`, `MatchARView`) pass `matches.id`. Resolving `matches.findUnique({ where: { id: paramId } })` first (verifying caller membership) and falling back to direct `user_id` lookup cleanly serves both call patterns with zero 404s.
+- **Co-Tenant PM2 Log Isolation (`/api/admin/logs`)**: On shared Hetzner hosts (`5.161.250.43`), `~/.pm2/logs/` holds logs for multiple co-hosted properties. `src/routes/admin.ts` strictly enforces `entry.startsWith('fwber-')` on PM2 log directories plus `SAFE_FILENAME_RE` + `path.basename` so co-tenant logs can never be enumerated or read.
+- **SSRF Pinning in Node.js (`federatedHttp`)**: Node's global `fetch` (undici) ignores `http.Agent` / `https.Agent` options! Outbound ActivityPub/WebFinger calls in `src/routes/auth.ts` use Node's `http`/`https.request` with `getHardenedFederationAgent(urlStr)` so DNS-rebinding IP pinning is genuinely enforced on the TCP socket.
 
 ### Observations (2026-11-15 session, v2.3.91)
 - **Sub-Route Contract Auditing (`tools/check_api_contracts.py`)**: Top-level router prefix audits miss missing *sub-routes* inside mounted Express routers (e.g., `/api/wallet` was mounted, while `POST /api/wallet/transfer` and `/api/wallet/requests/*` fell through to the `200 []` catch-all; `/api/merchant` had `router.use(authenticate)` blocking `/pay/[id]`'s unauthenticated `GET /api/merchant/payment/:id`). `tools/check_api_contracts.py` now inspects every Express router file AST-style (`router.get/post/put/patch/delete`) and asserts `47/47` critical sub-routes in `<1s`.

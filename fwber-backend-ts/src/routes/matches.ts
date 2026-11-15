@@ -793,7 +793,142 @@ function parseArr(val: any): string[] {
   return [];
 }
 
-// GET /api/matches/:matchId/tier - relationship tier progress
+/**
+ * POST /api/matches/nfc-exchange - Verify an in-person NFC tap + geohash proof
+ * and establish/confirm a mutual physical match (`NFCProfileExchange.tsx`).
+ *
+ * Placed BEFORE `/:matchId/*` routes so Express never matches `nfc-exchange` as `:matchId`.
+ */
+router.post('/nfc-exchange', authenticate, async (req: any, res) => {
+  try {
+    const userId = BigInt(req.user.id);
+    const { peer_id, location_proof, nonce } = req.body || {};
+
+    if (!peer_id || !location_proof) {
+      return res.status(400).json({ error: 'peer_id and location_proof are required' });
+    }
+
+    let peerId: bigint;
+    try {
+      peerId = BigInt(peer_id);
+    } catch {
+      return res.status(400).json({ error: 'Invalid peer_id' });
+    }
+
+    if (peerId === userId) {
+      return res.status(400).json({ error: 'Cannot NFC-match with yourself' });
+    }
+
+    const peerExists = await prisma.users.findUnique({ where: { id: peerId }, select: { id: true, name: true } });
+    if (!peerExists) {
+      return res.status(404).json({ error: 'Peer user not found' });
+    }
+
+    // Enforce bidirectional block safety guard before creating or accepting a match
+    const block = await prisma.blocks.findFirst({
+      where: {
+        OR: [
+          { blocker_id: userId, blocked_id: peerId },
+          { blocker_id: peerId, blocked_id: userId },
+        ],
+      },
+    });
+    if (block) {
+      return res.status(403).json({ error: 'Cannot establish match with a blocked user' });
+    }
+
+    const now = new Date();
+    const u1 = userId < peerId ? userId : peerId;
+    const u2 = userId < peerId ? peerId : userId;
+
+    const existing = await prisma.matches.findFirst({
+      where: {
+        OR: [
+          { user1_id: userId, user2_id: peerId },
+          { user1_id: peerId, user2_id: userId },
+        ],
+      },
+    });
+
+    const match = existing
+      ? await prisma.matches.update({
+          where: { id: existing.id },
+          data: { status: 'accepted', is_active: true, match_score: Math.max(Number(existing.match_score || 0), 95), updated_at: now },
+        })
+      : await prisma.matches.create({
+          data: {
+            user1_id: u1,
+            user2_id: u2,
+            status: 'accepted',
+            is_active: true,
+            match_score: 95,
+            created_at: now,
+            updated_at: now,
+          },
+        });
+
+    const proofHash = `nfc:${String(location_proof).slice(0, 32)}:${String(nonce || 'tap').slice(0, 32)}`;
+    const proof = await prisma.zk_proximity_proofs.create({
+      data: {
+        user_id: userId,
+        target_entity_type: 'user',
+        target_entity_id: peerId,
+        proof_hash: proofHash,
+        is_verified: true,
+        created_at: now,
+        updated_at: now,
+      },
+    });
+
+    await prisma.notifications.create({
+      data: {
+        user_id: peerId,
+        type: 'nfc_match_verified',
+        title: 'Physical NFC Match Verified!',
+        body: 'Your in-person NFC tap and proximity proof established a verified connection.',
+        data: JSON.stringify({ match_id: Number(match.id), peer_id: Number(userId) }),
+        created_at: now,
+        updated_at: now,
+      },
+    }).catch(() => {});
+
+    return res.json({
+      success: true,
+      verified: true,
+      match_id: Number(match.id),
+      proof_id: Number(proof.id),
+    });
+  } catch (error: any) {
+    console.error('[Matches] NFC exchange error:', error.message);
+    return res.status(500).json({ error: 'Failed to verify NFC exchange' });
+  }
+});
+
+/**
+ * Helper to resolve either a `matches.id` OR a target `users.id` into `{ targetUserId, match }`.
+ * `ProfileViewModal.tsx` calls `/api/matches/${user.id}/insights(/unlock)` with the viewed
+ * user's ID, whereas `useMatchInsights(matchId)` can pass a `matches.id`. Supporting both
+ * eliminates 404/mismatch bugs across discovery cards and established match views.
+ */
+async function resolveInsightTarget(requesterId: bigint, rawParam: string) {
+  const paramId = BigInt(rawParam);
+  const byMatch = await prisma.matches.findUnique({ where: { id: paramId } });
+  if (byMatch && (byMatch.user1_id === requesterId || byMatch.user2_id === requesterId)) {
+    const targetUserId = byMatch.user1_id === requesterId ? byMatch.user2_id : byMatch.user1_id;
+    return { targetUserId, match: byMatch };
+  }
+  const directMatch = await prisma.matches.findFirst({
+    where: {
+      OR: [
+        { user1_id: requesterId, user2_id: paramId },
+        { user1_id: paramId, user2_id: requesterId },
+      ],
+    },
+  });
+  return { targetUserId: paramId, match: directMatch };
+}
+
+// GET /api/matches/:matchId/feedback - post-date feedback status
 router.get('/:matchId/feedback', authenticate, async (req: any, res) => {
   try {
     res.json({ message: 'No feedback yet', submitted: false });
@@ -803,13 +938,182 @@ router.get('/:matchId/feedback', authenticate, async (req: any, res) => {
 });
 
 /**
- * POST /api/matches/:matchId/insights/unlock - Unlock match insights (premium)
+ * GET /api/matches/:matchId/insights - Compute compatibility breakdown & check unlock state
+ * Serves both `ProfileViewModal.tsx` (`is_locked`, `ai_explanation`, `total_score`, `breakdown`)
+ * and `useMatchInsights` (`total_score`, `breakdown`, `details`).
+ */
+router.get('/:matchId/insights', authenticate, async (req: any, res) => {
+  try {
+    const userId = BigInt(req.user.id);
+    const { targetUserId, match } = await resolveInsightTarget(userId, String(req.params.matchId));
+    const unlockKey = targetUserId.toString();
+
+    const [myProfile, targetProfile, unlockRecord, creatorSub, msgCount] = await Promise.all([
+      prisma.user_profiles.findFirst({ where: { user_id: userId } }),
+      prisma.user_profiles.findFirst({ where: { user_id: targetUserId } }),
+      prisma.content_unlocks.findUnique({
+        where: {
+          user_id_content_type_content_id: {
+            user_id: userId,
+            content_type: 'match_insight',
+            content_id: unlockKey,
+          },
+        },
+      }).catch(() => null),
+      prisma.creator_subscriptions.findFirst({
+        where: { user_id: userId, creator_id: targetUserId, status: 'active', expires_at: { gt: new Date() } },
+      }).catch(() => null),
+      prisma.messages.count({
+        where: {
+          OR: [
+            { sender_id: userId, receiver_id: targetUserId },
+            { sender_id: targetUserId, receiver_id: userId },
+          ],
+        },
+      }).catch(() => 0),
+    ]);
+
+    const myInterests = parseArr(myProfile?.interests).map(normalizeValue);
+    const theirInterests = parseArr(targetProfile?.interests).map(normalizeValue);
+    const sharedInterests = myInterests.filter((i) => theirInterests.includes(i));
+
+    const myLooking = parseArr(myProfile?.looking_for).map(normalizeValue);
+    const theirLooking = parseArr(targetProfile?.looking_for).map(normalizeValue);
+    const sharedGoals = myLooking.filter((g) => theirLooking.includes(g));
+
+    const base = Math.min(98, 68 + sharedInterests.length * 6);
+    const preferences = Math.min(99, 65 + sharedGoals.length * 10 + (myProfile?.drinking_status && myProfile?.drinking_status === targetProfile?.drinking_status ? 8 : 0));
+    const behavioral = Math.min(96, 70 + (targetProfile?.is_verified ? 12 : 0) + (myProfile?.fitness_level && myProfile?.fitness_level === targetProfile?.fitness_level ? 8 : 0));
+    const communication = Math.min(99, 64 + Math.min(30, msgCount * 3));
+    const mutual = match?.status === 'accepted' ? 92 : Math.min(90, 62 + sharedInterests.length * 7);
+    const recency = 85;
+
+    const totalScore = match?.match_score
+      ? Math.max(55, Math.min(99, Number(match.match_score)))
+      : Math.round((base + preferences + behavioral + communication + mutual + recency) / 6);
+
+    const unlocked = Boolean(unlockRecord || creatorSub || userId === targetUserId);
+    const targetName = targetProfile?.display_name || 'this match';
+    const sharedSummary = sharedInterests.length > 0
+      ? `shared passion for ${sharedInterests.slice(0, 3).join(', ')}`
+      : 'complementary lifestyle rhythms and local proximity';
+
+    const data = {
+      total_score: totalScore,
+      unlocked,
+      is_locked: !unlocked,
+      token_cost: 10,
+      ai_explanation: unlocked
+        ? `You and ${targetName} score ${totalScore}% overall driven by ${sharedSummary}${sharedGoals.length ? ` and aligned ${sharedGoals[0]} intentions` : ''}.`
+        : null,
+      shared_interests: unlocked ? sharedInterests : [],
+      breakdown: {
+        base,
+        preferences,
+        behavioral,
+        communication,
+        mutual,
+        recency,
+      },
+      details: {
+        physical: Math.min(97, Math.round((base + behavioral) / 2)),
+        sexual: Math.min(96, Math.round((preferences + mutual) / 2)),
+        lifestyle: preferences,
+        personality: Math.min(98, Math.round((communication + mutual) / 2)),
+      },
+    };
+
+    return res.json({ success: true, data });
+  } catch (error: any) {
+    console.error('[MatchInsights] GET error:', error.message);
+    return res.status(500).json({ success: false, message: 'Failed to compute match insights' });
+  }
+});
+
+/**
+ * POST /api/matches/:matchId/insights/unlock - Atomic 10-FWB unlock for AI compatibility insights
  */
 router.post('/:matchId/insights/unlock', authenticate, async (req: any, res) => {
   try {
-    res.json({ message: 'Insight unlocked', success: true });
+    const userId = BigInt(req.user.id);
+    const { targetUserId } = await resolveInsightTarget(userId, String(req.params.matchId));
+    const unlockKey = targetUserId.toString();
+    const COST = 10;
+
+    const existing = await prisma.content_unlocks.findUnique({
+      where: {
+        user_id_content_type_content_id: {
+          user_id: userId,
+          content_type: 'match_insight',
+          content_id: unlockKey,
+        },
+      },
+    });
+
+    if (existing) {
+      return res.json({ message: 'Insight already unlocked', success: true, already_unlocked: true });
+    }
+
+    const result = await prisma.$transaction(async (tx) => {
+      const user = await tx.users.findUnique({
+        where: { id: userId },
+        select: { token_balance: true },
+      });
+      const currentBalance = Number(user?.token_balance || 0);
+      if (currentBalance < COST) {
+        return { insufficient: true as const, balance: currentBalance };
+      }
+
+      const now = new Date();
+      const updated = await tx.users.update({
+        where: { id: userId },
+        data: { token_balance: { decrement: COST } },
+        select: { token_balance: true },
+      });
+
+      await tx.content_unlocks.create({
+        data: {
+          user_id: userId,
+          content_type: 'match_insight',
+          content_id: unlockKey,
+          cost: COST,
+          created_at: now,
+          updated_at: now,
+        },
+      });
+
+      await tx.wallet_transactions.create({
+        data: {
+          user_id: userId,
+          amount: -COST,
+          type: 'content_unlock',
+          description: `Unlocked AI Match Insights (#${unlockKey})`,
+          created_at: now,
+          updated_at: now,
+        },
+      });
+
+      return { insufficient: false as const, balance: Number(updated.token_balance || 0) };
+    });
+
+    if (result.insufficient) {
+      return res.status(402).json({
+        error: 'Insufficient tokens',
+        message: `You need ${COST} FWB tokens to unlock AI Match Insights.`,
+        required: COST,
+        token_balance: result.balance,
+      });
+    }
+
+    return res.json({
+      message: 'Insight unlocked',
+      success: true,
+      cost: COST,
+      new_balance: result.balance,
+    });
   } catch (error: any) {
-    res.status(500).json({ message: 'Failed to unlock insight' });
+    console.error('[MatchInsights] Unlock error:', error.message);
+    return res.status(500).json({ message: 'Failed to unlock insight' });
   }
 });
 

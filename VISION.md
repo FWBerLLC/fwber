@@ -1,7 +1,7 @@
 # VISION.md — The Ultimate fwber Architecture & Philosophy
 
 > **Last Updated:** 2026-11-15
-> **Version:** 2.3.91 (AI Avatar Studio, P2P Wallet/Checkout, Event Invites, Decoy Security & API Contract Gate)
+> **Version:** 2.3.92 (Moderation Ops, ZK Proximity Proofs, Federated Login, Creator Subscriptions, CRDT Chat Sync & CI Contract Gate)
 > **Goal:** To serve as the definitive North Star for all human and AI agents working on the fwber project.
 
 ---

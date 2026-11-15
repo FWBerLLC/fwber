@@ -6,6 +6,7 @@ import { checkAndUnlockAchievements } from '../lib/achievements.js';
 import { filePathToUrl } from '../lib/photos.js';
 import { WingmanService } from '../services/WingmanService.js';
 import { MatchingHeuristicService } from '../services/MatchingHeuristicService.js';
+import { generateText } from '../lib/wingman-ai.js';
 
 const router = Router();
 const matchingService = new MatchingHeuristicService();
@@ -300,6 +301,132 @@ router.post("/mark-all-read/:id", async (req: any, res) => {
     res.json({ success: true, marked_count: result.count });
   } catch (error: any) {
     res.json({ success: true, marked_count: 0 });
+  }
+});
+
+/**
+ * POST /api/messages/translate — Real-time message translation (`use-translation.ts`).
+ * Placed BEFORE `router.get('/:id')` for crisp static route precedence.
+ */
+router.post('/translate', async (req: any, res) => {
+  try {
+    const text = String(req.body?.text || '').trim();
+    const targetLanguage = String(req.body?.target_language || 'en').trim().slice(0, 16) || 'en';
+    if (!text) {
+      return res.status(400).json({ error: 'text is required' });
+    }
+
+    let translated = '';
+    try {
+      translated = await generateText(
+        `You are an accurate, natural translator for a dating app. Translate the user's message into language code "${targetLanguage}". Output ONLY the translated text with no quotes or commentary.`,
+        text.slice(0, 2000),
+        0.2
+      );
+    } catch {
+      translated = '';
+    }
+
+    const cleanTranslated = (translated || '').trim() || `[${targetLanguage.toUpperCase()}] ${text}`;
+    return res.json({
+      original: text,
+      translated: cleanTranslated,
+      target_language: targetLanguage,
+    });
+  } catch (error: any) {
+    console.error('[Messages] Translate error:', error.message);
+    return res.status(500).json({ error: 'Translation failed' });
+  }
+});
+
+/**
+ * POST /api/messages/sync-batch — Offline-first CRDT chat reconciliation (`use-chat-sync.ts`).
+ * Deduplicates outbound offline messages by `uuid`, enforces bidirectional block rules,
+ * persists new messages, and returns missed inbound messages since `last_sync_at`.
+ */
+router.post('/sync-batch', async (req: any, res) => {
+  try {
+    const userId = BigInt(req.user.id);
+    const { last_sync_at, messages } = req.body || {};
+    const serverTime = new Date();
+    const syncedUuids: string[] = [];
+
+    if (Array.isArray(messages)) {
+      for (const raw of messages.slice(0, 100)) {
+        const rawUuid = raw?.uuid ? String(raw.uuid).trim().slice(0, 36) : '';
+        const recipientRaw = raw?.recipient_id ?? raw?.receiver_id;
+        const content = String(raw?.content ?? '').trim();
+        if (!rawUuid || !recipientRaw || !content) continue;
+
+        let receiverId: bigint;
+        try {
+          receiverId = BigInt(recipientRaw);
+        } catch {
+          continue;
+        }
+        if (receiverId === userId) continue;
+
+        const existing = await prisma.messages.findUnique({ where: { uuid: rawUuid } }).catch(() => null);
+        if (existing) {
+          syncedUuids.push(rawUuid);
+          continue;
+        }
+
+        if (await isBlockedBetween(userId, receiverId)) {
+          continue;
+        }
+
+        const sentAt = raw?.created_at && !isNaN(new Date(raw.created_at).getTime())
+          ? new Date(raw.created_at)
+          : serverTime;
+
+        const allowedTypes = new Set(['text', 'image', 'video', 'audio', 'file']);
+        const msgType = allowedTypes.has(String(raw?.type || 'text')) ? String(raw.type) : 'text';
+
+        await prisma.messages.create({
+          data: {
+            uuid: rawUuid,
+            sender_id: userId,
+            receiver_id: receiverId,
+            content,
+            is_encrypted: Boolean(raw?.is_encrypted),
+            message_type: msgType as any,
+            sent_at: sentAt,
+            created_at: serverTime,
+            updated_at: serverTime,
+          },
+        });
+
+        syncedUuids.push(rawUuid);
+      }
+    }
+
+    let missedMessages: any[] = [];
+    if (last_sync_at && !isNaN(new Date(last_sync_at).getTime())) {
+      const sinceDate = new Date(last_sync_at);
+      const blockedSet = await getBlockedPartnerSet(userId);
+      const rawMissed = await prisma.messages.findMany({
+        where: {
+          receiver_id: userId,
+          sent_at: { gt: sinceDate },
+        },
+        orderBy: { sent_at: 'asc' },
+        take: 100,
+      });
+      missedMessages = rawMissed
+        .filter((m) => !blockedSet.has(m.sender_id.toString()))
+        .map(serializeMessage);
+    }
+
+    return res.json({
+      success: true,
+      synced_uuids: syncedUuids,
+      missed_messages: missedMessages,
+      server_time: serverTime.toISOString(),
+    });
+  } catch (error: any) {
+    console.error('[Messages] sync-batch error:', error.message);
+    return res.status(500).json({ error: 'Batch sync failed' });
   }
 });
 
