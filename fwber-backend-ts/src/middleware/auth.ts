@@ -20,6 +20,9 @@ const SENSITIVE_FIELDS = [
 function sanitizeUser(user: any): any {
   if (!user || typeof user !== 'object') return user;
   const cleaned: any = {};
+  if ('two_factor_confirmed_at' in user && user.two_factor_enabled === undefined) {
+    cleaned.two_factor_enabled = Boolean(user.two_factor_confirmed_at);
+  }
   for (const key of Object.keys(user)) {
     if ((SENSITIVE_FIELDS as readonly string[]).includes(key)) continue;
     const val = user[key];

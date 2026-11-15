@@ -1,11 +1,19 @@
 # ROADMAP.md — fwber Project Trajectory
 
-> **Current Version:** 2.3.92
+> **Current Version:** 2.3.93
 > **Last Updated:** 2026-11-15
 
 ---
 
 ## 🗺️ High-Level Trajectory
+
+### Phase 19: TOTP 2FA Login Enforcement, Live WebRTC Video Call Signaling, Runtime Operator Control Plane & 100% Contract Parity (COMPLETED - v2.3.93)
+Eliminated the final 16 unmatched active frontend-to-backend API calls across all 553 call sites in `fwber-frontend` (`0` remaining outside intentionally untouched `/rate-my-pussy`), closed the TOTP 2FA password-login bypass, wired live 1-on-1 WebRTC video signaling end-to-end, and fixed all `/admin/system` + `/admin/settings` runtime crash surfaces.
+
+**Key Achievements:**
+- **Domain-Separated TOTP 2FA Login Enforcement (`v2.3.93`)**: Enforced `two_factor_confirmed_at` on `AuthService.loginUser()` with 5-minute HMAC domain-separated (`fwber-2fa-challenge-v1`) single-use challenge tokens (`jti` replay cache), `POST /api/{auth/,}two-factor-challenge` (RFC 6238 TOTP + constant-time single-use recovery code burn), `two_factor_enabled` derivation in `sanitizeUser()`, and polished `/settings/two-factor` UX.
+- **Live 1-on-1 WebRTC Video Call Signaling (`v2.3.93`)**: Fixed `{ recipient_id }` initiation on `POST /api/video/initiate`, added bidirectional `blocks` + participant `403` authorization guards, implemented `POST /api/video/signal` + `socket.on('video_signal')` relaying `VideoCallSignal` over `user:${targetId}`, and wired real `sendVideoSignal` + `videoSignals` state in `use-websocket.ts` & `use-socket-logic.ts`.
+- **Operator Control Plane, Telemetry & 112-Contract Gate (`v2.3.93`)**: Persisted `GET/PUT /api/config/features` in MySQL `autonomous_settings`, upgraded `GET /api/config/health`, `GET /api/health/metrics`, `GET /api/rate-limits/stats/:timeframe`, and `GET /api/analytics/*` (`PlatformAnalyticsResponse`), fixed `/admin/system` + `/admin/settings` crashes and mounted `<LogViewer />` on `/admin/system?tab=logs`, added `POST /generate-posts/:boardId`, `DELETE /content/:contentId`, paginated `GET /api/feedback?page=` + `PUT /api/feedback/:id`, `/api/websocket/*` HTTP-to-Socket.IO bridge, `two-factor-and-video-calls` `/help` manual, `112/112` verified contracts across `91` prefixes, and `TwoFactorVideoAdminConfig.test.ts` (`37/37` suites, `178/178` tests green).
 
 ### Phase 18: Moderation & Ops Suite, ZK Proximity Proofs, Federated Login, Creator Subscriptions & CRDT Sync (COMPLETED - v2.3.92)
 Complete closure of remaining moderator/operator, cryptographic proximity, Fediverse sign-in, creator subscription, polycule link, and offline CRDT chat sync sub-routes across 12 backend routers and 8 frontend surfaces, locked in by an 86-contract CI deploy gate.

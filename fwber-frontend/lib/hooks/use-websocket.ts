@@ -12,7 +12,18 @@ export type { UseWebSocketOptions } from '@/lib/types/realtime';
  * Hook to access the Realtime (WebSocket) context.
  */
 export function useWebSocket(options: UseWebSocketOptions = {}) {
-  const { connected, reconnectAttempts, chatMessages, typingIndicators, sendChatMessage, sendTypingIndicator, connect, disconnect } = useSocketLogic(options);
+  const {
+    connected,
+    reconnectAttempts,
+    chatMessages,
+    typingIndicators,
+    videoSignals,
+    sendChatMessage,
+    sendTypingIndicator,
+    sendVideoSignal,
+    connect,
+    disconnect,
+  } = useSocketLogic(options);
 
   return {
     connectionStatus: {
@@ -29,14 +40,18 @@ export function useWebSocket(options: UseWebSocketOptions = {}) {
     notifications: [] as NotificationPayload[],
     chatMessages,
     typingIndicators,
-    videoSignals: [] as any[],
+    videoSignals,
     wingmanNudges: [],
     connect,
     disconnect,
     sendChatMessage,
     sendTypingIndicator,
-    sendVideoSignal: async (_recipientId?: any, _signal?: any, _callId?: any) => {},
-    updatePresence: async (_status?: any, _metadata?: any) => {},
+    sendVideoSignal,
+    updatePresence: async (status?: any, metadata?: any) => {
+      try {
+        await api.post('/websocket/presence', { status: status || 'online', metadata });
+      } catch {}
+    },
     sendNotification: async () => {},
     loadConversationHistory: async () => {},
     injectMissedMessages: (_messages?: any) => {},

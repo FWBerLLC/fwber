@@ -12,6 +12,7 @@ import { createRateLimiter } from '../lib/rateLimit.js';
 import { validateFederationUrl, getHardenedFederationAgent } from '../lib/ssrf.js';
 
 const router = Router();
+export const twoFactorRouter = Router();
 const authController = new AuthController();
 const authService = new AuthService();
 
@@ -96,6 +97,8 @@ export const federatedHttp = {
 
 router.post('/register', registerLimiter, authController.register);
 router.post('/login', loginLimiter, authController.login);
+router.post('/two-factor-challenge', loginLimiter, authController.twoFactorChallenge);
+twoFactorRouter.post('/', loginLimiter, authController.twoFactorChallenge);
 router.get('/wallet-nonce', loginLimiter, authController.walletNonce);
 router.post('/login-wallet', loginLimiter, authController.loginWallet);
 router.get('/me', authenticate, authController.me);

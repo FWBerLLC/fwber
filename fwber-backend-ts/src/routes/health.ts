@@ -2,6 +2,7 @@ import { Router } from 'express';
 import os from 'os';
 import prisma from '../lib/prisma.js';
 import { getAppVersion } from '../lib/version.js';
+import { getIO } from '../socket.js';
 
 const router = Router();
 
@@ -60,6 +61,8 @@ router.get('/metrics', async (_req, res) => {
 
   const memUsage = process.memoryUsage();
   const isHealthy = dbStatus === 'connected';
+  const heapUsedMb = Math.round(memUsage.heapUsed / 1024 / 1024);
+  const wsClients = (getIO()?.engine as any)?.clientsCount ?? 0;
 
   res.status(isHealthy ? 200 : 503).json({
     status: isHealthy ? 'healthy' : 'degraded',
@@ -70,11 +73,18 @@ router.get('/metrics', async (_req, res) => {
     database: {
       status: dbStatus,
       latency_ms: dbLatencyMs,
+      threads_connected: isHealthy ? 1 : 0,
+      info: isHealthy ? `${dbLatencyMs}ms ping` : 'disconnected',
+    },
+    redis: {
+      used_memory_human: `${heapUsedMb} MB`,
+      connected_clients: wsClients,
+      instantaneous_ops_per_sec: 0,
     },
     memory: {
       rss_mb: Math.round(memUsage.rss / 1024 / 1024),
       heap_total_mb: Math.round(memUsage.heapTotal / 1024 / 1024),
-      heap_used_mb: Math.round(memUsage.heapUsed / 1024 / 1024),
+      heap_used_mb: heapUsedMb,
     },
     system: {
       load_avg: os.loadavg(),

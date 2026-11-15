@@ -2,6 +2,11 @@
 > **Generated on:** 2026-04-02
 > **Goal:** Creative, constructive analysis of the fwber monorepo to find missing features, improvements, refactoring targets, language ports, and concept pivots.
 
+## 2026-11-15 Addendum (from the v2.3.93 TOTP 2FA, WebRTC video signaling & 100% contract parity pass)
+1. **WebAuthn / FIDO2 Passkey Second-Factor & Passwordless Login (`@simplewebauthn/server`)**: Now that `AuthService.loginUser()` enforces a domain-separated 5-minute 2FA challenge (`v2.3.93`), extend `/settings/two-factor` and `/two-factor-challenge` with WebAuthn hardware security keys (YubiKey, Touch ID, Windows Hello) alongside RFC 6238 TOTP and recovery codes.
+2. **Ephemeral TURN REST Credentials (`RFC 5389` / `coturn` `--use-auth-secret`) for 1-on-1 Video & Audio Rooms**: Expose an authenticated `GET /api/video/ice-servers` endpoint minting short-lived (1-hour) HMAC-SHA1 TURN credentials scoped to `req.user.id` so WebRTC media traversal works across Symmetric Carrier-Grade NATs without exposing static TURN credentials in client bundles.
+3. **Live SSE / Socket.IO Feature-Flag Broadcast**: Emit a `config:features_updated` Socket.IO broadcast whenever an operator toggles a flag on `/admin/settings` (`PUT /api/config/features`) so connected Next.js and Expo clients reactively toggle UI surfaces in `<100ms` without waiting for React Query's 5-minute `staleTime`.
+
 ## 2026-11-15 Addendum (from the v2.3.92 moderation, ZK proximity, federated login & CRDT sync pass)
 1. **True Groth16 / Circom Browser Prover for ZK-Proximity (`fwber-wasm` / `snarkjs`)**: Upgrade `ZKProver.tsx` + `/api/proximity/zk-verify` from rotating-epoch HMAC geohash commitments to a compact Poseidon-hash Groth16 circuit compiled to WASM so a prover can demonstrate membership inside a venue polygon `(lat, lng) ∈ R` without revealing even the 150m precision-7 geohash cell to the server.
 2. **ActivityPub HTTP-Signature One-Click Login (FEP-fe34 / OAuth-over-WebFinger)**: Complement the zero-setup profile-bio challenge flow (`POST /api/auth/federated/{challenge,verify}`) with Mastodon OAuth dynamic client registration (`POST /api/v1/apps` on the user's home instance) so Mastodon users can sign in with a single OAuth redirect without editing their profile summary.

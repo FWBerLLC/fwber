@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
+import { authenticator } from 'otplib';
 import prisma, { serialize, sanitizeUser } from '../lib/prisma.js';
 import { sendVerificationEmail, sendPasswordResetEmail } from '../lib/email.js';
 import { createVerificationToken } from '../lib/verification-store.js';
@@ -23,6 +24,27 @@ const WALLET_NONCE_TTL_MS = 10 * 60 * 1000;
 
 /** One-time-use cache for consumed signatures (replay protection). */
 const walletLoginReplays = new Map<string, number>();
+
+/**
+ * Single-use replay cache for 5-minute TOTP 2FA challenge JWTs (`jti` -> expiry ms).
+ * Combined with an HMAC domain-separated signing key so a pre-2FA challenge token
+ * can never be accepted by `authenticate` or `socket.ts` as a full session token.
+ */
+const TWO_FACTOR_CHALLENGE_TTL_MS = 5 * 60 * 1000;
+const consumedTwoFactorJtis = new Map<string, number>();
+
+function getTwoFactorChallengeSecret(): string {
+  return crypto
+    .createHmac('sha256', process.env.JWT_SECRET || 'secret')
+    .update('fwber-2fa-challenge-v1')
+    .digest('hex');
+}
+
+function pruneConsumedTwoFactorJtis(now: number): void {
+  for (const [jti, exp] of consumedTwoFactorJtis) {
+    if (exp <= now) consumedTwoFactorJtis.delete(jti);
+  }
+}
 
 function pruneWalletReplays(now: number) {
   for (const [key, exp] of walletLoginReplays) {
@@ -225,6 +247,27 @@ export class AuthService {
           }
         }
 
+        // Enforce TOTP Two-Factor Authentication whenever the resolved account
+        // has confirmed 2FA (`two_factor_confirmed_at` + `two_factor_secret`).
+        // Decoy accounts only challenge if the decoy user itself enabled 2FA,
+        // preserving plausible deniability for coercion scenarios.
+        if (finalUser.two_factor_confirmed_at && finalUser.two_factor_secret) {
+          const jti = crypto.randomBytes(16).toString('hex');
+          const twoFactorToken = jwt.sign(
+            {
+              purpose: '2fa_challenge',
+              sub: Number(finalUser.id),
+              jti,
+            },
+            getTwoFactorChallengeSecret(),
+            { expiresIn: '5m' }
+          );
+          return {
+            two_factor: true as const,
+            two_factor_token: twoFactorToken,
+          };
+        }
+
         const token = this.generateToken(finalUser as any);
         const hydrated = await this.hydrateUser(finalUser);
 
@@ -232,6 +275,113 @@ export class AuthService {
       },
       // failOpen: user login must never be gated by system-health state —
       // this was the transient-401 root cause (see CHANGELOG 2.3.39).
+      { failOpen: true }
+    );
+  }
+
+  /**
+   * Verify a pending 5-minute TOTP 2FA challenge (`POST /api/two-factor-challenge`
+   * and `POST /api/auth/two-factor-challenge`). Accepts either a 6-digit TOTP
+   * `code` or a single-use `recovery_code` (which is atomically burned on use).
+   */
+  async verifyTwoFactorChallenge(input: {
+    two_factor_token?: string;
+    code?: string;
+    recovery_code?: string;
+  }) {
+    return AutonomousTaskExecutor.execute(
+      { type: 'User 2FA Verification', impact: 'low', module: 'Auth' },
+      async () => {
+        const challengeToken = String(input.two_factor_token || '').trim();
+        if (!challengeToken) {
+          throw new AuthError('Missing or expired two-factor challenge session. Please log in again.', 401);
+        }
+
+        let decoded: any;
+        try {
+          decoded = jwt.verify(challengeToken, getTwoFactorChallengeSecret());
+        } catch {
+          throw new AuthError('Two-factor session expired. Please log in again.', 401);
+        }
+
+        if (!decoded || decoded.purpose !== '2fa_challenge' || !decoded.sub || !decoded.jti) {
+          throw new AuthError('Invalid two-factor challenge session.', 401);
+        }
+
+        const now = Date.now();
+        pruneConsumedTwoFactorJtis(now);
+        if (consumedTwoFactorJtis.has(String(decoded.jti))) {
+          throw new AuthError('Two-factor challenge already used. Please log in again.', 401);
+        }
+
+        const user = await prisma.users.findUnique({
+          where: { id: BigInt(decoded.sub) },
+          include: { user_profiles: true },
+        });
+
+        if (!user || !user.two_factor_confirmed_at || !user.two_factor_secret) {
+          throw new AuthError('Two-factor authentication is not active for this account.', 400);
+        }
+
+        const rawCode = String(input.code || '').replace(/\s+/g, '');
+        const rawRecovery = String(input.recovery_code || '').trim().toUpperCase();
+
+        let verified = false;
+        let updatedRecoveryCodes: string[] | null = null;
+
+        if (rawRecovery) {
+          let storedCodes: string[] = [];
+          try {
+            const parsed = user.two_factor_recovery_codes ? JSON.parse(user.two_factor_recovery_codes) : [];
+            if (Array.isArray(parsed)) {
+              storedCodes = parsed.map((c) => String(c).trim().toUpperCase());
+            }
+          } catch {
+            storedCodes = [];
+          }
+
+          let matchedIdx = -1;
+          const candidateBuf = Buffer.from(rawRecovery, 'utf8');
+          for (let i = 0; i < storedCodes.length; i++) {
+            const codeBuf = Buffer.from(storedCodes[i]!, 'utf8');
+            if (codeBuf.length === candidateBuf.length && crypto.timingSafeEqual(codeBuf, candidateBuf)) {
+              matchedIdx = i;
+              break;
+            }
+          }
+
+          if (matchedIdx !== -1) {
+            verified = true;
+            updatedRecoveryCodes = storedCodes.filter((_, idx) => idx !== matchedIdx);
+          }
+        } else if (rawCode) {
+          verified = authenticator.verify({
+            token: rawCode,
+            secret: user.two_factor_secret,
+          });
+        } else {
+          throw new AuthError('Provide either an authentication code or a recovery code.', 400);
+        }
+
+        if (!verified) {
+          throw new AuthError('Invalid two-factor authentication code', 422);
+        }
+
+        // Mark challenge JTI as consumed only after a valid code so a typo lets
+        // the user retry within the 5-minute window (protected by rate-limiting).
+        consumedTwoFactorJtis.set(String(decoded.jti), now + TWO_FACTOR_CHALLENGE_TTL_MS + 60_000);
+
+        if (updatedRecoveryCodes !== null) {
+          await prisma.users.update({
+            where: { id: user.id },
+            data: { two_factor_recovery_codes: JSON.stringify(updatedRecoveryCodes) },
+          });
+        }
+
+        const token = this.generateToken(user as any);
+        const hydrated = await this.hydrateUser(user);
+        return { token, user: hydrated };
+      },
       { failOpen: true }
     );
   }

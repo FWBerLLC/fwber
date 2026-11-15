@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import ProtectedRoute from '@/components/ProtectedRoute';
+import AppHeader from '@/components/AppHeader';
 import { useFeedback, FeedbackItem } from '@/lib/hooks/use-feedback';
 import { format } from 'date-fns';
 import { Loader2, CheckCircle, XCircle, AlertCircle, MessageSquare, Sparkles, Shield, Brain } from 'lucide-react';
@@ -42,49 +44,52 @@ export default function FeedbackPage() {
   };
 
   return (
-    <div className="p-8 space-y-6">
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground dark:text-foreground">User Feedback</h1>
-          <p className="text-muted-foreground">Manage bug reports, feature requests, and general feedback.</p>
-        </div>
-      </div>
+    <ProtectedRoute>
+      <div className="min-h-screen bg-muted dark:bg-background">
+        <AppHeader />
+        <div className="max-w-7xl mx-auto p-6 sm:p-8 space-y-6">
+          <div className="flex justify-between items-center">
+            <div>
+              <h1 className="text-2xl font-bold text-foreground dark:text-foreground">User Feedback Triage</h1>
+              <p className="text-muted-foreground">Review bug reports, feature requests, and automated sentiment classification.</p>
+            </div>
+          </div>
 
-      {isLoading ? (
-        <div className="flex justify-center py-12">
-          <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
-        </div>
-      ) : (
-        <div className="bg-card dark:bg-card rounded-lg shadow overflow-hidden">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-muted dark:bg-background">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">User</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Category</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Message</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">AI Analysis</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Status</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Date</th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-muted-foreground uppercase tracking-wider">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="bg-card dark:bg-card divide-y divide-gray-200">
-              {(data?.data || []).map((item: FeedbackItem) => (
-                <tr key={item.id} className="hover:bg-muted dark:bg-background">
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-foreground dark:text-foreground">
-                      {item.user ? item.user.name : 'Anonymous'}
-                    </div>
-                    <div className="text-sm text-muted-foreground">
-                      {item.user ? item.user.email : '-'}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-muted dark:bg-card text-foreground dark:text-foreground capitalize">
-                      {/* Icon placeholder - need to import Sparkles/Shield if used */}
-                      {item.category}
-                    </span>
-                  </td>
+          {isLoading ? (
+            <div className="flex justify-center py-12">
+              <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
+            </div>
+          ) : (
+            <div className="bg-card dark:bg-card rounded-lg shadow border border-border overflow-hidden">
+              <table className="min-w-full divide-y divide-border">
+                <thead className="bg-muted dark:bg-background">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">User</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Category</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Message</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">AI Analysis</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Status</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Date</th>
+                    <th className="px-6 py-3 text-right text-xs font-medium text-muted-foreground uppercase tracking-wider">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="bg-card dark:bg-card divide-y divide-border">
+                  {(data?.data || []).map((item: FeedbackItem) => (
+                    <tr key={item.id} className="hover:bg-muted/60">
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm font-medium text-foreground dark:text-foreground">
+                          {item.user ? item.user.name : 'Anonymous'}
+                        </div>
+                        <div className="text-sm text-muted-foreground">
+                          {item.user ? item.user.email : '-'}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-muted text-foreground capitalize">
+                          {getCategoryIcon(item.category)}
+                          {item.category}
+                        </span>
+                      </td>
                   <td className="px-6 py-4">
                     <div className="text-sm text-foreground dark:text-foreground max-w-md truncate" title={item.message}>
                       {item.message}
@@ -193,8 +198,10 @@ export default function FeedbackPage() {
               </div>
             </div>
           </div>
+          </div>
+        )}
         </div>
-      )}
-    </div>
+      </div>
+    </ProtectedRoute>
   );
 }

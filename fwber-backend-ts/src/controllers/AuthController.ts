@@ -22,6 +22,17 @@ const walletLoginSchema = z.object({
   message: z.string().min(1).max(1024),
 });
 
+function readCookie(cookieHeader: string | undefined, name: string): string | undefined {
+  if (!cookieHeader) return undefined;
+  for (const part of cookieHeader.split(';')) {
+    const [rawKey, ...rest] = part.trim().split('=');
+    if (rawKey === name) {
+      return decodeURIComponent(rest.join('='));
+    }
+  }
+  return undefined;
+}
+
 export class AuthController {
   private authService = new AuthService();
 
@@ -51,7 +62,19 @@ export class AuthController {
   login = async (req: Request, res: Response) => {
     try {
       const validated = loginSchema.parse(req.body);
-      const result = await this.authService.loginUser(validated);
+      const result: any = await this.authService.loginUser(validated);
+
+      if (result.two_factor && result.two_factor_token) {
+        const secureAttr = process.env.NODE_ENV === 'production' ? '; Secure' : '';
+        res.setHeader(
+          'Set-Cookie',
+          `fwber_2fa_challenge=${encodeURIComponent(result.two_factor_token)}; Path=/; Max-Age=300; HttpOnly; SameSite=Lax${secureAttr}`
+        );
+        return res.json({
+          two_factor: true,
+          two_factor_token: result.two_factor_token,
+        });
+      }
 
       res.json({
         access_token: result.token,
@@ -70,6 +93,43 @@ export class AuthController {
       // never dressed up as "bad credentials" (see AuthError docs).
       console.error('[Auth] login infrastructure error:', error);
       res.status(500).json({ message: 'Login is temporarily unavailable. Please try again.' });
+    }
+  };
+
+  /**
+   * POST /api/auth/two-factor-challenge & POST /api/two-factor-challenge
+   * Complete TOTP or single-use recovery-code verification after password check.
+   */
+  twoFactorChallenge = async (req: Request, res: Response) => {
+    try {
+      const twoFactorToken =
+        req.body?.two_factor_token ||
+        readCookie(req.headers.cookie, 'fwber_2fa_challenge');
+
+      const result = await this.authService.verifyTwoFactorChallenge({
+        two_factor_token: twoFactorToken,
+        code: req.body?.code,
+        recovery_code: req.body?.recovery_code,
+      });
+
+      const secureAttr = process.env.NODE_ENV === 'production' ? '; Secure' : '';
+      res.setHeader(
+        'Set-Cookie',
+        `fwber_2fa_challenge=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax${secureAttr}`
+      );
+
+      return res.json({
+        token: result.token,
+        access_token: result.token,
+        token_type: 'Bearer',
+        user: result.user,
+      });
+    } catch (error: any) {
+      if (error instanceof AuthError) {
+        return res.status(error.status).json({ message: error.message });
+      }
+      console.error('[Auth] two-factor-challenge error:', error);
+      return res.status(500).json({ message: 'Two-factor verification is temporarily unavailable.' });
     }
   };
 

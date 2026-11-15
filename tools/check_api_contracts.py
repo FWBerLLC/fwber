@@ -128,6 +128,33 @@ REQUIRED_CONTRACTS: list[tuple[str, str, str]] = [
     ("/api/user", "GET", "/"),
     ("/api/user", "PUT", "/profile"),
     ("/api/merchant-portal", "GET", "/analytics/export"),
+    # TOTP 2FA Enforcement, Live WebRTC Video Signaling, Admin Runtime Config, Rate-Limits, AI Content, Feedback Triage & WebSocket Bridge (v2.3.93)
+    ("/api/auth", "POST", "/two-factor-challenge"),
+    ("/api/two-factor-challenge", "POST", "/"),
+    ("/api/user", "POST", "/two-factor-authentication"),
+    ("/api/user", "GET", "/two-factor-qr-code"),
+    ("/api/user", "POST", "/confirmed-two-factor-authentication"),
+    ("/api/user", "GET", "/two-factor-recovery-codes"),
+    ("/api/user", "POST", "/two-factor-recovery-codes"),
+    ("/api/user", "DELETE", "/two-factor-authentication"),
+    ("/api/video", "POST", "/initiate"),
+    ("/api/video", "PUT", "/:param/status"),
+    ("/api/video", "POST", "/signal"),
+    ("/api/config", "GET", "/features"),
+    ("/api/config", "PUT", "/features"),
+    ("/api/config", "GET", "/health"),
+    ("/api/health", "GET", "/metrics"),
+    ("/api/rate-limits", "GET", "/stats/:param"),
+    ("/api/content-generation", "POST", "/generate-posts/:param"),
+    ("/api/content-generation", "DELETE", "/content/:param"),
+    ("/api/content", "POST", "/generate-posts/:param"),
+    ("/api/feedback", "GET", "/"),
+    ("/api/feedback", "PUT", "/:param"),
+    ("/api/websocket", "POST", "/connect"),
+    ("/api/websocket", "POST", "/message"),
+    ("/api/websocket", "POST", "/typing"),
+    ("/api/websocket", "POST", "/presence"),
+    ("/api/websocket", "POST", "/notification"),
 ]
 
 
@@ -167,11 +194,11 @@ def load_backend_routes() -> tuple[dict[str, pathlib.Path], set[tuple[str, str, 
 
     registered: set[tuple[str, str, str]] = set()
     single_route_re = re.compile(
-        r"\b(?:router|matchmakerRouter|nodeinfoRouter)\.(get|post|put|patch|delete)\(\s*['\"]([^'\"]+)['\"]",
+        r"\b(?:router|matchmakerRouter|nodeinfoRouter|twoFactorRouter)\.(get|post|put|patch|delete)\(\s*['\"]([^'\"]+)['\"]",
         re.IGNORECASE,
     )
     array_route_re = re.compile(
-        r"\b(?:router|matchmakerRouter|nodeinfoRouter)\.(get|post|put|patch|delete)\(\s*\[([^\]]+)\]",
+        r"\b(?:router|matchmakerRouter|nodeinfoRouter|twoFactorRouter)\.(get|post|put|patch|delete)\(\s*\[([^\]]+)\]",
         re.IGNORECASE,
     )
 

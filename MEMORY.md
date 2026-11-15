@@ -1,7 +1,13 @@
 # MEMORY.md — fwber Internal Architectural Observations
 
-## Current Version: 2.3.92 "Moderation Ops, ZK Proximity Proofs, Federated Login, Creator Subscriptions, CRDT Chat Sync & CI Contract Gate"
+## Current Version: 2.3.93 "TOTP 2FA Login Enforcement, Live WebRTC Video Signaling, Operator Control Plane & 100% Contract Parity"
 **Last Updated:** 2026-11-15
+
+### Observations (2026-11-15 session, v2.3.93)
+- **Domain-Separated Pre-2FA Challenge JWTs (`fwber-2fa-challenge-v1`)**: Never sign temporary 2FA login challenge tokens with the raw `JWT_SECRET` used by `authenticate` / `socket.ts` — otherwise a caller could pass the pre-2FA token as `Authorization: Bearer` to bypass the second factor. Signing `two_factor_token` with `HMAC-SHA256(JWT_SECRET, 'fwber-2fa-challenge-v1')` + `purpose: '2fa_challenge'` + a single-use `jti` replay set (`consumedTwoFactorJtis`) guarantees cryptographic domain separation without requiring a new `.env` variable.
+- **`autonomous_settings.value` Width (`@db.VarChar(255)`)**: `prisma.autonomous_settings.value` is `VARCHAR(255)` in MySQL. Never serialize whole JSON config blobs (like a 25-key feature-flag map) into a single `autonomous_settings` row or MySQL will truncate/reject it; instead store one compact key per flag (`ff:<flag>` = `'true' | 'false'`, `ff_driver:moderation` = `'aws' | 'google' | 'mock'`).
+- **Next.js 16 `useSearchParams()` Suspense Requirement**: Any App Router client page reading `?tab=` via `useSearchParams()` (`app/admin/system/page.tsx`) must wrap the inner component in `<Suspense>` so `next build` static generation succeeds cleanly.
+- **Zero Remaining Unmatched Active Frontend API Calls**: Across all 553 frontend API call sites in `fwber-frontend` and 671 backend/Next handlers across 91 Express prefixes, `0` unmatched active calls remain (`112/112` enforced in `tools/check_api_contracts.py`; `/rate-my-pussy` `/api/cats` left untouched per Robert's standing rule).
 
 ### Observations (2026-11-15 session, v2.3.92)
 - **Middleware Auth Cookie Parity (`fwber_auth=1`)**: `fwber-frontend/middleware.ts` (`PR #42`) enforces a lightweight `fwber_auth=1` presence cookie on protected routes (`/dashboard`, `/messages`, `/matches`, etc.) and 307-redirects to `/login` when absent. Any alternate login flow (`FederatedAuthModal.tsx`, Solana wallet login, passkey/magic-link flows) MUST set `document.cookie = 'fwber_auth=1; path=/; max-age=2592000; SameSite=Lax'` alongside `localStorage.setItem('fwber_token', ...)` or users will hit an immediate redirect loop back to `/login`.

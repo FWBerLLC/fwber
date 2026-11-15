@@ -268,6 +268,27 @@ const HELP_ARTICLES: Record<string, { title: string, content: React.ReactNode, c
       </div>
     )
   },
+  'two-factor-and-video-calls': {
+    category: 'Safety, Blocking & Hardware Beacons',
+    title: 'Two-Factor Authentication (2FA) & Live Video Calls',
+    content: (
+      <div className="space-y-4">
+        <p>Protect your account with cryptographic TOTP Two-Factor Authentication and verify chemistry safely over encrypted peer-to-peer WebRTC Video Calls.</p>
+        <h3 className="text-lg font-semibold">Enabling TOTP Two-Factor Authentication</h3>
+        <ul className="list-disc pl-5 space-y-2">
+          <li><strong>Setup:</strong> Open <strong>Settings &gt; Security &gt; Two-Factor Authentication</strong> (<code>/settings/two-factor</code>), scan the QR code with Google Authenticator, Authy, 1Password, or Bitwarden, and enter the current 6-digit code to confirm.</li>
+          <li><strong>Login Enforcement:</strong> Once confirmed, password sign-ins issue a domain-separated 5-minute challenge rather than a session token until you verify a valid 6-digit TOTP code.</li>
+          <li><strong>Single-Use Recovery Codes:</strong> Store your 8 emergency recovery codes in a password manager. Each recovery code can be redeemed once on the login challenge screen if your authenticator device is lost, and you can regenerate a fresh set anytime.</li>
+        </ul>
+        <h3 className="text-lg font-semibold">Live 1-on-1 WebRTC Video Calls</h3>
+        <ul className="list-disc pl-5 space-y-2">
+          <li><strong>Encrypted Peer-to-Peer Media:</strong> Start a 1-on-1 video call directly from a match conversation. Audio and video stream over DTLS-SRTP WebRTC while SDP offers/answers and ICE candidates relay exclusively to your verified call partner.</li>
+          <li><strong>Safety &amp; Block Guards:</strong> Bidirectional blocks and participant authorization checks prevent unwanted call initiation, unauthorized call-state changes, or signaling spoofing.</li>
+          <li><strong>In-Call Controls:</strong> Mute your microphone, toggle camera video, or end the call with a single tap at any moment.</li>
+        </ul>
+      </div>
+    )
+  },
   'location-privacy': {
     category: 'Safety & Privacy',
     title: 'Location Privacy',

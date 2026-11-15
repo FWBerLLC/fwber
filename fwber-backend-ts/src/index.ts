@@ -10,7 +10,7 @@ import { createServer } from 'http';
 import { getAppVersion } from './lib/version.js';
 import emailRoutes from './routes/email.js';
 
-import authRoutes from './routes/auth.js';
+import authRoutes, { twoFactorRouter } from './routes/auth.js';
 import analyticsRoutes from './routes/analytics.js';
 import dashboardRoutes from './routes/dashboard.js';
 import profileRoutes from './routes/profile.js';
@@ -89,6 +89,8 @@ import economyRoutes from './routes/economy.js';
 import contentUnlocksRoutes from './routes/content-unlocks.js';
 import promotionsRoutes from './routes/promotions.js';
 import avatarRoutes from './routes/avatar.js';
+import rateLimitsRoutes from './routes/rate-limits.js';
+import websocketRoutes from './routes/websocket.js';
 import { isScannerProbePath } from './lib/scanner-guard.js';
 import prisma from './lib/prisma.js';
 import { setupSocketIO } from './socket.js';
@@ -266,6 +268,9 @@ app.use('/api/avatar', avatarRoutes);
 app.use('/api/matchmaker', matchmakerRouter);
 app.use('/api/payments', paymentsRoutes);
 app.use('/api/governance', governanceRoutes);
+app.use('/api/two-factor-challenge', twoFactorRouter);
+app.use('/api/rate-limits', rateLimitsRoutes);
+app.use('/api/websocket', websocketRoutes);
 
 // Note: Inbound RFC 7033 WebFinger (`/.well-known/webfinger`) and NodeInfo
 // (`/.well-known/nodeinfo`) are served by `webfingerRoutes` above with full

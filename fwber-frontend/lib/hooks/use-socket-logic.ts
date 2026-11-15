@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { useAuth } from '@/lib/auth-context';
+import { api } from '@/lib/api/client';
 import { logWebSocket } from '@/lib/logger';
 
 import type {
@@ -25,9 +26,11 @@ let _connectionCount = 0;
 let _listenersAttached = false;
 const _chatMessages: ChatMessage[] = [];
 const _typingIndicators: TypingIndicator[] = [];
+const _videoSignals: any[] = [];
 type Setter<T> = (val: T | ((prev: T) => T)) => void;
 const _chatMessageSetters = new Set<Setter<ChatMessage[]>>();
 const _typingSetters = new Set<Setter<TypingIndicator[]>>();
+const _videoSignalSetters = new Set<Setter<any[]>>();
 
 const _connectedSetters = new Set<Setter<boolean>>();
 const _reconnectAttemptsSetters = new Set<Setter<number>>();
@@ -114,6 +117,14 @@ function attachListeners(socket: Socket, userId: string | undefined) {
       _typingSetters.forEach(s => s(snap));
     }, 3000);
   });
+
+  socket.on('VideoCallSignal', (payload: any) => {
+    if (!payload) return;
+    _videoSignals.push(payload);
+    if (_videoSignals.length > 50) _videoSignals.shift();
+    const snapshot = [..._videoSignals];
+    _videoSignalSetters.forEach(s => s(snapshot));
+  });
 }
 
 function detachListeners(socket: Socket) {
@@ -128,6 +139,7 @@ export function useSocketLogic(options: { autoConnect?: boolean } = {}) {
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>(() => [..._chatMessages]);
 
   const [typingIndicators, setTypingIndicators] = useState<TypingIndicator[]>(() => [..._typingIndicators]);
+  const [videoSignals, setVideoSignals] = useState<any[]>(() => [..._videoSignals]);
   const [eventAttendeesLocations, setEventAttendeesLocations] = useState<Record<string, {userId: number, lat: number, lng: number, timestamp: Date}>>(() => ({..._eventAttendeesLocations}));
   const mountedRef = useRef(true);
 
@@ -138,6 +150,7 @@ export function useSocketLogic(options: { autoConnect?: boolean } = {}) {
     _reconnectAttemptsSetters.add(setReconnectAttempts);
     _chatMessageSetters.add(setChatMessages);
     _typingSetters.add(setTypingIndicators);
+    _videoSignalSetters.add(setVideoSignals);
     _eventAttendeesSetters.add(setEventAttendeesLocations);
     return () => {
       mountedRef.current = false;
@@ -145,6 +158,7 @@ export function useSocketLogic(options: { autoConnect?: boolean } = {}) {
       _reconnectAttemptsSetters.delete(setReconnectAttempts);
       _chatMessageSetters.delete(setChatMessages);
       _typingSetters.delete(setTypingIndicators);
+      _videoSignalSetters.delete(setVideoSignals);
       _eventAttendeesSetters.delete(setEventAttendeesLocations);
     };
   }, []);
@@ -241,6 +255,24 @@ export function useSocketLogic(options: { autoConnect?: boolean } = {}) {
     }
   }, []);
 
+  const sendVideoSignal = useCallback(async (recipientId: string, signal: any, callId?: number) => {
+    try {
+      await api.post('/video/signal', {
+        recipient_id: recipientId,
+        signal,
+        ...(callId !== undefined ? { call_id: callId } : {}),
+      });
+    } catch {
+      if (_socket?.connected) {
+        _socket.emit('video_signal', {
+          recipient_id: recipientId,
+          signal,
+          ...(callId !== undefined ? { call_id: callId } : {}),
+        });
+      }
+    }
+  }, []);
+
   useEffect(() => {
     if (options.autoConnect && isAuthenticated) {
       _connectionCount++;
@@ -257,10 +289,11 @@ export function useSocketLogic(options: { autoConnect?: boolean } = {}) {
     connected,
     reconnectAttempts,
     chatMessages,
-
     typingIndicators,
+    videoSignals,
     sendChatMessage,
     sendTypingIndicator,
+    sendVideoSignal,
     joinEventRoom,
     leaveEventRoom,
     joinChatroom,

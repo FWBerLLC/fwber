@@ -56,6 +56,7 @@ const HELP_CATEGORIES = [
       { title: 'Bidirectional Blocking & Reporting', slug: 'block-report' },
       { title: 'Location Privacy & Fuzzing', slug: 'location-privacy' },
       { title: 'Hardware BLE Safety Beacons', slug: 'ble-safety-tokens' },
+      { title: 'Two-Factor Authentication (2FA) & Live Video Calls', slug: 'two-factor-and-video-calls' },
     ]
   },
   {

@@ -53,7 +53,10 @@ const SENSITIVE_FIELDS = [
 ];
 
 /**
- * Remove sensitive fields from a user object before sending it to the client.
+ * Remove sensitive fields from a user object before sending it to the client,
+ * while deriving `two_factor_enabled` from `two_factor_confirmed_at` so client
+ * security pages (`/settings/two-factor`, `/settings/security`) reflect live
+ * TOTP status across page reloads without ever exposing secrets.
  */
 export const sanitizeUser = (obj: any): any => {
   if (!obj || typeof obj !== 'object') return obj;
@@ -61,6 +64,9 @@ export const sanitizeUser = (obj: any): any => {
   if (Array.isArray(obj)) return obj.map(sanitizeUser);
 
   const out: any = {};
+  if ('two_factor_confirmed_at' in obj && obj.two_factor_enabled === undefined) {
+    out.two_factor_enabled = Boolean(obj.two_factor_confirmed_at);
+  }
   for (const key of Object.keys(obj)) {
     if (SENSITIVE_FIELDS.includes(key)) continue;
     out[key] = sanitizeUser(obj[key]);

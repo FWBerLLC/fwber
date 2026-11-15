@@ -7,7 +7,8 @@ export const contentType = 'image/png';
 
 export default async function Image({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.fwber.online/api';
+  const rawApiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.fwber.online/api';
+  const apiBase = rawApiUrl.replace(/\/api\/?$/, '');
   
   let userName = 'Someone';
   let type = 'roast';
@@ -15,7 +16,7 @@ export default async function Image({ params }: { params: Promise<{ id: string }
   let bgColor = 'from-orange-600 to-red-600';
   
   try {
-    const res = await fetch(`${apiUrl}/api/viral-content/${id}`, { 
+    const res = await fetch(`${apiBase}/api/viral-content/${id}`, { 
       next: { revalidate: 3600 } 
     });
     

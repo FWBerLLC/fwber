@@ -1,6 +1,6 @@
 'use client'
 
-import React, { createContext, useContext, useReducer, useEffect, ReactNode, useMemo, useCallback } from 'react'
+import React, { createContext, useContext, useReducer, useEffect, ReactNode, useMemo, useCallback, useRef } from 'react'
 import { logAuth, setUserContext, clearUserContext } from './logger'
 import { setApiClientAuthToken } from './api/client'
 
@@ -14,6 +14,7 @@ interface User {
   createdAt: string
   updatedAt: string
   two_factor_enabled?: boolean
+  is_moderator?: boolean
   referral_code?: string
   referrals_count?: number
   vouches_count?: number
@@ -135,7 +136,8 @@ function normalizeUser(raw: any): User {
     emailVerifiedAt: raw.email_verified_at ?? raw.emailVerifiedAt ?? null,
     createdAt: raw.created_at ?? raw.createdAt,
     updatedAt: raw.updated_at ?? raw.updatedAt,
-    two_factor_enabled: raw.two_factor_enabled,
+    two_factor_enabled: raw.two_factor_enabled ?? Boolean(raw.two_factor_confirmed_at),
+    is_moderator: raw.is_moderator,
     referral_code: raw.referral_code,
     referrals_count: raw.referrals_count,
     vouches_count: raw.vouches_count,
@@ -476,6 +478,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     ? '/api' 
     : (process.env.NEXT_PUBLIC_API_URL || 'https://api.fwber.online/api');
 
+  const pendingTwoFactorTokenRef = useRef<string | null>(null);
 
   // Login function
   const login = useCallback(async (email: string, password: string) => {
@@ -487,6 +490,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       const response = await fetch(`${API_BASE_URL}/auth/login`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -504,6 +508,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       if (data.two_factor) {
+        if (typeof data.two_factor_token === 'string' && data.two_factor_token) {
+          pendingTwoFactorTokenRef.current = data.two_factor_token
+          if (typeof window !== 'undefined') {
+            sessionStorage.setItem('fwber_2fa_token', data.two_factor_token)
+          }
+        }
         dispatch({ type: 'TWO_FACTOR_REQUIRED' })
         return
       }
@@ -586,13 +596,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'AUTH_START' })
     
     try {
-      const response = await fetch(`${API_BASE_URL}/two-factor-challenge`, {
+      const storedChallenge =
+        pendingTwoFactorTokenRef.current ||
+        (typeof window !== 'undefined' ? sessionStorage.getItem('fwber_2fa_token') : null)
+
+      const response = await fetch(`${API_BASE_URL}/auth/two-factor-challenge`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
         },
         body: JSON.stringify({ 
+          two_factor_token: storedChallenge || undefined,
           code,
           recovery_code: recoveryCode 
         }),
@@ -604,13 +620,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         throw new Error(data.message || 'Two factor verification failed')
       }
 
-      // Assuming the challenge endpoint returns the same structure as login on success
-      setUserContext(normalizeUser(data.user))
-      persistStoredAuth(normalizeUser(data.user), data.access_token || data.token)
+      pendingTwoFactorTokenRef.current = null
+      if (typeof window !== 'undefined') {
+        sessionStorage.removeItem('fwber_2fa_token')
+      }
+
+      const normalized = normalizeUser(data.user)
+      setUserContext(normalized)
+      persistStoredAuth(normalized, data.access_token || data.token)
       dispatch({ 
         type: 'AUTH_SUCCESS', 
         payload: { 
-          user: normalizeUser(data.user), 
+          user: normalized, 
           token: data.access_token || data.token 
         } 
       })

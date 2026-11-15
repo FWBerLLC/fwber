@@ -35,6 +35,7 @@ export interface RateLimiterOptions {
 }
 
 const GLOBAL_BUCKETS = new Map<string, Bucket>();
+const REGISTERED_LIMITERS = new Map<string, RateLimiterOptions>();
 const CLEANUP_INTERVAL_MS = 60_000;
 
 // Periodically drop stale buckets so memory cannot grow unbounded.
@@ -64,6 +65,7 @@ function clientKey(req: Request): string {
  */
 export function createRateLimiter(opts: RateLimiterOptions) {
   const { name, windowMs, max } = opts;
+  REGISTERED_LIMITERS.set(name, opts);
 
   return function rateLimiter(req: Request, res: Response, next: NextFunction): void {
     // Never throttle automated tests.
@@ -105,4 +107,67 @@ export function createRateLimiter(opts: RateLimiterOptions) {
 /** Exposed for tests: clear all buckets between cases. */
 export function resetRateLimiter(): void {
   GLOBAL_BUCKETS.clear();
+}
+
+/**
+ * Snapshot live rate-limiter bucket counts and per-action capacity configs for
+ * `GET /api/rate-limits/stats/:timeframe` (`RateLimitStats.tsx` on `/analytics`).
+ */
+export function getRateLimiterStats(timeframe: '1h' | '24h' = '1h') {
+  const horizonMs = timeframe === '24h' ? 24 * 60 * 60 * 1000 : 60 * 60 * 1000;
+  const cutoff = Date.now() - horizonMs;
+
+  const actions: Record<
+    string,
+    {
+      active_buckets: number;
+      config: {
+        capacity: number;
+        refill_rate: number;
+        cost_per_request: number;
+        burst_allowance: number;
+      };
+    }
+  > = {};
+
+  for (const [name, cfg] of REGISTERED_LIMITERS) {
+    const windowSec = Math.max(1, Math.round(cfg.windowMs / 1000));
+    actions[name] = {
+      active_buckets: 0,
+      config: {
+        capacity: cfg.max,
+        refill_rate: Number((cfg.max / windowSec).toFixed(2)),
+        cost_per_request: 1,
+        burst_allowance: Math.max(1, Math.ceil(cfg.max * 0.25)),
+      },
+    };
+  }
+
+  let totalKeys = 0;
+  for (const [bucketKey, bucket] of GLOBAL_BUCKETS) {
+    const activeHits = bucket.hits.filter((ts) => ts >= cutoff);
+    if (activeHits.length === 0) continue;
+    totalKeys += 1;
+    const actionName = bucketKey.split(':')[0] || 'general';
+    if (!actions[actionName]) {
+      actions[actionName] = {
+        active_buckets: 0,
+        config: {
+          capacity: 60,
+          refill_rate: 1,
+          cost_per_request: 1,
+          burst_allowance: 15,
+        },
+      };
+    }
+    actions[actionName]!.active_buckets += 1;
+  }
+
+  return {
+    timeframe,
+    statistics: {
+      total_keys: totalKeys,
+      actions,
+    },
+  };
 }

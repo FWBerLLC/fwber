@@ -1,7 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import ProtectedRoute from '@/components/ProtectedRoute';
+import AppHeader from '@/components/AppHeader';
 import { useBackendFeatureFlags, useUpdateFeatureFlags, useSystemHealth, useInfrastructureMetrics } from '@/lib/hooks/use-config';
 import type { FeatureFlags } from '@/lib/api/config';
 import {
@@ -250,18 +252,19 @@ export default function AdminSettingsPage() {
   return (
     <ProtectedRoute>
       <div className="min-h-screen bg-muted dark:bg-background">
+        <AppHeader />
         {/* Header */}
-        <header className="bg-card dark:bg-card shadow">
+        <header className="bg-card dark:bg-card shadow border-b border-border">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between flex-wrap gap-4">
               <div className="flex items-center gap-3">
                 <Settings className="h-8 w-8 text-muted-foreground" />
                 <div>
                   <h1 className="text-2xl font-bold text-foreground dark:text-foreground">Admin Settings</h1>
-                  <p className="text-sm text-muted-foreground">Manage feature flags and system configuration</p>
+                  <p className="text-sm text-muted-foreground">Manage runtime feature flags, moderation drivers, and infrastructure telemetry</p>
                 </div>
               </div>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 flex-wrap">
                 <button type="button"
                   onClick={() => {
                     featuresQuery.refetch();
@@ -274,24 +277,24 @@ export default function AdminSettingsPage() {
                   <RefreshCw className={`h-4 w-4 ${featuresQuery.isFetching || metricsQuery.isFetching ? 'animate-spin' : ''}`} />
                   Refresh
                 </button>
-                <a
+                <Link
                   href="/admin/dashboard"
                   className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-500"
                 >
                   Project Dashboard
-                </a>
-                <a
-                  href="/admin/logs"
+                </Link>
+                <Link
+                  href="/admin/system?tab=logs"
                   className="rounded-md bg-slate-600 px-4 py-2 text-sm font-medium text-white hover:bg-slate-500"
                 >
                   View Logs
-                </a>
-                <a
+                </Link>
+                <Link
                   href="/analytics"
                   className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-500"
                 >
                   View Analytics
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -305,21 +308,21 @@ export default function AdminSettingsPage() {
               System Health
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {/* Reverb Status */}
+              {/* Socket.IO / Realtime Hub Status */}
               <div className="bg-card dark:bg-card rounded-lg border border-border dark:border-border p-4">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
-                    {health?.services.reverb === 'up' ? (
+                    {health?.services?.reverb === 'up' ? (
                       <Wifi className="h-5 w-5 text-green-600" />
                     ) : (
                       <WifiOff className="h-5 w-5 text-muted-foreground" />
                     )}
-                    <span className="font-medium text-foreground dark:text-foreground">Reverb Hub</span>
+                    <span className="font-medium text-foreground dark:text-foreground">Socket.IO Hub</span>
                   </div>
-                  <HealthStatusBadge status={health?.services.reverb ?? 'unknown'} />
+                  <HealthStatusBadge status={health?.services?.reverb ?? 'unknown'} />
                 </div>
                 <p className="text-sm text-muted-foreground truncate">
-                  {health?.details.reverb_url || 'Not configured'}
+                  {health?.details?.reverb_url || 'Socket.IO Integrated'}
                 </p>
               </div>
 
@@ -330,9 +333,9 @@ export default function AdminSettingsPage() {
                     <Database className="h-5 w-5 text-blue-600" />
                     <span className="font-medium text-foreground dark:text-foreground">Cache</span>
                   </div>
-                  <HealthStatusBadge status={health?.services.cache ?? 'unknown'} />
+                  <HealthStatusBadge status={health?.services?.cache ?? 'unknown'} />
                 </div>
-                <p className="text-sm text-muted-foreground">Driver: {health?.details.cache_driver ?? 'unknown'}</p>
+                <p className="text-sm text-muted-foreground">Driver: {health?.details?.cache_driver ?? 'unknown'}</p>
               </div>
 
               {/* Queue Status */}
@@ -342,9 +345,9 @@ export default function AdminSettingsPage() {
                     <Shield className="h-5 w-5 text-purple-600" />
                     <span className="font-medium text-foreground dark:text-foreground">Queue</span>
                   </div>
-                  <HealthStatusBadge status={health?.services.queue ?? 'unknown'} />
+                  <HealthStatusBadge status={health?.services?.queue ?? 'unknown'} />
                 </div>
-                <p className="text-sm text-muted-foreground">Driver: {health?.details.queue_driver ?? 'unknown'}</p>
+                <p className="text-sm text-muted-foreground">Driver: {health?.details?.queue_driver ?? 'unknown'}</p>
               </div>
             </div>
           </section>
@@ -361,7 +364,7 @@ export default function AdminSettingsPage() {
                 <div className="flex items-center justify-between mb-2">
                   <span className="font-medium text-foreground dark:text-foreground">Redis Memory</span>
                   <span className="text-xs font-medium bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">
-                    {metrics?.redis.used_memory_human ?? '...'}
+                    {metrics?.redis?.used_memory_human ?? '...'}
                   </span>
                 </div>
                 <p className="text-sm text-muted-foreground">Used Memory</p>
@@ -372,7 +375,7 @@ export default function AdminSettingsPage() {
                 <div className="flex items-center justify-between mb-2">
                   <span className="font-medium text-foreground dark:text-foreground">Redis Clients</span>
                   <span className="text-xs font-medium bg-purple-100 text-purple-800 px-2 py-0.5 rounded-full">
-                    {metrics?.redis.connected_clients ?? '...'}
+                    {metrics?.redis?.connected_clients ?? '...'}
                   </span>
                 </div>
                 <p className="text-sm text-muted-foreground">Connected Clients</p>
@@ -383,7 +386,7 @@ export default function AdminSettingsPage() {
                 <div className="flex items-center justify-between mb-2">
                   <span className="font-medium text-foreground dark:text-foreground">DB Threads</span>
                   <span className="text-xs font-medium bg-green-100 text-green-800 px-2 py-0.5 rounded-full">
-                    {metrics?.database.threads_connected ?? (metrics?.database.info ? 'N/A' : '...')}
+                    {metrics?.database?.threads_connected ?? (metrics?.database?.info ? 'N/A' : '...')}
                   </span>
                 </div>
                 <p className="text-sm text-muted-foreground">Active Connections</p>
@@ -439,16 +442,14 @@ export default function AdminSettingsPage() {
               </div>
             ) : null}
 
-            {/* Warning Notice */}
-            <div className="mt-8 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+            {/* Persistence Notice */}
+            <div className="mt-8 p-4 bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900 rounded-lg">
               <div className="flex items-start gap-3">
-                <AlertTriangle className="h-5 w-5 text-yellow-600 mt-0.5" />
+                <AlertTriangle className="h-5 w-5 text-blue-600 dark:text-blue-400 mt-0.5" />
                 <div>
-                  <h4 className="font-medium text-yellow-800">Runtime Changes</h4>
-                  <p className="text-sm text-yellow-700 mt-1">
-                    Changes made here are applied at runtime and stored in cache. They will reset
-                    after cache is cleared. For permanent changes, update the <code className="bg-yellow-100 px-1 rounded">.env</code> file
-                    and run <code className="bg-yellow-100 px-1 rounded">php artisan config:cache</code>.
+                  <h4 className="font-medium text-blue-900 dark:text-blue-200">Runtime Persistence</h4>
+                  <p className="text-sm text-blue-800 dark:text-blue-300 mt-1">
+                    Feature flag and moderation driver changes take effect immediately across API workers and are persisted durably in MySQL (<code className="bg-blue-100 dark:bg-blue-900/50 px-1 rounded">autonomous_settings</code>) so they survive PM2 reloads and server restarts.
                   </p>
                 </div>
               </div>

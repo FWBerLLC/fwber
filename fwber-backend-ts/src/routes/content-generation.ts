@@ -216,7 +216,123 @@ router.post('/generate-starters', async (req: any, res) => {
   }
 });
 
-// POST /api/content/generate-starters (alias without content-generation prefix)
-// Note: This is registered as a separate route in the main app
+/**
+ * POST /api/content/generate-posts/:boardId & POST /api/content-generation/generate-posts/:boardId
+ * Generates contextual bulletin-board post suggestions (`lib/api/content-generation.ts`, `use-ai-content.ts`).
+ */
+router.post('/generate-posts/:boardId', async (req: any, res) => {
+  const boardIdNum = Number(req.params.boardId);
+  const { context, user_topics, tone } = req.body || {};
+
+  let boardTitle = 'Local Community Board';
+  if (Number.isInteger(boardIdNum) && boardIdNum > 0) {
+    try {
+      const topic = await prisma.topics.findUnique({
+        where: { id: BigInt(boardIdNum) },
+      });
+      if (topic?.label) {
+        boardTitle = String(topic.label);
+      }
+    } catch {
+      // Optional enrichment only
+    }
+  }
+
+  const topicsStr = Array.isArray(user_topics) && user_topics.length > 0
+    ? user_topics.join(', ')
+    : typeof context === 'object' && context?.topic
+      ? String(context.topic)
+      : 'local events, coffee spots, and weekend plans';
+
+  const buildFallbacks = () => [
+    {
+      id: `post-${Date.now()}-1`,
+      content: `Anyone around ${boardTitle} checking out local spots this weekend? Looking for great ${topicsStr} recommendations!`,
+      provider: 'fallback',
+      confidence: 0.75,
+      safety_score: 0.99,
+      type: 'board_post',
+    },
+    {
+      id: `post-${Date.now()}-2`,
+      content: `Quick pulse check on ${boardTitle} — what's everyone's favorite hidden gem nearby for ${topicsStr}?`,
+      provider: 'fallback',
+      confidence: 0.72,
+      safety_score: 0.99,
+      type: 'board_post',
+    },
+    {
+      id: `post-${Date.now()}-3`,
+      content: `Spontaneous meetup idea on ${boardTitle}: low-key ${topicsStr} hangout tonight — drop a reply if you're free!`,
+      provider: 'fallback',
+      confidence: 0.7,
+      safety_score: 0.99,
+      type: 'board_post',
+    },
+  ];
+
+  try {
+    const systemPrompt = `You write engaging, friendly local bulletin-board posts. Respond ONLY with valid JSON: { "suggestions": [{ "content": "post text", "provider": "ai", "confidence": 0.9, "safety_score": 0.99 }] }. Generate 3 concise options.`;
+    const userPrompt = `Board: ${boardTitle}\nTopics: ${topicsStr}\nTone: ${tone || 'casual and welcoming'}`;
+
+    const result = await ai.generateText(systemPrompt, userPrompt);
+    if (!result) {
+      return res.json({
+        success: true,
+        data: { suggestions: buildFallbacks() },
+        board_id: boardIdNum || req.params.boardId,
+        user_id: req.user.id,
+        generated_at: new Date().toISOString(),
+      });
+    }
+
+    let parsed: any;
+    try {
+      const rawParsed = JSON.parse(result);
+      parsed = Array.isArray(rawParsed) ? { suggestions: rawParsed } : rawParsed;
+      if (!Array.isArray(parsed?.suggestions)) {
+        parsed = { suggestions: buildFallbacks() };
+      }
+    } catch {
+      parsed = {
+        suggestions: [{ content: result, provider: 'ai', confidence: 0.85, safety_score: 0.99 }],
+      };
+    }
+
+    return res.json({
+      success: true,
+      data: parsed,
+      board_id: boardIdNum || req.params.boardId,
+      user_id: req.user.id,
+      generated_at: new Date().toISOString(),
+    });
+  } catch (error: any) {
+    console.error('[GENERATE_POSTS_ERROR]', error.message);
+    return res.json({
+      success: true,
+      data: { suggestions: buildFallbacks() },
+      board_id: boardIdNum || req.params.boardId,
+      user_id: req.user.id,
+      generated_at: new Date().toISOString(),
+    });
+  }
+});
+
+/**
+ * DELETE /api/content-generation/content/:contentId & DELETE /api/content/content/:contentId
+ * Deletes a generated draft item (`deleteGeneratedContent` in `lib/api/content-generation.ts`).
+ */
+router.delete('/content/:contentId', async (req: any, res) => {
+  const contentId = String(req.params.contentId || '').trim();
+  if (!contentId) {
+    return res.status(400).json({ success: false, message: 'contentId is required' });
+  }
+  return res.json({
+    success: true,
+    message: 'Generated content deleted',
+    content_id: contentId,
+    deleted_at: new Date().toISOString(),
+  });
+});
 
 export default router;

@@ -3,6 +3,7 @@ import { createServer } from 'http';
 import jwt from 'jsonwebtoken';
 import prisma from './lib/prisma.js';
 import { validateAudioSignal, buildAudioSignalEvent, userRoomName, AUDIO_SIGNAL_EVENT } from './lib/audio-signaling.js';
+import { validateVideoSignal, buildVideoSignalEvent, VIDEO_SIGNAL_EVENT } from './lib/video-signaling.js';
 
 interface AuthenticatedSocket extends Socket {
   user?: { id: number; name: string; };
@@ -154,6 +155,38 @@ export function setupSocketIO(httpServer: any) {
           .emit(AUDIO_SIGNAL_EVENT, buildAudioSignalEvent(roomId, senderId, validated.signal));
       } catch (err) {
         socket.emit('error', { message: 'Failed to relay audio signal' });
+      }
+    });
+
+    // 1-on-1 Video Call WebRTC signaling over Socket.io (mirrors POST /api/video/signal).
+    socket.on('video_signal', async (data: { recipient_id?: number | string; receiver_id?: number | string; signal?: any; call_id?: number }) => {
+      if (!socket.user) return;
+      const senderId = socket.user.id;
+      const validated = validateVideoSignal(data, senderId);
+      if (!validated.ok) {
+        socket.emit('error', { message: validated.error });
+        return;
+      }
+      try {
+        const senderBig = BigInt(senderId);
+        const targetBig = BigInt(validated.value.targetUserId);
+        const blocked = await prisma.blocks.findFirst({
+          where: {
+            OR: [
+              { blocker_id: senderBig, blocked_id: targetBig },
+              { blocker_id: targetBig, blocked_id: senderBig },
+            ],
+          },
+          select: { id: true },
+        });
+        if (blocked) {
+          socket.emit('error', { message: 'Cannot signal this user' });
+          return;
+        }
+        io.to(userRoomName(validated.value.targetUserId))
+          .emit(VIDEO_SIGNAL_EVENT, buildVideoSignalEvent(senderId, validated.value));
+      } catch {
+        socket.emit('error', { message: 'Failed to relay video signal' });
       }
     });
 
