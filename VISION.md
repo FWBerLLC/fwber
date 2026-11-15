@@ -1,7 +1,7 @@
 # VISION.md — The Ultimate fwber Architecture & Philosophy
 
 > **Last Updated:** 2026-11-15
-> **Version:** 2.3.94 (Ordered WebRTC Video Negotiation, Zero-Downtime CI/CD Parity, Offline Test Determinism & Mobile Hardening)
+> **Version:** 2.3.95 (Venue Partner Portal, Live Venue Check-Ins, Burner Bridge Chatrooms, Safety Reports & POS Redemptions)
 > **Goal:** To serve as the definitive North Star for all human and AI agents working on the fwber project.
 
 ---

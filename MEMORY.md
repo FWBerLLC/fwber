@@ -1,7 +1,13 @@
 # MEMORY.md — fwber Internal Architectural Observations
 
-## Current Version: 2.3.94 "Ordered WebRTC Video Negotiation, Zero-Downtime CI/CD Parity, Offline Test Determinism & Mobile Hardening"
+## Current Version: 2.3.95 "Venue Partner Portal, Live Venue Check-Ins, Burner Bridge Chatrooms, Safety Reports & POS Redemptions"
 **Last Updated:** 2026-11-15
+
+### Observations (2026-11-15 session, v2.3.95)
+- **Role-Scoped B2B Venue JWTs (`/api/venue/*` vs `/api/venues/*`)**: Venue Partner Portal accounts live in `prisma.venues` (authenticated via `venue_token` in `localStorage`), completely separate from member accounts in `prisma.users`. Signing venue session JWTs with `{ venueId, role: 'venue' }` and enforcing `decoded.role === 'venue'` in `authenticateVenue` prevents standard member JWTs from impersonating venue IDs without requiring a secondary secret or schema migration.
+- **Daily Token Streak vs Venue Check-In Route Separation**: `GET /api/user/checkin` returns `{ checked_in: false, streak: 0 }` for daily token rewards; calling it from `lib/api/venues.ts` `getCurrentCheckin()` caused `/venues` to render a false `"Checked in at: [blank]"` banner because `{ checked_in: false }` is a truthy JS object. Serving active venue check-ins from `GET /api/venues/current-checkin` (`{ checkin: VenueCheckin | null }`) cleanly decouples the two subsystems.
+- **Burner Bridge Ephemeral Chatroom Provisioning**: Both `POST /api/burner-links/:token/join` and `POST /api/burner-links/:token/scan` now idempotently create a `private` 24-hour `chatrooms` row + 2 `chatroom_members` rows (`admin` + `member`) on first claim and persist `chatroom_id` on `burner_links`, ensuring scanner redirects (`/chatrooms/${chatroom_id}`) and creator QR polling (`GET /api/burner-links/:token/status`) converge on the exact same private room.
+- **Merchant POS Voucher Lifecycle (`inventory_redemptions`)**: `POST /api/marketplace/purchase/:itemId` must write an `inventory_redemptions` row (`redemption_code: "FWB-..."`, `status: 'pending'`) inside the purchase flow so `POST /api/merchant-portal/inventory/redeem` can look up `findFirst({ where: { redemption_code } })` (never `BigInt(code)`!), verify `item.merchant.user_id === req.user.id`, and atomically transition `'pending' -> 'redeemed'` (`409` on replay).
 
 ### Observations (2026-11-15 session, v2.3.94)
 - **WebRTC `offer` + `onicecandidate` Render-Batch Race**: `pc.setLocalDescription(offer)` triggers `pc.onicecandidate` 3-10ms later. Any React component that reads only `videoSignals[videoSignals.length - 1]` will miss the `offer` whenever an ICE `candidate` arrives before `<VideoCallModal isIncoming={true} />` finishes mounting/opening. Stamping a monotonic `_seq` counter on every pushed signal in `use-socket-logic.ts` and draining signals strictly via `processedSeqRef` (`lastSeenCallSeqRef` in `MessagesPage`) guarantees zero dropped offers or candidates even across buffer ring shifts (`>100`).

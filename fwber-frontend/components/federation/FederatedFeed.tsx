@@ -24,7 +24,8 @@ export function FederatedFeed() {
 
     useEffect(() => {
         api.get<{ posts: FederatedPost[] }>('/federation/posts')
-            .then(res => setPosts(res.posts))
+            .then(res => setPosts(Array.isArray(res?.posts) ? res.posts : []))
+            .catch(() => setPosts([]))
             .finally(() => setLoading(false));
     }, []);
 
@@ -51,7 +52,7 @@ export function FederatedFeed() {
                                 <div className="flex items-center gap-3">
                                     <Avatar className="h-10 w-10 border border-zinc-100 dark:border-zinc-800">
                                         <AvatarImage src={post.actor_avatar} />
-                                        <AvatarFallback>{post.actor_username[0].toUpperCase()}</AvatarFallback>
+                                        <AvatarFallback>{(post.actor_username?.[0] || '?').toUpperCase()}</AvatarFallback>
                                     </Avatar>
                                     <div>
                                         <div className="flex items-center gap-2">
@@ -78,7 +79,14 @@ export function FederatedFeed() {
                                 dangerouslySetInnerHTML={{ __html: post.content }}
                             />
                             <div className="flex items-center gap-4 mt-4 pt-3 border-t border-zinc-50 dark:border-zinc-900">
-                                <button className="flex items-center gap-1.5 text-xs text-zinc-500 hover:text-purple-500 transition-colors">
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        const remoteUrl = post.url || `https://${post.actor_domain}/@${post.actor_username}`;
+                                        window.open(remoteUrl, '_blank', 'noopener,noreferrer');
+                                    }}
+                                    className="flex items-center gap-1.5 text-xs text-zinc-500 hover:text-purple-500 transition-colors"
+                                >
                                     <MessageCircle className="h-3.5 w-3.5" />
                                     <span>View on {post.actor_domain}</span>
                                 </button>

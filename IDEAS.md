@@ -2,6 +2,11 @@
 > **Generated on:** 2026-04-02
 > **Goal:** Creative, constructive analysis of the fwber monorepo to find missing features, improvements, refactoring targets, language ports, and concept pivots.
 
+## 2026-11-15 Addendum (from the v2.3.95 Venue Partner Portal, live venue check-ins, Burner Bridge chatrooms & POS redemptions pass)
+1. **Cryptographic Bluetooth / NFC Venue Table Beacons (`venue_checkins` + `ZKProver`)**: Let verified Venue Partners (`/venue/dashboard`) mint signed NFC/QR table tags so guests checking into `/venues` earn a `verified_on_premise` badge + automatic merchant happy-hour FWB voucher (`inventory_redemptions`) without revealing table numbers publicly.
+2. **Self-Destructing E2EE Burner Rooms with Ephemeral Key Ratchet**: Upgrade Burner Bridge 24-hour private chatrooms (`claimBurnerLinkAndCreateChatroom`) with client-generated X25519 keypairs embedded in the `#fragment` of the QR URL (never sent to the server) so IRL QR handshakes establish zero-trust forward-secret E2EE on first scan.
+3. **Camera QR Scanner inside Merchant POS (`/merchant/scanner`)**: Complement manual `FWB-...` code entry on `/merchant/scanner` with `BarcodeDetector` / `getUserMedia` camera scanning so bartenders and box-office staff can redeem `DigitalReceipt` QR codes in `<300ms`.
+
 ## 2026-11-15 Addendum (from the v2.3.94 ordered WebRTC video negotiation, zero-downtime CI/CD & mobile hardening pass)
 1. **SFU Simulcast Escalation (`livekit` / `mediasoup` sidecar) for Multi-Party Video**: 1-on-1 WebRTC video calls (`VideoCallModal.tsx`) and mesh Audio Rooms (`useWebRTC.ts`) now share TURN-ready ICE configuration and ordered Socket.IO signaling; adding an optional LiveKit/Mediasoup SFU adapter would let 4-8 person group dates and Speed Dating rooms add low-CPU simulcast video without `O(N^2)` client uplink scaling.
 2. **Expo Native Push Token Auto-Registration Bridge (`mobile/app/index.js` -> `POST /api/notifications/subscribe`)**: Forward `Notifications.getExpoPushTokenAsync()` from the hardened React Native shell into the authenticated WebView session so incoming `video_call_incoming` rings wake backgrounded iOS/Android devices via APNs/FCM CallKit-style notifications.

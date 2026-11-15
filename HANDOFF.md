@@ -1,3 +1,24 @@
+## Session 2026-11-15 (Gemini — Antigravity) — Shipped & Deployed v2.3.95
+
+### 1. Post-v2.3.94 Deep UI/Backend Audit Findings (Venue Portal, Venue Check-ins, Burner Bridge, Reports & Merchant POS)
+Audited remaining B2B portal pages, direct `fetch()` calls bypassing `lib/api/client.ts`, interactive button handlers across `fwber-frontend`, and POS voucher lifecycle across `fwber-backend-ts`:
+1. **Unmounted `/api/venue/*` Partner Portal & `/user/checkin` Daily-Streak Collision (`app/venue/*`, `lib/api/venues.ts`, `app/venues/page.tsx`)**:
+   - `/venue/register`, `/venue/login`, and `/venue/dashboard` posted directly via `fetch()` to `/api/venue/register`, `/api/venue/login`, and `/api/venue/me`, which were never mounted (falling into the terminal `200 []` catch-all!).
+   - `lib/api/venues.ts` `getCurrentCheckin()` queried `GET /api/user/checkin` (the daily token-streak endpoint returning `{ checked_in: false, streak: 0 }`), causing `/venues` to treat the object as truthy and display `"Checked in at: [blank]"` for every user, while `/api/venues/:id/{checkins,checkin,checkout}` were missing and `/venues` used `window.prompt()` (broken in mobile WebViews).
+2. **Burner Bridge `/chatrooms/undefined` Redirect & Unauthenticated `/burner-links` / `/reports` Pages**:
+   - `app/(protected)/burner/join/[token]/page.tsx` redirected scanners to `/chatrooms/${response.data.chatroom_id}`, while `burner-links.ts` left `chatroom_id` `null`, `/burner` had a stubbed QR scan poll comment, `/burner-links` lacked Create/Revoke actions, and `/reports` crashed calling `.slice(0, 8)` on numeric MySQL report IDs (`report.id.slice is not a function`) and had no File Report / View Details UI.
+3. **Merchant Inventory `price_tokens` `400` & POS `BigInt("FWB-...")` `500` Crash (`merchant-portal.ts`, `marketplace.ts`)**:
+   - `/merchant/inventory` submitted `{ price_tokens }`, whereas `POST /api/merchant-portal/inventory` required `price_usd` (`400`), `<Trash2 />` had no `onClick` or `DELETE /inventory/:id` handler, `POST /api/marketplace/purchase/:itemId` minted `FWB-...` codes without inserting into `prisma.inventory_redemptions`, and `POST /api/merchant-portal/inventory/redeem` called `BigInt(code)` (`500` `SyntaxError` on `"FWB-..."`).
+
+### 2. Shipped & Verified in v2.3.95
+- **Venue Partner Portal & User Venue Check-Ins (`venue-portal.ts`, `venues.ts`, `lib/api/venues.ts`, `app/venues/page.tsx`, `app/venue/{dashboard,login,register}/page.tsx`)**:
+  - Mounted `/api/venue` (`POST /register`, `POST /login` with `$2y$`->`$2a$` bcrypt normalization, role-scoped `{ venueId, role: 'venue' }` `authenticateVenue` middleware, `GET/PUT /me` with live `active_events`, `active_checkins`, `total_checkins`, and `recent_checkins`); upgraded `/venue/dashboard` with live check-in metrics + **Edit Profile** `<Dialog>` and fixed white-on-white input contrast on `/venue/login` & `/venue/register`.
+  - Upgraded `/api/venues` with batch `active_checkins`, `distance_meters`, `GET /current-checkin`, `GET /:id/checkins`, `POST /:id/checkin` (auto-closing prior open check-ins), and `POST /:id/checkout`; updated `/venues` with `<AppHeader />`, Shadcn Check-In `<Dialog>` + quick vibe presets, and `"Browse Downtown Detroit"` fallback.
+- **Burner Bridge Ephemeral Chatrooms, Burner Links Hub & Safety Reports Hub (`burner-links.ts`, `reports.ts`, `app/(protected)/burner/page.tsx`, `app/burner-links/page.tsx`, `app/reports/page.tsx`)**:
+  - Added `claimBurnerLinkAndCreateChatroom()` auto-provisioning a private 24h `chatrooms` row + 2 `chatroom_members` rows + Socket.IO `burner_link_joined` notification, `GET /api/burner-links/:token/status` (4s QR scan polling on `/burner`), and `DELETE /api/burner-links/:id`; rebuilt `/burner-links` and `/reports` (`GET /api/reports/:id`, self-report `400` validation, `String(report.id)` fix, live `/user/search` lookup, File Report & View Details `<Dialog>`s).
+- **Merchant Inventory POS Redemption, Interactive UI Sweep & 128-Contract Gate (`merchant-portal.ts`, `marketplace.ts`, `app/merchant/inventory/page.tsx`, `tools/check_api_contracts.py`, `tests/VenueBurnerReportsInventory.test.ts`)**:
+  - Accepted `price_tokens` on `POST /inventory`, added `DELETE /inventory/:id`, persisted `FWB-...` vouchers in `inventory_redemptions`, fixed `POST /inventory/redeem` (`redemption_code` lookup + merchant ownership + single-use `409` guard), swept 8 interactive UI controls (`wingman/date-ideas`, `FederatedFeed`, `DigitalReceipt`, `ProximityPresenceView`, `proximity-chatrooms`, `chatrooms` pagination, `RealTimeChat`, `LocalPulse`), published `/help/venues-burner-and-marketplace`, expanded `tools/check_api_contracts.py` to **`128/128` contracts across `92` prefixes**, and verified **`38/38` suites (`182/182` tests)** offline.
+
 ## Session 2026-11-15 (Gemini — Antigravity) — Shipped & Deployed v2.3.94
 
 ### 1. Post-v2.3.93 Deep Audit Findings (WebRTC Race, CI/CD Drift, Offline Jest & Mobile Shell)

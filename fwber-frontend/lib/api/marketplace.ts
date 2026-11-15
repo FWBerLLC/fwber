@@ -33,6 +33,9 @@ export const marketplaceApi = {
     
     createItem: (data: Partial<InventoryItem>) => 
         api.post<{ item: InventoryItem }>(`/merchant-portal/inventory`, data),
+
+    deleteItem: (itemId: number) =>
+        api.delete<{ success: boolean; id: number }>(`/merchant-portal/inventory/${itemId}`),
     
     redeemCode: (code: string) => 
         api.post<{ success: boolean; item_name: string; user_name: string }>(`/merchant-portal/inventory/redeem`, { code }),

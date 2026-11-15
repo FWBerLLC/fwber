@@ -105,7 +105,14 @@ export default function DateIdeasPage() {
                   </p>
                 </div>
                 
-                <button className="w-full py-3 bg-muted dark:bg-background dark:bg-zinc-800 text-foreground dark:text-foreground rounded-xl text-sm font-bold hover:bg-rose-600 hover:text-white transition flex items-center justify-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const query = encodeURIComponent(`${idea.location || idea.title} Detroit, MI`)
+                    window.open(`https://www.openstreetmap.org/search?query=${query}`, '_blank', 'noopener,noreferrer')
+                  }}
+                  className="w-full py-3 bg-muted dark:bg-background dark:bg-zinc-800 text-foreground dark:text-foreground rounded-xl text-sm font-bold hover:bg-rose-600 hover:text-white transition flex items-center justify-center gap-2"
+                >
                   <MapPin className="w-4 h-4" />
                   Show on Map
                 </button>

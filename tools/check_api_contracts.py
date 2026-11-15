@@ -155,6 +155,23 @@ REQUIRED_CONTRACTS: list[tuple[str, str, str]] = [
     ("/api/websocket", "POST", "/typing"),
     ("/api/websocket", "POST", "/presence"),
     ("/api/websocket", "POST", "/notification"),
+    # Venue Partner Portal, Venue Check-ins, Burner Bridge Chatrooms, Safety Reports & Merchant Inventory CRUD (v2.3.95)
+    ("/api/venue", "POST", "/register"),
+    ("/api/venue", "POST", "/login"),
+    ("/api/venue", "GET", "/me"),
+    ("/api/venue", "PUT", "/me"),
+    ("/api/venues", "GET", "/current-checkin"),
+    ("/api/venues", "GET", "/:param/checkins"),
+    ("/api/venues", "POST", "/:param/checkin"),
+    ("/api/venues", "POST", "/:param/checkout"),
+    ("/api/burner-links", "GET", "/:param/status"),
+    ("/api/burner-links", "POST", "/:param/join"),
+    ("/api/burner-links", "DELETE", "/:param"),
+    ("/api/reports", "GET", "/"),
+    ("/api/reports", "GET", "/:param"),
+    ("/api/reports", "POST", "/"),
+    ("/api/merchant-portal", "DELETE", "/inventory/:param"),
+    ("/api/merchant-portal", "POST", "/inventory/redeem"),
 ]
 
 

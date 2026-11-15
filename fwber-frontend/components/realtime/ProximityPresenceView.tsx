@@ -1,7 +1,8 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { MapPin, Users, Wifi, WifiOff } from 'lucide-react';
 import { OnlineUsersList, PresenceIndicator, ConnectionStatusBadge } from './PresenceComponents';
 
@@ -15,6 +16,7 @@ interface NearbyUser {
 interface ProximityPresenceViewProps {
   nearbyUsers: NearbyUser[];
   currentLocation?: { lat: number; lng: number };
+  onEnableLocation?: (coords: { lat: number; lng: number }) => void;
   maxDisplay?: number;
   className?: string;
 }
@@ -25,15 +27,46 @@ interface ProximityPresenceViewProps {
 export function ProximityPresenceView({
   nearbyUsers = [],
   currentLocation,
+  onEnableLocation,
   maxDisplay = 8,
   className = '',
 }: ProximityPresenceViewProps) {
+  const router = useRouter();
+  const [resolvedLocation, setResolvedLocation] = useState<{ lat: number; lng: number } | undefined>(undefined);
+  const [requestingLocation, setRequestingLocation] = useState(false);
+  const activeLocation = currentLocation || resolvedLocation;
+
   const safeNearbyUsers = useMemo(() => (Array.isArray(nearbyUsers) ? nearbyUsers : []), [nearbyUsers]);
   const userIds = useMemo(() => safeNearbyUsers.map(u => u.id), [safeNearbyUsers]);
   const displayUsers = safeNearbyUsers.slice(0, maxDisplay);
   const remainingCount = Math.max(0, safeNearbyUsers.length - maxDisplay);
 
-  if (!currentLocation) {
+  const handleEnableLocation = () => {
+    if (typeof navigator === 'undefined' || !navigator.geolocation) {
+      router.push('/nearby');
+      return;
+    }
+    setRequestingLocation(true);
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const coords = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+        setResolvedLocation(coords);
+        setRequestingLocation(false);
+        if (onEnableLocation) {
+          onEnableLocation(coords);
+        } else {
+          router.push('/nearby');
+        }
+      },
+      () => {
+        setRequestingLocation(false);
+        router.push('/nearby');
+      },
+      { timeout: 8000 }
+    );
+  };
+
+  if (!activeLocation) {
     return (
       <div className={`rounded-xl border border-border dark:border-border bg-card dark:bg-card p-6 shadow-sm ${className}`}>
         <div className="flex items-center justify-between mb-4">
@@ -45,8 +78,13 @@ export function ProximityPresenceView({
         <div className="text-center py-8">
           <WifiOff className="mx-auto h-10 w-10 text-muted-foreground dark:text-muted-foreground mb-3" />
           <p className="text-muted-foreground dark:text-muted-foreground text-sm">Enable location to see who&apos;s nearby</p>
-          <button className="mt-3 text-blue-600 dark:text-blue-400 text-sm font-medium hover:text-blue-700">
-            Enable Location
+          <button
+            type="button"
+            disabled={requestingLocation}
+            onClick={handleEnableLocation}
+            className="mt-3 text-blue-600 dark:text-blue-400 text-sm font-medium hover:text-blue-700 disabled:opacity-50"
+          >
+            {requestingLocation ? 'Enabling Location...' : 'Enable Location'}
           </button>
         </div>
       </div>

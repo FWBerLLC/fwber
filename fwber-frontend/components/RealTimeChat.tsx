@@ -509,6 +509,7 @@ export default function RealTimeChat({
 					<Popover>
 						<PopoverTrigger asChild>
 							<button
+								type="button"
 								className="p-2 hover:dark:bg-muted rounded-full text-muted-foreground hover:text-purple-400 transition-colors"
 								title="Shared Experiences"
 							>
@@ -540,6 +541,7 @@ export default function RealTimeChat({
 					<Dialog>
 						<DialogTrigger asChild>
 							<button
+								type="button"
 								className="p-2 hover:dark:bg-muted rounded-full text-muted-foreground hover:text-yellow-400 transition-colors"
 								title="View Match Insights"
 							>

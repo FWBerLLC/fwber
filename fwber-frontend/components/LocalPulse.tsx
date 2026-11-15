@@ -340,6 +340,26 @@ const ArtifactCard = ({
 
 const CandidateCard = ({ candidate }: { candidate: MatchCandidate }) => {
   const [showZkProver, setShowZkProver] = useState(false);
+  const [liked, setLiked] = useState(false);
+  const [liking, setLiking] = useState(false);
+  const { token } = useAuth();
+
+  const handleLikeCandidate = async () => {
+    if (liked || liking) return;
+    setLiking(true);
+    try {
+      await apiClient.post(
+        '/matches/action',
+        { target_user_id: candidate.user_id, action: 'like' },
+        token ? { headers: { Authorization: `Bearer ${token}` } } : undefined
+      );
+      setLiked(true);
+    } catch {
+      // Non-fatal if candidate was already matched or unauthenticated preview
+    } finally {
+      setLiking(false);
+    }
+  };
 
   const getCompatibilityBadges = (indicators: string[]) => {
     const badges: Record<string, { label: string; color: string }> = {
@@ -385,8 +405,16 @@ const CandidateCard = ({ candidate }: { candidate: MatchCandidate }) => {
           >
             <ShieldCheck className="h-5 w-5" />
           </button>
-          <button aria-label="Like" className="bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700 transition-colors">
-            <Heart className="h-5 w-5" />
+          <button
+            type="button"
+            aria-label={liked ? 'Liked' : 'Like'}
+            disabled={liked || liking}
+            onClick={handleLikeCandidate}
+            className={`${
+              liked ? 'bg-pink-600' : 'bg-blue-600 hover:bg-blue-700'
+            } text-white p-2 rounded-full transition-colors disabled:opacity-75`}
+          >
+            <Heart className={`h-5 w-5 ${liked ? 'fill-current' : ''}`} />
           </button>
         </div>
       </div>

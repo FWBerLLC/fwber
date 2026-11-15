@@ -182,10 +182,12 @@ router.post('/purchase/:itemId', authenticate, async (req: any, res) => {
     const balance = Number(user?.token_balance || 0);
     if (balance < price) return res.status(400).json({ error: 'Insufficient FWB tokens', balance, price });
 
-    // Generate redemption code
+    // Generate redemption code and persist in `inventory_redemptions` so Merchant POS
+    // (`POST /api/merchant-portal/inventory/redeem`) can verify and redeem it once.
     const redemptionCode = `FWB-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
+    const now = new Date();
 
-    // Deduct tokens and decrement stock in a transaction
+    // Deduct tokens, decrement stock, record ledger entry, and persist redemption voucher atomically
     await prisma.$transaction([
       prisma.users.update({
         where: { id: userId },
@@ -201,7 +203,16 @@ router.post('/purchase/:itemId', authenticate, async (req: any, res) => {
           type: 'purchase',
           amount: -price,
           description: `Purchased ${item.name} from ${item.merchant_profiles?.business_name || 'merchant'}`,
-          created_at: new Date(),
+          created_at: now,
+        }
+      }),
+      prisma.inventory_redemptions.create({
+        data: {
+          user_id: userId,
+          merchant_inventory_id: itemId,
+          redemption_code: redemptionCode,
+          created_at: now,
+          updated_at: now,
         }
       }),
     ]);

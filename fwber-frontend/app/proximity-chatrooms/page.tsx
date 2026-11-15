@@ -71,7 +71,7 @@ export default function ProximityChatroomsPage() {
   }, []);
 
   // Find nearby proximity chatrooms
-  const { data: nearbyChatrooms, isLoading, error } = useNearbyProximityChatrooms({
+  const { data: nearbyChatrooms, isLoading, error, refetch } = useNearbyProximityChatrooms({
     latitude: location.latitude || 0,
     longitude: location.longitude || 0,
     radius_meters: radius,
@@ -237,9 +237,13 @@ export default function ProximityChatroomsPage() {
 
             {/* Filter Button */}
             <div className="flex items-end">
-              <button className="w-full bg-muted dark:bg-card text-foreground dark:text-muted-foreground px-4 py-2 rounded-lg hover:bg-muted flex items-center justify-center space-x-2">
+              <button
+                type="button"
+                onClick={() => refetch()}
+                className="w-full bg-muted dark:bg-card text-foreground dark:text-muted-foreground px-4 py-2 rounded-lg hover:bg-muted flex items-center justify-center space-x-2"
+              >
                 <Filter className="h-4 w-4" />
-                <span>Filter</span>
+                <span>Refresh Results</span>
               </button>
             </div>
           </div>

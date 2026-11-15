@@ -545,7 +545,7 @@ router.get('/inventory', async (req: any, res) => {
     }
 
     const items = await prisma.merchant_inventories.findMany({
-      where: { merchant_profile_id: profile.id },
+      where: { merchant_profile_id: profile.id, is_available: true },
       orderBy: { created_at: 'desc' },
     });
 
@@ -553,6 +553,7 @@ router.get('/inventory', async (req: any, res) => {
       items: serialize(items.map((item: any) => ({
         ...item,
         price_usd: Number(item.price_usd),
+        price_tokens: Number(item.price_usd),
         stock_count: Number(item.stock_count),
       }))),
     });
@@ -563,62 +564,154 @@ router.get('/inventory', async (req: any, res) => {
 });
 
 // POST /api/merchant-portal/inventory
+// Accepts either `price_usd` or `price_tokens` (`app/merchant/inventory/page.tsx`
+// submits `price_tokens`, which matches `marketplace.ts`'s 1:1 token-display mapping).
 router.post('/inventory', async (req: any, res) => {
   try {
     const userId = BigInt(req.user.id);
     const profile = await getMerchantProfile(userId);
 
     if (!profile) {
-      return res.status(403).json({ message: 'Not a merchant' });
+      return res.status(403).json({ message: 'Not a merchant — register at /merchant/register first' });
     }
 
-    const { name, description, price_usd, stock_count, image_url } = req.body;
+    const { name, description, price_usd, price_tokens, stock_count, image_url } = req.body || {};
+    const resolvedPrice = price_usd !== undefined && price_usd !== ''
+      ? Number(price_usd)
+      : (price_tokens !== undefined && price_tokens !== '' ? Number(price_tokens) : NaN);
 
-    if (!name || !price_usd) {
-      return res.status(400).json({ message: 'name and price_usd are required' });
+    if (!name || !String(name).trim() || !Number.isFinite(resolvedPrice) || resolvedPrice <= 0) {
+      return res.status(400).json({ message: 'name and a positive price_tokens (or price_usd) are required' });
     }
 
+    const now = new Date();
     const item = await prisma.merchant_inventories.create({
       data: {
         merchant_profile_id: profile.id,
-        name,
-        description: description || null,
-        price_usd,
-        stock_count: stock_count || 0,
-        image_url: image_url || null,
+        name: String(name).trim().slice(0, 255),
+        description: description ? String(description).trim() : null,
+        price_usd: resolvedPrice,
+        stock_count: Math.max(0, Number(stock_count) || 0),
+        image_url: image_url ? String(image_url).trim() : null,
         is_available: true,
+        created_at: now,
+        updated_at: now,
       },
     });
 
-    res.json({ item: serialize(item) });
+    const serialized = serialize(item);
+    res.status(201).json({
+      item: {
+        ...serialized,
+        price_usd: Number(item.price_usd),
+        price_tokens: Number(item.price_usd),
+        stock_count: Number(item.stock_count),
+      },
+    });
   } catch (error: any) {
     console.error('[Merchant] Inventory create error:', error.message);
     res.status(500).json({ success: false, message: 'Failed to create inventory item' });
   }
 });
 
+// DELETE /api/merchant-portal/inventory/:id — Remove or archive a merchant inventory item (`app/merchant/inventory/page.tsx`)
+router.delete('/inventory/:id', async (req: any, res) => {
+  try {
+    if (!/^\d+$/.test(String(req.params.id))) {
+      return res.status(400).json({ message: 'Invalid inventory item ID' });
+    }
+    const userId = BigInt(req.user.id);
+    const profile = await getMerchantProfile(userId);
+    if (!profile) {
+      return res.status(403).json({ message: 'Not a merchant' });
+    }
+
+    const itemId = BigInt(req.params.id);
+    const item = await prisma.merchant_inventories.findUnique({
+      where: { id: itemId },
+    });
+    if (!item || item.merchant_profile_id !== profile.id) {
+      return res.status(404).json({ message: 'Inventory item not found' });
+    }
+
+    const redemptionsCount = await prisma.inventory_redemptions.count({
+      where: { merchant_inventory_id: itemId },
+    }).catch(() => 0);
+
+    if (redemptionsCount > 0) {
+      await prisma.merchant_inventories.update({
+        where: { id: itemId },
+        data: { is_available: false, stock_count: 0, updated_at: new Date() },
+      });
+    } else {
+      await prisma.merchant_inventories.delete({ where: { id: itemId } });
+    }
+
+    return res.json({ success: true, id: Number(itemId) });
+  } catch (error: any) {
+    console.error('[Merchant] Inventory delete error:', error.message);
+    return res.status(500).json({ success: false, message: 'Failed to delete inventory item' });
+  }
+});
+
 // POST /api/merchant-portal/inventory/redeem
 router.post('/inventory/redeem', async (req: any, res) => {
   try {
-    const { code } = req.body;
+    const userId = BigInt(req.user.id);
+    const profile = await getMerchantProfile(userId);
+    if (!profile) {
+      return res.status(403).json({ message: 'Not a merchant' });
+    }
 
-    if (!code) {
+    const rawCode = String(req.body?.code || '').trim();
+    if (!rawCode) {
       return res.status(400).json({ message: 'Redemption code required' });
     }
 
-    // Look up redemption
+    const whereClause = /^\d+$/.test(rawCode)
+      ? { OR: [{ redemption_code: rawCode }, { id: BigInt(rawCode) }] }
+      : { redemption_code: rawCode.toUpperCase() };
+
     const redemption = await prisma.inventory_redemptions.findFirst({
-      where: { id: BigInt(code) },
+      where: whereClause,
+      include: {
+        merchant_inventories: true,
+        users: {
+          select: {
+            id: true,
+            name: true,
+            user_profiles: { select: { display_name: true } },
+          },
+        },
+      },
     });
 
-    if (!redemption) {
+    if (!redemption || redemption.merchant_inventories?.merchant_profile_id !== profile.id) {
       return res.status(404).json({ message: 'Invalid redemption code' });
     }
 
-    res.json({ success: true, redeemed: serialize(redemption) });
+    if (redemption.redeemed_at) {
+      return res.status(409).json({ message: 'Redemption code has already been used' });
+    }
+
+    const now = new Date();
+    const updated = await prisma.inventory_redemptions.update({
+      where: { id: redemption.id },
+      data: { redeemed_at: now, updated_at: now },
+    });
+
+    const buyer = redemption.users as any;
+    const buyerProfile = Array.isArray(buyer?.user_profiles) ? buyer.user_profiles[0] : buyer?.user_profiles;
+
+    return res.json({
+      success: true,
+      item_name: redemption.merchant_inventories?.name || 'Marketplace Item',
+      user_name: buyerProfile?.display_name || buyer?.name || 'Customer',
+      redeemed: serialize(updated),
+    });
   } catch (error: any) {
     console.error('[Merchant] Redeem error:', error.message);
-    res.status(500).json({ success: false, message: 'Failed to redeem' });
+    return res.status(500).json({ success: false, message: 'Failed to redeem' });
   }
 });
 

@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter }
 import { Button } from '@/components/ui/button';
 import { CheckCircle2, QrCode, Download, Share2, Coins, Calendar, Store } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { toast } from 'sonner';
 
 interface DigitalReceiptProps {
     id: string;
@@ -18,8 +19,24 @@ interface DigitalReceiptProps {
 
 export function DigitalReceipt({ id, itemName, price, merchantName, timestamp, redemptionCode, onClose }: DigitalReceiptProps) {
     const handleDownload = () => {
-        // Simple print-friendly view or image generation trigger
         window.print();
+    };
+
+    const handleShare = async () => {
+        const summary = `FWBer Receipt — ${itemName} at ${merchantName} (${price} FWB) • Code: ${redemptionCode}`;
+        try {
+            if (typeof navigator !== 'undefined' && navigator.share) {
+                await navigator.share({
+                    title: `FWBer Receipt: ${itemName}`,
+                    text: summary,
+                });
+                return;
+            }
+            await navigator.clipboard.writeText(summary);
+            toast.success('Receipt summary & redemption code copied to clipboard');
+        } catch {
+            // Ignore user-cancelled share dialogs
+        }
     };
 
     return (
@@ -37,7 +54,7 @@ export function DigitalReceipt({ id, itemName, price, merchantName, timestamp, r
                         <CheckCircle2 className="w-10 h-10 text-green-500" />
                     </div>
                     <CardTitle className="text-2xl font-black uppercase italic tracking-tighter">Transaction Verified</CardTitle>
-                    <CardDescription className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Digital Receipt #{id.substring(0, 8)}</CardDescription>
+                    <CardDescription className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Digital Receipt #{String(id || '').slice(0, 8)}</CardDescription>
                 </CardHeader>
 
                 <CardContent className="space-y-6">
@@ -82,14 +99,14 @@ export function DigitalReceipt({ id, itemName, price, merchantName, timestamp, r
 
                 <CardFooter className="flex flex-col gap-2 bg-zinc-50 dark:bg-zinc-900/50 p-4">
                     <div className="grid grid-cols-2 gap-2 w-full">
-                        <Button variant="outline" className="text-xs font-bold uppercase" onClick={handleDownload}>
+                        <Button type="button" variant="outline" className="text-xs font-bold uppercase" onClick={handleDownload}>
                             <Download className="w-3.5 h-3.5 mr-2" /> Save
                         </Button>
-                        <Button variant="outline" className="text-xs font-bold uppercase">
+                        <Button type="button" variant="outline" className="text-xs font-bold uppercase" onClick={handleShare}>
                             <Share2 className="w-3.5 h-3.5 mr-2" /> Share
                         </Button>
                     </div>
-                    <Button className="w-full mt-2" onClick={onClose}>Close Receipt</Button>
+                    <Button type="button" className="w-full mt-2" onClick={onClose}>Close Receipt</Button>
                 </CardFooter>
             </Card>
         </motion.div>

@@ -41,6 +41,7 @@ const HELP_CATEGORIES = [
       { title: 'Proximity Chatrooms', slug: 'chatrooms-guide' },
       { title: 'Live Audio Rooms & Voice Chat', slug: 'audio-rooms-guide' },
       { title: 'Local Events, Live Maps & RSVPs', slug: 'events-guide' },
+      { title: 'Partner Venues, Burner Bridge & Marketplace POS', slug: 'venues-burner-and-marketplace' },
       { title: 'Creating & Joining Groups', slug: 'groups-guide' },
       { title: 'Achievements & Virtual Gifts', slug: 'achievements-guide' },
     ]

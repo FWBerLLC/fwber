@@ -1,11 +1,11 @@
 # DEPLOY.md — The fwber Operations Guide
 
 > **Last Updated:** 2026-11-15
-> **Version:** 2.3.94
+> **Version:** 2.3.95
 
 This document is the operational source of truth for deploying the active fwber stack on **`fwber.online`** (`fwber.me` was permanently retired on 2026-10-22).
 
-## 0. Active Production Topology (All-Hetzner `fwber.online` — v2.3.94)
+## 0. Active Production Topology (All-Hetzner `fwber.online` — v2.3.95)
 
 Since the v2.x TypeScript + Next.js 16 migration, **100% of production runs on Hetzner VPS `5.161.250.43`** (`/var/www/fwber/repo`):
 
@@ -14,7 +14,7 @@ Since the v2.x TypeScript + Next.js 16 migration, **100% of production runs on H
 | `fwber.online` / `www.fwber.online` | `127.0.0.1:3000` | PM2 (`fwber-frontend` -> `.standalone-live`) | Next.js `16.4.3` + React `19.3.1` (`output: 'standalone'`, atomic swap) |
 | `api.fwber.online` | `127.0.0.1:4003` | PM2 (`fwber-backend-ts`) | Express 5 + TypeScript 6 ESM + Prisma (`MySQL`) |
 | `ws.fwber.online` | `127.0.0.1:4003` | PM2 (`fwber-backend-ts`) | Socket.io realtime upgrade via Nginx |
-| `geo.fwber.online` | `127.0.0.1:8081` | `systemd` (`fwber-geo.service`) | Rust `2024` Actix-Web + `h3o` spatial index (`v2.3.94`) |
+| `geo.fwber.online` | `127.0.0.1:8081` | `systemd` (`fwber-geo.service`) | Rust `2024` Actix-Web + `h3o` spatial index (`v2.3.95`) |
 | *(On-box internal)* | `127.0.0.1:3306` / `:6379` / `:11434` | `systemd` | MySQL 8, Redis, shared local Ollama (`gemma-4-heretic`, `AI_PREFER_LOCAL=true`) |
 
 ### Critical Hetzner Co-Tenancy & Safety Rules
@@ -25,7 +25,7 @@ Since the v2.x TypeScript + Next.js 16 migration, **100% of production runs on H
 5. **CI/CD Workflows**:
    - `.github/workflows/deploy-frontend.yml` — runs BOM, nav-coverage, and API-contract gates, tags `rollback/pre-deploy-*`, resets Hetzner `/var/www/fwber/repo` to `origin/main` (without touching untracked files), and invokes `ops/hetzner/scripts/deploy-frontend.sh` (`nice -n 10` build + atomic `.standalone-live` swap + PM2 reload).
    - `.github/workflows/backend-tests.yml` & `.github/workflows/frontend-build.yml` — run Node 24 (`fwber-backend-ts` & `fwber-frontend`), Rust (`fwber-geo`), `verify_no_bom.py`, `check_nav_coverage.py`, and `check_api_contracts.py` on PRs and pushes.
-   - `.github/workflows/deploy-backend.yml` / `ops/hetzner/scripts/deploy-backend-ts.sh` — runs `npm install`, `npx prisma generate`, `nice -n 10 npm run build`, enforces `python3 ../tools/check_api_contracts.py` (`112/112` sub-route contracts across `91` Express prefixes), restarts PM2 `fwber-backend-ts`, rebuilds `fwber-geo` if needed, and reloads Nginx.
+   - `.github/workflows/deploy-backend.yml` / `ops/hetzner/scripts/deploy-backend-ts.sh` — runs `npm install`, `npx prisma generate`, `nice -n 10 npm run build`, enforces `python3 ../tools/check_api_contracts.py` (`128/128` sub-route contracts across `92` Express prefixes), restarts PM2 `fwber-backend-ts`, rebuilds `fwber-geo` if needed, and reloads Nginx.
 
 *(Sections 1–8 below retain legacy Vercel + PHP/Laravel reference documentation for historical provenance; `ARCHIVE_v1_8_php_legacy/` houses the retired PHP monolith.)*
 

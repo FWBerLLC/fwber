@@ -1,11 +1,19 @@
 # ROADMAP.md — fwber Project Trajectory
 
-> **Current Version:** 2.3.94
+> **Current Version:** 2.3.95
 > **Last Updated:** 2026-11-15
 
 ---
 
 ## 🗺️ High-Level Trajectory
+
+### Phase 21: Venue Partner Portal, Live Venue Check-Ins, Burner Bridge Chatrooms, Safety Reports & POS Redemptions (COMPLETED - v2.3.95)
+Completed end-to-end B2B Venue Partner Portal authentication and management (`/api/venue/*`), real-time guest venue check-ins/checkouts (`/api/venues/*`), automatic private chatroom provisioning on Burner Bridge QR/link scans, authenticated Safety Reports & Burner Links management hubs, and single-use `FWB-...` merchant POS voucher redemptions.
+
+**Key Achievements:**
+- **Venue Partner Portal & Live Venue Check-Ins (`v2.3.95`)**: Mounted `/api/venue` (`register`, `login`, role-scoped `authenticateVenue`, `GET/PUT /me` with live `active_events` / `active_checkins` / `recent_checkins`) and upgraded `/venue/{dashboard,login,register}`; added `GET /api/venues/current-checkin`, `GET /api/venues/:id/checkins`, `POST /api/venues/:id/{checkin,checkout}`, and batch `active_checkins` + `distance_meters` on `GET /api/venues`, fixing the `/user/checkin` daily-streak collision and replacing `prompt()` with a Shadcn Check-In `<Dialog>` on `/venues`.
+- **Burner Bridge Private Chatrooms, Burner Links Hub & Safety Reports Hub (`v2.3.95`)**: Auto-provisioned private 24-hour `chatrooms` + `chatroom_members` on `POST /api/burner-links/:token/{join,scan}` (fixing `/chatrooms/undefined` redirects) with `GET /:token/status` QR polling on `/burner` and `DELETE /:id` revocation; rebuilt `/burner-links` and `/reports` (`GET /api/reports/:id`, self-report guard, live member lookup, `String(report.id)` crash fix).
+- **Merchant Inventory POS Redemption, Interactive UI Sweep & 128-Contract Gate (`v2.3.95`)**: Accepted `price_tokens` on `POST /api/merchant-portal/inventory`, added `DELETE /inventory/:id`, persisted `FWB-...` vouchers in `inventory_redemptions` on `POST /api/marketplace/purchase/:itemId`, fixed `POST /inventory/redeem` (`BigInt` crash -> `redemption_code` lookup + `409` single-use enforcement), wired 8 interactive UI controls across frontend pages/components, added `/help/venues-burner-and-marketplace`, expanded `tools/check_api_contracts.py` to **`92` prefixes / `128/128` contracts**, and verified `VenueBurnerReportsInventory.test.ts` (`38/38` suites, `182/182` tests green).
 
 ### Phase 20: Ordered WebRTC Video Negotiation, Zero-Downtime CI/CD Parity, Offline Test Determinism & Mobile Hardening (COMPLETED - v2.3.94)
 Eliminated the asynchronous WebRTC SDP/ICE race condition in incoming 1-on-1 video calls, aligned all GitHub Actions CI/CD workflows and multi-stage Dockerfiles with the live Node 24 + Rust + `.standalone-live` Hetzner architecture, achieved 100% offline Jest determinism across all 37 suites, unified remaining port `:4003` proxy fallbacks, and hardened the Expo/React Native mobile shell.

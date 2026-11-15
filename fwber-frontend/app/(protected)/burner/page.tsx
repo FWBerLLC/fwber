@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 import QRCode from 'react-qr-code';
 import AppHeader from '@/components/AppHeader';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -20,7 +21,30 @@ export default function BurnerGeneratorPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const { toast } = useToast();
+    const router = useRouter();
     const pollingRef = useRef<NodeJS.Timeout | null>(null);
+
+    const startPolling = useCallback((token: string) => {
+        if (pollingRef.current) clearInterval(pollingRef.current);
+
+        pollingRef.current = setInterval(async () => {
+            try {
+                const res = await apiClient.get<{ used: boolean; expired: boolean; chatroom_id: number | null }>(
+                    `/burner-links/${token}/status`
+                );
+                if (res.data?.used && res.data?.chatroom_id) {
+                    if (pollingRef.current) clearInterval(pollingRef.current);
+                    toast({
+                        title: 'Burner Bridge Connected!',
+                        description: 'Opening your private 24-hour chatroom...',
+                    });
+                    router.push(`/chatrooms/${res.data.chatroom_id}`);
+                }
+            } catch {
+                // Transient poll failures are ignored until link expires or unmounts
+            }
+        }, 4000);
+    }, [router, toast]);
 
     const generateLink = useCallback(async () => {
         setLoading(true);
@@ -40,16 +64,7 @@ export default function BurnerGeneratorPage() {
         } finally {
             setLoading(false);
         }
-    }, [toast]);
-
-    const startPolling = (token: string) => {
-        if (pollingRef.current) clearInterval(pollingRef.current);
-
-        // In a real app we would rely on Echo WebSockets for `BurnerLinkJoined` event, 
-        // but a lightweight poll checking chatroom availability works as a fallback.
-        // For now, the user scanning the QR immediately gets redirected to the chatroom.
-        // The generator can just tap the "Refresh" or we rely on a global nav badge for new chats.
-    };
+    }, [toast, startPolling]);
 
     useEffect(() => {
         generateLink();

@@ -589,6 +589,32 @@ const HELP_ARTICLES: Record<string, { title: string, content: React.ReactNode, c
         </ul>
       </div>
     )
+  },
+  'venues-burner-and-marketplace': {
+    category: 'Matches, Friends & Real-Time Chat',
+    title: 'Partner Venues, Burner Bridge & Marketplace POS',
+    content: (
+      <div className="space-y-4">
+        <p>
+          FWBer connects online chemistry with verified real-world lounges, ephemeral Burner Bridge QR chatrooms, confidential Trust &amp; Safety reporting, and token-redeemable local Marketplace items.
+        </p>
+        <h3 className="text-lg font-semibold">Venues Nearby &amp; Partner Portal (/venues &amp; /venue/dashboard)</h3>
+        <ul className="list-disc pl-5 space-y-2">
+          <li><strong>Member Venue Check-Ins:</strong> Open <strong>Venues Nearby</strong> (<code>/venues</code>) to browse active lounges, cafes, and event spaces ranked by trust signals and live member check-ins. Tap <strong>Check In</strong> to post an optional status note, and tap <strong>Check Out</strong> anytime.</li>
+          <li><strong>B2B Partner Portal:</strong> Physical venues can register at <code>/venue/register</code>, sign in at <code>/venue/login</code>, monitor live on-site guest check-ins on <code>/venue/dashboard</code>, and update their public listing details and capacity in real time.</li>
+        </ul>
+        <h3 className="text-lg font-semibold">Burner Bridge &amp; Disposable Links (/burner &amp; /burner-links)</h3>
+        <ul className="list-disc pl-5 space-y-2">
+          <li><strong>Instant 24-Hour Burner Chatrooms:</strong> Show your QR code on <strong>Burner Bridge</strong> (<code>/burner</code>) or generate a custom 1h–72h invitation link on <strong>Burner Links</strong> (<code>/burner-links</code>). Scanning or opening the link automatically spins up an isolated private chatroom for both members without exposing permanent handles.</li>
+          <li><strong>One-Click Revocation:</strong> Revoke any burner link on <code>/burner-links</code> to immediately invalidate the token and close its burner room.</li>
+        </ul>
+        <h3 className="text-lg font-semibold">Safety Reports &amp; Marketplace Redemptions (/reports &amp; /merchant/inventory)</h3>
+        <ul className="list-disc pl-5 space-y-2">
+          <li><strong>Confidential Safety Center:</strong> Submit moderation reports with member search and review resolution notes anytime at <code>/reports</code>.</li>
+          <li><strong>FWB Token Vouchers &amp; Merchant POS:</strong> Purchasing a local item mints a unique <code>FWB-...</code> digital receipt code (shareable or printable) that merchants verify and redeem once at the counter.</li>
+        </ul>
+      </div>
+    )
   }
 }
 

@@ -11,6 +11,7 @@ export default function ChatroomsPage() {
   const [filters, setFilters] = useState<ChatroomFilters>({ ranking_strategy: 'trust-aware' });
   const [searchQuery, setSearchQuery] = useState('');
   const [showSearch, setShowSearch] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
   const [location, setLocation] = useState<{ latitude: number; longitude: number } | null>(null);
   const [locationError, setLocationError] = useState<string | null>(null);
 
@@ -49,6 +50,7 @@ export default function ChatroomsPage() {
   }, [activeTab]);
 
   const handleFilterChange = (key: keyof ChatroomFilters, value: string) => {
+    setCurrentPage(1);
     setFilters(prev => ({
       ...prev,
       [key]: value || undefined,
@@ -56,6 +58,7 @@ export default function ChatroomsPage() {
   };
 
   const handleSearch = (query: string) => {
+    setCurrentPage(1);
     setSearchQuery(query);
     setShowSearch(query.length >= 2);
   };
@@ -63,6 +66,12 @@ export default function ChatroomsPage() {
   const displayChatrooms = activeTab === 'nearby' 
     ? nearbyChatrooms?.chatrooms 
     : (showSearch ? searchResults?.data : (chatrooms?.chatrooms ?? chatrooms?.data));
+
+  const pageSize = 10;
+  const safeChatrooms = Array.isArray(displayChatrooms) ? displayChatrooms : [];
+  const totalPages = Math.max(1, Math.ceil(safeChatrooms.length / pageSize));
+  const clampedPage = Math.min(currentPage, totalPages);
+  const paginatedChatrooms = safeChatrooms.slice((clampedPage - 1) * pageSize, clampedPage * pageSize);
      
   const isLoading = activeTab === 'nearby' 
     ? nearbyLoading 
@@ -258,9 +267,9 @@ export default function ChatroomsPage() {
                 {activeTab === 'nearby' ? 'Finding chatrooms near you...' : 'Loading chatrooms...'}
               </p>
             </div>
-          ) : displayChatrooms && displayChatrooms.length > 0 ? (
+          ) : safeChatrooms.length > 0 ? (
             <div className="divide-y divide-gray-200 dark:divide-gray-800">
-              {displayChatrooms.map((chatroom) => (
+              {paginatedChatrooms.map((chatroom) => (
                 <Link
                   key={chatroom.id}
                   href={`/chatrooms/${chatroom.id}${activeTab === 'nearby' ? '?type=proximity' : ''}`}
@@ -377,16 +386,37 @@ export default function ChatroomsPage() {
         </div>
 
         {/* Pagination */}
-        {displayChatrooms && displayChatrooms.length > 0 && (
+        {safeChatrooms.length > 0 && (
           <div className="mt-8 flex justify-center">
-            <nav className="flex items-center space-x-2">
-              <button className="px-3 py-2 text-sm font-medium text-muted-foreground dark:text-muted-foreground bg-card dark:bg-background border border-border dark:border-border dark:dark:border-border rounded-md hover:bg-muted dark:hover:dark:bg-card transition-colors">
+            <nav className="flex items-center space-x-2" aria-label="Chatrooms pagination">
+              <button
+                type="button"
+                disabled={clampedPage <= 1}
+                onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                className="px-3 py-2 text-sm font-medium text-muted-foreground bg-card dark:bg-background border border-border rounded-md hover:bg-muted transition-colors disabled:opacity-50"
+              >
                 Previous
               </button>
-              <button className="px-3 py-2 text-sm font-medium text-white bg-blue-600 dark:bg-blue-500 border border-transparent rounded-md">
-                1
-              </button>
-              <button className="px-3 py-2 text-sm font-medium text-muted-foreground dark:text-muted-foreground bg-card dark:bg-background border border-border dark:border-border dark:dark:border-border rounded-md hover:bg-muted dark:hover:dark:bg-card transition-colors">
+              {Array.from({ length: totalPages }, (_, idx) => idx + 1).map((pageNum) => (
+                <button
+                  key={pageNum}
+                  type="button"
+                  onClick={() => setCurrentPage(pageNum)}
+                  className={
+                    pageNum === clampedPage
+                      ? 'px-3 py-2 text-sm font-medium text-white bg-blue-600 dark:bg-blue-500 border border-transparent rounded-md'
+                      : 'px-3 py-2 text-sm font-medium text-muted-foreground bg-card dark:bg-background border border-border rounded-md hover:bg-muted transition-colors'
+                  }
+                >
+                  {pageNum}
+                </button>
+              ))}
+              <button
+                type="button"
+                disabled={clampedPage >= totalPages}
+                onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                className="px-3 py-2 text-sm font-medium text-muted-foreground bg-card dark:bg-background border border-border rounded-md hover:bg-muted transition-colors disabled:opacity-50"
+              >
                 Next
               </button>
             </nav>

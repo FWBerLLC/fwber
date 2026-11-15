@@ -126,9 +126,9 @@ export const getVenueCheckins = async (token: string, venueId: number) => {
   return response.data
 }
 
-export const getCurrentCheckin = async (token: string) => {
-  const response = await client.get('/user/checkin', {
+export const getCurrentCheckin = async (token: string): Promise<VenueCheckin | null> => {
+  const response = await client.get<{ checkin: VenueCheckin | null }>('/venues/current-checkin', {
     headers: { Authorization: `Bearer ${token}` },
   })
-  return response.data
+  return response.data?.checkin ?? null
 }

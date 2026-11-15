@@ -19,6 +19,7 @@ export default function MerchantInventoryPage() {
   const [items, setItems] = useState<InventoryItem[]>([])
   const [loading, setLoading] = useState(true)
   const [isAdding, setIsAdding] = useState(false)
+  const [deletingId, setDeletingId] = useState<number | null>(null)
   
   // New Item Form
   const [newItem, setNewItem] = useState({
@@ -52,10 +53,31 @@ export default function MerchantInventoryPage() {
       toast({ title: 'Item Created', description: `${newItem.name} is now live in the marketplace.` })
       setNewItem({ name: '', description: '', price_tokens: 10, stock_count: 100 })
       fetchInventory()
-    } catch (err) {
-      toast({ title: 'Error', description: 'Failed to create item.', variant: 'destructive' })
+    } catch (err: any) {
+      toast({
+        title: 'Error',
+        description: err?.message || 'Failed to create item.',
+        variant: 'destructive',
+      })
     } finally {
       setIsAdding(false)
+    }
+  }
+
+  const handleDelete = async (item: InventoryItem) => {
+    setDeletingId(item.id)
+    try {
+      await marketplaceApi.deleteItem(item.id)
+      setItems(prev => prev.filter(entry => entry.id !== item.id))
+      toast({ title: 'Item Removed', description: `${item.name} was removed from your inventory.` })
+    } catch (err: any) {
+      toast({
+        title: 'Delete Failed',
+        description: err?.message || 'Could not remove inventory item.',
+        variant: 'destructive',
+      })
+    } finally {
+      setDeletingId(null)
     }
   }
 
@@ -182,7 +204,13 @@ export default function MerchantInventoryPage() {
                         </div>
                       </div>
                       <div className="flex gap-2">
-                        <button className="p-2 text-muted-foreground hover:text-red-500 transition">
+                        <button
+                          type="button"
+                          aria-label={`Remove ${item.name}`}
+                          disabled={deletingId === item.id}
+                          onClick={() => handleDelete(item)}
+                          className="p-2 text-muted-foreground hover:text-red-500 transition disabled:opacity-50"
+                        >
                           <Trash2 className="w-5 h-5" />
                         </button>
                       </div>
