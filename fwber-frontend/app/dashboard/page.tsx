@@ -1074,11 +1074,11 @@ export default function DashboardPage() {
               />
               <FeatureTile
                 href="/photos"
-                title="Photos & Reveals Hub"
-                subtitle="Gallery, reveals & vault"
+                title="Photos, Reveals & AI Avatars"
+                subtitle="Gallery, AI Studio & vault"
                 icon={<Users className="h-5 w-5" />}
                 accent="blue"
-                tooltip="Unified media hub: upload & reorder profile photos, inspect progressive match reveals, or jump to your AES-256-GCM Encrypted Vault."
+                tooltip="Unified media hub: upload & reorder profile photos, generate stylized portraits in AI Avatar Studio, inspect progressive match reveals, or open your Encrypted Vault."
               />
               <FeatureTile
                 href="/photos/reveals"
@@ -1311,12 +1311,12 @@ export default function DashboardPage() {
               />
               <FeatureTile
                 href="/settings/security"
-                title="Security Hub"
-                subtitle="Sessions & credentials"
+                title="Security & Decoy Hub"
+                subtitle="E2EE keys, decoy & stealth"
                 icon={<Shield className="h-5 w-5" />}
                 accent="red"
                 isSubpage
-                tooltip="Review active device sessions, security log events, and update authorization keys."
+                tooltip="Regenerate client-side E2EE keys, configure decoy cover profiles, toggle Confessional stealth mode, and manage @fwber.online Fediverse visibility."
               />
               <FeatureTile
                 href="/settings/two-factor"

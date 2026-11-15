@@ -15,11 +15,11 @@ import {
   Users,
   Camera,
   Wand2,
+  Info,
 } from 'lucide-react'
 import Image from 'next/image'
 import { api } from '@/lib/api/client'
-
-import axios from 'axios'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { useWebSocket } from '@/lib/hooks/use-websocket'
 import { useAuth } from '@/lib/auth-context'
 
@@ -133,12 +133,6 @@ export default function AvatarGenerationFlow({
     queryKey: ['avatar-physical-traits'],
     queryFn: async (): Promise<AvatarTraitsResponse> => {
       return await api.get('/avatar/physical-traits')
-
-      const token = localStorage.getItem('fwber_token')
-      let res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/avatar/physical-traits`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      return res.data
     },
   })
 
@@ -222,7 +216,6 @@ export default function AvatarGenerationFlow({
   // Traits-based generation
   const generateMutation = useMutation({
     mutationFn: async (profileData: PhysicalProfile) => {
-      const token = localStorage.getItem('fwber_token')
       const payload: Record<string, unknown> = {
         ...profileData,
         style,
@@ -234,13 +227,6 @@ export default function AvatarGenerationFlow({
       if (selectedProvider === 'replicate') payload.lora_scale = loraScale
 
       return await api.post('/avatar/generate', payload)
-
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/avatar/generate`,
-        payload,
-        { headers: { Authorization: `Bearer ${token}` } }
-      )
-      return response.data
     },
     onSuccess: (data: any) => {
       if (data.avatar_url) {
@@ -356,9 +342,10 @@ export default function AvatarGenerationFlow({
   const userPhotos: UserPhoto[] = traitsQuery.data?.photos || []
 
   return (
+    <TooltipProvider delayDuration={200}>
     <div className="mx-auto max-w-2xl p-6">
       {/* View Toggle */}
-      <div className="mb-6 flex justify-center">
+      <div className="mb-6 flex items-center justify-center gap-2">
         <div className="flex rounded-lg bg-muted p-1 dark:bg-card">
           <button type="button"
             onClick={() => setView('generate')}
@@ -381,6 +368,16 @@ export default function AvatarGenerationFlow({
             My Gallery
           </button>
         </div>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button type="button" aria-label="About AI Avatar Studio" className="text-muted-foreground hover:text-foreground">
+              <Info className="h-4 w-4" />
+            </button>
+          </TooltipTrigger>
+          <TooltipContent className="max-w-xs text-xs">
+            Synthesize a privacy-preserving portrait from your saved physical traits or an uploaded photo before mutual face reveal.
+          </TooltipContent>
+        </Tooltip>
       </div>
 
       {view === 'gallery' ? (
@@ -414,6 +411,7 @@ export default function AvatarGenerationFlow({
                     src={photo.url || photo.thumbnail_url || ''}
                     alt="AI Avatar"
                     fill
+                    unoptimized
                     className="object-cover"
                   />
                   <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-black/50 opacity-0 transition-opacity group-hover:opacity-100">
@@ -784,11 +782,15 @@ export default function AvatarGenerationFlow({
                             }`}
                           >
                             <Image
-                              src={`${(
-                                process.env.NEXT_PUBLIC_API_URL || 'https://api.fwber.online'
-                              ).replace('/api', '')}/storage/${photo.file_path || photo.filename}`}
+                              src={
+                                (photo as any).url ||
+                                (photo.file_path?.startsWith('/') || photo.file_path?.startsWith('http')
+                                  ? photo.file_path
+                                  : `/uploads/${photo.file_path || photo.filename}`)
+                              }
                               alt="Your photo"
                               fill
+                              unoptimized
                               className="object-cover"
                             />
                             {selectedPhotoId === photo.id && (
@@ -1044,6 +1046,7 @@ export default function AvatarGenerationFlow({
                     alt="Generated avatar"
                     width={256}
                     height={256}
+                    unoptimized
                     className="h-64 w-64 rounded-full border-4 border-purple-200 object-cover shadow-lg"
                   />
                   <div className="absolute -bottom-2 -right-2 rounded-full bg-purple-600 p-2 text-white">
@@ -1109,6 +1112,7 @@ export default function AvatarGenerationFlow({
                   alt="Your avatar"
                   width={128}
                   height={128}
+                  unoptimized
                   className="mx-auto h-32 w-32 rounded-full border-4 border-green-200 object-cover"
                 />
               )}
@@ -1117,6 +1121,7 @@ export default function AvatarGenerationFlow({
         </>
       )}
     </div>
+    </TooltipProvider>
   )
 }
 

@@ -1,5 +1,28 @@
 # Changelog
 
+## [2.3.91] - 2026-11-15
+
+### AI Avatar Studio, Wallet P2P & Payment Requests, Merchant Checkout, Event Invites, Decoy Profiles & API Contract Verifier
+
+- **AI Avatar Studio Backend & Photos Hub Integration (`fwber-backend-ts/src/routes/avatar.ts`, `src/index.ts`, `fwber-frontend/components/AvatarGenerationFlow.tsx`, `app/photos/page.tsx`, `app/photos/reveals/page.tsx`):**
+  - Created and mounted `/api/avatar` (`GET /providers`, `GET /physical-traits`, `POST /generate`, `POST /generate-from-photo`), closing a full-stack gap where `AvatarGenerationFlow.tsx` called unmounted `/api/avatar/*` endpoints.
+  - Added resilient multi-tier synthesis: prefers cloud Flux/DALL-E when configured (`try/catch` guarded against expired/offline keys) and falls back seamlessly to deterministic style-aware local SVG studio portraits (`realistic`, `anime`, `fantasy`, `sci-fi`, `cartoon`) persisted under `uploads/avatars/` + `prisma.photos` and synced to `user_profiles`.
+  - Wired an **AI Avatar Studio** tab (`?tab=avatar`) into the unified Photo & Media Hub (`/photos` and `/photos/reveals`), removed dead `axios` code and legacy `/storage/` paths in `AvatarGenerationFlow.tsx`, and added `unoptimized` Next/Image rendering + `<Tooltip>` guidance.
+- **Wallet P2P Transfers, Payment Requests & Recipient Lookup (`fwber-backend-ts/src/routes/wallet.ts`, `src/routes/profile.ts`, `fwber-frontend/components/wallet/PaymentRequests.tsx`):**
+  - Implemented `POST /api/wallet/transfer` (`recipient_id` or `recipient_email`, bidirectional `blocks` `403` enforcement, `402` balance guard, atomic `prisma.$transaction` crediting/debiting `token_balance`, dual `wallet_transactions`, and recipient notification), plus `GET /api/users/:id/wallet` for `TipButton` and `WalletTransferModal`.
+  - Implemented `GET /api/wallet/requests` (`{ incoming, outgoing }` arrays), `POST /api/wallet/requests`, `POST /api/wallet/requests/:id/pay` (atomic `$transaction`), and `POST /api/wallet/requests/:id/cancel`, with `Array.isArray` guards and `<Tooltip>` markers in `PaymentRequests.tsx`.
+- **Merchant API Keys, Hosted Checkout & Pulse Deactivation (`fwber-backend-ts/src/routes/merchant.ts`):**
+  - Added unauthenticated `GET /api/merchant/payment/:id` (so `/pay/[id]` hosted checkout loads before sign-in), authenticated `POST /api/merchant/payment` and atomic `POST /api/merchant/payment/:id/confirm` (`402` balance guard + dual `wallet_transactions`), `POST /api/merchant/keys` secret rotation, and `POST /api/merchant/pulse/:id/deactivate`.
+- **Notifications, Event Invitations, Public Vouches & Wingman POSTs (`fwber-backend-ts/src/routes/notifications.ts`, `events.ts`, `public.ts`, `wingman.ts`, `fwber-frontend/components/events/EventInvitationsList.tsx`):**
+  - Added `POST /api/notifications/read-all`, `POST /api/notifications/:id/read`, and `POST /api/notifications/subscribe` (`prisma.push_subscriptions.upsert`).
+  - Upgraded `GET /api/events/invitations` to include `inviter: { id, name }` (preventing `invitation.inviter.name` crashes in `EventInvitationsList.tsx`), implemented `POST /api/events/invitations/:id/respond` (auto-creating an `attending` RSVP in `event_attendees` when accepted), and added `POST /api/events/:id/invite` (user or group, bidirectional `blocks` `403` guard + notifications).
+  - Added rate-limited `POST /api/public/vouch` (`referral_code` lookup, `safe` | `fun` | `hot` into `prisma.vouches` with `from_user_id: null` + notification) and resilient `POST /api/wingman/compatibility` + `POST /api/wingman/ice-breaker` with `share_id` persistence.
+- **Security Settings Dead-Code Fix, Decoy Profiles, Account Email/Password & Safe Walk Panic (`fwber-backend-ts/src/routes/profile.ts`, `settings.ts`, `safety.ts`, `fwber-frontend/app/settings/security/page.tsx`):**
+  - Removed unreachable dead code (`if (true) { return; }`) in `app/settings/security/page.tsx` `handleRegenerateKeys`, restored live E2EE key regeneration, rendered the Fediverse discovery toggle (`@username@fwber.online`) + live `Decoy Active` badge, and persisted `is_confessional_mode` in `user_profiles.preferences`.
+  - Implemented `PUT /api/profile/password`, `{ email }` updates on `POST/PUT /api/profile` (fixing `AccountSettingsPage`), `POST/DELETE /api/settings/decoy-profile` (primary-password collision `400` guard + `is_decoy: true` cover account), and `PATCH /api/safety/walk/:id/location`, `POST /api/safety/walk/:id/end`, and `POST /api/safety/panic` (`security_events` `severity: 'high'` + active walk escalation).
+- **Static API Contract Verifier, Jest Suite & Help Manual (`tools/check_api_contracts.py`, `fwber-backend-ts/tests/AvatarWalletEventsSecurity.test.ts`, `fwber-frontend/app/help/*`):**
+  - Added `tools/check_api_contracts.py` verifying 87 mounted Express prefixes and `47/47` critical sub-route contracts in `<1s`, added `AvatarWalletEventsSecurity.test.ts` (`14/14` cases; backend suite now **`35/35` suites, `165/165` tests**), and published `ai-avatars-and-security` in `/help`.
+
 ## [2.3.90] - 2026-11-15
 
 ### Token Economy & Cross-Chain Bridge, Matchmaker Bounties, Share/Content Unlocks & Merchant Promotions Unification

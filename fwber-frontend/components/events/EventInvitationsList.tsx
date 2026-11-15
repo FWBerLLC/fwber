@@ -71,14 +71,20 @@ export default function EventInvitationsList() {
           <div key={invitation.id} className="p-4 flex items-center justify-between">
             <div>
               <p className="font-medium text-foreground dark:text-foreground">
-                <span className="font-bold">{invitation.inviter.name}</span> invited you to{' '}
-                <Link href={`/events/${invitation.event.id}`} className="text-purple-600 hover:underline">
-                  {invitation.event.title}
-                </Link>
+                <span className="font-bold">{invitation.inviter?.name || 'A member'}</span> invited you to{' '}
+                {invitation.event ? (
+                  <Link href={`/events/${invitation.event.id}`} className="text-purple-600 hover:underline">
+                    {invitation.event.title}
+                  </Link>
+                ) : (
+                  <span className="text-muted-foreground">an event</span>
+                )}
               </p>
-              <p className="text-sm text-muted-foreground dark:text-muted-foreground mt-1">
-                {new Date(invitation.event.starts_at).toLocaleDateString()} • {invitation.event.location_name}
-              </p>
+              {invitation.event && (
+                <p className="text-sm text-muted-foreground dark:text-muted-foreground mt-1">
+                  {invitation.event.starts_at ? new Date(invitation.event.starts_at).toLocaleDateString() : 'Upcoming'} • {invitation.event.location_name || 'TBA'}
+                </p>
+              )}
             </div>
             <div className="flex gap-2">
               <button type="button"

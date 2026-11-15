@@ -516,6 +516,32 @@ const HELP_ARTICLES: Record<string, { title: string, content: React.ReactNode, c
         </ul>
       </div>
     )
+  },
+  'ai-avatars-and-security': {
+    category: 'Safety, Blocking & Hardware Beacons',
+    title: 'AI Avatar Studio, Decoy Profiles & Safe Walk',
+    content: (
+      <div className="space-y-4">
+        <p>
+          FWBer pairs privacy-preserving identity synthesis with active real-world safety tools so you stay in full control of both your digital likeness and your in-person dates.
+        </p>
+        <h3 className="text-lg font-semibold">AI Avatar Studio (/photos &rarr; AI Avatar Studio)</h3>
+        <ul className="list-disc pl-5 space-y-2">
+          <li><strong>Trait-Driven or Photo-Anchored Portraits:</strong> Open <strong>Photos</strong> (<code>/photos?tab=avatar</code>) and choose either your saved physical traits or an existing photo to synthesize a stylized avatar in <em>Realistic</em>, <em>Glamour</em>, <em>Fantasy</em>, <em>Anime</em>, <em>Neon Cyberpunk</em>, or <em>Oil Painting</em> styles.</li>
+          <li><strong>Always-Available Synthesis:</strong> When cloud Flux/DALL-E providers are configured they render photorealistic portraits; otherwise FWBer Studio immediately synthesizes a crisp vector portrait reflecting your skin tone, hair color, eye color, and style with zero external data sharing.</li>
+        </ul>
+        <h3 className="text-lg font-semibold">Emergency Duress Decoy Profiles (/settings/security)</h3>
+        <ul className="list-disc pl-5 space-y-2">
+          <li><strong>Plausible Deniability at Login:</strong> Set a separate 8+ character <em>Decoy Password</em> in <strong>Settings &gt; Security &amp; Privacy</strong> (<code>/settings/security</code>).</li>
+          <li><strong>Seamless Session Switching:</strong> Signing in with your normal email and your Decoy Password opens an isolated, benign decoy account instead of your real matches, messages, or private photos.</li>
+        </ul>
+        <h3 className="text-lg font-semibold">Safe Walk &amp; Panic Escalation (/safety)</h3>
+        <ul className="list-disc pl-5 space-y-2">
+          <li><strong>Live Safe Walk Tracking:</strong> Share your destination and live coordinates while heading to or from a meetup, then mark your walk completed when you arrive safely.</li>
+          <li><strong>One-Tap Panic Alert:</strong> Triggering the Panic Button escalates any active Safe Walk to emergency status, logs a high-priority audit alert, and notifies your saved emergency contacts.</li>
+        </ul>
+      </div>
+    )
   }
 }
 

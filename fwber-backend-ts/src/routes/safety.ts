@@ -120,6 +120,179 @@ router.post('/walk/end', authenticate, async (req: any, res) => {
   }
 });
 
+// PATCH /api/safety/walk/:id/location — update live Safe Walk coordinates by ID
+router.patch('/walk/:id/location', authenticate, async (req: any, res) => {
+  try {
+    const userId = BigInt(req.user.id);
+    let walkId: bigint;
+    try {
+      walkId = BigInt(req.params.id);
+    } catch {
+      return res.status(400).json({ message: 'Invalid walk ID' });
+    }
+
+    const lat = req.body?.latitude ?? req.body?.current_lat ?? null;
+    const lng = req.body?.longitude ?? req.body?.current_lng ?? null;
+
+    const existing = await prisma.safe_walks.findFirst({
+      where: { id: walkId, user_id: userId },
+    });
+    if (!existing) {
+      return res.status(404).json({ message: 'Safe walk session not found' });
+    }
+
+    const updated = await prisma.safe_walks.update({
+      where: { id: walkId },
+      data: {
+        current_lat: lat !== null ? Number(lat) : existing.current_lat,
+        current_lng: lng !== null ? Number(lng) : existing.current_lng,
+        updated_at: new Date(),
+      },
+    });
+
+    res.json({
+      walk: {
+        id: Number(updated.id),
+        user_id: Number(updated.user_id),
+        status: updated.status,
+        destination: updated.destination,
+        start_lat: updated.start_lat ? Number(updated.start_lat) : null,
+        start_lng: updated.start_lng ? Number(updated.start_lng) : null,
+        current_lat: updated.current_lat ? Number(updated.current_lat) : null,
+        current_lng: updated.current_lng ? Number(updated.current_lng) : null,
+        dest_lat: updated.dest_lat ? Number(updated.dest_lat) : null,
+        dest_lng: updated.dest_lng ? Number(updated.dest_lng) : null,
+        started_at: updated.started_at?.toISOString() || null,
+        ended_at: updated.ended_at?.toISOString() || null,
+      },
+      success: true,
+    });
+  } catch (error: any) {
+    console.error('[Safety] Walk location patch error:', error.message);
+    res.status(500).json({ success: false, message: 'Failed to update safe walk location' });
+  }
+});
+
+// POST /api/safety/walk/:id/end — complete a specific Safe Walk session by ID
+router.post('/walk/:id/end', authenticate, async (req: any, res) => {
+  try {
+    const userId = BigInt(req.user.id);
+    let walkId: bigint;
+    try {
+      walkId = BigInt(req.params.id);
+    } catch {
+      return res.status(400).json({ message: 'Invalid walk ID' });
+    }
+
+    const existing = await prisma.safe_walks.findFirst({
+      where: { id: walkId, user_id: userId },
+    });
+    if (!existing) {
+      return res.status(404).json({ message: 'Safe walk session not found' });
+    }
+
+    const updated = await prisma.safe_walks.update({
+      where: { id: walkId },
+      data: {
+        status: 'completed',
+        ended_at: new Date(),
+        updated_at: new Date(),
+      },
+    });
+
+    res.json({
+      walk: {
+        id: Number(updated.id),
+        user_id: Number(updated.user_id),
+        status: updated.status,
+        destination: updated.destination,
+        start_lat: updated.start_lat ? Number(updated.start_lat) : null,
+        start_lng: updated.start_lng ? Number(updated.start_lng) : null,
+        current_lat: updated.current_lat ? Number(updated.current_lat) : null,
+        current_lng: updated.current_lng ? Number(updated.current_lng) : null,
+        dest_lat: updated.dest_lat ? Number(updated.dest_lat) : null,
+        dest_lng: updated.dest_lng ? Number(updated.dest_lng) : null,
+        started_at: updated.started_at?.toISOString() || null,
+        ended_at: updated.ended_at?.toISOString() || null,
+      },
+      success: true,
+    });
+  } catch (error: any) {
+    console.error('[Safety] Walk end error:', error.message);
+    res.status(500).json({ success: false, message: 'Failed to end safe walk' });
+  }
+});
+
+// POST /api/safety/panic — emergency panic alert + audit event + active walk escalation
+router.post('/panic', authenticate, async (req: any, res) => {
+  try {
+    const userId = BigInt(req.user.id);
+    const latitude = req.body?.latitude !== undefined ? Number(req.body.latitude) : null;
+    const longitude = req.body?.longitude !== undefined ? Number(req.body.longitude) : null;
+    const now = new Date();
+
+    // Escalate any active safe walk to 'panic'
+    await prisma.safe_walks.updateMany({
+      where: { user_id: userId, status: 'active' },
+      data: {
+        status: 'panic',
+        ...(latitude !== null ? { current_lat: latitude } : {}),
+        ...(longitude !== null ? { current_lng: longitude } : {}),
+        updated_at: now,
+      },
+    });
+
+    // Load saved emergency contacts from user_profiles.preferences
+    const profile = await prisma.user_profiles.findFirst({
+      where: { user_id: userId },
+      select: { preferences: true },
+    });
+    let contacts: any[] = [];
+    if (profile?.preferences) {
+      try {
+        const prefs = typeof profile.preferences === 'string'
+          ? JSON.parse(profile.preferences)
+          : profile.preferences;
+        contacts = Array.isArray(prefs?.emergency_contacts) ? prefs.emergency_contacts : [];
+      } catch {}
+    }
+
+    const contactsNotified = contacts
+      .map((c: any) => String(c?.name || c?.phone || '').trim())
+      .filter(Boolean);
+
+    // Record high-severity audit entry in security_events
+    await prisma.security_events.create({
+      data: {
+        event: 'safety_panic',
+        user_id: userId,
+        ip_address: req.ip || null,
+        user_agent: String(req.headers['user-agent'] || '').slice(0, 255) || null,
+        severity: 'high',
+        context: {
+          latitude,
+          longitude,
+          alerts_sent: contactsNotified.length,
+          contacts_notified: contactsNotified,
+        } as any,
+        created_at: now,
+        updated_at: now,
+      },
+    });
+
+    res.json({
+      status: 'alerted',
+      alerts_sent: contactsNotified.length,
+      contacts_notified: contactsNotified,
+      location: { latitude, longitude },
+      timestamp: now.toISOString(),
+    });
+  } catch (error: any) {
+    console.error('[Safety] Panic error:', error.message);
+    res.status(500).json({ message: 'Failed to trigger panic alert' });
+  }
+});
+
 // GET /api/safety/contacts — get emergency contacts (stored in user profile)
 router.get('/contacts', authenticate, async (req: any, res) => {
   try {

@@ -133,12 +133,69 @@ router.post('/mark-read', authenticate, async (req: any, res) => {
   }
 });
 
-// POST /api/notifications/mark-all-read
-router.post('/mark-all-read', authenticate, async (req: any, res) => {
+// POST /api/notifications/mark-all-read & /read-all (NotificationBell + /notifications)
+async function markAllNotificationsRead(req: any, res: any) {
   try {
     const userId = BigInt(req.user.id);
     await prisma.notifications.updateMany({
       where: { user_id: userId, read_at: null },
+      data: { read_at: new Date() },
+    });
+    res.json({ success: true });
+  } catch (error: any) {
+    res.json({ success: true });
+  }
+}
+
+router.post('/mark-all-read', authenticate, markAllNotificationsRead);
+router.post('/read-all', authenticate, markAllNotificationsRead);
+
+// POST /api/notifications/subscribe — persist browser Web Push subscription
+router.post('/subscribe', authenticate, async (req: any, res) => {
+  try {
+    const userId = BigInt(req.user.id);
+    const sub = req.body?.subscription || req.body || {};
+    const endpoint = typeof sub.endpoint === 'string' ? sub.endpoint.trim() : '';
+    if (!endpoint) {
+      return res.status(400).json({ error: 'Push subscription endpoint is required' });
+    }
+    const keys = sub.keys || {};
+    const now = new Date();
+    await prisma.push_subscriptions.upsert({
+      where: { endpoint },
+      update: {
+        subscribable_type: 'User',
+        subscribable_id: userId,
+        public_key: keys.p256dh || sub.public_key || null,
+        auth_token: keys.auth || sub.auth_token || null,
+        content_encoding: sub.contentEncoding || sub.content_encoding || 'aes128gcm',
+        updated_at: now,
+      },
+      create: {
+        subscribable_type: 'User',
+        subscribable_id: userId,
+        endpoint,
+        public_key: keys.p256dh || sub.public_key || null,
+        auth_token: keys.auth || sub.auth_token || null,
+        content_encoding: sub.contentEncoding || sub.content_encoding || 'aes128gcm',
+        created_at: now,
+        updated_at: now,
+      },
+    });
+    return res.json({ success: true });
+  } catch (error: any) {
+    console.error('[POST /api/notifications/subscribe]', error.message);
+    return res.status(500).json({ error: 'Failed to save push subscription' });
+  }
+});
+
+// POST /api/notifications/:id/read — mark individual notification as read (NotificationBell + /notifications)
+router.post('/:id/read', authenticate, async (req: any, res) => {
+  try {
+    const userId = BigInt(req.user.id);
+    const notifId = BigInt(req.params.id);
+    await prisma.notifications.updateMany({
+      where: { id: notifId, user_id: userId },
       data: { read_at: new Date() },
     });
     res.json({ success: true });

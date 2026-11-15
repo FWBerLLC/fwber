@@ -8,7 +8,7 @@ import { apiClient } from '@/lib/api/client'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import {
   Eye, ArrowLeft, Lock, Unlock, User,
-  Calendar, Heart, ImageOff, RefreshCw, Camera, Info
+  Calendar, Heart, ImageOff, RefreshCw, Camera, Info, Wand2
 } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -95,6 +95,13 @@ function PhotoRevealsContent() {
               >
                 <Camera className="w-3.5 h-3.5" />
                 My Photo Gallery
+              </Link>
+              <Link
+                href="/photos?tab=avatar"
+                className="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-800/70 text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center gap-1.5"
+              >
+                <Wand2 className="w-3.5 h-3.5" />
+                AI Avatar Studio
               </Link>
               <Link
                 href="/photos/reveals"

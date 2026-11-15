@@ -168,6 +168,7 @@ router.get("/", authenticate, async (req: any, res) => {
 				political_views: p.political_views,
 				voice_intro_url: p.voice_intro_url,
 				is_federated: p.is_federated,
+				is_confessional_mode: Boolean(prefs.is_confessional_mode),
 				is_travel_mode: p.is_travel_mode,
 				travel_latitude: p.travel_latitude ? Number(p.travel_latitude) : null,
 				travel_longitude: p.travel_longitude
@@ -229,6 +230,26 @@ router.post("/", authenticate, async (req: any, res) => {
 	try {
 		const userId = BigInt(req.user.id);
 		const raw = req.body || {};
+
+		let updatedEmail: string | undefined;
+		if (typeof raw.email === "string" && raw.email.trim().length > 0) {
+			const normalizedEmail = raw.email.trim().toLowerCase();
+			if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
+				return res.status(422).json({ message: "Please provide a valid email address" });
+			}
+			const emailTaken = await prisma.users.findFirst({
+				where: { email: normalizedEmail, id: { not: userId } },
+				select: { id: true },
+			});
+			if (emailTaken) {
+				return res.status(422).json({ message: "Email is already in use by another account" });
+			}
+			await prisma.users.update({
+				where: { id: userId },
+				data: { email: normalizedEmail, updated_at: new Date() },
+			});
+			updatedEmail = normalizedEmail;
+		}
 
 		const data: any = {};
 		for (const [key, val] of Object.entries(raw)) {
@@ -311,9 +332,22 @@ router.post("/", authenticate, async (req: any, res) => {
 				data[col] = data[col] === "true" || data[col] === "1";
 		}
 
+		if (raw.is_confessional_mode !== undefined) {
+			const basePrefs = data.preferences
+				? (typeof data.preferences === "string" ? JSON.parse(data.preferences) : data.preferences)
+				: {};
+			data.preferences = JSON.stringify({
+				...basePrefs,
+				is_confessional_mode: Boolean(raw.is_confessional_mode),
+			});
+		}
+
 		const existing = await prisma.user_profiles.findFirst({
 			where: { user_id: userId },
 		});
+		if (Object.keys(data).length === 0 && updatedEmail) {
+			return res.json({ ...(existing ? serialize(existing) : {}), email: updatedEmail, success: true });
+		}
 		if (existing) {
 			const updated = await prisma.user_profiles.update({
 				where: { id: existing.id },
@@ -598,6 +632,27 @@ router.put("/", authenticate, async (req: any, res) => {
 		const userId = BigInt(req.user.id);
 		const raw = req.body || {};
 
+		// Support account-level email updates sent via PUT /api/profile (AccountSettingsPage)
+		let updatedEmail: string | undefined;
+		if (typeof raw.email === "string" && raw.email.trim().length > 0) {
+			const normalizedEmail = raw.email.trim().toLowerCase();
+			if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
+				return res.status(422).json({ message: "Please provide a valid email address" });
+			}
+			const emailTaken = await prisma.users.findFirst({
+				where: { email: normalizedEmail, id: { not: userId } },
+				select: { id: true },
+			});
+			if (emailTaken) {
+				return res.status(422).json({ message: "Email is already in use by another account" });
+			}
+			await prisma.users.update({
+				where: { id: userId },
+				data: { email: normalizedEmail, updated_at: new Date() },
+			});
+			updatedEmail = normalizedEmail;
+		}
+
 		// Map nested objects to flat DB columns
 		const data: any = {};
 		for (const [key, val] of Object.entries(raw)) {
@@ -703,9 +758,22 @@ router.put("/", authenticate, async (req: any, res) => {
 			}
 		}
 
+		if (raw.is_confessional_mode !== undefined) {
+			const basePrefs = data.preferences
+				? (typeof data.preferences === "string" ? JSON.parse(data.preferences) : data.preferences)
+				: {};
+			data.preferences = JSON.stringify({
+				...basePrefs,
+				is_confessional_mode: Boolean(raw.is_confessional_mode),
+			});
+		}
+
 		const existing = await prisma.user_profiles.findFirst({
 			where: { user_id: userId },
 		});
+		if (Object.keys(data).length === 0 && updatedEmail) {
+			return res.json({ ...(existing ? serialize(existing) : {}), email: updatedEmail, success: true });
+		}
 		// Merge preferences instead of overwriting
 		if (existing && data.preferences) {
 			try {
@@ -749,6 +817,45 @@ router.put("/", authenticate, async (req: any, res) => {
 		res
 			.status(500)
 			.json({ message: error.message || "Failed to update profile" });
+	}
+});
+
+// PUT /api/profile/password - Change current user's password
+router.put("/password", authenticate, async (req: any, res) => {
+	try {
+		const userId = BigInt(req.user.id);
+		const { current_password, password, password_confirmation } = req.body || {};
+
+		if (!current_password || !password) {
+			return res.status(422).json({ message: "Current password and new password are required" });
+		}
+		if (String(password).length < 8) {
+			return res.status(422).json({ message: "New password must be at least 8 characters" });
+		}
+		if (password_confirmation !== undefined && password !== password_confirmation) {
+			return res.status(422).json({ message: "New passwords do not match" });
+		}
+
+		const user = await prisma.users.findUnique({ where: { id: userId } });
+		if (!user || !user.password) {
+			return res.status(404).json({ message: "User account not found" });
+		}
+
+		const isValid = await bcrypt.compare(String(current_password), user.password);
+		if (!isValid) {
+			return res.status(422).json({ message: "Current password is incorrect" });
+		}
+
+		const hashedPassword = await bcrypt.hash(String(password), 10);
+		await prisma.users.update({
+			where: { id: userId },
+			data: { password: hashedPassword, updated_at: new Date() },
+		});
+
+		res.json({ success: true, message: "Password updated successfully" });
+	} catch (error: any) {
+		console.error("[PUT /api/profile/password]", error.message);
+		res.status(500).json({ message: "Failed to update password" });
 	}
 });
 
@@ -1068,6 +1175,32 @@ router.post("/:id/view", authenticate, async (req: any, res) => {
 });
 
 
+
+// GET /api/users/:id/wallet - Return user's public Solana wallet address for P2P SPL transfers
+router.get("/:id/wallet", authenticate, async (req: any, res) => {
+	try {
+		const targetUserId = req.params.id === "me"
+			? BigInt(req.user.id)
+			: (() => { try { return BigInt(req.params.id); } catch { return null; } })();
+		if (!targetUserId) {
+			return res.status(400).json({ message: "Invalid user ID" });
+		}
+		const user = await prisma.users.findUnique({
+			where: { id: targetUserId },
+			select: { id: true, wallet_address: true },
+		});
+		if (!user) {
+			return res.status(404).json({ message: "User not found" });
+		}
+		res.json({
+			user_id: Number(user.id),
+			wallet_address: user.wallet_address || null,
+		});
+	} catch (error: any) {
+		console.error("[GET /api/users/:id/wallet]", error.message);
+		res.status(500).json({ message: "Failed to load recipient wallet" });
+	}
+});
 
 // GET /api/users/:id - Get public profile
 router.get("/:id", authenticate, async (req: any, res) => {

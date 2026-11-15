@@ -1,4 +1,6 @@
 import { Router } from 'express';
+import bcrypt from 'bcryptjs';
+import crypto from 'crypto';
 import { authenticate } from '../middleware/auth.js';
 import prisma from '../lib/prisma.js';
 
@@ -215,6 +217,7 @@ router.get('/security', async (req: any, res) => {
       select: {
         two_factor_secret: true, two_factor_confirmed_at: true,
         email: true, email_verified_at: true,
+        decoy_password: true, decoy_user_id: true,
       },
     });
     res.json({
@@ -222,13 +225,117 @@ router.get('/security', async (req: any, res) => {
       two_factor_method: user?.two_factor_confirmed_at ? 'app' : null,
       email_verified: !!user?.email_verified_at,
       password_set: true,
+      has_decoy_profile: Boolean(user?.decoy_password && user?.decoy_user_id),
+      decoy_user_id: user?.decoy_user_id ? Number(user.decoy_user_id) : null,
       login_notifications: true,
       session_timeout_minutes: 60,
       active_sessions: [],
       recovery_codes_generated: false,
     });
   } catch (error: any) {
-    res.json({ two_factor_enabled: false, email_verified: false, password_set: true });
+    res.json({ two_factor_enabled: false, email_verified: false, password_set: true, has_decoy_profile: false });
+  }
+});
+
+// POST /api/settings/decoy-profile — Configure duress decoy password & linked decoy account
+router.post('/decoy-profile', async (req: any, res) => {
+  try {
+    const userId = BigInt(req.user.id);
+    const { decoy_password } = req.body || {};
+
+    if (!decoy_password || String(decoy_password).length < 8) {
+      return res.status(400).json({ error: 'Decoy password must be at least 8 characters' });
+    }
+
+    const user = await prisma.users.findUnique({
+      where: { id: userId },
+      select: { id: true, name: true, password: true, decoy_user_id: true, is_decoy: true },
+    });
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    if (user.is_decoy) {
+      return res.status(403).json({ error: 'Cannot attach a nested decoy to a decoy session' });
+    }
+
+    if (user.password && await bcrypt.compare(String(decoy_password), user.password)) {
+      return res.status(400).json({ error: 'Decoy password must be different from your primary password' });
+    }
+
+    let decoyUserId = user.decoy_user_id;
+    if (decoyUserId) {
+      const existingDecoy = await prisma.users.findUnique({ where: { id: decoyUserId }, select: { id: true } });
+      if (!existingDecoy) decoyUserId = null;
+    }
+
+    const now = new Date();
+    if (!decoyUserId) {
+      const firstName = (user.name || 'Alex').split(/\s+/)[0] || 'Alex';
+      const internalEmail = `decoy+${userId}-${crypto.randomBytes(4).toString('hex')}@decoy.fwber.internal`;
+      const randomPrimaryHash = await bcrypt.hash(crypto.randomBytes(24).toString('hex'), 10);
+
+      const createdDecoy = await prisma.users.create({
+        data: {
+          name: firstName,
+          email: internalEmail,
+          password: randomPrimaryHash,
+          is_decoy: true,
+          onboarding_completed_at: now,
+          created_at: now,
+          updated_at: now,
+        },
+      });
+      decoyUserId = createdDecoy.id;
+
+      await prisma.user_profiles.create({
+        data: {
+          user_id: decoyUserId,
+          display_name: firstName,
+          bio: 'Just exploring local coffee spots and community events.',
+          is_incognito: true,
+          created_at: now,
+          updated_at: now,
+        },
+      }).catch(() => {});
+    }
+
+    const hashedDecoyPassword = await bcrypt.hash(String(decoy_password), 10);
+    await prisma.users.update({
+      where: { id: userId },
+      data: {
+        decoy_password: hashedDecoyPassword,
+        decoy_user_id: decoyUserId,
+        updated_at: now,
+      },
+    });
+
+    res.json({
+      success: true,
+      has_decoy_profile: true,
+      decoy_user_id: Number(decoyUserId),
+    });
+  } catch (error: any) {
+    console.error('[POST /settings/decoy-profile]', error.message);
+    res.status(500).json({ error: 'Failed to configure decoy profile' });
+  }
+});
+
+// DELETE /api/settings/decoy-profile — Detach duress decoy password from primary account
+router.delete('/decoy-profile', async (req: any, res) => {
+  try {
+    const userId = BigInt(req.user.id);
+    await prisma.users.update({
+      where: { id: userId },
+      data: {
+        decoy_password: null,
+        decoy_user_id: null,
+        updated_at: new Date(),
+      },
+    });
+    res.json({ success: true, has_decoy_profile: false });
+  } catch (error: any) {
+    console.error('[DELETE /settings/decoy-profile]', error.message);
+    res.status(500).json({ error: 'Failed to detach decoy profile' });
   }
 });
 

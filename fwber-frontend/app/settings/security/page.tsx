@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useE2EEncryption } from '@/lib/hooks/use-e2e-encryption';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
-import { Lock, RefreshCw, Key, ShieldCheck, AlertTriangle, Globe, UserX, Mic2, Zap, Loader2 } from 'lucide-react';
+import { Lock, RefreshCw, Key, ShieldCheck, AlertTriangle, Globe, UserX, Mic2, Zap, Loader2, Info, CheckCircle2 } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import AppHeader from '@/components/AppHeader';
 import { useAuth } from '@/lib/auth-context';
@@ -13,6 +13,8 @@ import { updateUserProfile } from '@/lib/api/profile';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import Link from 'next/link';
 import { runEncryptionBenchmark, BenchmarkResult } from '@/lib/wasm/benchmark';
 
 export default function SecuritySettingsPage() {
@@ -22,6 +24,7 @@ export default function SecuritySettingsPage() {
   const [isFederated, setIsFederated] = useState(false);
   const [isConfessional, setIsConfessional] = useState(false);
   const [decoyPassword, setDecoyPassword] = useState('');
+  const [hasDecoyProfile, setHasDecoyProfile] = useState(false);
   const [isDecoyLoading, setIsDecoyLoading] = useState(false);
   const [benchmark, setBenchmark] = useState<BenchmarkResult | null>(null);
   const [isBenchmarking, setIsBenchmarking] = useState(false);
@@ -36,7 +39,16 @@ export default function SecuritySettingsPage() {
     }
   }, [user]);
 
-  const federatedHandle = user?.email ? `@${user.email.split('@')[0]}@api.fwber.online` : '@loading@api.fwber.online';
+  useEffect(() => {
+    if (!token) return;
+    api.get<{ has_decoy_profile?: boolean }>('/settings/security')
+      .then((res: any) => {
+        setHasDecoyProfile(Boolean(res?.has_decoy_profile ?? res?.data?.has_decoy_profile));
+      })
+      .catch(() => {});
+  }, [token]);
+
+  const federatedHandle = user?.email ? `@${user.email.split('@')[0]}@fwber.online` : '@member@fwber.online';
 
   const handleRunBenchmark = async () => {
     setIsBenchmarking(true);
@@ -58,10 +70,15 @@ export default function SecuritySettingsPage() {
     setIsDecoyLoading(true);
     try {
       await api.post('/settings/decoy-profile', { decoy_password: decoyPassword });
+      setHasDecoyProfile(true);
       toast({ title: 'Success', description: 'Decoy Profile linked to this password.' });
       setDecoyPassword('');
-    } catch (e) {
-      toast({ title: 'Error', description: 'Failed to create decoy profile.', variant: 'destructive' });
+    } catch (e: any) {
+      toast({
+        title: 'Error',
+        description: e?.response?.data?.error || 'Failed to create decoy profile.',
+        variant: 'destructive',
+      });
     } finally {
       setIsDecoyLoading(false);
     }
@@ -71,6 +88,7 @@ export default function SecuritySettingsPage() {
     setIsDecoyLoading(true);
     try {
       await api.delete('/settings/decoy-profile');
+      setHasDecoyProfile(false);
       toast({ title: 'Removed', description: 'Decoy Profile detached.' });
     } catch (e) {
       toast({ title: 'Error', description: 'Failed to remove', variant: 'destructive' });
@@ -80,10 +98,6 @@ export default function SecuritySettingsPage() {
   };
 
   const handleRegenerateKeys = async () => {
-    if (true) { // Proceeds with key reset
-      return;
-    }
-
     setIsRegenerating(true);
     try {
       await regenerateKeys();
@@ -152,14 +166,20 @@ export default function SecuritySettingsPage() {
   };
 
   return (
+    <TooltipProvider delayDuration={200}>
     <div className="min-h-screen bg-muted dark:bg-background">
       <AppHeader />
 
       <main className="max-w-2xl mx-auto px-4 py-8 pb-20">
-        <h1 className="text-3xl font-bold text-foreground dark:text-foreground mb-6 flex items-center gap-2">
-          <ShieldCheck className="w-8 h-8 text-green-500" />
-          Security & Privacy
-        </h1>
+        <div className="flex items-center justify-between mb-6">
+          <h1 className="text-3xl font-bold text-foreground dark:text-foreground flex items-center gap-2">
+            <ShieldCheck className="w-8 h-8 text-green-500" />
+            Security &amp; Privacy
+          </h1>
+          <Link href="/help/ai-avatars-and-security" className="text-xs font-medium text-purple-600 dark:text-purple-400 hover:underline">
+            Security Guide &rarr;
+          </Link>
+        </div>
 
         <div className="space-y-6">
           <Card className="border-purple-200 dark:border-purple-900/50 overflow-hidden relative">
@@ -193,9 +213,37 @@ export default function SecuritySettingsPage() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Lock className="w-5 h-5 text-blue-500" />
-                End-to-End Encryption
+                <Globe className="w-5 h-5 text-indigo-500" />
+                Fediverse &amp; ActivityPub Discovery
               </CardTitle>
+              <CardDescription>
+                Public handle: <code className="text-xs bg-muted px-1.5 py-0.5 rounded">{federatedHandle}</code>
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg border border-border">
+                <Label htmlFor="federation-toggle" className="text-sm font-medium cursor-pointer">
+                  Broadcast public profile to Mastodon / ActivityPub
+                </Label>
+                <Switch id="federation-toggle" checked={isFederated} onCheckedChange={handleFederationToggle} />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center justify-between">
+                <span className="flex items-center gap-2">
+                  <Lock className="w-5 h-5 text-blue-500" />
+                  End-to-End Encryption
+                </span>
+                <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${isReady ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300' : 'bg-amber-100 text-amber-700'}`}>
+                  {isReady ? 'Keys Active' : 'Initializing'}
+                </span>
+              </CardTitle>
+              <CardDescription>
+                Rotate your on-device E2EE keypair used for encrypted direct messages and private media.
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <Button variant="destructive" onClick={handleRegenerateKeys} disabled={isRegenerating}>
@@ -244,21 +292,45 @@ export default function SecuritySettingsPage() {
 
           <Card className="border-red-200 dark:border-red-900/50">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-red-600 dark:text-red-400">
-                <UserX className="w-5 h-5 text-red-500" />
-                Emergency Decoy Profile
+              <CardTitle className="flex items-center justify-between text-red-600 dark:text-red-400">
+                <span className="flex items-center gap-2">
+                  <UserX className="w-5 h-5 text-red-500" />
+                  Emergency Decoy Profile
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <button type="button" aria-label="About Emergency Decoy Profile" className="text-muted-foreground hover:text-foreground">
+                        <Info className="w-4 h-4" />
+                      </button>
+                    </TooltipTrigger>
+                    <TooltipContent className="max-w-xs text-xs">
+                      Duress login protection: signing in with your email and this separate Decoy Password opens an isolated benign account instead of your real profile.
+                    </TooltipContent>
+                  </Tooltip>
+                </span>
+                {hasDecoyProfile && (
+                  <span className="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300">
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    Decoy Active
+                  </span>
+                )}
               </CardTitle>
+              <CardDescription>
+                Configure a separate 8+ character duress password that opens a benign cover account at login.
+              </CardDescription>
             </CardHeader>
             <CardContent>
-              <Input type="password" value={decoyPassword} onChange={e => setDecoyPassword(e.target.value)} placeholder="Decoy Password" />
+              <Input type="password" value={decoyPassword} onChange={e => setDecoyPassword(e.target.value)} placeholder={hasDecoyProfile ? "Enter new password to rotate decoy..." : "Decoy Password (min 8 chars)"} />
             </CardContent>
             <CardFooter className="flex gap-2">
-              <Button variant="default" onClick={handleCreateDecoy} disabled={isDecoyLoading || !decoyPassword}>Set Decoy</Button>
-              <Button variant="outline" onClick={handleRemoveDecoy} disabled={isDecoyLoading}>Remove Decoy</Button>
+              <Button variant="default" onClick={handleCreateDecoy} disabled={isDecoyLoading || !decoyPassword}>
+                {hasDecoyProfile ? 'Update Decoy' : 'Set Decoy'}
+              </Button>
+              <Button variant="outline" onClick={handleRemoveDecoy} disabled={isDecoyLoading || !hasDecoyProfile}>Remove Decoy</Button>
             </CardFooter>
           </Card>
         </div>
       </main>
     </div>
+    </TooltipProvider>
   );
 }

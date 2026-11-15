@@ -336,6 +336,53 @@ router.get('/ice-breaker', async (req: any, res) => {
   }
 });
 
+// POST /api/wingman/ice-breaker — Context-aware ice breaker generator (used by /wingman/ice-breaker page)
+router.post('/ice-breaker', async (req: any, res) => {
+  const fallbacks = [
+    "What's the best thing that happened to you this week that nobody asked about yet?",
+    "If we skipped small talk and went straight to our best local hidden-gem spot, where are we heading?",
+    "What's a weirdly specific hill you're 100% willing to defend over drinks?",
+  ];
+  try {
+    const userId = BigInt(req.user.id);
+    const context = String(req.body?.context || '').trim().slice(0, 600);
+    let icebreakers: string[] = fallbacks;
+
+    try {
+      const model = modelFor(process.env.OPENROUTER_API_KEY ? 'google/gemini-2.0-flash-lite-preview-02-05:free' : 'gpt-4o-mini');
+      const prompt = context
+        ? `Generate 3 clever, natural dating app icebreakers tailored to this match/situation: "${context}". Avoid clichés. Respond ONLY with a JSON array of 3 strings: ["opener1", "opener2", "opener3"]`
+        : 'Generate 3 clever, natural dating app icebreakers that spark genuine curiosity. Avoid clichés. Respond ONLY with a JSON array of 3 strings: ["opener1", "opener2", "opener3"]';
+      const completion = await getOpenAI().chat.completions.create({
+        model,
+        messages: [{ role: 'user', content: prompt }],
+        temperature: 0.9,
+        max_tokens: 320,
+      });
+      const text = completion.choices[0]?.message?.content?.trim() || '';
+      const cleaned = text.replace(/```json\n?/g, '').replace(/```/g, '').trim();
+      const parsed = JSON.parse(cleaned);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        icebreakers = parsed.map((item: any) => String(item)).slice(0, 5);
+      }
+    } catch {
+      if (context) {
+        const snippet = context.length > 48 ? `${context.slice(0, 45).trim()}...` : context;
+        icebreakers = [
+          `Okay, "${snippet}" immediately caught my eye — what's the story behind that?`,
+          ...fallbacks.slice(0, 2),
+        ];
+      }
+    }
+
+    const shareId = await storeResult(userId, 'ice-breaker', { icebreakers, context });
+    res.json({ icebreakers, suggestions: icebreakers, share_id: shareId });
+  } catch (err: any) {
+    console.error('[POST /wingman/ice-breaker]', err.message);
+    res.json({ icebreakers: fallbacks, suggestions: fallbacks, share_id: `ice-${Date.now()}` });
+  }
+});
+
 // ─── Ice Breakers (match-specific) ───────────────────────────────────────────
 
 router.get('/ice-breakers/:matchId', async (req: AuthRequest, res) => {
@@ -395,6 +442,48 @@ router.get('/compatibility', async (req: any, res) => {
   } catch (err: any) {
     console.error('[wingman/compatibility]', err.message);
     res.json({ score: 50, dimensions: {}, summary: 'Compatibility analysis unavailable', strengths: [], growth_areas: [] });
+  }
+});
+
+// POST /api/wingman/compatibility — AI profile dateability & compatibility audit (/wingman/compatibility)
+router.post('/compatibility', async (req: any, res) => {
+  const defaultPayload = {
+    score: 79,
+    strengths: [
+      'Authentic, approachable tone that invites genuine conversation',
+      'Clear relationship intentions that filter for aligned matches',
+      'Distinctive interests that make opening messages effortless',
+    ],
+    weaknesses: [
+      'Could add one specific weekend ritual or local spot as a date hook',
+      'Adding a voice intro or extra candid photo boosts trust signals',
+    ],
+    tips: [
+      'End your bio with an easy two-choice prompt so matches have an instant opener.',
+      'Highlight what a great first meet looks like for you (coffee walk, jazz lounge, arcade).',
+    ],
+  };
+
+  try {
+    const userId = BigInt(req.user.id);
+    const analysis: any = await ai.generateProfileAnalysis(userId).catch(() => null);
+    const score = typeof analysis?.score === 'number' && analysis.score > 0 ? analysis.score : defaultPayload.score;
+    const strengths = Array.isArray(analysis?.strengths) && analysis.strengths.length > 0
+      ? analysis.strengths
+      : defaultPayload.strengths;
+    const weaknesses = Array.isArray(analysis?.weaknesses) && analysis.weaknesses.length > 0
+      ? analysis.weaknesses
+      : defaultPayload.weaknesses;
+    const tips = Array.isArray(analysis?.tips) && analysis.tips.length > 0
+      ? analysis.tips
+      : defaultPayload.tips;
+
+    const result = { score, strengths, weaknesses, tips };
+    const shareId = await storeResult(userId, 'compatibility', result);
+    res.json({ ...result, share_id: shareId });
+  } catch (err: any) {
+    console.error('[POST /wingman/compatibility]', err.message);
+    res.json({ ...defaultPayload, share_id: `comp-${Date.now()}` });
   }
 });
 

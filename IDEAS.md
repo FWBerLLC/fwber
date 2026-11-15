@@ -2,6 +2,11 @@
 > **Generated on:** 2026-04-02
 > **Goal:** Creative, constructive analysis of the fwber monorepo to find missing features, improvements, refactoring targets, language ports, and concept pivots.
 
+## 2026-11-15 Addendum (from the v2.3.91 AI Avatar Studio, wallet/checkout, event invites & decoy security pass)
+1. **Local ComfyUI / SDXL-Turbo Sidecar for Zero-Cost Photorealistic Avatars**: Now that `/api/avatar` supports cloud Flux/DALL-E with automatic fallback to deterministic local SVG studio portraits (`v2.3.91`), wire an optional `AVATAR_COMFYUI_URL` adapter so operators with spare GPU cycles can render sub-second photorealistic SDXL-Turbo portraits locally with zero API spend.
+2. **QR / Solana Pay Deep-Link Integration on Hosted Merchant Checkout (`/pay/[id]`)**: Extend `GET /api/merchant/payment/:id` + `POST /confirm` with a Solana Pay `solana:<recipient>?amount=...&reference=...` QR URI so venue guests can settle tabs either via off-chain FWB balance (`POST /confirm`) or on-chain SPL wallet scan in one tap.
+3. **Wire `tools/check_api_contracts.py` into GitHub Actions PR Checks**: Run `python3 tools/check_api_contracts.py` alongside `tsc` and Jest in `.github/workflows/` so unmounted sub-routes can never merge to `main`.
+
 ## 2026-11-15 Addendum (from the v2.3.90 economy, bounties, unlocks & merchant promotions pass)
 1. **CI Static API-Contract Gate (`tools/check_api_contracts.py`)**: Formalize our frontend-to-backend route/payload shape scanner as a fast `<1s` CI gate so any new `api.get('/foo')` or `fetch('/api/bar')` added in `fwber-frontend` fails CI immediately if `fwber-backend-ts/src/index.ts` does not mount a matching router (preventing future silent `200 []` catch-all regressions).
 2. **Automatic Matchmaker Bounty Escrow Settlement on Verified Mutual Date**: Now that `POST /api/bounties` escrows `token_reward` in `wallet_transactions` and `POST /api/bounties/:slug/suggest` records `match_assists`, hook mutual physical-meetup verification (BLE/NFC tap or QR date check-in) to auto-release the escrowed bounty + platform bonus directly to the matchmaker's `token_balance`.

@@ -1,11 +1,19 @@
 # ROADMAP.md — fwber Project Trajectory
 
-> **Current Version:** 2.3.90
+> **Current Version:** 2.3.91
 > **Last Updated:** 2026-11-15
 
 ---
 
 ## 🗺️ High-Level Trajectory
+
+### Phase 17: AI Avatar Studio, P2P Wallet/Checkout Sub-Routes, Event Invites, Decoy Security & Contract Gate (COMPLETED - v2.3.91)
+Deep sub-route contract reconciliation across 10 backend routers and 7 frontend surfaces, closing every high-priority unmounted sub-route, dead-code block, and payload-shape crash uncovered by `tools/check_api_contracts.py`.
+
+**Key Achievements:**
+- **AI Avatar Studio & Unified Photos Hub (`v2.3.91`)**: Created `/api/avatar` (`providers`, `physical-traits`, `generate`, `generate-from-photo`) with cloud-first + local deterministic SVG studio fallback saved to `uploads/avatars/` + `prisma.photos`, and integrated an **AI Avatar Studio** tab (`?tab=avatar`) into `/photos` and `/photos/reveals`.
+- **Wallet P2P, Merchant Checkout, Event Invites & Public Vouches (`v2.3.91`)**: Shipped atomic `POST /api/wallet/transfer` (with bidirectional block guard), `/api/wallet/requests/*` (`incoming`/`outgoing` + atomic `pay`/`cancel`), `GET /api/users/:id/wallet`, unauthenticated `GET /api/merchant/payment/:id` + atomic `POST /confirm` + `POST /keys`, `POST /api/events/:id/invite` + `POST /invitations/:id/respond` (with `inviter.name` + auto-RSVP), `POST /api/notifications/read-all` + `/:id/read` + `/subscribe`, `POST /api/public/vouch`, and `POST /api/wingman/compatibility` + `/ice-breaker`.
+- **Security Hardening, Decoy Profiles & Static Contract Verifier (`v2.3.91`)**: Removed `if (true) return;` dead-code lock on E2EE key regeneration in `/settings/security`, shipped `POST/DELETE /api/settings/decoy-profile` (primary-password collision guard), `PUT /api/profile/password` + `{ email }` updates + `is_confessional_mode`, `POST /api/safety/panic` + Safe Walk location/end updates, `ai-avatars-and-security` `/help` manual, `tools/check_api_contracts.py` (`47/47` contracts), and `AvatarWalletEventsSecurity.test.ts` (`35/35` suites, `165/165` tests green).
 
 ### Phase 16: Token Economy Bridge, Matchmaker Bounties, Unlocks & Merchant Promotions Unification (COMPLETED - v2.3.90)
 Full-stack contract reconciliation across the FWB token bridge, viral/paid content unlocks, matchmaker bounties, local deals, and merchant promotion CRUD—eliminating five production crash/silent-drop surfaces found via automated frontend<->backend route scanning.

@@ -87,6 +87,7 @@ import governanceRoutes from './routes/governance.js';
 import economyRoutes from './routes/economy.js';
 import contentUnlocksRoutes from './routes/content-unlocks.js';
 import promotionsRoutes from './routes/promotions.js';
+import avatarRoutes from './routes/avatar.js';
 import { isScannerProbePath } from './lib/scanner-guard.js';
 import prisma from './lib/prisma.js';
 import { setupSocketIO } from './socket.js';
@@ -259,6 +260,7 @@ app.use('/api/share-unlock', shareUnlocksRoutes); // singular alias for ProfileV
 app.use('/api/content-unlocks', contentUnlocksRoutes);
 app.use('/api/economy', economyRoutes);
 app.use('/api/promotions', promotionsRoutes);
+app.use('/api/avatar', avatarRoutes);
 app.use('/api/matchmaker', matchmakerRouter);
 app.use('/api/payments', paymentsRoutes);
 app.use('/api/governance', governanceRoutes);

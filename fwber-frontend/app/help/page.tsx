@@ -52,6 +52,7 @@ const HELP_CATEGORIES = [
     icon: Shield,
     articles: [
       { title: 'Photo Privacy & Blurring', slug: 'photo-privacy' },
+      { title: 'AI Avatar Studio, Decoy Profiles & Safe Walk', slug: 'ai-avatars-and-security' },
       { title: 'Bidirectional Blocking & Reporting', slug: 'block-report' },
       { title: 'Location Privacy & Fuzzing', slug: 'location-privacy' },
       { title: 'Hardware BLE Safety Beacons', slug: 'ble-safety-tokens' },

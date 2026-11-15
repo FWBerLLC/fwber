@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { apiClient } from '@/lib/api/client';
-import { Loader2, Check, X, Plus } from 'lucide-react';
+import { Loader2, Check, X, Plus, Info } from 'lucide-react';
 import * as Dialog from '@radix-ui/react-dialog';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 interface Request {
   id: number;
@@ -30,10 +31,12 @@ export default function PaymentRequests() {
     try {
       setLoading(true);
       const { data } = await apiClient.get<RequestsResponse>('/wallet/requests');
-      setIncoming(data.incoming);
-      setOutgoing(data.outgoing);
+      setIncoming(Array.isArray(data?.incoming) ? data.incoming : []);
+      setOutgoing(Array.isArray(data?.outgoing) ? data.outgoing : []);
     } catch (error) {
       console.error('Failed to fetch requests', error);
+      setIncoming([]);
+      setOutgoing([]);
     } finally {
       setLoading(false);
     }
@@ -64,9 +67,22 @@ export default function PaymentRequests() {
   };
 
   return (
+    <TooltipProvider delayDuration={200}>
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h3 className="text-lg font-medium">Payment Requests</h3>
+        <h3 className="text-lg font-medium flex items-center gap-2">
+          Payment Requests
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button type="button" aria-label="About Payment Requests" className="text-muted-foreground hover:text-foreground">
+                <Info className="w-4 h-4" />
+              </button>
+            </TooltipTrigger>
+            <TooltipContent className="max-w-xs text-xs">
+              Request or settle FWB tokens directly with friends at zero internal fee. Paying a request atomically updates both wallets.
+            </TooltipContent>
+          </Tooltip>
+        </h3>
         <button type="button"
           onClick={() => setIsCreateOpen(true)}
           className="flex items-center gap-2 bg-indigo-600 text-white px-3 py-1.5 rounded-lg text-sm hover:bg-indigo-700"
@@ -167,6 +183,7 @@ export default function PaymentRequests() {
         </div>
       )}
     </div>
+    </TooltipProvider>
   );
 }
 
@@ -179,7 +196,12 @@ function CreateRequestModal({ isOpen, onClose, onSuccess }: { isOpen: boolean; o
 
   useEffect(() => {
     if (isOpen) {
-      apiClient.get<any>('/friends').then(res => setFriends(res.data.data || res.data));
+      apiClient.get<any>('/friends')
+        .then(res => {
+          const raw = res.data?.data ?? res.data?.friends ?? res.data;
+          setFriends(Array.isArray(raw) ? raw : []);
+        })
+        .catch(() => setFriends([]));
     }
   }, [isOpen]);
 

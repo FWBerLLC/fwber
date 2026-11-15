@@ -12,8 +12,14 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { usePhotos, usePhotoSettings } from '@/lib/api/photos'
 import PhotoGallery from '@/components/PhotoGallery'
 import { Button } from '@/components/ui/button'
+import { useAuth } from '@/lib/auth-context'
 
 const PhotoUpload = dynamic(() => import('@/components/PhotoUpload'), {
+  ssr: false,
+  loading: () => <div className="h-64 bg-muted animate-pulse rounded-lg" />
+})
+
+const AvatarGenerationFlow = dynamic(() => import('@/components/AvatarGenerationFlow'), {
   ssr: false,
   loading: () => <div className="h-64 bg-muted animate-pulse rounded-lg" />
 })
@@ -29,7 +35,8 @@ import {
   CheckCircle2,
   GripVertical,
   Lock,
-  Info
+  Info,
+  Wand2
 } from 'lucide-react'
 import { isFeatureEnabled } from '@/lib/featureFlags'
 
@@ -113,6 +120,7 @@ function SortablePhotoItem({
                <Image
                  src={photo.thumbnail_url || photo.url}
                  alt={`Photo ${index + 1}`}
+                 unoptimized={String(photo.thumbnail_url || photo.url || '').endsWith('.svg')}
                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
                  style={{
                    width: '100%',
@@ -366,10 +374,18 @@ function SortablePhotoItem({
 }
 
 export default function PhotoManagementPage() {
+  const { user } = useAuth()
   const { photos, loading, error, uploadPhotos, deletePhoto, setPrimaryPhoto, reorderPhotos, setPhotos, fetchPhotos } = usePhotos()
   const { settings } = usePhotoSettings()
   const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null)
   const [showGallery, setShowGallery] = useState(false)
+  const [activeTab, setActiveTab] = useState<'gallery' | 'avatar'>('gallery')
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.location.search.includes('tab=avatar')) {
+      setActiveTab('avatar')
+    }
+  }, [])
 
   // Removed debug logging
 
@@ -551,13 +567,30 @@ export default function PhotoManagementPage() {
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         {/* Unified Photo & Media Hub Switcher */}
         <div className="mb-6 flex flex-wrap items-center gap-2 border-b border-border pb-3">
-          <Link
-            href="/photos"
-            className="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-primary text-primary-foreground shadow-sm flex items-center gap-1.5"
+          <button
+            type="button"
+            onClick={() => setActiveTab('gallery')}
+            className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
+              activeTab === 'gallery'
+                ? 'bg-primary text-primary-foreground shadow-sm'
+                : 'bg-muted text-muted-foreground hover:text-foreground'
+            }`}
           >
             <Camera className="w-3.5 h-3.5" />
             My Photo Gallery ({photos.length})
-          </Link>
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab('avatar')}
+            className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
+              activeTab === 'avatar'
+                ? 'bg-purple-600 text-white shadow-sm'
+                : 'bg-muted text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            <Wand2 className="w-3.5 h-3.5" />
+            AI Avatar Studio
+          </button>
           <Link
             href="/photos/reveals"
             className="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-muted text-muted-foreground hover:text-foreground transition flex items-center gap-1.5"
@@ -573,6 +606,21 @@ export default function PhotoManagementPage() {
             Encrypted Media Vault
           </Link>
         </div>
+
+        {activeTab === 'avatar' ? (
+          <Card className="mb-8 border-purple-500/20">
+            <CardContent className="pt-6">
+              <AvatarGenerationFlow
+                userId={user?.id || 0}
+                onComplete={() => {
+                  fetchPhotos()
+                  setActiveTab('gallery')
+                }}
+              />
+            </CardContent>
+          </Card>
+        ) : (
+        <>
 
         {/* Header */}
         <div className="mb-8">
@@ -728,6 +776,8 @@ export default function PhotoManagementPage() {
         </div>
           </CardContent>
         </Card>
+        </>
+        )}
       </div>
 
       {/* Photo Gallery Modal */}
