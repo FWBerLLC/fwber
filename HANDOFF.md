@@ -213,6 +213,9 @@ Ran a full static contract sweep across `fwber-frontend/{app,components,lib,hook
 ## Session 2026-11-13 (cont. 36) - Version consistency verified (loop iteration)
 - Prod home HTML + standalone chunks carry **2.3.83**; repo/server `VERSION` = 2.3.83 — badge, build, and source of truth in sync (the v2.3.61 centralized-version wiring holding). Backend suite 128/128.
 
+## Session 2026-11-16 (cont.) - v2.3.96 new hubs verified live (loop iteration)
+- API probes (QA 197): `/referrals` 200 (personal code + register link), `/bulletin-boards` 200 (seeded boards), `/hardware-tokens/status` 200 `enabled:true` (the old stub is a real implementation now). Bobbi: no testing reply yet (busy on BOBPC/approvals lanes); brief + deployment notice both delivered, not resent.
+
 ## Session 2026-11-16 - Antigravity v2.3.96 caught up + DEPLOYED (their deploy had died on SSH)
 - Read latest Antigravity fwber conversation `1f1e9ae8` (3,614 steps, Nov 15): shipped **v2.3.96** (`3b2b85b14` — Referrals & Vouches hub, Bulletin Boards hub, BLE hardware tokens, Field Notes delete fix; preceded by v2.3.94 WebRTC/CI, v2.3.95 venues/burner/reports/commerce) and pushed, but deploy step failed (`ssh: Permission denied` to Hetzner from their git-bash) — prod sat on v2.3.95.
 - This lane: gates on their code (backend **185/185**, both tsc 0, lint 0, `verify_no_bom` OK, `check_api_contracts` **144/144**), then deployed per their `scratch/deploy_v2_3_96.sh` intent: rollback tag, backend (prisma/build/contract checks/restart → `app_version 2.3.96`, DB connected), geo (cargo → `2.3.96` ok), frontend via `ops/hetzner/scripts/deploy-frontend.sh` atomic swap. Public smoke: site/login/referrals/bulletin-boards 200 w/ 2.3.96, dashboard 307, api health 200.
