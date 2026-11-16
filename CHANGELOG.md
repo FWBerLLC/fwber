@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.3.97] - 2026-11-16
+
+### Robert's Decision Batch (2, 3, 8, 9) + Handler Cleanup
+
+- **Dead Next API handlers deleted (item 3):** 8 shadowed `app/api/*` route files removed (bounties, bulletin-boards, burner-links, contacts ×2, referrals, reports, topics) — all were bypassed by nginx + rewrite in prod. Kept `oembed` and `sentry-tunnel` (nginx-carved, live). Frontend `tsc` 0.
+- **Branches deleted (item 2):** 6 fully-merged remote branches removed after re-verifying 0 unmerged.
+- **Off-site backup (item 8):** laptop pull replica — `tools/backup-pull.ps1` + nightly Windows task `fwber-backup-pull` (04:15) to `M:\fwber-backups`, integrity-verified, keep 14.
+- **/tmp sweep (item 9):** >7-day entries removed (/tmp 6.2G→2.0G); recent other-project staged backups kept and named in TODO for Robert's confirm.
+- **Sentry (item 4, triaged):** pasted credential is an org **auth token**, not the DSN — DSN still needed to light telemetry (see HANDOFF).
+
 ## [2.3.96] - 2026-11-15
 
 ### Referrals & Vouches Hub + Modal Crash Fix, Bulletin Boards Hub + AI Post Suggester, BLE Hardware Tokens, Field Notes Delete Fix & 144-Contract Gate

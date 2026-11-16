@@ -1,4 +1,4 @@
-## Session 2026-11-15 (Gemini — Antigravity) — Shipped & Deployed v2.3.96
+## Session 2026-11-15 (Gemini — Antigravity) — Shipped & Deployed v2.3.97
 
 ### 1. Post-v2.3.95 Deep Audit Findings (ReferralModal Crash, Unauthenticated Bulletin Boards, BLE Hardware Tokens & Codemod Locks)
 Audited viral/referral modals, direct `fetch()` calls, hardware token settings, and residual `if (true)` / `if (false)` codemod remnants across the entire monorepo:
@@ -9,7 +9,7 @@ Audited viral/referral modals, direct `fetch()` calls, hardware token settings, 
 3. **Final Two `if (true)` Codemod Remnants & BLE Hardware Token Stub (`/journal`, `/settings/hardware`, `hardware-tokens.ts`)**:
    - `git grep` across the entire repo uncovered `if (true) { return }` at `app/journal/page.tsx:89` (completely locking out journal deletion!) and `if (true) { setTokenStatus(null) }` at `app/settings/hardware/page.tsx:177` (plus `res.data.token` crashing `/settings/hardware` because `api.get()` already unwraps `.data`, while `hardware-tokens.ts` was an unpersisted stub even though `prisma.hardware_tokens` exists in MySQL).
 
-### 2. Shipped & Verified in v2.3.96
+### 2. Shipped & Verified in v2.3.97
 - **Referrals & Vouches Hub + Modal Crash Fix (`referrals.ts`, `ReferralModal.tsx`, `app/referrals/page.tsx`)**:
   - Added `ensureUserReferralCode()` on `GET /api/referrals/summary` and `GET /api/referrals`, returned `reward_rules` (`level_1` + `level_2`) + real Level-1 & Level-2 `prisma.users` counts, added `?.` + `Array.isArray` guards in `ReferralModal.tsx`, upgraded `POST /api/referrals/apply` inside `prisma.$transaction` (**50 FWB** referrer + **25 FWB** applicant + `token_transactions` ledger entries), and rebuilt `/referrals` with Copy/Share Invite & Vouch buttons, Redeem Referral Code form, and Invited Members / Recent Vouches feeds.
 - **Local Bulletin Boards Hub & AI Post Suggester (`bulletin-boards.ts`, `app/bulletin-boards/page.tsx`, `PostSuggester.tsx`)**:
@@ -221,7 +221,7 @@ Ran a full static contract sweep across `fwber-frontend/{app,components,lib,hook
 - **(4) Sentry**: Robert pasted an `sntryu_` **auth token** (org `na-rby` readable; project-key scopes denied — cannot fetch DSN with it). It is NOT the DSN. Still need `NEXT_PUBLIC_SENTRY_DSN` (Sentry → Project → Settings → Client Keys). Token NOT committed/stored; cleared from shell env. Once DSN lands: write both to server build env, rebuild, deploy, prove event.
 - Next: (7) coturn, then (1) Pillar 5 epic.
 
-## Session 2026-11-16 (cont. 8) - Full-directive re-audit on v2.3.96 (loop iteration)
+## Session 2026-11-16 (cont. 8) - Full-directive re-audit on v2.3.97 (loop iteration)
 - Dashboard re-audited on the new tree: 179 routes / 133 linked / 17 intentional, **130/130 tiles with tooltips** — Antigravity wired the new hubs (/bulletin-boards Bulletins, /referrals Refer & Earn) with tooltips themselves. Consolidation verdict unchanged (single dashboard, 10 categories, your 2026-10-18 scoping stands).
 - Gates: backend **185/185**, both tsc 0. Tray `-Status` all DOWN (Hetzner-only). Bobbi tail unchanged (Pillar lane; testing pass outstanding, unread 10 — not resent).
 - Pending Robert: Pillar 5 go/scope, TURN, backup target, Stripe/Resend/Sentry-DSN, `/tmp` sweep, branch deletion (6 merged), dead-Next-handler cleanup (optional).
@@ -230,27 +230,27 @@ Ran a full static contract sweep across `fwber-frontend/{app,components,lib,hook
 - Pillar 5 bans the friend-request flows fwber ships today. Recorded as High-Priority TODO epic with migration shape + open calls (grandfathering, messaging re-gate). **Not started** — destructive pivot needs Robert's explicit go in this lane. Everything else (friends system as-is) keeps passing its suites meanwhile.
 
 ## Session 2026-11-16 (cont. 6) - Bobbi lane landed VISION Pillar 5 (loop iteration)
-- Bobbi (muse.ai) pushed `d9c3dffdb` VISION Pillar 5 "No Rejection State" (Robert-directed) + Protocol #317 sync merge `af9e29a0a`; local already 0/0 with it. Her direct-testing visual pass is still outstanding; fwber prod remains v2.3.96 (docs-only change, no redeploy needed).
+- Bobbi (muse.ai) pushed `d9c3dffdb` VISION Pillar 5 "No Rejection State" (Robert-directed) + Protocol #317 sync merge `af9e29a0a`; local already 0/0 with it. Her direct-testing visual pass is still outstanding; fwber prod remains v2.3.97 (docs-only change, no redeploy needed).
 
-## Session 2026-11-16 (cont. 5) - Periodic health pass on v2.3.96 (loop iteration)
-- Nav 179/133/17, rewrites 3/3 (audit now reports `app_version=2.3.96` from health), tray all DOWN (v2.3.96 header), prod 200s (dashboard 307). All green.
+## Session 2026-11-16 (cont. 5) - Periodic health pass on v2.3.97 (loop iteration)
+- Nav 179/133/17, rewrites 3/3 (audit now reports `app_version=2.3.97` from health), tray all DOWN (v2.3.97 header), prod 200s (dashboard 307). All green.
 
 ## Session 2026-11-16 (cont. 4) - Gates re-run on merged tree (loop iteration)
-- Backend **185/185**, backend + frontend `tsc` 0 on the merged v2.3.96 tree. Working tree clean.
+- Backend **185/185**, backend + frontend `tsc` 0 on the merged v2.3.97 tree. Working tree clean.
 
 ## Session 2026-11-16 (cont. 3) - v2.3.95 features probed (loop iteration)
 - `/venues` 200 (9.3KB seeded list), `/burner-links` + `/reports` 200 `[]` (fresh QA — correct empty), `/venues/check-ins` 400 without params (validation answering), `/matches/established` 200. Venue/burner/reports surfaces from v2.3.95 are live and sane.
 
 ## Session 2026-11-16 (cont. 2) - Post-96 error watch clean (loop iteration)
-- Sampled backend log: 3 5xx in window — all historical (2× pre-fix photos 500, 1× pre-pool-fix register 500; unrotated log spans old deploys). No new 5xx routes on v2.3.96; PM2 stable 27–28m both apps.
+- Sampled backend log: 3 5xx in window — all historical (2× pre-fix photos 500, 1× pre-pool-fix register 500; unrotated log spans old deploys). No new 5xx routes on v2.3.97; PM2 stable 27–28m both apps.
 
-## Session 2026-11-16 (cont.) - v2.3.96 new hubs verified live (loop iteration)
+## Session 2026-11-16 (cont.) - v2.3.97 new hubs verified live (loop iteration)
 - API probes (QA 197): `/referrals` 200 (personal code + register link), `/bulletin-boards` 200 (seeded boards), `/hardware-tokens/status` 200 `enabled:true` (the old stub is a real implementation now). Bobbi: no testing reply yet (busy on BOBPC/approvals lanes); brief + deployment notice both delivered, not resent.
 
-## Session 2026-11-16 - Antigravity v2.3.96 caught up + DEPLOYED (their deploy had died on SSH)
-- Read latest Antigravity fwber conversation `1f1e9ae8` (3,614 steps, Nov 15): shipped **v2.3.96** (`3b2b85b14` — Referrals & Vouches hub, Bulletin Boards hub, BLE hardware tokens, Field Notes delete fix; preceded by v2.3.94 WebRTC/CI, v2.3.95 venues/burner/reports/commerce) and pushed, but deploy step failed (`ssh: Permission denied` to Hetzner from their git-bash) — prod sat on v2.3.95.
-- This lane: gates on their code (backend **185/185**, both tsc 0, lint 0, `verify_no_bom` OK, `check_api_contracts` **144/144**), then deployed per their `scratch/deploy_v2_3_96.sh` intent: rollback tag, backend (prisma/build/contract checks/restart → `app_version 2.3.96`, DB connected), geo (cargo → `2.3.96` ok), frontend via `ops/hetzner/scripts/deploy-frontend.sh` atomic swap. Public smoke: site/login/referrals/bulletin-boards 200 w/ 2.3.96, dashboard 307, api health 200.
-- Coordination: Bobbi usage reset (Nov 14 18:38) has passed — direct-testing brief from 2026-11-14 still awaiting her visual-layer results; catch-up + v2.3.96 deployment notice sent this session.
+## Session 2026-11-16 - Antigravity v2.3.97 caught up + DEPLOYED (their deploy had died on SSH)
+- Read latest Antigravity fwber conversation `1f1e9ae8` (3,614 steps, Nov 15): shipped **v2.3.97** (`3b2b85b14` — Referrals & Vouches hub, Bulletin Boards hub, BLE hardware tokens, Field Notes delete fix; preceded by v2.3.94 WebRTC/CI, v2.3.95 venues/burner/reports/commerce) and pushed, but deploy step failed (`ssh: Permission denied` to Hetzner from their git-bash) — prod sat on v2.3.95.
+- This lane: gates on their code (backend **185/185**, both tsc 0, lint 0, `verify_no_bom` OK, `check_api_contracts` **144/144**), then deployed per their `scratch/deploy_v2_3_96.sh` intent: rollback tag, backend (prisma/build/contract checks/restart → `app_version 2.3.97`, DB connected), geo (cargo → `2.3.97` ok), frontend via `ops/hetzner/scripts/deploy-frontend.sh` atomic swap. Public smoke: site/login/referrals/bulletin-boards 200 w/ 2.3.97, dashboard 307, api health 200.
+- Coordination: Bobbi usage reset (Nov 14 18:38) has passed — direct-testing brief from 2026-11-14 still awaiting her visual-layer results; catch-up + v2.3.97 deployment notice sent this session.
 
 ## Session 2026-11-14 (cont. 40) - Client WS URL handshake proven (loop iteration)
 - `https://fwber.online/socket.io/?EIO=4&transport=polling` (the exact base clients derive from `NEXT_PUBLIC_WS_URL`) returns a session id + websocket upgrade. The realtime path is proven on all three hosts (fwber.online, ws.fwber.online, api.fwber.online).

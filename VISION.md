@@ -1,7 +1,7 @@
 # VISION.md — The Ultimate fwber Architecture & Philosophy
 
 > **Last Updated:** 2026-11-15
-> **Version:** 2.3.96 (Referrals & Vouches Hub, Local Bulletin Boards Hub, BLE Hardware Tokens & Field Notes Polish)
+> **Version:** 2.3.97 (Referrals & Vouches Hub, Local Bulletin Boards Hub, BLE Hardware Tokens & Field Notes Polish)
 > **Goal:** To serve as the definitive North Star for all human and AI agents working on the fwber project.
 
 ---
