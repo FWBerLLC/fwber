@@ -1,3 +1,7 @@
+## Session 2026-11-16 (cont. 6) — Loop iteration: backend Sentry live-proven end-to-end (loop iteration)
+- Live proof of the v2.3.101 reporter with the **compiled** `dist/lib/sentry.js` on Hetzner: `initSentry()` armed (project 4510305656176640), `captureException` dispatched with no failure log; separately, the same envelope format POSTed to ingest returned **HTTP 200** with an event id. Backend telemetry is now event-verified, not just init-verified. Proof scripts removed after use.
+- Coordination: Bobbi thread unchanged since the 4:06 PM checkin-chat relay (she is on the HyperNexus repricing). No ping sent. Robert items unchanged: five FWBer decisions relay (his to paste), flat-100-token call.
+
 ## Session 2026-11-16 (cont. 5) — Loop iteration: backend Sentry reporter shipped v2.3.101 (loop iteration)
 - Bobbi relayed the five decisions + A–O status to her **checkin chat** (4:06 PM), not this thread — the content is in her memory, not readable from here, and she is mid-task on HyperNexus repricing. Not re-pinged; Robert: the five decisions (homepage stats/flags) still need relaying to this lane if you want them built here.
 - Found + fixed: backend had **no Sentry consumer at all** (`SENTRY_DSN` wired in v2.3.100 was dark backend-side). Added zero-dep envelope reporter (`src/lib/sentry.ts`, `@sentry/node` unfetchable from the dev box), init at startup, unhandled-error JSON middleware. Gates: 201/201, tsc 0. Deployed `2b958e45f`: PM2 log `[sentry] backend reporter armed (project 4510305656176640)`, backend/geo/frontend all 2.3.101 live.
