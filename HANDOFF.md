@@ -213,6 +213,11 @@ Ran a full static contract sweep across `fwber-frontend/{app,components,lib,hook
 ## Session 2026-11-13 (cont. 36) - Version consistency verified (loop iteration)
 - Prod home HTML + standalone chunks carry **2.3.83**; repo/server `VERSION` = 2.3.83 — badge, build, and source of truth in sync (the v2.3.61 centralized-version wiring holding). Backend suite 128/128.
 
+## Session 2026-11-16 (cont. 8) - Full-directive re-audit on v2.3.96 (loop iteration)
+- Dashboard re-audited on the new tree: 179 routes / 133 linked / 17 intentional, **130/130 tiles with tooltips** — Antigravity wired the new hubs (/bulletin-boards Bulletins, /referrals Refer & Earn) with tooltips themselves. Consolidation verdict unchanged (single dashboard, 10 categories, your 2026-10-18 scoping stands).
+- Gates: backend **185/185**, both tsc 0. Tray `-Status` all DOWN (Hetzner-only). Bobbi tail unchanged (Pillar lane; testing pass outstanding, unread 10 — not resent).
+- Pending Robert: Pillar 5 go/scope, TURN, backup target, Stripe/Resend/Sentry-DSN, `/tmp` sweep, branch deletion (6 merged), dead-Next-handler cleanup (optional).
+
 ## Session 2026-11-16 (cont. 7) - Pillar 5 conflict flagged as directed epic (loop iteration)
 - Pillar 5 bans the friend-request flows fwber ships today. Recorded as High-Priority TODO epic with migration shape + open calls (grandfathering, messaging re-gate). **Not started** — destructive pivot needs Robert's explicit go in this lane. Everything else (friends system as-is) keeps passing its suites meanwhile.
 
