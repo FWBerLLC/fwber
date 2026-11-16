@@ -213,6 +213,9 @@ Ran a full static contract sweep across `fwber-frontend/{app,components,lib,hook
 ## Session 2026-11-13 (cont. 36) - Version consistency verified (loop iteration)
 - Prod home HTML + standalone chunks carry **2.3.83**; repo/server `VERSION` = 2.3.83 — badge, build, and source of truth in sync (the v2.3.61 centralized-version wiring holding). Backend suite 128/128.
 
+## Session 2026-11-16 (cont. 15) - Negotiation ack ping sent; awaiting Bobbi plan
+- Follow-up ack-check ping sent (CDP-verified): asks for (1) ack/edits to split+matrix, (2) first areas she'll run, (3) prerequisites from this lane. No ack within 90s — Bobbi processes fwber asynchronously (memory updates + loop broadcasts seen); loops keep polling each fire. Do not spam further pings until her next loop check-in lands.
+
 ## Session 2026-11-16 (cont. 14) - Full-testing negotiation sent to Bobbi; 30-min loop added
 - Sent Bobbi (CDP-verified) a structured negotiation: she owns visual/browser testing (internal browser + screenshots), muse lane owns API proof + same-turn fixes; matrix A–O (accounts, profile, search, Pillar 5 adding-profiles, matching, messaging+badges, avatar generation, photos, audio rooms, video (BLOCKED-with-reason acceptable), wallet, safety, referrals/boards/venues, federation, dashboard/dead-ends) with DONE/BLOCKED/INFO per area.
 - Her activity log shows fwber context loaded ("Search memory for FWBer Pillar 5", "Sent Pillar 5 SHIPPED and loop update") — ack/plan pending, not resent. Robert added a second permanent loop: 30-min job `2438a770` (coordinate + proceed) alongside 15-min `5b29f19a`.
