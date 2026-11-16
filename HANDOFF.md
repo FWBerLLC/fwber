@@ -3,7 +3,8 @@
 - **Catch-up**: prior Muse session `01a1e5d3` (same catch-up request) died mid-investigation; the fwber lane's real state was at `dc8572722` (main == origin/main, clean): v2.3.98 Pillar 5 live, Bobbi A–O testing negotiation sent (ack pending), Stripe keys rejected by Stripe (full keys needed), Sentry DSN + Resend DNS still Robert-blocked. This session's cron list is empty — the 15m/30m loops from prior sessions do not carry over.
 - **Prod health at catch-up**: front 200, `/api/health` ok `app_version 2.3.98`, socket.io handshake OK — but `geo.fwber.online/health` reported **2.3.96** (crate drift, repo `Cargo.toml` also 2.3.96).
 - **Shipped in v2.3.99**: deleted zero-importer `FriendRequestList.tsx` + `lib/api/friends.ts` (410-tomb helpers), rewrote `cypress/e2e/friends-full.cy.js` to the Pillar 5 interest/withdraw contract, aligned `fwber-geo/Cargo.toml` to app VERSION. Gates: frontend `tsc` 0, backend Pillar5+FriendsSearchBlocks 16/16.
-- **Next**: geo rebuild/deploy makes live geo report 2.3.99; Bobbi ack + visual pass still outstanding; Robert items unchanged (full Stripe keys, Sentry DSN, Resend DNS).
+- **Deployed & live-verified (same session)**: server pulled `aa46b272e`; geo rebuilt (`cargo build --release` 13.5s) + `fwber-geo` restarted → `geo.fwber.online/health` reports **2.3.99**; frontend deployed via `ops/hetzner/scripts/deploy-frontend.sh` atomic swap → served HTML badge + favicon carry `2.3.99`; backend `app_version` reads **2.3.99** (live VERSION read, no restart needed). Front 200, API ok.
+- **Next**: Bobbi ack + visual pass still outstanding; Robert items unchanged (full Stripe keys, Sentry DSN, Resend DNS). Note: GitHub reports the repo moved to `FWBerLLC/fwber` (push via `robertpelloni/fwber` still redirects/works).
 
 ## Session 2026-11-15 (Gemini — Antigravity) — Shipped & Deployed v2.3.98
 
