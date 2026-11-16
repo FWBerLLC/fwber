@@ -55,8 +55,10 @@ router.post('/webhook', async (req: any, res) => {
   let event;
 
   try {
+    // Stripe signature verification must run over the exact raw bytes;
+    // index.ts stashes them on req._rawBody before express.json() parses.
     event = stripe.webhooks.constructEvent(
-      req.body,
+      (req as any)._rawBody ?? req.body,
       sig,
       process.env.STRIPE_WEBHOOK_SECRET || ''
     );
