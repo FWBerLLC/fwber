@@ -1,7 +1,4 @@
 describe('Navigation', () => {
-  it('should navigate to the friends page', () => {
-    cy.visit('/matches');
-    cy.get('a[href*="friends"]').click();
   const testUser = {
     id: 1,
     name: 'Test User',
@@ -41,6 +38,12 @@ describe('Navigation', () => {
         total: 1
       }
     }).as('getMatches');
+
+    // Friends page data (Pillar 5: connections + private interests).
+    cy.intercept('GET', '**/api/friends', { statusCode: 200, body: [] }).as('getFriends');
+    cy.intercept('GET', '**/api/friends/interests', { statusCode: 200, body: [] }).as('getInterests');
+    cy.intercept('GET', '**/api/relationship-links', { statusCode: 200, body: { links: [] } }).as('getLinks');
+    cy.intercept('GET', '**/api/relationship-links/requests', { statusCode: 200, body: { requests: [] } }).as('getLinkRequests');
   });
 
   it('should navigate to the friends page', () => {
@@ -50,17 +53,17 @@ describe('Navigation', () => {
     cy.get('input[name="password"]').type(testUser.password);
     cy.get('button[type="submit"]').click();
     cy.wait('@login');
-    
+
     // Wait for redirect to dashboard to ensure auth state is processed and saved
     cy.url().should('include', '/dashboard');
 
     // Now visit matches
     cy.visit('/matches');
     cy.wait('@getMatches');
-    
+
     // Ensure loading is done
     cy.get('.animate-spin').should('not.exist');
-    
+
     // Check for the link
     cy.get('a[href*="friends"]').should('be.visible').click();
     cy.url().should('include', '/friends');

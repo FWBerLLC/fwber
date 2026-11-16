@@ -1,3 +1,7 @@
+## Session 2026-11-16 (cont. 4) — Loop iteration: Bobbi pinged on decisions, broken Cypress spec repaired (loop iteration)
+- Sent Bobbi (CDP-verified): v2.3.100 Stripe/Sentry live, flat-100-token flag for Robert, and a request to relay the **five Robert FWBer decisions** her log shows recorded 3:53 PM (homepage stats/flags) — this lane has not seen them. A–O ack still open.
+- Cypress audit: all 48 specs syntax-checked; `friends-nav.cy.js` was a mangled splice (two half-copies glued, `Unexpected end of input`) — rewritten as one well-formed spec (login → /matches → friends link → /friends) with Pillar 5 intercepts. Test-only, no version bump (prod stays 2.3.100; Cypress runner not run locally per Hetzner-only rule — syntax-verified only).
+
 ## Session 2026-11-16 (cont. 3) — Stripe live + Sentry DSN wired, v2.3.100 DEPLOYED (Robert keys)
 - Robert pasted fresh keys: this `sk_live` **validated** (charges+payouts enabled — a different key than the rejected earlier paste) and the `sntryu_` token fetched the Sentry DSN (org `na-rby`, project `javascript-nextjs`). Secrets went only into Hetzner env (`/root`-mediated transfer, deleted after); the Sentry auth token is stored nowhere; local temp copies deleted. **Advise rotating the Sentry auth token** (it transited chat).
 - Wired: backend `STRIPE_SECRET_KEY`/`STRIPE_WEBHOOK_SECRET`/`SENTRY_DSN`, frontend `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`/`NEXT_PUBLIC_SENTRY_DSN`. Webhook endpoint `we_1UcWmAHNQ2AJhNQlfaJnRYof` (`checkout.session.completed`) registered.
