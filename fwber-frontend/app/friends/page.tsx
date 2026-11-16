@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { HeartHandshake, Link2, Search, UserPlus, Users } from 'lucide-react';
 import FriendList from '@/components/friends/FriendList';
-import FriendRequestList from '@/components/friends/FriendRequestList';
+{/* FriendRequestList retired with Pillar 5 (no requests to respond to). */}
 import { api } from '@/lib/api/client';
 import { useToast } from '@/lib/hooks/use-toast';
 import {
@@ -40,11 +40,7 @@ function unwrapList<T>(value: unknown): T[] {
   return Array.isArray(data) ? (data as T[]) : [];
 }
 
-interface FriendRequest {
-  id: number;
-  status: 'pending' | 'accepted' | 'declined';
-  user?: FriendUser;
-}
+{/* Pillar 5: no FriendRequest type — interest is unilateral and private. */}
 
 const relationshipTypeOptions: RelationshipLinkType[] = ['dating', 'partner', 'spouse', 'other'];
 const relationshipVisibilityOptions: RelationshipLinkVisibility[] = ['public', 'friends', 'private'];
@@ -53,7 +49,7 @@ export default function FriendsPage() {
   const [activeTab, setActiveTab] = useState('friends');
   const [searchQuery, setSearchQuery] = useState('');
   const [friends, setFriends] = useState<FriendUser[]>([]);
-  const [requests, setRequests] = useState<FriendRequest[]>([]);
+  const [interests, setInterests] = useState<FriendUser[]>([]);
   const [searchResults, setSearchResults] = useState<FriendUser[]>([]);
   const [relationshipLinks, setRelationshipLinks] = useState<RelationshipLink[]>([]);
   const [relationshipRequests, setRelationshipRequests] = useState<RelationshipLink[]>([]);
@@ -66,14 +62,14 @@ export default function FriendsPage() {
 
   const fetchData = useCallback(async () => {
     try {
-      const [friendsRes, requestsRes, linksRes, linkRequestsRes] = await Promise.all([
+      const [friendsRes, interestsRes, linksRes, linkRequestsRes] = await Promise.all([
         api.get<FriendUser[]>('/friends'),
-        api.get<FriendRequest[]>('/friends/requests'),
+        api.get<FriendUser[]>('/friends/interests'),
         getRelationshipLinks(),
         getPendingRelationshipLinkRequests(),
       ]);
       setFriends(unwrapList<FriendUser>(friendsRes));
-      setRequests(unwrapList<FriendRequest>(requestsRes));
+      setInterests(unwrapList<FriendUser>(interestsRes));
       setRelationshipLinks(Array.isArray(linksRes) ? linksRes : []);
       setRelationshipRequests(Array.isArray(linkRequestsRes) ? linkRequestsRes : []);
     } catch (err) {
@@ -107,25 +103,31 @@ export default function FriendsPage() {
     }
   };
 
-  const sendFriendRequest = async (userId: number) => {
+  // Pillar 5: interest is unilateral and private. The other person is
+  // told NOTHING unless the interest turns out to be mutual.
+  const expressInterest = async (userId: number) => {
     try {
-      await api.post('/friends/requests', { friend_id: userId });
-      success('Friend request sent');
+      const res: any = await api.post('/friends/interest', { friend_id: userId });
+      if (res?.mutual || res?.connected) {
+        success('You are now connected!');
+        fetchData();
+      } else {
+        success('Interest saved privately — they will only know if it is mutual.');
+      }
       setSearchResults((prev) => prev.filter((u) => u.id !== userId));
     } catch (err) {
-      console.error('Error sending friend request:', err);
-      error('Failed to send friend request');
+      console.error('Error expressing interest:', err);
+      error('Failed to save interest');
     }
   };
 
-  const handleRespondToRequest = async (requesterUserId: number, status: 'accepted' | 'declined') => {
+  const withdrawInterest = async (userId: number) => {
     try {
-      await api.post(`/friends/requests/${requesterUserId}`, { status });
-      success(status === 'accepted' ? 'Friend request accepted' : 'Friend request rejected');
-      fetchData();
+      await api.delete(`/friends/interest/${userId}`);
+      setInterests((prev) => prev.filter((u) => u.id !== userId));
     } catch (err) {
-      console.error('Error responding to friend request:', err);
-      error(`Failed to ${status === 'accepted' ? 'accept' : 'reject'} friend request`);
+      console.error('Error withdrawing interest:', err);
+      error('Failed to withdraw interest');
     }
   };
 
@@ -235,7 +237,7 @@ export default function FriendsPage() {
           className="flex gap-2"
         >
           <Users className="h-4 w-4" />
-          Friends ({friends.length})
+          Connections ({friends.length})
         </Button>
         <Button
           variant={activeTab === 'requests' ? 'default' : 'outline'}
@@ -243,7 +245,7 @@ export default function FriendsPage() {
           className="flex gap-2"
         >
           <UserPlus className="h-4 w-4" />
-          Requests ({requests.length})
+          Interested ({interests.length})
         </Button>
         <Button
           variant={activeTab === 'relationships' ? 'default' : 'outline'}
@@ -282,10 +284,30 @@ export default function FriendsPage() {
               )}
 
               {activeTab === 'requests' && (
-                <FriendRequestList
-                  friendRequests={requests}
-                  onRespondToRequest={handleRespondToRequest}
-                />
+                <div className="space-y-4">
+                  <p className="text-sm text-muted-foreground">
+                    People you are interested in. This list is private — they are only told if the interest becomes mutual, when you connect.
+                  </p>
+                  {interests.length === 0 ? (
+                    <p className="text-muted-foreground">You have not expressed interest in anyone yet.</p>
+                  ) : (
+                    <div className="grid gap-4">
+                      {interests.map((user) => (
+                        <div key={user.id} className="flex items-center justify-between rounded-lg border p-4">
+                          <div className="flex items-center gap-3">
+                            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted">
+                              {(user.profile?.display_name || user.name)?.charAt(0) || '?'}
+                            </div>
+                            <p className="font-medium">{user.profile?.display_name || user.name}</p>
+                          </div>
+                          <Button size="sm" variant="outline" onClick={() => withdrawInterest(user.id)}>
+                            Withdraw
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               )}
 
               {activeTab === 'relationships' && (
@@ -430,8 +452,8 @@ export default function FriendsPage() {
                               ) : null}
                             </div>
                           </div>
-                          <Button size="sm" onClick={() => sendFriendRequest(user.id)}>
-                            Add Friend
+                          <Button size="sm" onClick={() => expressInterest(user.id)}>
+                            Interested
                           </Button>
                         </div>
                       ))}

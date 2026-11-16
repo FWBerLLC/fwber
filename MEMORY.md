@@ -1,12 +1,12 @@
 # MEMORY.md — fwber Internal Architectural Observations
 
-## Current Version: 2.3.97 "Referrals & Vouches Hub, Local Bulletin Boards Hub, BLE Hardware Tokens & Field Notes Polish"
+## Current Version: 2.3.98 "Referrals & Vouches Hub, Local Bulletin Boards Hub, BLE Hardware Tokens & Field Notes Polish"
 **Last Updated:** 2026-11-15
 
-### Observations (2026-11-15 session, v2.3.97)
+### Observations (2026-11-15 session, v2.3.98)
 - **Auto-Minted Referral Codes & `reward_rules` Parity (`/api/referrals/summary`)**: `ReferralModal.tsx` and `/referrals` both call `GET /api/referrals/summary` immediately on mount; lazily minting and persisting a unique uppercase `referral_code` inside `ensureUserReferralCode()` and returning `reward_rules` alongside real Level-1/Level-2 `prisma.users` counts ensures fresh accounts never see an empty invite link or crash `ReferralModal`.
 - **`api.get()` Unwrapping Contract (`fwber-frontend/lib/api/client.ts`)**: Unlike Axios (`res.data`), `fwber-frontend/lib/api/client.ts` `api.get<T>()` returns the parsed JSON body directly (`T`, not `{ data: T }`). Any page migrated from Axios or raw `fetch` (such as `/settings/hardware`) must read `res.token` rather than `res.data.token`.
-- **Zero Residual `if (true)` / `if (false)` Codemod Locks**: Earlier automated `window.confirm()` codemod sweeps left `if (true) { return }` / `if (true) { ... }` remnants in `/settings/security` (fixed in `v2.3.91`), `/journal` (fixed in `v2.3.97`), and `/settings/hardware` (fixed in `v2.3.97`). Repo-wide `git grep` confirms `0` `if (true|false)` remnants remain anywhere in `fwber-frontend` or `fwber-backend-ts/src`.
+- **Zero Residual `if (true)` / `if (false)` Codemod Locks**: Earlier automated `window.confirm()` codemod sweeps left `if (true) { return }` / `if (true) { ... }` remnants in `/settings/security` (fixed in `v2.3.91`), `/journal` (fixed in `v2.3.98`), and `/settings/hardware` (fixed in `v2.3.98`). Repo-wide `git grep` confirms `0` `if (true|false)` remnants remain anywhere in `fwber-frontend` or `fwber-backend-ts/src`.
 
 ### Observations (2026-11-15 session, v2.3.95)
 - **Role-Scoped B2B Venue JWTs (`/api/venue/*` vs `/api/venues/*`)**: Venue Partner Portal accounts live in `prisma.venues` (authenticated via `venue_token` in `localStorage`), completely separate from member accounts in `prisma.users`. Signing venue session JWTs with `{ venueId, role: 'venue' }` and enforcing `decoded.role === 'venue'` in `authenticateVenue` prevents standard member JWTs from impersonating venue IDs without requiring a secondary secret or schema migration.

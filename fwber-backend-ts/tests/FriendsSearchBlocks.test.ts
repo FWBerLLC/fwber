@@ -5,7 +5,8 @@ import express from 'express';
 // Covers the 2026-11-06 QA-test fixes:
 // - GET /api/friends/search did not exist (frontend 404'd, page always showed
 //   "No users found"); it now returns matching users as a bare array.
-// - POST /api/friends/requests must refuse requests across a block.
+// - Interest must refuse to cross a block (Pillar 5: POST /api/friends/interest
+//   replaced POST /api/friends/requests, which now answers 410).
 // - POST /api/blocks must sever friendships + pending requests, so a blocked
 //   user disappears from the blocker's friends list.
 
@@ -105,7 +106,7 @@ describe('Friends search (GET /api/friends/search)', () => {
     ]);
   });
 
-  it('excludes blocked users, friends, and pending requests from results', async () => {
+  it('excludes blocked users, friends, and my outgoing interests from results', async () => {
     mockBlocksFindMany.mockResolvedValue([{ blocker_id: 1n, blocked_id: 3n }]);
     mockFriendsFindMany.mockResolvedValue([{ user_id: 1n, friend_id: 4n }]);
     mockFriendRequestsFindMany.mockResolvedValue([{ user_id: 5n, friend_id: 1n }]);
@@ -130,24 +131,24 @@ describe('Friends search (GET /api/friends/search)', () => {
   });
 });
 
-describe('Friend requests across a block', () => {
+describe('Interest across a block (Pillar 5)', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it('refuses a request when either side blocked the other', async () => {
+  it('refuses interest when either side blocked the other', async () => {
     mockUsersFindUnique.mockResolvedValue({ id: 5n });
     mockBlocksFindFirst.mockResolvedValue({ id: 9n, blocker_id: 5n, blocked_id: 1n });
 
     const res = await request(app)
-      .post('/api/friends/requests')
+      .post('/api/friends/interest')
       .send({ friend_id: 5 });
 
     expect(res.status).toBe(400);
     expect(mockFriendRequestsCreate).not.toHaveBeenCalled();
   });
 
-  it('sends the request when no block exists', async () => {
+  it('saves silent interest when no block exists (no notification)', async () => {
     mockUsersFindUnique.mockResolvedValue({ id: 5n, name: 'FWBER QA Beta' });
     mockBlocksFindFirst.mockResolvedValue(null);
     mockFriendsFindFirst.mockResolvedValue(null);
@@ -155,16 +156,27 @@ describe('Friend requests across a block', () => {
     mockFriendRequestsCreate.mockResolvedValue({ id: 7n });
 
     const res = await request(app)
-      .post('/api/friends/requests')
+      .post('/api/friends/interest')
       .send({ friend_id: 5 });
 
     expect(res.status).toBe(200);
     expect(res.body.success).toBe(true);
+    expect(res.body.mutual).toBe(false);
     expect(mockFriendRequestsCreate).toHaveBeenCalledWith(
       expect.objectContaining({
-        data: expect.objectContaining({ user_id: 1n, friend_id: 5n, status: 'pending' }),
+        data: expect.objectContaining({ user_id: 1n, friend_id: 5n, status: 'interested' }),
       })
     );
+    expect(mockCreateNotification).not.toHaveBeenCalled();
+  });
+
+  it('the retired request endpoint answers 410', async () => {
+    const res = await request(app)
+      .post('/api/friends/requests')
+      .send({ friend_id: 5 });
+
+    expect(res.status).toBe(410);
+    expect(res.body.code).toBe('FRIEND_REQUESTS_REMOVED');
   });
 });
 

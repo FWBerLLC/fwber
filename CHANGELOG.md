@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.3.98] - 2026-11-16
+
+### Pillar 5 — No Rejection State (Robert-Directed Migration)
+
+- **Model**: friend requests are gone. `POST /api/friends/interest` saves a unilateral, private interest (the target is told *nothing*); only mutual interest materializes a connection and notifies both sides. `DELETE /api/friends/interest/:id` withdraws silently. `GET /api/friends/interests` lists only *my* outgoing interests. Storage reuses `friend_requests` rows with status `interested` — no schema migration; existing `friends` (accepted) rows are grandfathered connections.
+- **Retired flows**: `POST /friends/request|requests|requests/:id|accept/:id|reject/:id` now answer **410 `FRIEND_REQUESTS_REMOVED`**; `GET /friends/requests` always returns `[]` (no pending state exists). Search excludes connections + my interests and never marks incoming admirers (no signal leaks).
+- **Frontend**: Friends page — "Connections" + private "Interested" tabs (withdraw), search CTA is now **Interested** with honest copy ("they will only know if it is mutual").
+- **Data migration** (`tools/migrate-pillar5.mjs`, idempotent): pending → interested (sender's interest survives silently), rejected rows **deleted** (a recorded "no" must not persist), accepted untouched.
+- **Tests**: new `Pillar5Interests.test.ts` (7 cases: silent one-way, mutual unlock + dual notify, idempotency, silent withdraw, 400/404/block guards, 410 tombs, grandfathering); `FriendsSearchBlocks` updated to the interest contract. Backend suite **193/193**, both `tsc` 0, lint 0.
+- **Also in this release train**: Stripe keys wired server-side but **rejected by Stripe as invalid** (full-length keys still needed); coturn TURN live (`turn:fwber.online:3478`).
+
 ## [2.3.97] - 2026-11-16
 
 ### Robert's Decision Batch (2, 3, 8, 9) + Handler Cleanup
