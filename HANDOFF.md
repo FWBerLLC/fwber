@@ -213,6 +213,9 @@ Ran a full static contract sweep across `fwber-frontend/{app,components,lib,hook
 ## Session 2026-11-13 (cont. 36) - Version consistency verified (loop iteration)
 - Prod home HTML + standalone chunks carry **2.3.83**; repo/server `VERSION` = 2.3.83 — badge, build, and source of truth in sync (the v2.3.61 centralized-version wiring holding). Backend suite 128/128.
 
+## Session 2026-11-16 (cont. 10) - Stripe keys pasted but REJECTED by Stripe (needs full keys)
+- Robert pasted `pk_live_…`/`sk_live_…` (32/33 chars total — legacy-short or truncated; modern keys ~107). Wired both into server env (`STRIPE_SECRET_KEY` backend, `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` frontend, rebuilt → pk baked in 4 chunks, backend restarted on 2.3.97). **But Stripe API verdict: `Invalid API Key provided`** for the secret — webhook endpoint could not be created and checkout will fail at Stripe until replaced. **Robert: re-copy the FULL keys** (Stripe Dashboard → Developers → API keys; secret is ~99 chars after the prefix). Env upserts are idempotent — one paste + restart/rebuild wires them. Webhook still pending valid key (register `checkout.session.completed` → signing secret → `STRIPE_WEBHOOK_SECRET`). Note: webhook handler credits a flat 100 tokens per checkout regardless of price — flag for Robert's product eye before real traffic.
+
 ## Session 2026-11-16 (cont. 9) - Robert's 1/2/3/8/9 executed; Sentry token triaged
 - **(2) Branches**: 6 merged remote branches deleted (re-verified 0 unmerged first); only `origin/main` remains.
 - **(9) /tmp sweep**: >7d entries (149) removed — /tmp 6.2G→2.0G. **Kept, named**: recent Nov-13 staged backups of other projects (`ercm-bak-064b` 985M, contentplanner/ercm/legacyleads/foreclosure/leadcaller backups, deploy-v3 tarballs) — Robert: confirm before those go.
