@@ -213,6 +213,9 @@ Ran a full static contract sweep across `fwber-frontend/{app,components,lib,hook
 ## Session 2026-11-13 (cont. 36) - Version consistency verified (loop iteration)
 - Prod home HTML + standalone chunks carry **2.3.83**; repo/server `VERSION` = 2.3.83 — badge, build, and source of truth in sync (the v2.3.61 centralized-version wiring holding). Backend suite 128/128.
 
+## Session 2026-11-16 (cont. 5) - Periodic health pass on v2.3.96 (loop iteration)
+- Nav 179/133/17, rewrites 3/3 (audit now reports `app_version=2.3.96` from health), tray all DOWN (v2.3.96 header), prod 200s (dashboard 307). All green.
+
 ## Session 2026-11-16 (cont. 4) - Gates re-run on merged tree (loop iteration)
 - Backend **185/185**, backend + frontend `tsc` 0 on the merged v2.3.96 tree. Working tree clean.
 
