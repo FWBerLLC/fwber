@@ -213,6 +213,10 @@ Ran a full static contract sweep across `fwber-frontend/{app,components,lib,hook
 ## Session 2026-11-13 (cont. 36) - Version consistency verified (loop iteration)
 - Prod home HTML + standalone chunks carry **2.3.83**; repo/server `VERSION` = 2.3.83 — badge, build, and source of truth in sync (the v2.3.61 centralized-version wiring holding). Backend suite 128/128.
 
+## Session 2026-11-16 (cont. 13) - Pillar 5 DEPLOYED + live-proven (v2.3.98)
+- Deploy: rollback tag → backend 2.3.98 (health `app_version 2.3.98`) → migration ran (**19 pending → interested, 0 rejected, 2 accepted kept**; run script from backend dir for @prisma/client resolution) → frontend atomic swap 2.3.98.
+- Live proof (QA 209/210, `%TEMP%\pillar5-proof.mjs`): A→B interest silent (`mutual:false`, B sees `requests:[]` + own interests `[]`), old POST → **410**, B→A → `mutual:true connected:true`, both list each other as connections, DM 200. All contract points pass on prod.
+
 ## Session 2026-11-16 (cont. 12) - Pillar 5 No-Rejection SHIPPED (v2.3.98, Robert item 1)
 - Implemented per VISION Pillar 5 with Robert's "1 please do": `src/lib/interests.ts` (express/withdraw/mutual/grandfathered), interest endpoints + 410 tombs + empty `/requests`, search privacy (incoming never marked), Friends UI (Connections/Interested/Withdraw), data migration script (pending→interested, rejected erased, accepted grandfathered — run on server post-deploy, idempotent).
 - Messaging was already block-gated only (auto-match on send), so no re-gate needed; face-reveal unlocks ride connections (accepted ∪ mutual) via the friends list. Relationship-links keep their own confirm mechanics (flagged follow-up in TODO).
