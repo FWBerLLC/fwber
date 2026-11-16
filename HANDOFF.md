@@ -213,6 +213,9 @@ Ran a full static contract sweep across `fwber-frontend/{app,components,lib,hook
 ## Session 2026-11-13 (cont. 36) - Version consistency verified (loop iteration)
 - Prod home HTML + standalone chunks carry **2.3.83**; repo/server `VERSION` = 2.3.83 — badge, build, and source of truth in sync (the v2.3.61 centralized-version wiring holding). Backend suite 128/128.
 
+## Session 2026-11-16 (cont. 7) - Pillar 5 conflict flagged as directed epic (loop iteration)
+- Pillar 5 bans the friend-request flows fwber ships today. Recorded as High-Priority TODO epic with migration shape + open calls (grandfathering, messaging re-gate). **Not started** — destructive pivot needs Robert's explicit go in this lane. Everything else (friends system as-is) keeps passing its suites meanwhile.
+
 ## Session 2026-11-16 (cont. 6) - Bobbi lane landed VISION Pillar 5 (loop iteration)
 - Bobbi (muse.ai) pushed `d9c3dffdb` VISION Pillar 5 "No Rejection State" (Robert-directed) + Protocol #317 sync merge `af9e29a0a`; local already 0/0 with it. Her direct-testing visual pass is still outstanding; fwber prod remains v2.3.96 (docs-only change, no redeploy needed).
 
