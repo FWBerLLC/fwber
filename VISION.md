@@ -1,7 +1,7 @@
 # VISION.md — The Ultimate fwber Architecture & Philosophy
 
 > **Last Updated:** 2026-11-15
-> **Version:** 2.3.99 (Pillar 5 Dead-Code Sweep & Geo Version Alignment)
+> **Version:** 2.3.100 (Stripe Live + Sentry DSN Wired, Webhook Raw-Body Fix)
 > **Goal:** To serve as the definitive North Star for all human and AI agents working on the fwber project.
 
 ---

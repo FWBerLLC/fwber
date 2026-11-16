@@ -1,6 +1,6 @@
 # MEMORY.md — fwber Internal Architectural Observations
 
-## Current Version: 2.3.99 "Pillar 5 Dead-Code Sweep & Geo Version Alignment"
+## Current Version: 2.3.100 "Stripe Live + Sentry DSN Wired, Webhook Raw-Body Fix"
 **Last Updated:** 2026-11-15
 
 ### Observations (2026-11-15 session, v2.3.98)

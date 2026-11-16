@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.3.100] - 2026-11-16
+
+### Stripe Live + Sentry DSN Wired, Webhook Raw-Body Fix
+
+- **Stripe live keys wired (Hetzner env only, never committed)**: Robert's re-pasted `sk_live` validated against the Stripe API (account charges + payouts enabled — the earlier paste was a different, rejected key). `STRIPE_SECRET_KEY` upserted in backend `.env`, `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` in frontend build env. Webhook endpoint `we_1UcWmAHNQ2AJhNQlfaJnRYof` registered for `checkout.session.completed` → `https://fwber.online/api/payments/webhook`; signing secret upserted as `STRIPE_WEBHOOK_SECRET`.
+- **Webhook raw-body bug fixed** (`fwber-backend-ts/src/routes/payments.ts`): `constructEvent` was called with the parsed JSON object, which Stripe signature verification always rejects — every real event would have 400'd once keys went live. Now verifies over `req._rawBody` (stashed by the `express.json` verify hook in `src/index.ts`), pinned by new `tests/PaymentsWebhook.test.ts` (signed happy path credits 100 tokens; bad signature 400s and credits nothing). Suite **41/41, 195/195**.
+- **Sentry DSN wired**: the pasted `sntryu_` auth token (org `na-rby`) was used to fetch the `javascript-nextjs` project DSN; `NEXT_PUBLIC_SENTRY_DSN` (frontend build env) + `SENTRY_DSN` (backend env) set — error telemetry is live after redeploy. The auth token itself was not stored anywhere.
+- **Known product flag (unchanged, Robert's call)**: the webhook credits a flat 100 tokens on any `checkout.session.completed`, regardless of price paid.
+
 ## [2.3.99] - 2026-11-16
 
 ### Pillar 5 Dead-Code Sweep & Geo Version Alignment
