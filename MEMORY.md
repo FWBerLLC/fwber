@@ -1,6 +1,6 @@
 # MEMORY.md — fwber Internal Architectural Observations
 
-## Current Version: 2.3.98 "Referrals & Vouches Hub, Local Bulletin Boards Hub, BLE Hardware Tokens & Field Notes Polish"
+## Current Version: 2.3.99 "Pillar 5 Dead-Code Sweep & Geo Version Alignment"
 **Last Updated:** 2026-11-15
 
 ### Observations (2026-11-15 session, v2.3.98)

@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.3.99] - 2026-11-16
+
+### Pillar 5 Dead-Code Sweep & Geo Version Alignment
+
+- **Dead friend-request frontend removed**: deleted `fwber-frontend/components/friends/FriendRequestList.tsx` (Accept/Decline UI for a flow Pillar 5 abolished; zero importers since the Friends page rebuild) and `fwber-frontend/lib/api/friends.ts` (`getFriendRequests`/`sendFriendRequest`/`respondToFriendRequest` targeting the 410-tombstoned `/friends/requests` routes; zero importers — the Friends page calls the authenticated `api` client directly).
+- **Cypress friends spec rewritten for Pillar 5** (`cypress/e2e/friends-full.cy.js`): was intercepting/asserting the deleted request inbox (`GET/POST /api/friends/requests`, "Send Request", Accept). Now covers Connections + private Interested tabs, `POST /api/friends/interest` (silent when not mutual), and silent `DELETE /api/friends/interest/:id` withdraw, and asserts no Accept/Decline UI exists.
+- **Geo version drift fixed**: `fwber-geo/Cargo.toml` was `2.3.96` while the app shipped `2.3.98` (live `geo.fwber.online/health` reported `2.3.96`); crate now aligns with the app `VERSION` per the geo-alignment rule. Takes effect on the next geo rebuild/deploy.
+- **Gates**: frontend `tsc --noEmit` 0; backend `Pillar5Interests` + `FriendsSearchBlocks` 16/16.
+
 ## [2.3.98] - 2026-11-16
 
 ### Pillar 5 — No Rejection State (Robert-Directed Migration)

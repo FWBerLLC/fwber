@@ -1,11 +1,14 @@
 # ROADMAP.md — fwber Project Trajectory
 
-> **Current Version:** 2.3.98
-> **Last Updated:** 2026-11-15
+> **Current Version:** 2.3.99
+> **Last Updated:** 2026-11-16
 
 ---
 
 ## 🗺️ High-Level Trajectory
+
+### Phase 23: Pillar 5 Dead-Code Sweep & Geo Version Alignment (COMPLETED - v2.3.99)
+Removed the last pre-Pillar 5 friend-request frontend (`FriendRequestList.tsx` Accept/Decline component and the `lib/api/friends.ts` request helpers, both zero-importer), rewrote the Cypress friends spec against the interest/withdraw flow, and re-aligned the `fwber-geo` crate version (`2.3.96` → app `VERSION`) after live health showed the drift.
 
 ### Phase 22: Referrals & Vouches Hub, Local Bulletin Boards Hub, BLE Hardware Tokens & Field Notes Polish (COMPLETED - v2.3.98)
 Eliminated the `ReferralModal` runtime crash, completed atomic two-sided referral code redemption and vouch link sharing on `/referrals`, rebuilt `/bulletin-boards` into an authenticated hyper-local discussion hub with AI post drafting, persisted BLE hardware security tokens on MySQL `prisma.hardware_tokens`, and swept the final codemod dead-code locks across `/journal` and `/settings/hardware`.

@@ -1,4 +1,4 @@
-describe('Friends Feature', () => {
+describe('Friends Feature (Pillar 5: No Rejection State)', () => {
   const testUser = {
     id: 1,
     name: 'Test User',
@@ -13,10 +13,10 @@ describe('Friends Feature', () => {
     profile_photo_url: '/placeholder.jpg'
   };
 
-  const requestUser = {
+  const interestUser = {
     id: 3,
-    name: 'Request User',
-    email: 'request@example.com',
+    name: 'Interest User',
+    email: 'interest@example.com',
     profile_photo_url: '/placeholder.jpg'
   };
 
@@ -63,37 +63,43 @@ describe('Friends Feature', () => {
       body: testUser
     }).as('getUser');
 
-    // Mock Friends API
+    // Pillar 5: connections are grandfathered/mutual only; there is no
+    // incoming request list to accept or decline.
     cy.intercept('GET', '**/api/friends', {
       statusCode: 200,
       body: [friendUser]
     }).as('getFriends');
 
-    cy.intercept('GET', '**/api/friends/requests', {
+    cy.intercept('GET', '**/api/friends/interests', {
       statusCode: 200,
-      body: [{
-        id: 101,
-        user_id: requestUser.id,
-        friend_id: testUser.id,
-        status: 'pending',
-        user: requestUser
-      }]
-    }).as('getFriendRequests');
+      body: [interestUser]
+    }).as('getInterests');
 
-    cy.intercept('GET', '**/api/users/search?q=Search', {
+    cy.intercept('GET', '**/api/relationship-links', {
+      statusCode: 200,
+      body: { links: [] }
+    }).as('getRelationshipLinks');
+
+    cy.intercept('GET', '**/api/relationship-links/requests', {
+      statusCode: 200,
+      body: { requests: [] }
+    }).as('getRelationshipLinkRequests');
+
+    cy.intercept('GET', '**/api/friends/search*', {
       statusCode: 200,
       body: [searchUser]
     }).as('searchFriends');
 
-    cy.intercept('POST', '**/api/friends/requests', {
-      statusCode: 201,
-      body: { status: 'pending' }
-    }).as('sendRequest');
-
-    cy.intercept('POST', '**/api/friends/requests/*', {
+    // Interest is unilateral and private: no mutual match yet.
+    cy.intercept('POST', '**/api/friends/interest', {
       statusCode: 200,
-      body: { status: 'accepted' }
-    }).as('respondRequest');
+      body: { mutual: false, connected: false }
+    }).as('expressInterest');
+
+    cy.intercept('DELETE', '**/api/friends/interest/*', {
+      statusCode: 200,
+      body: { ok: true }
+    }).as('withdrawInterest');
 
     // Mock WebSocket token endpoint to avoid 404s
     cy.intercept('GET', '**/api/websocket/token', {
@@ -105,103 +111,71 @@ describe('Friends Feature', () => {
     }).as('getWebsocketToken');
   });
 
-  it('should list friends and requests', () => {
-    // Login flow
+  function loginAndVisitFriends() {
     cy.visit('/login');
-    // Re-inject MockEventSource after visit
     cy.window().then((win) => {
       win.EventSource = MockEventSource;
     });
 
-    cy.get('input[name=\"email\"]').type(testUser.email);
-    cy.get('input[name=\"password\"]').type(testUser.password);
-    cy.get('button[type=\"submit\"]').click();
+    cy.get('input[name="email"]').type(testUser.email);
+    cy.get('input[name="password"]').type(testUser.password);
+    cy.get('button[type="submit"]').click();
     cy.wait('@login');
-    
-    // Wait for redirect to dashboard
+
     cy.url().should('include', '/dashboard');
 
     cy.visit('/friends');
-    // Re-inject MockEventSource after visit
     cy.window().then((win) => {
       win.EventSource = MockEventSource;
     });
 
     cy.wait('@getFriends');
-    cy.wait('@getFriendRequests');
+    cy.wait('@getInterests');
+  }
 
-    // Check Friends List
-    cy.contains('Your Friends').should('be.visible');
+  it('should list connections and private interests, with no request inbox', () => {
+    loginAndVisitFriends();
+
+    // Connections tab is the default view.
+    cy.contains('Connections (1)').should('be.visible');
     cy.contains(friendUser.name).should('be.visible');
 
-    // Check Friend Requests
-    cy.contains('Friend Requests').should('be.visible');
-    cy.contains(requestUser.name).should('be.visible');
+    // Interested tab holds only the viewer's own private interests.
+    cy.contains('button', 'Interested (1)').click();
+    cy.contains(interestUser.name).should('be.visible');
+    cy.contains('only told if the interest becomes mutual').should('be.visible');
+
+    // Pillar 5: no Accept/Decline friend-request UI exists anymore.
+    cy.contains('button', 'Accept').should('not.exist');
+    cy.contains('button', 'Decline').should('not.exist');
   });
 
-  it('should search and send friend request', () => {
-    cy.visit('/login');
-    cy.window().then((win) => {
-      win.EventSource = MockEventSource;
-    });
+  it('should search and express private interest', () => {
+    loginAndVisitFriends();
 
-    cy.get('input[name=\"email\"]').type(testUser.email);
-    cy.get('input[name=\"password\"]').type(testUser.password);
-    cy.get('button[type=\"submit\"]').click();
-    cy.wait('@login');
-    
-    cy.url().should('include', '/dashboard');
-
-    cy.visit('/friends');
-    cy.window().then((win) => {
-      win.EventSource = MockEventSource;
-    });
-    
-    // Search
-    cy.get('input[placeholder=\"Search by name or email\"]').type('Search');
-    cy.contains('button', 'Search').click();
+    cy.get('input[placeholder="Search users..."]').type('Search{enter}');
     cy.wait('@searchFriends');
-    
+
     cy.contains(searchUser.name).should('be.visible');
-    
-    // Send Request
-    // Find the button in the search result card
-    cy.contains(searchUser.name)
-      .closest('.shadow')
-      .contains('button', 'Send Request')
-      .click();
-    
-    cy.wait('@sendRequest');
-    cy.on('window:alert', (str) => {
-      expect(str).to.equal('Friend request sent!');
-    });
+
+    // Exact match: the tabs above also contain an "Interested (n)" button.
+    cy.contains('button', /^Interested$/).click();
+    cy.wait('@expressInterest')
+      .its('request.body')
+      .should('deep.equal', { friend_id: searchUser.id });
+
+    cy.contains('Interest saved privately').should('be.visible');
   });
 
-  it('should accept friend request', () => {
-    cy.visit('/login');
-    cy.window().then((win) => {
-      win.EventSource = MockEventSource;
-    });
+  it('should withdraw an expressed interest silently', () => {
+    loginAndVisitFriends();
 
-    cy.get('input[name=\"email\"]').type(testUser.email);
-    cy.get('input[name=\"password\"]').type(testUser.password);
-    cy.get('button[type=\"submit\"]').click();
-    cy.wait('@login');
-    
-    cy.url().should('include', '/dashboard');
+    cy.contains('button', 'Interested (1)').click();
+    cy.contains(interestUser.name).should('be.visible');
 
-    cy.visit('/friends');
-    cy.window().then((win) => {
-      win.EventSource = MockEventSource;
-    });
+    cy.contains('button', 'Withdraw').click();
+    cy.wait('@withdrawInterest');
 
-    cy.wait('@getFriends');
-    cy.wait('@getFriendRequests');
-    
-    cy.contains('Friend Requests').should('be.visible');
-    cy.contains(requestUser.name).should('be.visible');
-    
-    cy.contains('button', 'Accept').click();
-    cy.wait('@respondRequest').its('request.body').should('deep.equal', { status: 'accepted' });
+    cy.contains(interestUser.name).should('not.exist');
   });
 });
