@@ -213,6 +213,10 @@ Ran a full static contract sweep across `fwber-frontend/{app,components,lib,hook
 ## Session 2026-11-13 (cont. 36) - Version consistency verified (loop iteration)
 - Prod home HTML + standalone chunks carry **2.3.83**; repo/server `VERSION` = 2.3.83 — badge, build, and source of truth in sync (the v2.3.61 centralized-version wiring holding). Backend suite 128/128.
 
+## Session 2026-11-16 (cont. 11) - TURN (coturn) provisioned (Robert item 7)
+- Installed coturn on Hetzner: `turnserver` active on 3478 (UDP+TCP) + 5349 TLS (api.fwber.online cert), realm `fwber.online`, lt-cred-mech user `fwber` (pass in `/etc/fwber-turn-credentials`, root 600), relay 49152–65535, private/loopback peer IPs denied. UFW opened 3478/5349 + relay range.
+- Verified: TURN auth+allocation succeeds (channel-bind to 127.0.0.1 correctly 403s on the denied-peer guard); `NEXT_PUBLIC_TURN_URL/USERNAME/CREDENTIAL` wired into frontend `.env.production` and baked (3 chunks carry `turn:fwber.online`) via atomic rebuild. Strict-NAT voice path is live; full media proof needs two real peers (Bobbi pass can cover).
+
 ## Session 2026-11-16 (cont. 10) - Stripe keys pasted but REJECTED by Stripe (needs full keys)
 - Robert pasted `pk_live_…`/`sk_live_…` (32/33 chars total — legacy-short or truncated; modern keys ~107). Wired both into server env (`STRIPE_SECRET_KEY` backend, `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` frontend, rebuilt → pk baked in 4 chunks, backend restarted on 2.3.97). **But Stripe API verdict: `Invalid API Key provided`** for the secret — webhook endpoint could not be created and checkout will fail at Stripe until replaced. **Robert: re-copy the FULL keys** (Stripe Dashboard → Developers → API keys; secret is ~99 chars after the prefix). Env upserts are idempotent — one paste + restart/rebuild wires them. Webhook still pending valid key (register `checkout.session.completed` → signing secret → `STRIPE_WEBHOOK_SECRET`). Note: webhook handler credits a flat 100 tokens per checkout regardless of price — flag for Robert's product eye before real traffic.
 
