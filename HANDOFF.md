@@ -213,6 +213,10 @@ Ran a full static contract sweep across `fwber-frontend/{app,components,lib,hook
 ## Session 2026-11-13 (cont. 36) - Version consistency verified (loop iteration)
 - Prod home HTML + standalone chunks carry **2.3.83**; repo/server `VERSION` = 2.3.83 — badge, build, and source of truth in sync (the v2.3.61 centralized-version wiring holding). Backend suite 128/128.
 
+## Session 2026-11-16 (cont. 16) - Authenticated visual pass: Pillar 5 UI live (first DONE batch)
+- Token-injected (API login QA 197) CDP pass on prod: `/friends` authenticated renders **Connections + Interested** tabs on **v2.3.98** — Pillar 5 UI verified in a real browser, not just API. (`Requests` string match is the unrelated "Link Requests" tab.)
+- Badge text not found in page innerText on /friends (INFO for Bobbi matrix item F: badge may render icon/screen-reader text; socket transport itself is proven). Screenshot capture via raw CDP failed on buffer handling — Bobbi's screenshot pass remains the visual authority.
+
 ## Session 2026-11-16 (cont. 15) - Negotiation ack ping sent; awaiting Bobbi plan
 - Follow-up ack-check ping sent (CDP-verified): asks for (1) ack/edits to split+matrix, (2) first areas she'll run, (3) prerequisites from this lane. No ack within 90s — Bobbi processes fwber asynchronously (memory updates + loop broadcasts seen); loops keep polling each fire. Do not spam further pings until her next loop check-in lands.
 
