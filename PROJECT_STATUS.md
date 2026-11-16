@@ -1,7 +1,7 @@
 # PROJECT_STATUS.md — fwber v2.3.98
 
 **Date:** 2026-11-15
-**Version:** 2.3.100 "Stripe Live + Sentry DSN Wired, Webhook Raw-Body Fix"
+**Version:** 2.3.101 "Backend Sentry Reporter (zero-dep envelope client)"
 **Status:** LIVE ON `fwber.online` (ALL-HETZNER STACK) — backend suite 39/39 (185/185 tests, 100% offline-deterministic), frontend `tsc` 0, `fwber-geo` release clean, 144/144 API contracts verified across 92 mounted Express prefixes (0 unmatched active frontend API calls)
 
 ---

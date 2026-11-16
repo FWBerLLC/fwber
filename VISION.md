@@ -1,7 +1,7 @@
 # VISION.md — The Ultimate fwber Architecture & Philosophy
 
 > **Last Updated:** 2026-11-15
-> **Version:** 2.3.100 (Stripe Live + Sentry DSN Wired, Webhook Raw-Body Fix)
+> **Version:** 2.3.101 (Backend Sentry Reporter (zero-dep envelope client))
 > **Goal:** To serve as the definitive North Star for all human and AI agents working on the fwber project.
 
 ---

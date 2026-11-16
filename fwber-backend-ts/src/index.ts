@@ -93,10 +93,14 @@ import avatarRoutes from './routes/avatar.js';
 import rateLimitsRoutes from './routes/rate-limits.js';
 import websocketRoutes from './routes/websocket.js';
 import { isScannerProbePath } from './lib/scanner-guard.js';
+import { captureException, initSentry } from './lib/sentry.js';
 import prisma from './lib/prisma.js';
 import { setupSocketIO } from './socket.js';
 
 dotenv.config({ quiet: true });
+
+// Backend error telemetry (zero-dep envelope reporter; no-ops without DSN).
+initSentry();
 
 const app = express();
 
@@ -293,6 +297,15 @@ app.use('/api', (req, res) => {
     return res.json([]);
   }
   return res.json({ success: true });
+});
+
+// Unhandled route errors: report to Sentry, answer JSON (never HTML).
+app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+  captureException(err);
+  console.error('[server] unhandled error:', err?.message || err);
+  if (!res.headersSent) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 // Health Check

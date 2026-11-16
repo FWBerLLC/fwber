@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.101] - 2026-11-16
+
+### Backend Sentry Reporter (zero-dependency envelope client)
+
+- The backend never initialized any Sentry SDK — `SENTRY_DSN` (wired in v2.3.100) had no consumer, so backend error telemetry stayed dark while only the frontend reported. Added `fwber-backend-ts/src/lib/sentry.ts`: parses the DSN, arms at startup (`[sentry] backend reporter armed`), and POSTs exception envelopes directly to the ingest endpoint (no new dependency — the dev box's registry egress cannot fetch `@sentry/node`, and a 60-line envelope client is all an exception reporter needs). Reporting is fire-and-forget (3s timeout) and can never throw into request handling.
+- Wired an unhandled-error middleware in `src/index.ts` (after the `/api` catch-all) that captures to Sentry and answers JSON 500 instead of Express's default HTML.
+- Tests: `tests/SentryReporter.test.ts` (6 cases: DSN parsing incl. malformed, armed/no-op contract, envelope shape, swallowed transport failures). Suite **42/42, 201/201**, `tsc` 0.
+
 ## [2.3.100] - 2026-11-16
 
 ### Stripe Live + Sentry DSN Wired, Webhook Raw-Body Fix
