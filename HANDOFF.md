@@ -213,6 +213,14 @@ Ran a full static contract sweep across `fwber-frontend/{app,components,lib,hook
 ## Session 2026-11-13 (cont. 36) - Version consistency verified (loop iteration)
 - Prod home HTML + standalone chunks carry **2.3.83**; repo/server `VERSION` = 2.3.83 — badge, build, and source of truth in sync (the v2.3.61 centralized-version wiring holding). Backend suite 128/128.
 
+## Session 2026-11-16 (cont. 9) - Robert's 1/2/3/8/9 executed; Sentry token triaged
+- **(2) Branches**: 6 merged remote branches deleted (re-verified 0 unmerged first); only `origin/main` remains.
+- **(9) /tmp sweep**: >7d entries (149) removed — /tmp 6.2G→2.0G. **Kept, named**: recent Nov-13 staged backups of other projects (`ercm-bak-064b` 985M, contentplanner/ercm/legacyleads/foreclosure/leadcaller backups, deploy-v3 tarballs) — Robert: confirm before those go.
+- **(8) Off-site backup**: Hetzner has one disk; laptop `M:` (319G free) is the replica: `tools/backup-pull.ps1` + Windows task `fwber-backup-pull` (04:15, keep 14); first pull integrity-verified.
+- **(3) Dead Next handlers deleted**: 8 `app/api/*` route files (bounties, bulletin-boards, burner-links, contacts×2, referrals, reports, topics); kept oembed + sentry-tunnel (nginx-carved). Frontend tsc 0.
+- **(4) Sentry**: Robert pasted an `sntryu_` **auth token** (org `na-rby` readable; project-key scopes denied — cannot fetch DSN with it). It is NOT the DSN. Still need `NEXT_PUBLIC_SENTRY_DSN` (Sentry → Project → Settings → Client Keys). Token NOT committed/stored; cleared from shell env. Once DSN lands: write both to server build env, rebuild, deploy, prove event.
+- Next: (7) coturn, then (1) Pillar 5 epic.
+
 ## Session 2026-11-16 (cont. 8) - Full-directive re-audit on v2.3.96 (loop iteration)
 - Dashboard re-audited on the new tree: 179 routes / 133 linked / 17 intentional, **130/130 tiles with tooltips** — Antigravity wired the new hubs (/bulletin-boards Bulletins, /referrals Refer & Earn) with tooltips themselves. Consolidation verdict unchanged (single dashboard, 10 categories, your 2026-10-18 scoping stands).
 - Gates: backend **185/185**, both tsc 0. Tray `-Status` all DOWN (Hetzner-only). Bobbi tail unchanged (Pillar lane; testing pass outstanding, unread 10 — not resent).
