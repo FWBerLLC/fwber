@@ -213,6 +213,9 @@ Ran a full static contract sweep across `fwber-frontend/{app,components,lib,hook
 ## Session 2026-11-13 (cont. 36) - Version consistency verified (loop iteration)
 - Prod home HTML + standalone chunks carry **2.3.83**; repo/server `VERSION` = 2.3.83 — badge, build, and source of truth in sync (the v2.3.61 centralized-version wiring holding). Backend suite 128/128.
 
+## Session 2026-11-16 (cont. 2) - Post-96 error watch clean (loop iteration)
+- Sampled backend log: 3 5xx in window — all historical (2× pre-fix photos 500, 1× pre-pool-fix register 500; unrotated log spans old deploys). No new 5xx routes on v2.3.96; PM2 stable 27–28m both apps.
+
 ## Session 2026-11-16 (cont.) - v2.3.96 new hubs verified live (loop iteration)
 - API probes (QA 197): `/referrals` 200 (personal code + register link), `/bulletin-boards` 200 (seeded boards), `/hardware-tokens/status` 200 `enabled:true` (the old stub is a real implementation now). Bobbi: no testing reply yet (busy on BOBPC/approvals lanes); brief + deployment notice both delivered, not resent.
 
