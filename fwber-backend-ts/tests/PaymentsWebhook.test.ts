@@ -77,7 +77,7 @@ describe('POST /api/payments/webhook', () => {
     const { payload, header } = signedRequest({
       id: 'evt_test_boost',
       type: 'checkout.session.completed',
-      data: { object: { id: 'cs_boost', metadata: { userId: '9', boostType: 'profile', durationMinutes: '60' } } },
+      data: { object: { id: 'cs_boost', metadata: { userId: '9', boostType: 'standard', durationMinutes: '60' } } },
     });
     const before = Date.now();
     const res = await request(buildApp())
@@ -91,7 +91,7 @@ describe('POST /api/payments/webhook', () => {
     expect(mockBoostsCreate).toHaveBeenCalledTimes(1);
     const arg = (mockBoostsCreate.mock.calls[0] as any)[0];
     expect(arg.data.user_id).toBe(9n);
-    expect(arg.data.boost_type).toBe('profile');
+    expect(arg.data.boost_type).toBe('standard');
     expect(arg.data.status).toBe('active');
     const expiry = new Date(arg.data.expires_at).getTime();
     expect(expiry).toBeGreaterThan(before + 59 * 60 * 1000);
