@@ -1,3 +1,8 @@
+## Session 2026-11-17 — QA-account cleanup shipped + deployed, v2.3.109
+- Shipped IDEAS #4: `POST /api/moderation/qa-cleanup` (moderator-only; targets derived only from `qa-*@example.com`; moderators/admins/caller excluded; dry-run default, `confirm:true` to delete; 500 cap; matched emails returned) + **QA Account Cleanup** card on the Moderation Dashboard (Preview → Delete, safeguard tooltip). `tests/QaCleanup.test.ts` 4/4; suite **224/224**, both tsc 0, lint 0.
+- Deployed `0f5b76b31` (all services 2.3.109). Live guards proven: non-moderator **403**, unauthenticated **401**. Moderator happy path is unit-pinned only — no moderator QA account exists, and none was granted privileges for a proof. A moderator opening `/moderation` can now Preview (~40 battery accounts) and clean them in two clicks.
+- Repo sync: 0/0, no submodules in-repo, merged-ancestor branches only. Bobbi updated (CDP-verified).
+
 ## Session 2026-11-16 (cont. 29) — Hetzner disk watch: 86%, growth is other tenants (loop iteration)
 - Coordination intel via Bobbi forwards: marketing_agent lanes escalated Hetzner disk (91% → recovered 86%). Verified read-only: root **86% (11G free)**, `/tmp` **4.6G** — largest entries are `ercm-bak-064b` (985M, kept by name in the Nov-16 sweep pending Robert's word) and fresh `aicrm-backup-*` (~983M ×2 from today, other tenants' hourly jobs). Watchdog warned 90% at 05:15 today. fwber itself healthy: PM2 backend+frontend online at 2.3.108, geo active, nightly backup fresh (Nov 17 03:30). **Not fwber data — no deletion; Robert's call, already escalated by two lanes.**
 - CI note: `check_rewrites.py` deliberately stays out of PR CI (it probes live prod; deploy workflows + loop runs cover it). Bobbi has no new fwber ack/decisions for this lane.
