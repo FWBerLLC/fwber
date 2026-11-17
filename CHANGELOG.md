@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.106] - 2026-11-16
+
+### Wingman AI Chain Latency Bound — `/wingman/compatibility` 504 Fix
+
+- **Found by the flow battery**: `POST /api/wingman/compatibility` returned **504** while sibling endpoints answered. Root cause in `generateText` (`src/lib/wingman-ai.ts`): with `AI_PREFER_LOCAL=true` the chain tried the local Ollama model first (30s timeout), then an **unbounded** OpenRouter SDK call, then the local model **again** as the final fallback (another 30s) — worst case well past nginx's 60s proxy timeout, so the route's own fallback payload never got sent. `/wingman/fortune` survived at 29.4s in the same window.
+- **Fix**: the local model is attempted at most once per call (`localTried`), and the OpenRouter call is wrapped in the existing 10s `withTimeout`. Worst case is now bounded (30 + 5 + 10 + 10s) inside the proxy budget, after which the route's default payload answers normally.
+- **Tests**: new `tests/WingmanAiChain.test.ts` pins single-local-attempt + empty-string total-failure resolution. Suite **45/45, 213/213**.
+
 ## [2.3.105] - 2026-11-16
 
 ### Message `recipient_id` Alias

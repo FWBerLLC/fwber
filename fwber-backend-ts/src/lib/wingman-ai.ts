@@ -114,7 +114,9 @@ export async function generateText(system: string, user: string, temperature = 0
 
   // 0. Optional: local model first (AI_PREFER_LOCAL=true) — zero-cost/privacy
   //    mode using the shared on-box Ollama service (see ai-local.ts).
+  let localTried = false;
   if (process.env.AI_PREFER_LOCAL === 'true' && isLocalLlmConfigured()) {
+    localTried = true;
     const local = await localChatCompletion(system, user, { temperature });
     if (local) return local;
   }
@@ -141,7 +143,7 @@ export async function generateText(system: string, user: string, temperature = 0
   // 2. Try OpenRouter (Google Gemini 2.0 Flash Lite Free)
   if (openrouter && providerAvailable('openrouter')) {
     try {
-      const resp = await openrouter.chat.completions.create({
+      const resp = await withTimeout(openrouter.chat.completions.create({
         model: 'google/gemini-2.0-flash-lite-preview-02-05:free',
         messages: [
           { role: 'system', content: system },
@@ -149,7 +151,7 @@ export async function generateText(system: string, user: string, temperature = 0
         ],
         temperature,
         max_tokens: 800,
-      });
+      }), TIMEOUT_MS, 'OpenRouter');
       return resp.choices[0]?.message?.content?.trim() || '';
     } catch (err: any) {
       console.error('[AI] OpenRouter failed, falling back...', err.message);
@@ -178,7 +180,10 @@ export async function generateText(system: string, user: string, temperature = 0
 
   // 4. Final fallback: local on-box LLM (Ollama) — keeps every AI feature
   //    working even with NO cloud keys configured and during cloud outages.
-  if (isLocalLlmConfigured()) {
+  //    Skipped when step 0 already tried it: a second full local attempt
+  //    doubled worst-case latency past the nginx 60s proxy timeout (504s
+  //    on /wingman/compatibility while /wingman/fortune squeaked by at 29s).
+  if (!localTried && isLocalLlmConfigured()) {
     const local = await localChatCompletion(system, user, { temperature });
     if (local) return local;
   }
