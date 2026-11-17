@@ -1,3 +1,6 @@
+## Session 2026-11-17 (cont. 9) — Regression hold: battery 37/37, lint clean (loop iteration)
+- Consolidated battery **37/37** (fresh pair 255/256) on v2.3.114; ESLint 0 on journal/privacy surfaces. Bobbi thread has moved past fwber topics (CRM work); no ack/decisions for this lane and no ping sent. No code change.
+
 ## Session 2026-11-17 (cont. 8) — Enum-default class swept clean (loop iteration)
 - Generalized the chatroom defect class: audited all **30 schema enums** (no `@default` outside its enum) and route-level literal defaults (no remaining risky `standard|normal|default` type defaults; surviving literals are ledger/activity tags, not DB enums). Consolidated battery **37/37** (pair 253/254); MCP spot checks pass. No code change.
 
