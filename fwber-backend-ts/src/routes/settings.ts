@@ -42,14 +42,19 @@ router.get('/privacy', async (req: any, res) => {
 router.put('/privacy', async (req: any, res) => {
   try {
     const userId = BigInt(req.user.id);
-    const { is_incognito, is_travel_mode, show_online_status, show_distance, allow_message_requests } = req.body;
+    const { is_incognito, is_travel_mode } = req.body;
     const updates: any = {};
     if (is_incognito !== undefined) updates.is_incognito = Boolean(is_incognito);
     if (is_travel_mode !== undefined) updates.is_travel_mode = Boolean(is_travel_mode);
     if (Object.keys(updates).length > 0) {
       await prisma.user_profiles.updateMany({ where: { user_id: userId }, data: updates });
     }
-    res.json({ success: true, updated: Object.keys(req.body) });
+    // Only is_incognito / is_travel_mode are stored. The old response
+    // echoed every submitted key as "updated", silently dropping the
+    // rest (show_online_status, show_distance, ...) — report them as
+    // ignored so callers never believe a write persisted that did not.
+    const ignored = Object.keys(req.body || {}).filter((k) => !(k in updates));
+    res.json({ success: true, updated: Object.keys(updates), ignored });
   } catch (error: any) {
     console.error('[Settings] Privacy update error:', error.message);
     res.json({ success: false });

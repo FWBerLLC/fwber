@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.113] - 2026-11-17
+
+### Privacy Settings Write Honesty
+
+- Same facade family as the journal fix, smaller blast radius: `PUT /api/settings/privacy` persisted only `is_incognito`/`is_travel_mode` but answered `updated: [every submitted key]`, silently dropping `show_online_status`, `show_distance`, `allow_message_requests`, and friends. No frontend consumes this endpoint (incognito goes through `PUT /profile`; the privacy page is the journal one), so instead of inventing storage, the response now splits **`updated`** (actually stored) from **`ignored`** (accepted-but-not-stored) — no caller can believe a write persisted that did not.
+- Tests: `tests/PrivacySettingsHonesty.test.ts` (stored-field round-trip through GET; ignored-field split). Suite **51/51, 233/233**.
+
 ## [2.3.112] - 2026-11-17
 
 ### Journal Privacy Persistence Fix — Settings Were a Facade
