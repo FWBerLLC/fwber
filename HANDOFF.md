@@ -1,3 +1,7 @@
+## Session 2026-11-17 (cont. 25) — 2FA Cypress cycle green; two more stale specs backlogged (test-only)
+- `two-factor-auth.cy.js` **1/1 passing** — full register → enable (QR + TOTP via the config's `generateOTP` task) → recovery codes → logout → 2FA challenge → dashboard cycle against prod. Fixes were all spec-side: fallback + `/auth/me` intercepts, `access_token` register shape, pre-visit `fwber_auth` cookie, current success copy ("is Active" / "Emergency Recovery Codes"), real challenge path (`/auth/two-factor-challenge`) and `two_factor_token` mock field (its absence surfaced a login-page "Cannot read properties of undefined" against the unrealistic mock — the real API always sends the token).
+- Executed Cypress total: **9 tests green across 5 specs**. Batch also ran `physical-profile` (stale `avatar_prompt` selector) and `premium-features` (stale `Upgrade to Gold` copy) — backlogged in TODO with specifics. Artifacts cleaned. (A concurrent sweep lane carried the spec edit into `08a9f0336`.)
+
 ## Session 2026-11-17 (cont. 24) — Matching-flow refreshed: ALL refreshed Cypress specs green (test-only)
 - `matching-flow.cy.js` rewritten to the current page contract (seeded session via pre-visit cookie, `{matches}` normalization, `button.text-green-500` like button, `{target_user_id, action}` body, mutual-match toast) — **2/2 passing** against prod in 17s. Executed Cypress total: **friends-full 3/3, friends-nav 1/1, notifications 2/2, matching-flow 2/2 (8 tests)**. TODO stale-specs item CLOSED. Artifacts cleaned.
 
