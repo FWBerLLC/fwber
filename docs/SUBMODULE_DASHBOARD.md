@@ -1,7 +1,7 @@
 # Submodule Dashboard — fwber
 
 > **Last Updated:** 2026-11-15
-> **Root Version:** 2.3.107
+> **Root Version:** 2.3.108
 
 ---
 
@@ -11,9 +11,9 @@
 
 | # | Component | Path | Kind | Version | Stack / Runtime | Remote / Origin | Status |
 |---|-----------|------|------|---------|-----------------|-----------------|--------|
-| 1 | **Root Monorepo** | `.` | Git Root (Submodule in parent workspace) | `2.3.107` | Unified orchestrator (`tray.bat`, `build.bat`, `start.bat`, `tools/check_api_contracts.py`), docs, ops & CI | `https://github.com/FWBerLLC/fwber.git` (redirected from `https://github.com/robertpelloni/fwber.git`); legacy upstream `git@github.com:fwber-code/fwber.git` | ✅ Active (`main`, 10 local personal branches synced) |
-| 2 | **Backend API & WS** | `fwber-backend-ts/` | Workspace Package | `2.3.107` | Node.js ESM, Express 5, TypeScript 6, Prisma 6, Socket.io 4, 92 mounted prefixes (`144/144` verified contracts), Ollama + Cloud LLMs | *(monorepo)* | ✅ Active, port `4003` (PM2) |
-| 3 | **Web Frontend** | `fwber-frontend/` | Workspace Package | `2.3.107` | Next.js `16.4.3` (`.standalone-live` zero-downtime swap), React `19.3.1`, TailwindCSS, Solana Wallet Adapter, Sentry | *(monorepo)* | ✅ Active, port `3000` (PM2) |
+| 1 | **Root Monorepo** | `.` | Git Root (Submodule in parent workspace) | `2.3.108` | Unified orchestrator (`tray.bat`, `build.bat`, `start.bat`, `tools/check_api_contracts.py`), docs, ops & CI | `https://github.com/FWBerLLC/fwber.git` (redirected from `https://github.com/robertpelloni/fwber.git`); legacy upstream `git@github.com:fwber-code/fwber.git` | ✅ Active (`main`, 10 local personal branches synced) |
+| 2 | **Backend API & WS** | `fwber-backend-ts/` | Workspace Package | `2.3.108` | Node.js ESM, Express 5, TypeScript 6, Prisma 6, Socket.io 4, 92 mounted prefixes (`144/144` verified contracts), Ollama + Cloud LLMs | *(monorepo)* | ✅ Active, port `4003` (PM2) |
+| 3 | **Web Frontend** | `fwber-frontend/` | Workspace Package | `2.3.108` | Next.js `16.4.3` (`.standalone-live` zero-downtime swap), React `19.3.1`, TailwindCSS, Solana Wallet Adapter, Sentry | *(monorepo)* | ✅ Active, port `3000` (PM2) |
 | 4 | **Geo Screener** | `fwber-geo/` | Rust Crate | `2.3.98` (`include_str!("../../VERSION")`) | Rust `2024` edition, Actix-Web `4.13`, `h3o` hexagonal spatial index, `dashmap` | *(monorepo)* | ✅ Active, port `8081` (`systemd`) |
 | 5 | **WASM Crypto** | `fwber-wasm/` | Rust/WASM Crate | `0.1.0` | Rust `2021` edition, `wasm-bindgen`, `aes-gcm` client-side E2EE primitives | *(monorepo)* | ✅ Active library |
 | 6 | **Mobile Client** | `mobile/` | Expo / RN App | `2.3.98` | Expo `~55.0.4`, React Native `0.83.2`, Expo Router `~3.5.0`, `react-native-nfc-manager`, WebRTC media permissions | *(monorepo)* | ✅ Active mobile shell |

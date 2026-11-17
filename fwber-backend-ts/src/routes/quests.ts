@@ -57,7 +57,18 @@ router.get('/active', authenticate, async (req: any, res) => {
 router.post('/:id/accept', authenticate, async (req: any, res) => {
   try {
     const userId = BigInt(req.user.id);
-    const questId = BigInt(req.params.id);
+    let questId: bigint;
+    try {
+      questId = BigInt(req.params.id);
+    } catch {
+      return res.status(400).json({ error: 'Invalid quest id' });
+    }
+
+    // Nonexistent quest ids used to 500 on the user_quests FK constraint.
+    const quest = await prisma.quests.findUnique({ where: { id: questId } });
+    if (!quest) {
+      return res.status(404).json({ error: 'Quest not found' });
+    }
 
     const userQuest = await prisma.user_quests.upsert({
       where: { user_id_quest_id: { user_id: userId, quest_id: questId } },

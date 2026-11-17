@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.108] - 2026-11-16
+
+### Quest Accept 404 Fix — Nonexistent Quests 500'd on the FK Constraint
+
+- **Found by flow battery batch 9**: `POST /api/quests/999999/accept` returned **500** — the handler upserted `user_quests` directly, so a bogus quest id died on the foreign-key constraint (and a malformed id died in `BigInt()`). It now checks the quest exists first: missing → `404 Quest not found`, malformed → `400 Invalid quest id`. (`/complete` already guarded correctly with 400.)
+- **Tests**: new `tests/QuestsAccept.test.ts` (3 cases: existing quest accepts, nonexistent 404s without upserting, malformed 400s). Suite **47/47, 220/220**.
+- Also noted by the battery: `/quests/active` currently returns `[]` on prod — every seeded quest's `expires_at` has passed. Data state, not a code bug; quest seeding/refresh is an operator content call.
+
 ## [2.3.107] - 2026-11-16
 
 ### Chatroom Create Default Type Fix — Type-Less Creates 500'd
