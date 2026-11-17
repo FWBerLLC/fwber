@@ -1,3 +1,7 @@
+## Session 2026-11-16 (cont. 29) — Hetzner disk watch: 86%, growth is other tenants (loop iteration)
+- Coordination intel via Bobbi forwards: marketing_agent lanes escalated Hetzner disk (91% → recovered 86%). Verified read-only: root **86% (11G free)**, `/tmp` **4.6G** — largest entries are `ercm-bak-064b` (985M, kept by name in the Nov-16 sweep pending Robert's word) and fresh `aicrm-backup-*` (~983M ×2 from today, other tenants' hourly jobs). Watchdog warned 90% at 05:15 today. fwber itself healthy: PM2 backend+frontend online at 2.3.108, geo active, nightly backup fresh (Nov 17 03:30). **Not fwber data — no deletion; Robert's call, already escalated by two lanes.**
+- CI note: `check_rewrites.py` deliberately stays out of PR CI (it probes live prod; deploy workflows + loop runs cover it). Bobbi has no new fwber ack/decisions for this lane.
+
 ## Session 2026-11-16 (cont. 28) — Consolidated battery regression green (loop iteration)
 - `tools/battery/prod-battery.mjs` second live run: **37/37** (fresh QA pair 229/230). Repo gates: contracts **144/144**, nav 179/133/17 stable, ESLint 0 on the purchase-path files (`lib/hooks`, premium/boost modals). MCP bridge core batch re-verified 13/13 via HTTP tools/call.
 - Bobbi thread has moved on to Robert's CRM/HyperNexus-arm work (fwber topics no longer in current view); reports stand acknowledged on her side. No ping sent. No code change.
