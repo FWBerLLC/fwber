@@ -5,6 +5,9 @@
 ## Session 2026-11-17 (cont. 26) — Regression hold: battery 37/37 on v2.3.115 (loop iteration)
 - Consolidated battery **37/37** (fresh pair 280/281). Bobbi thread carries no new fwber ack/decisions for this lane; no ping sent. No code change.
 
+## Session 2026-11-17 (cont. 28) — Regression hold: battery 37/37 on v2.3.115 (loop iteration)
+- Consolidated battery **37/37** (fresh pair 282/283). Bobbi thread carries no new fwber ack/decisions for this lane; no ping sent. No code change.
+
 ## Session 2026-11-17 (cont. 27) — Boosts Cypress green on the v2.3.103 contract (test-only)
 - `boosts.cy.js` rewritten to the current `/boosts` page + modal flow (seeded session, wallet mock, `{type:'standard', paymentMethod:'token'}` body assertion — the exact v2.3.103 contract) — **1/1 passing**. Durable page-state assertions replace the transient toast (and DOM text is `Standard Boost`; the uppercase is CSS). Executed total: **13 tests, 8 specs, all green**.
 - Batch also executed `blocking` (2 tests) and `match-insights` (1 test): both stale-expectation fails, backlogged in TODO with specifics. Artifacts cleaned.
