@@ -1,3 +1,7 @@
+## Session 2026-11-17 (cont. 7) — Timestamp-default class swept clean (loop iteration)
+- Swept the live DB for the matching defect class (`created_at`/`updated_at` NOT NULL with no DB default): only 4 columns remain — `autonomous_settings.updated_at` and `trust_scores.updated_at` (both Prisma `@updatedAt`, client-supplied; trust_scores has no writer) and Laravel-era `jobs`/`job_batches.created_at` (epoch ints, never written by backend-ts). Matching was the only live break in the class.
+- Consolidated battery regression on v2.3.114: **37/37** (fresh pair 251/252). No code change.
+
 ## Session 2026-11-17 (cont. 6) — Matching engine could not record answers; fixed v2.3.114, live-proven
 - **Core-loop break found by matching battery 17**: every `POST /matching/answer` 500'd (`created_at` null constraint — no model `@default`, no DB default), so the 105-question matching engine recorded nothing and compatibility scored 0 for everyone. Fixed at the schema level (`@default(now())`/`@updatedAt`) + table defaults via `tools/migrations/2026-11-17-matching-answers-timestamps.sql` (applied, verified). `tests/MatchingAnswers.test.ts` pins the real frontend contract. Suite **235/235**.
 - Deployed `692b86821`; live proof with a fresh identical-answer pair: **10/10 answers accepted, 5 persisted on re-read, compatibility 80** (was 0). All services 2.3.114. (Battery 17's first failures were my own plural-route probes hitting the catch-all; the frontend's singular contract was verified before concluding.)
