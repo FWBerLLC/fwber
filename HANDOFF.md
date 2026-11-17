@@ -1,3 +1,6 @@
+## Session 2026-11-17 (cont. 16) — Regression hold: battery 37/37 on v2.3.114 (loop iteration)
+- Consolidated battery **37/37** (fresh pair 274/275). Bobbi thread carries no new fwber ack/decisions for this lane; no ping sent. No code change.
+
 ## Session 2026-11-17 (cont. 15) — Batch 24: reveal/voice 5/5, supervisor settings exercised (loop iteration)
 - Photo reveal cycle live: upload (id returned) → connected partner requests reveal (accepted, no charge at request time) → owner lists reveal requests; voice message via multipart media path no-500.
 - MCP: `update_supervisor_settings` exercised at its current value (`bumpText: keep going`, read back verified) — **55/71** verified. Remaining unrun: shell trio (attestation), kill/delete/install/download class, UI-driving chat/input tools, launch_webview, Jira.
