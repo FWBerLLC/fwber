@@ -1,3 +1,8 @@
+## Session 2026-11-16 (cont. 18) — Wingman compatibility 504 fixed + live-proven, v2.3.106 DEPLOYED
+- **Real failure found by flow batch 5**: `POST /wingman/compatibility` 504'd (siblings fine; fortune squeaked by at 29.4s). Root cause: `generateText` tried local Ollama (30s) → unbounded OpenRouter → local **again** (30s), past nginx 60s, so the route's fallback payload never sent. Fixed: single local attempt + OpenRouter wrapped in the 10s `withTimeout` (`src/lib/wingman-ai.ts`), pinned by `tests/WingmanAiChain.test.ts`. Suite **213/213**.
+- Deployed `b006b1112`; batch 5 re-run on prod: **10/10** (compatibility now 200). All services 2.3.106.
+- MCP remainder confirmed: the 22 unexercised tools are exactly the shell/destructive/UI/external classes excluded from this battery; no additional safe read-only tool exists to exercise. Bobbi updated (below).
+
 ## Session 2026-11-16 (cont. 17) — Battery batch 4: uploads/venues/groups/burner 11/11, MCP tally exact (loop iteration)
 - Prod flow batch 4 (QA 211): **11/11** — photo upload + list, venue checkin → current-checkin reflects → checkout, group create + post, burner link create + status poll.
 - MCP coverage computed exactly against the 71-tool catalog: **48 verified callable, 1 stub failure (`test-mcp-server`), 22 unexercised** — every one of the 22 in the excluded classes (shell trio, file/process/memory destructive writes, installs/downloads, UI-driving chat/input tools, settings mutation, Jira external write, batch maintenance). No safe read-only tool remains untested.
