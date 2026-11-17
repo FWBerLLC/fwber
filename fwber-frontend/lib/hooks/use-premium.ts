@@ -37,7 +37,8 @@ export const usePurchasePremium = () => {
   
   return useMutation({
     mutationFn: async (data?: { paymentMethod?: 'stripe' | 'token' }) => {
-      return await api.post('/premium/purchase', { payment_method: data?.paymentMethod });
+      // /premium/purchase is the token path; it reads planId/plan.
+      return await api.post('/premium/purchase', { planId: 'monthly' });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['premium-status'] });
@@ -48,8 +49,8 @@ export const usePurchasePremium = () => {
 
 export const useInitiatePurchase = () => {
   return useMutation({
-    mutationFn: async (planId: string = 'gold_monthly') => {
-      return await api.post<PremiumInitiationResponse>('/premium/initiate', { plan_id: planId });
+    mutationFn: async (planId: string = 'monthly') => {
+      return await api.post<PremiumInitiationResponse & { checkoutUrl?: string }>('/premium/initiate', { planId });
     },
   });
 };

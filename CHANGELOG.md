@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.104] - 2026-11-16
+
+### Premium Initiate Contract Fix — Card Checkout Could Never Start, Yearly Silently Became Monthly
+
+- **Contract drift across three layers**: `use-premium.ts` sent `{ plan_id: 'gold_monthly' }`, `/api/premium/initiate` read only `planId` against `monthly|yearly` keys (so every initiation silently built a **monthly** session), and `PremiumUpgradeModal` waited for a PaymentIntent `client_secret` the Checkout-session route never returns (so the card path always dead-ended at "not yet available" even with Stripe live). The modal's token price also read 200 while the backend charges 500.
+- **Fix**: route accepts `planId`/`plan_id`/`gold_*` spellings (normalized, unknown → monthly); hook sends canonical `planId` and the token path sends `{ planId: 'monthly' }` instead of an ignored `payment_method`; the modal now redirects to the returned `checkoutUrl` (keeping the Elements path if a `client_secret` ever appears) and displays the true 500-token price.
+- **Tests**: new `tests/PremiumInitiate.test.ts` (4 cases with a mocked Stripe: yearly 14999, legacy spelling parity, `gold_monthly` → 1999, unknown-plan fallback). Suite **44/44, 211/211**.
+
 ## [2.3.103] - 2026-11-16
 
 ### Boost Purchase Field Fix — UI Purchases Were 400ing

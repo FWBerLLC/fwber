@@ -86,7 +86,10 @@ router.get('/status', authenticate, async (req: any, res) => {
 // POST /api/premium/initiate - Initiate premium subscription via Stripe
 router.post('/initiate', authenticate, async (req: any, res) => {
   const userId = BigInt(req.user.id);
-  const { planId } = req.body || {}; // monthly, yearly
+  // Accept planId (canonical), plan_id (legacy hook), and the modal's
+  // gold_monthly/gold_yearly spellings; unknown values fall back to monthly.
+  const rawPlan = String(req.body?.planId ?? req.body?.plan_id ?? 'monthly');
+  const planId = rawPlan.replace(/^gold_/, '');
 
   if (!stripe) {
     return res.status(501).json({ error: 'Stripe is not configured on the server' });

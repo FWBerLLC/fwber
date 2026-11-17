@@ -36,10 +36,12 @@ export const PremiumUpgradeModal = ({ isOpen, onClose }: PremiumUpgradeModalProp
         }
       });
     } else {
-      initiate('gold_monthly', {
-        onSuccess: (data) => {
-          // Only proceed if we got a valid client_secret from Stripe
-          if (data?.client_secret) {
+      initiate('monthly', {
+        onSuccess: (data: any) => {
+          // Backend creates a Stripe Checkout session: redirect to it.
+          if (data?.checkoutUrl) {
+            window.location.href = data.checkoutUrl;
+          } else if (data?.client_secret) {
             setPaymentIntent(data);
           } else {
             toast.info('Card payments are not yet available. Please use FWB tokens to upgrade.');
@@ -64,7 +66,7 @@ export const PremiumUpgradeModal = ({ isOpen, onClose }: PremiumUpgradeModalProp
   };
 
   const tokenBalance = parseFloat(wallet?.balance || '0');
-  const tokenPrice = 200;
+  const tokenPrice = 500; // matches backend /premium/purchase monthly cost
   const stripeEnabled = !!stripePromise;
 
   return (
