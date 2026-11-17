@@ -1,3 +1,8 @@
+## Session 2026-11-16 (cont. 26) — Battery batch 13: realtime socket + geo round-trip + flag guards 8/8 (loop iteration)
+- Socket.io: authenticated connect with session id issued; anonymous connect handled without hanging. Geo service direct: `POST /index` (`lat`/`lng`) → H3 cell, `GET /nearby?lat&lng&radius_m` returns the indexed user (1,951 cells searched) — full Rust geo round-trip live. Feature flags: read 200, non-admin PUT rejected (403 class).
+- Initial geo probes failed on my field names (`latitude`/`radius_km`); verified against `fwber-geo/src/main.rs` structs (`lat`, `lng`, `radius_m`) — no product issue.
+- No contract failures; no code change or bump.
+
 ## Session 2026-11-16 (cont. 25) — Battery batch 12: rate limits, upload guard, page smoke (loop iteration)
 - Prod batch 12: auth rate limiter engages (**429** within 18 bad logins, windowed not lockout), wrong-field photo upload → **JSON 400** (`Invalid upload: Unexpected file field`, the v2.3.82 Multer contract holding), page smoke 29/30 — the one 404 (`/quests`) is by design: no standalone page exists, quests live as `QuestBoard` on the dashboard.
 - Coordination: Bobbi is in Robert's late-night RealEstateCRM/HyperNexus-arm design session; she looked up the fwber quest item at 12:12 AM. No fwber ack/decisions action for this lane; no ping sent.
