@@ -1,3 +1,8 @@
+## Session 2026-11-16 (cont. 25) — Battery batch 12: rate limits, upload guard, page smoke (loop iteration)
+- Prod batch 12: auth rate limiter engages (**429** within 18 bad logins, windowed not lockout), wrong-field photo upload → **JSON 400** (`Invalid upload: Unexpected file field`, the v2.3.82 Multer contract holding), page smoke 29/30 — the one 404 (`/quests`) is by design: no standalone page exists, quests live as `QuestBoard` on the dashboard.
+- Coordination: Bobbi is in Robert's late-night RealEstateCRM/HyperNexus-arm design session; she looked up the fwber quest item at 12:12 AM. No fwber ack/decisions action for this lane; no ping sent.
+- No contract failures; no code change or bump.
+
 ## Session 2026-11-16 (cont. 24) — Battery batch 11: security boundaries 22/22 + federation actor chain (loop iteration)
 - Security boundary battery on prod: **22/22** — 10 authed routes 401 unauthenticated, 5 scanner probes 404 (no catch-all leakage), malformed JSON 400, wrong password typed 401, strict CSP single + frame/nosniff headers, oEmbed allowlist (foreign 404, missing 400).
 - Federation chain: `actor_uri` is null for local users **by design** (that column tracks remote federated accounts); the local actor document at `/api/federation/actors/211` returns 200 with a valid ActivityStreams Person. WebFinger resolves by exact `users.name` — QA names with spaces are not acct-addressable, same as any spaced display name. No bug.
