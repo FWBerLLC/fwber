@@ -1,3 +1,7 @@
+## Session 2026-11-17 (cont. 6) — Matching engine could not record answers; fixed v2.3.114, live-proven
+- **Core-loop break found by matching battery 17**: every `POST /matching/answer` 500'd (`created_at` null constraint — no model `@default`, no DB default), so the 105-question matching engine recorded nothing and compatibility scored 0 for everyone. Fixed at the schema level (`@default(now())`/`@updatedAt`) + table defaults via `tools/migrations/2026-11-17-matching-answers-timestamps.sql` (applied, verified). `tests/MatchingAnswers.test.ts` pins the real frontend contract. Suite **235/235**.
+- Deployed `692b86821`; live proof with a fresh identical-answer pair: **10/10 answers accepted, 5 persisted on re-read, compatibility 80** (was 0). All services 2.3.114. (Battery 17's first failures were my own plural-route probes hitting the catch-all; the frontend's singular contract was verified before concluding.)
+
 ## Session 2026-11-17 (cont. 5) — Battery batch 16: account settings round-trips 10/10 (loop iteration)
 - Account family audited for the facade pattern: **honest** — account name update persists on re-read, `/user/profile` bio persists, wrong-current-password correctly 4xxs, subscription/notification/general settings read 200. No fix needed. The facade family is now confined to the two fixed journal/privacy surfaces.
 - No code change or bump. Prod stays v2.3.113; loops intact.
