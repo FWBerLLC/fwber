@@ -10,6 +10,7 @@
 | `check_nav_coverage.py` | UI audit — finds Next.js app routes not linked from dashboard/header |
 | `check_remaining_routes.py` | UI audit — classifies unlinked routes as real pages vs redirects |
 | `scan_unguarded_map.py` | UI audit — finds unguarded `.map()` calls on API-response props |
+| `battery/prod-battery.mjs` | Consolidated secret-free production battery (fresh QA pair per run; health, dashboard functions, Pillar 5 flow, exact referral credit, audio-room + safety-walk lifecycles, bogus-id guards, unauth/scanner boundaries). `node tools/battery/prod-battery.mjs`, exit 1 on any failure |
 
 ## Service Scripts (`tools/scripts/`)
 | Script | Purpose |
