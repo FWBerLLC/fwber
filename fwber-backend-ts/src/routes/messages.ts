@@ -483,7 +483,10 @@ router.get('/:id', async (req: any, res) => {
 router.post('/', upload.single('media'), async (req: any, res) => {
   try {
     const userId = BigInt(req.user.id);
-    const { receiver_id, content, media_type, media_duration, message_type } = req.body || {};
+    const { content, media_type, media_duration, message_type } = req.body || {};
+    // Canonical field is receiver_id; accept recipient_id (socket-side
+    // spelling used by websocket/pusher payloads) as an alias.
+    const receiver_id = req.body?.receiver_id ?? req.body?.recipient_id;
     if (!receiver_id || (!content && !req.file)) {
       res.status(400).json({ message: 'receiver_id and content or media required' });
       return;

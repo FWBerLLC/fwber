@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.3.105] - 2026-11-16
+
+### Message `recipient_id` Alias
+
+- Found by the two-user flow battery: `POST /api/messages` accepted only `receiver_id`, while the socket-side payloads (`lib/websocket/client.ts`, `use-pusher-logic.ts`) spell it `recipient_id` — any HTTP caller using the socket spelling got `400 receiver_id and content or media required`. The route now accepts `recipient_id` as an alias (canonical `receiver_id` unchanged; same precedent as the v2.3.93 video-initiate fix). Verified by the full flow battery re-run: silent interest → mutual unlock → DM → block → DM-while-blocked 403, 13/13 on prod.
+
 ## [2.3.104] - 2026-11-16
 
 ### Premium Initiate Contract Fix — Card Checkout Could Never Start, Yearly Silently Became Monthly

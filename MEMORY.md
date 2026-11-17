@@ -1,6 +1,6 @@
 # MEMORY.md — fwber Internal Architectural Observations
 
-## Current Version: 2.3.104 "Premium Initiate Contract Fix: planId + Checkout redirect"
+## Current Version: 2.3.105 "Message recipient_id alias"
 **Last Updated:** 2026-11-15
 
 ### Observations (2026-11-15 session, v2.3.98)

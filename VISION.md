@@ -1,7 +1,7 @@
 # VISION.md — The Ultimate fwber Architecture & Philosophy
 
 > **Last Updated:** 2026-11-15
-> **Version:** 2.3.104 (Premium Initiate Contract Fix: planId + Checkout redirect)
+> **Version:** 2.3.105 (Message recipient_id alias)
 > **Goal:** To serve as the definitive North Star for all human and AI agents working on the fwber project.
 
 ---
