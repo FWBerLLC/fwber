@@ -1,3 +1,8 @@
+## Session 2026-11-16 (cont. 24) — Battery batch 11: security boundaries 22/22 + federation actor chain (loop iteration)
+- Security boundary battery on prod: **22/22** — 10 authed routes 401 unauthenticated, 5 scanner probes 404 (no catch-all leakage), malformed JSON 400, wrong password typed 401, strict CSP single + frame/nosniff headers, oEmbed allowlist (foreign 404, missing 400).
+- Federation chain: `actor_uri` is null for local users **by design** (that column tracks remote federated accounts); the local actor document at `/api/federation/actors/211` returns 200 with a valid ActivityStreams Person. WebFinger resolves by exact `users.name` — QA names with spaces are not acct-addressable, same as any spaced display name. No bug.
+- No contract failures; no code change or bump.
+
 ## Session 2026-11-16 (cont. 23) — Battery batch 10: ZK/video/audio guards + settings 11/11 (loop iteration)
 - Prod batch 10 (QA 211): **11/11** — ZK proximity params + bogus-proof 4xx, video history + bogus status 4xx, audio-signal bogus-room 4xx, notification preferences, blocked list, privacy settings, federation search, public pulse. All guard paths answer clean 4xx, no 500s. MCP bridge spot re-checks (harness_doctor, observability, billing) 200 via HTTP tools/call.
 - No contract failures; no code change or bump. Prod stays v2.3.108; loops intact.
