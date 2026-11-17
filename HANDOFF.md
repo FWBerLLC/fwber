@@ -1,3 +1,7 @@
+## Session 2026-11-16 (cont. 22) — Quest accept fix live-proven, v2.3.108 DEPLOYED (loop iteration)
+- Deployed `c1ccf9ca5` (backend/geo/frontend all 2.3.108, served badge verified). Live proof: `POST /quests/999999/accept` → **404 Quest not found**, `/quests/abc/accept` → **400 Invalid quest id** (both were 500). Batch-10 probes: content-unlock create 201, merchant hosted-payment preview correctly 404s unknown ids unauthenticated.
+- Dashboard/tray/scripts state re-affirmed this turn: dashboard is the consolidated single page (179 routes, 133 linked, 17 intentional, tooltip-gated); tray controls incl. `-StopAll` verified via `tools/fwber-tray-check.py`; local servers remain off per Hetzner-only rule, prod PM2 + geo systemd are the running components, logs show no new error classes.
+
 ## Session 2026-11-16 (cont. 21) — Chatroom create 500 fixed + live-proven, v2.3.107 DEPLOYED
 - **Real failure found by flow batch 8**: `POST /api/chatrooms` without `type` 500'd — route defaulted to `'standard'`, not a `chatrooms_type` enum value (`interest|city|event|private|group`). Fixed: default `'group'`, unknown types 400 (`src/routes/chatrooms.ts`), new `tests/ChatroomsCreate.test.ts` (4 cases). Suite **217/217**. Deployed `9b3cad94f`; batch 8 re-run on prod **12/12** (relationship-link full cycle incl. cleanup, event invitations, economy swap guard). All services 2.3.107.
 - Bobbi check: battery reports acknowledged to her checkin chat (10:33 PM); no A–O text, five decisions, or premium-price confirmation in this thread yet. No ping sent.
