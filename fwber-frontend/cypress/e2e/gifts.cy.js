@@ -3,6 +3,8 @@ describe('Gifting Flow', () => {
     id: 1,
     name: 'Test User',
     email: 'test@example.com',
+    onboarding_completed_at: '2026-01-01T00:00:00.000Z',
+    email_verified_at: '2026-01-01T00:00:00.000Z',
     token_balance: 100,
     profile: {
       displayName: 'Test User',
@@ -24,11 +26,27 @@ describe('Gifting Flow', () => {
     { id: 2, name: 'Diamond', cost: 50, icon_url: '/images/gifts/diamond.svg' }
   ];
 
+  function seedVisit(path) {
+    // Middleware cookie before navigation (see notifications.cy.js).
+    cy.visit('/login');
+    cy.setCookie('fwber_auth', '1');
+    cy.visit(path, {
+      onBeforeLoad: (win) => {
+        win.localStorage.setItem('fwber_token', 'fake-token');
+        win.localStorage.setItem('fwber_user', JSON.stringify(user));
+      }
+    });
+  }
+
   beforeEach(() => {
+    // Fallback beneath the specifics (see friends-full.cy.js).
+    cy.intercept('**/api/**', { statusCode: 200, body: {} }).as('apiFallback');
+    cy.intercept('GET', '**/api/auth/me', { statusCode: 200, body: user }).as('getMe');
+
     // Mock login
     cy.intercept('POST', '**/api/auth/login', {
       statusCode: 200,
-      body: { token: 'fake-token', user }
+      body: { access_token: 'fake-token', token_type: 'Bearer', user }
     }).as('login');
 
     // Mock user profile
@@ -66,12 +84,7 @@ describe('Gifting Flow', () => {
   });
 
   it('allows sending a gift from profile', () => {
-    cy.visit('/profile/2', {
-      onBeforeLoad: (win) => {
-        win.localStorage.setItem('fwber_token', 'fake-token');
-        win.localStorage.setItem('fwber_user', JSON.stringify(user));
-      }
-    });
+    seedVisit('/profile/2');
 
     // 1. Click Gift Button
     cy.contains('Send Gift').should('be.visible').click();
@@ -111,6 +124,8 @@ describe('Gifting Flow', () => {
   it('shows error when insufficient tokens', () => {
     const poorUser = { ...user, token_balance: 5 };
     
+    cy.visit('/login');
+    cy.setCookie('fwber_auth', '1');
     cy.visit('/profile/2', {
       onBeforeLoad: (win) => {
         win.localStorage.setItem('fwber_token', 'fake-token');
