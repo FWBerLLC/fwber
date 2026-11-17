@@ -643,8 +643,66 @@ router.post('/qa-cleanup', async (req: AuthRequest, res: Response) => {
     if (batch.length === 0) {
       return res.json({ success: true, dry_run: false, deleted: 0, emails: [] });
     }
-    const result = await prisma.users.deleteMany({
-      where: { id: { in: batch.map((u) => u.id) } },
+    const ids = batch.map((u) => u.id);
+
+    // The live MySQL FKs are RESTRICT in places the Prisma schema marks
+    // Cascade, so a bare users.deleteMany dies on the first referencing
+    // row (first live run: groups.created_by_user_id). Pre-clean every
+    // table that references users, in one transaction, then delete.
+    // Each table is guarded: a missing model or field logs and continues;
+    // the final delete still surfaces any FK we genuinely missed.
+    const REFERENCES: Record<string, string[]> = {
+      messages: ['sender_id', 'receiver_id'],
+      friend_requests: ['user_id', 'friend_id'],
+      friends: ['user_id', 'friend_id'],
+      blocks: ['blocker_id', 'blocked_id'],
+      matches: ['user1_id', 'user2_id'],
+      user_matches: ['user1_id', 'user2_id'],
+      match_actions: ['user_id', 'target_user_id'],
+      match_assists: ['matchmaker_id', 'subject_id', 'target_id'],
+      event_invitations: ['inviter_id', 'invitee_id'],
+      relationship_links: ['user_id', 'related_user_id'],
+      vouches: ['from_user_id', 'to_user_id'],
+      reports: ['reporter_id', 'accused_id', 'moderator_id'],
+      moderation_actions: ['moderator_id', 'target_user_id'],
+      video_calls: ['caller_id', 'receiver_id'],
+      user_gifts: ['sender_id', 'receiver_id'],
+      creator_subscriptions: ['user_id', 'creator_id'],
+      payment_requests: ['requester_id', 'payer_id'],
+      merchant_payments: ['merchant_id', 'payer_id'],
+      profile_views: ['viewer_user_id', 'viewed_user_id'],
+      burner_links: ['creator_id', 'scanner_id'],
+      date_feedback: ['reporting_user_id', 'subject_user_id'],
+      ice_breaker_answers: ['user_id', 'match_user_id'],
+      scrapbook_entries: ['user_id', 'match_user_id'],
+      referral_commissions: ['purchaser_user_id', 'beneficiary_user_id'],
+      group_messages: ['sender_id'],
+      shadow_throttles: ['user_id', 'created_by'],
+      proximity_artifacts: ['user_id'],
+      feedback: ['user_id'],
+      clickstream_events: ['user_id'],
+      telemetry_events: ['user_id'],
+      slow_requests: ['user_id'],
+      promotion_events: ['user_id'],
+      events: ['created_by_user_id'],
+      groups: ['created_by_user_id'],
+      chatrooms: ['created_by'],
+      audio_rooms: ['created_by'],
+      proximity_chatrooms: ['created_by'],
+    };
+    const result = await prisma.$transaction(async (tx) => {
+      for (const [model, fields] of Object.entries(REFERENCES)) {
+        const delegate = (tx as any)[model];
+        if (!delegate?.deleteMany) continue;
+        try {
+          await delegate.deleteMany({
+            where: { OR: fields.map((f) => ({ [f]: { in: ids } })) },
+          });
+        } catch (e: any) {
+          console.error(`[Moderation] QA cleanup pre-clean ${model}:`, e.message);
+        }
+      }
+      return tx.users.deleteMany({ where: { id: { in: ids } } });
     });
     console.log(`[Moderation] QA cleanup by ${moderatorId}: deleted ${result.count} QA accounts`);
     return res.json({

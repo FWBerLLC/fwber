@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.110] - 2026-11-17
+
+### QA Cleanup FK Pre-Clean — Confirmed Deletion 500'd on Restrict FKs
+
+- **Found by the live moderator proof** (temporary moderator provisioned via signup + DB grant): dry run matched 38 battery accounts with caller exclusion working, but `confirm: true` returned **500** — the live MySQL FKs are RESTRICT in places the Prisma schema marks Cascade (`groups.created_by_user_id` first), so a bare `users.deleteMany` died on referencing rows.
+- **Fix**: the confirm path now pre-cleans every user-referencing table (messages, friendships, matches, groups/events/rooms created by the targets, telemetry, and ~30 more) inside one transaction before deleting the users. Each table is guarded — a missing model or field logs and continues; the final delete still surfaces any FK genuinely missed.
+- **Verified live**: dry run → confirm deleted the 38 battery accounts → dry run after shows 0 matched; the temporary moderator (itself `qa-*`, protected by caller exclusion) was then removed via the DB path, leaving no privileged residue.
+
 ## [2.3.109] - 2026-11-17
 
 ### Admin QA-Account Cleanup (IDEAS 2026-11-13 #4, shipped)

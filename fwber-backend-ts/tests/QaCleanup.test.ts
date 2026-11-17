@@ -21,6 +21,13 @@ const USERS = [
 ];
 const mockDeleteMany = jest.fn(async (args: any) => ({ count: args.where.id.in.length }));
 
+const mockTx: any = new Proxy({}, {
+  get: (_t, prop) => {
+    if (prop === 'users') return { deleteMany: mockDeleteMany };
+    return { deleteMany: jest.fn(async () => ({ count: 0 })) };
+  },
+});
+
 jest.unstable_mockModule('../src/lib/prisma.js', () => ({
   default: {
     users: {
@@ -28,6 +35,7 @@ jest.unstable_mockModule('../src/lib/prisma.js', () => ({
       findMany: jest.fn(async () => USERS),
       deleteMany: mockDeleteMany,
     },
+    $transaction: jest.fn(async (cb: any) => cb(mockTx)),
   },
   serialize: (v: any) => v,
 }));
