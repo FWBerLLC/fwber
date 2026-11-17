@@ -59,7 +59,7 @@ export function usePurchaseBoost() {
         throw new Error('Authentication required');
       }
 
-      return await api.post<Boost>('/boosts/purchase', { type, payment_method: paymentMethod });
+      return await api.post<Boost>('/boosts/purchase', { type, paymentMethod });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['active-boost'] });

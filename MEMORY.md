@@ -1,6 +1,6 @@
 # MEMORY.md — fwber Internal Architectural Observations
 
-## Current Version: 2.3.102 "Stripe Webhook Dispatch: premium + boost grants"
+## Current Version: 2.3.103 "Boost Purchase paymentMethod Fix + dead module sweep"
 **Last Updated:** 2026-11-15
 
 ### Observations (2026-11-15 session, v2.3.98)

@@ -89,7 +89,10 @@ router.get('/', async (req, res) => {
  */
 router.post('/purchase', async (req, res) => {
   const userId = BigInt((req as any).user.id);
-  const { type, boost_type, paymentMethod } = req.body;
+  const { type, boost_type } = req.body;
+  // Accept both spellings: the canonical client field is paymentMethod,
+  // but payment_method shipped in the wild (dead lib/api/boosts.ts shape).
+  const paymentMethod = req.body.paymentMethod ?? req.body.payment_method;
 
   const boostType = type || boost_type;
     const selectedPrice = BOOST_TYPES.find(b => b.id === boostType);

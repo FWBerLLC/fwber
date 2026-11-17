@@ -1,6 +1,6 @@
 # TODO — fwber Immediate Action Items
 
-> **Version:** 2.3.102
+> **Version:** 2.3.103
 > **Last Updated:** 2026-11-16
 
 ---
@@ -211,7 +211,7 @@
 - [x] ~~**Backup restore drill**~~ — DONE (2026-10-22): `/usr/local/bin/fwber-restore-drill.sh`, monthly cron, first run PASSED (134/134 tables consistent).
 - [x] ~~**Transient login 401s**~~ — ROOT-CAUSED & FIXED (2026-10-22, v2.3.39): autonomous governance layer was delegating/dropping valid logins when system health score ≤70; also audit-ledger write failures killed successful logins. Auth now fail-open + typed 401s. See CHANGELOG 2.3.39.
 - [x] ~~**fwber.me domain renewal**~~ — RESOLVED (2026-10-22): user retired the domain permanently; `fwber.online` is canonical. Stale nginx `api.fwber.me` server block is harmless (DNS dead) but can be deleted whenever nginx is next touched.
-- [x] **Stripe Live Keys (DONE v2.3.100)**: live secret validated (charges/payouts enabled), webhook endpoint registered (`checkout.session.completed`), signing secret + publishable key wired on Hetzner. Raw-body verification bug fixed en route. Webhook dispatch fixed in v2.3.102 (premium grants tier, boosts activate; only generic token checkouts keep the flat 100 credit — that amount is Robert's call before real traffic).
+- [x] **Stripe Live Keys (DONE v2.3.100)**: live secret validated (charges/payouts enabled), webhook endpoint registered (`checkout.session.completed`), signing secret + publishable key wired on Hetzner. Raw-body verification bug fixed en route. Webhook dispatch fixed in v2.3.103 (premium grants tier, boosts activate; only generic token checkouts keep the flat 100 credit — that amount is Robert's call before real traffic).
 - [ ] **Email DNS**: Configure Resend MX/SPF/DKIM/DMARC records for production email.
 
 ## 🟢 Recently Completed: Phase 11 - 10,000x Shiny UI (v2.3.8)

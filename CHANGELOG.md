@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.103] - 2026-11-16
+
+### Boost Purchase Field Fix — UI Purchases Were 400ing
+
+- **Live bug**: `BoostPurchaseModal` → `usePurchaseBoost` sent `{ type, payment_method }` (snake_case) while `POST /api/boosts/purchase` read only `paymentMethod` — every boost purchase from the real UI returned `400 Invalid payment method` (both token and Stripe paths). The frontend hook now sends `paymentMethod`; the route additionally accepts the legacy `payment_method` spelling so any stale client still works.
+- **Dead code**: deleted `fwber-frontend/lib/api/boosts.ts` — zero importers; `use-boosts.ts` had silently duplicated it (with the divergent snake_case payload that caused this bug).
+- **Tests**: new `tests/BoostsPurchase.test.ts` (4 cases: camelCase grant + 50-token decrement, snake_case parity, missing-method 400, insufficient-balance 400). Suite **43/43, 207/207**.
+
 ## [2.3.102] - 2026-11-16
 
 ### Stripe Webhook Dispatch — Premium & Boost Purchases Now Grant What Was Bought

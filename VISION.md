@@ -1,7 +1,7 @@
 # VISION.md — The Ultimate fwber Architecture & Philosophy
 
 > **Last Updated:** 2026-11-15
-> **Version:** 2.3.102 (Stripe Webhook Dispatch: premium + boost grants)
+> **Version:** 2.3.103 (Boost Purchase paymentMethod Fix + dead module sweep)
 > **Goal:** To serve as the definitive North Star for all human and AI agents working on the fwber project.
 
 ---
