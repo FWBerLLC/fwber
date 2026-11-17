@@ -1,3 +1,6 @@
+## Session 2026-11-17 (cont. 18) — CI battery workflow dispatched and green (loop iteration)
+- Dispatched `prod-battery.yml` for real via `gh workflow run` (repo now `FWBerLLC/fwber`): run **44059112310 ✓ in 21s**, log annotation `RESULT pass=37 fail=0` (QA pair 276/277 minted from the GitHub runner). The consolidated regression now runs session-free. Only annotation: actions/checkout@v4 + setup-node@v4 warn about Node 20 deprecation (forced to 24; cosmetic).
+
 ## Session 2026-11-17 (cont. 17) — Prod battery wired into manual CI workflow (tooling, no bump)
 - Added `.github/workflows/prod-battery.yml`: **workflow_dispatch only** (never push/PR — each run mints a fresh QA pair on prod), Node 24, runs `tools/battery/prod-battery.mjs` against `https://fwber.online` (base URL overridable per dispatch). YAML validated. The loop's regression is now runnable without this session.
 - Reaffirmed per directive: repo synced 0/0 (no submodules in-repo), dashboard already the consolidated tooltip-gated single page (179/133/17), tray controls incl. `-StopAll` verified, prod PM2 pair + geo systemd healthy. Gemini/ChatGPT tabs still absent in Edge.
