@@ -80,6 +80,8 @@ export default function ModerationDashboard() {
         <StatCard label="Actions Today" value={dashboard.data?.stats?.moderation_actions_today ?? '—'} icon={<CheckCircle2 className="h-5 w-5 text-green-500" />} variant="success" />
       </div>
 
+      <QaCleanupCard token={token} />
+
       {/* Tab Navigation */}
       <div className="border-b border-border dark:border-border mb-6">
         <nav className="-mb-px flex space-x-8">
@@ -185,6 +187,61 @@ export default function ModerationDashboard() {
           onClose={() => setSelectedUserId(null)}
         />
       )}
+    </div>
+  );
+}
+
+function QaCleanupCard({ token }: { token: string }) {
+  const [preview, setPreview] = useState<{ matched: number; emails: string[] } | null>(null);
+  const [result, setResult] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+
+  async function run(confirm: boolean) {
+    setBusy(true);
+    setResult(null);
+    try {
+      const { moderationApi } = await import('@/lib/api/moderation');
+      const data: any = await moderationApi.qaCleanup(token, confirm);
+      if (data?.dry_run) {
+        setPreview({ matched: data.matched ?? 0, emails: data.emails ?? [] });
+      } else {
+        setResult(`Deleted ${data?.deleted ?? 0} QA accounts.`);
+        setPreview(null);
+      }
+    } catch (e: any) {
+      setResult(e?.response?.data?.message || e?.message || 'QA cleanup failed');
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <div className="border border-border rounded-lg bg-card p-4 mb-8">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h2 className="font-semibold flex items-center gap-2">
+            <Trash2 className="h-4 w-4" /> QA Account Cleanup
+          </h2>
+          <p className="text-sm text-muted-foreground" title="Only accounts whose email matches the battery pattern qa-*@example.com are eligible. Moderators, admins, and your own account are always excluded.">
+            Deletes battery/test accounts (qa-*@example.com only). Preview first; deletion needs an explicit second step.
+          </p>
+        </div>
+        <div className="flex gap-2">
+          <button type="button" disabled={busy} onClick={() => run(false)} title="Count and list matching QA accounts without deleting anything" className="px-4 py-2 text-sm font-medium border rounded-lg hover:bg-muted disabled:opacity-50">
+            Preview matches
+          </button>
+          <button type="button" disabled={busy || !preview || preview.matched === 0} onClick={() => run(true)} title="Permanently delete the previewed QA accounts" className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 disabled:opacity-50">
+            Delete {preview ? `(${preview.matched})` : ''}
+          </button>
+        </div>
+      </div>
+      {preview && (
+        <p className="mt-3 text-sm text-muted-foreground">
+          {preview.matched} matching account{preview.matched === 1 ? '' : 's'}
+          {preview.emails.length > 0 && <>: {preview.emails.slice(0, 5).join(', ')}{preview.matched > 5 ? `, +${preview.matched - 5} more` : ''}</>}
+        </p>
+      )}
+      {result && <p className="mt-3 text-sm">{result}</p>}
     </div>
   );
 }

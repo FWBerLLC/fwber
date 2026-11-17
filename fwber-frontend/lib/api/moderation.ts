@@ -86,4 +86,11 @@ export const moderationApi = {
     });
     return res.data;
   },
+
+  qaCleanup: async (token: string, confirm: boolean) => {
+    const res: any = await apiClient.post('/moderation/qa-cleanup', { confirm }, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return res.data;
+  },
 };

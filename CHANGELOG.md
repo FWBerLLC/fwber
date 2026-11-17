@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.3.109] - 2026-11-17
+
+### Admin QA-Account Cleanup (IDEAS 2026-11-13 #4, shipped)
+
+- The prod batteries have minted QA accounts since user 188 (now past 230) with no bound. New `POST /api/moderation/qa-cleanup`: moderators only; targets derive **only** from the battery email pattern (`qa-*@example.com`) — callers cannot supply ids or emails; moderators, admins, and the caller are always excluded; dry-run is the default and deletion requires an explicit `{ confirm: true }`; capped at 500 per call with the matched emails returned for audit.
+- UI: a **QA Account Cleanup** card on the Moderation Dashboard (preview matches → explicit Delete step, safeguard tooltip) via `moderationApi.qaCleanup`.
+- Tests: `tests/QaCleanup.test.ts` (4 cases: pattern-only matching with real/gmail/admin accounts present, exact-batch deletion, caller exclusion, non-moderator 403). Suite **48/48, 224/224**, both `tsc` 0, lint 0.
+- Note: QA *venue* accounts live in the `venues` table, not `users` — out of scope for this endpoint.
+
 ## [2.3.108] - 2026-11-16
 
 ### Quest Accept 404 Fix — Nonexistent Quests 500'd on the FK Constraint

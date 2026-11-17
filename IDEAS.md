@@ -48,7 +48,7 @@
 1. **Self-hosted TURN (coturn) on Hetzner** for Audio Rooms: client is already env-ready (`NEXT_PUBLIC_TURN_URL/USERNAME/CREDENTIAL`); a coturn service beside PM2 closes strict-NAT voice. Needs Robert's go (new listening service + UDP ports on a shared box).
 2. **Live fediverse interop harness**: spin an ephemeral Mastodon/Pleroma in CI (or a scheduled job) and assert the full chain — WebFinger → actor fetch → signed Follow → Accept → Create delivery — against real server software, not just contract mocks.
 3. **Rewrite-target audit in CI**: a tiny check that every `next.config.js` rewrite destination answers non-404 on prod smoke. WebFinger and NodeInfo both hid as rewrite-to-404 for months; make the class unrepresentable.
-4. **QA-account lifecycle**: prod proofs keep minting QA users (188–197) with no delete endpoint. Add an admin-only QA cleanup (delete user + authored rooms) so verification residue stays bounded.
+4. **QA-account lifecycle**: prod proofs keep minting QA users (188–197) with no delete endpoint. Add an admin-only QA cleanup (delete user + authored rooms) so verification residue stays bounded. — **SHIPPED v2.3.109**: `POST /api/moderation/qa-cleanup` (moderator-only, pattern-locked `qa-*@example.com`, dry-run default, caller/admin excluded, 500 cap) + Moderation Dashboard card. Venue QA accounts (`venues` table) remain a follow-up.
 
 ## 🔭 Architectural Refactoring & Modernization
 1. **gRPC / Cap'n Proto for Backend <-> Rust Geo-Screener:** 

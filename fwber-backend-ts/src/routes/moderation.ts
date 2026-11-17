@@ -602,4 +602,62 @@ router.post('/:id/action', async (req: AuthRequest, res: Response) => {
   }
 });
 
+// POST /api/moderation/qa-cleanup — delete battery/QA test accounts.
+// Safeguards (IDEAS 2026-11-13 #4): moderators only; targets are derived
+// ONLY from the battery email pattern (qa-*@example.com) — the caller
+// cannot supply ids or emails; moderators/admins and the caller are
+// always excluded; a dry run is the default and deletion requires an
+// explicit { confirm: true }. Capped per call so a mistake stays bounded.
+const QA_EMAIL_PATTERN = /^qa-[a-z0-9-]*@example\.com$/i;
+const QA_CLEANUP_CAP = 500;
+
+router.post('/qa-cleanup', async (req: AuthRequest, res: Response) => {
+  try {
+    const moderatorId = BigInt(req.user.id);
+    if (!(await isModeratorUser(moderatorId))) {
+      return res.status(403).json({ message: 'Moderator access required' });
+    }
+
+    const candidates = await prisma.users.findMany({
+      where: { email: { endsWith: '@example.com' } },
+      select: { id: true, email: true, is_moderator: true, role: true },
+      take: 2000,
+    });
+    const targets = candidates.filter(
+      (u) => QA_EMAIL_PATTERN.test(u.email) && !u.is_moderator
+        && u.role !== 'admin' && u.role !== 'moderator' && u.id !== moderatorId,
+    );
+
+    const dryRun = req.body?.confirm !== true;
+    if (dryRun) {
+      return res.json({
+        success: true,
+        dry_run: true,
+        matched: targets.length,
+        emails: targets.slice(0, QA_CLEANUP_CAP).map((u) => u.email),
+        note: 'Dry run only. Re-send with { "confirm": true } to delete.',
+      });
+    }
+
+    const batch = targets.slice(0, QA_CLEANUP_CAP);
+    if (batch.length === 0) {
+      return res.json({ success: true, dry_run: false, deleted: 0, emails: [] });
+    }
+    const result = await prisma.users.deleteMany({
+      where: { id: { in: batch.map((u) => u.id) } },
+    });
+    console.log(`[Moderation] QA cleanup by ${moderatorId}: deleted ${result.count} QA accounts`);
+    return res.json({
+      success: true,
+      dry_run: false,
+      deleted: result.count,
+      emails: batch.map((u) => u.email),
+      capped: targets.length > QA_CLEANUP_CAP,
+    });
+  } catch (error: any) {
+    console.error('[Moderation] QA cleanup error:', error.message);
+    return res.status(500).json({ success: false, message: 'Failed to run QA cleanup' });
+  }
+});
+
 export default router;
