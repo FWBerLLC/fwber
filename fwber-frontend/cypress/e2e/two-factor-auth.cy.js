@@ -18,7 +18,9 @@ describe('Two-Factor Authentication Flow', () => {
   };
 
   beforeEach(() => {
-    // Reset mocks
+    // Fallback + session restore intercepts (see friends-full.cy.js).
+    cy.intercept('**/api/**', { statusCode: 200, body: {} }).as('apiFallback');
+    cy.intercept('GET', '**/api/auth/me', { statusCode: 200, body: user }).as('getMe');
     cy.intercept('GET', '**/api/user', (req) => {
       req.reply({ statusCode: 200, body: { data: user } });
     }).as('getUser');
@@ -30,7 +32,8 @@ describe('Two-Factor Authentication Flow', () => {
       statusCode: 201,
       body: {
         user: user,
-        token: 'fake-jwt-token'
+        access_token: 'fake-jwt-token',
+        token_type: 'Bearer'
       }
     }).as('register');
 
@@ -72,7 +75,9 @@ describe('Two-Factor Authentication Flow', () => {
       body: { recovery_codes: ['code1', 'code2'] }
     }).as('getRecoveryCodes');
 
-    // Go to 2FA settings
+    // Go to 2FA settings (middleware needs the fwber_auth cookie planted
+    // before the navigation request — see notifications.cy.js)
+    cy.setCookie('fwber_auth', '1');
     cy.visit('/settings/two-factor', {
         onBeforeLoad: (win) => {
             win.localStorage.setItem('fwber_token', 'fake-jwt-token');
@@ -95,8 +100,8 @@ describe('Two-Factor Authentication Flow', () => {
       cy.wait('@confirm2FA');
       
       // Should show success message and recovery codes
-      cy.contains('Two-Factor Authentication is Enabled').should('be.visible');
-      cy.contains('Recovery Codes').should('be.visible');
+      cy.contains('Two-Factor Authentication is Active').should('be.visible');
+      cy.contains('Emergency Recovery Codes').should('be.visible');
     });
 
     // --- Logout Mock ---
@@ -125,15 +130,17 @@ describe('Two-Factor Authentication Flow', () => {
     cy.intercept('POST', '**/api/auth/login', {
       statusCode: 200,
       body: {
-        two_factor: true
+        two_factor: true,
+        two_factor_token: 'challenge-token'
       }
     }).as('login2FA');
 
-    // 2. Verify 2FA challenge
-    cy.intercept('POST', '**/api/two-factor-challenge', {
+    // 2. Verify 2FA challenge (real path is /api/auth/two-factor-challenge)
+    cy.intercept('POST', '**/two-factor-challenge', {
       statusCode: 200,
       body: {
-        token: 'new-fake-token',
+        access_token: 'new-fake-token',
+        token_type: 'Bearer',
         user: { ...user, two_factor_enabled: true }
       }
     }).as('verifyChallenge');
