@@ -1,3 +1,9 @@
+## Session 2026-11-16 (cont. 13) — Exhaustive battery: flow 13/13, MCP tools via HTTP bridge, v2.3.105 DEPLOYED
+- Two-user Pillar 5 flow battery on prod: **13/13** (register×2, silent one-way interest, B blind to A, 410 tomb, mutual unlock, connection listed, DM, conversation visible, feature flags, block, DM-while-blocked 403). QA users now 211–215 (cleanup endpoint still IDEAS-pending; reusing existing QA accounts where possible).
+- One hardening from the battery (v2.3.105, `7ef6fecbc`): `POST /messages` now accepts `recipient_id` (socket spelling) as alias for `receiver_id`. Suite still 211/211; deployed, geo/frontend in step.
+- MCP exhaustive: this session's stdio bridge remains closed, but the kernel HTTP bridge fully works — `POST /api/mcp/tools/call` verified with 13/13 read-only tools (echo, system_status, memory_stats, repograph_stats, observability, billing, harness_doctor 39/39, mcp_status, etc.), catalog envelope holds **71 tools**, session outcome persisted to L2 via `add_memory` (HTTP 200).
+- Bobbi sent the v2.3.105 battery summary (CDP-verified).
+
 ## Session 2026-11-16 (cont. 12) — Premium initiate contract fixed + live-proven, v2.3.104 DEPLOYED
 - **Contract drift (same audit class as boosts)**: modal waited for a PaymentIntent `client_secret` the Checkout route never returns (card path always dead-ended), hook sent `plan_id: 'gold_monthly'` the route never read (yearly silently became monthly), modal token price read 200 vs backend 500. All aligned: route accepts `planId`/`plan_id`/`gold_*`, modal redirects to `checkoutUrl`, hook canonical, price truth 500. New `PremiumInitiate.test.ts`; suite **211/211**.
 - **Live proof** on Stripe: legacy `plan_id: gold_monthly` → $19.99 monthly session; canonical `planId: yearly` → $149.99 yearly session (both unpaid QA sessions, expire naturally). Deployed `fdf676b19`; all services 2.3.104. Bobbi updated (CDP-verified).
