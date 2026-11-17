@@ -1,3 +1,7 @@
+## Session 2026-11-16 (cont. 23) — Battery batch 10: ZK/video/audio guards + settings 11/11 (loop iteration)
+- Prod batch 10 (QA 211): **11/11** — ZK proximity params + bogus-proof 4xx, video history + bogus status 4xx, audio-signal bogus-room 4xx, notification preferences, blocked list, privacy settings, federation search, public pulse. All guard paths answer clean 4xx, no 500s. MCP bridge spot re-checks (harness_doctor, observability, billing) 200 via HTTP tools/call.
+- No contract failures; no code change or bump. Prod stays v2.3.108; loops intact.
+
 ## Session 2026-11-16 (cont. 22) — Quest accept fix live-proven, v2.3.108 DEPLOYED (loop iteration)
 - Deployed `c1ccf9ca5` (backend/geo/frontend all 2.3.108, served badge verified). Live proof: `POST /quests/999999/accept` → **404 Quest not found**, `/quests/abc/accept` → **400 Invalid quest id** (both were 500). Batch-10 probes: content-unlock create 201, merchant hosted-payment preview correctly 404s unknown ids unauthenticated.
 - Dashboard/tray/scripts state re-affirmed this turn: dashboard is the consolidated single page (179 routes, 133 linked, 17 intentional, tooltip-gated); tray controls incl. `-StopAll` verified via `tools/fwber-tray-check.py`; local servers remain off per Hetzner-only rule, prod PM2 + geo systemd are the running components, logs show no new error classes.
