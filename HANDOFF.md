@@ -1,3 +1,7 @@
+## Session 2026-11-17 (cont. 21) — Cypress friends spec EXECUTED green against prod (test-only)
+- The v2.3.99-rewritten Cypress spec finally **ran**: `cypress run --spec friends-full --config baseUrl=https://fwber.online` (Electron headless, BelowNormal) — **3/3 passing** in ~1m. Three mock-contract fixes were needed, each diagnosed from the failure screenshot/URL: (1) session restore validates via `GET /api/auth/me` on `api.fwber.online` — added that intercept with the real `access_token` login shape; (2) unmocked dashboard calls hit the real API and the client's 401 interceptor nuked the session (`session_expired`) — added a `**/api/**` fallback intercept beneath the specifics; (3) the mock user lacked `onboarding_completed_at`, so the app gated to `/onboarding` — mock now models a returning onboarded user.
+- Run artifacts (videos/screenshots) removed; spec change is test-only, no version bump. The other 47 specs remain syntax-verified only — running the full suite against prod is a longer BelowNormal job for a future pass.
+
 ## Session 2026-11-17 (cont. 20) — Regression hold: battery 37/37, Bobbi quiet (loop iteration)
 - Consolidated battery **37/37** (fresh pair 278/279). Bobbi thread carries no new fwber ack/decisions for this lane; no ping sent. No code change.
 

@@ -3,7 +3,10 @@ describe('Friends Feature (Pillar 5: No Rejection State)', () => {
     id: 1,
     name: 'Test User',
     email: 'test@example.com',
-    password: 'password123'
+    password: 'password123',
+    // Returning, fully onboarded user — otherwise the app gates to /onboarding.
+    onboarding_completed_at: '2026-01-01T00:00:00.000Z',
+    email_verified_at: '2026-01-01T00:00:00.000Z'
   };
 
   const friendUser = {
@@ -50,13 +53,30 @@ describe('Friends Feature (Pillar 5: No Rejection State)', () => {
       win.EventSource = MockEventSource;
     });
 
+    // Fallback for every other API call the app fires on dashboard/friends
+    // mount (stats, matches, notifications...). Without it, unmocked calls
+    // reach the real API with the mock token, and the client's 401
+    // interceptor redirects to /login?reason=session_expired. Cypress
+    // matches intercepts in reverse definition order, so the specific
+    // routes below still win over this fallback.
+    cy.intercept('**/api/**', { statusCode: 200, body: {} }).as('apiFallback');
+
     cy.intercept('POST', '**/api/auth/login', {
       statusCode: 200,
       body: {
-        token: 'mock-jwt-token',
+        access_token: 'mock-jwt-token',
+        token_type: 'Bearer',
         user: testUser
       }
     }).as('login');
+
+    // Session restore validates against /auth/me (not /api/user); without
+    // this intercept the mock token hits the real API and the app
+    // redirects to /login?reason=session_expired.
+    cy.intercept('GET', '**/api/auth/me', {
+      statusCode: 200,
+      body: testUser
+    }).as('getMe');
 
     cy.intercept('GET', '**/api/user', {
       statusCode: 200,
