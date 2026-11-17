@@ -1,3 +1,6 @@
+## Session 2026-11-17 (cont. 11) — Batch 21: avatar persistence, aura, NFC, proximity 8/8 (loop iteration)
+- Avatar generation **persists** into `/photos` (before/after state differs), aura read for a connected user answers, bogus aura target 4xxs, NFC exchange no-500, bogus proximity-artifact claim 4xxs, artifacts list 200. No failures; no code change.
+
 ## Session 2026-11-17 (cont. 10) — Batch 20: insights economy + version surfaces 6/6 (loop iteration)
 - Match insights economics proven live with a fresh connected pair: locked read (no 500) → unlock accepted → wallet charged **exactly 10 FWB** (50 → 40) → unlocked content differs on re-read.
 - Version consistency: API health, NodeInfo software version, geo health, and the served frontend badge **all agree on 2.3.114**. No failures; no code change.
