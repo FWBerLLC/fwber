@@ -1,3 +1,6 @@
+## Session 2026-11-17 (cont. 8) — Enum-default class swept clean (loop iteration)
+- Generalized the chatroom defect class: audited all **30 schema enums** (no `@default` outside its enum) and route-level literal defaults (no remaining risky `standard|normal|default` type defaults; surviving literals are ledger/activity tags, not DB enums). Consolidated battery **37/37** (pair 253/254); MCP spot checks pass. No code change.
+
 ## Session 2026-11-17 (cont. 7) — Timestamp-default class swept clean (loop iteration)
 - Swept the live DB for the matching defect class (`created_at`/`updated_at` NOT NULL with no DB default): only 4 columns remain — `autonomous_settings.updated_at` and `trust_scores.updated_at` (both Prisma `@updatedAt`, client-supplied; trust_scores has no writer) and Laravel-era `jobs`/`job_batches.created_at` (epoch ints, never written by backend-ts). Matching was the only live break in the class.
 - Consolidated battery regression on v2.3.114: **37/37** (fresh pair 251/252). No code change.
