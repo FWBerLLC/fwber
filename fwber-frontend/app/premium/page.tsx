@@ -104,7 +104,7 @@ export default function PremiumPage() {
                     <span className="ml-3 text-xl font-medium text-muted-foreground">/mo</span>
                   </div>
                   <p className="mt-4 text-sm text-muted-foreground">
-                    Secure card checkout runs through Stripe. You can also unlock Gold with 200 FWB in-app.
+                    Secure card checkout runs through Stripe. You can also unlock Gold with 500 FWB in-app.
                   </p>
                   <div className="mt-6">
                     <button

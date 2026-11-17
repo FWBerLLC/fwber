@@ -1,7 +1,7 @@
 # PROJECT_STATUS.md — fwber v2.3.98
 
 **Date:** 2026-11-15
-**Version:** 2.3.114 "Matching answers timestamp fix"
+**Version:** 2.3.115 "Premium price copy truth 500 FWB"
 **Status:** LIVE ON `fwber.online` (ALL-HETZNER STACK) — backend suite 39/39 (185/185 tests, 100% offline-deterministic), frontend `tsc` 0, `fwber-geo` release clean, 144/144 API contracts verified across 92 mounted Express prefixes (0 unmatched active frontend API calls)
 
 ---

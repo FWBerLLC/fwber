@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.115] - 2026-11-17
+
+### Premium Price Copy Truth + Cypress Batches 32
+
+- **Copy bug found by the premium Cypress refresh**: `/premium` and `/settings/subscription` still advertised unlocking Gold with **200 FWB** while the backend has charged **500** since the contract alignment (the modal was fixed in v2.3.104; these two surfaces were missed). Both now say 500 FWB.
+- Cypress executed-green total is now **12 tests across 7 specs** (`physical-profile` 2/2 rewritten to the current `/settings/physical-profile` page — height select + lowercase-slug grid payloads; `premium-features` 1/1 through the real modal flow with a mocked 1,000-FWB wallet). All spec changes only; the two product edits are the copy lines above.
+
 ## [2.3.114] - 2026-11-17
 
 ### Matching Answers Timestamp Fix — the Matching Engine Could Not Record Answers

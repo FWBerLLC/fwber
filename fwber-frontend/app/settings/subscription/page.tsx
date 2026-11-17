@@ -171,7 +171,7 @@ function SubscriptionContent() {
                       </>
                     </button>
                     <p className="mt-3 text-xs text-purple-700">
-                      Card checkout runs through Stripe. Wallet members can also upgrade with 200 FWB.
+                      Card checkout runs through Stripe. Wallet members can also upgrade with 500 FWB.
                     </p>
                     {error && (
                       <div className="mt-4 p-3 bg-red-50 text-red-700 text-sm rounded-md flex items-center gap-2">
