@@ -1,3 +1,7 @@
+## Session 2026-11-17 (cont. 23) — Notifications Cypress refreshed: 2/2 green (test-only)
+- `notifications.cy.js` now passes **2/2** against prod. Fixes (all spec-side, diagnosed from failure screenshots): current CardTitle is not an `h3` (text-scoped selectors), session restore needs the `/auth/me` intercept + API fallback, and middleware-gated settings routes need the `fwber_auth` cookie planted **before** the navigation request (a cheap `/login` visit + `cy.setCookie` first — `onBeforeLoad` document.cookie is too late for the document request itself).
+- Executed Cypress total: **friends-full 3/3, friends-nav 1/1, notifications 2/2**. Only `matching-flow` remains stale (TODO). Artifacts cleaned.
+
 ## Session 2026-11-17 (cont. 22) — Cypress batch 2: friends-nav green, two stale specs backlogged (test-only)
 - `friends-nav.cy.js` executed **1/1** after the same login-mock pattern (fallback + `/auth/me` + onboarded user). Executed Cypress total: **friends-full 3/3, friends-nav 1/1**.
 - `matching-flow` (2 tests) and `notifications` (2 tests) fail on **outdated UI copy/selectors** (`Potential Match`, `.text-green-500`, `New Matches` h3) — spec staleness, not app bugs. Backlogged in TODO with the refresh recipe. Artifacts cleaned.
