@@ -1,3 +1,7 @@
+## Session 2026-11-17 (cont. 14) — Batch 23: onboarding/travel 8/8, kernel memory tools exercised (loop iteration)
+- Onboarding proven end to end: register → profile fields persist → `POST /onboarding/complete` **200 with 25 tokens awarded**; travel mode toggles persist both ways through the (now honest) privacy endpoint.
+- MCP: `memory_extract_relations_batch` (33 edges from 10 memories) and `memory_maintenance` (native Go compaction) exercised via the HTTP bridge per the user's every-tool directive — **54/71** verified. Remaining unrun are shell trio (attestation policy), process/file destructive ops beyond the probe file, installs/downloads, UI-driving on the user's windows, supervisor-settings mutation, and Jira external writes.
+
 ## Session 2026-11-17 (cont. 13) — Quest self-generation proven (loop iteration)
 - The "empty QuestBoard" question is resolved: quests **self-generate on demand**. With a saved location (`POST /location/update` — PUT is not a route and falls into the catch-all), `GET /quests/active?generate=true` created quest 6 via the vibe fallback (local LLM aborted → deterministic template), listed it, and `POST /quests/6/accept` activated it. No reseeding needed; generation is location-gated by design. (My first probe used PUT and got a catch-all success — verb verified against the route before concluding.)
 - Edge inventory: Bobbi threads + HyperNexus dashboard tabs + RealEstateCRM; still **no Gemini/ChatGPT tabs** to coordinate with. Repo synced 0/0.
