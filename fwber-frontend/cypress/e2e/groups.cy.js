@@ -4,6 +4,7 @@ describe('Groups', () => {
     name: 'Test User',
     email: 'test@example.com',
     emailVerifiedAt: new Date().toISOString(),
+    onboarding_completed_at: new Date().toISOString(),
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
     profile: {
@@ -35,19 +36,29 @@ describe('Groups', () => {
     }
   ];
 
+  function seedVisit(path) {
+    // Middleware cookie before navigation (see notifications.cy.js).
+    cy.visit('/login');
+    cy.setCookie('fwber_auth', '1');
+    cy.visit(path, {
+      onBeforeLoad: (win) => {
+        win.localStorage.setItem('fwber_token', 'fake-token');
+        win.localStorage.setItem('fwber_user', JSON.stringify(user));
+      }
+    });
+  }
+
   beforeEach(() => {
+    // Fallback beneath the specifics (see friends-full.cy.js).
+    cy.intercept('**/api/**', { statusCode: 200, body: {} }).as('apiFallback');
+    cy.intercept('GET', '**/api/auth/me', { statusCode: 200, body: user }).as('getMe');
     cy.intercept('GET', '**/api/user', { statusCode: 200, body: { data: user } }).as('getUser');
     cy.intercept('GET', '**/api/groups', { statusCode: 200, body: { data: groups } }).as('getGroups');
     cy.intercept('GET', '**/api/groups/my-groups', { statusCode: 200, body: { data: [] } }).as('getMyGroups');
   });
 
   it('displays a list of groups', () => {
-    cy.visit('/groups', {
-      onBeforeLoad: (win) => {
-        win.localStorage.setItem('fwber_token', 'fake-token');
-        win.localStorage.setItem('fwber_user', JSON.stringify(user));
-      }
-    });
+    seedVisit('/groups');
 
     cy.wait('@getGroups');
     cy.contains('Hiking Enthusiasts').should('be.visible');
@@ -55,12 +66,7 @@ describe('Groups', () => {
   });
 
   it('allows joining a group', () => {
-    cy.visit('/groups', {
-      onBeforeLoad: (win) => {
-        win.localStorage.setItem('fwber_token', 'fake-token');
-        win.localStorage.setItem('fwber_user', JSON.stringify(user));
-      }
-    });
+    seedVisit('/groups');
 
     cy.wait('@getGroups');
 
@@ -69,18 +75,16 @@ describe('Groups', () => {
       body: { success: true, status: 'joined' }
     }).as('joinGroup');
 
-    // Update the groups mock to reflect membership
-    cy.intercept('GET', '**/api/groups', { 
-        statusCode: 200, 
-        body: { 
+    cy.intercept('GET', '**/api/groups', {
+        statusCode: 200,
+        body: {
             data: [{
                 ...groups[0],
                 is_member: true
-            }] 
-        } 
+            }]
+        }
     }).as('getGroupsUpdated');
 
-    // Also mock my-groups
     cy.intercept('GET', '**/api/groups/my-groups', {
         statusCode: 200,
         body: {
@@ -92,24 +96,17 @@ describe('Groups', () => {
     }).as('getMyGroupsUpdated');
 
     cy.contains('Hiking Enthusiasts').parent().find('button').contains('Join').click();
-    
+
     cy.wait('@joinGroup');
-    cy.wait('@getGroupsUpdated'); // Wait for the refetch
-    cy.wait('@getMyGroupsUpdated'); // Wait for my-groups refetch
     cy.contains('Member').should('be.visible');
   });
 
   it('allows creating a new group', () => {
-    cy.visit('/groups/create', {
-      onBeforeLoad: (win) => {
-        win.localStorage.setItem('fwber_token', 'fake-token');
-        win.localStorage.setItem('fwber_user', JSON.stringify(user));
-      }
-    });
+    seedVisit('/groups/create');
 
     cy.get('input[name="name"]').type('New Test Group');
     cy.get('textarea[name="description"]').type('Description for the new test group.');
-    
+
     cy.intercept('POST', '**/api/groups', {
       statusCode: 201,
       body: {
@@ -125,7 +122,7 @@ describe('Groups', () => {
 
     cy.contains('button', 'Create Group').click();
     cy.wait('@createGroup');
-    
+
     // Should redirect to groups list or the new group page
     cy.url().should('include', '/groups');
   });

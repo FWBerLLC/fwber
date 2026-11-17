@@ -8,6 +8,9 @@
 ## Session 2026-11-17 (cont. 28) — Regression hold: battery 37/37 on v2.3.115 (loop iteration)
 - Consolidated battery **37/37** (fresh pair 282/283). Bobbi thread carries no new fwber ack/decisions for this lane; no ping sent. No code change.
 
+## Session 2026-11-17 (cont. 30) — Cypress batch 35: groups list green; events/gifts/join-create backlogged (test-only)
+- Executed `events` (0/3 — `getEvents` alias never fires under the current page fetch), `groups` (list **passes as-is**; join/create fail on refetch/label and form drift after the session-pattern refresh), `gifts` (0/3 — `Send Gift` profile flow has moved). All backlogged in TODO with per-spec specifics. Executed-green total remains **14 tests / 9 specs**. Artifacts cleaned.
+
 ## Session 2026-11-17 (cont. 29) — Blocking + match-insights green: ALL backlogged Cypress specs refreshed (test-only)
 - `blocking.cy.js` **2/2** (real block-record shape `{blocked_id,...}`, confirm modal, list removal) and `match-insights.cy.js` **1/1** (`{matches}` normalization, Info-button modal, locked→unlock→explanation flow) — both against prod. Executed Cypress total: **14 tests across 9 specs, all green**; every stale-spec backlog item is now closed. Remaining 43 specs stay syntax-verified until executed. Artifacts cleaned.
 
