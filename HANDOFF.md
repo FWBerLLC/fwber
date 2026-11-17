@@ -1,3 +1,7 @@
+## Session 2026-11-16 (cont. 9) — Exhaustive test loop scheduled (15m, job 790323eb) + first battery (loop iteration)
+- Robert scheduled a permanent 15m exhaustive-testing loop alongside the 30m coordinate loop. First battery: backend **203/203**, frontend `tsc` 0, contracts **144/144**, Cypress syntax **48/48**, rewrites live, nav 179/133/17, prod smoke 200s (dashboard 307 auth).
+- **MCP finding**: every `mcp__hypernexus.*` call in this Muse session fails (`pipe is being closed`, os error 232) — the session's stdio bridge is dead. The kernel itself is healthy over HTTP (`:7778/health` ok v1.0.84, `:7779` 200, `/api/mcp/status` shows 5 connected servers / 71 tools, `/api/system/overview` 452 requests / 0 errors). Per the ops degradation contract the session continues on local tools + HTTP; MCP tooling reattaches on a fresh Muse session (owner-side restart), not fixable from inside.
+
 ## Session 2026-11-16 (cont. 8) — Loop iteration: error watch clean, email/tray posture verified (loop iteration)
 - Prod error watch: only `[server] unhandled error` in the last 300 backend log lines is the self-inflicted boost-proof 500 (invalid enum from the proof, fixed). No new 5xx classes. Health `app_version 2.3.102`.
 - Email posture: server carries SMTP `MAIL_*` vars (no Resend key); sending rides SMTP config — SPF/DKIM/DMARC publication remains Robert's registrar action.
