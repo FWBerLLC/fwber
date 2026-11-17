@@ -1,7 +1,7 @@
 # VISION.md — The Ultimate fwber Architecture & Philosophy
 
 > **Last Updated:** 2026-11-15
-> **Version:** 2.3.110 (QA cleanup FK pre-clean fix)
+> **Version:** 2.3.111 (Journals storage + contract rebuild)
 > **Goal:** To serve as the definitive North Star for all human and AI agents working on the fwber project.
 
 ---

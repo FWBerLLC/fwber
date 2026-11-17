@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.111] - 2026-11-17
+
+### Journals Rebuilt — Storage Never Existed, Contract Never Matched
+
+- **Found by dashboard batch 14**: the entire Field Notes feature was hollow. `POST /api/journals` ran raw SQL against a `journal_entries` table that was never created in production (every create **500'd**), list silently returned `[]` on error, and the route's shapes (`mood`/`is_private`, bare array, `{success}`) never matched the frontend contract (`{ journals }` / `{ journal }` with `visibility`, `visibility_label`, `tags`, `mood_emoji`, `accent_color`, `circle_group`, `can_edit`). Users could open `/journal`, type a note, and lose it.
+- **Fix**: real `journal_entries` Prisma model (schema + opposite relation) created via idempotent `tools/migrations/2026-11-17-journal-entries.sql`; router rewritten onto Prisma serving the exact frontend shapes, with legacy `mood`/`is_private` writes mapped onto `visibility`, own-entry 404 guards, and malformed-id 400s. Achievements hook retained.
+- **Tests**: new `tests/JournalsContract.test.ts` (4 cases: create/list round-trip in frontend shape, legacy mapping, content required, update/delete + 404/400). Suite **49/49, 228/228**, `tsc` 0. (Local `prisma generate` hits a locked engine DLL from a stray local process; the server deploy's generate is the operative one and runs clean.)
+
 ## [2.3.110] - 2026-11-17
 
 ### QA Cleanup FK Pre-Clean — Confirmed Deletion 500'd on Restrict FKs

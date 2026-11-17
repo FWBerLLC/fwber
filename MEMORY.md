@@ -1,6 +1,6 @@
 # MEMORY.md — fwber Internal Architectural Observations
 
-## Current Version: 2.3.110 "QA cleanup FK pre-clean fix"
+## Current Version: 2.3.111 "Journals storage + contract rebuild"
 **Last Updated:** 2026-11-15
 
 ### Observations (2026-11-15 session, v2.3.98)
