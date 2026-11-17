@@ -1,3 +1,7 @@
+## Session 2026-11-17 (cont. 10) — Batch 20: insights economy + version surfaces 6/6 (loop iteration)
+- Match insights economics proven live with a fresh connected pair: locked read (no 500) → unlock accepted → wallet charged **exactly 10 FWB** (50 → 40) → unlocked content differs on re-read.
+- Version consistency: API health, NodeInfo software version, geo health, and the served frontend badge **all agree on 2.3.114**. No failures; no code change.
+
 ## Session 2026-11-17 (cont. 9) — Regression hold: battery 37/37, lint clean (loop iteration)
 - Consolidated battery **37/37** (fresh pair 255/256) on v2.3.114; ESLint 0 on journal/privacy surfaces. Bobbi thread has moved past fwber topics (CRM work); no ack/decisions for this lane and no ping sent. No code change.
 
