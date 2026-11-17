@@ -1,3 +1,7 @@
+## Session 2026-11-17 (cont. 17) — Prod battery wired into manual CI workflow (tooling, no bump)
+- Added `.github/workflows/prod-battery.yml`: **workflow_dispatch only** (never push/PR — each run mints a fresh QA pair on prod), Node 24, runs `tools/battery/prod-battery.mjs` against `https://fwber.online` (base URL overridable per dispatch). YAML validated. The loop's regression is now runnable without this session.
+- Reaffirmed per directive: repo synced 0/0 (no submodules in-repo), dashboard already the consolidated tooltip-gated single page (179/133/17), tray controls incl. `-StopAll` verified, prod PM2 pair + geo systemd healthy. Gemini/ChatGPT tabs still absent in Edge.
+
 ## Session 2026-11-17 (cont. 16) — Regression hold: battery 37/37 on v2.3.114 (loop iteration)
 - Consolidated battery **37/37** (fresh pair 274/275). Bobbi thread carries no new fwber ack/decisions for this lane; no ping sent. No code change.
 

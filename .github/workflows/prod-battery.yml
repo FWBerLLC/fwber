@@ -1,0 +1,31 @@
+name: Prod Battery (manual)
+
+# Consolidated production regression battery (tools/battery/prod-battery.mjs).
+# Manual-only on purpose: every run registers a fresh QA pair on prod and
+# exercises live flows (Pillar 5, economy, lifecycles, guards, boundaries).
+# It must never fire on push/PR — dispatch it deliberately after deploys.
+on:
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: 'Base URL to test'
+        required: false
+        default: 'https://fwber.online'
+
+jobs:
+  battery:
+    name: Production battery (37 checks)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Run consolidated prod battery
+        env:
+          FWBER_BASE_URL: ${{ inputs.base_url }}
+        run: node tools/battery/prod-battery.mjs
