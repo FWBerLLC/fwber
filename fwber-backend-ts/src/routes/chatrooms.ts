@@ -105,8 +105,16 @@ router.get('/categories', async (_req: any, res) => {
 router.post('/', async (req: any, res) => {
   try {
     const userId = BigInt(req.user.id);
-    const { name, description, type = 'standard', category, is_public = true } = req.body;
+    const { name, description, category, is_public = true } = req.body;
     if (!name) { res.status(400).json({ message: 'Name required' }); return; }
+    // 'standard' was the old default but is not a chatrooms_type enum
+    // value (interest|city|event|private|group), so type-less creates
+    // 500'd in Prisma. Default to 'group'; reject unknown types cleanly.
+    const type = req.body.type ?? 'group';
+    if (!['interest', 'city', 'event', 'private', 'group'].includes(type)) {
+      res.status(400).json({ message: 'Invalid type' });
+      return;
+    }
 
     const chatroom = await prisma.chatrooms.create({
       data: {

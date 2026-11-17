@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.107] - 2026-11-16
+
+### Chatroom Create Default Type Fix — Type-Less Creates 500'd
+
+- **Found by flow battery batch 8**: `POST /api/chatrooms` without an explicit `type` returned **500** — the route defaulted `type` to `'standard'`, which is not a `chatrooms_type` enum value (`interest|city|event|private|group`), so Prisma rejected every type-less create. The UI always sends a type, which is why this hid; any other API caller hit it.
+- **Fix** (`src/routes/chatrooms.ts`): omitted type now defaults to `'group'`, and an unknown type returns a clean `400 Invalid type` instead of a Prisma 500.
+- **Tests**: new `tests/ChatroomsCreate.test.ts` (4 cases: default group + owner membership, explicit type passthrough, legacy `'standard'` now 400 with nothing created, missing name 400). Suite **46/46, 217/217**.
+
 ## [2.3.106] - 2026-11-16
 
 ### Wingman AI Chain Latency Bound — `/wingman/compatibility` 504 Fix
