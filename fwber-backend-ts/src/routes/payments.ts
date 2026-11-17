@@ -66,26 +66,53 @@ router.post('/webhook', async (req: any, res) => {
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
-  // Handle the event
+  // Handle the event. Dispatch on the checkout metadata each creation
+  // route stamps: premium and boost purchases must grant what was bought;
+  // only generic token checkouts fall through to the token credit.
   switch (event.type) {
-    case 'checkout.session.completed':
+    case 'checkout.session.completed': {
       const session = event.data.object as Stripe.Checkout.Session;
       const userId = session.metadata?.userId;
-      
-      if (userId) {
-        // Here you would add tokens to the user's wallet
-        // or update their premium status in the database
-        console.log(`[Stripe] Payment completed for user ${userId}`);
-        
-        // Example: Add 100 tokens (this should be dynamic based on priceId)
+      if (!userId) break;
+      const uid = BigInt(userId);
+      console.log(`[Stripe] Payment completed for user ${userId}`);
+
+      if (session.metadata?.type === 'premium_upgrade') {
+        // Mirror the token-purchase grant in routes/premium.ts exactly.
+        const days = session.metadata.planId === 'yearly' ? 365 : 30;
         await prisma.users.update({
-          where: { id: BigInt(userId) },
+          where: { id: uid },
+          data: {
+            tier: 'gold' as any,
+            unlimited_swipes: true,
+            tier_expires_at: new Date(Date.now() + days * 24 * 60 * 60 * 1000),
+          },
+        });
+      } else if (session.metadata?.boostType) {
+        // Mirror the token-purchase activation in routes/boosts.ts exactly.
+        const durationMinutes = Number(session.metadata.durationMinutes || 30);
+        const expiresAt = new Date(Date.now() + durationMinutes * 60 * 1000);
+        await prisma.boosts.create({
+          data: {
+            user_id: uid,
+            boost_type: session.metadata.boostType as any,
+            status: 'active',
+            started_at: new Date(),
+            expires_at: expiresAt,
+          },
+        });
+      } else {
+        // Generic token checkout. NOTE: flat 100 regardless of amount —
+        // flagged for Robert's product call (HANDOFF v2.3.100); unchanged.
+        await prisma.users.update({
+          where: { id: uid },
           data: {
             token_balance: { increment: 100 }
           }
         });
       }
       break;
+    }
     default:
       console.log(`[Stripe] Unhandled event type ${event.type}`);
   }

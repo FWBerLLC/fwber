@@ -13,10 +13,12 @@ process.env.STRIPE_SECRET_KEY = 'sk_test_offline_dummy';
 process.env.STRIPE_WEBHOOK_SECRET = 'whsec_offline_test_secret';
 
 const mockUsersUpdate = jest.fn(async () => ({}));
+const mockBoostsCreate = jest.fn(async () => ({}));
 
 jest.unstable_mockModule('../src/lib/prisma.js', () => ({
   default: {
     users: { update: mockUsersUpdate },
+    boosts: { create: mockBoostsCreate },
   },
 }));
 
@@ -43,7 +45,58 @@ function signedRequest(payloadObj: unknown, secret = 'whsec_offline_test_secret'
 }
 
 describe('POST /api/payments/webhook', () => {
-  beforeEach(() => mockUsersUpdate.mockClear());
+  beforeEach(() => { mockUsersUpdate.mockClear(); mockBoostsCreate.mockClear(); });
+
+  it('grants premium (not tokens) for premium_upgrade checkouts', async () => {
+    const { payload, header } = signedRequest({
+      id: 'evt_test_premium',
+      type: 'checkout.session.completed',
+      data: { object: { id: 'cs_premium', metadata: { userId: '7', type: 'premium_upgrade', planId: 'yearly' } } },
+    });
+    const before = Date.now();
+    const res = await request(buildApp())
+      .post('/api/payments/webhook')
+      .set('Content-Type', 'application/json')
+      .set('stripe-signature', header)
+      .send(payload);
+
+    expect(res.status).toBe(200);
+    expect(mockBoostsCreate).not.toHaveBeenCalled();
+    expect(mockUsersUpdate).toHaveBeenCalledTimes(1);
+    const arg = (mockUsersUpdate.mock.calls[0] as any)[0];
+    expect(arg.where).toEqual({ id: 7n });
+    expect(arg.data.tier).toBe('gold');
+    expect(arg.data.unlimited_swipes).toBe(true);
+    expect(arg.data.token_balance).toBeUndefined();
+    const expiry = new Date(arg.data.tier_expires_at).getTime();
+    expect(expiry).toBeGreaterThan(before + 364 * 24 * 60 * 60 * 1000);
+    expect(expiry).toBeLessThan(Date.now() + 366 * 24 * 60 * 60 * 1000);
+  });
+
+  it('activates a boost (not tokens) for boost checkouts', async () => {
+    const { payload, header } = signedRequest({
+      id: 'evt_test_boost',
+      type: 'checkout.session.completed',
+      data: { object: { id: 'cs_boost', metadata: { userId: '9', boostType: 'profile', durationMinutes: '60' } } },
+    });
+    const before = Date.now();
+    const res = await request(buildApp())
+      .post('/api/payments/webhook')
+      .set('Content-Type', 'application/json')
+      .set('stripe-signature', header)
+      .send(payload);
+
+    expect(res.status).toBe(200);
+    expect(mockUsersUpdate).not.toHaveBeenCalled();
+    expect(mockBoostsCreate).toHaveBeenCalledTimes(1);
+    const arg = (mockBoostsCreate.mock.calls[0] as any)[0];
+    expect(arg.data.user_id).toBe(9n);
+    expect(arg.data.boost_type).toBe('profile');
+    expect(arg.data.status).toBe('active');
+    const expiry = new Date(arg.data.expires_at).getTime();
+    expect(expiry).toBeGreaterThan(before + 59 * 60 * 1000);
+    expect(expiry).toBeLessThan(Date.now() + 61 * 60 * 1000);
+  });
 
   it('accepts a correctly signed checkout.session.completed over the raw body', async () => {
     const { payload, header } = signedRequest({

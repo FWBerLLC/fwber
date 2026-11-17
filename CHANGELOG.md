@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.102] - 2026-11-16
+
+### Stripe Webhook Dispatch — Premium & Boost Purchases Now Grant What Was Bought
+
+- **Live-commerce bug found by the Stripe go-live audit**: `POST /api/premium/initiate` ($19.99/mo, $149.99/yr) and the Stripe path of `POST /api/boosts/purchase` create real checkout sessions, but the single webhook handler credited a flat 100 tokens for *every* completed session — a user paying for Premium would have received tokens and **no premium**, and a paid boost would never have activated. (No real purchase had hit this yet; the QA-only proof used generic metadata.)
+- **Fix** (`fwber-backend-ts/src/routes/payments.ts`): `checkout.session.completed` now dispatches on the metadata each creation route stamps — `type: 'premium_upgrade'` grants the exact token-purchase shape from `routes/premium.ts` (`tier 'gold'`, `unlimited_swipes`, +30d monthly / +365d yearly); `boostType` creates the exact active-boost row from `routes/boosts.ts` (`status 'active'`, `started_at`, `expires_at = now + durationMinutes`); generic token checkouts keep the flat +100 credit, unchanged pending Robert's product call.
+- **Tests**: `tests/PaymentsWebhook.test.ts` extended to 4 cases (premium yearly grant asserts no token credit and ~365d expiry; boost asserts activation window and no user update). Suite **42/42, 203/203**, `tsc` 0.
+
 ## [2.3.101] - 2026-11-16
 
 ### Backend Sentry Reporter (zero-dependency envelope client)
