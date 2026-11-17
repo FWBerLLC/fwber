@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.112] - 2026-11-17
+
+### Journal Privacy Persistence Fix — Settings Were a Facade
+
+- **Found by the post-rebuild privacy check**: `PUT /api/settings/privacy/journals` returned 200 with the submitted values but **never saved them** — it hardcoded circle group `1`, swallowed write errors, and echoed the request; GET derived visibility solely from `journal_circle_group_id`, so `friends`/`public` could never survive a re-read (proven live: PUT `friends` → GET `private`).
+- **Fix**: new persisted column `user_profiles.journal_default_visibility` (idempotent migration `tools/migrations/2026-11-17-journal-privacy-visibility.sql`); GET now returns the stored visibility, the real `circle_group_id`, and the caller's actual `available_groups` (group memberships); PUT validates the enum (400 on junk), stores both fields (creating the profile row when missing), and returns the **re-read persisted state** instead of the request echo.
+- **Tests**: new `tests/JournalPrivacySettings.test.ts` (3 cases: circle round-trip with groups, friends persistence, invalid-value 400 with zero writes). Suite **50/50, 231/231**.
+
 ## [2.3.111] - 2026-11-17
 
 ### Journals Rebuilt — Storage Never Existed, Contract Never Matched

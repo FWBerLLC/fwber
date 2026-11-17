@@ -57,31 +57,47 @@ router.put('/privacy', async (req: any, res) => {
 });
 
 
+// Journal privacy settings persist on user_profiles
+// (journal_default_visibility + journal_circle_group_id). The previous
+// handlers were a facade: GET derived visibility from the circle column
+// alone and PUT echoed the request body without saving it (hardcoding
+// circle group 1 and swallowing errors), so changes never survived a
+// re-read. Both now read/write the real columns, and PUT returns the
+// re-read persisted state.
+const JOURNAL_VISIBILITIES = ['public', 'friends', 'circle', 'private'];
+
+async function journalPrivacyPayload(userId: bigint) {
+  const profile = await prisma.user_profiles.findFirst({
+    where: { user_id: userId },
+    select: { journal_circle_group_id: true, journal_default_visibility: true },
+  });
+  const memberships = await prisma.group_members.findMany({
+    where: { user_id: userId },
+    include: { groups: { select: { id: true, name: true, privacy: true } } },
+  });
+  const stored = profile?.journal_default_visibility;
+  return {
+    default_visibility: JOURNAL_VISIBILITIES.includes(stored || '')
+      ? stored
+      : (profile?.journal_circle_group_id ? 'circle' : 'private'),
+    circle_group_id: profile?.journal_circle_group_id ? Number(profile.journal_circle_group_id) : null,
+    available_groups: memberships
+      .filter((m: any) => m.groups)
+      .map((m: any) => ({ id: Number(m.groups.id), name: m.groups.name, privacy: m.groups.privacy })),
+    allow_comments: true,
+    allow_reactions: true,
+    share_with_matches: false,
+  };
+}
+
 // GET /api/settings/privacy/journals — get journal privacy settings
 router.get('/privacy/journals', async (req: any, res) => {
   try {
     const userId = BigInt(req.user.id);
-    const profile = await prisma.user_profiles.findFirst({
-      where: { user_id: userId },
-      select: { journal_circle_group_id: true },
-    });
-    res.json({
-      data: {
-        default_visibility: profile?.journal_circle_group_id ? 'circle' : 'private',
-        allow_comments: true,
-        allow_reactions: true,
-        share_with_matches: false,
-      },
-    });
+    res.json({ data: await journalPrivacyPayload(userId) });
   } catch (error: any) {
-    res.json({
-      data: {
-        default_visibility: 'private',
-        allow_comments: true,
-        allow_reactions: true,
-        share_with_matches: false,
-      },
-    });
+    console.error('[Settings] Journal privacy read error:', error.message);
+    res.status(500).json({ success: false, message: 'Failed to load journal privacy settings' });
   }
 });
 
@@ -89,32 +105,31 @@ router.get('/privacy/journals', async (req: any, res) => {
 router.put('/privacy/journals', async (req: any, res) => {
   try {
     const userId = BigInt(req.user.id);
-    const { default_visibility, allow_comments, allow_reactions, share_with_matches } = req.body || {};
+    const { default_visibility, circle_group_id } = req.body || {};
 
-    if (default_visibility) {
-      await prisma.user_profiles.updateMany({
-        where: { user_id: userId },
-        data: { journal_circle_group_id: default_visibility === 'circle' ? BigInt(1) : null },
-      }).catch(() => {});
+    if (default_visibility !== undefined && !JOURNAL_VISIBILITIES.includes(default_visibility)) {
+      return res.status(400).json({ message: 'Invalid default_visibility' });
     }
 
-    res.json({
-      data: {
-        default_visibility: default_visibility || 'private',
-        allow_comments: allow_comments !== undefined ? allow_comments : true,
-        allow_reactions: allow_reactions !== undefined ? allow_reactions : true,
-        share_with_matches: share_with_matches !== undefined ? share_with_matches : false,
-      },
-    });
+    const data: any = {};
+    if (default_visibility !== undefined) data.journal_default_visibility = default_visibility;
+    if (circle_group_id !== undefined) {
+      data.journal_circle_group_id = circle_group_id === null ? null : BigInt(circle_group_id);
+    }
+
+    if (Object.keys(data).length > 0) {
+      const existing = await prisma.user_profiles.findFirst({ where: { user_id: userId }, select: { id: true } });
+      if (existing) {
+        await prisma.user_profiles.update({ where: { id: existing.id }, data });
+      } else {
+        await prisma.user_profiles.create({ data: { user_id: userId, ...data } });
+      }
+    }
+
+    res.json({ data: await journalPrivacyPayload(userId) });
   } catch (error: any) {
-    res.json({
-      data: {
-        default_visibility: 'private',
-        allow_comments: true,
-        allow_reactions: true,
-        share_with_matches: false,
-      },
-    });
+    console.error('[Settings] Journal privacy update error:', error.message);
+    res.status(500).json({ success: false, message: 'Failed to update journal privacy settings' });
   }
 });
 

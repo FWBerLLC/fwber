@@ -1,6 +1,6 @@
 # MEMORY.md — fwber Internal Architectural Observations
 
-## Current Version: 2.3.111 "Journals storage + contract rebuild"
+## Current Version: 2.3.112 "Journal privacy persistence fix"
 **Last Updated:** 2026-11-15
 
 ### Observations (2026-11-15 session, v2.3.98)

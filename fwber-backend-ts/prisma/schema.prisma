@@ -1882,6 +1882,7 @@ model user_profiles {
   avatar_url              String?   @db.VarChar(255)
   is_federated            Boolean   @default(false)
   journal_circle_group_id BigInt?   @db.UnsignedBigInt
+  journal_default_visibility String? @default("private") @db.VarChar(16)
   created_at              DateTime? @db.Timestamp(0)
   updated_at              DateTime? @db.Timestamp(0)
   is_verified             Boolean   @default(false)
