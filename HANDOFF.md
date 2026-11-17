@@ -1,3 +1,6 @@
+## Session 2026-11-17 (cont. 20) — Regression hold: battery 37/37, Bobbi quiet (loop iteration)
+- Consolidated battery **37/37** (fresh pair 278/279). Bobbi thread carries no new fwber ack/decisions for this lane; no ping sent. No code change.
+
 ## Session 2026-11-17 (cont. 19) — CI health: test workflows green, GH deploy workflows pre-broken (loop iteration)
 - On latest pushes: **Backend & Geo CI ✓, Frontend CI ✓, Repository Hygiene ✓, Prod Battery ✓** — including the Prisma schema changes (journals model, timestamp defaults).
 - `Deploy Backend/Frontend (Hetzner)` GitHub workflows fail in 6–15s at the `appleboy/ssh-action` step on **every** push this session (and the pattern predates the fixes — test CIs pass on the same commits). Production deploys have always run from this machine over direct SSH (working); the GH-side SSH secrets/host config are evidently not functional, plausibly since the repo move to `FWBerLLC/fwber`. **Robert's call**: repair the repo deploy secrets or disable those two workflows to stop failure noise on every push. Not caused by session changes; no secret surgery attempted from here.
