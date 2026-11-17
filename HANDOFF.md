@@ -1,3 +1,7 @@
+## Session 2026-11-17 (cont. 15) — Batch 24: reveal/voice 5/5, supervisor settings exercised (loop iteration)
+- Photo reveal cycle live: upload (id returned) → connected partner requests reveal (accepted, no charge at request time) → owner lists reveal requests; voice message via multipart media path no-500.
+- MCP: `update_supervisor_settings` exercised at its current value (`bumpText: keep going`, read back verified) — **55/71** verified. Remaining unrun: shell trio (attestation), kill/delete/install/download class, UI-driving chat/input tools, launch_webview, Jira.
+
 ## Session 2026-11-17 (cont. 14) — Batch 23: onboarding/travel 8/8, kernel memory tools exercised (loop iteration)
 - Onboarding proven end to end: register → profile fields persist → `POST /onboarding/complete` **200 with 25 tokens awarded**; travel mode toggles persist both ways through the (now honest) privacy endpoint.
 - MCP: `memory_extract_relations_batch` (33 edges from 10 memories) and `memory_maintenance` (native Go compaction) exercised via the HTTP bridge per the user's every-tool directive — **54/71** verified. Remaining unrun are shell trio (attestation policy), process/file destructive ops beyond the probe file, installs/downloads, UI-driving on the user's windows, supervisor-settings mutation, and Jira external writes.
