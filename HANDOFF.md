@@ -1,3 +1,6 @@
+## Session 2026-11-17 (cont. 24) — Matching-flow refreshed: ALL refreshed Cypress specs green (test-only)
+- `matching-flow.cy.js` rewritten to the current page contract (seeded session via pre-visit cookie, `{matches}` normalization, `button.text-green-500` like button, `{target_user_id, action}` body, mutual-match toast) — **2/2 passing** against prod in 17s. Executed Cypress total: **friends-full 3/3, friends-nav 1/1, notifications 2/2, matching-flow 2/2 (8 tests)**. TODO stale-specs item CLOSED. Artifacts cleaned.
+
 ## Session 2026-11-17 (cont. 23) — Notifications Cypress refreshed: 2/2 green (test-only)
 - `notifications.cy.js` now passes **2/2** against prod. Fixes (all spec-side, diagnosed from failure screenshots): current CardTitle is not an `h3` (text-scoped selectors), session restore needs the `/auth/me` intercept + API fallback, and middleware-gated settings routes need the `fwber_auth` cookie planted **before** the navigation request (a cheap `/login` visit + `cy.setCookie` first — `onBeforeLoad` document.cookie is too late for the document request itself).
 - Executed Cypress total: **friends-full 3/3, friends-nav 1/1, notifications 2/2**. Only `matching-flow` remains stale (TODO). Artifacts cleaned.

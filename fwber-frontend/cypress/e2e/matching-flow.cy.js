@@ -16,82 +16,6 @@ describe('Matching Flow', () => {
     removeEventListener() {}
   }
 
-  beforeEach(() => {
-    // Inject MockEventSource
-    cy.window().then((win) => {
-      win.EventSource = MockEventSource;
-    });
-
-    // Mock login
-    cy.intercept('POST', '**/api/auth/login', {
-      statusCode: 200,
-      body: {
-        token: 'fake-token',
-        user: { id: 1, name: 'Test User', profile_complete: true }
-      }
-    }).as('login');
-
-    // Mock user profile
-    cy.intercept('GET', '**/api/user', {
-      statusCode: 200,
-      body: {
-        data: { id: 1, name: 'Test User', profile_complete: true }
-      }
-    }).as('getUser');
-
-    // Mock matches feed
-    cy.intercept('GET', '**/api/matches*', {
-      statusCode: 200,
-      body: {
-        data: {
-          matches: [
-            {
-              id: 2,
-              name: 'Potential Match',
-              bio: 'I like hiking',
-              age: 25,
-              locationDescription: 'New York, NY',
-              avatarUrl: '/images/test-avatar.svg',
-              compatibilityScore: 0.9,
-              distance: 5
-            },
-            {
-              id: 3,
-              name: 'Another Match',
-              bio: 'Coffee lover',
-              age: 28,
-              locationDescription: 'Brooklyn, NY',
-              avatarUrl: '/images/test-avatar.svg',
-              compatibilityScore: 0.85,
-              distance: 10
-            }
-          ]
-        }
-      }
-    }).as('getMatches');
-
-    // Mock match action
-    cy.intercept('POST', '**/api/matches/action', {
-      statusCode: 200,
-      body: {
-        data: {
-          action: 'like',
-          is_match: false,
-          message: 'Action recorded'
-        }
-      }
-    }).as('matchAction');
-
-    // Mock WebSocket token endpoint to avoid 404s
-    cy.intercept('GET', '**/api/websocket/token', {
-      statusCode: 200,
-      body: {
-        token: 'mock-mercure-token',
-        hub_url: 'http://localhost:3000/.well-known/mercure'
-      }
-    }).as('getWebsocketToken');
-  });
-
   const user = {
     id: 1,
     name: 'Test User',
@@ -119,11 +43,11 @@ describe('Matching Flow', () => {
     }
   };
 
-  it('displays matches and allows swiping', () => {
-    cy.on('window:console', (msg) => {
-      console.log('Browser Console:', msg);
-    });
-
+  function seedSession() {
+    // Middleware gates protected routes on the fwber_auth cookie, which
+    // must exist BEFORE the navigation request (see notifications.cy.js).
+    cy.visit('/login');
+    cy.setCookie('fwber_auth', '1');
     cy.visit('/matches', {
       onBeforeLoad: (win) => {
         win.localStorage.setItem('fwber_token', 'fake-token');
@@ -131,39 +55,107 @@ describe('Matching Flow', () => {
         win.EventSource = MockEventSource;
       }
     });
-    
-    // Check if loading spinner is present initially
-    // cy.get('.animate-spin').should('exist'); // Optional check
+  }
 
-    // Wait for matches to load
-    // cy.wait('@getMatches'); // Commented out to debug
+  beforeEach(() => {
+    cy.window().then((win) => {
+      win.EventSource = MockEventSource;
+    });
 
-    // Check if first match is visible
+    // Fallback beneath the specifics (see friends-full.cy.js).
+    cy.intercept('**/api/**', { statusCode: 200, body: {} }).as('apiFallback');
+
+    cy.intercept('POST', '**/api/auth/login', {
+      statusCode: 200,
+      body: {
+        access_token: 'fake-token',
+        token_type: 'Bearer',
+        user: { id: 1, name: 'Test User', profile_complete: true }
+      }
+    }).as('login');
+
+    cy.intercept('GET', '**/api/auth/me', {
+      statusCode: 200,
+      body: user
+    }).as('getMe');
+
+    cy.intercept('GET', '**/api/user', {
+      statusCode: 200,
+      body: {
+        data: { id: 1, name: 'Test User', profile_complete: true }
+      }
+    }).as('getUser');
+
+    // Matches page reads a bare array or { matches } (both normalized).
+    cy.intercept('GET', '**/api/matches*', {
+      statusCode: 200,
+      body: {
+        matches: [
+          {
+            id: 2,
+            name: 'Potential Match',
+            bio: 'I like hiking',
+            age: 25,
+            locationDescription: 'New York, NY',
+            avatarUrl: '/images/test-avatar.svg',
+            compatibilityScore: 0.9,
+            distance: 5
+          },
+          {
+            id: 3,
+            name: 'Another Match',
+            bio: 'Coffee lover',
+            age: 28,
+            locationDescription: 'Brooklyn, NY',
+            avatarUrl: '/images/test-avatar.svg',
+            compatibilityScore: 0.85,
+            distance: 10
+          }
+        ]
+      }
+    }).as('getMatches');
+
+    cy.intercept('POST', '**/api/matches/action', {
+      statusCode: 200,
+      body: {
+        action: 'like',
+        is_match: false,
+        message: 'Action recorded'
+      }
+    }).as('matchAction');
+
+    // Mock WebSocket token endpoint to avoid 404s
+    cy.intercept('GET', '**/api/websocket/token', {
+      statusCode: 200,
+      body: {
+        token: 'mock-mercure-token',
+        hub_url: 'http://localhost:3000/.well-known/mercure'
+      }
+    }).as('getWebsocketToken');
+  });
+
+  it('displays matches and allows swiping', () => {
+    seedSession();
+
     cy.url().should('include', '/matches');
-    
-    // Wait for loading to finish
     cy.contains('Loading matches...').should('not.exist');
-    
-    // Debug: Check if we hit the empty state
+
     cy.get('body').then($body => {
       if ($body.text().includes('No more matches')) {
         throw new Error('Matches list is empty, mock failed?');
       }
     });
-    
-    cy.contains('Potential Match', { timeout: 30000 }).should('be.visible');
 
-    // The component renders "Name, Age" e.g. "Potential Match, 25"
+    cy.contains('Potential Match', { timeout: 30000 }).should('be.visible');
     cy.contains('25').should('be.visible');
     cy.contains('I like hiking').should('be.visible');
 
-    // Perform Like action (click Like button - Green Heart)
-    cy.get('.text-green-500').closest('button').click({ force: true });
+    // Like button carries text-green-500 on the button itself now.
+    cy.get('button.text-green-500').click({ force: true });
 
-    // Verify API call
     cy.wait('@matchAction').its('request.body').should('deep.equal', {
-      action: 'like',
-      target_user_id: 2
+      target_user_id: 2,
+      action: 'like'
     });
 
     // Verify next card appears
@@ -174,30 +166,20 @@ describe('Matching Flow', () => {
     cy.intercept('POST', '**/api/matches/action', {
       statusCode: 200,
       body: {
-        data: {
-          action: 'like',
-          is_match: true,
-          message: "It's a match!"
-        }
+        action: 'like',
+        is_match: true,
+        message: "It's a match!"
       }
     }).as('mutualMatch');
 
-    cy.visit('/matches', {
-      onBeforeLoad: (win) => {
-        win.localStorage.setItem('fwber_token', 'fake-token');
-        win.localStorage.setItem('fwber_user', JSON.stringify(user));
-        win.EventSource = MockEventSource;
-      }
-    });
+    seedSession();
 
-    // cy.wait('@getMatches');
-
-    // Click Like button
-    cy.get('.text-green-500').closest('button').click({ force: true });
+    cy.contains('Potential Match', { timeout: 30000 }).should('be.visible');
+    cy.get('button.text-green-500').click({ force: true });
 
     cy.wait('@mutualMatch');
 
     // Verify toast appears
-    cy.contains("You matched with Potential Match!", { timeout: 10000 }).should('be.visible');
+    cy.contains('You matched with Potential Match!', { timeout: 10000 }).should('be.visible');
   });
 });
