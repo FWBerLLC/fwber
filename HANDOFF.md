@@ -1,3 +1,8 @@
+## Session 2026-11-16 (cont. 19) — Battery batch 6: federation/merchant/venue 16/16 (loop iteration)
+- Prod flow batch 6 (QA 211): **16/16** — federation peers/feed, activity, following feed, unlocks, merchant inventory/analytics, feedback list + submit, settings security, 2FA status, and the full Venue Partner flow (register → login → `/venue/me`) with role isolation proven (user JWT rejected 403 at `/venue/me`). QA venue `qa-venue-*@example.com` created.
+- MCP bridge re-verified after a kernel restart (uptime had reset): system_status/memory_stats/echo all 200 via HTTP tools/call. No additional safe MCP tools exist beyond the 48 verified; the 22 excluded-class tools remain unrun by design.
+- No contract failures; no code change or bump. Prod stays v2.3.106; loops intact.
+
 ## Session 2026-11-16 (cont. 18) — Wingman compatibility 504 fixed + live-proven, v2.3.106 DEPLOYED
 - **Real failure found by flow batch 5**: `POST /wingman/compatibility` 504'd (siblings fine; fortune squeaked by at 29.4s). Root cause: `generateText` tried local Ollama (30s) → unbounded OpenRouter → local **again** (30s), past nginx 60s, so the route's fallback payload never sent. Fixed: single local attempt + OpenRouter wrapped in the 10s `withTimeout` (`src/lib/wingman-ai.ts`), pinned by `tests/WingmanAiChain.test.ts`. Suite **213/213**.
 - Deployed `b006b1112`; batch 5 re-run on prod: **10/10** (compatibility now 200). All services 2.3.106.
