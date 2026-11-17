@@ -1,3 +1,7 @@
+## Session 2026-11-16 (cont. 28) — Consolidated battery regression green (loop iteration)
+- `tools/battery/prod-battery.mjs` second live run: **37/37** (fresh QA pair 229/230). Repo gates: contracts **144/144**, nav 179/133/17 stable, ESLint 0 on the purchase-path files (`lib/hooks`, premium/boost modals). MCP bridge core batch re-verified 13/13 via HTTP tools/call.
+- Bobbi thread has moved on to Robert's CRM/HyperNexus-arm work (fwber topics no longer in current view); reports stand acknowledged on her side. No ping sent. No code change.
+
 ## Session 2026-11-16 (cont. 27) — Consolidated prod battery tool shipped (tooling, no bump)
 - The loop's 15+ ad-hoc TEMP battery scripts are now one durable repo tool: [`tools/battery/prod-battery.mjs`](/C:/Users/hyper/workspace/fwber/tools/battery/prod-battery.mjs) — secret-free (fresh `qa-battery-*` pair per run), state-asserting (catch-all lesson baked in), covering health, dashboard functions, the full Pillar 5 flow, exact +50 referral credit, audio-room and safety-walk lifecycles, bogus-id guards, and unauth/scanner boundaries. First run on prod: **37/37 PASS** (QA users 227/228). Tooling-only; prod stays v2.3.108, no deploy.
 - Directive items re-affirmed: repo synced 0/0 (no submodules in this repo; stale branches all merged ancestors), dashboard already consolidated (179/133/17, tooltip-gated), tray with `-StopAll` verified, prod components (PM2 pair + geo systemd) healthy with clean logs. Gemini/ChatGPT tabs still absent in Edge; Bobbi is in Robert's CRM design session.
