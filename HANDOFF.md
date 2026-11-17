@@ -5,6 +5,10 @@
 ## Session 2026-11-17 (cont. 26) — Regression hold: battery 37/37 on v2.3.115 (loop iteration)
 - Consolidated battery **37/37** (fresh pair 280/281). Bobbi thread carries no new fwber ack/decisions for this lane; no ping sent. No code change.
 
+## Session 2026-11-17 (cont. 27) — Boosts Cypress green on the v2.3.103 contract (test-only)
+- `boosts.cy.js` rewritten to the current `/boosts` page + modal flow (seeded session, wallet mock, `{type:'standard', paymentMethod:'token'}` body assertion — the exact v2.3.103 contract) — **1/1 passing**. Durable page-state assertions replace the transient toast (and DOM text is `Standard Boost`; the uppercase is CSS). Executed total: **13 tests, 8 specs, all green**.
+- Batch also executed `blocking` (2 tests) and `match-insights` (1 test): both stale-expectation fails, backlogged in TODO with specifics. Artifacts cleaned.
+
 ## Session 2026-11-17 (cont. 25) — Premium copy truth shipped v2.3.115; Cypress 12 tests green
 - Cypress batches 31–32: `two-factor-auth` **1/1** (full cycle), `physical-profile` **2/2** (rewritten to `/settings/physical-profile`), `premium-features` **1/1** (real modal flow) — executed total **12 tests across 7 specs, all green**. The premium refresh caught a real copy bug: `/premium` + `/settings/subscription` advertised **200 FWB** against the backend's 500 charge (modal was fixed in v2.3.104; these surfaces were missed) — fixed and deployed as v2.3.115 (`23b757a23`), PM2 backend/frontend + geo verified on 2.3.115.
 - TODO stale-Cypress items are now fully closed. Remaining specs (44) stay syntax-verified until executed in future batches.
