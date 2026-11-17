@@ -1,3 +1,8 @@
+## Session 2026-11-16 (cont. 17) — Battery batch 4: uploads/venues/groups/burner 11/11, MCP tally exact (loop iteration)
+- Prod flow batch 4 (QA 211): **11/11** — photo upload + list, venue checkin → current-checkin reflects → checkout, group create + post, burner link create + status poll.
+- MCP coverage computed exactly against the 71-tool catalog: **48 verified callable, 1 stub failure (`test-mcp-server`), 22 unexercised** — every one of the 22 in the excluded classes (shell trio, file/process/memory destructive writes, installs/downloads, UI-driving chat/input tools, settings mutation, Jira external write, batch maintenance). No safe read-only tool remains untested.
+- No contract failures; no code change or bump. Loops intact (30m `64707909`, 15m `790323eb`).
+
 ## Session 2026-11-16 (cont. 16) — MCP catalog 47/71 verified, economy flows 9/9 (loop iteration)
 - MCP batches 4–5 via HTTP bridge: **10/11 + 3/3** (read_file, inspect_window_ui, memory_extract_relations, generate_devops_pipeline, cloud/confluence advisory (simulated-demo outputs), search, meta `mcp_call_tool` routing, add_bookmark, scratchpad append/get probes). Cumulative **47/71 tools verified callable**. Sole failure: `test-mcp-server` → 503 "unsupported tool fallback" (kernel catalog stub; HyperNexus lane's, not fwber's). Remaining 23 unexercised by class: shell trio (policy), destructive writes/deletes/installs, UI-driving chat/input tools, supervisor-settings mutation, external writes (Jira) — listed in the session summary, not silently skipped.
 - Token-economy flows on prod: **9/9** — referral code apply credits referrer **+50** exactly and rejects duplicates, wallet transfer A→C succeeds with recipient balance reflecting it, notifications read-all clean. QA users now to 220.
