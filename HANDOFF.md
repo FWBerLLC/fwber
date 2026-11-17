@@ -1,3 +1,9 @@
+## Session 2026-11-16 (cont. 8) — Loop iteration: error watch clean, email/tray posture verified (loop iteration)
+- Prod error watch: only `[server] unhandled error` in the last 300 backend log lines is the self-inflicted boost-proof 500 (invalid enum from the proof, fixed). No new 5xx classes. Health `app_version 2.3.102`.
+- Email posture: server carries SMTP `MAIL_*` vars (no Resend key); sending rides SMTP config — SPF/DKIM/DMARC publication remains Robert's registrar action.
+- Tray verified via `tools/fwber-tray-check.py`: GUI tray, `-Idle` Hetzner monitor, `-Status`, `-CheckProd`, `-SmokeTest`, and `-StopAll` (quit) controls all present. Local servers stay off per the Hetzner-only rule; prod PM2 is the running system.
+- Coordination: Bobbi active (memory search in thread), my v2.3.102 update visible; no reply yet, no ping sent.
+
 ## Session 2026-11-16 (cont. 7) — Stripe webhook dispatch fixed + live-proven, v2.3.102 DEPLOYED
 - **Bug (caught by go-live audit, before any real purchase)**: premium ($19.99/$149.99) and Stripe-boost checkouts completed into the generic webhook branch — flat 100 tokens, **no premium tier, no boost activation**. Fixed `payments.ts` to dispatch on stamped metadata (premium → `tier gold + unlimited_swipes + 30/365d` mirroring `premium.ts`; boost → active row mirroring `boosts.ts`; generic → flat 100, unchanged pending Robert's call). Suite 203/203.
 - **Live proof** (signed events, QA 197, state restored after): premium → 200, tier `gold`, expiry +30d, token balance untouched (150); boost → 200, active `standard` row created then deleted; account restored to `free/150`. First boost attempt 500'd on an invalid `boost_type 'profile'` from the proof itself (real enum: `standard|super`, which is all the purchase route stamps) — test corrected to `standard`.
