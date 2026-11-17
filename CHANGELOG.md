@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.114] - 2026-11-17
+
+### Matching Answers Timestamp Fix — the Matching Engine Could Not Record Answers
+
+- **Found by matching battery 17**: every `POST /api/matching/answer` **500'd** (`Null constraint violation on the fields: (created_at)`) — `user_matching_answers.created_at` is NOT NULL in the live table with no DB default, and the Prisma model carried no `@default` either. The OkCupid matching engine (105 questions, the platform's core loop) could not record a single answer; compatibility consequently scored 0 for everyone.
+- **Fix**: model now carries `@default(now())` / `@updatedAt`; the table gets its own defaults via `tools/migrations/2026-11-17-matching-answers-timestamps.sql` (defense in depth).
+- **Tests**: `tests/MatchingAnswers.test.ts` pins the real frontend contract (singular `/answer`, upsert-in-place, answers embedded on question re-read). Suite **52/52, 235/235**. Live proof: identical-answer pair now records answers and compatibility computes.
+
 ## [2.3.113] - 2026-11-17
 
 ### Privacy Settings Write Honesty
