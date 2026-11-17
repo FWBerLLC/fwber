@@ -3,17 +3,29 @@ describe('Navigation', () => {
     id: 1,
     name: 'Test User',
     email: 'test@example.com',
-    password: 'password123'
+    password: 'password123',
+    onboarding_completed_at: '2026-01-01T00:00:00.000Z',
+    email_verified_at: '2026-01-01T00:00:00.000Z'
   };
 
   beforeEach(() => {
+    // Fallback beneath the specifics: unmocked calls must not reach the
+    // real API with the mock token (client 401 -> session_expired).
+    cy.intercept('**/api/**', { statusCode: 200, body: {} }).as('apiFallback');
+
     cy.intercept('POST', '**/api/auth/login', {
       statusCode: 200,
       body: {
-        token: 'mock-jwt-token',
+        access_token: 'mock-jwt-token',
+        token_type: 'Bearer',
         user: testUser
       }
     }).as('login');
+
+    cy.intercept('GET', '**/api/auth/me', {
+      statusCode: 200,
+      body: testUser
+    }).as('getMe');
 
     cy.intercept('GET', '**/api/user', {
       statusCode: 200,
