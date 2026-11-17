@@ -1,3 +1,7 @@
+## Session 2026-11-17 (cont. 5) — Battery batch 16: account settings round-trips 10/10 (loop iteration)
+- Account family audited for the facade pattern: **honest** — account name update persists on re-read, `/user/profile` bio persists, wrong-current-password correctly 4xxs, subscription/notification/general settings read 200. No fix needed. The facade family is now confined to the two fixed journal/privacy surfaces.
+- No code change or bump. Prod stays v2.3.113; loops intact.
+
 ## Session 2026-11-17 (cont. 4) — Privacy write honesty, v2.3.113 DEPLOYED + live-proven
 - Settings-family audit found the same facade pattern in generic `PUT /settings/privacy`: persisted only `is_incognito`/`is_travel_mode` but claimed every submitted key as updated. No frontend consumes it, so instead of inventing storage the response now splits `updated` vs `ignored`. Live proof: PUT `{is_incognito, show_online_status}` → `updated:[is_incognito], ignored:[show_online_status]`, GET shows incognito persisted. `tests/PrivacySettingsHonesty.test.ts` 2/2; suite **233/233**. Deployed `58ea082c2` (backend live; frontend swap in the same chain).
 
