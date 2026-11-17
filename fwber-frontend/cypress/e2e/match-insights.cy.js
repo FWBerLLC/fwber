@@ -26,7 +26,7 @@ describe('Match Insights Integration', () => {
       },
       token_balance: 100
     };
-  
+
     const match = {
         id: 2,
         name: 'Potential Match',
@@ -39,23 +39,42 @@ describe('Match Insights Integration', () => {
         is_verified: true,
         photos: [{ id: 2, url: '/images/test-avatar.svg', is_private: false, is_primary: true }]
     };
-  
+
+    function seedSession() {
+      // Middleware cookie before navigation (see notifications.cy.js).
+      cy.visit('/login');
+      cy.setCookie('fwber_auth', '1');
+      cy.visit('/matches', {
+        onBeforeLoad: (win) => {
+          win.localStorage.setItem('fwber_token', 'fake-token');
+          win.localStorage.setItem('fwber_user', JSON.stringify(user));
+        }
+      });
+    }
+
     beforeEach(() => {
-      // Mock login
+      // Fallback beneath the specifics (see friends-full.cy.js).
+      cy.intercept('**/api/**', { statusCode: 200, body: {} }).as('apiFallback');
+
       cy.intercept('POST', '**/api/auth/login', {
         statusCode: 200,
         body: {
-          token: 'fake-token',
+          access_token: 'fake-token',
+          token_type: 'Bearer',
           user: user
         }
       }).as('login');
-  
-      // Mock user profile
+
+      cy.intercept('GET', '**/api/auth/me', {
+        statusCode: 200,
+        body: user
+      }).as('getMe');
+
       cy.intercept('GET', '**/api/user', {
         statusCode: 200,
         body: { data: user }
       }).as('getUser');
-      
+
       // Mock share-unlock status
       cy.intercept('GET', '**/api/share-unlock/*', {
           statusCode: 200,
@@ -68,18 +87,14 @@ describe('Match Insights Integration', () => {
           body: { is_subscribed: false }
       }).as('checkSubscription');
     });
-  
+
     it('shows locked insights and unlocks with tokens', () => {
-        // Mock matches feed with one match
+        // Matches page normalizes a bare array or { matches } (not { data }).
         cy.intercept('GET', '**/api/matches*', {
             statusCode: 200,
-            body: {
-            data: {
-                matches: [match]
-            }
-            }
+            body: { matches: [match] }
         }).as('getMatches');
-  
+
       // Mock locked insights
       cy.intercept('GET', `**/api/matches/${match.id}/insights`, {
         statusCode: 200,
@@ -92,7 +107,7 @@ describe('Match Insights Integration', () => {
           }
         }
       }).as('getLockedInsights');
-  
+
       // Mock unlock action
       cy.intercept('POST', `**/api/matches/${match.id}/insights/unlock`, {
         statusCode: 200,
@@ -101,44 +116,13 @@ describe('Match Insights Integration', () => {
           balance: 90
         }
       }).as('unlockInsights');
-  
-      // Mock unlocked insights (after unlock)
-      cy.intercept('GET', `**/api/matches/${match.id}/insights`, (req) => {
-        // Simple logic to simulate server state
-        // If we haven't unlocked yet (based on previous requests?), return locked
-        // But for Cypress, we rely on the order of interception or aliases usually.
-        // However, a simpler way is to just define the "locked" one first, wait for it, then define the unlocked one?
-        // No, `cy.intercept` matches the most recent one unless otherwise specified.
-        // Let's rely on specific aliases.
-      }).as('anyInsights');
 
-       // Mock locked insights
-       cy.intercept('GET', `**/api/matches/${match.id}/insights`, {
-        statusCode: 200,
-        body: {
-          data: {
-            total_score: 85,
-            is_locked: true,
-            cost: 10,
-            preview_message: 'Unlock detailed compatibility analysis and AI insights for 10 tokens.'
-          }
-        }
-      }).as('getLockedInsights');
-  
-      cy.visit('/matches', {
-        onBeforeLoad: (win) => {
-          win.localStorage.setItem('fwber_token', 'fake-token');
-          win.localStorage.setItem('fwber_user', JSON.stringify(user));
-        }
-      });
-  
-      // Wait for matches and click info button
+      seedSession();
+
+      // Wait for matches and open the profile modal via the Info button
       cy.contains('Potential Match').should('be.visible');
-      
-      // Click the info button (or the image area which also opens profile)
-      // The image area has onClick={() => setIsProfileOpen(true)}
-      cy.get('.bg-gray-200.relative.cursor-pointer').first().click();
-  
+      cy.get('button:has(svg.lucide-info)').click();
+
       // Verify modal opens
       cy.contains('AI Compatibility Report').should('be.visible');
 
@@ -148,9 +132,8 @@ describe('Match Insights Integration', () => {
       // Verify locked state elements
       cy.contains('85%').should('be.visible');
       cy.contains('Unlock Analysis (10 Tokens)').should('be.visible');
-      
+
       // Override the intercept to return UNLOCKED insights BEFORE we click
-      // The initial load has already finished, so this new intercept will catch the re-fetch
       cy.intercept('GET', `**/api/matches/${match.id}/insights`, {
         statusCode: 200,
         body: {
@@ -173,10 +156,9 @@ describe('Match Insights Integration', () => {
 
       // Verify API call and UI update
       cy.wait('@unlockInsights');
-      
+
       // Should now see the explanation
       cy.contains('You both love hiking and outdoor adventures').should('be.visible');
       cy.contains('Base').should('be.visible');
     });
   });
-  
