@@ -1,3 +1,7 @@
+## Session 2026-11-17 (cont. 19) — CI health: test workflows green, GH deploy workflows pre-broken (loop iteration)
+- On latest pushes: **Backend & Geo CI ✓, Frontend CI ✓, Repository Hygiene ✓, Prod Battery ✓** — including the Prisma schema changes (journals model, timestamp defaults).
+- `Deploy Backend/Frontend (Hetzner)` GitHub workflows fail in 6–15s at the `appleboy/ssh-action` step on **every** push this session (and the pattern predates the fixes — test CIs pass on the same commits). Production deploys have always run from this machine over direct SSH (working); the GH-side SSH secrets/host config are evidently not functional, plausibly since the repo move to `FWBerLLC/fwber`. **Robert's call**: repair the repo deploy secrets or disable those two workflows to stop failure noise on every push. Not caused by session changes; no secret surgery attempted from here.
+
 ## Session 2026-11-17 (cont. 18) — CI battery workflow dispatched and green (loop iteration)
 - Dispatched `prod-battery.yml` for real via `gh workflow run` (repo now `FWBerLLC/fwber`): run **44059112310 ✓ in 21s**, log annotation `RESULT pass=37 fail=0` (QA pair 276/277 minted from the GitHub runner). The consolidated regression now runs session-free. Only annotation: actions/checkout@v4 + setup-node@v4 warn about Node 20 deprecation (forced to 24; cosmetic).
 
