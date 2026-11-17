@@ -2,6 +2,9 @@
 - `two-factor-auth.cy.js` **1/1 passing** — full register → enable (QR + TOTP via the config's `generateOTP` task) → recovery codes → logout → 2FA challenge → dashboard cycle against prod. Fixes were all spec-side: fallback + `/auth/me` intercepts, `access_token` register shape, pre-visit `fwber_auth` cookie, current success copy ("is Active" / "Emergency Recovery Codes"), real challenge path (`/auth/two-factor-challenge`) and `two_factor_token` mock field (its absence surfaced a login-page "Cannot read properties of undefined" against the unrealistic mock — the real API always sends the token).
 - Executed Cypress total: **9 tests green across 5 specs**. Batch also ran `physical-profile` (stale `avatar_prompt` selector) and `premium-features` (stale `Upgrade to Gold` copy) — backlogged in TODO with specifics. Artifacts cleaned. (A concurrent sweep lane carried the spec edit into `08a9f0336`.)
 
+## Session 2026-11-17 (cont. 26) — Regression hold: battery 37/37 on v2.3.115 (loop iteration)
+- Consolidated battery **37/37** (fresh pair 280/281). Bobbi thread carries no new fwber ack/decisions for this lane; no ping sent. No code change.
+
 ## Session 2026-11-17 (cont. 25) — Premium copy truth shipped v2.3.115; Cypress 12 tests green
 - Cypress batches 31–32: `two-factor-auth` **1/1** (full cycle), `physical-profile` **2/2** (rewritten to `/settings/physical-profile`), `premium-features` **1/1** (real modal flow) — executed total **12 tests across 7 specs, all green**. The premium refresh caught a real copy bug: `/premium` + `/settings/subscription` advertised **200 FWB** against the backend's 500 charge (modal was fixed in v2.3.104; these surfaces were missed) — fixed and deployed as v2.3.115 (`23b757a23`), PM2 backend/frontend + geo verified on 2.3.115.
 - TODO stale-Cypress items are now fully closed. Remaining specs (44) stay syntax-verified until executed in future batches.
