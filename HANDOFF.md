@@ -1,3 +1,7 @@
+## Session 2026-11-17 (cont. 12) — Batch 22: full governance cycle live (loop iteration)
+- Governance proven end to end on prod: proposal creation is token-gated (**100 FWB**, fresh accounts correctly 403 at 50) → funded via the referral chain (exactly 100) → propose **201** → vote with `option_index` **200** (`token_weight` 75 = 50 welcome + 25 referral, exact) → Merkle inclusion proof **200** (single-vote leaf == root) → duplicate vote **idempotent** (same vote id, no double count). Appeals + merchant-key gates answer cleanly; council pages smoke 200.
+- Operational note: the auth rate limiter throttles battery registrations from one IP after heavy runs (429, windowed) — batteries should reuse accounts or pace registrations. My first vote probes also used a wrong `{vote:'yes'}` shape; the frontend's `option_index` contract was verified before concluding.
+
 ## Session 2026-11-17 (cont. 11) — Batch 21: avatar persistence, aura, NFC, proximity 8/8 (loop iteration)
 - Avatar generation **persists** into `/photos` (before/after state differs), aura read for a connected user answers, bogus aura target 4xxs, NFC exchange no-500, bogus proximity-artifact claim 4xxs, artifacts list 200. No failures; no code change.
 
