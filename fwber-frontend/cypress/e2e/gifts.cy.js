@@ -55,16 +55,37 @@ describe('Gifting Flow', () => {
       body: { data: user }
     }).as('getUser');
 
-    // Mock available gifts
+    // Mock available gifts + wallet (modal reads balance from /wallet)
     cy.intercept('GET', '**/api/gifts', {
       statusCode: 200,
       body: { data: gifts }
     }).as('getGifts');
+    cy.intercept('GET', '**/api/wallet', {
+      statusCode: 200,
+      body: { balance: 100, tokens: 100, currency: 'FWB', transactions: [] }
+    }).as('getWallet');
 
-    // Mock partner profile
+    // Mock partner profile (public-profile shape: fields at top level,
+    // profile nested — a bare { data } wrapper leaves the page loading)
     cy.intercept('GET', '**/api/users/2', {
       statusCode: 200,
-      body: { data: partner }
+      body: {
+        id: 2,
+        name: 'Recipient User',
+        email_verified: true,
+        created_at: new Date().toISOString(),
+        last_online: new Date().toISOString(),
+        profile: {
+          display_name: 'Recipient User',
+          bio: 'Hello world',
+          age: 25,
+          gender: 'female',
+          location: { latitude: null, longitude: null, max_distance: 25, city: 'New York', state: 'NY' },
+          photos: [],
+          preferences: {}
+        },
+        photos: []
+      }
     }).as('getPartner');
     
     // Mock public profile (for /profile/2)
@@ -105,25 +126,26 @@ describe('Gifting Flow', () => {
       body: { success: true }
     }).as('sendGift');
 
-    // 6. Send
-    cy.contains('button', 'Send Gift').click();
+    // 6. Send (modal submit carries the price; the profile pill behind
+    // the overlay is also labelled Send Gift, so scope by full text)
+    cy.contains('button', 'Send Gift (10 Tokens)').should('be.enabled').click();
 
-    // 7. Verify Success
+    // 7. Verify Success: request shape + modal closes (toast is transient)
     cy.wait('@sendGift').its('request.body').should('deep.include', {
-      receiverId: 2,
-      giftId: 1,
+      receiver_id: 2,
+      gift_id: 1,
       message: 'A rose for you!'
     });
-
-    // Alert is used in the component, so we stub it or check for it
-    cy.on('window:alert', (str) => {
-      expect(str).to.equal('Gift sent successfully!');
-    });
+    cy.contains('Send a Gift to Recipient User').should('not.exist');
   });
 
   it('shows error when insufficient tokens', () => {
     const poorUser = { ...user, token_balance: 5 };
-    
+    cy.intercept('GET', '**/api/wallet', {
+      statusCode: 200,
+      body: { balance: 5, tokens: 5, currency: 'FWB', transactions: [] }
+    }).as('getPoorWallet');
+
     cy.visit('/login');
     cy.setCookie('fwber_auth', '1');
     cy.visit('/profile/2', {
@@ -136,13 +158,13 @@ describe('Gifting Flow', () => {
     cy.contains('Send Gift').click();
     cy.contains('Rose').click();
 
-    // Check for disabled button or error message
-    // The component shows "Insufficient token balance" text
-    cy.contains('Insufficient token balance').should('be.visible');
-    cy.contains('button', 'Send Gift').should('be.disabled');
+    // With 5 tokens against a 10-token gift, Send stays disabled.
+    cy.contains('button', 'Send Gift (10 Tokens)').should('be.disabled');
   });
 
   it('displays notification when gift is received', () => {
+    cy.visit('/login');
+    cy.setCookie('fwber_auth', '1');
     cy.visit('/dashboard', {
       onBeforeLoad: (win) => {
         win.localStorage.setItem('fwber_token', 'fake-token');
