@@ -1,6 +1,6 @@
 # MEMORY.md — fwber Internal Architectural Observations
 
-## Current Version: 2.3.115 "Premium price copy truth 500 FWB"
+## Current Version: 2.3.116 "Webhook idempotency + secret-scan CI"
 **Last Updated:** 2026-11-15
 
 ### Observations (2026-11-15 session, v2.3.98)

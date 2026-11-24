@@ -66,6 +66,16 @@ router.post('/webhook', async (req: any, res) => {
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
+  // Idempotency: Stripe retries deliveries, and a redelivered
+  // checkout.session.completed would otherwise credit/grant twice.
+  // Record each processed event id; duplicates ack without re-applying.
+  const already = await (prisma as any).stripe_webhook_events
+    .findUnique({ where: { event_id: event.id } })
+    .catch(() => null);
+  if (already) {
+    return res.json({ received: true, duplicate: true });
+  }
+
   // Handle the event. Dispatch on the checkout metadata each creation
   // route stamps: premium and boost purchases must grant what was bought;
   // only generic token checkouts fall through to the token credit.
@@ -116,6 +126,12 @@ router.post('/webhook', async (req: any, res) => {
     default:
       console.log(`[Stripe] Unhandled event type ${event.type}`);
   }
+
+  // Mark processed AFTER successful handling so a failed grant still
+  // gets retried by Stripe instead of being swallowed as a duplicate.
+  await (prisma as any).stripe_webhook_events
+    .create({ data: { event_id: event.id, type: event.type } })
+    .catch(() => {});
 
   res.json({ received: true });
 });

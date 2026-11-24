@@ -1,6 +1,6 @@
 # TODO — fwber Immediate Action Items
 
-> **Version:** 2.3.115
+> **Version:** 2.3.116
 > **Last Updated:** 2026-11-16
 
 ---
@@ -9,7 +9,7 @@
 
 ### High Priority
 - [x] **Stale Cypress specs refreshed (CLOSED 2026-11-17)**: executed green against prod — `friends-full` 3/3, `friends-nav` 1/1, `notifications` 2/2, `matching-flow` 2/2, `two-factor-auth` 1/1 (full register→enable→logout→challenge cycle). Refresh pattern (now in all five specs): `access_token` login shape + `/auth/me` intercept + `**/api/**` fallback beneath specifics + onboarded mock user + pre-visit `fwber_auth` cookie for middleware-gated routes + current selectors/copy.
-- [x] **Stale Cypress specs (physical-profile, premium-features) (CLOSED 2026-11-17, v2.3.115)**: both refreshed and green (`physical-profile` 2/2 on the current `/settings/physical-profile` page, `premium-features` 1/1 through the real modal flow). The refresh also caught a real copy bug: `/premium` + `/settings/subscription` advertised 200 FWB against the backend's 500 charge — fixed in v2.3.115. Executed Cypress total: **13 tests, 8 specs, all green** (incl. `boosts` 1/1 on the v2.3.103 camelCase purchase contract).
+- [x] **Stale Cypress specs (physical-profile, premium-features) (CLOSED 2026-11-17, v2.3.116)**: both refreshed and green (`physical-profile` 2/2 on the current `/settings/physical-profile` page, `premium-features` 1/1 through the real modal flow). The refresh also caught a real copy bug: `/premium` + `/settings/subscription` advertised 200 FWB against the backend's 500 charge — fixed in v2.3.116. Executed Cypress total: **13 tests, 8 specs, all green** (incl. `boosts` 1/1 on the v2.3.103 camelCase purchase contract).
 - [x] **Stale Cypress specs (blocking, match-insights) (CLOSED 2026-11-17)**: both refreshed and green (`blocking` 2/2 with the real `{data:[{blocked_id,...}]}` record shape; `match-insights` 1/1 with `{matches}` normalization + Info-button modal open). Executed Cypress total: **14 tests, 9 specs, all green**. Remaining 43 specs stay syntax-verified until their own execution batches.
 - [x] **Stale Cypress specs (events, gifts) (CLOSED 2026-11-17)**: `events` 3/3 (list/RSVP/create on current contracts; create form resets once on mount-load — fill after a settle wait) and `gifts` 3/3 (real modal title/payload, wallet-funded enable state, Mercure-era notification test replaced with the durable bell surface). Executed Cypress total: **20 tests, 11 specs, all green**.
 - [x] **Stale Cypress specs (groups join/create) (CLOSED 2026-11-23)**: `groups` 3/3 green (Joined/Leave Group member state; create via id selectors + mount-settle wait — the form remounts when its group data lands, same wart class as events create). Executed Cypress total: **23 tests, 12 specs, all green**. No stale-spec backlog remains.
@@ -216,7 +216,7 @@
 - [x] ~~**Backup restore drill**~~ — DONE (2026-10-22): `/usr/local/bin/fwber-restore-drill.sh`, monthly cron, first run PASSED (134/134 tables consistent).
 - [x] ~~**Transient login 401s**~~ — ROOT-CAUSED & FIXED (2026-10-22, v2.3.39): autonomous governance layer was delegating/dropping valid logins when system health score ≤70; also audit-ledger write failures killed successful logins. Auth now fail-open + typed 401s. See CHANGELOG 2.3.39.
 - [x] ~~**fwber.me domain renewal**~~ — RESOLVED (2026-10-22): user retired the domain permanently; `fwber.online` is canonical. Stale nginx `api.fwber.me` server block is harmless (DNS dead) but can be deleted whenever nginx is next touched.
-- [x] **Stripe Live Keys (DONE v2.3.100)**: live secret validated (charges/payouts enabled), webhook endpoint registered (`checkout.session.completed`), signing secret + publishable key wired on Hetzner. Raw-body verification bug fixed en route. Webhook dispatch fixed in v2.3.115 (premium grants tier, boosts activate; only generic token checkouts keep the flat 100 credit — that amount is Robert's call before real traffic).
+- [x] **Stripe Live Keys (DONE v2.3.100)**: live secret validated (charges/payouts enabled), webhook endpoint registered (`checkout.session.completed`), signing secret + publishable key wired on Hetzner. Raw-body verification bug fixed en route. Webhook dispatch fixed in v2.3.116 (premium grants tier, boosts activate; only generic token checkouts keep the flat 100 credit — that amount is Robert's call before real traffic).
 - [ ] **Email DNS**: Configure Resend MX/SPF/DKIM/DMARC records for production email.
 
 ## 🟢 Recently Completed: Phase 11 - 10,000x Shiny UI (v2.3.8)

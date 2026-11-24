@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.116] - 2026-11-23
+
+### Webhook Idempotency + Secret-Scan CI (roast remediation)
+
+- **Source**: the owner-ordered cross-model roast round (Bobbi's landed in full; ChatGPT's captured from its "Roast FWBer Project" thread; Gemini's account is at its usage limit until 20:40, brief delivered). ChatGPT's #2 payment-integrity finding had one real remaining gap: no duplicate-delivery guard.
+- **Webhook idempotency**: `stripe_webhook_events` ledger (idempotent migration `tools/migrations/2026-11-23-stripe-webhook-events.sql`); redelivered `checkout.session.completed` events now ack `{received, duplicate}` without re-crediting or re-granting, and events are marked only **after** successful handling so failed grants still retry. New duplicate-delivery test; suite **236/236**.
+- **Secret scanning**: `.github/workflows/secret-scan.yml` runs gitleaks on every push/PR — committing a live key is now a red build. Rotation of the already-exposed credentials remains the owner's task (flagged since v2.3.100).
+
 ## [2.3.115] - 2026-11-17
 
 ### Premium Price Copy Truth + Cypress Batches 32

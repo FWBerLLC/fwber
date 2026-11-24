@@ -14,11 +14,15 @@ process.env.STRIPE_WEBHOOK_SECRET = 'whsec_offline_test_secret';
 
 const mockUsersUpdate = jest.fn(async () => ({}));
 const mockBoostsCreate = jest.fn(async () => ({}));
+const processedEvents = new Set<string>();
+const mockEventFind = jest.fn(async (args: any) => (processedEvents.has(args.where.event_id) ? { event_id: args.where.event_id } : null));
+const mockEventCreate = jest.fn(async (args: any) => { processedEvents.add(args.data.event_id); return args.data; });
 
 jest.unstable_mockModule('../src/lib/prisma.js', () => ({
   default: {
     users: { update: mockUsersUpdate },
     boosts: { create: mockBoostsCreate },
+    stripe_webhook_events: { findUnique: mockEventFind, create: mockEventCreate },
   },
 }));
 
@@ -45,7 +49,32 @@ function signedRequest(payloadObj: unknown, secret = 'whsec_offline_test_secret'
 }
 
 describe('POST /api/payments/webhook', () => {
-  beforeEach(() => { mockUsersUpdate.mockClear(); mockBoostsCreate.mockClear(); });
+  beforeEach(() => { mockUsersUpdate.mockClear(); mockBoostsCreate.mockClear(); processedEvents.clear(); });
+
+  it('acks a redelivered event as duplicate without crediting twice', async () => {
+    const signed = signedRequest({
+      id: 'evt_test_dup',
+      type: 'checkout.session.completed',
+      data: { object: { id: 'cs_dup', metadata: { userId: '42' } } },
+    });
+    const app = buildApp();
+    const first = await request(app)
+      .post('/api/payments/webhook')
+      .set('Content-Type', 'application/json')
+      .set('stripe-signature', signed.header)
+      .send(signed.payload);
+    expect(first.status).toBe(200);
+    expect(mockUsersUpdate).toHaveBeenCalledTimes(1);
+
+    const second = await request(app)
+      .post('/api/payments/webhook')
+      .set('Content-Type', 'application/json')
+      .set('stripe-signature', signed.header)
+      .send(signed.payload);
+    expect(second.status).toBe(200);
+    expect(second.body).toEqual({ received: true, duplicate: true });
+    expect(mockUsersUpdate).toHaveBeenCalledTimes(1);
+  });
 
   it('grants premium (not tokens) for premium_upgrade checkouts', async () => {
     const { payload, header } = signedRequest({
