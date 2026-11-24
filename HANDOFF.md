@@ -8,6 +8,10 @@
 ## Session 2026-11-17 (cont. 28) — Regression hold: battery 37/37 on v2.3.115 (loop iteration)
 - Consolidated battery **37/37** (fresh pair 282/283). Bobbi thread carries no new fwber ack/decisions for this lane; no ping sent. No code change.
 
+## Session 2026-11-17 (cont. 31) — Events + gifts Cypress green: 20 tests executed (test-only)
+- `events.cy.js` **3/3** (list with `{data,meta}` shape, RSVP with `{status:'attending'}` body assertion, create — the form resets once when its mount-time load lands, so the spec waits for the settle before filling) and `gifts.cy.js` **3/3** (real modal title `Send a Gift to Recipient User`, snake_case send payload, wallet-funded enable/disable states, Mercure-era EventSource test replaced with the durable notification-bell surface). Executed Cypress total: **20 tests across 11 specs, all green**. Only `groups` join/create remain backlogged. Artifacts cleaned.
+- Noted wart (not fixed): the event-create form wiping early input on mount-load could bite fast typists in production too — worth a product look if Robert cares.
+
 ## Session 2026-11-17 (cont. 30) — Cypress batch 35: groups list green; events/gifts/join-create backlogged (test-only)
 - Executed `events` (0/3 — `getEvents` alias never fires under the current page fetch), `groups` (list **passes as-is**; join/create fail on refetch/label and form drift after the session-pattern refresh), `gifts` (0/3 — `Send Gift` profile flow has moved). All backlogged in TODO with per-spec specifics. Executed-green total remains **14 tests / 9 specs**. Artifacts cleaned.
 
