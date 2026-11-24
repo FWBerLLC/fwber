@@ -55,6 +55,58 @@ jobs:
           DATABASE_URL: mysql://fwber:fwber@127.0.0.1:3306/fwber_test
         run: npm test -- --forceExit
 
+  schema-drift:
+    name: Schema Drift Gate (Prisma vs real MySQL)
+    runs-on: ubuntu-latest
+
+    # Gemini roast criticism #4 (2026-11-23): code shipped referencing a
+    # non-existent journal table, a wrong enum default, and a NOT NULL
+    # timestamp with no default, because no CI step ever applied
+    # schema.prisma to a real database. Jest runs mocked, so it cannot
+    # catch that class. This job applies the schema to a throwaway MySQL
+    # and then asserts zero drift between the Prisma schema and the live
+    # database DDL.
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: ci-root
+          MYSQL_DATABASE: fwber_schema_gate
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost -uroot -pci-root"
+          --health-interval=5s --health-timeout=3s --health-retries=20
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24.x'
+          cache: 'npm'
+          cache-dependency-path: fwber-backend-ts/package-lock.json
+
+      - name: Apply Prisma schema to real MySQL
+        working-directory: ./fwber-backend-ts
+        env:
+          DATABASE_URL: mysql://root:ci-root@127.0.0.1:3306/fwber_schema_gate
+        run: |
+          npm install --no-fund --no-audit
+          npx prisma db push --skip-generate
+
+      - name: Assert zero schema drift
+        working-directory: ./fwber-backend-ts
+        env:
+          DATABASE_URL: mysql://root:ci-root@127.0.0.1:3306/fwber_schema_gate
+        run: |
+          npx prisma migrate diff \
+            --from-schema-datamodel prisma/schema.prisma \
+            --to-schema-datasource "$DATABASE_URL" \
+            --exit-code
+
   geo-rust:
     name: Rust Geohash Sidecar (fwber-geo) Check
     runs-on: ubuntu-latest
