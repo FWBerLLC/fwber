@@ -2533,6 +2533,7 @@ model user_quests {
   quests quests @relation(fields: [quest_id], references: [id], onDelete: Cascade)
 
   @@unique([user_id, quest_id])
+  @@index([quest_id])
 }
 
 model synced_contacts {
@@ -2545,6 +2546,8 @@ model synced_contacts {
   raw_provider_data   Json?
   synced_at           DateTime          @default(now()) @db.Timestamp(0)
   user_integration    user_integrations @relation(fields: [user_integration_id], references: [id], onDelete: Cascade)
+
+  @@index([user_integration_id])
 }
 
 model autonomous_actions {
@@ -2601,6 +2604,8 @@ model user_matching_answers {
   chosen_option      matching_options   @relation("chosen_option", fields: [chosen_option_id], references: [id], onDelete: Cascade)
 
   @@unique([user_id, question_id])
+  @@index([question_id])
+  @@index([chosen_option_id])
 }
 
 // Single-use wallet-login nonces (SHA-256 stored, never the raw nonce).
