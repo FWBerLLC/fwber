@@ -98,14 +98,19 @@ describe('Groups', () => {
     cy.contains('Hiking Enthusiasts').parent().find('button').contains('Join').click();
 
     cy.wait('@joinGroup');
-    cy.contains('Member').should('be.visible');
+    // Current card renders a Joined label + Leave Group button for members.
+    cy.contains('Joined').should('be.visible');
+    cy.contains('button', 'Leave Group').should('be.visible');
   });
 
   it('allows creating a new group', () => {
     seedVisit('/groups/create');
 
-    cy.get('input[name="name"]').type('New Test Group');
-    cy.get('textarea[name="description"]').type('Description for the new test group.');
+    // Form remounts when its mount-time group data lands (same class as
+    // the events create form) — wait for the settle before typing.
+    cy.wait(3000);
+    cy.get('#name').type('New Test Group');
+    cy.get('#description').type('Description for the new test group.');
 
     cy.intercept('POST', '**/api/groups', {
       statusCode: 201,
