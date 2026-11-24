@@ -106,11 +106,14 @@ describe('Groups', () => {
   it('allows creating a new group', () => {
     seedVisit('/groups/create');
 
-    // Form remounts when its mount-time group data lands (same class as
-    // the events create form) — wait for the settle before typing.
-    cy.wait(3000);
+    // Type immediately on mount, then prove nothing is wiped: the root
+    // layout's realtime provider used to swap its wrapper element when
+    // auth resolved, remounting the page and discarding early input.
     cy.get('#name').type('New Test Group');
     cy.get('#description').type('Description for the new test group.');
+    cy.wait(2500);
+    cy.get('#name').should('have.value', 'New Test Group');
+    cy.get('#description').should('have.value', 'Description for the new test group.');
 
     cy.intercept('POST', '**/api/groups', {
       statusCode: 201,

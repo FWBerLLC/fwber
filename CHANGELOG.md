@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.3.117] - 2026-11-24
+
+### Form-Input Remount Fix (root layout)
+
+- **Bug**: the event-create and group-create forms silently discarded anything typed in the first moments after the page opened. Root cause was app-wide: `AuthenticatedRealtimeProvider` in the root layout rendered a bare fragment while auth was unresolved and swapped to `PresenceProvider` once auth landed — changing the wrapper element type remounts the entire page subtree, wiping in-progress input on every page, not just those two forms.
+- **Fix**: the provider now always renders `PresenceProvider`, supplying the disconnected default value while unauthenticated (presence consumers already tolerate it). No wrapper swap, no remount.
+- **Regression tests**: `events.cy.js` and `groups.cy.js` no longer wait out a 3s "settle"; they type immediately on mount and assert the values survive 2.5s — the exact window in which the remount used to land.
+- Also in this release line: the Gemini roast was captured (three-roast round complete) and a real-MySQL schema-drift gate was added to backend CI (see HANDOFF 2026-11-23 cont. 2).
+
 ## [2.3.116] - 2026-11-23
 
 ### Webhook Idempotency + Secret-Scan CI (roast remediation)

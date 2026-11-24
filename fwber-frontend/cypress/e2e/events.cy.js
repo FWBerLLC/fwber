@@ -97,18 +97,20 @@ describe('Events', () => {
   it('allows creating a new event', () => {
     seedVisit('/events/create');
 
-    // The form resets once when its mount-time data load lands; wait for
-    // that settle before filling anything or early fields are wiped.
-    cy.wait(3000);
+    // Fill immediately on mount, then prove nothing is wiped: the root
+    // layout's realtime provider used to swap its wrapper element when
+    // auth resolved, remounting the page and discarding early input.
+    cy.get('input[name="title"]').type('New Test Event');
+    cy.get('textarea[name="description"]').type('Description for the new test event.');
     cy.get('input[name="location_name"]').type('Virtual');
     cy.get('input[name="latitude"]').type('40.7128');
     cy.get('input[name="longitude"]').type('-74.0060');
     cy.get('input[name="starts_at"]').type('2027-12-01T18:00');
     cy.get('input[name="ends_at"]').type('2027-12-01T20:00');
-    // Title/description are reset by a mount-time form effect, so fill
-    // them last, immediately before submitting.
-    cy.get('input[name="title"]').type('New Test Event');
-    cy.get('textarea[name="description"]').type('Description for the new test event.');
+    cy.wait(2500);
+    cy.get('input[name="title"]').should('have.value', 'New Test Event');
+    cy.get('textarea[name="description"]').should('have.value', 'Description for the new test event.');
+    cy.get('input[name="location_name"]').should('have.value', 'Virtual');
 
     cy.intercept('POST', '**/api/events', {
       statusCode: 201,

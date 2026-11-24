@@ -1,6 +1,6 @@
 # MEMORY.md — fwber Internal Architectural Observations
 
-## Current Version: 2.3.116 "Webhook idempotency + secret-scan CI"
+## Current Version: 2.3.117 "Form-input remount fix"
 **Last Updated:** 2026-11-15
 
 ### Observations (2026-11-15 session, v2.3.98)

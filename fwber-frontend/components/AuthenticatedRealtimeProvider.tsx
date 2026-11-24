@@ -22,24 +22,37 @@ export function AuthenticatedRealtimeProvider({
   const { isAuthenticated } = useAuth();
   const websocket = useWebSocket({ autoConnect });
 
-  // Only wrap with RealtimeProvider if authenticated
-  if (!isAuthenticated) {
-    return <>{children}</>;
-  }
+  // Always render the same PresenceProvider wrapper. Swapping between a bare
+  // fragment (unauthenticated) and PresenceProvider (once auth resolved)
+  // changes the element type above every page, which remounts the whole
+  // subtree and wipes in-progress form input typed in the first moments
+  // after navigation (observed on the event/group create forms). Presence
+  // consumers already tolerate the disconnected default value.
 
   // Cast onlineUsers to any to bypass strict type check for now
   // Ideally, ensure types in PresenceContext and use-pusher-logic match exactly
-  const contextValue: WebSocketContextValue = {
-    connectionStatus: {
-        connected: websocket.connectionStatus.connected,
-        connecting: websocket.connectionStatus.connecting,
-        configured: websocket.connectionStatus.configured,
-        reconnectAttempts: websocket.connectionStatus.reconnectAttempts
-    },
-    onlineUsers: (websocket.onlineUsers || []) as any,
-    typingIndicators: (websocket.typingIndicators || []) as any,
-    sendTypingIndicator: websocket.sendTypingIndicator,
-  };
+  const contextValue: WebSocketContextValue = isAuthenticated
+    ? {
+        connectionStatus: {
+            connected: websocket.connectionStatus.connected,
+            connecting: websocket.connectionStatus.connecting,
+            configured: websocket.connectionStatus.configured,
+            reconnectAttempts: websocket.connectionStatus.reconnectAttempts
+        },
+        onlineUsers: (websocket.onlineUsers || []) as any,
+        typingIndicators: (websocket.typingIndicators || []) as any,
+        sendTypingIndicator: websocket.sendTypingIndicator,
+      }
+    : {
+        connectionStatus: {
+            connected: false,
+            connecting: false,
+            configured: false,
+            reconnectAttempts: 0,
+        },
+        onlineUsers: [],
+        typingIndicators: [],
+      };
 
   return (
     <PresenceProvider value={contextValue}>
