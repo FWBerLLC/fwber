@@ -9,22 +9,37 @@ describe('Account Settings', () => {
     updatedAt: new Date().toISOString(),
     profile: {
       displayName: 'Test User',
-      avatarUrl: '/images/test-avatar.svg'
+      dateOfBirth: '1990-01-01',
+      gender: 'non-binary',
+      pronouns: 'they/them',
+      sexualOrientation: 'pansexual',
+      relationshipStyle: 'polyamorous',
+      bio: 'Test bio',
+      preferences: {},
+      avatarUrl: '/images/test-avatar.svg',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
     }
   };
 
-  beforeEach(() => {
-    cy.intercept('GET', '**/api/user', { statusCode: 200, body: { data: user } }).as('getUser');
-    
-    cy.visit('/settings/account', {
+  function seedVisit(path) {
+    // Middleware cookie before navigation (see notifications.cy.js).
+    cy.visit('/login');
+    cy.setCookie('fwber_auth', '1');
+    cy.visit(path, {
       onBeforeLoad: (win) => {
-        win.localStorage.clear();
         win.localStorage.setItem('fwber_token', 'fake-token');
         win.localStorage.setItem('fwber_user', JSON.stringify(user));
       }
     });
-    // Wait for hydration
-    cy.wait(2000);
+  }
+
+  beforeEach(() => {
+    // Fallback beneath the specifics (see friends-full.cy.js).
+    cy.intercept('**/api/**', { statusCode: 200, body: {} }).as('apiFallback');
+    cy.intercept('GET', '**/api/auth/me', { statusCode: 200, body: user }).as('getMe');
+    cy.intercept('GET', '**/api/user', { statusCode: 200, body: { data: user } }).as('getUser');
+    seedVisit('/settings/account');
     cy.contains('h1', 'Account Settings').should('be.visible');
   });
 
@@ -35,13 +50,12 @@ describe('Account Settings', () => {
     }).as('updateEmail');
 
     cy.contains('h2', 'Email Address').should('be.visible');
-    cy.get('input[name="email"]').should('be.visible').clear().type('newemail@example.com');
+    cy.get('input[name="email"]').clear().type('newemail@example.com');
     cy.contains('button', 'Save Changes').click();
 
     cy.wait('@updateEmail').its('request.body').should('deep.equal', {
       email: 'newemail@example.com'
     });
-
     cy.contains('Email updated successfully').should('be.visible');
   });
 
@@ -52,53 +66,37 @@ describe('Account Settings', () => {
     }).as('updatePassword');
 
     cy.contains('h2', 'Change Password').scrollIntoView().should('be.visible');
-    
-    cy.wait(1000); // Wait for any animations/renders
-
-    // Check if inputs exist
-    cy.get('input[name="current_password"]').should('exist');
-    cy.get('input[name="password"]').should('exist');
-    cy.get('input[name="password_confirmation"]').should('exist');
-
-    // Type
-    cy.get('input[name="current_password"]').type('oldpassword', { force: true });
-    cy.get('input[name="password"]').type('newpassword', { force: true });
-    cy.get('input[name="password_confirmation"]').type('newpassword', { force: true });
-    
-    cy.contains('button', 'Update Password').click({ force: true });
+    cy.get('input[name="current_password"]').type('oldpassword');
+    cy.get('input[name="password"]').type('newpassword123');
+    cy.get('input[name="password_confirmation"]').type('newpassword123');
+    cy.contains('button', 'Update Password').click();
 
     cy.wait('@updatePassword').its('request.body').should('include', {
       current_password: 'oldpassword',
-      password: 'newpassword',
-      password_confirmation: 'newpassword'
+      password: 'newpassword123',
+      password_confirmation: 'newpassword123'
     });
-
     cy.contains('Password updated successfully').should('be.visible');
   });
 
   it('allows deleting account', () => {
-    cy.intercept('DELETE', '**/api/profile', {
+    // Current contract: POST /profile/delete { password } (not DELETE).
+    cy.intercept('POST', '**/api/profile/delete', {
       statusCode: 200,
       body: { message: 'Account deleted successfully' }
     }).as('deleteAccount');
 
     cy.contains('h2', 'Delete Account').scrollIntoView().should('be.visible');
+    cy.contains('button', 'Delete Account').click();
 
-    // Click the initial delete button
-    cy.contains('button', 'Delete Account').click({ force: true });
-    
-    cy.wait(1000); // Wait for confirmation section to appear
-
-    // Should show confirmation modal/section
     cy.contains('Are you sure?').should('be.visible');
     cy.contains('This action cannot be undone').should('be.visible');
-    
-    cy.get('input[name="confirm_password"]').should('exist').should('be.visible').type('password123', { force: true });
-    cy.contains('button', 'Delete My Account').click({ force: true });
+    cy.get('input[name="confirm_password"]').type('password123');
+    cy.contains('button', 'Delete My Account').click();
 
-    cy.wait('@deleteAccount');
-    
-    // Should redirect to login or home
+    cy.wait('@deleteAccount').its('request.body').should('deep.equal', {
+      password: 'password123'
+    });
     cy.url().should('include', '/login');
   });
 });

@@ -3,113 +3,118 @@ describe('User Reporting Flow', () => {
     id: 1,
     name: 'Test User',
     email: 'test@example.com',
+    emailVerifiedAt: new Date().toISOString(),
+    onboarding_completed_at: new Date().toISOString(),
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
     profile: {
       displayName: 'Test User',
-      avatarUrl: '/images/test-avatar.svg'
-    }
+      dateOfBirth: '1990-01-01',
+      gender: 'non-binary',
+      pronouns: 'they/them',
+      sexualOrientation: 'pansexual',
+      relationshipStyle: 'polyamorous',
+      bio: 'Test bio',
+      locationLatitude: 40.7128,
+      locationLongitude: -74.0060,
+      locationDescription: 'New York, NY',
+      stiStatus: 'negative',
+      preferences: {},
+      avatarUrl: '/images/test-avatar.svg',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    },
+    token_balance: 100
   };
 
-  const badUser = {
-    id: 666,
-    name: 'Bad Actor',
-    profile: {
-      displayName: 'Bad Actor',
-      avatarUrl: '/images/bad-avatar.svg',
-      bio: 'I am bad'
-    }
+  const match = {
+    id: 2,
+    name: 'Potential Match',
+    bio: 'I like hiking',
+    age: 25,
+    locationDescription: 'New York, NY',
+    avatarUrl: '/images/test-avatar.svg',
+    compatibilityScore: 0.9,
+    distance: 5,
+    is_verified: true,
+    photos: [{ id: 2, url: '/images/test-avatar.svg', is_private: false, is_primary: true }]
   };
+
+  function seedVisit(path) {
+    // Middleware cookie before navigation (see notifications.cy.js).
+    cy.visit('/login');
+    cy.setCookie('fwber_auth', '1');
+    cy.visit(path, {
+      onBeforeLoad: (win) => {
+        win.localStorage.setItem('fwber_token', 'fake-token');
+        win.localStorage.setItem('fwber_user', JSON.stringify(user));
+      }
+    });
+  }
 
   beforeEach(() => {
-    // Mock login
-    cy.intercept('POST', '**/api/auth/login', {
+    // Fallback beneath the specifics (see friends-full.cy.js).
+    cy.intercept('**/api/**', { statusCode: 200, body: {} }).as('apiFallback');
+    cy.intercept('GET', '**/api/auth/me', { statusCode: 200, body: user }).as('getMe');
+    cy.intercept('GET', '**/api/user', { statusCode: 200, body: { data: user } }).as('getUser');
+    cy.intercept('GET', '**/api/share-unlock/*', { statusCode: 200, body: { unlocked: false } }).as('getShareUnlock');
+    cy.intercept('GET', '**/api/subscriptions/creator/*', { statusCode: 200, body: { is_subscribed: false } }).as('checkSubscription');
+    cy.intercept('GET', '**/api/matches*', { statusCode: 200, body: { matches: [match] } }).as('getMatches');
+    cy.intercept('GET', `**/api/matches/${match.id}/insights`, {
       statusCode: 200,
-      body: { token: 'fake-token', user }
-    }).as('login');
-
-    // Mock user profile
-    cy.intercept('GET', '**/api/user', {
-      statusCode: 200,
-      body: { data: user }
-    }).as('getUser');
-
-    // Mock bad user profile
-    cy.intercept('GET', '**/api/users/666', {
-      statusCode: 200,
-      body: { data: badUser }
-    }).as('getBadUser');
+      body: { data: { total_score: 85, is_locked: true, cost: 10, preview_message: 'Unlock for 10 tokens.' } }
+    }).as('getInsights');
   });
 
-  it('allows reporting a user from their profile', () => {
-    cy.visit('/users/666', {
-      onBeforeLoad: (win) => {
-        win.localStorage.setItem('fwber_token', 'fake-token');
-        win.localStorage.setItem('fwber_user', JSON.stringify(user));
-      }
-    });
-
-    // 1. Open Report Modal (usually in a dropdown or explicit button)
-    // Assuming there is a "Report" button or menu item
-    cy.contains('Report').click({ force: true }); // Force if it's in a menu
-
-    // 2. Verify Modal
-    cy.contains('Report User').should('be.visible');
-    cy.contains('Why are you reporting this user?').should('be.visible');
-
-    // 3. Select Reason
-    cy.contains('Harassment').click();
-
-    // 4. Add details
-    cy.get('textarea[name="details"]').type('This user sent mean messages.');
-
-    // 5. Mock Report API
+  it('allows reporting a user from their profile modal', () => {
     cy.intercept('POST', '**/api/reports', {
       statusCode: 201,
-      body: { success: true, message: 'Report submitted' }
+      body: { data: { id: 9, reporter_id: 1, accused_id: match.id, reason: 'Harassment', status: 'pending' } }
     }).as('submitReport');
 
-    // 6. Submit
+    seedVisit('/matches');
+    cy.contains('Potential Match').should('be.visible');
+    cy.get('button:has(svg.lucide-info)').click();
+    cy.contains('AI Compatibility Report').should('be.visible');
+
+    // Report entry point inside the profile modal.
+    cy.contains('button', 'Report').click();
+    cy.contains('Report Potential Match').should('be.visible');
+
+    cy.get('#report-reason').select('Harassment');
+    cy.get('#report-details').type('This user sent mean messages.');
     cy.contains('button', 'Submit Report').click();
 
-    // 7. Verify API Call
+    // Current contract: POST /reports { accused_id, reason, details }.
     cy.wait('@submitReport').its('request.body').should('deep.include', {
-      reported_user_id: 666,
-      reason: 'harassment', // Assuming value matches label or is mapped
+      accused_id: match.id,
+      reason: 'Harassment',
       details: 'This user sent mean messages.'
     });
-
-    // 8. Verify Success Message
-    cy.contains('Report submitted').should('be.visible');
+    cy.contains('Thanks, our team will review this profile.').should('be.visible');
   });
 
-  it('allows blocking a user', () => {
-    cy.visit('/users/666', {
-      onBeforeLoad: (win) => {
-        win.localStorage.setItem('fwber_token', 'fake-token');
-        win.localStorage.setItem('fwber_user', JSON.stringify(user));
-      }
-    });
-
-    // 1. Click Block (might be in menu)
-    cy.contains('Block').click({ force: true });
-
-    // 2. Verify Confirmation Modal
-    cy.contains('Block User?').should('be.visible');
-    
-    // 3. Mock Block API
+  it('allows blocking a user from their profile modal', () => {
     cy.intercept('POST', '**/api/blocks', {
       statusCode: 201,
-      body: { success: true }
+      body: { data: { id: 5, blocker_id: 1, blocked_id: match.id } }
     }).as('blockUser');
 
-    // 4. Confirm Block
-    cy.contains('button', 'Block').click();
+    seedVisit('/matches');
+    cy.contains('Potential Match').should('be.visible');
+    cy.get('button:has(svg.lucide-info)').click();
+    cy.contains('AI Compatibility Report').should('be.visible');
 
-    // 5. Verify API Call
-    cy.wait('@blockUser').its('request.body').should('include', {
-      blocked_user_id: 666
+    cy.contains('button', 'Block').click();
+    // Confirm dialog from the shared confirm hook (title "Block User").
+    cy.contains('Block User').should('be.visible');
+    cy.get('[role="dialog"]').last().within(() => {
+      cy.contains('button', 'Block').click();
     });
 
-    // 6. Verify Success UI (e.g. redirect or toast)
-    cy.contains('User blocked').should('be.visible');
+    cy.wait('@blockUser').its('request.body').should('include', {
+      blocked_id: match.id
+    });
+    cy.contains('User has been blocked.').should('be.visible');
   });
 });
