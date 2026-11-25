@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.3.118] - 2026-11-24
+
+### Gamification: Achievements v2 (tiers, progress, levels)
+
+- **Catalog doubled**: 15 → 30 achievements, tiered across Profile, Matches, Conversation, Generosity, Social, Journal, Quests, Matching, and Dedication (e.g. messages 1/25/100, matches 1/5/10/25, all-105 matching answers). The catalog is now code-defined in `src/lib/achievements.ts` and mirrored into the `achievements` table by an idempotent upsert — the API no longer depends on hand-seeded rows or its 3-item static fallback.
+- **Progress everywhere**: `GET /api/achievements` returns per-achievement `progress {current, target, pct}`, earned XP, and a 10-level ladder (Newcomer → Mythic) computed from earned rewards. The achievements page shows a level card and progress bars; the dashboard achievements list now renders the real API fields (it previously read `is_unlocked`/`reward_tokens`, which the API never sent, so everything looked locked) plus progress bars.
+- **Unlocks are felt**: each unlock pays its FWB reward once (wallet `reward` transaction) and writes an "Achievement Unlocked! 🏆" notification the bell/list surface immediately.
+- New metrics wired: quests completed and matching answers answered. Tests: `AchievementsGamification.test.ts` (5) — suite 241/241. Prod battery gains 5 gamification checks (42 total).
+
 ## [2.3.117] - 2026-11-24
 
 ### Form-Input Remount Fix (root layout)

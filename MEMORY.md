@@ -1,6 +1,6 @@
 # MEMORY.md — fwber Internal Architectural Observations
 
-## Current Version: 2.3.117 "Form-input remount fix"
+## Current Version: 2.3.118 "Gamification: achievements v2"
 **Last Updated:** 2026-11-15
 
 ### Observations (2026-11-15 session, v2.3.98)

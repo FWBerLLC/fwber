@@ -21,6 +21,15 @@ type Achievement = {
   earned_at: string | null
   is_hidden?: boolean
   is_unlocked?: boolean
+  progress?: { current: number; target: number; pct: number }
+}
+
+type AchievementsData = {
+  achievements: Achievement[]
+  total: number
+  earned: number
+  xp: number
+  level: { level: number; title: string; xp: number; next_level_xp: number | null; progress_pct: number }
 }
 
 const CATEGORY_ICONS: Record<string, any> = {
@@ -97,6 +106,24 @@ function AchievementCard({ achievement }: { achievement: Achievement }) {
             </span>
           )}
         </div>
+        {!achievement.earned && achievement.progress && (
+          <div className="mt-3">
+            <div className="flex justify-between text-xs text-muted-foreground mb-1">
+              <span>Progress</span>
+              <span>{achievement.progress.current}/{achievement.progress.target}</span>
+            </div>
+            <div
+              className="h-2 rounded-full bg-muted overflow-hidden"
+              role="progressbar"
+              aria-valuenow={achievement.progress.pct}
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-label={`Progress toward ${achievement.name}`}
+            >
+              <div className="h-full bg-primary transition-all" style={{ width: `${achievement.progress.pct}%` }} />
+            </div>
+          </div>
+        )}
       </CardContent>
 
       {/* Shine effect for unlocked cards */}
@@ -110,18 +137,23 @@ function AchievementCard({ achievement }: { achievement: Achievement }) {
 export default function AchievementsPage() {
   const { user } = useAuth()
 
-  const { data: achievements, isLoading } = useQuery<Achievement[]>({
+  const { data, isLoading } = useQuery<AchievementsData>({
     queryKey: ['achievements'],
     queryFn: async () => {
       const response = await apiClient.get('/achievements')
-      // The API returns { achievements: [...] } based on controller inspection
-      // But let's handle if it returns array directly or wrapped
-      return Array.isArray((response.data as any).achievements) 
-        ? (response.data as any).achievements 
-        : Array.isArray(response.data) ? response.data : []
+      const payload = (response.data as any) || {}
+      return {
+        achievements: Array.isArray(payload.achievements) ? payload.achievements : [],
+        total: payload.total ?? 0,
+        earned: payload.earned ?? 0,
+        xp: payload.xp ?? 0,
+        level: payload.level ?? { level: 1, title: 'Newcomer', xp: 0, next_level_xp: null, progress_pct: 0 },
+      }
     },
     enabled: !!user
   })
+  const achievements = data?.achievements
+  const level = data?.level
 
   // Group achievements by category
   const groupedAchievements = achievements?.reduce((acc, achievement) => {
@@ -150,6 +182,24 @@ export default function AchievementsPage() {
 
           {/* Stats Summary */}
           <div className="flex gap-4">
+             {level && (
+               <Card className="bg-card dark:bg-card shadow-sm">
+                  <CardContent className="p-4 flex items-center gap-3">
+                      <div className="p-2 bg-purple-100 text-purple-600 rounded-lg">
+                          <Award className="w-5 h-5" />
+                      </div>
+                      <div>
+                          <p className="text-xs text-muted-foreground font-medium">Level {level.level} · {level.title}</p>
+                          <p className="text-xl font-bold">{level.xp} XP</p>
+                          {level.next_level_xp ? (
+                            <p className="text-[11px] text-muted-foreground">{level.next_level_xp - level.xp} XP to level {level.level + 1}</p>
+                          ) : (
+                            <p className="text-[11px] text-muted-foreground">Max level</p>
+                          )}
+                      </div>
+                  </CardContent>
+               </Card>
+             )}
              <Card className="bg-card dark:bg-card shadow-sm">
                 <CardContent className="p-4 flex items-center gap-3">
                     <div className="p-2 bg-amber-100 text-amber-600 rounded-lg">
@@ -188,7 +238,7 @@ export default function AchievementsPage() {
                 <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
                   {category}
                   <span className="text-sm font-normal text-muted-foreground bg-muted dark:bg-card px-2 py-0.5 rounded-full">
-                    {items.filter(i => i.is_unlocked).length}/{items.length}
+                    {items.filter(i => i.earned).length}/{items.length}
                   </span>
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

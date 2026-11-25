@@ -1,7 +1,7 @@
 # VISION.md — The Ultimate fwber Architecture & Philosophy
 
 > **Last Updated:** 2026-11-15
-> **Version:** 2.3.117 (Form-input remount fix)
+> **Version:** 2.3.118 (Gamification: achievements v2)
 > **Goal:** To serve as the definitive North Star for all human and AI agents working on the fwber project.
 
 ---

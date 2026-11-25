@@ -1,6 +1,6 @@
 # ROADMAP.md — fwber Project Trajectory
 
-> **Current Version:** 2.3.117
+> **Current Version:** 2.3.118
 > **Last Updated:** 2026-11-16
 
 ---

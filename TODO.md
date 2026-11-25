@@ -1,6 +1,6 @@
 # TODO — fwber Immediate Action Items
 
-> **Version:** 2.3.117
+> **Version:** 2.3.118
 > **Last Updated:** 2026-11-16
 
 ---
@@ -8,6 +8,7 @@
 ## 🔧 Open & Recently Closed Items (2026-11-06 – 2026-11-15, v2.3.55–v2.3.98)
 
 ### High Priority
+- [x] **Gamification: achievements v2 (SHIPPED 2026-11-24, v2.3.118)**: catalog 15 → 30 tiered achievements (code-defined in `src/lib/achievements.ts`, idempotently mirrored to the table), per-achievement progress + 10-level XP ladder in `GET /api/achievements`, unlock notifications, achievements-page level card/progress bars, and the dashboard list fixed to the real API fields (`earned`/`token_reward` — it had been reading fields the API never sent). Migration `tools/migrations/2026-11-24-achievements-catalog-v2.sql`; battery checks 37 → 42.
 - [x] **Create-form input wipe (FIXED 2026-11-24, v2.3.117)**: root cause was the root layout's `AuthenticatedRealtimeProvider` swapping its wrapper element when auth resolved, remounting every page and discarding early typing. Provider now always renders `PresenceProvider` (disconnected default while unauthenticated). Events/groups Cypress specs type immediately and assert persistence instead of waiting out a settle.
 - [x] **Three-roast round complete (CLOSED 2026-11-23)**: Bobbi, ChatGPT, and Gemini roasts all captured verbatim (Gemini via synthetic paste-event submission after four other mechanisms failed). Gemini's one unclosed engineering finding — no real-DB schema gate — is fixed by the new `schema-drift` CI job (MySQL 8 + `prisma db push` + `migrate diff --exit-code`). Remaining roast items are Robert-owned: credential rotation, flat-100 token credit, premium price point, shared-box disk.
 - [x] **Stale Cypress specs refreshed (CLOSED 2026-11-17)**: executed green against prod — `friends-full` 3/3, `friends-nav` 1/1, `notifications` 2/2, `matching-flow` 2/2, `two-factor-auth` 1/1 (full register→enable→logout→challenge cycle). Refresh pattern (now in all five specs): `access_token` login shape + `/auth/me` intercept + `**/api/**` fallback beneath specifics + onboarded mock user + pre-visit `fwber_auth` cookie for middleware-gated routes + current selectors/copy.

@@ -17,15 +17,28 @@ import { ApiError, apiClient } from '@/lib/api/client'
 import { useAuth } from '@/lib/auth-context'
 
 interface Achievement {
-  id: number
+  id?: number
+  slug?: string
   name: string
   description: string
   icon: string
   category: string
-  reward_tokens: number
-  is_unlocked: boolean
-  unlocked_at: string | null
-  is_hidden: boolean
+  // Current API shape (earned/token_reward) with legacy aliases tolerated.
+  earned?: boolean
+  token_reward?: number
+  reward_tokens?: number
+  is_unlocked?: boolean
+  unlocked_at?: string | null
+  earned_at?: string | null
+  is_hidden?: boolean
+  progress?: { current: number; target: number; pct: number }
+}
+
+function isEarned(a: Achievement): boolean {
+  return a.earned ?? a.is_unlocked ?? false
+}
+function rewardOf(a: Achievement): number {
+  return a.token_reward ?? a.reward_tokens ?? 0
 }
 
 interface AchievementsResponse {
@@ -87,27 +100,27 @@ export function AchievementsList() {
       {(achievements || []).map((achievement) => {
         const Icon = iconMap[achievement.icon] || Trophy
 
-        if (achievement.is_hidden && !achievement.is_unlocked) {
+        if (achievement.is_hidden && !isEarned(achievement)) {
           return null
         }
 
         return (
           <div
-            key={achievement.id}
+            key={achievement.slug ?? achievement.id}
             className={`flex items-start gap-3 rounded-lg border p-3 transition-all duration-300 ${
-              achievement.is_unlocked
+              isEarned(achievement)
                 ? 'border-yellow-200 bg-yellow-50 dark:border-yellow-800 dark:bg-yellow-900/10'
                 : 'border-border bg-muted opacity-70 dark:border-border dark:bg-card'
             }`}
           >
             <div
               className={`rounded-full p-2 ${
-                achievement.is_unlocked
+                isEarned(achievement)
                   ? 'bg-yellow-100 text-yellow-600 dark:bg-yellow-900/30 dark:text-yellow-400'
                   : 'bg-muted text-muted-foreground dark:dark:bg-muted dark:text-muted-foreground'
               }`}
             >
-              {achievement.is_unlocked ? (
+              {isEarned(achievement) ? (
                 <Icon className="h-5 w-5" />
               ) : (
                 <Lock className="h-5 w-5" />
@@ -118,14 +131,14 @@ export function AchievementsList() {
               <div className="flex items-center justify-between">
                 <h4
                   className={`text-sm font-semibold ${
-                    achievement.is_unlocked
+                    isEarned(achievement)
                       ? 'text-foreground dark:text-foreground'
                       : 'text-muted-foreground dark:text-muted-foreground'
                   }`}
                 >
                   {achievement.name}
                 </h4>
-                {achievement.is_unlocked && (
+                {isEarned(achievement) && (
                   <span className="flex items-center gap-1 text-xs font-medium text-yellow-600 dark:text-yellow-400">
                     <CheckCircle2 className="h-3 w-3" />
                     Unlocked
@@ -135,9 +148,20 @@ export function AchievementsList() {
               <p className="mt-0.5 text-xs text-muted-foreground dark:text-muted-foreground">
                 {achievement.description}
               </p>
-              {achievement.reward_tokens > 0 && (
+              {rewardOf(achievement) > 0 && (
                 <div className="mt-1.5 inline-flex items-center gap-1 rounded bg-amber-100 px-1.5 py-0.5 text-[10px] font-medium text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">
-                  <Trophy className="h-3 w-3" />+{achievement.reward_tokens} Tokens
+                  <Trophy className="h-3 w-3" />+{rewardOf(achievement)} Tokens
+                </div>
+              )}
+              {!isEarned(achievement) && achievement.progress && (
+                <div className="mt-2">
+                  <div className="flex justify-between text-[10px] text-muted-foreground mb-1">
+                    <span>Progress</span>
+                    <span>{achievement.progress.current}/{achievement.progress.target}</span>
+                  </div>
+                  <div className="h-1.5 rounded-full bg-muted overflow-hidden">
+                    <div className="h-full bg-primary transition-all" style={{ width: `${achievement.progress.pct}%` }} />
+                  </div>
                 </div>
               )}
             </div>

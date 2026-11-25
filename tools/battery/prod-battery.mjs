@@ -100,6 +100,25 @@ check('block records', blk.status === 200 || blk.status === 201, `got ${blk.stat
 const dm2 = await call('POST', '/messages', A.token, { receiver_id: B.id, content: 'blocked?' });
 check('DM while blocked 403', dm2.status === 403, `got ${dm2.status}`);
 
+// ── Gamification: catalog, progress, unlock, level ──────────────────────────
+// Unlocks run fire-and-forget after the triggering action, so poll briefly.
+let ach = null;
+for (let attempt = 0; attempt < 6; attempt++) {
+  ach = await call('GET', '/achievements', A.token);
+  const fm = ach.data?.achievements?.find((a) => a.slug === 'first_message');
+  if (fm?.earned) break;
+  await new Promise((r) => setTimeout(r, 700));
+}
+const achList = ach?.data?.achievements || [];
+check('achievements catalog expanded (30)', ach?.status === 200 && achList.length >= 30, `got ${ach?.status} n=${achList.length}`);
+check('first_message unlocked by DM', achList.find((a) => a.slug === 'first_message')?.earned === true, '');
+const locked = achList.find((a) => a.slug === 'chatter_100');
+check('locked achievement exposes progress', !!locked && locked.progress?.target === 100 && locked.progress?.current >= 1, JSON.stringify(locked?.progress));
+check('level computed', (ach?.data?.level?.level || 0) >= 1 && typeof ach?.data?.xp === 'number', JSON.stringify(ach?.data?.level));
+const notifs = await call('GET', '/notifications', A.token);
+const notifList = notifs.data?.notifications || notifs.data || [];
+check('unlock notification delivered', Array.isArray(notifList) && notifList.some((n) => String(n.title || '').includes('Achievement Unlocked')), `n=${Array.isArray(notifList) ? notifList.length : '?'}`);
+
 // ── Economy: referral credit is exact ───────────────────────────────────────
 const sumA = await call('GET', '/referrals/summary', A.token);
 const code = sumA.data?.referral_code || sumA.data?.summary?.referral_code;
