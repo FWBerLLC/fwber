@@ -163,9 +163,9 @@ export default function AchievementsPage() {
     return acc
   }, {} as Record<string, Achievement[]>)
 
-  const totalPoints = achievements?.reduce((sum, a) => sum + (a.earned ? a.token_reward : 0), 0) || 0
-  const unlockedCount = achievements?.filter(a => a.earned).length || 0
-  const totalCount = achievements?.length || 0
+  const totalPoints = data?.xp ?? achievements?.reduce((sum, a) => sum + (a.earned ? a.token_reward : 0), 0) || 0
+  const unlockedCount = data?.earned ?? achievements?.filter(a => a.earned).length ?? 0
+  const totalCount = data?.total ?? achievements?.length ?? 0
 
   return (
     <div className="min-h-screen bg-muted dark:bg-background pb-12">
