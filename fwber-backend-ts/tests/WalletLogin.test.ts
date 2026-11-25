@@ -10,7 +10,10 @@ function base58Encode(buf: Buffer): string {
   let zeros = 0;
   while (zeros < buf.length && buf[zeros] === 0) zeros++;
   const digits = [0];
-  for (const byte of buf) {
+  // Iterate only the non-zero tail: feeding leading zero bytes into the
+  // digit loop leaves a stray [0] digit, so an all-zero buffer encoded
+  // to "11" instead of "1" (random 1-byte round-trip flake, ~1/256).
+  for (const byte of buf.subarray(zeros)) {
     let carry = byte;
     for (let i = 0; i < digits.length; i++) {
       carry += digits[i] << 8;
@@ -23,7 +26,10 @@ function base58Encode(buf: Buffer): string {
     }
   }
   let out = '1'.repeat(zeros);
-  for (let i = digits.length - 1; i >= 0; i--) out += B58[digits[i]];
+  // An all-zero buffer is exactly its '1's — no digit tail.
+  if (zeros < buf.length) {
+    for (let i = digits.length - 1; i >= 0; i--) out += B58[digits[i]];
+  }
   return out;
 }
 
@@ -119,6 +125,12 @@ describe('base58', () => {
   it('preserves leading zero bytes', () => {
     const raw = Buffer.from([0, 0, 1, 2, 3]);
     expect(base58Decode(base58Encode(raw))?.equals(raw)).toBe(true);
+  });
+
+  it('round-trips all-zero buffers (encoder emitted "11" for [0])', () => {
+    for (const raw of [Buffer.from([0]), Buffer.from([0, 0]), Buffer.from([0, 0, 0])]) {
+      expect(base58Decode(base58Encode(raw))?.equals(raw)).toBe(true);
+    }
   });
 
   it('returns null on invalid characters', () => {
